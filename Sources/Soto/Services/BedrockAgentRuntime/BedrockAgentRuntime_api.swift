@@ -99,18 +99,21 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - agentAliasId: The unique identifier of an alias of an agent.
     ///   - agentId: The unique identifier of the agent to which the alias belongs.
     ///   - memoryId: The unique identifier of the memory.
+    ///   - sessionId: The unique session identifier of the memory.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAgentMemory(
         agentAliasId: String,
         agentId: String,
         memoryId: String? = nil,
+        sessionId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteAgentMemoryResponse {
         let input = DeleteAgentMemoryRequest(
             agentAliasId: agentAliasId, 
             agentId: agentId, 
-            memoryId: memoryId
+            memoryId: memoryId, 
+            sessionId: sessionId
         )
         return try await self.deleteAgentMemory(input, logger: logger)
     }
@@ -191,7 +194,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.getAgentMemory(input, logger: logger)
     }
 
-    ///  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeAgent.  Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response is returned in the bytes field of the chunk object.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
+    ///   Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   To stream agent responses, make sure that only orchestration prompt is enabled. Agent streaming is not supported for the following steps:     Pre-processing     Post-processing    Agent with 1 Knowledge base and User Input not enabled     End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response contains both chunk and trace attributes. The final response is returned in the bytes field of the chunk object. The InvokeAgent returns one chunk for the entire interaction.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
     @Sendable
     @inlinable
     public func invokeAgent(_ input: InvokeAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAgentResponse {
@@ -204,11 +207,12 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    ///  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeAgent.  Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response is returned in the bytes field of the chunk object.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
+    ///   Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   To stream agent responses, make sure that only orchestration prompt is enabled. Agent streaming is not supported for the following steps:     Pre-processing     Post-processing    Agent with 1 Knowledge base and User Input not enabled     End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response contains both chunk and trace attributes. The final response is returned in the bytes field of the chunk object. The InvokeAgent returns one chunk for the entire interaction.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
     ///
     /// Parameters:
     ///   - agentAliasId: The alias of the agent to use.
     ///   - agentId: The unique identifier of the agent to use.
+    ///   - bedrockModelConfigurations: Model performance settings for the request.
     ///   - enableTrace: Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Trace enablement.
     ///   - endSession: Specifies whether to end the session with the agent or not.
     ///   - inputText: The prompt text to send the agent.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
@@ -216,12 +220,13 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - sessionId: The unique identifier of the session. Use the same value across requests to continue the same conversation.
     ///   - sessionState: Contains parameters that specify various attributes of the session. For more information, see Control session context.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
     ///   - sourceArn: The ARN of the resource making the request.
-    ///   - streamingConfigurations:  Specifies the configurations for streaming.
+    ///   - streamingConfigurations:  Specifies the configurations for streaming.   To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeAgent(
         agentAliasId: String,
         agentId: String,
+        bedrockModelConfigurations: BedrockModelConfigurations? = nil,
         enableTrace: Bool? = nil,
         endSession: Bool? = nil,
         inputText: String? = nil,
@@ -235,6 +240,7 @@ public struct BedrockAgentRuntime: AWSService {
         let input = InvokeAgentRequest(
             agentAliasId: agentAliasId, 
             agentId: agentId, 
+            bedrockModelConfigurations: bedrockModelConfigurations, 
             enableTrace: enableTrace, 
             endSession: endSession, 
             inputText: inputText, 
@@ -264,28 +270,34 @@ public struct BedrockAgentRuntime: AWSService {
     ///
     /// Parameters:
     ///   - enableTrace: Specifies whether to return the trace for the flow or not. Traces track inputs and outputs for nodes in the flow. For more information, see Track each step in your prompt flow by viewing its trace in Amazon Bedrock.
+    ///   - executionId: The unique identifier for the current flow execution. If you don't provide a value, Amazon Bedrock creates the identifier for you.
     ///   - flowAliasIdentifier: The unique identifier of the flow alias.
     ///   - flowIdentifier: The unique identifier of the flow.
     ///   - inputs: A list of objects, each containing information about an input into the flow.
+    ///   - modelPerformanceConfiguration: Model performance settings for the request.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeFlow(
         enableTrace: Bool? = nil,
+        executionId: String? = nil,
         flowAliasIdentifier: String,
         flowIdentifier: String,
         inputs: [FlowInput],
+        modelPerformanceConfiguration: ModelPerformanceConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeFlowResponse {
         let input = InvokeFlowRequest(
             enableTrace: enableTrace, 
+            executionId: executionId, 
             flowAliasIdentifier: flowAliasIdentifier, 
             flowIdentifier: flowIdentifier, 
-            inputs: inputs
+            inputs: inputs, 
+            modelPerformanceConfiguration: modelPerformanceConfiguration
         )
         return try await self.invokeFlow(input, logger: logger)
     }
 
-    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.    The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeInlineAgent.
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     @Sendable
     @inlinable
     public func invokeInlineAgent(_ input: InvokeInlineAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeInlineAgentResponse {
@@ -298,10 +310,11 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.    The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeInlineAgent.
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     ///
     /// Parameters:
     ///   - actionGroups:  A list of action groups with each action group defining the action the inline agent needs to carry out.
+    ///   - bedrockModelConfigurations: Model settings for the request.
     ///   - customerEncryptionKeyArn:  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
     ///   - enableTrace:  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
     ///   - endSession:  Specifies whether to end the session with the inline agent or not.
@@ -314,10 +327,12 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - knowledgeBases:  Contains information of the knowledge bases to associate with.
     ///   - promptOverrideConfiguration:  Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
     ///   - sessionId:  The unique identifier of the session. Use the same value across requests to continue the same conversation.
+    ///   - streamingConfigurations:  Specifies the configurations for streaming.   To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeInlineAgent(
         actionGroups: [AgentActionGroup]? = nil,
+        bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil,
         customerEncryptionKeyArn: String? = nil,
         enableTrace: Bool? = nil,
         endSession: Bool? = nil,
@@ -330,10 +345,12 @@ public struct BedrockAgentRuntime: AWSService {
         knowledgeBases: [KnowledgeBase]? = nil,
         promptOverrideConfiguration: PromptOverrideConfiguration? = nil,
         sessionId: String,
+        streamingConfigurations: StreamingConfigurations? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeInlineAgentResponse {
         let input = InvokeInlineAgentRequest(
             actionGroups: actionGroups, 
+            bedrockModelConfigurations: bedrockModelConfigurations, 
             customerEncryptionKeyArn: customerEncryptionKeyArn, 
             enableTrace: enableTrace, 
             endSession: endSession, 
@@ -345,7 +362,8 @@ public struct BedrockAgentRuntime: AWSService {
             instruction: instruction, 
             knowledgeBases: knowledgeBases, 
             promptOverrideConfiguration: promptOverrideConfiguration, 
-            sessionId: sessionId
+            sessionId: sessionId, 
+            streamingConfigurations: streamingConfigurations
         )
         return try await self.invokeInlineAgent(input, logger: logger)
     }
@@ -499,7 +517,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.retrieveAndGenerate(input, logger: logger)
     }
 
-    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.
+    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  This operation requires permission for the  bedrock:RetrieveAndGenerate action.
     @Sendable
     @inlinable
     public func retrieveAndGenerateStream(_ input: RetrieveAndGenerateStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveAndGenerateStreamResponse {
@@ -512,7 +530,7 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.
+    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  This operation requires permission for the  bedrock:RetrieveAndGenerate action.
     ///
     /// Parameters:
     ///   - input: Contains the query to be made to the knowledge base.

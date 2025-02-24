@@ -89,6 +89,8 @@ public struct DatabaseMigrationService: AWSService {
             "us-iso-east-1": "dms.us-iso-east-1.c2s.ic.gov",
             "us-iso-west-1": "dms.us-iso-west-1.c2s.ic.gov",
             "us-isob-east-1": "dms.us-isob-east-1.sc2s.sgov.gov",
+            "us-isof-east-1": "dms.us-isof-east-1.csp.hci.ic.gov",
+            "us-isof-south-1": "dms.us-isof-south-1.csp.hci.ic.gov",
             "us-west-1": "dms-fips.us-west-1.amazonaws.com",
             "us-west-2": "dms-fips.us-west-2.amazonaws.com"
         ])
@@ -144,7 +146,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Applies a pending maintenance action to a resource (for example, to a replication instance).
     ///
     /// Parameters:
-    ///   - applyAction: The pending maintenance action to apply to this resource. Valid values: os-upgrade, system-update, db-upgrade
+    ///   - applyAction: The pending maintenance action to apply to this resource. Valid values: os-upgrade, system-update, db-upgrade, os-patch
     ///   - optInType: A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.
     ///   - replicationInstanceArn: The Amazon Resource Name (ARN) of the DMS resource that the pending maintenance action applies to.
     ///   - logger: Logger use during operation
@@ -246,6 +248,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - serviceAccessRoleArn: The Amazon Resource Name (ARN) for the service access role that you want to use to create the data migration.
     ///   - sourceDataSettings: Specifies information about the source data provider.
     ///   - tags: One or more tags to be assigned to the data migration.
+    ///   - targetDataSettings: Specifies information about the target data provider.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDataMigration(
@@ -258,6 +261,7 @@ public struct DatabaseMigrationService: AWSService {
         serviceAccessRoleArn: String,
         sourceDataSettings: [SourceDataSetting]? = nil,
         tags: [Tag]? = nil,
+        targetDataSettings: [TargetDataSetting]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDataMigrationResponse {
         let input = CreateDataMigrationMessage(
@@ -269,12 +273,13 @@ public struct DatabaseMigrationService: AWSService {
             selectionRules: selectionRules, 
             serviceAccessRoleArn: serviceAccessRoleArn, 
             sourceDataSettings: sourceDataSettings, 
-            tags: tags
+            tags: tags, 
+            targetDataSettings: targetDataSettings
         )
         return try await self.createDataMigration(input, logger: logger)
     }
 
-    /// Creates a data provider using the provided settings. A data provider stores  a data store type and location information about your database.
+    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.
     @Sendable
     @inlinable
     public func createDataProvider(_ input: CreateDataProviderMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataProviderResponse {
@@ -287,12 +292,12 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates a data provider using the provided settings. A data provider stores  a data store type and location information about your database.
+    /// Creates a data provider using the provided settings. A data provider stores a data store type and location information about your database.
     ///
     /// Parameters:
     ///   - dataProviderName: A user-friendly name for the data provider.
     ///   - description: A user-friendly description of the data provider.
-    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     ///   - settings: The settings in JSON format for a data provider.
     ///   - tags: One or more tags to be assigned to the data provider.
     ///   - logger: Logger use during operation
@@ -335,11 +340,11 @@ public struct DatabaseMigrationService: AWSService {
     ///   - databaseName: The name of the endpoint database. For a MySQL source or target endpoint, do not specify DatabaseName. To migrate to a specific database, use this setting and targetDbType.
     ///   - dmsTransferSettings: The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", }
     ///   - docDbSettings: 
-    ///   - dynamoDbSettings: Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other  available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
+    ///   - dynamoDbSettings: Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
     ///   - elasticsearchSettings: Settings in JSON format for the target OpenSearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using OpenSearch as a Target for DMS in the Database Migration Service User Guide.
     ///   - endpointIdentifier: The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
-    ///   - endpointType: The type of endpoint.  Valid values are source and target.
-    ///   - engineName: The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora",  "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", "babelfish", redshift-serverless, aurora-serverless, aurora-postgresql-serverless, gcp-mysql, azure-sql-managed-instance, redis, dms-transfer.
+    ///   - endpointType: The type of endpoint. Valid values are source and target.
+    ///   - engineName: The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", "babelfish", redshift-serverless, aurora-serverless, aurora-postgresql-serverless, gcp-mysql, azure-sql-managed-instance, redis, dms-transfer.
     ///   - externalTableDefinition: The external table definition.
     ///   - extraConnectionAttributes: Additional attributes associated with the connection. Each attribute is specified as a name-value pair associated by an equal sign (=). Multiple attributes are separated by a semicolon (;) with no additional white space. For information on the attributes available for connecting your source or target endpoint, see Working with DMS Endpoints in the Database Migration Service User Guide.
     ///   - gcpMySQLSettings: Settings in JSON format for the source GCP MySQL endpoint.
@@ -347,14 +352,14 @@ public struct DatabaseMigrationService: AWSService {
     ///   - kafkaSettings: Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using object mapping to migrate data to a Kafka topic in the Database Migration Service User Guide.
     ///   - kinesisSettings: Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using object mapping to migrate data to a Kinesis data stream in the Database Migration Service User Guide.
     ///   - kmsKeyId: An KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
-    ///   - microsoftSQLServerSettings: Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for DMS and  Extra connection attributes when using SQL Server as a target for DMS in the Database Migration Service User Guide.
+    ///   - microsoftSQLServerSettings: Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for DMS and Extra connection attributes when using SQL Server as a target for DMS in the Database Migration Service User Guide.
     ///   - mongoDbSettings: Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see Endpoint configuration settings when using MongoDB as a source for Database Migration Service in the Database Migration Service User Guide.
-    ///   - mySQLSettings: Settings in JSON format for the source and target MySQL endpoint. For information about other available settings, see Extra connection attributes  when using MySQL as a source for DMS and Extra connection attributes when using a MySQL-compatible database as a target for DMS in the Database Migration Service User Guide.
-    ///   - neptuneSettings: Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target  in the Database Migration Service User Guide.
-    ///   - oracleSettings: Settings in JSON format for the source and target Oracle endpoint. For information about other available settings, see Extra connection attributes  when using Oracle as a source for DMS and   Extra connection attributes when using Oracle as a target for DMS  in the Database Migration Service User Guide.
+    ///   - mySQLSettings: Settings in JSON format for the source and target MySQL endpoint. For information about other available settings, see Extra connection attributes when using MySQL as a source for DMS and Extra connection attributes when using a MySQL-compatible database as a target for DMS in the Database Migration Service User Guide.
+    ///   - neptuneSettings: Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target in the Database Migration Service User Guide.
+    ///   - oracleSettings: Settings in JSON format for the source and target Oracle endpoint. For information about other available settings, see Extra connection attributes when using Oracle as a source for DMS and  Extra connection attributes when using Oracle as a target for DMS in the Database Migration Service User Guide.
     ///   - password: The password to be used to log in to the endpoint database.
     ///   - port: The port used by the endpoint database.
-    ///   - postgreSQLSettings: Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and  Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
+    ///   - postgreSQLSettings: Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
     ///   - redisSettings: Settings in JSON format for the target Redis endpoint.
     ///   - redshiftSettings: 
     ///   - resourceIdentifier: A friendly name for the resource identifier at the end of the EndpointArn response parameter that is returned in the created Endpoint object. The value for this parameter can have up to 31 characters. It can contain only ASCII letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter, such as Example-App-ARN1. For example, this value might result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1. If you don't specify a ResourceIdentifier value, DMS generates a default identifier value for the end of EndpointArn.
@@ -584,7 +589,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.createInstanceProfile(input, logger: logger)
     }
 
-    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers   using CreateInstanceProfile and CreateDataProvider.
+    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider.
     @Sendable
     @inlinable
     public func createMigrationProject(_ input: CreateMigrationProjectMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMigrationProjectResponse {
@@ -597,7 +602,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers   using CreateInstanceProfile and CreateDataProvider.
+    /// Creates the migration project using the specified parameters. You can run this action only after you create an instance profile and data providers using CreateInstanceProfile and CreateDataProvider.
     ///
     /// Parameters:
     ///   - description: A user-friendly description of the migration project.
@@ -657,7 +662,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - resourceIdentifier: Optional unique value or name that you set for a given resource that can be used to construct an Amazon Resource Name (ARN) for that resource. For more information, see  Fine-grained access control using resource names and tags.
     ///   - sourceEndpointArn: The Amazon Resource Name (ARN) of the source endpoint for this DMS Serverless replication configuration.
     ///   - supplementalSettings: Optional JSON settings for specifying supplemental data. For more information, see  Specifying supplemental data for task settings.
-    ///   - tableMappings: JSON table mappings for DMS Serverless replications that are provisioned using this replication configuration. For more information, see   Specifying table selection and transformations rules using JSON.
+    ///   - tableMappings: JSON table mappings for DMS Serverless replications that are provisioned using this replication configuration. For more information, see  Specifying table selection and transformations rules using JSON.
     ///   - tags: One or more optional tags associated with resources used by the DMS Serverless replication. For more information, see  Tagging resources in Database Migration Service.
     ///   - targetEndpointArn: The Amazon Resource Name (ARN) of the target endpoint for this DMS serverless replication configuration.
     ///   - logger: Logger use during operation
@@ -690,7 +695,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.createReplicationConfig(input, logger: logger)
     }
 
-    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see  IAM Permissions Needed to Use DMS.  If you don't specify a version when creating a replication instance, DMS will create the instance using the default engine version. For information about the default engine version, see Release Notes.
+    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see IAM Permissions Needed to Use DMS.  If you don't specify a version when creating a replication instance, DMS will create the instance using the default engine version. For information about the default engine version, see Release Notes.
     @Sendable
     @inlinable
     public func createReplicationInstance(_ input: CreateReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationInstanceResponse {
@@ -703,21 +708,21 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see  IAM Permissions Needed to Use DMS.  If you don't specify a version when creating a replication instance, DMS will create the instance using the default engine version. For information about the default engine version, see Release Notes.
+    /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see IAM Permissions Needed to Use DMS.  If you don't specify a version when creating a replication instance, DMS will create the instance using the default engine version. For information about the default engine version, see Release Notes.
     ///
     /// Parameters:
     ///   - allocatedStorage: The amount of storage (in gigabytes) to be initially allocated for the replication instance.
     ///   - autoMinorVersionUpgrade: A value that indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window. This parameter defaults to true. Default: true
     ///   - availabilityZone: The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, for example: us-east-1d.
     ///   - dnsNameServers: A list of custom DNS name servers supported for the replication instance to access your on-premise source or target database. This list overrides the default name servers supported by the replication instance. You can specify a comma-separated list of internet addresses for up to four on-premise DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
-    ///   - engineVersion: The engine version number of the replication instance. If an engine version number is not specified when a replication  instance is created, the default is the latest engine version available.
-    ///   - kerberosAuthenticationSettings: Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when creating a replication instance.
+    ///   - engineVersion: The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available.
+    ///   - kerberosAuthenticationSettings: Specifies the settings required for kerberos authentication when creating the replication instance.
     ///   - kmsKeyId: An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
     ///   - multiAZ:  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
-    ///   - networkType: The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+    ///   - networkType: The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
     ///   - preferredMaintenanceWindow: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per Amazon Web Services Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
     ///   - publiclyAccessible:  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true.
-    ///   - replicationInstanceClass: The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see   Choosing the right DMS replication instance; and,  Selecting the best size for a replication instance.
+    ///   - replicationInstanceClass: The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see  Choosing the right DMS replication instance; and, Selecting the best size for a replication instance.
     ///   - replicationInstanceIdentifier: The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance
     ///   - replicationSubnetGroupIdentifier: A subnet group to associate with the replication instance.
     ///   - resourceIdentifier: A friendly name for the resource identifier at the end of the EndpointArn response parameter that is returned in the created Endpoint object. The value for this parameter can have up to 31 characters. It can contain only ASCII letters, digits, and hyphen ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter, such as Example-App-ARN1. For example, this value might result in the EndpointArn value arn:aws:dms:eu-west-1:012345678901:rep:Example-App-ARN1. If you don't specify a ResourceIdentifier value, DMS generates a default identifier value for the end of EndpointArn.
@@ -767,7 +772,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.createReplicationInstance(input, logger: logger)
     }
 
-    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action  returns the following error message: The Replication Subnet Group already exists. In this case, delete  the existing replication subnet group. To do so, use the DeleteReplicationSubnetGroup action. Optionally, choose Subnet groups in the DMS console,  then choose your subnet group. Next, choose Delete from Actions.
+    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the existing replication subnet group. To do so, use the DeleteReplicationSubnetGroup action. Optionally, choose Subnet groups in the DMS console, then choose your subnet group. Next, choose Delete from Actions.
     @Sendable
     @inlinable
     public func createReplicationSubnetGroup(_ input: CreateReplicationSubnetGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateReplicationSubnetGroupResponse {
@@ -780,7 +785,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action  returns the following error message: The Replication Subnet Group already exists. In this case, delete  the existing replication subnet group. To do so, use the DeleteReplicationSubnetGroup action. Optionally, choose Subnet groups in the DMS console,  then choose your subnet group. Next, choose Delete from Actions.
+    /// Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs to have at least one subnet in at least two availability zones in the Amazon Web Services Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs exception. If a replication subnet group exists in your Amazon Web Services account, the CreateReplicationSubnetGroup action returns the following error message: The Replication Subnet Group already exists. In this case, delete the existing replication subnet group. To do so, use the DeleteReplicationSubnetGroup action. Optionally, choose Subnet groups in the DMS console, then choose your subnet group. Next, choose Delete from Actions.
     ///
     /// Parameters:
     ///   - replicationSubnetGroupDescription: The description for the subnet group.
@@ -833,7 +838,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - tableMappings: The table mappings for the task, in JSON format. For more information, see Using Table Mapping to Specify Task Settings in the Database Migration Service User Guide.
     ///   - tags: One or more tags to be assigned to the replication task.
     ///   - targetEndpointArn: An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
-    ///   - taskData: Supplemental information that the task requires to migrate the data for certain source and target endpoints.  For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
+    ///   - taskData: Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func createReplicationTask(
@@ -960,7 +965,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.deleteDataMigration(input, logger: logger)
     }
 
-    /// Deletes the specified data provider.  All migration projects associated with the data provider must be deleted or modified  before you can delete the data provider.
+    /// Deletes the specified data provider.  All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
     @Sendable
     @inlinable
     public func deleteDataProvider(_ input: DeleteDataProviderMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataProviderResponse {
@@ -973,7 +978,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified data provider.  All migration projects associated with the data provider must be deleted or modified  before you can delete the data provider.
+    /// Deletes the specified data provider.  All migration projects associated with the data provider must be deleted or modified before you can delete the data provider.
     ///
     /// Parameters:
     ///   - dataProviderIdentifier: The identifier of the data provider to delete.
@@ -1105,7 +1110,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.deleteFleetAdvisorDatabases(input, logger: logger)
     }
 
-    /// Deletes the specified instance profile.  All migration projects associated with the instance profile must be deleted or modified  before you can delete the instance profile.
+    /// Deletes the specified instance profile.  All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
     @Sendable
     @inlinable
     public func deleteInstanceProfile(_ input: DeleteInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInstanceProfileResponse {
@@ -1118,7 +1123,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified instance profile.  All migration projects associated with the instance profile must be deleted or modified  before you can delete the instance profile.
+    /// Deletes the specified instance profile.  All migration projects associated with the instance profile must be deleted or modified before you can delete the instance profile.
     ///
     /// Parameters:
     ///   - instanceProfileIdentifier: The identifier of the instance profile to delete.
@@ -1353,8 +1358,9 @@ public struct DatabaseMigrationService: AWSService {
     ///   - marker: Optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     ///   - maxRecords: Maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - migrationType: Name of the migration type that each provided individual assessment must support.
+    ///   - replicationConfigArn: Amazon Resource Name (ARN) of a serverless replication on which you want to base the default list of individual assessments.
     ///   - replicationInstanceArn: ARN of a replication instance on which you want to base the default list of individual assessments.
-    ///   - replicationTaskArn: Amazon Resource Name (ARN) of a migration task on which you want to base  the default list of individual assessments.
+    ///   - replicationTaskArn: Amazon Resource Name (ARN) of a migration task on which you want to base the default list of individual assessments.
     ///   - sourceEngineName: Name of a database engine that the specified replication instance supports as a source.
     ///   - targetEngineName: Name of a database engine that the specified replication instance supports as a target.
     ///   - logger: Logger use during operation
@@ -1363,6 +1369,7 @@ public struct DatabaseMigrationService: AWSService {
         marker: String? = nil,
         maxRecords: Int? = nil,
         migrationType: MigrationTypeValue? = nil,
+        replicationConfigArn: String? = nil,
         replicationInstanceArn: String? = nil,
         replicationTaskArn: String? = nil,
         sourceEngineName: String? = nil,
@@ -1373,6 +1380,7 @@ public struct DatabaseMigrationService: AWSService {
             marker: marker, 
             maxRecords: maxRecords, 
             migrationType: migrationType, 
+            replicationConfigArn: replicationConfigArn, 
             replicationInstanceArn: replicationInstanceArn, 
             replicationTaskArn: replicationTaskArn, 
             sourceEngineName: sourceEngineName, 
@@ -1397,7 +1405,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Provides a description of the certificate.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to the certificates described in the form of key-value pairs.  Valid values are certificate-arn and certificate-id.
+    ///   - filters: Filters applied to the certificates described in the form of key-value pairs. Valid values are certificate-arn and certificate-id.
     ///   - marker:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     ///   - maxRecords:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
     ///   - logger: Logger use during operation
@@ -1497,8 +1505,8 @@ public struct DatabaseMigrationService: AWSService {
     ///
     /// Parameters:
     ///   - filters: Filters applied to the data migrations.
-    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - withoutSettings: An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true; otherwise, choose false (the default).
     ///   - withoutStatistics: An option to set to avoid returning information about statistics. Use this to reduce overhead when statistics information is too large. To use this option, choose true; otherwise, choose false (the default).
     ///   - logger: Logger use during operation
@@ -1556,7 +1564,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeDataProviders(input, logger: logger)
     }
 
-    /// Returns information about the possible endpoint settings available  when you create an endpoint for a specific database engine.
+    /// Returns information about the possible endpoint settings available when you create an endpoint for a specific database engine.
     @Sendable
     @inlinable
     public func describeEndpointSettings(_ input: DescribeEndpointSettingsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeEndpointSettingsResponse {
@@ -1569,12 +1577,12 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns information about the possible endpoint settings available  when you create an endpoint for a specific database engine.
+    /// Returns information about the possible endpoint settings available when you create an endpoint for a specific database engine.
     ///
     /// Parameters:
     ///   - engineName: The database engine used for your source or target endpoint.
-    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, a pagination token called a marker is included in the response  so that the remaining results can be retrieved.
+    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeEndpointSettings(
@@ -1677,8 +1685,8 @@ public struct DatabaseMigrationService: AWSService {
     /// Returns information about the replication instance versions used in the project.
     ///
     /// Parameters:
-    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeEngineVersions(
@@ -1741,7 +1749,7 @@ public struct DatabaseMigrationService: AWSService {
     /// Lists all the event subscriptions for a customer account. The description of a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status.  If you specify SubscriptionName, this action lists the description for that subscription.
     ///
     /// Parameters:
-    ///   - filters: Filters applied to event subscriptions. Valid filter names: event-subscription-arn |  event-subscription-id
+    ///   - filters: Filters applied to event subscriptions. Valid filter names: event-subscription-arn | event-subscription-id
     ///   - marker:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     ///   - maxRecords:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
     ///   - subscriptionName: The name of the DMS event subscription to be described.
@@ -1816,7 +1824,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeEvents(input, logger: logger)
     }
 
-    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module  that emulates functions present in a source database that are required when converting objects  to the target database.
+    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     @Sendable
     @inlinable
     public func describeExtensionPackAssociations(_ input: DescribeExtensionPackAssociationsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeExtensionPackAssociationsResponse {
@@ -1829,7 +1837,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module  that emulates functions present in a source database that are required when converting objects  to the target database.
+    /// Returns a paginated list of extension pack associations for the specified migration project. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     ///
     /// Parameters:
     ///   - filters: Filters applied to the extension pack associations described in the form of key-value pairs.
@@ -2318,7 +2326,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeOrderableReplicationInstances(input, logger: logger)
     }
 
-    /// For internal use only
+    /// Returns a list of upcoming maintenance events for replication instances in your account in the current Region.
     @Sendable
     @inlinable
     public func describePendingMaintenanceActions(_ input: DescribePendingMaintenanceActionsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribePendingMaintenanceActionsResponse {
@@ -2331,7 +2339,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// For internal use only
+    /// Returns a list of upcoming maintenance events for replication instances in your account in the current Region.
     ///
     /// Parameters:
     ///   - filters: 
@@ -2472,8 +2480,8 @@ public struct DatabaseMigrationService: AWSService {
     ///
     /// Parameters:
     ///   - filters: Filters applied to the replication configs.
-    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeReplicationConfigs(
@@ -2612,8 +2620,8 @@ public struct DatabaseMigrationService: AWSService {
     ///
     /// Parameters:
     ///   - filters: Filters applied to the replication table statistics.
-    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - replicationConfigArn: The replication config to describe.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2633,7 +2641,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeReplicationTableStatistics(input, logger: logger)
     }
 
-    /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account.  This action always returns the latest results. For more information about DMS task assessments, see   Creating a task assessment report in the Database Migration Service User Guide.
+    /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide.
     @Sendable
     @inlinable
     public func describeReplicationTaskAssessmentResults(_ input: DescribeReplicationTaskAssessmentResultsMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReplicationTaskAssessmentResultsResponse {
@@ -2646,7 +2654,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account.  This action always returns the latest results. For more information about DMS task assessments, see   Creating a task assessment report in the Database Migration Service User Guide.
+    /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide.
     ///
     /// Parameters:
     ///   - marker:  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -2793,8 +2801,8 @@ public struct DatabaseMigrationService: AWSService {
     ///
     /// Parameters:
     ///   - filters: Filters applied to the replications.
-    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - marker: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeReplications(
@@ -2884,7 +2892,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.describeTableStatistics(input, logger: logger)
     }
 
-    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save  your assessment report as a comma-separated value (CSV) or a PDF file.
+    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.
     @Sendable
     @inlinable
     public func exportMetadataModelAssessment(_ input: ExportMetadataModelAssessmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ExportMetadataModelAssessmentResponse {
@@ -2897,7 +2905,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save  your assessment report as a comma-separated value (CSV) or a PDF file.
+    /// Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can save your assessment report as a comma-separated value (CSV) or a PDF file.
     ///
     /// Parameters:
     ///   - assessmentReportTypes: The file format of the assessment file.
@@ -2960,7 +2968,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.importCertificate(input, logger: logger)
     }
 
-    /// Lists all metadata tags attached to an DMS resource, including  replication instance, endpoint, subnet group, and migration task.  For more information, see  Tag data type description.
+    /// Lists all metadata tags attached to an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see  Tag  data type description.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -2973,7 +2981,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Lists all metadata tags attached to an DMS resource, including  replication instance, endpoint, subnet group, and migration task.  For more information, see  Tag data type description.
+    /// Lists all metadata tags attached to an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see  Tag  data type description.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) string that uniquely identifies the DMS resource to list tags for. This returns a list of keys (names of tags) created for the resource and their associated tag values.
@@ -3048,6 +3056,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - selectionRules: A JSON-formatted string that defines what objects to include and exclude from the migration.
     ///   - serviceAccessRoleArn: The new service access role ARN for the data migration.
     ///   - sourceDataSettings: The new information about the source data provider for the data migration.
+    ///   - targetDataSettings: The new information about the target data provider for the data migration.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyDataMigration(
@@ -3059,6 +3068,7 @@ public struct DatabaseMigrationService: AWSService {
         selectionRules: String? = nil,
         serviceAccessRoleArn: String? = nil,
         sourceDataSettings: [SourceDataSetting]? = nil,
+        targetDataSettings: [TargetDataSetting]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ModifyDataMigrationResponse {
         let input = ModifyDataMigrationMessage(
@@ -3069,7 +3079,8 @@ public struct DatabaseMigrationService: AWSService {
             numberOfJobs: numberOfJobs, 
             selectionRules: selectionRules, 
             serviceAccessRoleArn: serviceAccessRoleArn, 
-            sourceDataSettings: sourceDataSettings
+            sourceDataSettings: sourceDataSettings, 
+            targetDataSettings: targetDataSettings
         )
         return try await self.modifyDataMigration(input, logger: logger)
     }
@@ -3093,7 +3104,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - dataProviderIdentifier: The identifier of the data provider. Identifiers must begin with a letter  and must contain only ASCII letters, digits, and hyphens. They can't end with  a hyphen, or contain two consecutive hyphens.
     ///   - dataProviderName: The name of the data provider.
     ///   - description: A user-friendly description of the data provider.
-    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    ///   - engine: The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
     ///   - exactSettings: If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:    It replaces any data provider settings that already exist with new values,  for settings with the same names.   It creates new data provider settings that you specify in the call,  for settings with different names.
     ///   - settings: The settings in JSON format for a data provider.
     ///   - logger: Logger use during operation
@@ -3137,13 +3148,13 @@ public struct DatabaseMigrationService: AWSService {
     ///   - certificateArn: The Amazon Resource Name (ARN) of the certificate used for SSL connection.
     ///   - databaseName: The name of the endpoint database. For a MySQL source or target endpoint, do not specify DatabaseName.
     ///   - dmsTransferSettings: The settings in JSON format for the DMS transfer type of source endpoint.  Attributes include the following:   serviceAccessRoleArn - The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.   BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string ,BucketName=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string"}
-    ///   - docDbSettings: Settings in JSON format for the source DocumentDB endpoint. For more information about the available settings, see the configuration properties section in  Using DocumentDB as a Target for Database Migration Service in the Database Migration Service User Guide.
-    ///   - dynamoDbSettings: Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other  available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
+    ///   - docDbSettings: Settings in JSON format for the source DocumentDB endpoint. For more information about the available settings, see the configuration properties section in  Using DocumentDB as a Target for Database Migration Service  in the Database Migration Service User Guide.
+    ///   - dynamoDbSettings: Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
     ///   - elasticsearchSettings: Settings in JSON format for the target OpenSearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using OpenSearch as a Target for DMS in the Database Migration Service User Guide.
     ///   - endpointArn: The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
     ///   - endpointIdentifier: The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
-    ///   - endpointType: The type of endpoint.  Valid values are source and target.
-    ///   - engineName: The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos",  "azuredb", "sybase", "dynamodb",  "mongodb", "kinesis", "kafka",  "elasticsearch", "documentdb", "sqlserver",  "neptune", and "babelfish".
+    ///   - endpointType: The type of endpoint. Valid values are source and target.
+    ///   - engineName: The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", "neptune", and "babelfish".
     ///   - exactSettings: If this attribute is Y, the current call to ModifyEndpoint replaces all existing endpoint settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyEndpoint does two things:    It replaces any endpoint settings that already exist with new values, for settings with the same names.   It creates new endpoint settings that you specify in the call, for settings with different names.    For example, if you call create-endpoint ... --endpoint-settings '{"a":1}' ..., the endpoint has the following endpoint settings: '{"a":1}'. If you then call modify-endpoint ... --endpoint-settings '{"b":2}' ... for the same endpoint, the endpoint has the following settings: '{"a":1,"b":2}'.  However, suppose that you follow this with a call to modify-endpoint ... --endpoint-settings '{"b":2}' --exact-settings ... for that same endpoint again. Then the endpoint has the following settings: '{"b":2}'. All existing settings are replaced with the exact settings that you specify.
     ///   - externalTableDefinition: The external table definition.
     ///   - extraConnectionAttributes: Additional attributes associated with the connection. To reset this parameter, pass the empty string ("") as an argument.
@@ -3151,20 +3162,20 @@ public struct DatabaseMigrationService: AWSService {
     ///   - ibmDb2Settings: Settings in JSON format for the source IBM Db2 LUW endpoint. For information about other available settings, see Extra connection attributes when using Db2 LUW as a source for DMS in the Database Migration Service User Guide.
     ///   - kafkaSettings: Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using object mapping to migrate data to a Kafka topic in the Database Migration Service User Guide.
     ///   - kinesisSettings: Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using object mapping to migrate data to a Kinesis data stream in the Database Migration Service User Guide.
-    ///   - microsoftSQLServerSettings: Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for DMS and  Extra connection attributes when using SQL Server as a target for DMS in the Database Migration Service User Guide.
+    ///   - microsoftSQLServerSettings: Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for DMS and Extra connection attributes when using SQL Server as a target for DMS in the Database Migration Service User Guide.
     ///   - mongoDbSettings: Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in Endpoint configuration settings when using MongoDB as a source for Database Migration Service in the Database Migration Service User Guide.
     ///   - mySQLSettings: Settings in JSON format for the source and target MySQL endpoint. For information about other available settings, see Extra connection attributes when using MySQL as a source for DMS and Extra connection attributes when using a MySQL-compatible database as a target for DMS in the Database Migration Service User Guide.
-    ///   - neptuneSettings: Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target  in the Database Migration Service User Guide.
+    ///   - neptuneSettings: Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target in the Database Migration Service User Guide.
     ///   - oracleSettings: Settings in JSON format for the source and target Oracle endpoint. For information about other available settings, see Extra connection attributes when using Oracle as a source for DMS and  Extra connection attributes when using Oracle as a target for DMS in the Database Migration Service User Guide.
     ///   - password: The password to be used to login to the endpoint database.
     ///   - port: The port used by the endpoint database.
-    ///   - postgreSQLSettings: Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and  Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
+    ///   - postgreSQLSettings: Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
     ///   - redisSettings: Settings in JSON format for the Redis target endpoint.
     ///   - redshiftSettings: 
     ///   - s3Settings: Settings in JSON format for the target Amazon S3 endpoint. For more information about the available settings, see Extra Connection Attributes When Using Amazon S3 as a Target for DMS in the Database Migration Service User Guide.
     ///   - serverName: The name of the server where the endpoint database resides.
     ///   - serviceAccessRoleArn:  The Amazon Resource Name (ARN) for the IAM role you want to use to modify the endpoint. The role must allow the iam:PassRole action.
-    ///   - sslMode: The SSL mode used to connect to the endpoint.  The default value is none.
+    ///   - sslMode: The SSL mode used to connect to the endpoint. The default value is none.
     ///   - sybaseSettings: Settings in JSON format for the source and target SAP ASE endpoint. For information about other available settings, see Extra connection attributes when using SAP ASE as a source for DMS and Extra connection attributes when using SAP ASE as a target for DMS in the Database Migration Service User Guide.
     ///   - timestreamSettings: Settings in JSON format for the target Amazon Timestream endpoint.
     ///   - username: The user name to be used to login to the endpoint database.
@@ -3287,7 +3298,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.modifyEventSubscription(input, logger: logger)
     }
 
-    /// Modifies the specified instance profile using the provided parameters.  All migration projects associated with the instance profile must be deleted  or modified before you can modify the instance profile.
+    /// Modifies the specified instance profile using the provided parameters.  All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
     @Sendable
     @inlinable
     public func modifyInstanceProfile(_ input: ModifyInstanceProfileMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyInstanceProfileResponse {
@@ -3300,7 +3311,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Modifies the specified instance profile using the provided parameters.  All migration projects associated with the instance profile must be deleted  or modified before you can modify the instance profile.
+    /// Modifies the specified instance profile using the provided parameters.  All migration projects associated with the instance profile must be deleted or modified before you can modify the instance profile.
     ///
     /// Parameters:
     ///   - availabilityZone: The Availability Zone where the instance profile runs.
@@ -3463,13 +3474,13 @@ public struct DatabaseMigrationService: AWSService {
     ///   - allowMajorVersionUpgrade: Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage, and the change is asynchronously applied as soon as possible. This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
     ///   - applyImmediately: Indicates whether the changes should be applied immediately or during the next maintenance window.
     ///   - autoMinorVersionUpgrade: A value that indicates that minor version upgrades are applied automatically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case described following. The change is asynchronously applied as soon as possible.  An outage does result if these factors apply:    This parameter is set to true during the maintenance window.   A newer minor version is available.    DMS has enabled automatic patching for the given engine version.
-    ///   - engineVersion: The engine version number of the replication instance. When modifying a major engine version of an instance, also set  AllowMajorVersionUpgrade to true.
-    ///   - kerberosAuthenticationSettings: Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when modifying a replication instance.
+    ///   - engineVersion: The engine version number of the replication instance. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
+    ///   - kerberosAuthenticationSettings: Specifies the settings required for kerberos authentication when modifying a replication instance.
     ///   - multiAZ:  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
-    ///   - networkType: The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+    ///   - networkType: The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
     ///   - preferredMaintenanceWindow: The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
     ///   - replicationInstanceArn: The Amazon Resource Name (ARN) of the replication instance.
-    ///   - replicationInstanceClass: The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see   Selecting the right DMS replication instance for your migration.
+    ///   - replicationInstanceClass: The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see  Selecting the right DMS replication instance for your migration.
     ///   - replicationInstanceIdentifier: The replication instance identifier. This parameter is stored as a lowercase string.
     ///   - vpcSecurityGroupIds:  Specifies the VPC security group to be used with the replication instance. The VPC security group must work with the VPC containing the replication instance.
     ///   - logger: Logger use during operation
@@ -3566,8 +3577,8 @@ public struct DatabaseMigrationService: AWSService {
     ///   - replicationTaskArn: The Amazon Resource Name (ARN) of the replication task.
     ///   - replicationTaskIdentifier: The replication task identifier. Constraints:   Must contain 1-255 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.
     ///   - replicationTaskSettings: JSON file that contains settings for the task, such as task metadata settings.
-    ///   - tableMappings: When using the CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://.  For example,  --table-mappings file://mappingfile.json. When working with the DMS  API,  provide the JSON as the parameter value.
-    ///   - taskData: Supplemental information that the task requires to migrate the data for certain source and target endpoints.  For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
+    ///   - tableMappings: When using the CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://. For example, --table-mappings file://mappingfile.json. When working with the DMS API, provide the JSON as the parameter value.
+    ///   - taskData: Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyReplicationTask(
@@ -3644,8 +3655,8 @@ public struct DatabaseMigrationService: AWSService {
     /// Reboots a replication instance. Rebooting results in a momentary outage, until the replication instance becomes available again.
     ///
     /// Parameters:
-    ///   - forceFailover: If this parameter is true, the reboot is conducted through a Multi-AZ failover. If the instance isn't configured for Multi-AZ, then you can't specify true.  ( --force-planned-failover and --force-failover can't both be set to true.)
-    ///   - forcePlannedFailover: If this parameter is true, the reboot is conducted through a planned Multi-AZ failover  where resources are released and cleaned up prior to conducting the failover.  If the instance isn''t configured for Multi-AZ, then you can't specify true.  ( --force-planned-failover and --force-failover can't both be set to true.)
+    ///   - forceFailover: If this parameter is true, the reboot is conducted through a Multi-AZ failover. If the instance isn't configured for Multi-AZ, then you can't specify true. ( --force-planned-failover and --force-failover can't both be set to true.)
+    ///   - forcePlannedFailover: If this parameter is true, the reboot is conducted through a planned Multi-AZ failover where resources are released and cleaned up prior to conducting the failover. If the instance isn''t configured for Multi-AZ, then you can't specify true. ( --force-planned-failover and --force-failover can't both be set to true.)
     ///   - replicationInstanceArn: The Amazon Resource Name (ARN) of the replication instance.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3765,7 +3776,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.reloadTables(input, logger: logger)
     }
 
-    /// Removes metadata tags from an DMS resource, including replication instance,  endpoint, subnet group, and migration task. For more information, see   Tag  data type description.
+    /// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see  Tag data type description.
     @Sendable
     @inlinable
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveTagsFromResourceResponse {
@@ -3778,7 +3789,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Removes metadata tags from an DMS resource, including replication instance,  endpoint, subnet group, and migration task. For more information, see   Tag  data type description.
+    /// Removes metadata tags from an DMS resource, including replication instance, endpoint, subnet group, and migration task. For more information, see  Tag data type description.
     ///
     /// Parameters:
     ///   - resourceArn: An DMS resource from which you want to remove tag(s). The value for this parameter is an Amazon Resource Name (ARN).
@@ -3827,7 +3838,7 @@ public struct DatabaseMigrationService: AWSService {
     ///
     /// Parameters:
     ///   - dataMigrationIdentifier: The identifier (name or ARN) of the data migration to start.
-    ///   - startType: Specifies the start type for the data migration. Valid values include  start-replication, reload-target, and resume-processing.
+    ///   - startType: Specifies the start type for the data migration. Valid values include start-replication, reload-target, and resume-processing.
     ///   - logger: Logger use during operation
     @inlinable
     public func startDataMigration(
@@ -3842,7 +3853,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startDataMigration(input, logger: logger)
     }
 
-    /// Applies the extension pack to your target database. An extension pack is an add-on  module that emulates functions present in a source database that are required when  converting objects to the target database.
+    /// Applies the extension pack to your target database. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     @Sendable
     @inlinable
     public func startExtensionPackAssociation(_ input: StartExtensionPackAssociationMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartExtensionPackAssociationResponse {
@@ -3855,7 +3866,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Applies the extension pack to your target database. An extension pack is an add-on  module that emulates functions present in a source database that are required when  converting objects to the target database.
+    /// Applies the extension pack to your target database. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
@@ -3871,7 +3882,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startExtensionPackAssociation(input, logger: logger)
     }
 
-    /// Creates a database migration assessment report by assessing the migration complexity for  your source database. A database migration assessment report summarizes all of the schema  conversion tasks. It also details the action items for database objects that can't be converted  to the database engine of your target database instance.
+    /// Creates a database migration assessment report by assessing the migration complexity for your source database. A database migration assessment report summarizes all of the schema conversion tasks. It also details the action items for database objects that can't be converted to the database engine of your target database instance.
     @Sendable
     @inlinable
     public func startMetadataModelAssessment(_ input: StartMetadataModelAssessmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMetadataModelAssessmentResponse {
@@ -3884,7 +3895,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    /// Creates a database migration assessment report by assessing the migration complexity for  your source database. A database migration assessment report summarizes all of the schema  conversion tasks. It also details the action items for database objects that can't be converted  to the database engine of your target database instance.
+    /// Creates a database migration assessment report by assessing the migration complexity for your source database. A database migration assessment report summarizes all of the schema conversion tasks. It also details the action items for database objects that can't be converted to the database engine of your target database instance.
     ///
     /// Parameters:
     ///   - migrationProjectIdentifier: The migration project name or Amazon Resource Name (ARN).
@@ -4094,17 +4105,19 @@ public struct DatabaseMigrationService: AWSService {
     /// For a given DMS Serverless replication configuration, DMS connects to the source endpoint and collects the metadata to analyze the replication workload. Using this metadata, DMS then computes and provisions the required capacity and starts replicating to the target endpoint using the server resources that DMS has provisioned for the DMS Serverless replication.
     ///
     /// Parameters:
-    ///   - cdcStartPosition: Indicates when you want a change data capture (CDC) operation to start. Use either  CdcStartPosition or CdcStartTime to specify when you want a  CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format.
+    ///   - cdcStartPosition: Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format.
     ///   - cdcStartTime: Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
-    ///   - cdcStopPosition: Indicates when you want a change data capture (CDC) operation to stop. The value can be  either server time or commit time.
+    ///   - cdcStopPosition: Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time.
+    ///   - premigrationAssessmentSettings: User-defined settings for the premigration assessment. The possible values are:    ResultLocationFinder: The folder within an Amazon Amazon S3 bucket where you want DMS to store the results of this assessment run.    ResultEncryptionMode: The supported values are SSE_KMS and SSE_S3. If these values are not provided, then the files are not encrypted at rest. For more information, see Creating Amazon Web Services KMS keys to encrypt Amazon Amazon S3 target objects.    ResultKmsKeyArn: The ARN of a customer KMS encryption key that you specify when you set ResultEncryptionMode to SSE_KMS.    IncludeOnly: A space-separated list of names for specific individual assessments that you want to include. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration.    Exclude: A space-separated list of names for specific individual assessments that you want to exclude. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration.    FailOnAssessmentFailure: A configurable setting you can set to true (the default setting) or false. Use this setting to to stop the replication from starting automatically if the assessment fails. This can help you evaluate the issue that is preventing the replication from running successfully.
     ///   - replicationConfigArn: The Amazon Resource Name of the replication for which to start replication.
-    ///   - startReplicationType: The replication type. When the replication type is full-load or full-load-and-cdc, the only valid value  for the first run of the replication is start-replication. This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead  of restarting the replication. The resume-processing option isn't applicable for a full-load replication, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes  that occur on the source. To load all the tables again, and start capturing source changes,  use reload-target. Otherwise use resume-processing, to replicate the  changes from the last stop position.
+    ///   - startReplicationType: The replication type. When the replication type is full-load or full-load-and-cdc, the only valid value for the first run of the replication is start-replication. This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead of restarting the replication. The resume-processing option isn't applicable for a full-load replication, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position.
     ///   - logger: Logger use during operation
     @inlinable
     public func startReplication(
         cdcStartPosition: String? = nil,
         cdcStartTime: Date? = nil,
         cdcStopPosition: String? = nil,
+        premigrationAssessmentSettings: String? = nil,
         replicationConfigArn: String,
         startReplicationType: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -4113,6 +4126,7 @@ public struct DatabaseMigrationService: AWSService {
             cdcStartPosition: cdcStartPosition, 
             cdcStartTime: cdcStartTime, 
             cdcStopPosition: cdcStopPosition, 
+            premigrationAssessmentSettings: premigrationAssessmentSettings, 
             replicationConfigArn: replicationConfigArn, 
             startReplicationType: startReplicationType
         )
@@ -4139,7 +4153,7 @@ public struct DatabaseMigrationService: AWSService {
     ///   - cdcStartTime: Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
     ///   - cdcStopPosition: Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
     ///   - replicationTaskArn: The Amazon Resource Name (ARN) of the replication task to be started.
-    ///   - startReplicationTaskType: The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value  for the first run of the task is start-replication. This option will start the migration. You can also use ReloadTables to reload specific tables that failed during migration instead  of restarting the task. The resume-processing option isn't applicable for a full-load task, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes  that occur on the source. To load all the tables again, and start capturing source changes,  use reload-target. Otherwise use resume-processing, to replicate the  changes from the last stop position.
+    ///   - startReplicationTaskType: The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value for the first run of the task is start-replication. This option will start the migration. You can also use ReloadTables to reload specific tables that failed during migration instead of restarting the task. The resume-processing option isn't applicable for a full-load task, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position.
     ///   - logger: Logger use during operation
     @inlinable
     public func startReplicationTask(
@@ -4160,7 +4174,7 @@ public struct DatabaseMigrationService: AWSService {
         return try await self.startReplicationTask(input, logger: logger)
     }
 
-    ///  Starts the replication task assessment for unsupported data types in the source database.  You can only use this operation for a task if the following conditions are true:   The task must be in the stopped state.   The task must have successful connections to the source and target.   If either of these conditions are not met, an InvalidResourceStateFault error will result.  For information about DMS task assessments, see  Creating a task assessment report in the Database Migration Service User Guide.
+    ///  Starts the replication task assessment for unsupported data types in the source database.  You can only use this operation for a task if the following conditions are true:   The task must be in the stopped state.   The task must have successful connections to the source and target.   If either of these conditions are not met, an InvalidResourceStateFault error will result.  For information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide.
     @Sendable
     @inlinable
     public func startReplicationTaskAssessment(_ input: StartReplicationTaskAssessmentMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> StartReplicationTaskAssessmentResponse {
@@ -4173,7 +4187,7 @@ public struct DatabaseMigrationService: AWSService {
             logger: logger
         )
     }
-    ///  Starts the replication task assessment for unsupported data types in the source database.  You can only use this operation for a task if the following conditions are true:   The task must be in the stopped state.   The task must have successful connections to the source and target.   If either of these conditions are not met, an InvalidResourceStateFault error will result.  For information about DMS task assessments, see  Creating a task assessment report in the Database Migration Service User Guide.
+    ///  Starts the replication task assessment for unsupported data types in the source database.  You can only use this operation for a task if the following conditions are true:   The task must be in the stopped state.   The task must have successful connections to the source and target.   If either of these conditions are not met, an InvalidResourceStateFault error will result.  For information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide.
     ///
     /// Parameters:
     ///   - replicationTaskArn:  The Amazon Resource Name (ARN) of the replication task.
@@ -4430,8 +4444,9 @@ extension DatabaseMigrationService {
     /// - Parameters:
     ///   - maxRecords: Maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - migrationType: Name of the migration type that each provided individual assessment must support.
+    ///   - replicationConfigArn: Amazon Resource Name (ARN) of a serverless replication on which you want to base the default list of individual assessments.
     ///   - replicationInstanceArn: ARN of a replication instance on which you want to base the default list of individual assessments.
-    ///   - replicationTaskArn: Amazon Resource Name (ARN) of a migration task on which you want to base  the default list of individual assessments.
+    ///   - replicationTaskArn: Amazon Resource Name (ARN) of a migration task on which you want to base the default list of individual assessments.
     ///   - sourceEngineName: Name of a database engine that the specified replication instance supports as a source.
     ///   - targetEngineName: Name of a database engine that the specified replication instance supports as a target.
     ///   - logger: Logger used for logging
@@ -4439,6 +4454,7 @@ extension DatabaseMigrationService {
     public func describeApplicableIndividualAssessmentsPaginator(
         maxRecords: Int? = nil,
         migrationType: MigrationTypeValue? = nil,
+        replicationConfigArn: String? = nil,
         replicationInstanceArn: String? = nil,
         replicationTaskArn: String? = nil,
         sourceEngineName: String? = nil,
@@ -4448,6 +4464,7 @@ extension DatabaseMigrationService {
         let input = DescribeApplicableIndividualAssessmentsMessage(
             maxRecords: maxRecords, 
             migrationType: migrationType, 
+            replicationConfigArn: replicationConfigArn, 
             replicationInstanceArn: replicationInstanceArn, 
             replicationTaskArn: replicationTaskArn, 
             sourceEngineName: sourceEngineName, 
@@ -4477,7 +4494,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeCertificates(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to the certificates described in the form of key-value pairs.  Valid values are certificate-arn and certificate-id.
+    ///   - filters: Filters applied to the certificates described in the form of key-value pairs. Valid values are certificate-arn and certificate-id.
     ///   - maxRecords:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 10
     ///   - logger: Logger used for logging
     @inlinable
@@ -4552,7 +4569,7 @@ extension DatabaseMigrationService {
     ///
     /// - Parameters:
     ///   - filters: Filters applied to the data migrations.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - withoutSettings: An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true; otherwise, choose false (the default).
     ///   - withoutStatistics: An option to set to avoid returning information about statistics. Use this to reduce overhead when statistics information is too large. To use this option, choose true; otherwise, choose false (the default).
     ///   - logger: Logger used for logging
@@ -4632,7 +4649,7 @@ extension DatabaseMigrationService {
     ///
     /// - Parameters:
     ///   - engineName: The database engine used for your source or target endpoint.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, a pagination token called a marker is included in the response  so that the remaining results can be retrieved.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeEndpointSettingsPaginator(
@@ -4742,7 +4759,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeEngineVersions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeEngineVersionsPaginator(
@@ -4776,7 +4793,7 @@ extension DatabaseMigrationService {
     /// Return PaginatorSequence for operation ``describeEventSubscriptions(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filters: Filters applied to event subscriptions. Valid filter names: event-subscription-arn |  event-subscription-id
+    ///   - filters: Filters applied to event subscriptions. Valid filter names: event-subscription-arn | event-subscription-id
     ///   - maxRecords:  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
     ///   - subscriptionName: The name of the DMS event subscription to be described.
     ///   - logger: Logger used for logging
@@ -5516,7 +5533,7 @@ extension DatabaseMigrationService {
     ///
     /// - Parameters:
     ///   - filters: Filters applied to the replication configs.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeReplicationConfigsPaginator(
@@ -5664,7 +5681,7 @@ extension DatabaseMigrationService {
     ///
     /// - Parameters:
     ///   - filters: Filters applied to the replication table statistics.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - replicationConfigArn: The replication config to describe.
     ///   - logger: Logger used for logging
     @inlinable
@@ -5855,7 +5872,7 @@ extension DatabaseMigrationService {
     ///
     /// - Parameters:
     ///   - filters: Filters applied to the replications.
-    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+    ///   - maxRecords: The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
     ///   - logger: Logger used for logging
     @inlinable
     public func describeReplicationsPaginator(
@@ -5955,6 +5972,7 @@ extension DatabaseMigrationService.DescribeApplicableIndividualAssessmentsMessag
             marker: token,
             maxRecords: self.maxRecords,
             migrationType: self.migrationType,
+            replicationConfigArn: self.replicationConfigArn,
             replicationInstanceArn: self.replicationInstanceArn,
             replicationTaskArn: self.replicationTaskArn,
             sourceEngineName: self.sourceEngineName,

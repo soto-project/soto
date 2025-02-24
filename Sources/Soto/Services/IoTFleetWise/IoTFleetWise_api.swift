@@ -66,6 +66,7 @@ public struct IoTFleetWise: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2021-06-17",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: IoTFleetWiseErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -77,6 +78,14 @@ public struct IoTFleetWise: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-south-1": "iotfleetwise.ap-south-1.api.aws",
+            "eu-central-1": "iotfleetwise.eu-central-1.api.aws",
+            "us-east-1": "iotfleetwise.us-east-1.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 

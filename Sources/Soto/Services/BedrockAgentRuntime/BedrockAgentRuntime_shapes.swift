@@ -95,6 +95,7 @@ extension BedrockAgentRuntime {
     }
 
     public enum FlowCompletionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inputRequired = "INPUT_REQUIRED"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
@@ -242,6 +243,12 @@ extension BedrockAgentRuntime {
     public enum PayloadType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case returnControl = "RETURN_CONTROL"
         case text = "TEXT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PerformanceConfigLatency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optimized = "optimized"
+        case standard = "standard"
         public var description: String { return self.rawValue }
     }
 
@@ -451,6 +458,8 @@ extension BedrockAgentRuntime {
         case dependencyFailedException(DependencyFailedException)
         /// Contains information about why the flow completed.
         case flowCompletionEvent(FlowCompletionEvent)
+        /// The event stream containing the multi-turn input request information from the flow.
+        case flowMultiTurnInputRequestEvent(FlowMultiTurnInputRequestEvent)
         /// Contains information about an output from flow invocation.
         case flowOutputEvent(FlowOutputEvent)
         /// Contains information about a trace, which tracks an input or output for a node in the flow.
@@ -491,6 +500,9 @@ extension BedrockAgentRuntime {
             case .flowCompletionEvent:
                 let value = try container.decode(FlowCompletionEvent.self, forKey: .flowCompletionEvent)
                 self = .flowCompletionEvent(value)
+            case .flowMultiTurnInputRequestEvent:
+                let value = try container.decode(FlowMultiTurnInputRequestEvent.self, forKey: .flowMultiTurnInputRequestEvent)
+                self = .flowMultiTurnInputRequestEvent(value)
             case .flowOutputEvent:
                 let value = try container.decode(FlowOutputEvent.self, forKey: .flowOutputEvent)
                 self = .flowOutputEvent(value)
@@ -521,6 +533,7 @@ extension BedrockAgentRuntime {
             case conflictException = "conflictException"
             case dependencyFailedException = "dependencyFailedException"
             case flowCompletionEvent = "flowCompletionEvent"
+            case flowMultiTurnInputRequestEvent = "flowMultiTurnInputRequestEvent"
             case flowOutputEvent = "flowOutputEvent"
             case flowTraceEvent = "flowTraceEvent"
             case internalServerException = "internalServerException"
@@ -963,6 +976,8 @@ extension BedrockAgentRuntime {
         case files(FilePart)
         /// An internal server error occurred. Retry your request.
         case internalServerException(InternalServerException)
+        ///  The model specified in the request is not ready to serve Inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see Retry behavior in the AWS SDKs and Tools reference guide.
+        case modelNotReadyException(ModelNotReadyException)
         /// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
         case resourceNotFoundException(ResourceNotFoundException)
         /// Contains the parameters and information that the agent elicited from the customer to carry out an action. This information is returned to the system and can be used in your own setup for fulfilling the action.
@@ -1007,6 +1022,9 @@ extension BedrockAgentRuntime {
             case .internalServerException:
                 let value = try container.decode(InternalServerException.self, forKey: .internalServerException)
                 self = .internalServerException(value)
+            case .modelNotReadyException:
+                let value = try container.decode(ModelNotReadyException.self, forKey: .modelNotReadyException)
+                self = .modelNotReadyException(value)
             case .resourceNotFoundException:
                 let value = try container.decode(ResourceNotFoundException.self, forKey: .resourceNotFoundException)
                 self = .resourceNotFoundException(value)
@@ -1036,6 +1054,7 @@ extension BedrockAgentRuntime {
             case dependencyFailedException = "dependencyFailedException"
             case files = "files"
             case internalServerException = "internalServerException"
+            case modelNotReadyException = "modelNotReadyException"
             case resourceNotFoundException = "resourceNotFoundException"
             case returnControl = "returnControl"
             case serviceQuotaExceededException = "serviceQuotaExceededException"
@@ -1721,6 +1740,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct BedrockModelConfigurations: AWSEncodableShape {
+        /// The performance configuration for the model.
+        public let performanceConfig: PerformanceConfiguration?
+
+        @inlinable
+        public init(performanceConfig: PerformanceConfiguration? = nil) {
+            self.performanceConfig = performanceConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case performanceConfig = "performanceConfig"
+        }
+    }
+
     public struct BedrockRerankingConfiguration: AWSEncodableShape {
         /// Contains configurations for a reranker model.
         public let modelConfiguration: BedrockRerankingModelConfiguration
@@ -1845,14 +1878,30 @@ extension BedrockAgentRuntime {
     public struct CitationEvent: AWSDecodableShape {
         /// The citation.
         public let citation: Citation?
+        /// The generated response to the citation event.
+        public let generatedResponsePart: GeneratedResponsePart?
+        /// The retrieved references of the citation event.
+        public let retrievedReferences: [RetrievedReference]?
 
         @inlinable
-        public init(citation: Citation? = nil) {
+        public init(generatedResponsePart: GeneratedResponsePart? = nil, retrievedReferences: [RetrievedReference]? = nil) {
+            self.citation = nil
+            self.generatedResponsePart = generatedResponsePart
+            self.retrievedReferences = retrievedReferences
+        }
+
+        @available(*, deprecated, message: "Members citation have been deprecated")
+        @inlinable
+        public init(citation: Citation? = nil, generatedResponsePart: GeneratedResponsePart? = nil, retrievedReferences: [RetrievedReference]? = nil) {
             self.citation = citation
+            self.generatedResponsePart = generatedResponsePart
+            self.retrievedReferences = retrievedReferences
         }
 
         private enum CodingKeys: String, CodingKey {
             case citation = "citation"
+            case generatedResponsePart = "generatedResponsePart"
+            case retrievedReferences = "retrievedReferences"
         }
     }
 
@@ -1980,12 +2029,15 @@ extension BedrockAgentRuntime {
         public let agentId: String
         /// The unique identifier of the memory.
         public let memoryId: String?
+        /// The unique session identifier of the memory.
+        public let sessionId: String?
 
         @inlinable
-        public init(agentAliasId: String, agentId: String, memoryId: String? = nil) {
+        public init(agentAliasId: String, agentId: String, memoryId: String? = nil, sessionId: String? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
             self.memoryId = memoryId
+            self.sessionId = sessionId
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -1994,6 +2046,7 @@ extension BedrockAgentRuntime {
             request.encodePath(self.agentAliasId, key: "agentAliasId")
             request.encodePath(self.agentId, key: "agentId")
             request.encodeQuery(self.memoryId, key: "memoryId")
+            request.encodeQuery(self.sessionId, key: "sessionId")
         }
 
         public func validate(name: String) throws {
@@ -2004,6 +2057,9 @@ extension BedrockAgentRuntime {
             try self.validate(self.memoryId, name: "memoryId", parent: name, max: 100)
             try self.validate(self.memoryId, name: "memoryId", parent: name, min: 2)
             try self.validate(self.memoryId, name: "memoryId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 100)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 2)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2064,14 +2120,17 @@ extension BedrockAgentRuntime {
         public let guardrailConfiguration: GuardrailConfiguration?
         ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using an external source.
         public let inferenceConfig: InferenceConfig?
+        /// The latency configuration for the model.
+        public let performanceConfig: PerformanceConfiguration?
         /// Contain the textPromptTemplate string for the external source wrapper object.
         public let promptTemplate: PromptTemplate?
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
+        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: PromptTemplate? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.inferenceConfig = inferenceConfig
+            self.performanceConfig = performanceConfig
             self.promptTemplate = promptTemplate
         }
 
@@ -2088,6 +2147,7 @@ extension BedrockAgentRuntime {
             case additionalModelRequestFields = "additionalModelRequestFields"
             case guardrailConfiguration = "guardrailConfiguration"
             case inferenceConfig = "inferenceConfig"
+            case performanceConfig = "performanceConfig"
             case promptTemplate = "promptTemplate"
         }
     }
@@ -2253,27 +2313,54 @@ extension BedrockAgentRuntime {
     public struct FlowInput: AWSEncodableShape {
         /// Contains information about an input into the prompt flow.
         public let content: FlowInputContent
+        /// The name of the input from the flow input node.
+        public let nodeInputName: String?
         /// The name of the flow input node that begins the prompt flow.
         public let nodeName: String
         /// The name of the output from the flow input node that begins the prompt flow.
-        public let nodeOutputName: String
+        public let nodeOutputName: String?
 
         @inlinable
-        public init(content: FlowInputContent, nodeName: String, nodeOutputName: String) {
+        public init(content: FlowInputContent, nodeInputName: String? = nil, nodeName: String, nodeOutputName: String? = nil) {
             self.content = content
+            self.nodeInputName = nodeInputName
             self.nodeName = nodeName
             self.nodeOutputName = nodeOutputName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.nodeInputName, name: "nodeInputName", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$")
             try self.validate(self.nodeName, name: "nodeName", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$")
             try self.validate(self.nodeOutputName, name: "nodeOutputName", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){0,99}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case content = "content"
+            case nodeInputName = "nodeInputName"
             case nodeName = "nodeName"
             case nodeOutputName = "nodeOutputName"
+        }
+    }
+
+    public struct FlowMultiTurnInputRequestEvent: AWSDecodableShape {
+        /// The content payload containing the input request details for the multi-turn interaction.
+        public let content: FlowMultiTurnInputContent
+        /// The name of the node in the flow that is requesting the input.
+        public let nodeName: String
+        /// The type of the node in the flow that is requesting the input.
+        public let nodeType: NodeType
+
+        @inlinable
+        public init(content: FlowMultiTurnInputContent, nodeName: String, nodeType: NodeType) {
+            self.content = content
+            self.nodeName = nodeName
+            self.nodeType = nodeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "content"
+            case nodeName = "nodeName"
+            case nodeType = "nodeType"
         }
     }
 
@@ -2633,14 +2720,17 @@ extension BedrockAgentRuntime {
         public let guardrailConfiguration: GuardrailConfiguration?
         ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
         public let inferenceConfig: InferenceConfig?
+        /// The latency configuration for the model.
+        public let performanceConfig: PerformanceConfiguration?
         /// Contains the template for the prompt that's sent to the model for response generation. Generation prompts must include the $search_results$ variable. For more information, see Use placeholder variables in the user guide.
         public let promptTemplate: PromptTemplate?
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
+        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: PromptTemplate? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.inferenceConfig = inferenceConfig
+            self.performanceConfig = performanceConfig
             self.promptTemplate = promptTemplate
         }
 
@@ -2657,6 +2747,7 @@ extension BedrockAgentRuntime {
             case additionalModelRequestFields = "additionalModelRequestFields"
             case guardrailConfiguration = "guardrailConfiguration"
             case inferenceConfig = "inferenceConfig"
+            case performanceConfig = "performanceConfig"
             case promptTemplate = "promptTemplate"
         }
     }
@@ -3192,6 +3283,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct InlineBedrockModelConfigurations: AWSEncodableShape {
+        /// The latency configuration for the model.
+        public let performanceConfig: PerformanceConfiguration?
+
+        @inlinable
+        public init(performanceConfig: PerformanceConfiguration? = nil) {
+            self.performanceConfig = performanceConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case performanceConfig = "performanceConfig"
+        }
+    }
+
     public struct InlineSessionState: AWSEncodableShape {
         ///  Contains information about the files used by code interpreter.
         public let files: [InputFile]?
@@ -3258,14 +3363,18 @@ extension BedrockAgentRuntime {
 
     public struct InternalServerException: AWSDecodableShape {
         public let message: String?
+        /// The reason for the exception. If the reason is BEDROCK_MODEL_INVOCATION_SERVICE_UNAVAILABLE, the model invocation service is unavailable. Retry your request.
+        public let reason: String?
 
         @inlinable
-        public init(message: String? = nil) {
+        public init(message: String? = nil, reason: String? = nil) {
             self.message = message
+            self.reason = reason
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+            case reason = "reason"
         }
     }
 
@@ -3308,6 +3417,8 @@ extension BedrockAgentRuntime {
         public let agentAliasId: String
         /// The unique identifier of the agent to use.
         public let agentId: String
+        /// Model performance settings for the request.
+        public let bedrockModelConfigurations: BedrockModelConfigurations?
         /// Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Trace enablement.
         public let enableTrace: Bool?
         /// Specifies whether to end the session with the agent or not.
@@ -3322,13 +3433,14 @@ extension BedrockAgentRuntime {
         public let sessionState: SessionState?
         /// The ARN of the resource making the request.
         public let sourceArn: String?
-        ///  Specifies the configurations for streaming.
+        ///  Specifies the configurations for streaming.   To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
         public let streamingConfigurations: StreamingConfigurations?
 
         @inlinable
-        public init(agentAliasId: String, agentId: String, enableTrace: Bool? = nil, endSession: Bool? = nil, inputText: String? = nil, memoryId: String? = nil, sessionId: String, sessionState: SessionState? = nil, sourceArn: String? = nil, streamingConfigurations: StreamingConfigurations? = nil) {
+        public init(agentAliasId: String, agentId: String, bedrockModelConfigurations: BedrockModelConfigurations? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, inputText: String? = nil, memoryId: String? = nil, sessionId: String, sessionState: SessionState? = nil, sourceArn: String? = nil, streamingConfigurations: StreamingConfigurations? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
+            self.bedrockModelConfigurations = bedrockModelConfigurations
             self.enableTrace = enableTrace
             self.endSession = endSession
             self.inputText = inputText
@@ -3344,6 +3456,7 @@ extension BedrockAgentRuntime {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.agentAliasId, key: "agentAliasId")
             request.encodePath(self.agentId, key: "agentId")
+            try container.encodeIfPresent(self.bedrockModelConfigurations, forKey: .bedrockModelConfigurations)
             try container.encodeIfPresent(self.enableTrace, forKey: .enableTrace)
             try container.encodeIfPresent(self.endSession, forKey: .endSession)
             try container.encodeIfPresent(self.inputText, forKey: .inputText)
@@ -3372,6 +3485,7 @@ extension BedrockAgentRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bedrockModelConfigurations = "bedrockModelConfigurations"
             case enableTrace = "enableTrace"
             case endSession = "endSession"
             case inputText = "inputText"
@@ -3415,31 +3529,42 @@ extension BedrockAgentRuntime {
     public struct InvokeFlowRequest: AWSEncodableShape {
         /// Specifies whether to return the trace for the flow or not. Traces track inputs and outputs for nodes in the flow. For more information, see Track each step in your prompt flow by viewing its trace in Amazon Bedrock.
         public let enableTrace: Bool?
+        /// The unique identifier for the current flow execution. If you don't provide a value, Amazon Bedrock creates the identifier for you.
+        public let executionId: String?
         /// The unique identifier of the flow alias.
         public let flowAliasIdentifier: String
         /// The unique identifier of the flow.
         public let flowIdentifier: String
         /// A list of objects, each containing information about an input into the flow.
         public let inputs: [FlowInput]
+        /// Model performance settings for the request.
+        public let modelPerformanceConfiguration: ModelPerformanceConfiguration?
 
         @inlinable
-        public init(enableTrace: Bool? = nil, flowAliasIdentifier: String, flowIdentifier: String, inputs: [FlowInput]) {
+        public init(enableTrace: Bool? = nil, executionId: String? = nil, flowAliasIdentifier: String, flowIdentifier: String, inputs: [FlowInput], modelPerformanceConfiguration: ModelPerformanceConfiguration? = nil) {
             self.enableTrace = enableTrace
+            self.executionId = executionId
             self.flowAliasIdentifier = flowAliasIdentifier
             self.flowIdentifier = flowIdentifier
             self.inputs = inputs
+            self.modelPerformanceConfiguration = modelPerformanceConfiguration
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.enableTrace, forKey: .enableTrace)
+            try container.encodeIfPresent(self.executionId, forKey: .executionId)
             request.encodePath(self.flowAliasIdentifier, key: "flowAliasIdentifier")
             request.encodePath(self.flowIdentifier, key: "flowIdentifier")
             try container.encode(self.inputs, forKey: .inputs)
+            try container.encodeIfPresent(self.modelPerformanceConfiguration, forKey: .modelPerformanceConfiguration)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.executionId, name: "executionId", parent: name, max: 100)
+            try self.validate(self.executionId, name: "executionId", parent: name, min: 2)
+            try self.validate(self.executionId, name: "executionId", parent: name, pattern: "^[0-9a-zA-Z._:-]+$")
             try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, max: 2048)
             try self.validate(self.flowAliasIdentifier, name: "flowAliasIdentifier", parent: name, pattern: "^(arn:aws:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:flow/[0-9a-zA-Z]{10}/alias/[0-9a-zA-Z]{10})|(\\bTSTALIASID\\b|[0-9a-zA-Z]+)$")
             try self.validate(self.flowIdentifier, name: "flowIdentifier", parent: name, max: 2048)
@@ -3453,22 +3578,29 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case enableTrace = "enableTrace"
+            case executionId = "executionId"
             case inputs = "inputs"
+            case modelPerformanceConfiguration = "modelPerformanceConfiguration"
         }
     }
 
     public struct InvokeFlowResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The unique identifier for the current flow execution.
+        public let executionId: String?
         /// The output of the flow, returned as a stream. If there's an error, the error is returned.
         public let responseStream: AWSEventStream<FlowResponseStream>
 
         @inlinable
-        public init(responseStream: AWSEventStream<FlowResponseStream>) {
+        public init(executionId: String? = nil, responseStream: AWSEventStream<FlowResponseStream>) {
+            self.executionId = executionId
             self.responseStream = responseStream
         }
 
         public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.singleValueContainer()
+            self.executionId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-bedrock-flow-execution-id")
             self.responseStream = try container.decode(AWSEventStream<FlowResponseStream>.self)
         }
 
@@ -3478,6 +3610,8 @@ extension BedrockAgentRuntime {
     public struct InvokeInlineAgentRequest: AWSEncodableShape {
         ///  A list of action groups with each action group defining the action the inline agent needs to carry out.
         public let actionGroups: [AgentActionGroup]?
+        /// Model settings for the request.
+        public let bedrockModelConfigurations: InlineBedrockModelConfigurations?
         ///  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
         public let customerEncryptionKeyArn: String?
         ///  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
@@ -3502,10 +3636,13 @@ extension BedrockAgentRuntime {
         public let promptOverrideConfiguration: PromptOverrideConfiguration?
         ///  The unique identifier of the session. Use the same value across requests to continue the same conversation.
         public let sessionId: String
+        ///  Specifies the configurations for streaming.   To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
+        public let streamingConfigurations: StreamingConfigurations?
 
         @inlinable
-        public init(actionGroups: [AgentActionGroup]? = nil, customerEncryptionKeyArn: String? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, inlineSessionState: InlineSessionState? = nil, inputText: String? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, sessionId: String) {
+        public init(actionGroups: [AgentActionGroup]? = nil, bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil, customerEncryptionKeyArn: String? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, inlineSessionState: InlineSessionState? = nil, inputText: String? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, sessionId: String, streamingConfigurations: StreamingConfigurations? = nil) {
             self.actionGroups = actionGroups
+            self.bedrockModelConfigurations = bedrockModelConfigurations
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
             self.enableTrace = enableTrace
             self.endSession = endSession
@@ -3518,12 +3655,14 @@ extension BedrockAgentRuntime {
             self.knowledgeBases = knowledgeBases
             self.promptOverrideConfiguration = promptOverrideConfiguration
             self.sessionId = sessionId
+            self.streamingConfigurations = streamingConfigurations
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.actionGroups, forKey: .actionGroups)
+            try container.encodeIfPresent(self.bedrockModelConfigurations, forKey: .bedrockModelConfigurations)
             try container.encodeIfPresent(self.customerEncryptionKeyArn, forKey: .customerEncryptionKeyArn)
             try container.encodeIfPresent(self.enableTrace, forKey: .enableTrace)
             try container.encodeIfPresent(self.endSession, forKey: .endSession)
@@ -3536,6 +3675,7 @@ extension BedrockAgentRuntime {
             try container.encodeIfPresent(self.knowledgeBases, forKey: .knowledgeBases)
             try container.encodeIfPresent(self.promptOverrideConfiguration, forKey: .promptOverrideConfiguration)
             request.encodePath(self.sessionId, key: "sessionId")
+            try container.encodeIfPresent(self.streamingConfigurations, forKey: .streamingConfigurations)
         }
 
         public func validate(name: String) throws {
@@ -3565,6 +3705,7 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case actionGroups = "actionGroups"
+            case bedrockModelConfigurations = "bedrockModelConfigurations"
             case customerEncryptionKeyArn = "customerEncryptionKeyArn"
             case enableTrace = "enableTrace"
             case endSession = "endSession"
@@ -3576,6 +3717,7 @@ extension BedrockAgentRuntime {
             case instruction = "instruction"
             case knowledgeBases = "knowledgeBases"
             case promptOverrideConfiguration = "promptOverrideConfiguration"
+            case streamingConfigurations = "streamingConfigurations"
         }
     }
 
@@ -3977,6 +4119,33 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct ModelNotReadyException: AWSDecodableShape {
+        public let message: String?
+
+        @inlinable
+        public init(message: String? = nil) {
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct ModelPerformanceConfiguration: AWSEncodableShape {
+        /// The latency configuration for the model.
+        public let performanceConfig: PerformanceConfiguration?
+
+        @inlinable
+        public init(performanceConfig: PerformanceConfiguration? = nil) {
+            self.performanceConfig = performanceConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case performanceConfig = "performanceConfig"
+        }
+    }
+
     public struct Observation: AWSDecodableShape {
         /// Contains the JSON-formatted string returned by the API invoked by the action group.
         public let actionGroupInvocationOutput: ActionGroupInvocationOutput?
@@ -4074,15 +4243,18 @@ extension BedrockAgentRuntime {
         public let additionalModelRequestFields: [String: String]?
         ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
         public let inferenceConfig: InferenceConfig?
+        /// The latency configuration for the model.
+        public let performanceConfig: PerformanceConfiguration?
         /// Contains the template for the prompt that's sent to the model. Orchestration prompts must include the $conversation_history$ and $output_format_instructions$ variables. For more information, see Use placeholder variables in the user guide.
         public let promptTemplate: PromptTemplate?
         /// To split up the prompt and retrieve multiple sources, set the transformation type to QUERY_DECOMPOSITION.
         public let queryTransformationConfiguration: QueryTransformationConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, inferenceConfig: InferenceConfig? = nil, promptTemplate: PromptTemplate? = nil, queryTransformationConfiguration: QueryTransformationConfiguration? = nil) {
+        public init(additionalModelRequestFields: [String: String]? = nil, inferenceConfig: InferenceConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: PromptTemplate? = nil, queryTransformationConfiguration: QueryTransformationConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.inferenceConfig = inferenceConfig
+            self.performanceConfig = performanceConfig
             self.promptTemplate = promptTemplate
             self.queryTransformationConfiguration = queryTransformationConfiguration
         }
@@ -4099,6 +4271,7 @@ extension BedrockAgentRuntime {
         private enum CodingKeys: String, CodingKey {
             case additionalModelRequestFields = "additionalModelRequestFields"
             case inferenceConfig = "inferenceConfig"
+            case performanceConfig = "performanceConfig"
             case promptTemplate = "promptTemplate"
             case queryTransformationConfiguration = "queryTransformationConfiguration"
         }
@@ -4215,6 +4388,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct PerformanceConfiguration: AWSEncodableShape {
+        /// To use a latency-optimized version of the model, set to optimized.
+        public let latency: PerformanceConfigLatency?
+
+        @inlinable
+        public init(latency: PerformanceConfigLatency? = nil) {
+            self.latency = latency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latency = "latency"
+        }
+    }
+
     public struct PostProcessingModelInvocationOutput: AWSDecodableShape {
         ///  Contains information about the foundation model output from the post-processing step.
         public let metadata: Metadata?
@@ -4300,6 +4487,8 @@ extension BedrockAgentRuntime {
     }
 
     public struct PromptConfiguration: AWSEncodableShape {
+        /// If the Converse or ConverseStream operations support the model, additionalModelRequestFields contains additional inference parameters, beyond the base set of inference parameters in the inferenceConfiguration field.  For more information, see Inference request parameters and response fields for foundation models in the Amazon Bedrock user guide.
+        public let additionalModelRequestFields: String?
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
         public let basePromptTemplate: String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see Inference parameters for foundation models.
@@ -4314,7 +4503,8 @@ extension BedrockAgentRuntime {
         public let promptType: PromptType?
 
         @inlinable
-        public init(basePromptTemplate: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
+        public init(additionalModelRequestFields: String? = nil, basePromptTemplate: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
+            self.additionalModelRequestFields = additionalModelRequestFields
             self.basePromptTemplate = basePromptTemplate
             self.inferenceConfiguration = inferenceConfiguration
             self.parserMode = parserMode
@@ -4330,6 +4520,7 @@ extension BedrockAgentRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
             case basePromptTemplate = "basePromptTemplate"
             case inferenceConfiguration = "inferenceConfiguration"
             case parserMode = "parserMode"
@@ -5739,6 +5930,20 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct FlowMultiTurnInputContent: AWSDecodableShape {
+        /// The requested additional input to send back to the multi-turn flow node.
+        public let document: String?
+
+        @inlinable
+        public init(document: String? = nil) {
+            self.document = document
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case document = "document"
+        }
+    }
+
     public struct FlowOutputContent: AWSDecodableShape {
         /// The content in the output.
         public let document: String?
@@ -5854,6 +6059,7 @@ public struct BedrockAgentRuntimeErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case dependencyFailedException = "DependencyFailedException"
         case internalServerException = "InternalServerException"
+        case modelNotReadyException = "ModelNotReadyException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
@@ -5888,6 +6094,8 @@ public struct BedrockAgentRuntimeErrorType: AWSErrorType {
     public static var dependencyFailedException: Self { .init(.dependencyFailedException) }
     /// An internal server error occurred. Retry your request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    ///  The model specified in the request is not ready to serve inference requests. The AWS SDK will automatically retry the operation up to 5 times. For information about configuring automatic retries, see Retry behavior in the AWS SDKs and Tools reference guide.
+    public static var modelNotReadyException: Self { .init(.modelNotReadyException) }
     /// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The number of requests exceeds the service quota. Resubmit your request later.

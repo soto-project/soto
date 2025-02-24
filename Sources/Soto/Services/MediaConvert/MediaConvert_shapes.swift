@@ -338,6 +338,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -370,6 +371,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -548,6 +550,13 @@ extension MediaConvert {
         case teletext = "TELETEXT"
         case ttml = "TTML"
         case webvtt = "WEBVTT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChromaPositionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case forceCenter = "FORCE_CENTER"
+        case forceTopLeft = "FORCE_TOP_LEFT"
         public var description: String { return self.rawValue }
     }
 
@@ -779,6 +788,7 @@ extension MediaConvert {
     public enum ContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmfc = "CMFC"
         case f4v = "F4V"
+        case gif = "GIF"
         case ismv = "ISMV"
         case m2ts = "M2TS"
         case m3u8 = "M3U8"
@@ -1027,6 +1037,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum DynamicAudioSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allTracks = "ALL_TRACKS"
+        case languageCode = "LANGUAGE_CODE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Eac3AtmosBitstreamMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case completeMain = "COMPLETE_MAIN"
         public var description: String { return self.rawValue }
@@ -1245,6 +1261,18 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum GifFramerateControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case initializeFromSource = "INITIALIZE_FROM_SOURCE"
+        case specified = "SPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GifFramerateConversionAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case duplicateDrop = "DUPLICATE_DROP"
+        case interpolate = "INTERPOLATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H264AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case high = "HIGH"
@@ -1328,6 +1356,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -1435,6 +1464,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum H264WriteMp4PackagingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case avc1 = "AVC1"
+        case avc3 = "AVC3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H265AdaptiveQuantization: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case high = "HIGH"
@@ -1482,6 +1517,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum H265Deblocking: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum H265DynamicSubGop: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case adaptive = "ADAPTIVE"
@@ -1510,6 +1551,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -2378,6 +2420,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -2641,6 +2684,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -2686,6 +2730,12 @@ extension MediaConvert {
     public enum QueueStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case paused = "PAUSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RemoveRubyReserveAttributes: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -2832,6 +2882,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum TimecodeTrack: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TimedMetadata: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case passthrough = "PASSTHROUGH"
@@ -2867,6 +2923,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -2911,6 +2968,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -2948,6 +3006,7 @@ extension MediaConvert {
         case av1 = "AV1"
         case avcIntra = "AVC_INTRA"
         case frameCapture = "FRAME_CAPTURE"
+        case gif = "GIF"
         case h264 = "H_264"
         case h265 = "H_265"
         case mpeg2 = "MPEG2"
@@ -2989,6 +3048,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -3019,6 +3079,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -3049,6 +3110,7 @@ extension MediaConvert {
     }
 
     public enum WavFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case extensible = "EXTENSIBLE"
         case rf64 = "RF64"
         case riff = "RIFF"
         public var description: String { return self.rawValue }
@@ -3063,6 +3125,7 @@ extension MediaConvert {
     public enum WebvttStylePassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        case merge = "MERGE"
         case strict = "STRICT"
         public var description: String { return self.rawValue }
     }
@@ -3135,6 +3198,7 @@ extension MediaConvert {
         case duplicateDrop = "DUPLICATE_DROP"
         case frameformer = "FRAMEFORMER"
         case interpolate = "INTERPOLATE"
+        case maintainFrameCount = "MAINTAIN_FRAME_COUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -3595,6 +3659,7 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try self.audioNormalizationSettings?.validate(name: "\(name).audioNormalizationSettings")
+            try self.validate(self.audioSourceName, name: "audioSourceName", parent: name, max: 2048)
             try self.validate(self.audioType, name: "audioType", parent: name, max: 255)
             try self.validate(self.audioType, name: "audioType", parent: name, min: 0)
             try self.codecSettings?.validate(name: "\(name).codecSettings")
@@ -3668,13 +3733,15 @@ extension MediaConvert {
         public let customLanguageCode: String?
         /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
         public let defaultSelection: AudioDefaultSelection?
-        /// Specifies audio data from an external file source.
+        /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
         public let externalAudioFileInput: String?
         /// Settings specific to audio sources in an HLS alternate rendition group. Specify the properties (renditionGroupId, renditionName or renditionLanguageCode) to identify the unique audio track among the alternative rendition groups present in the HLS manifest. If no unique track is found, or multiple tracks match the properties provided, the job fails. If no properties in hlsRenditionGroupSettings are specified, the default audio track within the video segment is chosen. If there is no audio within video segment, the alternative audio with DEFAULT=YES is chosen instead.
         public let hlsRenditionGroupSettings: HlsRenditionGroupSettings?
-        /// Selects a specific language code from within an audio source.
+        /// Specify the language to select from your audio input. In the MediaConvert console choose from a list of languages. In your JSON job settings choose from an ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php
         public let languageCode: LanguageCode?
-        /// Specifies a time delta in milliseconds to offset the audio from the input video.
+        /// Specify a time delta, in milliseconds, to offset the audio from the input video.
+        /// To specify no offset: Keep the default value, 0.
+        /// To specify an offset: Enter an integer from -2147483648 to 2147483647
         public let offset: Int?
         /// Selects a specific PID from within an audio source (e.g. 257 selects PID 0x101).
         public let pids: [Int]?
@@ -3888,7 +3955,7 @@ extension MediaConvert {
         public let filmGrainSynthesis: Av1FilmGrainSynthesis?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Av1FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: Av1FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -3985,7 +4052,7 @@ extension MediaConvert {
         public let avcIntraUhdSettings: AvcIntraUhdSettings?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: AvcIntraFramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: AvcIntraFramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -4104,6 +4171,8 @@ extension MediaConvert {
         public let outlineColor: BurninSubtitleOutlineColor?
         /// Specify the Outline size of the caption text, in pixels. Leave Outline size blank and set Style passthrough to enabled to use the outline size data from your input captions, if present.
         public let outlineSize: Int?
+        /// Optionally remove any tts:rubyReserve attributes present in your input, that do   not have a tts:ruby attribute in the same element, from your output. Use if your vertical Japanese output captions have alignment issues. To remove ruby reserve attributes when present: Choose Enabled. To not remove any ruby reserve attributes: Keep the default value, Disabled.
+        public let removeRubyReserveAttributes: RemoveRubyReserveAttributes?
         /// Specify the color of the shadow cast by the captions. Leave Shadow color blank and set Style passthrough to enabled to use the shadow color data from your input captions, if present.
         public let shadowColor: BurninSubtitleShadowColor?
         /// Specify the opacity of the shadow. Enter a value from 0 to 255, where 0 is transparent and 255 is opaque. If Style passthrough is set to Enabled, leave Shadow opacity blank to pass through the shadow style information in your input captions to your output captions. If Style passthrough is set to disabled, leave blank to use a value of 0 and remove all shadows from your output captions.
@@ -4122,7 +4191,7 @@ extension MediaConvert {
         public let yPosition: Int?
 
         @inlinable
-        public init(alignment: BurninSubtitleAlignment? = nil, applyFontColor: BurninSubtitleApplyFontColor? = nil, backgroundColor: BurninSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, fallbackFont: BurninSubtitleFallbackFont? = nil, fontColor: BurninSubtitleFontColor? = nil, fontFileBold: String? = nil, fontFileBoldItalic: String? = nil, fontFileItalic: String? = nil, fontFileRegular: String? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, hexFontColor: String? = nil, outlineColor: BurninSubtitleOutlineColor? = nil, outlineSize: Int? = nil, shadowColor: BurninSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, stylePassthrough: BurnInSubtitleStylePassthrough? = nil, teletextSpacing: BurninSubtitleTeletextSpacing? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
+        public init(alignment: BurninSubtitleAlignment? = nil, applyFontColor: BurninSubtitleApplyFontColor? = nil, backgroundColor: BurninSubtitleBackgroundColor? = nil, backgroundOpacity: Int? = nil, fallbackFont: BurninSubtitleFallbackFont? = nil, fontColor: BurninSubtitleFontColor? = nil, fontFileBold: String? = nil, fontFileBoldItalic: String? = nil, fontFileItalic: String? = nil, fontFileRegular: String? = nil, fontOpacity: Int? = nil, fontResolution: Int? = nil, fontScript: FontScript? = nil, fontSize: Int? = nil, hexFontColor: String? = nil, outlineColor: BurninSubtitleOutlineColor? = nil, outlineSize: Int? = nil, removeRubyReserveAttributes: RemoveRubyReserveAttributes? = nil, shadowColor: BurninSubtitleShadowColor? = nil, shadowOpacity: Int? = nil, shadowXOffset: Int? = nil, shadowYOffset: Int? = nil, stylePassthrough: BurnInSubtitleStylePassthrough? = nil, teletextSpacing: BurninSubtitleTeletextSpacing? = nil, xPosition: Int? = nil, yPosition: Int? = nil) {
             self.alignment = alignment
             self.applyFontColor = applyFontColor
             self.backgroundColor = backgroundColor
@@ -4140,6 +4209,7 @@ extension MediaConvert {
             self.hexFontColor = hexFontColor
             self.outlineColor = outlineColor
             self.outlineSize = outlineSize
+            self.removeRubyReserveAttributes = removeRubyReserveAttributes
             self.shadowColor = shadowColor
             self.shadowOpacity = shadowOpacity
             self.shadowXOffset = shadowXOffset
@@ -4197,6 +4267,7 @@ extension MediaConvert {
             case hexFontColor = "hexFontColor"
             case outlineColor = "outlineColor"
             case outlineSize = "outlineSize"
+            case removeRubyReserveAttributes = "removeRubyReserveAttributes"
             case shadowColor = "shadowColor"
             case shadowOpacity = "shadowOpacity"
             case shadowXOffset = "shadowXOffset"
@@ -5991,6 +6062,44 @@ extension MediaConvert {
         }
     }
 
+    public struct DynamicAudioSelector: AWSEncodableShape & AWSDecodableShape {
+        /// Apply audio timing corrections to help synchronize audio and video in your output. To apply timing corrections, your input must meet the following requirements: * Container: MP4, or MOV, with an accurate time-to-sample (STTS) table. * Audio track: AAC. Choose from the following audio timing correction settings: * Disabled (Default): Apply no correction. * Auto: Recommended for most inputs. MediaConvert analyzes the audio timing in your input and determines which correction setting to use, if needed. * Track: Adjust the duration of each audio frame by a constant amount to align the audio track length with STTS duration. Track-level correction does not affect pitch, and is recommended for tonal audio content such as music. * Frame: Adjust the duration of each audio frame by a variable amount to align audio frames with STTS timestamps. No corrections are made to already-aligned frames. Frame-level correction may affect the pitch of corrected frames, and is recommended for atonal audio content such as speech or percussion. * Force: Apply audio duration correction, either Track or Frame depending on your input, regardless of the accuracy of your input's STTS table. Your output audio and video may not be aligned or it may contain audio artifacts.
+        public let audioDurationCorrection: AudioDurationCorrection?
+        /// Specify the S3, HTTP, or HTTPS URL for your external audio file input.
+        public let externalAudioFileInput: String?
+        /// Specify the language to select from your audio input. In the MediaConvert console choose from a list of languages. In your JSON job settings choose from an ISO 639-2 three-letter code listed at https://www.loc.gov/standards/iso639-2/php/code_list.php
+        public let languageCode: LanguageCode?
+        /// Specify a time delta, in milliseconds, to offset the audio from the input video.
+        /// To specify no offset: Keep the default value, 0.
+        /// To specify an offset: Enter an integer from -2147483648 to 2147483647
+        public let offset: Int?
+        /// Specify which audio tracks to dynamically select from your source. To select all audio tracks: Keep the default value, All tracks. To select all audio tracks with a specific language code: Choose Language code. When you do, you must also specify a language code under the Language code setting. If there is no matching Language code in your source, then no track will be selected.
+        public let selectorType: DynamicAudioSelectorType?
+
+        @inlinable
+        public init(audioDurationCorrection: AudioDurationCorrection? = nil, externalAudioFileInput: String? = nil, languageCode: LanguageCode? = nil, offset: Int? = nil, selectorType: DynamicAudioSelectorType? = nil) {
+            self.audioDurationCorrection = audioDurationCorrection
+            self.externalAudioFileInput = externalAudioFileInput
+            self.languageCode = languageCode
+            self.offset = offset
+            self.selectorType = selectorType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.externalAudioFileInput, name: "externalAudioFileInput", parent: name, pattern: "^s3://([^\\/]+\\/+)+((([^\\/]*)))|^https?://[^\\/].*[^&]$")
+            try self.validate(self.offset, name: "offset", parent: name, max: 2147483647)
+            try self.validate(self.offset, name: "offset", parent: name, min: -2147483648)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioDurationCorrection = "audioDurationCorrection"
+            case externalAudioFileInput = "externalAudioFileInput"
+            case languageCode = "languageCode"
+            case offset = "offset"
+            case selectorType = "selectorType"
+        }
+    }
+
     public struct Eac3AtmosSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the average bitrate for this output in bits per second. Valid values: 384k, 448k, 576k, 640k, 768k, 1024k Default value: 448k Note that MediaConvert supports 384k only with channel-based immersive (CBI) 7.1.4 and 5.1.4 inputs. For CBI 9.1.6 and other input types, MediaConvert automatically increases your output bitrate to 448k.
         public let bitrate: Int?
@@ -6676,6 +6785,39 @@ extension MediaConvert {
         }
     }
 
+    public struct GifSettings: AWSEncodableShape & AWSDecodableShape {
+        /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
+        public let framerateControl: GifFramerateControl?
+        /// Optional. Specify how the transcoder performs framerate conversion. The default behavior is to use Drop duplicate (DUPLICATE_DROP) conversion. When you choose Interpolate (INTERPOLATE) instead, the conversion produces smoother motion.
+        public let framerateConversionAlgorithm: GifFramerateConversionAlgorithm?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public let framerateDenominator: Int?
+        /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976 fps. Use FramerateNumerator to specify the numerator of this fraction. In this example, use 24000 for the value of FramerateNumerator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
+        public let framerateNumerator: Int?
+
+        @inlinable
+        public init(framerateControl: GifFramerateControl? = nil, framerateConversionAlgorithm: GifFramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil) {
+            self.framerateControl = framerateControl
+            self.framerateConversionAlgorithm = framerateConversionAlgorithm
+            self.framerateDenominator = framerateDenominator
+            self.framerateNumerator = framerateNumerator
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+        }
+    }
+
     public struct H264QvbrSettings: AWSEncodableShape & AWSDecodableShape {
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
@@ -6728,7 +6870,7 @@ extension MediaConvert {
         public let flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: H264FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: H264FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -6794,9 +6936,11 @@ extension MediaConvert {
         public let temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization?
         /// Inserts timecode for each frame as 4 bytes of an unregistered SEI message.
         public let unregisteredSeiTimecode: H264UnregisteredSeiTimecode?
+        /// Specify how SPS and PPS NAL units are written in your output MP4 container, according to ISO/IEC 14496-15. If the location of these parameters doesn't matter in your workflow: Keep the default value, AVC1. MediaConvert writes SPS and PPS NAL units in the sample description ('stsd') box (but not into samples directly). To write SPS and PPS NAL units directly into samples (but not in the 'stsd' box): Choose AVC3. When you do, note that your output might not play properly with some downstream systems or players.
+        public let writeMp4PackagingType: H264WriteMp4PackagingType?
 
         @inlinable
-        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, endOfStreamMarkers: H264EndOfStreamMarkers? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, saliencyAwareEncoding: H264SaliencyAwareEncoding? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil) {
+        public init(adaptiveQuantization: H264AdaptiveQuantization? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H264CodecLevel? = nil, codecProfile: H264CodecProfile? = nil, dynamicSubGop: H264DynamicSubGop? = nil, endOfStreamMarkers: H264EndOfStreamMarkers? = nil, entropyEncoding: H264EntropyEncoding? = nil, fieldEncoding: H264FieldEncoding? = nil, flickerAdaptiveQuantization: H264FlickerAdaptiveQuantization? = nil, framerateControl: H264FramerateControl? = nil, framerateConversionAlgorithm: H264FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H264GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H264GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H264InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H264ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H264QualityTuningLevel? = nil, qvbrSettings: H264QvbrSettings? = nil, rateControlMode: H264RateControlMode? = nil, repeatPps: H264RepeatPps? = nil, saliencyAwareEncoding: H264SaliencyAwareEncoding? = nil, scanTypeConversionMode: H264ScanTypeConversionMode? = nil, sceneChangeDetect: H264SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H264SlowPal? = nil, softness: Int? = nil, spatialAdaptiveQuantization: H264SpatialAdaptiveQuantization? = nil, syntax: H264Syntax? = nil, telecine: H264Telecine? = nil, temporalAdaptiveQuantization: H264TemporalAdaptiveQuantization? = nil, unregisteredSeiTimecode: H264UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H264WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
@@ -6841,6 +6985,7 @@ extension MediaConvert {
             self.telecine = telecine
             self.temporalAdaptiveQuantization = temporalAdaptiveQuantization
             self.unregisteredSeiTimecode = unregisteredSeiTimecode
+            self.writeMp4PackagingType = writeMp4PackagingType
         }
 
         public func validate(name: String) throws {
@@ -6922,6 +7067,7 @@ extension MediaConvert {
             case telecine = "telecine"
             case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
             case unregisteredSeiTimecode = "unregisteredSeiTimecode"
+            case writeMp4PackagingType = "writeMp4PackagingType"
         }
     }
 
@@ -6967,6 +7113,8 @@ extension MediaConvert {
         public let codecLevel: H265CodecLevel?
         /// Represents the Profile and Tier, per the HEVC (H.265) specification. Selections are grouped as [Profile] / [Tier], so "Main/High" represents Main Profile with High Tier. 4:2:2 profiles are only available with the HEVC 4:2:2 License.
         public let codecProfile: H265CodecProfile?
+        /// Use Deblocking to improve the video quality of your output by smoothing the edges of macroblock artifacts created during video compression. To reduce blocking artifacts at block boundaries, and improve overall video quality: Keep the default value, Enabled. To not apply any deblocking: Choose Disabled. Visible block edge artifacts might appear in the output, especially at lower bitrates.
+        public let deblocking: H265Deblocking?
         /// Specify whether to allow the number of B-frames in your output GOP structure to vary or not depending on your input video content. To improve the subjective video quality of your output that has high-motion content: Leave blank or keep the default value Adaptive. MediaConvert will use fewer B-frames for high-motion video content than low-motion content. The maximum number of B- frames is limited by the value that you choose for B-frames between reference frames. To use the same number B-frames for all types of content: Choose Static.
         public let dynamicSubGop: H265DynamicSubGop?
         /// Optionally include or suppress markers at the end of your output that signal the end of the video stream. To include end of stream markers: Leave blank or keep the default value, Include. To not include end of stream markers: Choose Suppress. This is useful when your output will be inserted into another stream.
@@ -6975,7 +7123,7 @@ extension MediaConvert {
         public let flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: H265FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: H265FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -7043,13 +7191,14 @@ extension MediaConvert {
         public let writeMp4PackagingType: H265WriteMp4PackagingType?
 
         @inlinable
-        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
+        public init(adaptiveQuantization: H265AdaptiveQuantization? = nil, alternateTransferFunctionSei: H265AlternateTransferFunctionSei? = nil, bandwidthReductionFilter: BandwidthReductionFilter? = nil, bitrate: Int? = nil, codecLevel: H265CodecLevel? = nil, codecProfile: H265CodecProfile? = nil, deblocking: H265Deblocking? = nil, dynamicSubGop: H265DynamicSubGop? = nil, endOfStreamMarkers: H265EndOfStreamMarkers? = nil, flickerAdaptiveQuantization: H265FlickerAdaptiveQuantization? = nil, framerateControl: H265FramerateControl? = nil, framerateConversionAlgorithm: H265FramerateConversionAlgorithm? = nil, framerateDenominator: Int? = nil, framerateNumerator: Int? = nil, gopBReference: H265GopBReference? = nil, gopClosedCadence: Int? = nil, gopSize: Double? = nil, gopSizeUnits: H265GopSizeUnits? = nil, hrdBufferFinalFillPercentage: Int? = nil, hrdBufferInitialFillPercentage: Int? = nil, hrdBufferSize: Int? = nil, interlaceMode: H265InterlaceMode? = nil, maxBitrate: Int? = nil, minIInterval: Int? = nil, numberBFramesBetweenReferenceFrames: Int? = nil, numberReferenceFrames: Int? = nil, parControl: H265ParControl? = nil, parDenominator: Int? = nil, parNumerator: Int? = nil, qualityTuningLevel: H265QualityTuningLevel? = nil, qvbrSettings: H265QvbrSettings? = nil, rateControlMode: H265RateControlMode? = nil, sampleAdaptiveOffsetFilterMode: H265SampleAdaptiveOffsetFilterMode? = nil, scanTypeConversionMode: H265ScanTypeConversionMode? = nil, sceneChangeDetect: H265SceneChangeDetect? = nil, slices: Int? = nil, slowPal: H265SlowPal? = nil, spatialAdaptiveQuantization: H265SpatialAdaptiveQuantization? = nil, telecine: H265Telecine? = nil, temporalAdaptiveQuantization: H265TemporalAdaptiveQuantization? = nil, temporalIds: H265TemporalIds? = nil, tiles: H265Tiles? = nil, unregisteredSeiTimecode: H265UnregisteredSeiTimecode? = nil, writeMp4PackagingType: H265WriteMp4PackagingType? = nil) {
             self.adaptiveQuantization = adaptiveQuantization
             self.alternateTransferFunctionSei = alternateTransferFunctionSei
             self.bandwidthReductionFilter = bandwidthReductionFilter
             self.bitrate = bitrate
             self.codecLevel = codecLevel
             self.codecProfile = codecProfile
+            self.deblocking = deblocking
             self.dynamicSubGop = dynamicSubGop
             self.endOfStreamMarkers = endOfStreamMarkers
             self.flickerAdaptiveQuantization = flickerAdaptiveQuantization
@@ -7128,6 +7277,7 @@ extension MediaConvert {
             case bitrate = "bitrate"
             case codecLevel = "codecLevel"
             case codecProfile = "codecProfile"
+            case deblocking = "deblocking"
             case dynamicSubGop = "dynamicSubGop"
             case endOfStreamMarkers = "endOfStreamMarkers"
             case flickerAdaptiveQuantization = "flickerAdaptiveQuantization"
@@ -7766,6 +7916,8 @@ extension MediaConvert {
         public let denoiseFilter: InputDenoiseFilter?
         /// Use this setting only when your video source has Dolby Vision studio mastering metadata that is carried in a separate XML file. Specify the Amazon S3 location for the metadata XML file. MediaConvert uses this file to provide global and frame-level metadata for Dolby Vision preprocessing. When you specify a file here and your input also has interleaved global and frame level metadata, MediaConvert ignores the interleaved metadata and uses only the the metadata from this external XML file. Note that your IAM service role must grant MediaConvert read permissions to this file. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
         public let dolbyVisionMetadataXml: String?
+        /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an output audio track for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
+        public let dynamicAudioSelectors: [String: DynamicAudioSelector]?
         /// Specify the source file for your transcoding job. You can use multiple inputs in a single job. The service concatenates these inputs, in the order that you specify them in the job, to create the outputs. If your input format is IMF, specify your input by providing the path to your CPL. For example, "s3://bucket/vf/cpl.xml". If the CPL is in an incomplete IMP, make sure to use *Supplemental IMPs* to specify any supplemental IMPs that contain assets referenced by the CPL.
         public let fileInput: String?
         /// Specify whether to apply input filtering to improve the video quality of your input. To apply filtering depending on your input type and quality: Choose Auto. To apply no filtering: Choose Disable. To apply filtering regardless of your input type and quality: Choose Force. When you do, you must also specify a value for Filter strength.
@@ -7800,7 +7952,7 @@ extension MediaConvert {
         public let videoSelector: VideoSelector?
 
         @inlinable
-        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoGenerator: InputVideoGenerator? = nil, videoOverlays: [VideoOverlay]? = nil, videoSelector: VideoSelector? = nil) {
+        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, dynamicAudioSelectors: [String: DynamicAudioSelector]? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoGenerator: InputVideoGenerator? = nil, videoOverlays: [VideoOverlay]? = nil, videoSelector: VideoSelector? = nil) {
             self.advancedInputFilter = advancedInputFilter
             self.advancedInputFilterSettings = advancedInputFilterSettings
             self.audioSelectorGroups = audioSelectorGroups
@@ -7811,6 +7963,7 @@ extension MediaConvert {
             self.decryptionSettings = decryptionSettings
             self.denoiseFilter = denoiseFilter
             self.dolbyVisionMetadataXml = dolbyVisionMetadataXml
+            self.dynamicAudioSelectors = dynamicAudioSelectors
             self.fileInput = fileInput
             self.filterEnable = filterEnable
             self.filterStrength = filterStrength
@@ -7842,6 +7995,10 @@ extension MediaConvert {
             try self.decryptionSettings?.validate(name: "\(name).decryptionSettings")
             try self.validate(self.dolbyVisionMetadataXml, name: "dolbyVisionMetadataXml", parent: name, min: 14)
             try self.validate(self.dolbyVisionMetadataXml, name: "dolbyVisionMetadataXml", parent: name, pattern: "^((s3://(.*?)\\.(xml|XML))|(https?://(.*?)\\.(xml|XML)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
+            try self.dynamicAudioSelectors?.forEach {
+                try $0.value.validate(name: "\(name).dynamicAudioSelectors[\"\($0.key)\"]")
+            }
+            try self.validate(self.fileInput, name: "fileInput", parent: name, max: 2048)
             try self.validate(self.fileInput, name: "fileInput", parent: name, pattern: "^s3://([^\\/]+\\/+)+((([^\\/]*)))|^https?://[^\\/].*[^&]$")
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, max: 5)
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, min: 0)
@@ -7876,6 +8033,7 @@ extension MediaConvert {
             case decryptionSettings = "decryptionSettings"
             case denoiseFilter = "denoiseFilter"
             case dolbyVisionMetadataXml = "dolbyVisionMetadataXml"
+            case dynamicAudioSelectors = "dynamicAudioSelectors"
             case fileInput = "fileInput"
             case filterEnable = "filterEnable"
             case filterStrength = "filterStrength"
@@ -7974,6 +8132,8 @@ extension MediaConvert {
         public let denoiseFilter: InputDenoiseFilter?
         /// Use this setting only when your video source has Dolby Vision studio mastering metadata that is carried in a separate XML file. Specify the Amazon S3 location for the metadata XML file. MediaConvert uses this file to provide global and frame-level metadata for Dolby Vision preprocessing. When you specify a file here and your input also has interleaved global and frame level metadata, MediaConvert ignores the interleaved metadata and uses only the the metadata from this external XML file. Note that your IAM service role must grant MediaConvert read permissions to this file. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
         public let dolbyVisionMetadataXml: String?
+        /// Use Dynamic audio selectors when you do not know the track layout of your source when you submit your job, but want to select multiple audio tracks. When you include an audio track in your output and specify this Dynamic audio selector as the Audio source, MediaConvert creates an output audio track for each dynamically selected track. Note that when you include a Dynamic audio selector for two or more inputs, each input must have the same number of audio tracks and audio channels.
+        public let dynamicAudioSelectors: [String: DynamicAudioSelector]?
         /// Specify whether to apply input filtering to improve the video quality of your input. To apply filtering depending on your input type and quality: Choose Auto. To apply no filtering: Choose Disable. To apply filtering regardless of your input type and quality: Choose Force. When you do, you must also specify a value for Filter strength.
         public let filterEnable: InputFilterEnable?
         /// Specify the strength of the input filter. To apply an automatic amount of filtering based the compression artifacts measured in your input: We recommend that you leave Filter strength blank and set Filter enable to Auto. To manually apply filtering: Enter a value from 1 to 5, where 1 is the least amount of filtering and 5 is the most. The value that you enter applies to the strength of the Deblock or Denoise filters, or to the strength of the Advanced input filter.
@@ -8002,7 +8162,7 @@ extension MediaConvert {
         public let videoSelector: VideoSelector?
 
         @inlinable
-        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoOverlays: [VideoOverlay]? = nil, videoSelector: VideoSelector? = nil) {
+        public init(advancedInputFilter: AdvancedInputFilter? = nil, advancedInputFilterSettings: AdvancedInputFilterSettings? = nil, audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, dynamicAudioSelectors: [String: DynamicAudioSelector]? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoOverlays: [VideoOverlay]? = nil, videoSelector: VideoSelector? = nil) {
             self.advancedInputFilter = advancedInputFilter
             self.advancedInputFilterSettings = advancedInputFilterSettings
             self.audioSelectorGroups = audioSelectorGroups
@@ -8012,6 +8172,7 @@ extension MediaConvert {
             self.deblockFilter = deblockFilter
             self.denoiseFilter = denoiseFilter
             self.dolbyVisionMetadataXml = dolbyVisionMetadataXml
+            self.dynamicAudioSelectors = dynamicAudioSelectors
             self.filterEnable = filterEnable
             self.filterStrength = filterStrength
             self.imageInserter = imageInserter
@@ -8039,6 +8200,9 @@ extension MediaConvert {
             try self.crop?.validate(name: "\(name).crop")
             try self.validate(self.dolbyVisionMetadataXml, name: "dolbyVisionMetadataXml", parent: name, min: 14)
             try self.validate(self.dolbyVisionMetadataXml, name: "dolbyVisionMetadataXml", parent: name, pattern: "^((s3://(.*?)\\.(xml|XML))|(https?://(.*?)\\.(xml|XML)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
+            try self.dynamicAudioSelectors?.forEach {
+                try $0.value.validate(name: "\(name).dynamicAudioSelectors[\"\($0.key)\"]")
+            }
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, max: 5)
             try self.validate(self.filterStrength, name: "filterStrength", parent: name, min: 0)
             try self.imageInserter?.validate(name: "\(name).imageInserter")
@@ -8067,6 +8231,7 @@ extension MediaConvert {
             case deblockFilter = "deblockFilter"
             case denoiseFilter = "denoiseFilter"
             case dolbyVisionMetadataXml = "dolbyVisionMetadataXml"
+            case dynamicAudioSelectors = "dynamicAudioSelectors"
             case filterEnable = "filterEnable"
             case filterStrength = "filterStrength"
             case imageInserter = "imageInserter"
@@ -8666,7 +8831,7 @@ extension MediaConvert {
             try self.validate(self.contentReference, name: "contentReference", parent: name, pattern: "^[a-zA-Z0-9_\\/_+=.@-]*$")
             try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, max: 2048)
             try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, min: 1)
-            try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, pattern: "^(arn:(aws|aws-us-gov|aws-cn):secretsmanager:(us(-gov)?|ap|ca|cn|eu|sa)-(central|(north|south)?(east|west)?)-\\d:\\d{12}:secret:)?[a-zA-Z0-9_\\/_+=.@-]*$")
+            try self.validate(self.credentialsSecretName, name: "credentialsSecretName", parent: name, pattern: "^(arn:[a-z-]+:secretsmanager:[\\w-]+:\\d{12}:secret:)?[a-zA-Z0-9_\\/_+=.@-]*$")
             try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, max: 2147483647)
             try self.validate(self.kantarLicenseId, name: "kantarLicenseId", parent: name, min: 0)
             try self.validate(self.kantarServerUrl, name: "kantarServerUrl", parent: name, pattern: "^https:\\/\\/.*.kantarmedia.*$")
@@ -9742,7 +9907,7 @@ extension MediaConvert {
         public let dynamicSubGop: Mpeg2DynamicSubGop?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Mpeg2FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: Mpeg2FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -10331,7 +10496,7 @@ extension MediaConvert {
         public let captionDescriptions: [CaptionDescription]?
         /// Container specific settings.
         public let containerSettings: ContainerSettings?
-        /// Use Extension to specify the file extension for outputs in File output groups. If you do not specify a value, the service will use default extensions by container type as follows * MPEG-2 transport stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * WebM container, webm * No Container, the service will use codec extensions (e.g. AAC, H265, H265, AC3)
+        /// Use Extension to specify the file extension for outputs in File output groups. If you do not specify a value, the service will use default extensions by container type as follows * MPEG-2 transport stream, m2ts * Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * WebM container, webm * Animated GIF container, gif * No Container, the service will use codec extensions (e.g. AAC, H265, H265, AC3)
         public let `extension`: String?
         /// Use Name modifier to have the service add a string to the end of each output filename. You specify the base filename as part of your destination URI. When you create multiple outputs in the same output group, Name modifier is required. Name modifier also accepts format identifiers. For DASH ISO outputs, if you use the format identifiers $Number$ or $Time$ in one output, you must use them in the same way in all outputs of the output group.
         public let nameModifier: String?
@@ -10362,6 +10527,7 @@ extension MediaConvert {
                 try $0.validate(name: "\(name).captionDescriptions[]")
             }
             try self.containerSettings?.validate(name: "\(name).containerSettings")
+            try self.validate(self.`extension`, name: "`extension`", parent: name, max: 256)
             try self.validate(self.nameModifier, name: "nameModifier", parent: name, max: 256)
             try self.validate(self.nameModifier, name: "nameModifier", parent: name, min: 1)
             try self.videoDescription?.validate(name: "\(name).videoDescription")
@@ -10445,6 +10611,7 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try self.automatedEncodingSettings?.validate(name: "\(name).automatedEncodingSettings")
+            try self.validate(self.name, name: "name", parent: name, max: 2048)
             try self.outputGroupSettings?.validate(name: "\(name).outputGroupSettings")
             try self.outputs?.forEach {
                 try $0.validate(name: "\(name).outputs[]")
@@ -10658,7 +10825,7 @@ extension MediaConvert {
         public let codecProfile: ProresCodecProfile?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: ProresFramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: ProresFramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -11505,7 +11672,7 @@ extension MediaConvert {
         public let fourcc: UncompressedFourcc?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: UncompressedFramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: UncompressedFramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -11771,7 +11938,7 @@ extension MediaConvert {
     public struct Vc3Settings: AWSEncodableShape & AWSDecodableShape {
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Vc3FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: Vc3FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -11830,6 +11997,8 @@ extension MediaConvert {
         public let codec: VideoCodec?
         /// Required when you set Codec to the value FRAME_CAPTURE.
         public let frameCaptureSettings: FrameCaptureSettings?
+        /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to the value GIF
+        public let gifSettings: GifSettings?
         /// Required when you set Codec to the value H_264.
         public let h264Settings: H264Settings?
         /// Settings for H265 codec
@@ -11850,11 +12019,12 @@ extension MediaConvert {
         public let xavcSettings: XavcSettings?
 
         @inlinable
-        public init(av1Settings: Av1Settings? = nil, avcIntraSettings: AvcIntraSettings? = nil, codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, proresSettings: ProresSettings? = nil, uncompressedSettings: UncompressedSettings? = nil, vc3Settings: Vc3Settings? = nil, vp8Settings: Vp8Settings? = nil, vp9Settings: Vp9Settings? = nil, xavcSettings: XavcSettings? = nil) {
+        public init(av1Settings: Av1Settings? = nil, avcIntraSettings: AvcIntraSettings? = nil, codec: VideoCodec? = nil, frameCaptureSettings: FrameCaptureSettings? = nil, gifSettings: GifSettings? = nil, h264Settings: H264Settings? = nil, h265Settings: H265Settings? = nil, mpeg2Settings: Mpeg2Settings? = nil, proresSettings: ProresSettings? = nil, uncompressedSettings: UncompressedSettings? = nil, vc3Settings: Vc3Settings? = nil, vp8Settings: Vp8Settings? = nil, vp9Settings: Vp9Settings? = nil, xavcSettings: XavcSettings? = nil) {
             self.av1Settings = av1Settings
             self.avcIntraSettings = avcIntraSettings
             self.codec = codec
             self.frameCaptureSettings = frameCaptureSettings
+            self.gifSettings = gifSettings
             self.h264Settings = h264Settings
             self.h265Settings = h265Settings
             self.mpeg2Settings = mpeg2Settings
@@ -11870,6 +12040,7 @@ extension MediaConvert {
             try self.av1Settings?.validate(name: "\(name).av1Settings")
             try self.avcIntraSettings?.validate(name: "\(name).avcIntraSettings")
             try self.frameCaptureSettings?.validate(name: "\(name).frameCaptureSettings")
+            try self.gifSettings?.validate(name: "\(name).gifSettings")
             try self.h264Settings?.validate(name: "\(name).h264Settings")
             try self.h265Settings?.validate(name: "\(name).h265Settings")
             try self.mpeg2Settings?.validate(name: "\(name).mpeg2Settings")
@@ -11886,6 +12057,7 @@ extension MediaConvert {
             case avcIntraSettings = "avcIntraSettings"
             case codec = "codec"
             case frameCaptureSettings = "frameCaptureSettings"
+            case gifSettings = "gifSettings"
             case h264Settings = "h264Settings"
             case h265Settings = "h265Settings"
             case mpeg2Settings = "mpeg2Settings"
@@ -11903,13 +12075,15 @@ extension MediaConvert {
         public let afdSignaling: AfdSignaling?
         /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
         public let antiAlias: AntiAlias?
-        /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
+        /// Specify the chroma sample positioning metadata for your H.264 or H.265 output. To have MediaConvert automatically determine chroma positioning: We recommend that you keep the default value, Auto. To specify center positioning: Choose Force center. To specify top left positioning: Choose Force top left.
+        public let chromaPositionMode: ChromaPositionMode?
+        /// Video codec settings contains the group of settings related to video encoding. The settings in this group vary depending on the value that you choose for Video codec. For each codec enum that you choose, define the corresponding settings object. The following lists the codec enum, settings object pairs. * AV1, Av1Settings * AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * GIF, GifSettings * H_264, H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings * UNCOMPRESSED, UncompressedSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings * XAVC, XavcSettings
         public let codecSettings: VideoCodecSettings?
         /// Choose Insert for this setting to include color metadata in this output. Choose Ignore to exclude color metadata from this output. If you don't specify a value, the service sets this to Insert by default.
         public let colorMetadata: ColorMetadata?
         /// Use Cropping selection to specify the video area that the service will include in the output video frame.
         public let crop: Rectangle?
-        /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion is enabled.
+        /// Applies only to 29.97 fps outputs. When this feature is enabled, the service will use drop-frame timecode on outputs. If it is not possible to use drop-frame timecode, the system will fall back to non-drop-frame. This setting is enabled by default when Timecode insertion or Timecode track is enabled.
         public let dropFrameTimecode: DropFrameTimecode?
         /// Applies only if you set AFD Signaling to Fixed. Use Fixed to specify a four-bit AFD value which the service will write on all frames of this video output.
         public let fixedAfd: Int?
@@ -11925,15 +12099,18 @@ extension MediaConvert {
         public let sharpness: Int?
         /// Applies only to H.264, H.265, MPEG2, and ProRes outputs. Only enable Timecode insertion when the input frame rate is identical to the output frame rate. To include timecodes in this output, set Timecode insertion to PIC_TIMING_SEI. To leave them out, set it to DISABLED. Default is DISABLED. When the service inserts timecodes in an output, by default, it uses any embedded timecodes from the input. If none are present, the service will set the timecode for the first output frame to zero. To change this default behavior, adjust the settings under Timecode configuration. In the console, these settings are located under Job > Job settings > Timecode configuration. Note - Timecode source under input settings does not affect the timecodes that are inserted in the output. Source under Job settings > Timecode configuration does.
         public let timecodeInsertion: VideoTimecodeInsertion?
+        /// To include a timecode track in your MP4 output: Choose Enabled. MediaConvert writes the timecode track in the Null Media Header box (NMHD), without any timecode text formatting information. You can also specify dropframe or non-dropframe timecode under the Drop Frame Timecode setting. To not include a timecode track: Keep the default value, Disabled.
+        public let timecodeTrack: TimecodeTrack?
         /// Find additional transcoding features under Preprocessors. Enable the features at each output individually. These features are disabled by default.
         public let videoPreprocessors: VideoPreprocessor?
         /// Use Width to define the video resolution width, in pixels, for this output. To use the same resolution as your input: Leave both Width and Height blank. To evenly scale from your input resolution: Leave Width blank and enter a value for Height. For example, if your input is 1920x1080 and you set Height to 720, your output will be 1280x720.
         public let width: Int?
 
         @inlinable
-        public init(afdSignaling: AfdSignaling? = nil, antiAlias: AntiAlias? = nil, codecSettings: VideoCodecSettings? = nil, colorMetadata: ColorMetadata? = nil, crop: Rectangle? = nil, dropFrameTimecode: DropFrameTimecode? = nil, fixedAfd: Int? = nil, height: Int? = nil, position: Rectangle? = nil, respondToAfd: RespondToAfd? = nil, scalingBehavior: ScalingBehavior? = nil, sharpness: Int? = nil, timecodeInsertion: VideoTimecodeInsertion? = nil, videoPreprocessors: VideoPreprocessor? = nil, width: Int? = nil) {
+        public init(afdSignaling: AfdSignaling? = nil, antiAlias: AntiAlias? = nil, chromaPositionMode: ChromaPositionMode? = nil, codecSettings: VideoCodecSettings? = nil, colorMetadata: ColorMetadata? = nil, crop: Rectangle? = nil, dropFrameTimecode: DropFrameTimecode? = nil, fixedAfd: Int? = nil, height: Int? = nil, position: Rectangle? = nil, respondToAfd: RespondToAfd? = nil, scalingBehavior: ScalingBehavior? = nil, sharpness: Int? = nil, timecodeInsertion: VideoTimecodeInsertion? = nil, timecodeTrack: TimecodeTrack? = nil, videoPreprocessors: VideoPreprocessor? = nil, width: Int? = nil) {
             self.afdSignaling = afdSignaling
             self.antiAlias = antiAlias
+            self.chromaPositionMode = chromaPositionMode
             self.codecSettings = codecSettings
             self.colorMetadata = colorMetadata
             self.crop = crop
@@ -11945,6 +12122,7 @@ extension MediaConvert {
             self.scalingBehavior = scalingBehavior
             self.sharpness = sharpness
             self.timecodeInsertion = timecodeInsertion
+            self.timecodeTrack = timecodeTrack
             self.videoPreprocessors = videoPreprocessors
             self.width = width
         }
@@ -11967,6 +12145,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case afdSignaling = "afdSignaling"
             case antiAlias = "antiAlias"
+            case chromaPositionMode = "chromaPositionMode"
             case codecSettings = "codecSettings"
             case colorMetadata = "colorMetadata"
             case crop = "crop"
@@ -11978,6 +12157,7 @@ extension MediaConvert {
             case scalingBehavior = "scalingBehavior"
             case sharpness = "sharpness"
             case timecodeInsertion = "timecodeInsertion"
+            case timecodeTrack = "timecodeTrack"
             case videoPreprocessors = "videoPreprocessors"
             case width = "width"
         }
@@ -12326,7 +12506,7 @@ extension MediaConvert {
         public let bitrate: Int?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Vp8FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: Vp8FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -12405,7 +12585,7 @@ extension MediaConvert {
         public let bitrate: Int?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public let framerateControl: Vp9FramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: Vp9FramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Framerate. In this example, specify 23.976.
         public let framerateDenominator: Int?
@@ -12502,7 +12682,7 @@ extension MediaConvert {
         public let bitDepth: Int?
         /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
         public let channels: Int?
-        /// The service defaults to using RIFF for WAV outputs. If your output audio is likely to exceed 4 GB in file size, or if you otherwise need the extended support of the RF64 format, set your output WAV file format to RF64.
+        /// Specify the file format for your wave audio output. To use a RIFF wave format: Keep the default value, RIFF. If your output audio is likely to exceed 4GB in file size, or if you otherwise need the extended support of the RF64 format: Choose RF64. If your player only supports the extensible wave format: Choose Extensible.
         public let format: WavFormat?
         /// Sample rate in Hz.
         public let sampleRate: Int?
@@ -12535,7 +12715,7 @@ extension MediaConvert {
     public struct WebvttDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// If the WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing: Set Accessibility subtitles to Enabled. When you do, MediaConvert adds accessibility attributes to your output HLS or DASH manifest. For HLS manifests, MediaConvert adds the following accessibility attributes under EXT-X-MEDIA for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". For DASH manifests, MediaConvert adds the following in the adaptation set for this track: . If the captions track is not intended to provide such accessibility: Keep the default value, Disabled. When you do, for DASH manifests, MediaConvert instead adds the following in the adaptation set for this track: .
         public let accessibility: WebvttAccessibilitySubs?
-        /// To use the available style, color, and position information from your input captions: Set Style passthrough to Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Set Style passthrough to Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Set Style passthrough to Disabled, or leave blank.
+        /// Specify how MediaConvert writes style information in your output WebVTT captions. To use the available style, color, and position information from your input captions: Choose Enabled. MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Choose Strict. MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Keep the default value, Disabled. Or leave blank. To use the available style, color, and position information from your input captions, while merging cues with identical time ranges: Choose merge. This setting can help prevent positioning overlaps for certain players that expect a single single cue for any given time range.
         public let stylePassthrough: WebvttStylePassthrough?
 
         @inlinable
@@ -12727,7 +12907,7 @@ extension MediaConvert {
         public let entropyEncoding: XavcEntropyEncoding?
         /// If you are using the console, use the Frame rate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list. The framerates shown in the dropdown list are decimal approximations of fractions.
         public let framerateControl: XavcFramerateControl?
-        /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
+        /// Choose the method that you want MediaConvert to use when increasing or decreasing your video's frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96. To create an output with the same number of frames as your input: Choose Maintain frame count. When you do, MediaConvert will not drop, interpolate, add, or otherwise change the frame count from your input to your output. Note that since the frame count is maintained, the duration of your output will become shorter at higher frame rates and longer at lower frame rates.
         public let framerateConversionAlgorithm: XavcFramerateConversionAlgorithm?
         /// When you use the API for transcode jobs that use frame rate conversion, specify the frame rate as a fraction. For example, 24000 / 1001 = 23.976 fps. Use FramerateDenominator to specify the denominator of this fraction. In this example, use 1001 for the value of FramerateDenominator. When you use the console for transcode jobs that use frame rate conversion, provide the value as a decimal number for Frame rate. In this example, specify 23.976.
         public let framerateDenominator: Int?

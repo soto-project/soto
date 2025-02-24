@@ -722,10 +722,10 @@ extension RDS {
     }
 
     public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
-        /// The list of log types to disable.
+        /// The list of log types to disable. The following values are valid for each DB engine:   Aurora MySQL - audit | error | general | slowquery    Aurora PostgreSQL - postgresql    RDS for MySQL - error | general | slowquery    RDS for PostgreSQL - postgresql | upgrade
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var disableLogTypes: [String]?
-        /// The list of log types to enable.
+        /// The list of log types to enable. The following values are valid for each DB engine:   Aurora MySQL - audit | error | general | slowquery    Aurora PostgreSQL - postgresql    RDS for MySQL - error | general | slowquery    RDS for PostgreSQL - postgresql | upgrade
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableLogTypes: [String]?
 
@@ -1333,7 +1333,7 @@ extension RDS {
 
         /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only This setting is required to create a Multi-AZ DB cluster.
         public let allocatedStorage: Int?
-        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
+        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster
         public let autoMinorVersionUpgrade: Bool?
         /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see  Availability Zones in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:   Can't specify more than three AZs.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -1350,7 +1350,7 @@ extension RDS {
         public let clusterScalabilityType: ClusterScalabilityType?
         /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster.  The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let copyTagsToSnapshot: Bool?
-        /// Specifies the mode of Database Insights to enable for the cluster.
+        /// The mode of Database Insights to enable for the DB cluster. If you set this value to advanced, you must also set the PerformanceInsightsEnabled parameter to true and the PerformanceInsightsRetentionPeriod parameter to 465. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let databaseInsightsMode: DatabaseInsightsMode?
         /// The name for your database of up to 64 alphanumeric characters.  A database named postgres is always created. If this parameter is specified, an additional database with this name is created. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let databaseName: String?
@@ -1370,12 +1370,12 @@ extension RDS {
         public let domain: String?
         /// The name of the IAM role to use when making API calls to the Directory Service. Valid for Cluster Type: Aurora DB clusters only
         public let domainIAMRoleName: String?
-        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:   Aurora MySQL - audit | error | general | slowquery    Aurora PostgreSQL - postgresql    RDS for MySQL - error | general | slowquery    RDS for PostgreSQL - postgresql | upgrade    For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
+        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:   Aurora MySQL - audit | error | general | instance | slowquery    Aurora PostgreSQL - instance | postgresql    RDS for MySQL - error | general | slowquery    RDS for PostgreSQL - postgresql | upgrade    For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// Specifies whether to enable this DB cluster to forward write operations to the primary cluster of a global cluster (Aurora global database). By default, write operations are not allowed on Aurora DB clusters that are secondary clusters in an Aurora global database. You can set this value only on Aurora DB clusters that are members of an Aurora global database. With this parameter enabled, a secondary cluster can forward writes to the current primary cluster, and the resulting changes are replicated back to this cluster. For the primary DB cluster of an Aurora global database, this value is used immediately if the primary is demoted by a global cluster API operation, but it does nothing until then. Valid for Cluster Type: Aurora DB clusters only
         public let enableGlobalWriteForwarding: Bool?
-        /// Specifies whether to enable the HTTP endpoint for the DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the DB cluster. You can also query your database from inside the RDS console with the RDS query editor. RDS Data API is supported with the following DB clusters:   Aurora PostgreSQL Serverless v2 and provisioned   Aurora PostgreSQL and Aurora MySQL Serverless v1   For more information, see Using RDS Data API in the  Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
+        /// Specifies whether to enable the HTTP endpoint for the DB cluster. By default, the HTTP endpoint  isn't enabled. When enabled, the HTTP endpoint provides a connectionless web service API (RDS Data API) for running SQL queries on the DB cluster. You can also query your database from inside the RDS console with the RDS query editor. For more information, see Using RDS Data API in the  Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
         public let enableHttpEndpoint: Bool?
         /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let enableIAMDatabaseAuthentication: Bool?
@@ -1383,7 +1383,7 @@ extension RDS {
         public let enableLimitlessDatabase: Bool?
         /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
         public let enableLocalWriteForwarding: Bool?
-        /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see  Using Amazon Performance Insights in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
+        /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see  Using Amazon Performance Insights in the Amazon RDS User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let enablePerformanceInsights: Bool?
         /// The database engine to use for this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:    aurora-mysql     aurora-postgresql     mysql     postgres     neptune - For information about using Amazon Neptune, see the  Amazon Neptune User Guide .
         public let engine: String?
@@ -1407,17 +1407,17 @@ extension RDS {
         public let masterUserPassword: String?
         /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let masterUserSecretKmsKeyId: String?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off  collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid for Cluster Type: Multi-AZ DB clusters only Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60  Default: 0
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. To turn off  collecting Enhanced Monitoring metrics, specify 0. If MonitoringRoleArn is specified, also set MonitoringInterval to a value other than 0. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: 0 | 1 | 5 | 10 | 15 | 30 | 60  Default: 0
         public let monitoringInterval: Int?
-        /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.  An example is arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see Setting  up and enabling Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value. Valid for Cluster Type: Multi-AZ DB clusters only
+        /// The Amazon Resource Name (ARN) for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs.  An example is arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see Setting  up and enabling Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, supply a MonitoringRoleArn value. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let monitoringRoleArn: String?
         /// The network type of the DB cluster. The network type is determined by the DBSubnetGroup specified for the DB cluster.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon Aurora User Guide.  Valid for Cluster Type: Aurora DB clusters only Valid Values: IPV4 | DUAL
         public let networkType: String?
         /// The option group to associate the DB cluster with. DB clusters are associated with a default option group that can't be modified.
         public let optionGroupName: String?
-        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS  uses your default KMS key. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Multi-AZ DB clusters only
+        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS  uses your default KMS key. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let performanceInsightsKMSKeyId: String?
-        /// The number of days to retain Performance Insights data. Valid for Cluster Type: Multi-AZ DB clusters only Valid Values:    7     month * 31, where month is a number of months from 1-23.  Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)    731    Default: 7 days If you specify a retention period that isn't valid, such as 94,  Amazon RDS issues an error.
+        /// The number of days to retain Performance Insights data. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:    7     month * 31, where month is a number of months from 1-23.  Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)    731    Default: 7 days If you specify a retention period that isn't valid, such as 94,  Amazon RDS issues an error.
         public let performanceInsightsRetentionPeriod: Int?
         /// The port number on which the instances in the DB cluster accept connections. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: 1150-65535  Default:   RDS for MySQL and Aurora MySQL - 3306    RDS for PostgreSQL and Aurora PostgreSQL - 5432
         public let port: Int?
@@ -1684,7 +1684,7 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// The instance profile associated with the underlying Amazon EC2 instance of an  RDS Custom DB instance. This setting is required for RDS Custom. Constraints:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see   Configure IAM and your VPC in the Amazon RDS User Guide.
         public let customIamInstanceProfile: String?
-        /// Specifies the mode of Database Insights to enable for the instance.
+        /// The mode of Database Insights to enable for the DB instance.  Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
         public let databaseInsightsMode: DatabaseInsightsMode?
         /// The identifier of the DB cluster that this DB instance will belong to. This setting doesn't apply to RDS Custom DB instances.
         public let dbClusterIdentifier: String?
@@ -1784,7 +1784,7 @@ extension RDS {
         public let publiclyAccessible: Bool?
         /// Specifes whether the DB instance is encrypted. By default, it isn't encrypted. For RDS Custom DB instances, either enable this setting or leave it unset. Otherwise, Amazon RDS reports an error. This setting doesn't apply to Amazon Aurora DB instances. The encryption for DB instances is managed by the DB cluster.
         public let storageEncrypted: Bool?
-        /// The storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
+        /// The storage throughput value, in mebibyte per second (MiBps), for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
         public let storageThroughput: Int?
         /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Valid Values: gp2 | gp3 | io1 | io2 | standard  Default: io1, if the Iops parameter is specified. Otherwise, gp2.
         public let storageType: String?
@@ -1942,7 +1942,7 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
+        /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
         /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance.
         public let autoMinorVersionUpgrade: Bool?
@@ -1954,7 +1954,7 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// The instance profile associated with the underlying Amazon EC2 instance of an  RDS Custom DB instance. The instance profile must meet the following requirements:   The profile must exist in your account.   The profile must have an IAM role that Amazon EC2 has permissions to assume.   The instance profile name and the associated IAM role name must start with the prefix AWSRDSCustom.   For the list of permissions required for the IAM role, see   Configure IAM and your VPC in the Amazon RDS User Guide. This setting is required for RDS Custom DB instances.
         public let customIamInstanceProfile: String?
-        /// Specifies the mode of Database Insights.
+        /// The mode of Database Insights to enable for the read replica.  This setting isn't supported.
         public let databaseInsightsMode: DatabaseInsightsMode?
         /// The compute and memory capacity of the read replica, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. Default: Inherits the value from the source DB instance.
         public let dbInstanceClass: String?
@@ -2622,7 +2622,7 @@ extension RDS {
         /// An optional set of non-secret key–value pairs that contains additional contextual information about the data. For more information, see Encryption context in the Amazon Web Services Key Management Service Developer Guide. You can only include this parameter if you specify the KMSKeyId parameter.
         @OptionalCustomCoding<StandardDictionaryCoder<String, String>>
         public var additionalEncryptionContext: [String: String]?
-        /// Data filtering options for the integration. For more information, see  Data filtering for Aurora zero-ETL integrations with Amazon Redshift.  Valid for: Integrations with Aurora MySQL source DB clusters only
+        /// Data filtering options for the integration. For more information, see  Data filtering for Aurora zero-ETL integrations with Amazon Redshift or Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift.
         public let dataFilter: String?
         /// A description of the integration.
         public let description: String?
@@ -2813,14 +2813,14 @@ extension RDS {
         public let activityStreamMode: ActivityStreamMode?
         /// The status of the database activity stream.
         public let activityStreamStatus: ActivityStreamStatus?
-        /// For all database engines except Amazon Aurora, AllocatedStorage specifies the allocated storage size in gibibytes (GiB).  For Aurora, AllocatedStorage always returns 1, because Aurora DB cluster storage size isn't fixed, but instead automatically adjusts as needed.
+        ///  AllocatedStorage specifies the allocated storage size in gibibytes (GiB).  For Aurora, AllocatedStorage can vary because Aurora DB cluster storage size adjusts as needed.
         public let allocatedStorage: Int?
         /// A list of the Amazon Web Services Identity and Access Management (IAM) roles that are associated with the DB cluster.  IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon Web Services on your behalf.
         @OptionalCustomCoding<ArrayCoder<_AssociatedRolesEncoding, DBClusterRole>>
         public var associatedRoles: [DBClusterRole]?
         /// The time when a stopped DB cluster is restarted automatically.
         public let automaticRestartTime: Date?
-        /// Indicates whether minor version patches are applied automatically. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters.
         public let autoMinorVersionUpgrade: Bool?
         /// The list of Availability Zones (AZs) where instances in the DB cluster can be created.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -2838,7 +2838,7 @@ extension RDS {
         public let certificateDetails: CertificateDetails?
         /// If present, specifies the name of the character set that this cluster is associated with.
         public let characterSetName: String?
-        /// The ID of the clone group with which the DB cluster is associated.
+        /// The ID of the clone group with which the DB cluster is associated. For newly created clusters, the ID is typically null.  If you clone a DB cluster when the ID is null, the operation populates the ID value for the source cluster and the clone because both clusters become part of the same clone group. Even if you delete the clone cluster, the clone group ID remains for the lifetime of the source cluster to show that it was used in a cloning operation. For PITR, the clone group ID is inherited from the source cluster. For snapshot restore operations, the clone group ID isn't inherited from the source cluster.
         public let cloneGroupId: String?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public let clusterCreateTime: Date?
@@ -2851,7 +2851,7 @@ extension RDS {
         /// The custom endpoints associated with the DB cluster.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var customEndpoints: [String]?
-        /// The mode of Database Insights that is enabled for the cluster.
+        /// The mode of Database Insights that is enabled for the DB cluster.
         public let databaseInsightsMode: DatabaseInsightsMode?
         /// The name of the initial database that was specified for the DB cluster when it was created, if one was provided. This same name is returned for the life of the DB cluster.
         public let databaseName: String?
@@ -2923,9 +2923,9 @@ extension RDS {
         public let masterUsername: String?
         /// The secret managed by RDS in Amazon Web Services Secrets Manager for the master user password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide and Password management with Amazon Web Services Secrets Manager  in the Amazon Aurora User Guide.
         public let masterUserSecret: MasterUserSecret?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB cluster. This setting is only for -Aurora DB clusters and Multi-AZ DB clusters.
         public let monitoringInterval: Int?
-        /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The ARN for the IAM role that permits RDS to send Enhanced Monitoring metrics to Amazon CloudWatch Logs. This setting is only for Aurora DB clusters and Multi-AZ DB clusters.
         public let monitoringRoleArn: String?
         /// Indicates whether the DB cluster has instances in multiple Availability Zones.
         public let multiAZ: Bool?
@@ -2935,11 +2935,11 @@ extension RDS {
         public let pendingModifiedValues: ClusterPendingModifiedValues?
         /// The progress of the operation as a percentage.
         public let percentProgress: String?
-        /// Indicates whether Performance Insights is enabled for the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// Indicates whether Performance Insights is enabled for the DB cluster. This setting is only for Aurora DB clusters and Multi-AZ DB clusters.
         public let performanceInsightsEnabled: Bool?
-        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. This setting is only for non-Aurora Multi-AZ DB clusters.
+        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. This setting is only for Aurora DB clusters and Multi-AZ DB clusters.
         public let performanceInsightsKMSKeyId: String?
-        /// The number of days to retain Performance Insights data. This setting is only for non-Aurora Multi-AZ DB clusters. Valid Values:    7     month * 31, where month is a number of months from 1-23.  Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)    731    Default: 7 days
+        /// The number of days to retain Performance Insights data. This setting is only for Aurora DB clusters and Multi-AZ DB clusters. Valid Values:    7     month * 31, where month is a number of months from 1-23.  Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)    731    Default: 7 days
         public let performanceInsightsRetentionPeriod: Int?
         /// The port that the database engine is listening on.
         public let port: Int?
@@ -5677,7 +5677,7 @@ extension RDS {
     public struct DeleteDBClusterMessage: AWSEncodableShape {
         /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
         public let dbClusterIdentifier: String?
-        /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove  automated backups immediately after the DB cluster is deleted.
+        /// Specifies whether to remove automated backups immediately after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to remove  automated backups immediately after the DB cluster is deleted, unless the Amazon Web Services Backup  policy specifies a point-in-time restore rule.
         public let deleteAutomatedBackups: Bool?
         /// The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.  If you specify this parameter and also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter, the request results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let finalDBSnapshotIdentifier: String?
@@ -6356,14 +6356,14 @@ extension RDS {
 
         /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
         public let dbClusterParameterGroupName: String?
-        /// This parameter isn't currently supported.
+        /// A filter that specifies one or more DB cluster parameters to describe. The only supported filter is parameter-name. The results list only includes information about the DB cluster parameters with these names.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// A specific source to return parameters for. Valid Values:    customer     engine     service
+        /// A specific source to return parameters for. Valid Values:    engine-default     system     user
         public let source: String?
 
         @inlinable
@@ -6730,7 +6730,7 @@ extension RDS {
 
         /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.
         public let dbParameterGroupName: String?
-        /// This parameter isn't currently supported.
+        /// A filter that specifies one or more DB parameters to describe. The only supported filter is parameter-name. The results list only includes information about the DB parameters with these names.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7305,7 +7305,7 @@ extension RDS {
 
         /// The name of the DB parameter group family. Valid Values:    aurora-mysql5.7     aurora-mysql8.0     aurora-postgresql10     aurora-postgresql11     aurora-postgresql12     aurora-postgresql13     aurora-postgresql14     custom-oracle-ee-19     custom-oracle-ee-cdb-19     db2-ae     db2-se     mariadb10.2     mariadb10.3     mariadb10.4     mariadb10.5     mariadb10.6     mysql5.7     mysql8.0     oracle-ee-19     oracle-ee-cdb-19     oracle-ee-cdb-21     oracle-se2-19     oracle-se2-cdb-19     oracle-se2-cdb-21     postgres10     postgres11     postgres12     postgres13     postgres14     sqlserver-ee-11.0     sqlserver-ee-12.0     sqlserver-ee-13.0     sqlserver-ee-14.0     sqlserver-ee-15.0     sqlserver-ex-11.0     sqlserver-ex-12.0     sqlserver-ex-13.0     sqlserver-ex-14.0     sqlserver-ex-15.0     sqlserver-se-11.0     sqlserver-se-12.0     sqlserver-se-13.0     sqlserver-se-14.0     sqlserver-se-15.0     sqlserver-web-11.0     sqlserver-web-12.0     sqlserver-web-13.0     sqlserver-web-14.0     sqlserver-web-15.0
         public let dbParameterGroupFamily: String?
-        /// This parameter isn't currently supported.
+        /// A filter that specifies one or more parameters to describe. The only supported filter is parameter-name. The results list only includes information about the parameters with these names.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -9128,7 +9128,7 @@ extension RDS {
         public let allowMajorVersionUpgrade: Bool?
         /// Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the  PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster  are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as  turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let applyImmediately: Bool?
-        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
+        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let autoMinorVersionUpgrade: Bool?
         /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
         public let awsBackupRecoveryPointArn: String?
@@ -9138,11 +9138,11 @@ extension RDS {
         public let backupRetentionPeriod: Int?
         /// The CA certificate identifier to use for the DB cluster's server certificate. For more information, see Using SSL/TLS to encrypt a connection to a DB  instance in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters
         public let caCertificateIdentifier: String?
-        /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:   Aurora MySQL - audit | error | general | slowquery    Aurora PostgreSQL - postgresql    RDS for MySQL - error | general | slowquery    RDS for PostgreSQL - postgresql | upgrade    For more information about exporting CloudWatch Logs for Amazon RDS, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
+        /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:   Aurora MySQL - audit | error | general | instance | slowquery    Aurora PostgreSQL - instance | postgresql    RDS for MySQL - error | general | slowquery    RDS for PostgreSQL - postgresql | upgrade    For more information about exporting CloudWatch Logs for Amazon RDS, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster.  The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let copyTagsToSnapshot: Bool?
-        /// Specifies the mode of Database Insights to enable for the cluster.
+        /// Specifies the mode of Database Insights to enable for the DB cluster. If you change the value from standard to advanced, you must set the  PerformanceInsightsEnabled parameter to true and the  PerformanceInsightsRetentionPeriod parameter to 465. If you change the value from advanced to standard, you must  set the PerformanceInsightsEnabled parameter to false. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let databaseInsightsMode: DatabaseInsightsMode?
         /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:   Must match the identifier of an existing DB cluster.
         public let dbClusterIdentifier: String?
@@ -9192,9 +9192,9 @@ extension RDS {
         public let newDBClusterIdentifier: String?
         /// The option group to associate the DB cluster with. DB clusters are associated with a default option group that can't be modified.
         public let optionGroupName: String?
-        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS  uses your default KMS key. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Multi-AZ DB clusters only
+        /// The Amazon Web Services KMS key identifier for encryption of Performance Insights data. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. If you don't specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS  uses your default KMS key. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let performanceInsightsKMSKeyId: String?
-        /// The number of days to retain Performance Insights data. Valid for Cluster Type: Multi-AZ DB clusters only Valid Values:    7     month * 31, where month is a number of months from 1-23.  Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)    731    Default: 7 days If you specify a retention period that isn't valid, such as 94,  Amazon RDS issues an error.
+        /// The number of days to retain Performance Insights data. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values:    7     month * 31, where month is a number of months from 1-23.  Examples: 93 (3 months * 31), 341 (11 months * 31), 589 (19 months * 31)    731    Default: 7 days If you specify a retention period that isn't valid, such as 94,  Amazon RDS issues an error.
         public let performanceInsightsRetentionPeriod: Int?
         /// The port number on which the DB cluster accepts connections. Valid for Cluster Type: Aurora DB clusters only Valid Values: 1150-65535  Default: The same port as the original DB cluster.
         public let port: Int?
@@ -9420,11 +9420,11 @@ extension RDS {
         public let caCertificateIdentifier: String?
         /// Specifies whether the DB instance is restarted when you rotate your  SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate  is not updated until the DB instance is restarted.  Set this parameter only if you are not using SSL/TLS to connect to the DB instance.  If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions for your  DB engine to rotate your SSL/TLS certificate:   For more information about rotating your SSL/TLS certificate for RDS DB engines, see   Rotating Your SSL/TLS Certificate. in the Amazon RDS User Guide.    For more information about rotating your SSL/TLS certificate for Aurora DB engines, see   Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.   This setting doesn't apply to RDS Custom DB instances.
         public let certificateRotationRestart: Bool?
-        /// The log types to be enabled for export to CloudWatch Logs for a  specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance  immediately. Therefore, the ApplyImmediately parameter has no effect. This setting doesn't apply to RDS Custom DB instances.
+        /// The log types to be enabled for export to CloudWatch Logs for a  specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance  immediately. Therefore, the ApplyImmediately parameter has no effect. This setting doesn't apply to RDS Custom DB instances. The following values are valid for each DB engine:   Aurora MySQL - audit | error | general | slowquery    Aurora PostgreSQL - postgresql    RDS for MySQL - error | general | slowquery    RDS for PostgreSQL - postgresql | upgrade    For more information about exporting CloudWatch Logs for Amazon RDS, see  Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
         /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags aren't copied. This setting doesn't apply to Amazon Aurora DB instances. Copying tags to snapshots is managed by the DB cluster. Setting this value for an Aurora DB instance has no effect on the DB cluster setting. For more information, see ModifyDBCluster.
         public let copyTagsToSnapshot: Bool?
-        /// Specifies the mode of Database Insights to enable for the instance.
+        /// Specifies the mode of Database Insights to enable for the DB instance.  Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
         public let databaseInsightsMode: DatabaseInsightsMode?
         /// The new compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the  Amazon RDS User Guide or  Aurora DB instance classes in the Amazon Aurora User Guide. For RDS Custom, see DB instance class support for RDS Custom for Oracle and  DB instance class support for RDS Custom for SQL Server. If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless you specify ApplyImmediately in your request.  Default: Uses existing setting Constraints:   If you are modifying the DB instance class and upgrading the engine version at the same time, the currently running engine version must be supported on the  specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version,  and then run it again to modify the DB instance class.
         public let dbInstanceClass: String?
@@ -9468,7 +9468,7 @@ extension RDS {
         public let engine: String?
         /// The version number of the database engine to upgrade to.  Changing this parameter results in an outage and the change  is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. If you specify only a major version, Amazon RDS updates the DB instance to the  default minor version if the current minor version is lower. For information about valid engine versions, see CreateDBInstance,  or call DescribeDBEngineVersions. If the instance that you're modifying is acting as a read replica, the engine version that you specify must be the same or higher than the version that the source DB instance or cluster is running. In RDS Custom for Oracle, this parameter is supported for read replicas only if they are in the  PATCH_DB_FAILURE lifecycle. Constraints:   If you are upgrading the engine version and modifying the DB instance class at the same time, the currently running engine version must be supported on the  specified DB instance class. Otherwise, the operation returns an error. In this case, first run the operation to upgrade the engine version,  and then run it again to modify the DB instance class.
         public let engineVersion: String?
-        /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0.  The DB instance will require a reboot for the change in storage type to take effect. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Constraints:   For RDS for MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL - The value supplied must be at least 10% greater than the current value.  Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.   When you increase the Provisioned IOPS, you must also specify the AllocatedStorage parameter. You can use the current value for AllocatedStorage.   Default: Uses existing setting
+        /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0.  The DB instance will require a reboot for the change in storage type to take effect. If you choose to migrate your DB instance from using standard storage to Provisioned IOPS (io1), or from Provisioned IOPS to standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance.  Constraints:   For RDS for MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL - The value supplied must be at least 10% greater than the current value.  Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.   When you increase the Provisioned IOPS, you must also specify the AllocatedStorage parameter. You can use the current value for AllocatedStorage.   Default: Uses existing setting
         public let iops: Int?
         /// The license model for the DB instance. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license
         public let licenseModel: String?
@@ -9517,7 +9517,7 @@ extension RDS {
         public let rotateMasterUserPassword: Bool?
         /// The storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
         public let storageThroughput: Int?
-        /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3  you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid Values: gp2 | gp3 | io1 | io2 | standard  Default: io1, if the Iops parameter is specified. Otherwise, gp2.
+        /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3  you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to gp2 (General Purpose SSD), gp3, or Provisioned IOPS (io1), or from these storage types to standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid Values: gp2 | gp3 | io1 | io2 | standard  Default: io1, if the Iops parameter is specified. Otherwise, gp2.
         public let storageType: String?
         /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom DB instances.
         public let tdeCredentialArn: String?
@@ -9808,7 +9808,7 @@ extension RDS {
         public let connectionPoolConfig: ConnectionPoolConfiguration?
         /// The name of the proxy.
         public let dbProxyName: String?
-        /// The new name for the modified DBProxyTarget. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens.
+        /// The new name for the modified DBProxyTarget. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens; it can't end with a hyphen or contain two consecutive hyphens. You can't rename the default target group.
         public let newName: String?
         /// The name of the target group to modify.
         public let targetGroupName: String?
@@ -10109,7 +10109,7 @@ extension RDS {
     }
 
     public struct ModifyIntegrationMessage: AWSEncodableShape {
-        /// A new data filter for the integration. For more information, see  Data filtering for Aurora zero-ETL integrations with Amazon Redshift.
+        /// A new data filter for the integration. For more information, see Data filtering for Aurora zero-ETL integrations with Amazon Redshift or Data filtering for Amazon RDS zero-ETL integrations with Amazon Redshift.
         public let dataFilter: String?
         /// A new description for the integration.
         public let description: String?
@@ -11932,7 +11932,7 @@ extension RDS {
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used.  Aurora MySQL  Possible values are audit, error, general, and slowquery. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
+        /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used.  Aurora MySQL  Possible values are audit, error, general, instance, and slowquery.  Aurora PostgreSQL  Possible value are instance and postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see   IAM Database Authentication in the Amazon Aurora User Guide.
@@ -12107,7 +12107,7 @@ extension RDS {
         public let domain: String?
         /// The name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
         public let domainIAMRoleName: String?
-        /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error, general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+        /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error, general, instance, and slowquery.  Aurora PostgreSQL  Possible value are instance and postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -12271,7 +12271,7 @@ extension RDS {
         public let domain: String?
         /// The name of the IAM role to be used when making API calls to the Directory Service. Valid for: Aurora DB clusters only
         public let domainIAMRoleName: String?
-        /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error, general, and slowquery.  Aurora PostgreSQL  Possible value is postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
+        /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used.  RDS for MySQL  Possible values are error, general, and slowquery.  RDS for PostgreSQL  Possible values are postgresql and upgrade.  Aurora MySQL  Possible values are audit, error, general, instance, and slowquery.  Aurora PostgreSQL  Possible value are instance and postgresql. For more information about exporting CloudWatch Logs for Amazon RDS, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide. For more information about exporting CloudWatch Logs for Amazon Aurora, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var enableCloudwatchLogsExports: [String]?
         /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide or IAM database authentication for MariaDB, MySQL, and PostgreSQL in the Amazon RDS User Guide. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -12280,7 +12280,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The life cycle type for this DB cluster.  By default, this value is set to open-source-rds-extended-support, which enrolls your DB cluster into Amazon RDS Extended Support.  At the end of standard support, you can avoid charges for Extended Support by setting the value to open-source-rds-extended-support-disabled. In this case,  RDS automatically upgrades your restored DB cluster to a higher engine version, if the major engine version is past its end of standard support date.  You can use this setting to enroll your DB cluster into Amazon RDS Extended Support. With RDS Extended Support,  you can run the selected major engine version on your DB cluster past the end of standard support for that engine version. For more information, see the following sections:   Amazon Aurora - Using Amazon RDS Extended Support in the Amazon Aurora User Guide    Amazon RDS - Using Amazon RDS Extended Support in the Amazon RDS User Guide    Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: open-source-rds-extended-support | open-source-rds-extended-support-disabled  Default: open-source-rds-extended-support
         public let engineLifecycleSupport: String?
-        /// The engine mode of the new cluster. Specify provisioned or serverless, depending on the type of the cluster you are creating. You can create an Aurora Serverless v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To create a clone that is an Aurora Serverless v1 cluster, the original cluster must be an Aurora Serverless v1 cluster or an encrypted provisioned cluster. Valid for: Aurora DB clusters only
+        /// The engine mode of the new cluster. Specify provisioned or serverless, depending on the type of the cluster you are creating. You can create an Aurora Serverless v1 clone from a provisioned cluster, or a provisioned clone from an Aurora Serverless v1 cluster. To create a clone that is an Aurora Serverless v1 cluster, the original cluster must be an Aurora Serverless v1 cluster or an encrypted provisioned cluster. To create a full copy that is an Aurora Serverless v1 cluster, specify  the engine mode serverless. Valid for: Aurora DB clusters only
         public let engineMode: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for  each DB instance in the Multi-AZ DB cluster. For information about valid IOPS values,  see Amazon RDS Provisioned IOPS storage  in the Amazon RDS User Guide. Constraints: Must be a multiple between .5 and 50 of the storage amount for the DB instance. Valid for: Multi-AZ DB clusters only
         public let iops: Int?
@@ -12421,7 +12421,7 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+        /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
         /// Specifies whether to automatically apply minor version upgrades to the DB instance  during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
         public let autoMinorVersionUpgrade: Bool?
@@ -12621,7 +12621,7 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+        /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
         /// Specifies whether to automatically apply minor engine upgrades   to the DB instance during the maintenance window. By default, minor engine upgrades  are not applied automatically.
         public let autoMinorVersionUpgrade: Bool?
@@ -12633,7 +12633,7 @@ extension RDS {
         public let caCertificateIdentifier: String?
         /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
         public let copyTagsToSnapshot: Bool?
-        /// Specifies the mode of Database Insights to enable for the instance.
+        /// Specifies the mode of Database Insights to enable for the DB instance.  Aurora DB instances inherit this value from the DB cluster, so you can't change this value.
         public let databaseInsightsMode: DatabaseInsightsMode?
         /// The compute and memory capacity of the DB instance,  for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions,  or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
         public let dbInstanceClass: String?
@@ -12861,7 +12861,7 @@ extension RDS {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
         public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
+        /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
         /// Specifies whether minor version upgrades are applied automatically to the  DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
         public let autoMinorVersionUpgrade: Bool?

@@ -458,6 +458,8 @@ extension CodePipeline {
         public let commands: [String]?
         /// The action's configuration. These are key-value pairs that specify input values for an action. For more information, see Action Structure Requirements in CodePipeline. For the list of configuration properties for the CloudFormation action type in CodePipeline, see Configuration Properties Reference in the CloudFormation User Guide. For template snippets with examples, see Using Parameter Override Functions with CodePipeline Pipelines in the CloudFormation User Guide. The values can be represented in either JSON or YAML format. For example, the JSON configuration item format is as follows:   JSON:   "Configuration" : { Key : Value },
         public let configuration: [String: String]?
+        /// The environment variables for the action.
+        public let environmentVariables: [EnvironmentVariable]?
         /// The name or ID of the artifact consumed by the action, such as a test or build artifact.
         public let inputArtifacts: [InputArtifact]?
         /// The action declaration's name.
@@ -478,10 +480,11 @@ extension CodePipeline {
         public let timeoutInMinutes: Int?
 
         @inlinable
-        public init(actionTypeId: ActionTypeId, commands: [String]? = nil, configuration: [String: String]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, namespace: String? = nil, outputArtifacts: [OutputArtifact]? = nil, outputVariables: [String]? = nil, region: String? = nil, roleArn: String? = nil, runOrder: Int? = nil, timeoutInMinutes: Int? = nil) {
+        public init(actionTypeId: ActionTypeId, commands: [String]? = nil, configuration: [String: String]? = nil, environmentVariables: [EnvironmentVariable]? = nil, inputArtifacts: [InputArtifact]? = nil, name: String, namespace: String? = nil, outputArtifacts: [OutputArtifact]? = nil, outputVariables: [String]? = nil, region: String? = nil, roleArn: String? = nil, runOrder: Int? = nil, timeoutInMinutes: Int? = nil) {
             self.actionTypeId = actionTypeId
             self.commands = commands
             self.configuration = configuration
+            self.environmentVariables = environmentVariables
             self.inputArtifacts = inputArtifacts
             self.name = name
             self.namespace = namespace
@@ -507,6 +510,11 @@ extension CodePipeline {
                 try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, max: 1000)
                 try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.environmentVariables?.forEach {
+                try $0.validate(name: "\(name).environmentVariables[]")
+            }
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 10)
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, min: 1)
             try self.inputArtifacts?.forEach {
                 try $0.validate(name: "\(name).inputArtifacts[]")
             }
@@ -539,6 +547,7 @@ extension CodePipeline {
             case actionTypeId = "actionTypeId"
             case commands = "commands"
             case configuration = "configuration"
+            case environmentVariables = "environmentVariables"
             case inputArtifacts = "inputArtifacts"
             case name = "name"
             case namespace = "namespace"
@@ -1810,6 +1819,33 @@ extension CodePipeline {
         }
     }
 
+    public struct EnvironmentVariable: AWSEncodableShape & AWSDecodableShape {
+        /// The environment variable name in the key-value pair.
+        public let name: String
+        /// The environment variable value in the key-value pair.
+        public let value: String
+
+        @inlinable
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9_]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 2000)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
     public struct ErrorDetails: AWSDecodableShape {
         /// The system ID or number code of the error.
         public let code: String?
@@ -1901,7 +1937,7 @@ extension CodePipeline {
     }
 
     public struct FailureConditions: AWSEncodableShape & AWSDecodableShape {
-        /// The conditions that are configured as failure conditions.
+        /// The conditions that are configured as failure conditions. For more information about conditions, see Stage conditions and How do stage conditions work?.
         public let conditions: [Condition]?
         /// The specified result for when the failure conditions are met, such as rolling back the stage.
         public let result: Result?
@@ -2323,7 +2359,7 @@ extension CodePipeline {
     public struct GitPullRequestFilter: AWSEncodableShape & AWSDecodableShape {
         /// The field that specifies to filter on branches for the pull request trigger configuration.
         public let branches: GitBranchFilterCriteria?
-        /// The field that specifies which pull request events to filter on (opened, updated, closed) for the trigger configuration.
+        /// The field that specifies which pull request events to filter on (OPEN, UPDATED, CLOSED) for the trigger configuration.
         public let events: [GitPullRequestEventType]?
         /// The field that specifies to filter on file paths for the pull request trigger configuration.
         public let filePaths: GitFilePathFilterCriteria?
@@ -3620,7 +3656,7 @@ extension CodePipeline {
         public let result: ApprovalResult
         /// The name of the stage that contains the action.
         public let stageName: String
-        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.  For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject approval request as detailed above is not available. Instead, use the externalExecutionId from the GetPipelineState action as the token in the approval request.
+        /// The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.  For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject an approval request as detailed above is not available. Instead, use the externalExecutionId in the response output from the ListActionExecutions action as the token in the approval request.
         public let token: String
 
         @inlinable
@@ -4258,7 +4294,7 @@ extension CodePipeline {
         public let resolvedConfiguration: [String: String]?
         /// The ARN of the IAM service role that performs the declared rule. This is assumed through the roleArn for the pipeline.
         public let roleArn: String?
-        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version.
+        /// The ID for the rule type, which is made up of the combined values for category, owner, provider, and version. For more information about conditions, see Stage conditions. For more information about rules, see the CodePipeline rule reference.
         public let ruleTypeId: RuleTypeId?
 
         @inlinable
@@ -4402,7 +4438,7 @@ extension CodePipeline {
         public let category: RuleCategory
         /// The creator of the rule being called. The valid value for the Owner field in the rule category is AWS.
         public let owner: RuleOwner?
-        /// The rule provider, such as the DeploymentWindow rule.
+        /// The rule provider, such as the DeploymentWindow rule. For a list of rule provider names, see the rules listed in the CodePipeline rule reference.
         public let provider: String
         /// A string that describes the rule version.
         public let version: String?

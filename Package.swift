@@ -210,8 +210,6 @@ let package = Package(
         .library(name: "SotoInternetMonitor", targets: ["SotoInternetMonitor"]),
         .library(name: "SotoInvoicing", targets: ["SotoInvoicing"]),
         .library(name: "SotoIoT", targets: ["SotoIoT"]),
-        .library(name: "SotoIoT1ClickDevicesService", targets: ["SotoIoT1ClickDevicesService"]),
-        .library(name: "SotoIoT1ClickProjects", targets: ["SotoIoT1ClickProjects"]),
         .library(name: "SotoIoTAnalytics", targets: ["SotoIoTAnalytics"]),
         .library(name: "SotoIoTDataPlane", targets: ["SotoIoTDataPlane"]),
         .library(name: "SotoIoTDeviceAdvisor", targets: ["SotoIoTDeviceAdvisor"]),
@@ -1527,18 +1525,6 @@ let package = Package(
             name: "SotoIoT",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/IoT",
-            swiftSettings: swiftSettings
-        ),
-        .target(
-            name: "SotoIoT1ClickDevicesService",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/IoT1ClickDevicesService",
-            swiftSettings: swiftSettings
-        ),
-        .target(
-            name: "SotoIoT1ClickProjects",
-            dependencies: [.product(name: "SotoCore", package: "soto-core")],
-            path: "./Sources/Soto/Services/IoT1ClickProjects",
             swiftSettings: swiftSettings
         ),
         .target(

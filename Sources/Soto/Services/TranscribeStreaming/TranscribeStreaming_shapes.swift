@@ -39,6 +39,13 @@ extension TranscribeStreaming {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClinicalNoteGenerationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContentIdentificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pii = "PII"
         public var description: String { return self.rawValue }
@@ -128,6 +135,56 @@ extension TranscribeStreaming {
 
     public enum MedicalContentIdentificationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case phi = "PHI"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MedicalScribeLanguageCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enUs = "en-US"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MedicalScribeMediaEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flac = "flac"
+        case oggOpus = "ogg-opus"
+        case pcm = "pcm"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MedicalScribeNoteTemplate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case girpp = "GIRPP"
+        case historyAndPhysical = "HISTORY_AND_PHYSICAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MedicalScribeParticipantRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case clinician = "CLINICIAN"
+        case patient = "PATIENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MedicalScribeSessionControlEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case endOfSession = "END_OF_SESSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MedicalScribeStreamStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case paused = "PAUSED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MedicalScribeTranscriptItemType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pronunciation = "pronunciation"
+        case punctuation = "punctuation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MedicalScribeVocabularyFilterMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mask = "mask"
+        case remove = "remove"
+        case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
@@ -262,6 +319,91 @@ extension TranscribeStreaming {
         }
     }
 
+    public enum MedicalScribeInputStream: AWSEncodableShape, Sendable {
+        case audioEvent(MedicalScribeAudioEvent)
+        /// Specify additional streaming session configurations beyond those provided in your initial start request headers. For example, specify channel definitions, encryption settings, and post-stream analytics settings.  Whether you are starting a new session or resuming an existing session,  your first event must be a MedicalScribeConfigurationEvent.
+        case configurationEvent(MedicalScribeConfigurationEvent)
+        /// Specify the lifecycle of your streaming session, such as ending the session.
+        case sessionControlEvent(MedicalScribeSessionControlEvent)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .audioEvent(let value):
+                try container.encode(value, forKey: .audioEvent)
+            case .configurationEvent(let value):
+                try container.encode(value, forKey: .configurationEvent)
+            case .sessionControlEvent(let value):
+                try container.encode(value, forKey: .sessionControlEvent)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .configurationEvent(let value):
+                try value.validate(name: "\(name).configurationEvent")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioEvent = "AudioEvent"
+            case configurationEvent = "ConfigurationEvent"
+            case sessionControlEvent = "SessionControlEvent"
+        }
+    }
+
+    public enum MedicalScribeResultStream: AWSDecodableShape, Sendable {
+        case badRequestException(BadRequestException)
+        case conflictException(ConflictException)
+        case internalFailureException(InternalFailureException)
+        case limitExceededException(LimitExceededException)
+        case serviceUnavailableException(ServiceUnavailableException)
+        /// The transcript event that contains real-time transcription results.
+        case transcriptEvent(MedicalScribeTranscriptEvent)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .badRequestException:
+                let value = try container.decode(BadRequestException.self, forKey: .badRequestException)
+                self = .badRequestException(value)
+            case .conflictException:
+                let value = try container.decode(ConflictException.self, forKey: .conflictException)
+                self = .conflictException(value)
+            case .internalFailureException:
+                let value = try container.decode(InternalFailureException.self, forKey: .internalFailureException)
+                self = .internalFailureException(value)
+            case .limitExceededException:
+                let value = try container.decode(LimitExceededException.self, forKey: .limitExceededException)
+                self = .limitExceededException(value)
+            case .serviceUnavailableException:
+                let value = try container.decode(ServiceUnavailableException.self, forKey: .serviceUnavailableException)
+                self = .serviceUnavailableException(value)
+            case .transcriptEvent:
+                let value = try container.decode(MedicalScribeTranscriptEvent.self, forKey: .transcriptEvent)
+                self = .transcriptEvent(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case badRequestException = "BadRequestException"
+            case conflictException = "ConflictException"
+            case internalFailureException = "InternalFailureException"
+            case limitExceededException = "LimitExceededException"
+            case serviceUnavailableException = "ServiceUnavailableException"
+            case transcriptEvent = "TranscriptEvent"
+        }
+    }
+
     public enum MedicalTranscriptResultStream: AWSDecodableShape, Sendable {
         case badRequestException(BadRequestException)
         case conflictException(ConflictException)
@@ -392,7 +534,7 @@ extension TranscribeStreaming {
     }
 
     public struct AudioEvent: AWSEncodableShape {
-        /// An audio blob that contains the next part of the audio that you want to transcribe. The maximum audio chunk size is 32 KB.
+        ///  An audio blob containing the next segment of audio from your application, with a maximum duration of 1 second.  The maximum size in bytes varies based on audio properties.  Find recommended size in Transcribing streaming best practices.   Size calculation: Duration (s) * Sample Rate (Hz) * Number of Channels * 2 (Bytes per Sample)   For example, a 1-second chunk of 16 kHz, 2-channel, 16-bit audio would be  1 * 16000 * 2 * 2 = 64000 bytes.   For 8 kHz, 1-channel, 16-bit audio, a 1-second chunk would be  1 * 8000 * 1 * 2 = 16000 bytes.
         public let audioChunk: AWSEventPayload?
 
         @inlinable
@@ -547,6 +689,55 @@ extension TranscribeStreaming {
         }
     }
 
+    public struct ClinicalNoteGenerationResult: AWSDecodableShape {
+        /// Holds the Amazon S3 URI for the output Clinical Note.
+        public let clinicalNoteOutputLocation: String?
+        /// If ClinicalNoteGenerationResult is FAILED, information about why it failed.
+        public let failureReason: String?
+        /// The status of the clinical note generation. Possible Values:    IN_PROGRESS     FAILED     COMPLETED     After audio streaming finishes, and you send a MedicalScribeSessionControlEvent event (with END_OF_SESSION as the Type), the status is set to IN_PROGRESS. If the status is COMPLETED, the analytics completed successfully, and you can find the results at the locations specified in ClinicalNoteOutputLocation and TranscriptOutputLocation. If the status is FAILED, FailureReason provides details about the failure.
+        public let status: ClinicalNoteGenerationStatus?
+        /// Holds the Amazon S3 URI for the output Transcript.
+        public let transcriptOutputLocation: String?
+
+        @inlinable
+        public init(clinicalNoteOutputLocation: String? = nil, failureReason: String? = nil, status: ClinicalNoteGenerationStatus? = nil, transcriptOutputLocation: String? = nil) {
+            self.clinicalNoteOutputLocation = clinicalNoteOutputLocation
+            self.failureReason = failureReason
+            self.status = status
+            self.transcriptOutputLocation = transcriptOutputLocation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clinicalNoteOutputLocation = "ClinicalNoteOutputLocation"
+            case failureReason = "FailureReason"
+            case status = "Status"
+            case transcriptOutputLocation = "TranscriptOutputLocation"
+        }
+    }
+
+    public struct ClinicalNoteGenerationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.   HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Sections include Chief Complaint,  History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.   GIRPP: Provides summaries based on the patients progress toward goals. Sections include Goal, Intervention, Response, Progress, and Plan.
+        public let noteTemplate: MedicalScribeNoteTemplate?
+        /// The name of the Amazon S3 bucket where you want the output of Amazon Web Services HealthScribe post-stream analytics stored. Don't include the S3:// prefix of the specified bucket.  HealthScribe outputs transcript and clinical note files under the prefix: S3://$output-bucket-name/healthscribe-streaming/session-id/post-stream-analytics/clinical-notes  The role ResourceAccessRoleArn specified in the MedicalScribeConfigurationEvent must have permission to use the specified location. You can change Amazon S3 permissions using the  Amazon Web Services Management Console . See also Permissions Required for IAM User Roles  .
+        public let outputBucketName: String
+
+        @inlinable
+        public init(noteTemplate: MedicalScribeNoteTemplate? = nil, outputBucketName: String) {
+            self.noteTemplate = noteTemplate
+            self.outputBucketName = outputBucketName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.outputBucketName, name: "outputBucketName", parent: name, max: 64)
+            try self.validate(self.outputBucketName, name: "outputBucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noteTemplate = "NoteTemplate"
+            case outputBucketName = "OutputBucketName"
+        }
+    }
+
     public struct ConfigurationEvent: AWSEncodableShape {
         /// Indicates which speaker is on which audio channel.
         public let channelDefinitions: [ChannelDefinition]?
@@ -617,6 +808,44 @@ extension TranscribeStreaming {
             case endTime = "EndTime"
             case startTime = "StartTime"
             case type = "Type"
+        }
+    }
+
+    public struct GetMedicalScribeStreamRequest: AWSEncodableShape {
+        /// The identifier of the HealthScribe streaming session you want information about.
+        public let sessionId: String
+
+        @inlinable
+        public init(sessionId: String) {
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sessionId, key: "SessionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetMedicalScribeStreamResponse: AWSDecodableShape {
+        /// Provides details about a HealthScribe streaming session.
+        public let medicalScribeStreamDetails: MedicalScribeStreamDetails?
+
+        @inlinable
+        public init(medicalScribeStreamDetails: MedicalScribeStreamDetails? = nil) {
+            self.medicalScribeStreamDetails = medicalScribeStreamDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case medicalScribeStreamDetails = "MedicalScribeStreamDetails"
         }
     }
 
@@ -837,6 +1066,334 @@ extension TranscribeStreaming {
             case isPartial = "IsPartial"
             case resultId = "ResultId"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct MedicalScribeAudioEvent: AWSEncodableShape {
+        ///  An audio blob containing the next segment of audio from your application, with a maximum duration of 1 second.  The maximum size in bytes varies based on audio properties.  Find recommended size in Transcribing streaming best practices.   Size calculation: Duration (s) * Sample Rate (Hz) * Number of Channels * 2 (Bytes per Sample)   For example, a 1-second chunk of 16 kHz, 2-channel, 16-bit audio would be  1 * 16000 * 2 * 2 = 64000 bytes.   For 8 kHz, 1-channel, 16-bit audio, a 1-second chunk would be  1 * 8000 * 1 * 2 = 16000 bytes.
+        public let audioChunk: AWSEventPayload
+
+        @inlinable
+        public init(audioChunk: AWSEventPayload) {
+            self.audioChunk = audioChunk
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct MedicalScribeChannelDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the audio channel you want to define.
+        public let channelId: Int
+        /// Specify the participant that you want to flag. The allowed options are CLINICIAN and PATIENT.
+        public let participantRole: MedicalScribeParticipantRole
+
+        @inlinable
+        public init(channelId: Int, participantRole: MedicalScribeParticipantRole) {
+            self.channelId = channelId
+            self.participantRole = participantRole
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelId, name: "channelId", parent: name, max: 1)
+            try self.validate(self.channelId, name: "channelId", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelId = "ChannelId"
+            case participantRole = "ParticipantRole"
+        }
+    }
+
+    public struct MedicalScribeConfigurationEvent: AWSEncodableShape {
+        /// Specify which speaker is on which audio channel.
+        public let channelDefinitions: [MedicalScribeChannelDefinition]?
+        /// Specify the encryption settings for your streaming session.
+        public let encryptionSettings: MedicalScribeEncryptionSettings?
+        /// Specify settings for post-stream analytics.
+        public let postStreamAnalyticsSettings: MedicalScribePostStreamAnalyticsSettings
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 output bucket you specified, and use your KMS key if supplied. If the role that you specify doesn’t have the appropriate permissions, your request fails.   IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin.  For more information, see Amazon Web Services HealthScribe.
+        public let resourceAccessRoleArn: String
+        /// Specify how you want your custom vocabulary filter applied to the streaming session. To replace words with ***, specify mask.  To delete words, specify remove.  To flag words without changing them, specify tag.
+        public let vocabularyFilterMethod: MedicalScribeVocabularyFilterMethod?
+        /// Specify the name of the custom vocabulary filter you want to include in your streaming session. Custom vocabulary filter names are case-sensitive.  If you include VocabularyFilterName in the MedicalScribeConfigurationEvent, you must also include VocabularyFilterMethod.
+        public let vocabularyFilterName: String?
+        /// Specify the name of the custom vocabulary you want to use for your streaming session. Custom vocabulary names are case-sensitive.
+        public let vocabularyName: String?
+
+        @inlinable
+        public init(channelDefinitions: [MedicalScribeChannelDefinition]? = nil, encryptionSettings: MedicalScribeEncryptionSettings? = nil, postStreamAnalyticsSettings: MedicalScribePostStreamAnalyticsSettings, resourceAccessRoleArn: String, vocabularyFilterMethod: MedicalScribeVocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+            self.channelDefinitions = channelDefinitions
+            self.encryptionSettings = encryptionSettings
+            self.postStreamAnalyticsSettings = postStreamAnalyticsSettings
+            self.resourceAccessRoleArn = resourceAccessRoleArn
+            self.vocabularyFilterMethod = vocabularyFilterMethod
+            self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try self.channelDefinitions?.forEach {
+                try $0.validate(name: "\(name).channelDefinitions[]")
+            }
+            try self.validate(self.channelDefinitions, name: "channelDefinitions", parent: name, max: 2)
+            try self.validate(self.channelDefinitions, name: "channelDefinitions", parent: name, min: 2)
+            try self.encryptionSettings?.validate(name: "\(name).encryptionSettings")
+            try self.postStreamAnalyticsSettings.validate(name: "\(name).postStreamAnalyticsSettings")
+            try self.validate(self.resourceAccessRoleArn, name: "resourceAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.resourceAccessRoleArn, name: "resourceAccessRoleArn", parent: name, min: 20)
+            try self.validate(self.resourceAccessRoleArn, name: "resourceAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):iam::[0-9]{0,63}:role/[A-Za-z0-9:_/+=,@.-]{0,1024}$")
+            try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
+            try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
+            try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDefinitions = "ChannelDefinitions"
+            case encryptionSettings = "EncryptionSettings"
+            case postStreamAnalyticsSettings = "PostStreamAnalyticsSettings"
+            case resourceAccessRoleArn = "ResourceAccessRoleArn"
+            case vocabularyFilterMethod = "VocabularyFilterMethod"
+            case vocabularyFilterName = "VocabularyFilterName"
+            case vocabularyName = "VocabularyName"
+        }
+    }
+
+    public struct MedicalScribeEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
+        /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMSencryption context  and Asymmetric keys in KMS .
+        public let kmsEncryptionContext: [String: String]?
+        /// The ID of the KMS key you want to use for your streaming session. You can specify its KMS key ID, key Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/".  To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias       To get the key ID and key ARN for a KMS key, use the ListKeys or DescribeKey KMS API operations.  To get the alias name and alias ARN, use ListKeys API operation.
+        public let kmsKeyId: String
+
+        @inlinable
+        public init(kmsEncryptionContext: [String: String]? = nil, kmsKeyId: String) {
+            self.kmsEncryptionContext = kmsEncryptionContext
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func validate(name: String) throws {
+            try self.kmsEncryptionContext?.forEach {
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, max: 2000)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, min: 1)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, max: 10)
+            try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsEncryptionContext = "KmsEncryptionContext"
+            case kmsKeyId = "KmsKeyId"
+        }
+    }
+
+    public struct MedicalScribePostStreamAnalyticsResult: AWSDecodableShape {
+        /// Provides the Clinical Note Generation result for post-stream analytics.
+        public let clinicalNoteGenerationResult: ClinicalNoteGenerationResult?
+
+        @inlinable
+        public init(clinicalNoteGenerationResult: ClinicalNoteGenerationResult? = nil) {
+            self.clinicalNoteGenerationResult = clinicalNoteGenerationResult
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clinicalNoteGenerationResult = "ClinicalNoteGenerationResult"
+        }
+    }
+
+    public struct MedicalScribePostStreamAnalyticsSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify settings for the post-stream clinical note generation.
+        public let clinicalNoteGenerationSettings: ClinicalNoteGenerationSettings
+
+        @inlinable
+        public init(clinicalNoteGenerationSettings: ClinicalNoteGenerationSettings) {
+            self.clinicalNoteGenerationSettings = clinicalNoteGenerationSettings
+        }
+
+        public func validate(name: String) throws {
+            try self.clinicalNoteGenerationSettings.validate(name: "\(name).clinicalNoteGenerationSettings")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clinicalNoteGenerationSettings = "ClinicalNoteGenerationSettings"
+        }
+    }
+
+    public struct MedicalScribeSessionControlEvent: AWSEncodableShape {
+        /// The type of MedicalScribeSessionControlEvent.  Possible Values:    END_OF_SESSION - Indicates the audio streaming is complete. After you send an END_OF_SESSION event, Amazon Web Services HealthScribe starts the post-stream analytics. The session can't be resumed after this event is sent. After Amazon Web Services HealthScribe processes the event, the real-time StreamStatus is COMPLETED. You get the StreamStatus and other stream details with the GetMedicalScribeStream API operation. For more information about different streaming statuses, see the StreamStatus description in the MedicalScribeStreamDetails.
+        public let type: MedicalScribeSessionControlEventType
+
+        @inlinable
+        public init(type: MedicalScribeSessionControlEventType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+        }
+    }
+
+    public struct MedicalScribeStreamDetails: AWSDecodableShape {
+        /// The Channel Definitions of the HealthScribe streaming session.
+        public let channelDefinitions: [MedicalScribeChannelDefinition]?
+        /// The Encryption Settings of the HealthScribe streaming session.
+        public let encryptionSettings: MedicalScribeEncryptionSettings?
+        /// The Language Code of the HealthScribe streaming session.
+        public let languageCode: MedicalScribeLanguageCode?
+        /// The Media Encoding of the HealthScribe streaming session.
+        public let mediaEncoding: MedicalScribeMediaEncoding?
+        /// The sample rate (in hertz) of the HealthScribe streaming session.
+        public let mediaSampleRateHertz: Int?
+        /// The result of post-stream analytics for the HealthScribe streaming session.
+        public let postStreamAnalyticsResult: MedicalScribePostStreamAnalyticsResult?
+        /// The post-stream analytics settings of the HealthScribe streaming session.
+        public let postStreamAnalyticsSettings: MedicalScribePostStreamAnalyticsSettings?
+        /// The Amazon Resource Name (ARN) of the role used in the HealthScribe streaming session.
+        public let resourceAccessRoleArn: String?
+        /// The identifier of the HealthScribe streaming session.
+        public let sessionId: String?
+        /// The date and time when the HealthScribe streaming session was created.
+        public let streamCreatedAt: Date?
+        /// The date and time when the HealthScribe streaming session was ended.
+        public let streamEndedAt: Date?
+        /// The streaming status of the HealthScribe streaming session. Possible Values:    IN_PROGRESS     PAUSED     FAILED     COMPLETED     This status is specific to real-time streaming. A COMPLETED status doesn't mean that the post-stream analytics is complete. To get status of an analytics result, check the Status field for the analytics result within the MedicalScribePostStreamAnalyticsResult. For example, you can view the status of the  ClinicalNoteGenerationResult.
+        public let streamStatus: MedicalScribeStreamStatus?
+        /// The method of the vocabulary filter for the HealthScribe streaming session.
+        public let vocabularyFilterMethod: MedicalScribeVocabularyFilterMethod?
+        /// The name of the vocabulary filter used for the HealthScribe streaming session .
+        public let vocabularyFilterName: String?
+        /// The vocabulary name of the HealthScribe streaming session.
+        public let vocabularyName: String?
+
+        @inlinable
+        public init(channelDefinitions: [MedicalScribeChannelDefinition]? = nil, encryptionSettings: MedicalScribeEncryptionSettings? = nil, languageCode: MedicalScribeLanguageCode? = nil, mediaEncoding: MedicalScribeMediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, postStreamAnalyticsResult: MedicalScribePostStreamAnalyticsResult? = nil, postStreamAnalyticsSettings: MedicalScribePostStreamAnalyticsSettings? = nil, resourceAccessRoleArn: String? = nil, sessionId: String? = nil, streamCreatedAt: Date? = nil, streamEndedAt: Date? = nil, streamStatus: MedicalScribeStreamStatus? = nil, vocabularyFilterMethod: MedicalScribeVocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+            self.channelDefinitions = channelDefinitions
+            self.encryptionSettings = encryptionSettings
+            self.languageCode = languageCode
+            self.mediaEncoding = mediaEncoding
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.postStreamAnalyticsResult = postStreamAnalyticsResult
+            self.postStreamAnalyticsSettings = postStreamAnalyticsSettings
+            self.resourceAccessRoleArn = resourceAccessRoleArn
+            self.sessionId = sessionId
+            self.streamCreatedAt = streamCreatedAt
+            self.streamEndedAt = streamEndedAt
+            self.streamStatus = streamStatus
+            self.vocabularyFilterMethod = vocabularyFilterMethod
+            self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyName = vocabularyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelDefinitions = "ChannelDefinitions"
+            case encryptionSettings = "EncryptionSettings"
+            case languageCode = "LanguageCode"
+            case mediaEncoding = "MediaEncoding"
+            case mediaSampleRateHertz = "MediaSampleRateHertz"
+            case postStreamAnalyticsResult = "PostStreamAnalyticsResult"
+            case postStreamAnalyticsSettings = "PostStreamAnalyticsSettings"
+            case resourceAccessRoleArn = "ResourceAccessRoleArn"
+            case sessionId = "SessionId"
+            case streamCreatedAt = "StreamCreatedAt"
+            case streamEndedAt = "StreamEndedAt"
+            case streamStatus = "StreamStatus"
+            case vocabularyFilterMethod = "VocabularyFilterMethod"
+            case vocabularyFilterName = "VocabularyFilterName"
+            case vocabularyName = "VocabularyName"
+        }
+    }
+
+    public struct MedicalScribeTranscriptEvent: AWSDecodableShape {
+        /// The TranscriptSegment associated with a MedicalScribeTranscriptEvent.
+        public let transcriptSegment: MedicalScribeTranscriptSegment?
+
+        @inlinable
+        public init(transcriptSegment: MedicalScribeTranscriptSegment? = nil) {
+            self.transcriptSegment = transcriptSegment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transcriptSegment = "TranscriptSegment"
+        }
+    }
+
+    public struct MedicalScribeTranscriptItem: AWSDecodableShape {
+        /// The start time, in milliseconds, of the transcribed item.
+        public let beginAudioTime: Double?
+        /// The confidence score associated with a word or phrase in your transcript. Confidence scores are values between 0 and 1. A larger value indicates a higher probability that the identified item correctly matches the item spoken in your media.
+        public let confidence: Double?
+        /// The word, phrase or punctuation mark that was transcribed.
+        public let content: String?
+        /// The end time, in milliseconds, of the transcribed item.
+        public let endAudioTime: Double?
+        /// The type of item identified. Options are: PRONUNCIATION (spoken words) and PUNCTUATION.
+        public let type: MedicalScribeTranscriptItemType?
+        /// Indicates whether the specified item matches a word in the vocabulary filter included in your configuration event. If true, there is a vocabulary filter match.
+        public let vocabularyFilterMatch: Bool?
+
+        @inlinable
+        public init(beginAudioTime: Double? = nil, confidence: Double? = nil, content: String? = nil, endAudioTime: Double? = nil, type: MedicalScribeTranscriptItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
+            self.beginAudioTime = beginAudioTime
+            self.confidence = confidence
+            self.content = content
+            self.endAudioTime = endAudioTime
+            self.type = type
+            self.vocabularyFilterMatch = vocabularyFilterMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginAudioTime = "BeginAudioTime"
+            case confidence = "Confidence"
+            case content = "Content"
+            case endAudioTime = "EndAudioTime"
+            case type = "Type"
+            case vocabularyFilterMatch = "VocabularyFilterMatch"
+        }
+    }
+
+    public struct MedicalScribeTranscriptSegment: AWSDecodableShape {
+        /// The start time, in milliseconds, of the segment.
+        public let beginAudioTime: Double?
+        /// Indicates which audio channel is associated with the MedicalScribeTranscriptSegment.  If MedicalScribeChannelDefinition is not provided in the MedicalScribeConfigurationEvent, then this field will not be included.
+        public let channelId: String?
+        /// Contains transcribed text of the segment.
+        public let content: String?
+        /// The end time, in milliseconds, of the segment.
+        public let endAudioTime: Double?
+        /// Indicates if the segment is complete. If IsPartial is true, the segment is not complete. If IsPartial is false, the segment is complete.
+        public let isPartial: Bool?
+        /// Contains words, phrases, or punctuation marks in your segment.
+        public let items: [MedicalScribeTranscriptItem]?
+        /// The identifier of the segment.
+        public let segmentId: String?
+
+        @inlinable
+        public init(beginAudioTime: Double? = nil, channelId: String? = nil, content: String? = nil, endAudioTime: Double? = nil, isPartial: Bool? = nil, items: [MedicalScribeTranscriptItem]? = nil, segmentId: String? = nil) {
+            self.beginAudioTime = beginAudioTime
+            self.channelId = channelId
+            self.content = content
+            self.endAudioTime = endAudioTime
+            self.isPartial = isPartial
+            self.items = items
+            self.segmentId = segmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginAudioTime = "BeginAudioTime"
+            case channelId = "ChannelId"
+            case content = "Content"
+            case endAudioTime = "EndAudioTime"
+            case isPartial = "IsPartial"
+            case items = "Items"
+            case segmentId = "SegmentId"
         }
     }
 
@@ -1123,6 +1680,87 @@ extension TranscribeStreaming {
             self.vocabularyFilterMethod = try response.decodeHeaderIfPresent(VocabularyFilterMethod.self, key: "x-amzn-transcribe-vocabulary-filter-method")
             self.vocabularyFilterName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-filter-name")
             self.vocabularyName = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-vocabulary-name")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartMedicalScribeStreamRequest: AWSEncodableShape {
+        /// Specify the input stream where you will send events in real time. The first element of the input stream must be a MedicalScribeConfigurationEvent.
+        public let inputStream: AWSEventStream<MedicalScribeInputStream>
+        /// Specify the language code for your HealthScribe streaming session.
+        public let languageCode: MedicalScribeLanguageCode
+        /// Specify the encoding used for the input audio. Supported formats are:   FLAC   OPUS-encoded audio in an Ogg container   PCM (only signed 16-bit little-endian audio formats, which does not include WAV)    For more information, see Media formats.
+        public let mediaEncoding: MedicalScribeMediaEncoding
+        /// Specify the sample rate of the input audio (in hertz). Amazon Web Services HealthScribe supports a range from 16,000 Hz to 48,000 Hz. The sample rate you specify must match that of your audio.
+        public let mediaSampleRateHertz: Int
+        /// Specify an identifier for your streaming session (in UUID format). If you don't include a SessionId in your request, Amazon Web Services HealthScribe generates an ID and returns it in the response.
+        public let sessionId: String?
+
+        @inlinable
+        public init(inputStream: AWSEventStream<MedicalScribeInputStream>, languageCode: MedicalScribeLanguageCode, mediaEncoding: MedicalScribeMediaEncoding, mediaSampleRateHertz: Int, sessionId: String? = nil) {
+            self.inputStream = inputStream
+            self.languageCode = languageCode
+            self.mediaEncoding = mediaEncoding
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.inputStream)
+            request.encodeHeader(self.languageCode, key: "x-amzn-transcribe-language-code")
+            request.encodeHeader(self.mediaEncoding, key: "x-amzn-transcribe-media-encoding")
+            request.encodeHeader(self.mediaSampleRateHertz, key: "x-amzn-transcribe-sample-rate")
+            request.encodeHeader(self.sessionId, key: "x-amzn-transcribe-session-id")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
+            try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 16000)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct StartMedicalScribeStreamResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// The Language Code that you specified in your request. Same as provided in the StartMedicalScribeStreamRequest.
+        public let languageCode: MedicalScribeLanguageCode?
+        /// The Media Encoding you specified in your request. Same as provided in the StartMedicalScribeStreamRequest
+        public let mediaEncoding: MedicalScribeMediaEncoding?
+        /// The sample rate (in hertz) that you specified in your request. Same as provided in the StartMedicalScribeStreamRequest
+        public let mediaSampleRateHertz: Int?
+        /// The unique identifier for your streaming request.
+        public let requestId: String?
+        /// The result stream where you will receive the output events.
+        public let resultStream: AWSEventStream<MedicalScribeResultStream>
+        /// The identifier (in UUID format) for your streaming session. If you already started streaming, this is same ID as the one you specified in your initial StartMedicalScribeStreamRequest.
+        public let sessionId: String?
+
+        @inlinable
+        public init(languageCode: MedicalScribeLanguageCode? = nil, mediaEncoding: MedicalScribeMediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, requestId: String? = nil, resultStream: AWSEventStream<MedicalScribeResultStream>, sessionId: String? = nil) {
+            self.languageCode = languageCode
+            self.mediaEncoding = mediaEncoding
+            self.mediaSampleRateHertz = mediaSampleRateHertz
+            self.requestId = requestId
+            self.resultStream = resultStream
+            self.sessionId = sessionId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.languageCode = try response.decodeHeaderIfPresent(MedicalScribeLanguageCode.self, key: "x-amzn-transcribe-language-code")
+            self.mediaEncoding = try response.decodeHeaderIfPresent(MedicalScribeMediaEncoding.self, key: "x-amzn-transcribe-media-encoding")
+            self.mediaSampleRateHertz = try response.decodeHeaderIfPresent(Int.self, key: "x-amzn-transcribe-sample-rate")
+            self.requestId = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-request-id")
+            self.resultStream = try container.decode(AWSEventStream<MedicalScribeResultStream>.self)
+            self.sessionId = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-transcribe-session-id")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1621,6 +2259,7 @@ public struct TranscribeStreamingErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case internalFailureException = "InternalFailureException"
         case limitExceededException = "LimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
         case serviceUnavailableException = "ServiceUnavailableException"
     }
 
@@ -1650,6 +2289,8 @@ public struct TranscribeStreamingErrorType: AWSErrorType {
     public static var internalFailureException: Self { .init(.internalFailureException) }
     /// Your client has exceeded one of the Amazon Transcribe limits. This is typically the audio length limit. Break your audio stream into smaller chunks and try your request again.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The request references a resource which doesn't exist.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service is currently unavailable. Try your request later.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
 }

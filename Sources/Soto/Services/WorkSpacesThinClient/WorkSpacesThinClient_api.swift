@@ -98,7 +98,7 @@ public struct WorkSpacesThinClient: AWSService {
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
     ///   - desiredSoftwareSetId: The ID of the software set to apply.
-    ///   - desktopArn: The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+    ///   - desktopArn: The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
     ///   - desktopEndpoint: The URL for the identity provider login (only for environments that use AppStream 2.0).
     ///   - deviceCreationTags: A map of the key-value pairs of the tag or tags to assign to the newly created devices for this environment.
     ///   - kmsKeyArn: The Amazon Resource Name (ARN) of the Key Management Service key to use to encrypt the environment.
@@ -583,7 +583,7 @@ public struct WorkSpacesThinClient: AWSService {
     ///
     /// Parameters:
     ///   - desiredSoftwareSetId: The ID of the software set to apply.
-    ///   - desktopArn: The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+    ///   - desktopArn: The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
     ///   - desktopEndpoint: The URL for the identity provider login (only for environments that use AppStream 2.0).
     ///   - deviceCreationTags: A map of the key-value pairs of the tag or tags to assign to the newly created devices for this environment.
     ///   - id: The ID of the environment to update.

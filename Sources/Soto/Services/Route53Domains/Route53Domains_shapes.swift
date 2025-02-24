@@ -511,7 +511,7 @@ extension Route53Domains {
         /// 				Domain Name Format in the Amazon Route 53 Developer
         /// 				Guide.
         public let domainName: String?
-        /// The ID of the invoice that is associated with the billing record.
+        /// Deprecated property. This field is retained in report structure for backwards compatibility, but will appear blank.
         public let invoiceId: String?
         /// The operation that you were charged for.
         public let operation: OperationType?

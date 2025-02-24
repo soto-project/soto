@@ -72,6 +72,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContentQualityAnalysisState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DesiredState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case deleted = "DELETED"
@@ -787,6 +793,38 @@ extension MediaConnect {
             case smoothingLatency = "smoothingLatency"
             case streamId = "streamId"
             case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+        }
+    }
+
+    public struct AudioMonitoringSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Detects periods of silence.
+        public let silentAudio: SilentAudio?
+
+        @inlinable
+        public init(silentAudio: SilentAudio? = nil) {
+            self.silentAudio = silentAudio
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case silentAudio = "silentAudio"
+        }
+    }
+
+    public struct BlackFrames: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the BlackFrames metric is enabled or disabled.
+        public let state: State?
+        /// Specifies the number of consecutive seconds of black frames that triggers an event or alert.
+        public let thresholdSeconds: Int?
+
+        @inlinable
+        public init(state: State? = nil, thresholdSeconds: Int? = nil) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case thresholdSeconds = "thresholdSeconds"
         }
     }
 
@@ -1904,6 +1942,24 @@ extension MediaConnect {
         }
     }
 
+    public struct FrozenFrames: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the FrozenFrames metric is enabled or disabled.
+        public let state: State?
+        /// Specifies the number of consecutive seconds of a static image that triggers an event or alert.
+        public let thresholdSeconds: Int?
+
+        @inlinable
+        public init(state: State? = nil, thresholdSeconds: Int? = nil) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case thresholdSeconds = "thresholdSeconds"
+        }
+    }
+
     public struct Gateway: AWSDecodableShape {
         /// The range of IP addresses that contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let egressCidrBlocks: [String]?
@@ -2907,16 +2963,28 @@ extension MediaConnect {
     }
 
     public struct MonitoringConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the settings for audio stream metrics monitoring.
+        public let audioMonitoringSettings: [AudioMonitoringSetting]?
+        /// Indicates whether content quality analysis is enabled or disabled.
+        public let contentQualityAnalysisState: ContentQualityAnalysisState?
         /// The state of thumbnail monitoring.
         public let thumbnailState: ThumbnailState?
+        /// Contains the settings for video stream metrics monitoring.
+        public let videoMonitoringSettings: [VideoMonitoringSetting]?
 
         @inlinable
-        public init(thumbnailState: ThumbnailState? = nil) {
+        public init(audioMonitoringSettings: [AudioMonitoringSetting]? = nil, contentQualityAnalysisState: ContentQualityAnalysisState? = nil, thumbnailState: ThumbnailState? = nil, videoMonitoringSettings: [VideoMonitoringSetting]? = nil) {
+            self.audioMonitoringSettings = audioMonitoringSettings
+            self.contentQualityAnalysisState = contentQualityAnalysisState
             self.thumbnailState = thumbnailState
+            self.videoMonitoringSettings = videoMonitoringSettings
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioMonitoringSettings = "audioMonitoringSettings"
+            case contentQualityAnalysisState = "contentQualityAnalysisState"
             case thumbnailState = "thumbnailState"
+            case videoMonitoringSettings = "videoMonitoringSettings"
         }
     }
 
@@ -3553,6 +3621,24 @@ extension MediaConnect {
             case streamId = "streamId"
             case vpcInterfaceName = "vpcInterfaceName"
             case whitelistCidr = "whitelistCidr"
+        }
+    }
+
+    public struct SilentAudio: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the SilentAudio metric is enabled or disabled.
+        public let state: State?
+        /// Specifies the number of consecutive seconds of silence that triggers an event or alert.
+        public let thresholdSeconds: Int?
+
+        @inlinable
+        public init(state: State? = nil, thresholdSeconds: Int? = nil) {
+            self.state = state
+            self.thresholdSeconds = thresholdSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case thresholdSeconds = "thresholdSeconds"
         }
     }
 
@@ -4796,6 +4882,24 @@ extension MediaConnect {
             case maintenanceDay = "maintenanceDay"
             case maintenanceScheduledDate = "maintenanceScheduledDate"
             case maintenanceStartHour = "maintenanceStartHour"
+        }
+    }
+
+    public struct VideoMonitoringSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Detects video frames that are black.
+        public let blackFrames: BlackFrames?
+        /// Detects video frames that have not changed.
+        public let frozenFrames: FrozenFrames?
+
+        @inlinable
+        public init(blackFrames: BlackFrames? = nil, frozenFrames: FrozenFrames? = nil) {
+            self.blackFrames = blackFrames
+            self.frozenFrames = frozenFrames
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blackFrames = "blackFrames"
+            case frozenFrames = "frozenFrames"
         }
     }
 

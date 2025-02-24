@@ -79,6 +79,34 @@ public struct Resiliencehub: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "resiliencehub.af-south-1.api.aws",
+            "ap-east-1": "resiliencehub.ap-east-1.api.aws",
+            "ap-northeast-1": "resiliencehub.ap-northeast-1.api.aws",
+            "ap-northeast-2": "resiliencehub.ap-northeast-2.api.aws",
+            "ap-south-1": "resiliencehub.ap-south-1.api.aws",
+            "ap-southeast-1": "resiliencehub.ap-southeast-1.api.aws",
+            "ap-southeast-2": "resiliencehub.ap-southeast-2.api.aws",
+            "ca-central-1": "resiliencehub.ca-central-1.api.aws",
+            "eu-central-1": "resiliencehub.eu-central-1.api.aws",
+            "eu-north-1": "resiliencehub.eu-north-1.api.aws",
+            "eu-south-1": "resiliencehub.eu-south-1.api.aws",
+            "eu-west-1": "resiliencehub.eu-west-1.api.aws",
+            "eu-west-2": "resiliencehub.eu-west-2.api.aws",
+            "eu-west-3": "resiliencehub.eu-west-3.api.aws",
+            "me-south-1": "resiliencehub.me-south-1.api.aws",
+            "sa-east-1": "resiliencehub.sa-east-1.api.aws",
+            "us-east-1": "resiliencehub.us-east-1.api.aws",
+            "us-east-2": "resiliencehub.us-east-2.api.aws",
+            "us-gov-east-1": "resiliencehub.us-gov-east-1.api.aws",
+            "us-gov-west-1": "resiliencehub.us-gov-west-1.api.aws",
+            "us-west-1": "resiliencehub.us-west-1.api.aws",
+            "us-west-2": "resiliencehub.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-gov-east-1": "resiliencehub-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "resiliencehub-fips.us-gov-west-1.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-gov-east-1": "resiliencehub-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "resiliencehub-fips.us-gov-west-1.amazonaws.com"

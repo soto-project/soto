@@ -331,7 +331,9 @@ public struct MediaLive: AWSService {
     ///   - anywhereSettings: The Elemental Anywhere settings for this channel.
     ///   - cdiInputSpecification: Specification of CDI inputs for this channel
     ///   - channelClass: The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
+    ///   - channelEngineVersion: The desired engine version for this channel.
     ///   - destinations: 
+    ///   - dryRun: 
     ///   - encoderSettings: 
     ///   - inputAttachments: List of input attachments for channel.
     ///   - inputSpecification: Specification of network and file inputs for this channel
@@ -348,7 +350,9 @@ public struct MediaLive: AWSService {
         anywhereSettings: AnywhereSettings? = nil,
         cdiInputSpecification: CdiInputSpecification? = nil,
         channelClass: ChannelClass? = nil,
+        channelEngineVersion: ChannelEngineVersionRequest? = nil,
         destinations: [OutputDestination]? = nil,
+        dryRun: Bool? = nil,
         encoderSettings: EncoderSettings? = nil,
         inputAttachments: [InputAttachment]? = nil,
         inputSpecification: InputSpecification? = nil,
@@ -365,7 +369,9 @@ public struct MediaLive: AWSService {
             anywhereSettings: anywhereSettings, 
             cdiInputSpecification: cdiInputSpecification, 
             channelClass: channelClass, 
+            channelEngineVersion: channelEngineVersion, 
             destinations: destinations, 
+            dryRun: dryRun, 
             encoderSettings: encoderSettings, 
             inputAttachments: inputAttachments, 
             inputSpecification: inputSpecification, 
@@ -445,6 +451,7 @@ public struct MediaLive: AWSService {
     ///   - metricName: The name of the metric associated with the alarm. Must be compatible with targetResourceType.
     ///   - name: A resource's name. Names must be unique within the scope of a resource type in a specific region.
     ///   - period: The period, in seconds, over which the specified statistic is applied.
+    ///   - requestId: An ID that you assign to a create request. This ID ensures idempotency when creating resources.
     ///   - statistic: 
     ///   - tags: 
     ///   - targetResourceType: 
@@ -461,6 +468,7 @@ public struct MediaLive: AWSService {
         metricName: String? = nil,
         name: String? = nil,
         period: Int? = nil,
+        requestId: String? = CreateCloudWatchAlarmTemplateRequest.idempotencyToken(),
         statistic: CloudWatchAlarmTemplateStatistic? = nil,
         tags: [String: String]? = nil,
         targetResourceType: CloudWatchAlarmTemplateTargetResourceType? = nil,
@@ -477,6 +485,7 @@ public struct MediaLive: AWSService {
             metricName: metricName, 
             name: name, 
             period: period, 
+            requestId: requestId, 
             statistic: statistic, 
             tags: tags, 
             targetResourceType: targetResourceType, 
@@ -504,18 +513,21 @@ public struct MediaLive: AWSService {
     /// Parameters:
     ///   - description: A resource's optional description.
     ///   - name: A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    ///   - requestId: An ID that you assign to a create request. This ID ensures idempotency when creating resources.
     ///   - tags: 
     ///   - logger: Logger use during operation
     @inlinable
     public func createCloudWatchAlarmTemplateGroup(
         description: String? = nil,
         name: String? = nil,
+        requestId: String? = CreateCloudWatchAlarmTemplateGroupRequest.idempotencyToken(),
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCloudWatchAlarmTemplateGroupResponse {
         let input = CreateCloudWatchAlarmTemplateGroupRequest(
             description: description, 
             name: name, 
+            requestId: requestId, 
             tags: tags
         )
         return try await self.createCloudWatchAlarmTemplateGroup(input, logger: logger)
@@ -586,6 +598,7 @@ public struct MediaLive: AWSService {
     ///   - eventType: 
     ///   - groupIdentifier: An eventbridge rule template group's identifier. Can be either be its id or current name.
     ///   - name: A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    ///   - requestId: An ID that you assign to a create request. This ID ensures idempotency when creating resources.
     ///   - tags: 
     ///   - logger: Logger use during operation
     @inlinable
@@ -595,6 +608,7 @@ public struct MediaLive: AWSService {
         eventType: EventBridgeRuleTemplateEventType? = nil,
         groupIdentifier: String? = nil,
         name: String? = nil,
+        requestId: String? = CreateEventBridgeRuleTemplateRequest.idempotencyToken(),
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateEventBridgeRuleTemplateResponse {
@@ -604,6 +618,7 @@ public struct MediaLive: AWSService {
             eventType: eventType, 
             groupIdentifier: groupIdentifier, 
             name: name, 
+            requestId: requestId, 
             tags: tags
         )
         return try await self.createEventBridgeRuleTemplate(input, logger: logger)
@@ -627,18 +642,21 @@ public struct MediaLive: AWSService {
     /// Parameters:
     ///   - description: A resource's optional description.
     ///   - name: A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    ///   - requestId: An ID that you assign to a create request. This ID ensures idempotency when creating resources.
     ///   - tags: 
     ///   - logger: Logger use during operation
     @inlinable
     public func createEventBridgeRuleTemplateGroup(
         description: String? = nil,
         name: String? = nil,
+        requestId: String? = CreateEventBridgeRuleTemplateGroupRequest.idempotencyToken(),
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateEventBridgeRuleTemplateGroupResponse {
         let input = CreateEventBridgeRuleTemplateGroupRequest(
             description: description, 
             name: name, 
+            requestId: requestId, 
             tags: tags
         )
         return try await self.createEventBridgeRuleTemplateGroup(input, logger: logger)
@@ -1008,6 +1026,7 @@ public struct MediaLive: AWSService {
     ///   - discoveryEntryPointArn: A top-level supported AWS resource ARN to discovery a signal map from.
     ///   - eventBridgeRuleTemplateGroupIdentifiers: 
     ///   - name: A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    ///   - requestId: An ID that you assign to a create request. This ID ensures idempotency when creating resources.
     ///   - tags: 
     ///   - logger: Logger use during operation
     @inlinable
@@ -1017,6 +1036,7 @@ public struct MediaLive: AWSService {
         discoveryEntryPointArn: String? = nil,
         eventBridgeRuleTemplateGroupIdentifiers: [String]? = nil,
         name: String? = nil,
+        requestId: String? = CreateSignalMapRequest.idempotencyToken(),
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateSignalMapResponse {
@@ -1026,6 +1046,7 @@ public struct MediaLive: AWSService {
             discoveryEntryPointArn: discoveryEntryPointArn, 
             eventBridgeRuleTemplateGroupIdentifiers: eventBridgeRuleTemplateGroupIdentifiers, 
             name: name, 
+            requestId: requestId, 
             tags: tags
         )
         return try await self.createSignalMap(input, logger: logger)
@@ -2899,6 +2920,32 @@ public struct MediaLive: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Retrieves an array of all the encoder engine versions that are available in this AWS account.
+    @Sendable
+    @inlinable
+    public func listVersions(_ input: ListVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListVersionsResponse {
+        try await self.client.execute(
+            operation: "ListVersions", 
+            path: "/prod/versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves an array of all the encoder engine versions that are available in this AWS account.
+    ///
+    /// Parameters:
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listVersions(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListVersionsResponse {
+        let input = ListVersionsRequest(
+        )
+        return try await self.listVersions(input, logger: logger)
+    }
+
     /// Purchase an offering and create a reservation.
     @Sendable
     @inlinable
@@ -3434,8 +3481,10 @@ public struct MediaLive: AWSService {
     ///
     /// Parameters:
     ///   - cdiInputSpecification: Specification of CDI inputs for this channel
+    ///   - channelEngineVersion: Channel engine version for this channel
     ///   - channelId: channel ID
     ///   - destinations: A list of output destinations for this channel.
+    ///   - dryRun: 
     ///   - encoderSettings: The encoder settings for this channel.
     ///   - inputAttachments: 
     ///   - inputSpecification: Specification of network and file inputs for this channel
@@ -3447,8 +3496,10 @@ public struct MediaLive: AWSService {
     @inlinable
     public func updateChannel(
         cdiInputSpecification: CdiInputSpecification? = nil,
+        channelEngineVersion: ChannelEngineVersionRequest? = nil,
         channelId: String,
         destinations: [OutputDestination]? = nil,
+        dryRun: Bool? = nil,
         encoderSettings: EncoderSettings? = nil,
         inputAttachments: [InputAttachment]? = nil,
         inputSpecification: InputSpecification? = nil,
@@ -3460,8 +3511,10 @@ public struct MediaLive: AWSService {
     ) async throws -> UpdateChannelResponse {
         let input = UpdateChannelRequest(
             cdiInputSpecification: cdiInputSpecification, 
+            channelEngineVersion: channelEngineVersion, 
             channelId: channelId, 
             destinations: destinations, 
+            dryRun: dryRun, 
             encoderSettings: encoderSettings, 
             inputAttachments: inputAttachments, 
             inputSpecification: inputSpecification, 

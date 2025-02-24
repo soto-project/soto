@@ -528,7 +528,7 @@ extension NeptuneGraph {
         public let importOptions: ImportOptions?
         /// Specifies a KMS key to use to encrypt data imported into the new graph.
         public let kmsKeyIdentifier: String?
-        /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the max of the min-provisioned-memory and max-provisioned memory is used to create the graph. If neither value is specified 128 m-NCUs are used.
+        /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified,  128 m-NCUs are used.
         public let maxProvisionedMemory: Int?
         /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
         public let minProvisionedMemory: Int?
@@ -1881,13 +1881,16 @@ extension NeptuneGraph {
     }
 
     public struct ListExportTasksInput: AWSEncodableShape {
+        /// The unique identifier of the Neptune Analytics graph.
+        public let graphIdentifier: String?
         /// The maximum number of export tasks to return.
         public let maxResults: Int?
         /// Pagination token used to paginate input.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(graphIdentifier: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.graphIdentifier = graphIdentifier
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -1895,11 +1898,13 @@ extension NeptuneGraph {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.graphIdentifier, key: "graphIdentifier")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.graphIdentifier, name: "graphIdentifier", parent: name, pattern: "^g-[a-z0-9]{10}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)

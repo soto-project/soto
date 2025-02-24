@@ -1623,7 +1623,7 @@ public struct CloudFront: AWSService {
     ///
     /// Parameters:
     ///   - id: The VPC origin ID.
-    ///   - ifMatch: The VPC origin to delete, if a match occurs.
+    ///   - ifMatch: The version identifier of the VPC origin to delete. This is the ETag value returned in the response to GetVpcOrigin.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteVpcOrigin(

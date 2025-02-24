@@ -242,7 +242,7 @@ public struct AppSync: AWSService {
     /// Creates a cache for the GraphQL API.
     ///
     /// Parameters:
-    ///   - apiCachingBehavior: Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
+    ///   - apiCachingBehavior: Caching behavior.    FULL_REQUEST_CACHING: All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.    OPERATION_LEVEL_CACHING: Full requests are cached together and returned without executing resolvers.
     ///   - apiId: The GraphQL API ID.
     ///   - atRestEncryptionEnabled: At-rest encryption flag for cache. You cannot update this setting after creation.
     ///   - healthMetricsConfig: Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:   NetworkBandwidthOutAllowanceExceeded: The network packets dropped because the throughput exceeded the aggregated bandwidth limit. This is useful for diagnosing bottlenecks in a cache configuration.   EngineCPUUtilization: The CPU utilization (percentage) allocated to the Redis process. This is useful for diagnosing bottlenecks in a cache configuration.   Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
@@ -2372,7 +2372,7 @@ public struct AppSync: AWSService {
     /// Updates the cache for the GraphQL API.
     ///
     /// Parameters:
-    ///   - apiCachingBehavior: Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
+    ///   - apiCachingBehavior: Caching behavior.    FULL_REQUEST_CACHING: All requests from the same user are cached. Individual resolvers are automatically cached. All API calls will try to return responses from the cache.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.    OPERATION_LEVEL_CACHING: Full requests are cached together and returned without executing resolvers.
     ///   - apiId: The GraphQL API ID.
     ///   - healthMetricsConfig: Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:   NetworkBandwidthOutAllowanceExceeded: The network packets dropped because the throughput exceeded the aggregated bandwidth limit. This is useful for diagnosing bottlenecks in a cache configuration.   EngineCPUUtilization: The CPU utilization (percentage) allocated to the Redis process. This is useful for diagnosing bottlenecks in a cache configuration.   Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
     ///   - ttl: TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
@@ -2671,7 +2671,7 @@ public struct AppSync: AWSService {
     public func updateGraphqlApi(
         additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil,
         apiId: String,
-        authenticationType: AuthenticationType? = nil,
+        authenticationType: AuthenticationType,
         enhancedMetricsConfig: EnhancedMetricsConfig? = nil,
         introspectionConfig: GraphQLApiIntrospectionConfig? = nil,
         lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil,

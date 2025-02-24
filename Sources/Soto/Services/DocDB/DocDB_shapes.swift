@@ -238,6 +238,28 @@ extension DocDB {
         }
     }
 
+    public struct ClusterMasterUserSecret: AWSDecodableShape {
+        /// The Amazon Web Services KMS key identifier that is used to encrypt the secret.
+        public let kmsKeyId: String?
+        /// The Amazon Resource Name (ARN) of the secret.
+        public let secretArn: String?
+        /// The status of the secret. The possible status values include the following:   creating - The secret is being created.   active - The secret is available for normal use and rotation.   rotating - The secret is being rotated.   impaired - The secret can be used to access database credentials, but it can't be rotated.  A secret might have this status if, for example, permissions are changed so that Amazon DocumentDB can no longer access either the secret or the KMS key for the secret. When a secret has this status, you can correct the condition that caused the status.  Alternatively, modify the instance to turn off automatic management of database credentials, and then modify the instance again to turn on automatic management of database credentials.
+        public let secretStatus: String?
+
+        @inlinable
+        public init(kmsKeyId: String? = nil, secretArn: String? = nil, secretStatus: String? = nil) {
+            self.kmsKeyId = kmsKeyId
+            self.secretArn = secretArn
+            self.secretStatus = secretStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case secretArn = "SecretArn"
+            case secretStatus = "SecretStatus"
+        }
+    }
+
     public struct CopyDBClusterParameterGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
@@ -359,10 +381,14 @@ extension DocDB {
         public let globalClusterIdentifier: String?
         /// The KMS key identifier for an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon Web Services account that owns the KMS encryption key that is used to encrypt the new cluster, you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:    If the StorageEncrypted parameter is true, Amazon DocumentDB uses your default encryption key.    KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Regions.
         public let kmsKeyId: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. Constraint: You can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
+        public let manageMasterUserPassword: Bool?
         /// The name of the master user for the cluster. Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.
         public let masterUsername: String?
         /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret.  If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// The port number on which the instances in the cluster accept connections.
         public let port: Int?
         /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.    Must be at least 30 minutes.
@@ -383,7 +409,7 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, kmsKeyId: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, preSignedUrl: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
             self.dbClusterIdentifier = dbClusterIdentifier
@@ -395,8 +421,10 @@ extension DocDB {
             self.engineVersion = engineVersion
             self.globalClusterIdentifier = globalClusterIdentifier
             self.kmsKeyId = kmsKeyId
+            self.manageMasterUserPassword = manageMasterUserPassword
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
@@ -425,8 +453,10 @@ extension DocDB {
             case engineVersion = "EngineVersion"
             case globalClusterIdentifier = "GlobalClusterIdentifier"
             case kmsKeyId = "KmsKeyId"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case port = "Port"
             case preferredBackupWindow = "PreferredBackupWindow"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
@@ -821,6 +851,8 @@ extension DocDB {
         public let latestRestorableTime: Date?
         /// Contains the master user name for the cluster.
         public let masterUsername: String?
+        /// The secret managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the master user password.
+        public let masterUserSecret: ClusterMasterUserSecret?
         /// Specifies whether the cluster has instances in multiple Availability Zones.
         public let multiAZ: Bool?
         /// Specifies the progress of the operation as a percentage.
@@ -849,7 +881,7 @@ extension DocDB {
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
         @inlinable
-        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backupRetentionPeriod: Int? = nil, cloneGroupId: String? = nil, clusterCreateTime: Date? = nil, dbClusterArn: String? = nil, dbClusterIdentifier: String? = nil, dbClusterMembers: [DBClusterMember]? = nil, dbClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dbSubnetGroup: String? = nil, deletionProtection: Bool? = nil, earliestRestorableTime: Date? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineVersion: String? = nil, hostedZoneId: String? = nil, kmsKeyId: String? = nil, latestRestorableTime: Date? = nil, masterUsername: String? = nil, masterUserSecret: ClusterMasterUserSecret? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.associatedRoles = associatedRoles
             self.availabilityZones = availabilityZones
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -871,6 +903,7 @@ extension DocDB {
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
             self.masterUsername = masterUsername
+            self.masterUserSecret = masterUserSecret
             self.multiAZ = multiAZ
             self.percentProgress = percentProgress
             self.port = port
@@ -907,6 +940,7 @@ extension DocDB {
             case kmsKeyId = "KmsKeyId"
             case latestRestorableTime = "LatestRestorableTime"
             case masterUsername = "MasterUsername"
+            case masterUserSecret = "MasterUserSecret"
             case multiAZ = "MultiAZ"
             case percentProgress = "PercentProgress"
             case port = "Port"
@@ -2716,8 +2750,12 @@ extension DocDB {
         public let deletionProtection: Bool?
         /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Amazon DocumentDB use the following command:  aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"
         public let engineVersion: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management.  In this case, you can't specify MasterUserPassword. If the cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword.  In this case, Amazon DocumentDB deletes the secret and uses the new password for the master user specified by MasterUserPassword.
+        public let manageMasterUserPassword: Bool?
         /// The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
         public let masterUserPassword: String?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The cluster doesn't manage the master user password in Amazon Web Services Secrets Manager.  If the cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret.   You are enabling ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager.  If you are turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret.  If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2
         public let newDBClusterIdentifier: String?
         /// The port number on which the cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The same port as the original cluster.
@@ -2726,6 +2764,8 @@ extension DocDB {
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
+        /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster.  The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
+        public let rotateMasterUserPassword: Bool?
         /// The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
         public let storageType: String?
         /// A list of virtual private cloud (VPC) security groups that the cluster will belong to.
@@ -2733,7 +2773,7 @@ extension DocDB {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, masterUserPassword: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allowMajorVersionUpgrade: Bool? = nil, applyImmediately: Bool? = nil, backupRetentionPeriod: Int? = nil, cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration? = nil, dbClusterIdentifier: String? = nil, dbClusterParameterGroupName: String? = nil, deletionProtection: Bool? = nil, engineVersion: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, newDBClusterIdentifier: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, rotateMasterUserPassword: Bool? = nil, storageType: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
             self.applyImmediately = applyImmediately
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -2742,11 +2782,14 @@ extension DocDB {
             self.dbClusterParameterGroupName = dbClusterParameterGroupName
             self.deletionProtection = deletionProtection
             self.engineVersion = engineVersion
+            self.manageMasterUserPassword = manageMasterUserPassword
             self.masterUserPassword = masterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.newDBClusterIdentifier = newDBClusterIdentifier
             self.port = port
             self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.rotateMasterUserPassword = rotateMasterUserPassword
             self.storageType = storageType
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
@@ -2760,11 +2803,14 @@ extension DocDB {
             case dbClusterParameterGroupName = "DBClusterParameterGroupName"
             case deletionProtection = "DeletionProtection"
             case engineVersion = "EngineVersion"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
             case masterUserPassword = "MasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case newDBClusterIdentifier = "NewDBClusterIdentifier"
             case port = "Port"
             case preferredBackupWindow = "PreferredBackupWindow"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case rotateMasterUserPassword = "RotateMasterUserPassword"
             case storageType = "StorageType"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
         }

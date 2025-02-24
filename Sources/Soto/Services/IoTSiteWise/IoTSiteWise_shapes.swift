@@ -321,6 +321,15 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum RawValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case boolean = "B"
+        case double = "D"
+        case integer = "I"
+        case string = "S"
+        case unknown = "U"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case portal = "PORTAL"
         case project = "PROJECT"
@@ -2397,11 +2406,14 @@ extension IoTSiteWise {
     }
 
     public struct BatchPutAssetPropertyValueRequest: AWSEncodableShape {
+        /// This setting enables partial ingestion at entry-level. If set to true, we ingest all TQVs not resulting in an error. If set to  false, an invalid TQV fails ingestion of the entire entry that contains it.
+        public let enablePartialEntryProcessing: Bool?
         /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
         public let entries: [PutAssetPropertyValueEntry]
 
         @inlinable
-        public init(entries: [PutAssetPropertyValueEntry]) {
+        public init(enablePartialEntryProcessing: Bool? = nil, entries: [PutAssetPropertyValueEntry]) {
+            self.enablePartialEntryProcessing = enablePartialEntryProcessing
             self.entries = entries
         }
 
@@ -2412,6 +2424,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enablePartialEntryProcessing = "enablePartialEntryProcessing"
             case entries = "entries"
         }
     }
@@ -5235,6 +5248,8 @@ extension IoTSiteWise {
 
     public struct DescribeStorageConfigurationResponse: AWSDecodableShape {
         public let configurationStatus: ConfigurationStatus
+        /// Describes the configuration for ingesting NULL and NaN data.  By default the feature is allowed. The feature is disallowed if the value is true.
+        public let disallowIngestNullNaN: Bool?
         /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams in the IoT SiteWise User Guide.
         public let disassociatedDataStorage: DisassociatedDataStorageState?
         /// The date the storage configuration was last updated, in Unix epoch time.
@@ -5251,8 +5266,9 @@ extension IoTSiteWise {
         public let warmTierRetentionPeriod: WarmTierRetentionPeriod?
 
         @inlinable
-        public init(configurationStatus: ConfigurationStatus, disassociatedDataStorage: DisassociatedDataStorageState? = nil, lastUpdateDate: Date? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType, warmTier: WarmTierState? = nil, warmTierRetentionPeriod: WarmTierRetentionPeriod? = nil) {
+        public init(configurationStatus: ConfigurationStatus, disallowIngestNullNaN: Bool? = nil, disassociatedDataStorage: DisassociatedDataStorageState? = nil, lastUpdateDate: Date? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType, warmTier: WarmTierState? = nil, warmTierRetentionPeriod: WarmTierRetentionPeriod? = nil) {
             self.configurationStatus = configurationStatus
+            self.disallowIngestNullNaN = disallowIngestNullNaN
             self.disassociatedDataStorage = disassociatedDataStorage
             self.lastUpdateDate = lastUpdateDate
             self.multiLayerStorage = multiLayerStorage
@@ -5264,6 +5280,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case configurationStatus = "configurationStatus"
+            case disallowIngestNullNaN = "disallowIngestNullNaN"
             case disassociatedDataStorage = "disassociatedDataStorage"
             case lastUpdateDate = "lastUpdateDate"
             case multiLayerStorage = "multiLayerStorage"
@@ -8020,6 +8037,20 @@ extension IoTSiteWise {
         }
     }
 
+    public struct PropertyValueNullValue: AWSEncodableShape & AWSDecodableShape {
+        /// The type of null asset property data.
+        public let valueType: RawValueType
+
+        @inlinable
+        public init(valueType: RawValueType) {
+            self.valueType = valueType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valueType = "valueType"
+        }
+    }
+
     public struct PutAssetPropertyValueEntry: AWSEncodableShape {
         /// The ID of the asset to update.
         public let assetId: String?
@@ -8132,6 +8163,8 @@ extension IoTSiteWise {
     }
 
     public struct PutStorageConfigurationRequest: AWSEncodableShape {
+        /// Describes the configuration for ingesting NULL and NaN data.  By default the feature is allowed. The feature is disallowed if the value is true.
+        public let disallowIngestNullNaN: Bool?
         /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams in the IoT SiteWise User Guide.
         public let disassociatedDataStorage: DisassociatedDataStorageState?
         /// Identifies a storage destination. If you specified MULTI_LAYER_STORAGE for the storage type, you must specify a MultiLayerStorage object.
@@ -8145,7 +8178,8 @@ extension IoTSiteWise {
         public let warmTierRetentionPeriod: WarmTierRetentionPeriod?
 
         @inlinable
-        public init(disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType, warmTier: WarmTierState? = nil, warmTierRetentionPeriod: WarmTierRetentionPeriod? = nil) {
+        public init(disallowIngestNullNaN: Bool? = nil, disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType, warmTier: WarmTierState? = nil, warmTierRetentionPeriod: WarmTierRetentionPeriod? = nil) {
+            self.disallowIngestNullNaN = disallowIngestNullNaN
             self.disassociatedDataStorage = disassociatedDataStorage
             self.multiLayerStorage = multiLayerStorage
             self.retentionPeriod = retentionPeriod
@@ -8156,11 +8190,10 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.multiLayerStorage?.validate(name: "\(name).multiLayerStorage")
-            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
-            try self.warmTierRetentionPeriod?.validate(name: "\(name).warmTierRetentionPeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case disallowIngestNullNaN = "disallowIngestNullNaN"
             case disassociatedDataStorage = "disassociatedDataStorage"
             case multiLayerStorage = "multiLayerStorage"
             case retentionPeriod = "retentionPeriod"
@@ -8172,6 +8205,8 @@ extension IoTSiteWise {
 
     public struct PutStorageConfigurationResponse: AWSDecodableShape {
         public let configurationStatus: ConfigurationStatus
+        /// Describes the configuration for ingesting NULL and NaN data.  By default the feature is allowed. The feature is disallowed if the value is true.
+        public let disallowIngestNullNaN: Bool?
         /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams in the IoT SiteWise User Guide.
         public let disassociatedDataStorage: DisassociatedDataStorageState?
         /// Contains information about the storage destination.
@@ -8185,8 +8220,9 @@ extension IoTSiteWise {
         public let warmTierRetentionPeriod: WarmTierRetentionPeriod?
 
         @inlinable
-        public init(configurationStatus: ConfigurationStatus, disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType, warmTier: WarmTierState? = nil, warmTierRetentionPeriod: WarmTierRetentionPeriod? = nil) {
+        public init(configurationStatus: ConfigurationStatus, disallowIngestNullNaN: Bool? = nil, disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType, warmTier: WarmTierState? = nil, warmTierRetentionPeriod: WarmTierRetentionPeriod? = nil) {
             self.configurationStatus = configurationStatus
+            self.disallowIngestNullNaN = disallowIngestNullNaN
             self.disassociatedDataStorage = disassociatedDataStorage
             self.multiLayerStorage = multiLayerStorage
             self.retentionPeriod = retentionPeriod
@@ -8197,6 +8233,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case configurationStatus = "configurationStatus"
+            case disallowIngestNullNaN = "disallowIngestNullNaN"
             case disassociatedDataStorage = "disassociatedDataStorage"
             case multiLayerStorage = "multiLayerStorage"
             case retentionPeriod = "retentionPeriod"
@@ -8266,10 +8303,6 @@ extension IoTSiteWise {
         public init(numberOfDays: Int? = nil, unlimited: Bool? = nil) {
             self.numberOfDays = numberOfDays
             self.unlimited = unlimited
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.numberOfDays, name: "numberOfDays", parent: name, min: 30)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9462,18 +9495,21 @@ extension IoTSiteWise {
     public struct Variant: AWSEncodableShape & AWSDecodableShape {
         /// Asset property data of type Boolean (true or false).
         public let booleanValue: Bool?
-        /// Asset property data of type double (floating point number).
+        ///  Asset property data of type double (floating point number). The min value is -10^10.  The max value is 10^10. Double.NaN is allowed.
         public let doubleValue: Double?
         /// Asset property data of type integer (whole number).
         public let integerValue: Int?
-        /// Asset property data of type string (sequence of characters).
+        /// The type of null asset property data with BAD and UNCERTAIN qualities.
+        public let nullValue: PropertyValueNullValue?
+        ///  Asset property data of type string (sequence of characters). The allowed pattern: "^$|[^\u0000-\u001F\u007F]+". The max length is 1024.
         public let stringValue: String?
 
         @inlinable
-        public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, integerValue: Int? = nil, stringValue: String? = nil) {
+        public init(booleanValue: Bool? = nil, doubleValue: Double? = nil, integerValue: Int? = nil, nullValue: PropertyValueNullValue? = nil, stringValue: String? = nil) {
             self.booleanValue = booleanValue
             self.doubleValue = doubleValue
             self.integerValue = integerValue
+            self.nullValue = nullValue
             self.stringValue = stringValue
         }
 
@@ -9481,6 +9517,7 @@ extension IoTSiteWise {
             case booleanValue = "booleanValue"
             case doubleValue = "doubleValue"
             case integerValue = "integerValue"
+            case nullValue = "nullValue"
             case stringValue = "stringValue"
         }
     }
@@ -9495,10 +9532,6 @@ extension IoTSiteWise {
         public init(numberOfDays: Int? = nil, unlimited: Bool? = nil) {
             self.numberOfDays = numberOfDays
             self.unlimited = unlimited
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.numberOfDays, name: "numberOfDays", parent: name, min: 30)
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -82,6 +82,7 @@ public struct Route53: AWSService {
         "aws-cn-global": "route53.amazonaws.com.cn",
         "aws-global": "route53.amazonaws.com",
         "aws-iso-b-global": "route53.sc2s.sgov.gov",
+        "aws-iso-f-global": "route53.csp.hci.ic.gov",
         "aws-iso-global": "route53.c2s.ic.gov",
         "aws-us-gov-global": "route53.us-gov.amazonaws.com"
     ]}
@@ -92,6 +93,7 @@ public struct Route53: AWSService {
         .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
         .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
         .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+        .awsisof: (endpoint: "aws-iso-f-global", region: .usisofsouth1),
         .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
     ]}
 

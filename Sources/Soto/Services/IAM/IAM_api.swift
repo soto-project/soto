@@ -81,6 +81,7 @@ public struct IAM: AWSService {
         "aws-cn-global": "iam.cn-north-1.amazonaws.com.cn",
         "aws-global": "iam.amazonaws.com",
         "aws-iso-b-global": "iam.us-isob-east-1.sc2s.sgov.gov",
+        "aws-iso-f-global": "iam.us-isof-south-1.csp.hci.ic.gov",
         "aws-iso-global": "iam.us-iso-east-1.c2s.ic.gov",
         "aws-us-gov-global": "iam.us-gov.amazonaws.com"
     ]}
@@ -91,6 +92,7 @@ public struct IAM: AWSService {
         .awscn: (endpoint: "aws-cn-global", region: .cnnorth1),
         .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
         .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+        .awsisof: (endpoint: "aws-iso-f-global", region: .usisofsouth1),
         .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
     ]}
 
@@ -136,7 +138,7 @@ public struct IAM: AWSService {
         return try await self.addClientIDToOpenIDConnectProvider(input, logger: logger)
     }
 
-    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency. To force the change, you must disassociate the instance profile and then associate the instance profile, or you can stop your instance and then restart it.  The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy.  For more information about roles, see IAM roles in the IAM User Guide. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
+    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency. To force the change, you must disassociate the instance profile and then associate the instance profile, or you can stop your instance and then restart it.  The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy.   When using the iam:AssociatedResourceArn condition in a policy to restrict the PassRole IAM action, special considerations apply if the policy is intended to define access for the AddRoleToInstanceProfile action. In this case, you cannot specify a Region or instance ID in the EC2 instance ARN. The ARN value must be arn:aws:ec2:*:CallerAccountId:instance/*. Using any other ARN value may lead to unexpected evaluation results.  For more information about roles, see IAM roles in the IAM User Guide. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     @Sendable
     @inlinable
     public func addRoleToInstanceProfile(_ input: AddRoleToInstanceProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -149,7 +151,7 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency. To force the change, you must disassociate the instance profile and then associate the instance profile, or you can stop your instance and then restart it.  The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy.  For more information about roles, see IAM roles in the IAM User Guide. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
+    /// Adds the specified IAM role to the specified instance profile. An instance profile can contain only one role, and this quota cannot be increased. You can remove the existing role and then add a different role to an instance profile. You must then wait for the change to appear across all of Amazon Web Services because of eventual consistency. To force the change, you must disassociate the instance profile and then associate the instance profile, or you can stop your instance and then restart it.  The caller of this operation must be granted the PassRole permission on the IAM role by a permissions policy.   When using the iam:AssociatedResourceArn condition in a policy to restrict the PassRole IAM action, special considerations apply if the policy is intended to define access for the AddRoleToInstanceProfile action. In this case, you cannot specify a Region or instance ID in the EC2 instance ARN. The ARN value must be arn:aws:ec2:*:CallerAccountId:instance/*. Using any other ARN value may lead to unexpected evaluation results.  For more information about roles, see IAM roles in the IAM User Guide. For more information about instance profiles, see Using instance profiles in the IAM User Guide.
     ///
     /// Parameters:
     ///   - instanceProfileName: The name of the instance profile to update. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
@@ -665,18 +667,24 @@ public struct IAM: AWSService {
     /// Creates an IAM resource that describes an identity provider (IdP) that supports SAML 2.0. The SAML provider resource that you create with this operation can be used as a principal in an IAM role's trust policy. Such a policy can enable federated users who sign in using the SAML IdP to assume the role. You can create an IAM role that supports Web-based single sign-on (SSO) to the Amazon Web Services Management Console or one that supports API access to Amazon Web Services. When you create the SAML provider resource, you upload a SAML metadata document that you get from your IdP. That document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that the IdP sends. You must generate the metadata document using the identity management software that is used as your organization's IdP.  This operation requires Signature Version 4.  For more information, see Enabling SAML 2.0 federated users to access the Amazon Web Services Management Console and About SAML 2.0-based federation in the IAM User Guide.
     ///
     /// Parameters:
+    ///   - addPrivateKey: The private key generated from your external identity provider. The private key must be a .pem file that uses AES-GCM or AES-CBC encryption algorithm to decrypt SAML assertions.
+    ///   - assertionEncryptionMode: Specifies the encryption setting for the SAML provider.
     ///   - name: The name of the provider to create. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
     ///   - samlMetadataDocument: An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP. For more information, see About SAML 2.0-based federation in the IAM User Guide
     ///   - tags: A list of tags that you want to attach to the new IAM SAML provider. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request  fails and the resource is not created.
     ///   - logger: Logger use during operation
     @inlinable
     public func createSAMLProvider(
+        addPrivateKey: String? = nil,
+        assertionEncryptionMode: AssertionEncryptionModeType? = nil,
         name: String,
         samlMetadataDocument: String,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateSAMLProviderResponse {
         let input = CreateSAMLProviderRequest(
+            addPrivateKey: addPrivateKey, 
+            assertionEncryptionMode: assertionEncryptionMode, 
             name: name, 
             samlMetadataDocument: samlMetadataDocument, 
             tags: tags
@@ -1627,7 +1635,7 @@ public struct IAM: AWSService {
         return try await self.detachUserPolicy(input, logger: logger)
     }
 
-    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer manage root user credentials for member accounts in your organization.
+    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer manage root user credentials for member accounts in your organization.
     @Sendable
     @inlinable
     public func disableOrganizationsRootCredentialsManagement(_ input: DisableOrganizationsRootCredentialsManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationsRootCredentialsManagementResponse {
@@ -1640,7 +1648,7 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer manage root user credentials for member accounts in your organization.
+    /// Disables the management of privileged root user credentials across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer manage root user credentials for member accounts in your organization.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1653,7 +1661,7 @@ public struct IAM: AWSService {
         return try await self.disableOrganizationsRootCredentialsManagement(input, logger: logger)
     }
 
-    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer perform privileged tasks on member accounts in your organization.
+    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer perform privileged tasks on member accounts in your organization.
     @Sendable
     @inlinable
     public func disableOrganizationsRootSessions(_ input: DisableOrganizationsRootSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableOrganizationsRootSessionsResponse {
@@ -1666,7 +1674,7 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated admininstrator for IAM can no longer perform privileged tasks on member accounts in your organization.
+    /// Disables root user sessions for privileged tasks across member accounts in your organization. When you disable this feature, the management account and the delegated administrator for IAM can no longer perform privileged tasks on member accounts in your organization.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1717,7 +1725,7 @@ public struct IAM: AWSService {
         return try await self.enableMFADevice(input, logger: logger)
     }
 
-    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access, the management account and the delegated admininstrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access, the management account and the delegated administrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
     @Sendable
     @inlinable
     public func enableOrganizationsRootCredentialsManagement(_ input: EnableOrganizationsRootCredentialsManagementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableOrganizationsRootCredentialsManagementResponse {
@@ -1730,7 +1738,7 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access, the management account and the delegated admininstrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
+    /// Enables the management of privileged root user credentials across member accounts in your organization. When you enable root credentials management for centralized root access, the management account and the delegated administrator for IAM can manage root user credentials for member accounts in your organization. Before you enable centralized root access, you must have an account configured with the following settings:   You must manage your Amazon Web Services accounts in Organizations.   Enable trusted access for Identity and Access Management in Organizations. For details, see IAM and Organizations in the Organizations User Guide.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -2647,7 +2655,7 @@ public struct IAM: AWSService {
         return try await self.listAccessKeys(input, logger: logger)
     }
 
-    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User Guide.
+    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the IAM User Guide.
     @Sendable
     @inlinable
     public func listAccountAliases(_ input: ListAccountAliasesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccountAliasesResponse {
@@ -2660,7 +2668,7 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the Amazon Web Services Sign-In User Guide.
+    /// Lists the account alias associated with the Amazon Web Services account (Note: you can have only one). For information about using an Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web Services account alias in the IAM User Guide.
     ///
     /// Parameters:
     ///   - marker: Use this parameter only when paginating results and only after  you receive a response indicating that the results are truncated. Set it to the value of the Marker element in the response that you received to indicate where the next call  should start.
@@ -5149,7 +5157,7 @@ public struct IAM: AWSService {
         return try await self.updateRoleDescription(input, logger: logger)
     }
 
-    /// Updates the metadata document for an existing SAML provider resource object.  This operation requires Signature Version 4.
+    /// Updates the metadata document, SAML encryption settings, and private keys for an existing SAML provider. To rotate private keys, add your new private key and then remove the old key in a separate request.
     @Sendable
     @inlinable
     public func updateSAMLProvider(_ input: UpdateSAMLProviderRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSAMLProviderResponse {
@@ -5162,19 +5170,28 @@ public struct IAM: AWSService {
             logger: logger
         )
     }
-    /// Updates the metadata document for an existing SAML provider resource object.  This operation requires Signature Version 4.
+    /// Updates the metadata document, SAML encryption settings, and private keys for an existing SAML provider. To rotate private keys, add your new private key and then remove the old key in a separate request.
     ///
     /// Parameters:
-    ///   - samlMetadataDocument: An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP.
+    ///   - addPrivateKey: Specifies the new private key from your external identity provider. The private key must be a .pem file that uses AES-GCM or AES-CBC encryption algorithm to decrypt SAML assertions.
+    ///   - assertionEncryptionMode: Specifies the encryption setting for the SAML provider.
+    ///   - removePrivateKey: The Key ID of the private key to remove.
+    ///   - samlMetadataDocument: An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your IdP.
     ///   - samlProviderArn: The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSAMLProvider(
-        samlMetadataDocument: String,
+        addPrivateKey: String? = nil,
+        assertionEncryptionMode: AssertionEncryptionModeType? = nil,
+        removePrivateKey: String? = nil,
+        samlMetadataDocument: String? = nil,
         samlProviderArn: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateSAMLProviderResponse {
         let input = UpdateSAMLProviderRequest(
+            addPrivateKey: addPrivateKey, 
+            assertionEncryptionMode: assertionEncryptionMode, 
+            removePrivateKey: removePrivateKey, 
             samlMetadataDocument: samlMetadataDocument, 
             samlProviderArn: samlProviderArn
         )

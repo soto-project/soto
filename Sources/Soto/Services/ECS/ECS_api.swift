@@ -1541,7 +1541,7 @@ public struct ECS: AWSService {
     }
 
     /// This operation lists all the service deployments that meet the specified filter
-    /// 			criteria. A service deployment happens when you release a softwre update for the service. You
+    /// 			criteria. A service deployment happens when you release a software update for the service. You
     /// 			route traffic from the running service revisions to the new service revison and control
     /// 			the number of running tasks.  This API returns the values that you use for the request parameters in DescribeServiceRevisions.
     @Sendable
@@ -1557,7 +1557,7 @@ public struct ECS: AWSService {
         )
     }
     /// This operation lists all the service deployments that meet the specified filter
-    /// 			criteria. A service deployment happens when you release a softwre update for the service. You
+    /// 			criteria. A service deployment happens when you release a software update for the service. You
     /// 			route traffic from the running service revisions to the new service revison and control
     /// 			the number of running tasks.  This API returns the values that you use for the request parameters in DescribeServiceRevisions.
     ///
@@ -2408,7 +2408,7 @@ public struct ECS: AWSService {
     /// Parameters:
     ///   - cluster: The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop.
     ///   - reason: An optional message specified when a task is stopped. For example, if you're using a
-    ///   - task: The task ID of the task to stop.
+    ///   - task: Thefull Amazon Resource Name (ARN) of the task.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopTask(

@@ -68,17 +68,22 @@ extension S3 {
         public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
         public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
         public static var apSoutheast3: Self { .init(rawValue: "ap-southeast-3") }
+        public static var apSoutheast4: Self { .init(rawValue: "ap-southeast-4") }
+        public static var apSoutheast5: Self { .init(rawValue: "ap-southeast-5") }
         public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
         public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
         public static var cnNorthwest1: Self { .init(rawValue: "cn-northwest-1") }
         public static var eu: Self { .init(rawValue: "EU") }
         public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
+        public static var euCentral2: Self { .init(rawValue: "eu-central-2") }
         public static var euNorth1: Self { .init(rawValue: "eu-north-1") }
         public static var euSouth1: Self { .init(rawValue: "eu-south-1") }
         public static var euSouth2: Self { .init(rawValue: "eu-south-2") }
         public static var euWest1: Self { .init(rawValue: "eu-west-1") }
         public static var euWest2: Self { .init(rawValue: "eu-west-2") }
         public static var euWest3: Self { .init(rawValue: "eu-west-3") }
+        public static var ilCentral1: Self { .init(rawValue: "il-central-1") }
+        public static var meCentral1: Self { .init(rawValue: "me-central-1") }
         public static var meSouth1: Self { .init(rawValue: "me-south-1") }
         public static var saEast1: Self { .init(rawValue: "sa-east-1") }
         public static var usEast1: Self { .init(rawValue: "us-east-1") }
@@ -118,6 +123,12 @@ extension S3 {
 
     public enum ChecksumMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChecksumType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case composite = "COMPOSITE"
+        case fullObject = "FULL_OBJECT"
         public var description: String { return self.rawValue }
     }
 
@@ -733,7 +744,7 @@ extension S3 {
     }
 
     public struct AbortMultipartUploadRequest: AWSEncodableShape {
-        /// The bucket name to which the upload was taking place.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name to which the upload was taking place.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -1103,28 +1114,36 @@ extension S3 {
     }
 
     public struct Checksum: AWSDecodableShape {
-        /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This checksum is present if the object was uploaded with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The checksum type that is used to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumType = checksumType
         }
 
         private enum CodingKeys: String, CodingKey {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
+            case checksumCRC64NVME = "ChecksumCRC64NVME"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumType = "ChecksumType"
         }
     }
 
@@ -1147,14 +1166,18 @@ extension S3 {
         public let bucket: String?
         /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
-        /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum type that was specified during the CreateMultipartUpload request. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// Entity tag that identifies the newly created object's data. Objects with different object data will have different entity tags. The entity tag is an opaque string. The entity tag may or may not be an MD5 digest of the object data. If the entity tag is not an MD5 digest of the object data, it will contain one or more nonhexadecimal characters and/or will consist of less than 32 or more than 32 hexadecimal digits. For more information about how the entity tag is calculated, see Checking object integrity in the Amazon S3 User Guide.
         public let eTag: String?
         /// If the object expiration is configured, this will contain the expiration date (expiry-date) and rule ID (rule-id). The value of rule-id is URL-encoded.  This functionality is not supported for directory buckets.
@@ -1172,13 +1195,15 @@ extension S3 {
         public let versionId: String?
 
         @inlinable
-        public init(bucket: String? = nil, bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, expiration: String? = nil, key: String? = nil, location: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
+        public init(bucket: String? = nil, bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, eTag: String? = nil, expiration: String? = nil, key: String? = nil, location: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumType = checksumType
             self.eTag = eTag
             self.expiration = expiration
             self.key = key
@@ -1196,8 +1221,10 @@ extension S3 {
             self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
             self.checksumCRC32 = try container.decodeIfPresent(String.self, forKey: .checksumCRC32)
             self.checksumCRC32C = try container.decodeIfPresent(String.self, forKey: .checksumCRC32C)
+            self.checksumCRC64NVME = try container.decodeIfPresent(String.self, forKey: .checksumCRC64NVME)
             self.checksumSHA1 = try container.decodeIfPresent(String.self, forKey: .checksumSHA1)
             self.checksumSHA256 = try container.decodeIfPresent(String.self, forKey: .checksumSHA256)
+            self.checksumType = try container.decodeIfPresent(ChecksumType.self, forKey: .checksumType)
             self.eTag = try container.decodeIfPresent(String.self, forKey: .eTag)
             self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
             self.key = try container.decodeIfPresent(String.self, forKey: .key)
@@ -1212,8 +1239,10 @@ extension S3 {
             case bucket = "Bucket"
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
+            case checksumCRC64NVME = "ChecksumCRC64NVME"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumType = "ChecksumType"
             case eTag = "ETag"
             case key = "Key"
             case location = "Location"
@@ -1222,16 +1251,20 @@ extension S3 {
 
     public struct CompleteMultipartUploadRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "CompleteMultipartUpload"
-        /// Name of the bucket to which the multipart upload was initiated.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// Name of the bucket to which the multipart upload was initiated.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC-32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC-32C checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32C checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 160-bit SHA-1 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 256-bit SHA-256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. If the checksum type doesn’t match the checksum type that was specified for the object during the CreateMultipartUpload request, it’ll result in a BadDigest error. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
         /// Uploads the object only if the ETag (entity tag) value provided during the WRITE operation matches the ETag of the object in S3. If the ETag values do not match, the operation returns a 412 Precondition Failed error. If a conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict response. On a 409 failure you should fetch the object's ETag, re-initiate the multipart upload with CreateMultipartUpload, and re-upload each part. Expects the ETag value as a string. For more information about conditional requests, see RFC 7232, or Conditional requests in the Amazon S3 User Guide.
@@ -1240,6 +1273,8 @@ extension S3 {
         public let ifNoneMatch: String?
         /// Object key for which the multipart upload was initiated.
         public let key: String
+        ///  The expected total object size of the multipart upload request. If there’s a mismatch between the specified object size value and the actual object size value, it results in an HTTP 400 InvalidRequest error.
+        public let mpuObjectSize: Int64?
         /// The container for the multipart upload request information.
         public let multipartUpload: CompletedMultipartUpload?
         public let requestPayer: RequestPayer?
@@ -1253,16 +1288,19 @@ extension S3 {
         public let uploadId: String
 
         @inlinable
-        public init(bucket: String, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(bucket: String, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, expectedBucketOwner: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, mpuObjectSize: Int64? = nil, multipartUpload: CompletedMultipartUpload? = nil, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
             self.bucket = bucket
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumType = checksumType
             self.expectedBucketOwner = expectedBucketOwner
             self.ifMatch = ifMatch
             self.ifNoneMatch = ifNoneMatch
             self.key = key
+            self.mpuObjectSize = mpuObjectSize
             self.multipartUpload = multipartUpload
             self.requestPayer = requestPayer
             self.sseCustomerAlgorithm = sseCustomerAlgorithm
@@ -1277,12 +1315,15 @@ extension S3 {
             request.encodePath(self.bucket, key: "Bucket")
             request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
             request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
+            request.encodeHeader(self.checksumCRC64NVME, key: "x-amz-checksum-crc64nvme")
             request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
             request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
+            request.encodeHeader(self.checksumType, key: "x-amz-checksum-type")
             request.encodeHeader(self.expectedBucketOwner, key: "x-amz-expected-bucket-owner")
             request.encodeHeader(self.ifMatch, key: "If-Match")
             request.encodeHeader(self.ifNoneMatch, key: "If-None-Match")
             request.encodePath(self.key, key: "Key")
+            request.encodeHeader(self.mpuObjectSize, key: "x-amz-mp-object-size")
             try container.encode(self.multipartUpload)
             request.encodeHeader(self.requestPayer, key: "x-amz-request-payer")
             request.encodeHeader(self.sseCustomerAlgorithm, key: "x-amz-server-side-encryption-customer-algorithm")
@@ -1313,13 +1354,15 @@ extension S3 {
     }
 
     public struct CompletedPart: AWSEncodableShape {
-        /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the part. This checksum is present if the multipart upload request was created with the CRC32 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the part. This checksum is present if the multipart upload request was created with the CRC32C checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 checksum of the part. This checksum is present if the multipart upload request was created with the SHA1 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 checksum of the part. This checksum is present if the multipart upload request was created with the SHA256 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
@@ -1327,9 +1370,10 @@ extension S3 {
         public let partNumber: Int?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, partNumber: Int? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, partNumber: Int? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
             self.eTag = eTag
@@ -1339,6 +1383,7 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
+            case checksumCRC64NVME = "ChecksumCRC64NVME"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
             case eTag = "ETag"
@@ -1384,7 +1429,7 @@ extension S3 {
         public let sseCustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide the round-trip message integrity verification of the customer-provided encryption key.  This functionality is not supported for directory buckets.
         public let sseCustomerKeyMD5: String?
-        /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
+        /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64 encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let ssekmsEncryptionContext: String?
         /// If present, indicates the ID of the KMS key that was used for object encryption.
         public let ssekmsKeyId: String?
@@ -1428,7 +1473,7 @@ extension S3 {
     public struct CopyObjectRequest: AWSEncodableShape {
         /// The canned access control list (ACL) to apply to the object. When you copy an object, the ACL metadata is not preserved and is set to private by default. Only the owner has full access control. To override the default ACL setting, specify a new ACL when you generate a copy request. For more information, see Using ACLs.  If the destination bucket that you're copying objects to uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect permissions. Buckets that use this setting only accept PUT requests that don't specify an ACL or PUT requests that specify bucket owner full control ACLs, such as the bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML format. For more information, see Controlling ownership of objects and disabling ACLs in the Amazon S3 User Guide.    If your destination bucket uses the bucket owner enforced setting for Object Ownership, all objects written to the bucket by any account will be owned by the bucket owner.   This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
-        /// The name of the destination bucket.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise,  you get an HTTP 400 Bad Request error with the error code InvalidRequest.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The name of the destination bucket.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise,  you get an HTTP 400 Bad Request error with the error code InvalidRequest.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must use the Outpost bucket access point ARN or the access point alias for the destination bucket.   You can only copy objects within the same Outpost bucket. It's not supported to copy objects across different Amazon Web Services Outposts, between buckets on the same Outposts, or between Outposts buckets and any other bucket types.  For more information about S3 on Outposts, see What is S3 on Outposts? in the S3 on Outposts guide.  When you use this action with S3 on Outposts through the REST API, you must direct requests to the S3 on Outposts hostname, in the format   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. The hostname isn't required when you use the Amazon Web Services CLI or SDKs.
         public let bucket: String
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). If a target object uses SSE-KMS, you can enable an S3 Bucket Key for the object. Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t affect bucket-level settings for S3 Bucket Key. For more information, see Amazon S3 Bucket Keys in the Amazon S3 User Guide.   Directory buckets - S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets
         /// to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject. In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
@@ -1502,8 +1547,10 @@ extension S3 {
         public let sseCustomerKeyMD5: String?
         /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for the destination object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.  General purpose buckets - This value must be explicitly added to specify encryption context for CopyObject requests if you want an additional encryption context for your destination object. The additional encryption context of the source object won't be copied to the destination object. For more information, see Encryption context in the Amazon S3 User Guide.  Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
         public let ssekmsEncryptionContext: String?
-        /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 User Guide.  Directory buckets - If you specify x-amz-server-side-encryption with aws:kms, the  x-amz-server-side-encryption-aws-kms-key-id header is implicitly assigned the ID of the KMS  symmetric encryption customer managed key that's configured for your directory bucket's default encryption setting.  If you want to specify the  x-amz-server-side-encryption-aws-kms-key-id header explicitly, you can only specify it with the ID (Key ID or Key ARN) of the KMS  customer managed key that's configured for your directory bucket's default encryption setting. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Your SSE-KMS configuration can only support 1 customer managed key per directory bucket for the lifetime of the bucket.
-        /// The Amazon Web Services managed key (aws/s3) isn't supported.
+        /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. All GET and PUT requests for an object protected by KMS will fail if they're not made via SSL or using SigV4. For information about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web Services CLI, see Specifying the Signature Version in Request Authentication in the Amazon S3 User Guide.  Directory buckets - To encrypt data using SSE-KMS, it's recommended to specify the
+        /// x-amz-server-side-encryption header to aws:kms. Then, the x-amz-server-side-encryption-aws-kms-key-id header implicitly uses
+        /// the bucket's default KMS customer managed key ID. If you want to explicitly set the  x-amz-server-side-encryption-aws-kms-key-id header, it must match the bucket's default customer managed key (using key ID or ARN, not alias). Your SSE-KMS configuration can only support 1 customer managed key per directory bucket's lifetime.
+        /// The Amazon Web Services managed key (aws/s3) isn't supported.   Incorrect key specification results in an HTTP 400 Bad Request error.
         public let ssekmsKeyId: String?
         /// If the x-amz-storage-class header is not used, the copied object will be stored in the STANDARD Storage Class by default. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class.      Directory buckets  - For directory buckets, only the S3 Express One Zone storage class is supported to store newly created objects.
         /// Unsupported storage class values won't write a destination object and will respond with the HTTP status code 400 Bad Request.    Amazon S3 on Outposts  - S3 on Outposts only uses the OUTPOSTS Storage Class.    You can use the CopyObject action to change the storage class of an object that is already stored in Amazon S3 by using the x-amz-storage-class header. For more information, see Storage Classes in the Amazon S3 User Guide. Before using an object as a source object for the copy operation, you must restore a copy of it if it meets any of the following conditions:   The storage class of the source object is GLACIER or DEEP_ARCHIVE.   The storage class of the source object is INTELLIGENT_TIERING and it's S3 Intelligent-Tiering access tier is Archive Access or Deep Archive Access.   For more information, see RestoreObject and Copying Objects in the Amazon S3 User Guide.
@@ -1617,25 +1664,31 @@ extension S3 {
     }
 
     public struct CopyObjectResult: AWSDecodableShape {
-        /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This will only be present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This checksum is present if the object being copied was uploaded with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The checksum type that is used to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata.
         public let eTag: String?
         /// Creation date of the object.
         public let lastModified: Date?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, lastModified: Date? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumType = checksumType
             self.eTag = eTag
             self.lastModified = lastModified
         }
@@ -1643,21 +1696,25 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
+            case checksumCRC64NVME = "ChecksumCRC64NVME"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
+            case checksumType = "ChecksumType"
             case eTag = "ETag"
             case lastModified = "LastModified"
         }
     }
 
     public struct CopyPartResult: AWSDecodableShape {
-        /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32C checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
         /// Entity tag of the object.
         public let eTag: String?
@@ -1665,9 +1722,10 @@ extension S3 {
         public let lastModified: Date?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, lastModified: Date? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, lastModified: Date? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
             self.eTag = eTag
@@ -1677,6 +1735,7 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
+            case checksumCRC64NVME = "ChecksumCRC64NVME"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
             case eTag = "ETag"
@@ -1687,9 +1746,9 @@ extension S3 {
     public struct CreateBucketConfiguration: AWSEncodableShape {
         /// Specifies the information about the bucket that will be created.  This functionality is only supported by directory buckets.
         public let bucket: BucketInfo?
-        /// Specifies the location where the bucket will be created.  Directory buckets  - The location type is Availability Zone or Local Zone.  When the location type is Local Zone, your Local Zone must be  in opt-in status. Otherwise, you get an HTTP 400 Bad Request error with the  error code Access denied. To learn more about opt-in Local Zones, see Opt-in Dedicated Local Zonesin the Amazon S3 User Guide.   This functionality is only supported by directory buckets.
+        /// Specifies the location where the bucket will be created.  Directory buckets  - The location type is Availability Zone or Local Zone.  To use the Local Zone location type, your account must be  enabled for Dedicated Local Zones. Otherwise, you get an HTTP 403 Forbidden error with the  error code AccessDenied. To learn more, see Enable accounts for Dedicated Local Zones in the Amazon S3 User Guide.   This functionality is only supported by directory buckets.
         public let location: LocationInfo?
-        /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. For more information, see Accessing a bucket in the Amazon S3 User Guide. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default.  This functionality is not supported for directory buckets.
+        /// Specifies the Region where the bucket will be created. You might choose a Region to optimize latency, minimize costs, or address regulatory requirements. For example, if you reside in Europe, you will probably find it advantageous to create buckets in the Europe (Ireland) Region. If you don't specify a Region, the bucket is created in the US East (N. Virginia) Region (us-east-1) by default. Configurations using the value EU will create a bucket in eu-west-1. For a list of the valid values for all of the Amazon Web Services Regions, see Regions and Endpoints.  This functionality is not supported for directory buckets.
         public let locationConstraint: BucketLocationConstraint?
 
         @inlinable
@@ -1825,6 +1884,8 @@ extension S3 {
         public let bucketKeyEnabled: Bool?
         /// The algorithm that was used to create a checksum of the object.
         public let checksumAlgorithm: ChecksumAlgorithm?
+        ///  Indicates the checksum type that you want Amazon S3 to use to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// Object key for which the multipart upload was initiated.
         public let key: String?
         public let requestCharged: RequestCharged?
@@ -1834,7 +1895,7 @@ extension S3 {
         public let sseCustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide the round-trip message integrity verification of the customer-provided encryption key.  This functionality is not supported for directory buckets.
         public let sseCustomerKeyMD5: String?
-        /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.
+        /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.
         public let ssekmsEncryptionContext: String?
         /// If present, indicates the ID of the KMS key that was used for object encryption.
         public let ssekmsKeyId: String?
@@ -1842,12 +1903,13 @@ extension S3 {
         public let uploadId: String?
 
         @inlinable
-        public init(abortDate: Date? = nil, abortRuleId: String? = nil, bucket: String? = nil, bucketKeyEnabled: Bool? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, uploadId: String? = nil) {
+        public init(abortDate: Date? = nil, abortRuleId: String? = nil, bucket: String? = nil, bucketKeyEnabled: Bool? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumType: ChecksumType? = nil, key: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, uploadId: String? = nil) {
             self.abortDate = abortDate
             self.abortRuleId = abortRuleId
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
             self.checksumAlgorithm = checksumAlgorithm
+            self.checksumType = checksumType
             self.key = key
             self.requestCharged = requestCharged
             self.serverSideEncryption = serverSideEncryption
@@ -1866,6 +1928,7 @@ extension S3 {
             self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket)
             self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
             self.checksumAlgorithm = try response.decodeHeaderIfPresent(ChecksumAlgorithm.self, key: "x-amz-checksum-algorithm")
+            self.checksumType = try response.decodeHeaderIfPresent(ChecksumType.self, key: "x-amz-checksum-type")
             self.key = try container.decodeIfPresent(String.self, forKey: .key)
             self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
             self.serverSideEncryption = try response.decodeHeaderIfPresent(ServerSideEncryption.self, key: "x-amz-server-side-encryption")
@@ -1886,7 +1949,7 @@ extension S3 {
     public struct CreateMultipartUploadRequest: AWSEncodableShape {
         /// The canned ACL to apply to the object. Amazon S3 supports a set of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions. For more information, see Canned ACL in the Amazon S3 User Guide. By default, all objects are private. Only the owner has full access control. When uploading an object, you can grant access permissions to individual Amazon Web Services accounts or to predefined groups defined by Amazon S3. These permissions are then added to the access control list (ACL) on the new object. For more information, see Using ACLs. One way to grant the permissions using the request headers is to specify a canned ACL with the x-amz-acl request header.    This functionality is not supported for directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
         public let acl: ObjectCannedACL?
-        /// The name of the bucket where the multipart upload is initiated and where the object is uploaded.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The name of the bucket where the multipart upload is initiated and where the object is uploaded.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS).  General purpose buckets - Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Also, specifying this header with a PUT action doesn't affect bucket-level settings for S3 Bucket Key.  Directory buckets - S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets
         /// to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject, UploadPartCopy, the Copy operation in Batch Operations, or  the import jobs. In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
@@ -1895,6 +1958,8 @@ extension S3 {
         public let cacheControl: String?
         /// Indicates the algorithm that you want Amazon S3 to use to create the checksum for the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumAlgorithm: ChecksumAlgorithm?
+        /// Indicates the checksum type that you want Amazon S3 to use to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// Specifies presentational information for the object.
         public let contentDisposition: String?
         /// Specifies what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.  For directory buckets, only the aws-chunked value is supported in this header field.
@@ -1937,10 +2002,12 @@ extension S3 {
         public let sseCustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the customer-provided encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.  This functionality is not supported for directory buckets.
         public let sseCustomerKeyMD5: String?
-        /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
+        /// Specifies the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
         public let ssekmsEncryptionContext: String?
-        /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID.  General purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS  key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data.  Directory buckets - If you specify x-amz-server-side-encryption with aws:kms, the  x-amz-server-side-encryption-aws-kms-key-id header is implicitly assigned the ID of the KMS  symmetric encryption customer managed key that's configured for your directory bucket's default encryption setting.  If you want to specify the  x-amz-server-side-encryption-aws-kms-key-id header explicitly, you can only specify it with the ID (Key ID or Key ARN) of the KMS  customer managed key that's configured for your directory bucket's default encryption setting. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Your SSE-KMS configuration can only support 1 customer managed key per directory bucket for the lifetime of the bucket.
-        /// The Amazon Web Services managed key (aws/s3) isn't supported.
+        /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID.  General purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS  key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data.  Directory buckets - To encrypt data using SSE-KMS, it's recommended to specify the
+        /// x-amz-server-side-encryption header to aws:kms. Then, the x-amz-server-side-encryption-aws-kms-key-id header implicitly uses
+        /// the bucket's default KMS customer managed key ID. If you want to explicitly set the  x-amz-server-side-encryption-aws-kms-key-id header, it must match the bucket's default customer managed key (using key ID or ARN, not alias). Your SSE-KMS configuration can only support 1 customer managed key per directory bucket's lifetime.
+        /// The Amazon Web Services managed key (aws/s3) isn't supported.   Incorrect key specification results in an HTTP 400 Bad Request error.
         public let ssekmsKeyId: String?
         /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. For more information, see Storage Classes in the Amazon S3 User Guide.    For directory buckets, only the S3 Express One Zone storage class is supported to store newly created objects.   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class.
         public let storageClass: StorageClass?
@@ -1950,12 +2017,13 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acl: ObjectCannedACL? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
             self.checksumAlgorithm = checksumAlgorithm
+            self.checksumType = checksumType
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
             self.contentLanguage = contentLanguage
@@ -1991,6 +2059,7 @@ extension S3 {
             request.encodeHeader(self.bucketKeyEnabled, key: "x-amz-server-side-encryption-bucket-key-enabled")
             request.encodeHeader(self.cacheControl, key: "Cache-Control")
             request.encodeHeader(self.checksumAlgorithm, key: "x-amz-checksum-algorithm")
+            request.encodeHeader(self.checksumType, key: "x-amz-checksum-type")
             request.encodeHeader(self.contentDisposition, key: "Content-Disposition")
             request.encodeHeader(self.contentEncoding, key: "Content-Encoding")
             request.encodeHeader(self.contentLanguage, key: "Content-Language")
@@ -2032,7 +2101,7 @@ extension S3 {
         public let credentials: SessionCredentials
         /// The server-side encryption algorithm used when you store objects in the directory bucket.
         public let serverSideEncryption: ServerSideEncryption?
-        /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject  operations on this object.
+        /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject  operations on this object.
         public let ssekmsEncryptionContext: String?
         /// If you specify x-amz-server-side-encryption with aws:kms, this header indicates the ID of the KMS  symmetric encryption customer managed key that was used for object encryption.
         public let ssekmsKeyId: String?
@@ -2071,9 +2140,9 @@ extension S3 {
         public let serverSideEncryption: ServerSideEncryption?
         /// Specifies the mode of the session that will be created, either ReadWrite or ReadOnly. By default, a ReadWrite session is created. A ReadWrite session is capable of executing all the Zonal endpoint API operations on a directory bucket. A ReadOnly session is constrained to execute the following Zonal endpoint API operations: GetObject, HeadObject, ListObjectsV2, GetObjectAttributes, ListParts, and ListMultipartUploads.
         public let sessionMode: SessionMode?
-        /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for object encryption. The value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object.  General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryption context for your object. For more information, see Encryption context in the Amazon S3 User Guide.  Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
+        /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object.  General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryption context for your object. For more information, see Encryption context in the Amazon S3 User Guide.  Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
         public let ssekmsEncryptionContext: String?
-        /// If you specify x-amz-server-side-encryption with aws:kms, you must specify the  x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the KMS  symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Also, if the KMS key doesn't exist in the same account that't issuing the command, you must use the full Key ARN not the Key ID.  Your SSE-KMS configuration can only support 1 customer managed key per directory bucket for the lifetime of the bucket.
+        /// If you specify x-amz-server-side-encryption with aws:kms, you must specify the  x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the KMS  symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Also, if the KMS key doesn't exist in the same account that't issuing the command, you must use the full Key ARN not the Key ID.  Your SSE-KMS configuration can only support 1 customer managed key per directory bucket's lifetime.
         /// The Amazon Web Services managed key (aws/s3) isn't supported.
         public let ssekmsKeyId: String?
 
@@ -2477,7 +2546,7 @@ extension S3 {
         public let key: String?
         /// Date and time when the object was last modified.
         public let lastModified: Date?
-        /// The account that created the delete marker.>
+        /// The account that created the delete marker.
         public let owner: Owner?
         /// Version ID of an object.
         public let versionId: String?
@@ -2515,7 +2584,7 @@ extension S3 {
     }
 
     public struct DeleteObjectOutput: AWSDecodableShape {
-        /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker.  This functionality is not supported for directory buckets.
+        /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker. To learn more about delete markers, see Working with delete markers.  This functionality is not supported for directory buckets.
         public let deleteMarker: Bool?
         public let requestCharged: RequestCharged?
         /// Returns the version ID of the delete marker created as a result of the DELETE operation.  This functionality is not supported for directory buckets.
@@ -2539,7 +2608,7 @@ extension S3 {
     }
 
     public struct DeleteObjectRequest: AWSEncodableShape {
-        /// The bucket name of the bucket containing the object.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name of the bucket containing the object.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates whether S3 Object Lock should bypass Governance-mode restrictions to process this operation. To use this header, you must have the s3:BypassGovernanceRetention permission.  This functionality is not supported for directory buckets.
         public let bypassGovernanceRetention: Bool?
@@ -2614,7 +2683,7 @@ extension S3 {
     }
 
     public struct DeleteObjectTaggingRequest: AWSEncodableShape {
-        /// The bucket name containing the objects from which to remove the tags.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name containing the objects from which to remove the tags.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -2678,11 +2747,11 @@ extension S3 {
     public struct DeleteObjectsRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired]
         public static let _xmlRootNodeName: String? = "Delete"
-        /// The bucket name containing the objects to delete.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name containing the objects to delete.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies whether you want to delete this object even if it has a Governance-type Object Lock in place. To use this header, you must have the s3:BypassGovernanceRetention permission.  This functionality is not supported for directory buckets.
         public let bypassGovernanceRetention: Bool?
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     SHA1     SHA256    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm,  Amazon S3 ignores any provided ChecksumAlgorithm parameter and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     CRC64NVME     SHA1     SHA256    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// Container for the request.
         public let delete: Delete
@@ -2745,7 +2814,7 @@ extension S3 {
     }
 
     public struct DeletedObject: AWSDecodableShape {
-        /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker.  This functionality is not supported for directory buckets.
+        /// Indicates whether the specified object version that was permanently deleted was (true) or was not (false) a delete marker before deletion. In a simple DELETE, this header indicates whether (true) or not (false) the current version of the object is a delete marker. To learn more about delete markers, see Working with delete markers.  This functionality is not supported for directory buckets.
         public let deleteMarker: Bool?
         /// The version ID of the delete marker created as a result of the DELETE operation. If you delete a specific object version, the value returned by this header is the version ID of the object version deleted.  This functionality is not supported for directory buckets.
         public let deleteMarkerVersionId: String?
@@ -3244,7 +3313,7 @@ extension S3 {
     public struct GetBucketLifecycleConfigurationOutput: AWSDecodableShape {
         /// Container for a lifecycle rule.
         public let rules: [LifecycleRule]?
-        /// Indicates which default minimum object size behavior is applied to the lifecycle configuration.  This parameter applies to general purpose buckets only. It is not supported for directory bucket lifecycle configurations.     all_storage_classes_128K - Objects smaller than 128 KB will not transition to any storage class by default.    varies_by_storage_class - Objects smaller than 128 KB will transition to Glacier Flexible Retrieval or Glacier Deep Archive storage classes. By default, all other storage classes will prevent transitions smaller than 128 KB.    To customize the minimum object size for any transition you can add a filter that specifies a custom ObjectSizeGreaterThan or ObjectSizeLessThan in the body of your transition rule. Custom filters always take precedence over the default transition behavior.
+        /// Indicates which default minimum object size behavior is applied to the lifecycle configuration.  This parameter applies to general purpose buckets only. It isn't supported for directory bucket lifecycle configurations.     all_storage_classes_128K - Objects smaller than 128 KB will not transition to any storage class by default.    varies_by_storage_class - Objects smaller than 128 KB will transition to Glacier Flexible Retrieval or Glacier Deep Archive storage classes. By default, all other storage classes will prevent transitions smaller than 128 KB.    To customize the minimum object size for any transition you can add a filter that specifies a custom ObjectSizeGreaterThan or ObjectSizeLessThan in the body of your transition rule. Custom filters always take precedence over the default transition behavior.
         public let transitionDefaultMinimumObjectSize: TransitionDefaultMinimumObjectSize?
 
         @inlinable
@@ -3288,7 +3357,7 @@ extension S3 {
     }
 
     public struct GetBucketLocationOutput: AWSDecodableShape {
-        /// Specifies the Region where the bucket resides. For a list of all the Amazon S3 supported location constraints by Region, see Regions and Endpoints. Buckets in Region us-east-1 have a LocationConstraint of null.
+        /// Specifies the Region where the bucket resides. For a list of all the Amazon S3 supported location constraints by Region, see Regions and Endpoints. Buckets in Region us-east-1 have a LocationConstraint of null. Buckets with a LocationConstraint of EU reside in eu-west-1.
         public let locationConstraint: BucketLocationConstraint?
 
         @inlinable
@@ -3883,7 +3952,7 @@ extension S3 {
     public struct GetObjectAttributesOutput: AWSDecodableShape {
         /// The checksum or digest of the object.
         public let checksum: Checksum?
-        /// Specifies whether the object retrieved was (true) or was not (false) a delete marker. If false, this response header does not appear in the response.  This functionality is not supported for directory buckets.
+        /// Specifies whether the object retrieved was (true) or was not (false) a delete marker. If false, this response header does not appear in the response. To learn more about delete markers, see Working with delete markers.  This functionality is not supported for directory buckets.
         public let deleteMarker: Bool?
         /// An ETag is an opaque identifier assigned by a web server to a specific version of a resource found at a URL.
         public let eTag: String?
@@ -3971,7 +4040,7 @@ extension S3 {
     }
 
     public struct GetObjectAttributesRequest: AWSEncodableShape {
-        /// The name of the bucket that contains the object.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The name of the bucket that contains the object.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -4134,14 +4203,18 @@ extension S3 {
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
-        /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This will only be present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. For more information, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in the CreateMultipartUpload request. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// Specifies presentational information for the object.
         public let contentDisposition: String?
         /// Indicates what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
@@ -4202,15 +4275,17 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, body: AWSHTTPBody, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSHTTPBody, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumType = checksumType
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
             self.contentLanguage = contentLanguage
@@ -4250,8 +4325,10 @@ extension S3 {
             self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
             self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
             self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
             self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
             self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.checksumType = try response.decodeHeaderIfPresent(ChecksumType.self, key: "x-amz-checksum-type")
             self.contentDisposition = try response.decodeHeaderIfPresent(String.self, key: "Content-Disposition")
             self.contentEncoding = try response.decodeHeaderIfPresent(String.self, key: "Content-Encoding")
             self.contentLanguage = try response.decodeHeaderIfPresent(String.self, key: "Content-Language")
@@ -4287,9 +4364,9 @@ extension S3 {
 
     public struct GetObjectRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader]
-        /// The bucket name containing the object.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points - When you use this action with an Object Lambda access point, you must direct requests to the Object Lambda access point hostname. The Object Lambda access point hostname takes the form AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name containing the object.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points - When you use this action with an Object Lambda access point, you must direct requests to the Object Lambda access point hostname. The Object Lambda access point hostname takes the form AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
-        /// To retrieve the checksum, this mode must be enabled.  General purpose buckets - In addition, if you enable checksum mode and the object is uploaded with a checksum and encrypted with an Key Management Service (KMS) key, you must have permission to use the kms:Decrypt action to retrieve the checksum.
+        /// To retrieve the checksum, this mode must be enabled.
         public let checksumMode: ChecksumMode?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -4472,7 +4549,7 @@ extension S3 {
     }
 
     public struct GetObjectTaggingRequest: AWSEncodableShape {
-        /// The bucket name containing the object for which to get the tagging information.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name containing the object for which to get the tagging information.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -4694,9 +4771,9 @@ extension S3 {
     }
 
     public struct HeadBucketRequest: AWSEncodableShape {
-        /// The bucket name.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points - When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
+        /// The bucket name.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Object Lambda access points - When you use this API operation with an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name.
         /// If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
-        /// For more information about InvalidAccessPointAliasError, see List of Error Codes.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// For more information about InvalidAccessPointAliasError, see List of Error Codes.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -4726,14 +4803,18 @@ extension S3 {
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
-        /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in CreateMultipartUpload request. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// Specifies presentational information for the object.
         public let contentDisposition: String?
         /// Indicates what content encodings have been applied to the object and thus what decoding mechanisms must be applied to obtain the media-type referenced by the Content-Type header field.
@@ -4742,6 +4823,8 @@ extension S3 {
         public let contentLanguage: String?
         /// Size of the body in bytes.
         public let contentLength: Int64?
+        /// The portion of the object returned in the response for a GET request.
+        public let contentRange: String?
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
         /// Specifies whether the object retrieved was (true) or was not (false) a Delete Marker. If false, this response header does not appear in the response.  This functionality is not supported for directory buckets.
@@ -4790,19 +4873,22 @@ extension S3 {
         public let websiteRedirectLocation: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
+        public init(acceptRanges: String? = nil, archiveStatus: ArchiveStatus? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, versionId: String? = nil, websiteRedirectLocation: String? = nil) {
             self.acceptRanges = acceptRanges
             self.archiveStatus = archiveStatus
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumType = checksumType
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
             self.contentLanguage = contentLanguage
             self.contentLength = contentLength
+            self.contentRange = contentRange
             self.contentType = contentType
             self.deleteMarker = deleteMarker
             self.eTag = eTag
@@ -4835,12 +4921,15 @@ extension S3 {
             self.cacheControl = try response.decodeHeaderIfPresent(String.self, key: "Cache-Control")
             self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
             self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
             self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
             self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.checksumType = try response.decodeHeaderIfPresent(ChecksumType.self, key: "x-amz-checksum-type")
             self.contentDisposition = try response.decodeHeaderIfPresent(String.self, key: "Content-Disposition")
             self.contentEncoding = try response.decodeHeaderIfPresent(String.self, key: "Content-Encoding")
             self.contentLanguage = try response.decodeHeaderIfPresent(String.self, key: "Content-Language")
             self.contentLength = try response.decodeHeaderIfPresent(Int64.self, key: "Content-Length")
+            self.contentRange = try response.decodeHeaderIfPresent(String.self, key: "Content-Range")
             self.contentType = try response.decodeHeaderIfPresent(String.self, key: "Content-Type")
             self.deleteMarker = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-delete-marker")
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
@@ -4869,7 +4958,7 @@ extension S3 {
     }
 
     public struct HeadObjectRequest: AWSEncodableShape {
-        /// The name of the bucket that contains the object.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The name of the bucket that contains the object.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// To retrieve the checksum, this parameter must be enabled.  General purpose buckets - If you enable checksum mode and the object is uploaded with a checksum and encrypted with an Key Management Service (KMS) key, you must have permission to use the kms:Decrypt action to retrieve the checksum.  Directory buckets - If you enable ChecksumMode and the object is encrypted with Amazon Web Services Key Management Service (Amazon Web Services KMS), you must also have the kms:GenerateDataKey and kms:Decrypt permissions in IAM identity-based policies and KMS key policies for the KMS key to retrieve the checksum of the object.
         public let checksumMode: ChecksumMode?
@@ -5840,7 +5929,7 @@ extension S3 {
     }
 
     public struct ListMultipartUploadsRequest: AWSEncodableShape {
-        /// The name of the bucket to which the multipart upload was initiated.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The name of the bucket to which the multipart upload was initiated.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Character you use to group keys. All keys that contain the same string between the prefix, if specified, and the first occurrence of the delimiter after the prefix are grouped under a single result element, CommonPrefixes. If you don't specify the prefix parameter, then the substring starts at the beginning of the key. The keys that are grouped under CommonPrefixes result element are not returned elsewhere in the response.   Directory buckets - For directory buckets, / is the only supported delimiter.
         public let delimiter: String?
@@ -5890,7 +5979,7 @@ extension S3 {
     public struct ListObjectVersionsOutput: AWSDecodableShape {
         /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
-        /// Container for an object that is a delete marker.
+        /// Container for an object that is a delete marker. To learn more about delete markers, see Working with delete markers.
         public let deleteMarkers: [DeleteMarkerEntry]?
         /// The delimiter grouping the included keys. A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
         public let delimiter: String?
@@ -6091,7 +6180,7 @@ extension S3 {
     }
 
     public struct ListObjectsRequest: AWSEncodableShape {
-        /// The name of the bucket containing the objects.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The name of the bucket containing the objects.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// A delimiter is a character that you use to group keys.
         public let delimiter: String?
@@ -6218,7 +6307,7 @@ extension S3 {
     }
 
     public struct ListObjectsV2Request: AWSEncodableShape {
-        ///  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        ///  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         ///  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
         public let continuationToken: String?
@@ -6285,6 +6374,8 @@ extension S3 {
         public let bucket: String?
         /// The algorithm that was used to create a checksum of the object.
         public let checksumAlgorithm: ChecksumAlgorithm?
+        /// The checksum type, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. You can use this header response to verify that the checksum type that is received is the same checksum type that was specified in CreateMultipartUpload request. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// Container element that identifies who initiated the multipart upload. If the initiator is an Amazon Web Services account, this element provides the same information as the Owner element. If the initiator is an IAM User, this element provides the user ARN and display name.
         public let initiator: Initiator?
         ///  Indicates whether the returned list of parts is truncated. A true value indicates that the list was truncated. A list can be truncated if the number of parts exceeds the limit returned in the MaxParts element.
@@ -6308,11 +6399,12 @@ extension S3 {
         public let uploadId: String?
 
         @inlinable
-        public init(abortDate: Date? = nil, abortRuleId: String? = nil, bucket: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, initiator: Initiator? = nil, isTruncated: Bool? = nil, key: String? = nil, maxParts: Int? = nil, nextPartNumberMarker: String? = nil, owner: Owner? = nil, partNumberMarker: String? = nil, parts: [Part]? = nil, requestCharged: RequestCharged? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
+        public init(abortDate: Date? = nil, abortRuleId: String? = nil, bucket: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumType: ChecksumType? = nil, initiator: Initiator? = nil, isTruncated: Bool? = nil, key: String? = nil, maxParts: Int? = nil, nextPartNumberMarker: String? = nil, owner: Owner? = nil, partNumberMarker: String? = nil, parts: [Part]? = nil, requestCharged: RequestCharged? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
             self.abortDate = abortDate
             self.abortRuleId = abortRuleId
             self.bucket = bucket
             self.checksumAlgorithm = checksumAlgorithm
+            self.checksumType = checksumType
             self.initiator = initiator
             self.isTruncated = isTruncated
             self.key = key
@@ -6333,6 +6425,7 @@ extension S3 {
             self.abortRuleId = try response.decodeHeaderIfPresent(String.self, key: "x-amz-abort-rule-id")
             self.bucket = try container.decodeIfPresent(String.self, forKey: .bucket)
             self.checksumAlgorithm = try container.decodeIfPresent(ChecksumAlgorithm.self, forKey: .checksumAlgorithm)
+            self.checksumType = try container.decodeIfPresent(ChecksumType.self, forKey: .checksumType)
             self.initiator = try container.decodeIfPresent(Initiator.self, forKey: .initiator)
             self.isTruncated = try container.decodeIfPresent(Bool.self, forKey: .isTruncated)
             self.key = try container.decodeIfPresent(String.self, forKey: .key)
@@ -6349,6 +6442,7 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case checksumAlgorithm = "ChecksumAlgorithm"
+            case checksumType = "ChecksumType"
             case initiator = "Initiator"
             case isTruncated = "IsTruncated"
             case key = "Key"
@@ -6363,7 +6457,7 @@ extension S3 {
     }
 
     public struct ListPartsRequest: AWSEncodableShape {
-        /// The name of the bucket to which the parts are being uploaded.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The name of the bucket to which the parts are being uploaded.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -6583,6 +6677,8 @@ extension S3 {
     public struct MultipartUpload: AWSDecodableShape {
         /// The algorithm that was used to create a checksum of the object.
         public let checksumAlgorithm: ChecksumAlgorithm?
+        /// The checksum type that is used to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// Date and time at which the multipart upload was initiated.
         public let initiated: Date?
         /// Identifies who initiated the multipart upload.
@@ -6597,8 +6693,9 @@ extension S3 {
         public let uploadId: String?
 
         @inlinable
-        public init(checksumAlgorithm: ChecksumAlgorithm? = nil, initiated: Date? = nil, initiator: Initiator? = nil, key: String? = nil, owner: Owner? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
+        public init(checksumAlgorithm: ChecksumAlgorithm? = nil, checksumType: ChecksumType? = nil, initiated: Date? = nil, initiator: Initiator? = nil, key: String? = nil, owner: Owner? = nil, storageClass: StorageClass? = nil, uploadId: String? = nil) {
             self.checksumAlgorithm = checksumAlgorithm
+            self.checksumType = checksumType
             self.initiated = initiated
             self.initiator = initiator
             self.key = key
@@ -6609,6 +6706,7 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case checksumAlgorithm = "ChecksumAlgorithm"
+            case checksumType = "ChecksumType"
             case initiated = "Initiated"
             case initiator = "Initiator"
             case key = "Key"
@@ -6700,6 +6798,8 @@ extension S3 {
     public struct Object: AWSDecodableShape {
         /// The algorithm that was used to create a checksum of the object.
         public let checksumAlgorithm: [ChecksumAlgorithm]?
+        /// The checksum type that is used to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// The entity tag is a hash of the object. The ETag reflects changes only to the contents of an object, not its metadata. The ETag may or may not be an MD5 digest of the object data. Whether or not it is depends on how the object was created and how it is encrypted as described below:   Objects created by the PUT Object, POST Object, or Copy operation, or through the Amazon Web Services Management Console, and are encrypted by SSE-S3 or plaintext, have ETags that are an MD5 digest of their object data.   Objects created by the PUT Object, POST Object, or Copy operation, or through the Amazon Web Services Management Console, and are encrypted by SSE-C or SSE-KMS, have ETags that are not an MD5 digest of their object data.   If an object is created by either the Multipart Upload or Part Copy operation, the ETag is not an MD5 digest, regardless of the method of encryption. If an object is larger than 16 MB, the Amazon Web Services Management Console will upload or copy that object as a Multipart Upload, and therefore the ETag will not be an MD5 digest.     Directory buckets - MD5 is not supported by directory buckets.
         public let eTag: String?
         /// The name that you assign to an object. You use the object key to retrieve the object.
@@ -6716,8 +6816,9 @@ extension S3 {
         public let storageClass: ObjectStorageClass?
 
         @inlinable
-        public init(checksumAlgorithm: [ChecksumAlgorithm]? = nil, eTag: String? = nil, key: String? = nil, lastModified: Date? = nil, owner: Owner? = nil, restoreStatus: RestoreStatus? = nil, size: Int64? = nil, storageClass: ObjectStorageClass? = nil) {
+        public init(checksumAlgorithm: [ChecksumAlgorithm]? = nil, checksumType: ChecksumType? = nil, eTag: String? = nil, key: String? = nil, lastModified: Date? = nil, owner: Owner? = nil, restoreStatus: RestoreStatus? = nil, size: Int64? = nil, storageClass: ObjectStorageClass? = nil) {
             self.checksumAlgorithm = checksumAlgorithm
+            self.checksumType = checksumType
             self.eTag = eTag
             self.key = key
             self.lastModified = lastModified
@@ -6729,6 +6830,7 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case checksumAlgorithm = "ChecksumAlgorithm"
+            case checksumType = "ChecksumType"
             case eTag = "ETag"
             case key = "Key"
             case lastModified = "LastModified"
@@ -6840,13 +6942,15 @@ extension S3 {
     }
 
     public struct ObjectPart: AWSDecodableShape {
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC-32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the part. This checksum is present if the multipart upload request was created with the CRC32 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the part. This checksum is present if the multipart upload request was created with the CRC32C checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 checksum of the part. This checksum is present if the multipart upload request was created with the SHA1 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 checksum of the part. This checksum is present if the multipart upload request was created with the SHA256 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
         /// The part number identifying the part. This value is a positive integer between 1 and 10,000.
         public let partNumber: Int?
@@ -6854,9 +6958,10 @@ extension S3 {
         public let size: Int64?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, partNumber: Int? = nil, size: Int64? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, partNumber: Int? = nil, size: Int64? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
             self.partNumber = partNumber
@@ -6866,6 +6971,7 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
+            case checksumCRC64NVME = "ChecksumCRC64NVME"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
             case partNumber = "PartNumber"
@@ -6876,6 +6982,8 @@ extension S3 {
     public struct ObjectVersion: AWSDecodableShape {
         /// The algorithm that was used to create a checksum of the object.
         public let checksumAlgorithm: [ChecksumAlgorithm]?
+        /// The checksum type that is used to calculate the object’s checksum value. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// The entity tag is an MD5 hash of that version of the object.
         public let eTag: String?
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
@@ -6896,8 +7004,9 @@ extension S3 {
         public let versionId: String?
 
         @inlinable
-        public init(checksumAlgorithm: [ChecksumAlgorithm]? = nil, eTag: String? = nil, isLatest: Bool? = nil, key: String? = nil, lastModified: Date? = nil, owner: Owner? = nil, restoreStatus: RestoreStatus? = nil, size: Int64? = nil, storageClass: ObjectVersionStorageClass? = nil, versionId: String? = nil) {
+        public init(checksumAlgorithm: [ChecksumAlgorithm]? = nil, checksumType: ChecksumType? = nil, eTag: String? = nil, isLatest: Bool? = nil, key: String? = nil, lastModified: Date? = nil, owner: Owner? = nil, restoreStatus: RestoreStatus? = nil, size: Int64? = nil, storageClass: ObjectVersionStorageClass? = nil, versionId: String? = nil) {
             self.checksumAlgorithm = checksumAlgorithm
+            self.checksumType = checksumType
             self.eTag = eTag
             self.isLatest = isLatest
             self.key = key
@@ -6911,6 +7020,7 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case checksumAlgorithm = "ChecksumAlgorithm"
+            case checksumType = "ChecksumType"
             case eTag = "ETag"
             case isLatest = "IsLatest"
             case key = "Key"
@@ -7009,13 +7119,15 @@ extension S3 {
     }
 
     public struct Part: AWSDecodableShape {
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC-32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the part. This checksum is present if the object was uploaded with the CRC32 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the part. This checksum is present if the object was uploaded with the CRC32C checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the part. This checksum is present if the multipart upload request was created with the CRC64NVME checksum algorithm, or if the object was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 checksum of the part. This checksum is present if the object was uploaded with the SHA1 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 256-bit SHA-256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 checksum of the part. This checksum is present if the object was uploaded with the SHA256 checksum algorithm. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
@@ -7027,9 +7139,10 @@ extension S3 {
         public let size: Int64?
 
         @inlinable
-        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, lastModified: Date? = nil, partNumber: Int? = nil, size: Int64? = nil) {
+        public init(checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, lastModified: Date? = nil, partNumber: Int? = nil, size: Int64? = nil) {
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
             self.eTag = eTag
@@ -7041,6 +7154,7 @@ extension S3 {
         private enum CodingKeys: String, CodingKey {
             case checksumCRC32 = "ChecksumCRC32"
             case checksumCRC32C = "ChecksumCRC32C"
+            case checksumCRC64NVME = "ChecksumCRC64NVME"
             case checksumSHA1 = "ChecksumSHA1"
             case checksumSHA256 = "ChecksumSHA256"
             case eTag = "ETag"
@@ -7150,7 +7264,7 @@ extension S3 {
         public let accelerateConfiguration: AccelerateConfiguration
         /// The name of the bucket for which the accelerate configuration is set.
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -7184,9 +7298,9 @@ extension S3 {
         public let acl: BucketCannedACL?
         /// The bucket to which to apply the ACL.
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864.  For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+        /// The Base64 encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864.  For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -7275,9 +7389,9 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "CORSConfiguration"
         /// Specifies the bucket impacted by the corsconfiguration.
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864.  For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+        /// The Base64 encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864.  For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// Describes the cross-origin access configuration for objects in an Amazon S3 bucket. For more information, see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide.
         public let corsConfiguration: CORSConfiguration
@@ -7311,9 +7425,9 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "ServerSideEncryptionConfiguration"
         /// Specifies default encryption for a bucket using server-side encryption with different key options.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// The base64-encoded 128-bit MD5 digest of the server-side encryption configuration. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.  This functionality is not supported for directory buckets.
+        /// The Base64 encoded 128-bit MD5 digest of the server-side encryption configuration. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.  This functionality is not supported for directory buckets.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this header is not supported in this API operation. If you specify this header, the request fails with the HTTP status code
         /// 501 Not Implemented.
@@ -7426,7 +7540,7 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "LifecycleConfiguration"
         /// The name of the bucket for which to set the configuration.
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).  This parameter applies to general purpose buckets only. It is not supported for directory bucket lifecycle configurations.
         public let expectedBucketOwner: String?
@@ -7468,7 +7582,7 @@ extension S3 {
         public let bucket: String
         /// Container for logging status information.
         public let bucketLoggingStatus: BucketLoggingStatus
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// The MD5 hash of the PutBucketLogging request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
@@ -7599,7 +7713,7 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "Policy"
         /// The name of the bucket.  Directory buckets  - When you use this operation with a directory bucket, you must use path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must also follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     SHA1     SHA256    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm,  Amazon S3 ignores any provided ChecksumAlgorithm parameter and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm .  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     CRC64NVME     SHA1     SHA256    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
         public let checksumAlgorithm: ChecksumAlgorithm?
         /// Set this parameter to true to confirm that you want to remove your permissions to change this bucket policy in the future.  This functionality is not supported for directory buckets.
         public let confirmRemoveSelfBucketAccess: Bool?
@@ -7640,9 +7754,9 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "ReplicationConfiguration"
         /// The name of the bucket
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+        /// The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -7683,9 +7797,9 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "RequestPaymentConfiguration"
         /// The bucket name.
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+        /// The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -7719,9 +7833,9 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "Tagging"
         /// The bucket name.
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+        /// The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -7759,9 +7873,9 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "VersioningConfiguration"
         /// The bucket name.
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// >The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+        /// >The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -7799,9 +7913,9 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "WebsiteConfiguration"
         /// The bucket name.
         public let bucket: String
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+        /// Indicates the algorithm used to create the checksum for the request when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// The base64-encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+        /// The Base64 encoded 128-bit MD5 digest of the data. You must use this header as a message integrity check to verify that the request body was not corrupted in transit. For more information, see RFC 1864. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -7857,11 +7971,11 @@ extension S3 {
         public let accessControlPolicy: AccessControlPolicy?
         /// The canned ACL to apply to the object. For more information, see Canned ACL.
         public let acl: ObjectCannedACL?
-        /// The bucket name that contains the object to which you want to attach the ACL.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name that contains the object to which you want to attach the ACL.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// The base64-encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864.>  For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+        /// The Base64 encoded 128-bit MD5 digest of the data. This header must be used as a message integrity check to verify that the request body was not corrupted in transit. For more information, go to RFC 1864.>  For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -8054,14 +8168,18 @@ extension S3 {
     public struct PutObjectOutput: AWSDecodableShape {
         /// Indicates whether the uploaded object uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
-        /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 64-bit CRC64NVME checksum of the object. This header is present if the object was uploaded with the CRC64NVME checksum algorithm, or if it was uploaded without a checksum (and Amazon S3 added the default checksum, CRC64NVME, to the uploaded object). For more information about how checksums are calculated with multipart uploads, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
+        /// This header specifies the checksum type of the object, which determines how part-level checksums are combined to create an object-level checksum for multipart objects. For PutObject uploads, the checksum type is always FULL_OBJECT. You can use this header as a data integrity check to verify that the checksum type that is received is the same checksum that was specified. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumType: ChecksumType?
         /// Entity tag for the uploaded object.  General purpose buckets  - To ensure that data is not corrupted traversing the network, for objects where the ETag is the MD5 digest of the object, you can calculate the MD5 while putting an object to Amazon S3 and compare the returned ETag to the calculated MD5 value.  Directory buckets  - The ETag for the object in a directory bucket isn't the MD5 digest of the object.
         public let eTag: String?
         /// If the expiration is configured for the object (see PutBucketLifecycleConfiguration) in the Amazon S3 User Guide, the response includes this header. It includes the expiry-date and rule-id key-value pairs that provide information about object expiration. The value of the rule-id is URL-encoded.  Object expiration information is not returned in directory buckets and this header returns the value "NotImplemented" in all responses for directory buckets.
@@ -8069,13 +8187,13 @@ extension S3 {
         public let requestCharged: RequestCharged?
         /// The server-side encryption algorithm used when you store this object in Amazon S3.
         public let serverSideEncryption: ServerSideEncryption?
-        ///  The size of the object in bytes. This will only be present if you append to an object.   This functionality is only supported for objects in the Amazon S3 Express One Zone storage class in directory buckets.
+        ///  The size of the object in bytes. This value is only be present if you append to an object.   This functionality is only supported for objects in the Amazon S3 Express One Zone storage class in directory buckets.
         public let size: Int64?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to confirm the encryption algorithm that's used.  This functionality is not supported for directory buckets.
         public let sseCustomerAlgorithm: String?
         /// If server-side encryption with a customer-provided encryption key was requested, the response will include this header to provide the round-trip message integrity verification of the customer-provided encryption key.  This functionality is not supported for directory buckets.
         public let sseCustomerKeyMD5: String?
-        /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject  operations on this object.
+        /// If present, indicates the Amazon Web Services KMS Encryption Context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject  operations on this object.
         public let ssekmsEncryptionContext: String?
         /// If present, indicates the ID of the KMS key that was used for object encryption.
         public let ssekmsKeyId: String?
@@ -8083,12 +8201,14 @@ extension S3 {
         public let versionId: String?
 
         @inlinable
-        public init(bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, size: Int64? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, checksumType: ChecksumType? = nil, eTag: String? = nil, expiration: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, size: Int64? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, versionId: String? = nil) {
             self.bucketKeyEnabled = bucketKeyEnabled
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
+            self.checksumType = checksumType
             self.eTag = eTag
             self.expiration = expiration
             self.requestCharged = requestCharged
@@ -8106,8 +8226,10 @@ extension S3 {
             self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
             self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
             self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
             self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
             self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
+            self.checksumType = try response.decodeHeaderIfPresent(ChecksumType.self, key: "x-amz-checksum-type")
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.expiration = try response.decodeHeaderIfPresent(String.self, key: "x-amz-expiration")
             self.requestCharged = try response.decodeHeaderIfPresent(RequestCharged.self, key: "x-amz-request-charged")
@@ -8130,22 +8252,24 @@ extension S3 {
         public let acl: ObjectCannedACL?
         /// Object data.
         public let body: AWSHTTPBody?
-        /// The bucket name to which the PUT action was initiated.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name to which the PUT action was initiated.   Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS).  General purpose buckets - Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Also, specifying this header with a PUT action doesn't affect bucket-level settings for S3 Bucket Key.  Directory buckets - S3 Bucket Keys are always enabled for GET and PUT operations in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose buckets
         /// to directory buckets, from directory buckets to general purpose buckets, or between directory buckets, through CopyObject, UploadPartCopy, the Copy operation in Batch Operations, or  the import jobs. In this case, Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
         public let bucketKeyEnabled: Bool?
         /// Can be used to specify caching behavior along the request/reply chain. For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
         public let cacheControl: String?
-        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     SHA1     SHA256    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm,  Amazon S3 ignores any provided ChecksumAlgorithm parameter and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm .  The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see Uploading objects to an Object Lock enabled bucket  in the Amazon S3 User Guide.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
+        /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum-algorithm or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm header, replace  algorithm with the supported algorithm from the following list:     CRC32     CRC32C     CRC64NVME     SHA1     SHA256    For more information, see Checking object integrity in the Amazon S3 User Guide. If the individual checksum value you provide through x-amz-checksum-algorithm doesn't match the checksum algorithm you set through x-amz-sdk-checksum-algorithm, Amazon S3 fails the request with a BadDigest error.  The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see Uploading objects to an Object Lock enabled bucket  in the Amazon S3 User Guide.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC-32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC-32C checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32C checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 160-bit SHA-1 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the object. The CRC64NVME checksum is always a full object checksum. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 256-bit SHA-256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
         /// Specifies presentational information for the object. For more information, see https://www.rfc-editor.org/rfc/rfc6266#section-4.
         public let contentDisposition: String?
@@ -8155,7 +8279,7 @@ extension S3 {
         public let contentLanguage: String?
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically. For more information, see https://www.rfc-editor.org/rfc/rfc9110.html#name-content-length.
         public let contentLength: Int64?
-        /// The base64-encoded 128-bit MD5 digest of the message (without the headers) according to RFC 1864. This header can be used as a message integrity check to verify that the data is the same data that was originally sent. Although it is optional, we recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more information about REST request authentication, see REST Authentication.  The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see Uploading objects to an Object Lock enabled bucket  in the Amazon S3 User Guide.   This functionality is not supported for directory buckets.
+        /// The Base64 encoded 128-bit MD5 digest of the message (without the headers) according to RFC 1864. This header can be used as a message integrity check to verify that the data is the same data that was originally sent. Although it is optional, we recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more information about REST request authentication, see REST Authentication.  The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a retention period configured using Amazon S3 Object Lock. For more information, see Uploading objects to an Object Lock enabled bucket  in the Amazon S3 User Guide.   This functionality is not supported for directory buckets.
         public let contentMD5: String?
         /// A standard MIME type describing the format of the contents. For more information, see https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type.
         public let contentType: String?
@@ -8197,10 +8321,12 @@ extension S3 {
         public let sseCustomerKey: String?
         /// Specifies the 128-bit MD5 digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a message integrity check to ensure that the encryption key was transmitted without error.  This functionality is not supported for directory buckets.
         public let sseCustomerKeyMD5: String?
-        /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for object encryption. The value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object.  General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryption context for your object. For more information, see Encryption context in the Amazon S3 User Guide.  Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
+        /// Specifies the Amazon Web Services KMS Encryption Context as an additional encryption context to use for object encryption. The value of this header is a Base64 encoded string of a UTF-8 encoded JSON, which contains the encryption context as key-value pairs.  This value is stored as object metadata and automatically gets passed on to Amazon Web Services KMS for future GetObject operations on this object.  General purpose buckets - This value must be explicitly added during CopyObject operations if you want an additional encryption context for your object. For more information, see Encryption context in the Amazon S3 User Guide.  Directory buckets - You can optionally provide an explicit encryption context value. The value must match the default encryption context - the bucket Amazon Resource Name (ARN). An additional encryption context value is not supported.
         public let ssekmsEncryptionContext: String?
-        /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID.  General purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS  key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data.  Directory buckets - If you specify x-amz-server-side-encryption with aws:kms, the  x-amz-server-side-encryption-aws-kms-key-id header is implicitly assigned the ID of the KMS  symmetric encryption customer managed key that's configured for your directory bucket's default encryption setting.  If you want to specify the  x-amz-server-side-encryption-aws-kms-key-id header explicitly, you can only specify it with the ID (Key ID or Key ARN) of the KMS  customer managed key that's configured for your directory bucket's default encryption setting. Otherwise, you get an HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported. Your SSE-KMS configuration can only support 1 customer managed key per directory bucket for the lifetime of the bucket.
-        /// The Amazon Web Services managed key (aws/s3) isn't supported.
+        /// Specifies the KMS key ID (Key ID, Key ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same account that's issuing the command, you must use the full Key ARN not the Key ID.  General purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS  key to use. If you specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse, but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed key (aws/s3) to protect the data.  Directory buckets - To encrypt data using SSE-KMS, it's recommended to specify the
+        /// x-amz-server-side-encryption header to aws:kms. Then, the x-amz-server-side-encryption-aws-kms-key-id header implicitly uses
+        /// the bucket's default KMS customer managed key ID. If you want to explicitly set the  x-amz-server-side-encryption-aws-kms-key-id header, it must match the bucket's default customer managed key (using key ID or ARN, not alias). Your SSE-KMS configuration can only support 1 customer managed key per directory bucket's lifetime.
+        /// The Amazon Web Services managed key (aws/s3) isn't supported.   Incorrect key specification results in an HTTP 400 Bad Request error.
         public let ssekmsKeyId: String?
         /// By default, Amazon S3 uses the STANDARD Storage Class to store newly created objects. The STANDARD storage class provides high durability and high availability. Depending on performance needs, you can specify a different Storage Class. For more information, see Storage Classes in the Amazon S3 User Guide.    For directory buckets, only the S3 Express One Zone storage class is supported to store newly created objects.   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class.
         public let storageClass: StorageClass?
@@ -8212,7 +8338,7 @@ extension S3 {
         public let writeOffsetBytes: Int64?
 
         @inlinable
-        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil, writeOffsetBytes: Int64? = nil) {
+        public init(acl: ObjectCannedACL? = nil, body: AWSHTTPBody? = nil, bucket: String, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, ifMatch: String? = nil, ifNoneMatch: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsEncryptionContext: String? = nil, ssekmsKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil, writeOffsetBytes: Int64? = nil) {
             self.acl = acl
             self.body = body
             self.bucket = bucket
@@ -8221,6 +8347,7 @@ extension S3 {
             self.checksumAlgorithm = checksumAlgorithm
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
             self.contentDisposition = contentDisposition
@@ -8266,6 +8393,7 @@ extension S3 {
             request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
             request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
             request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
+            request.encodeHeader(self.checksumCRC64NVME, key: "x-amz-checksum-crc64nvme")
             request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
             request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
             request.encodeHeader(self.contentDisposition, key: "Content-Disposition")
@@ -8398,7 +8526,7 @@ extension S3 {
     public struct PutObjectTaggingRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static let _xmlRootNodeName: String? = "Tagging"
-        /// The bucket name containing the object.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name containing the object.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
@@ -8806,7 +8934,7 @@ extension S3 {
     public struct RestoreObjectRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.checksumHeader]
         public static let _xmlRootNodeName: String? = "RestoreRequest"
-        /// The bucket name containing the object to restore.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name containing the object to restore.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
         public let checksumAlgorithm: ChecksumAlgorithm?
@@ -9499,7 +9627,7 @@ extension S3 {
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var date: Date?
-        /// Indicates the number of days after creation when objects are transitioned to the specified storage class. The value must be a positive integer.
+        /// Indicates the number of days after creation when objects are transitioned to the specified storage class. If the specified storage class is INTELLIGENT_TIERING,  GLACIER_IR, GLACIER, or DEEP_ARCHIVE, valid values are  0 or positive integers. If the specified storage class is STANDARD_IA  or ONEZONE_IA, valid values are positive integers greater than 30. Be  aware that some storage classes have a minimum storage duration and that you're charged for  transitioning objects before their minimum storage duration. For more information, see   Constraints and considerations for transitions in the  Amazon S3 User Guide.
         public let days: Int?
         /// The storage class to which you want the object to transition.
         public let storageClass: TransitionStorageClass?
@@ -9564,7 +9692,7 @@ extension S3 {
     }
 
     public struct UploadPartCopyRequest: AWSEncodableShape {
-        /// The bucket name.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise,  you get an HTTP 400 Bad Request error with the error code InvalidRequest.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The bucket name.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise,  you get an HTTP 400 Bad Request error with the error code InvalidRequest.   Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Specifies the source object for the copy operation. You specify the value in one of two formats, depending on whether you want to access the source object through an access point:   For objects not accessed through an access point, specify the name of the source bucket and key of the source object, separated by a slash (/). For example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use awsexamplebucket/reports/january.pdf. The value must be URL-encoded.   For objects accessed through access points, specify the Amazon Resource Name (ARN) of the object as accessed through the access point, in the format arn:aws:s3:::accesspoint//object/. For example, to copy the object reports/january.pdf through access point my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf. The value must be URL encoded.    Amazon S3 supports copy operations using Access points only when the source and destination buckets are in the same Amazon Web Services Region.   Access points are not supported by directory buckets.    Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the format arn:aws:s3-outposts:::outpost//object/. For example, to copy the object reports/january.pdf through outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf. The value must be URL-encoded.     If your bucket has versioning enabled, you could have multiple versions of the same object. By default, x-amz-copy-source identifies the current version of the source object to copy. To copy a specific version of the source object to copy, append ?versionId= to the x-amz-copy-source request header (for example, x-amz-copy-source: /awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893).  If the current version is a delete marker and you don't specify a versionId in the x-amz-copy-source request header, Amazon S3 returns a 404 Not Found error, because the object does not exist. If you specify versionId in the x-amz-copy-source and the versionId is a delete marker, Amazon S3 returns an HTTP 400 Bad Request error, because you are not allowed to specify a delete marker as a version for the x-amz-copy-source.    Directory buckets - S3 Versioning isn't enabled and supported for directory buckets.
         public let copySource: String
@@ -9662,13 +9790,15 @@ extension S3 {
     public struct UploadPartOutput: AWSDecodableShape {
         /// Indicates whether the multipart upload uses an S3 Bucket Key for server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
         public let bucketKeyEnabled: Bool?
-        /// The base64-encoded, 32-bit CRC-32 checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32 checksum of the object. This checksum is only be present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// The base64-encoded, 32-bit CRC-32C checksum of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 32-bit CRC32C checksum of the object. This checksum is only present if the checksum was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// The base64-encoded, 160-bit SHA-1 digest of the object. This will only be present if it was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// The Base64 encoded, 160-bit SHA1 digest of the object. This will only be present if the object was uploaded with the object. When you use the API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// The base64-encoded, 256-bit SHA-256 digest of the object. This will only be present if it was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
+        /// The Base64 encoded, 256-bit SHA256 digest of the object. This will only be present if the object was uploaded with the object. When you use an API operation on an object that was uploaded using multipart uploads, this value may not be a direct checksum value of the full object. Instead, it's a calculation based on the checksum values of each individual part. For more information about how checksums are calculated with multipart uploads, see  Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
         /// Entity tag for the uploaded object.
         public let eTag: String?
@@ -9683,10 +9813,11 @@ extension S3 {
         public let ssekmsKeyId: String?
 
         @inlinable
-        public init(bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil) {
+        public init(bucketKeyEnabled: Bool? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, eTag: String? = nil, requestCharged: RequestCharged? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil) {
             self.bucketKeyEnabled = bucketKeyEnabled
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
             self.eTag = eTag
@@ -9702,6 +9833,7 @@ extension S3 {
             self.bucketKeyEnabled = try response.decodeHeaderIfPresent(Bool.self, key: "x-amz-server-side-encryption-bucket-key-enabled")
             self.checksumCRC32 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32")
             self.checksumCRC32C = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc32c")
+            self.checksumCRC64NVME = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-crc64nvme")
             self.checksumSHA1 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha1")
             self.checksumSHA256 = try response.decodeHeaderIfPresent(String.self, key: "x-amz-checksum-sha256")
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
@@ -9720,21 +9852,23 @@ extension S3 {
         public static let _xmlRootNodeName: String? = "Body"
         /// Object data.
         public let body: AWSHTTPBody?
-        /// The name of the bucket to which the multipart upload was initiated.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts access point ARN in place of the bucket name. For more information about S3 on Outposts ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+        /// The name of the bucket to which the multipart upload was initiated.  Directory buckets - When you use this operation with a directory bucket, you must use virtual-hosted-style requests in the format  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Path-style requests are not supported.  Directory bucket names must be unique in the chosen Zone (Availability Zone or Local Zone). Bucket names must follow the format  bucket-base-name--zone-id--x-s3 (for example,  amzn-s3-demo-bucket--usw2-az1--x-s3). For information about bucket naming restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use this action with an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not supported by directory buckets.   S3 on Outposts - When you use this action with S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes the  form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this action with S3 on Outposts, the destination bucket must be the Outposts access point ARN or the access point alias. For more information about S3 on Outposts, see What is S3 on Outposts? in the Amazon S3 User Guide.
         public let bucket: String
         /// Indicates the algorithm used to create the checksum for the object when you use the SDK. This header will not provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter. This checksum algorithm must be the same for all parts and it match the checksum value supplied in the CreateMultipartUpload request.
         public let checksumAlgorithm: ChecksumAlgorithm?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC-32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32 checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 32-bit CRC-32C checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 32-bit CRC32C checksum of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumCRC32C: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 160-bit SHA-1 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 160-bit SHA1 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA1: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the base64-encoded, 256-bit SHA-256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 256-bit SHA256 digest of the object. For more information, see Checking object integrity in the Amazon S3 User Guide.
         public let checksumSHA256: String?
         /// Size of the body in bytes. This parameter is useful when the size of the body cannot be determined automatically.
         public let contentLength: Int64?
-        /// The base64-encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameter is required if object lock parameters are specified.  This functionality is not supported for directory buckets.
+        /// The Base64 encoded 128-bit MD5 digest of the part data. This parameter is auto-populated when using the command from the CLI. This parameter is required if object lock parameters are specified.  This functionality is not supported for directory buckets.
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
         public let expectedBucketOwner: String?
@@ -9753,12 +9887,13 @@ extension S3 {
         public let uploadId: String
 
         @inlinable
-        public init(body: AWSHTTPBody? = nil, bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
+        public init(body: AWSHTTPBody? = nil, bucket: String, checksumAlgorithm: ChecksumAlgorithm? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, expectedBucketOwner: String? = nil, key: String, partNumber: Int, requestPayer: RequestPayer? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKey: String? = nil, sseCustomerKeyMD5: String? = nil, uploadId: String) {
             self.body = body
             self.bucket = bucket
             self.checksumAlgorithm = checksumAlgorithm
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
             self.contentLength = contentLength
@@ -9781,6 +9916,7 @@ extension S3 {
             request.encodeHeader(self.checksumAlgorithm, key: "x-amz-sdk-checksum-algorithm")
             request.encodeHeader(self.checksumCRC32, key: "x-amz-checksum-crc32")
             request.encodeHeader(self.checksumCRC32C, key: "x-amz-checksum-crc32c")
+            request.encodeHeader(self.checksumCRC64NVME, key: "x-amz-checksum-crc64nvme")
             request.encodeHeader(self.checksumSHA1, key: "x-amz-checksum-sha1")
             request.encodeHeader(self.checksumSHA256, key: "x-amz-checksum-sha256")
             request.encodeHeader(self.contentLength, key: "Content-Length")
@@ -9864,13 +10000,15 @@ extension S3 {
         public let bucketKeyEnabled: Bool?
         /// Specifies caching behavior along the request/reply chain.
         public let cacheControl: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the base64-encoded, 32-bit CRC-32 checksum of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 32-bit CRC32 checksum of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
         public let checksumCRC32: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the base64-encoded, 32-bit CRC-32C checksum of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 32-bit CRC32C checksum of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
         public let checksumCRC32C: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the base64-encoded, 160-bit SHA-1 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This header specifies the Base64 encoded, 64-bit CRC64NVME checksum of the part. For more information, see Checking object integrity in the Amazon S3 User Guide.
+        public let checksumCRC64NVME: String?
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 160-bit SHA1 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
         public let checksumSHA1: String?
-        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the base64-encoded, 256-bit SHA-256 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
+        /// This header can be used as a data integrity check to verify that the data received is the same data that was originally sent. This specifies the Base64 encoded, 256-bit SHA256 digest of the object returned by the Object Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon S3 will perform validation of the checksum values only when the original GetObject request required checksum validation. For more information about checksums, see Checking object integrity in the Amazon S3 User Guide. Only one checksum header can be specified at a time. If you supply multiple checksum headers, this request will fail.
         public let checksumSHA256: String?
         /// Specifies presentational information for the object.
         public let contentDisposition: String?
@@ -9884,7 +10022,7 @@ extension S3 {
         public let contentRange: String?
         /// A standard MIME type describing the format of the object data.
         public let contentType: String?
-        /// Specifies whether an object stored in Amazon S3 is (true) or is not (false) a delete marker.
+        /// Specifies whether an object stored in Amazon S3 is (true) or is not (false) a delete marker. To learn more about delete markers, see Working with delete markers.
         public let deleteMarker: Bool?
         /// A string that uniquely identifies an error condition. Returned in the  tag of the error XML response for a corresponding GetObject call. Cannot be used with a successful StatusCode header or when the transformed object is provided in the body. All error codes from S3 are sentence-cased. The regular expression (regex) value is "^[A-Z][a-zA-Z]+$".
         public let errorCode: String?
@@ -9940,13 +10078,14 @@ extension S3 {
         public let versionId: String?
 
         @inlinable
-        public init(acceptRanges: String? = nil, body: AWSHTTPBody? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil) {
+        public init(acceptRanges: String? = nil, body: AWSHTTPBody? = nil, bucketKeyEnabled: Bool? = nil, cacheControl: String? = nil, checksumCRC32: String? = nil, checksumCRC32C: String? = nil, checksumCRC64NVME: String? = nil, checksumSHA1: String? = nil, checksumSHA256: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentRange: String? = nil, contentType: String? = nil, deleteMarker: Bool? = nil, errorCode: String? = nil, errorMessage: String? = nil, eTag: String? = nil, expiration: String? = nil, expires: Date? = nil, lastModified: Date? = nil, metadata: [String: String]? = nil, missingMeta: Int? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, partsCount: Int? = nil, replicationStatus: ReplicationStatus? = nil, requestCharged: RequestCharged? = nil, requestRoute: String, requestToken: String, restore: String? = nil, serverSideEncryption: ServerSideEncryption? = nil, sseCustomerAlgorithm: String? = nil, sseCustomerKeyMD5: String? = nil, ssekmsKeyId: String? = nil, statusCode: Int? = nil, storageClass: StorageClass? = nil, tagCount: Int? = nil, versionId: String? = nil) {
             self.acceptRanges = acceptRanges
             self.body = body
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cacheControl = cacheControl
             self.checksumCRC32 = checksumCRC32
             self.checksumCRC32C = checksumCRC32C
+            self.checksumCRC64NVME = checksumCRC64NVME
             self.checksumSHA1 = checksumSHA1
             self.checksumSHA256 = checksumSHA256
             self.contentDisposition = contentDisposition
@@ -9992,6 +10131,7 @@ extension S3 {
             request.encodeHeader(self.cacheControl, key: "x-amz-fwd-header-Cache-Control")
             request.encodeHeader(self.checksumCRC32, key: "x-amz-fwd-header-x-amz-checksum-crc32")
             request.encodeHeader(self.checksumCRC32C, key: "x-amz-fwd-header-x-amz-checksum-crc32c")
+            request.encodeHeader(self.checksumCRC64NVME, key: "x-amz-fwd-header-x-amz-checksum-crc64nvme")
             request.encodeHeader(self.checksumSHA1, key: "x-amz-fwd-header-x-amz-checksum-sha1")
             request.encodeHeader(self.checksumSHA256, key: "x-amz-fwd-header-x-amz-checksum-sha256")
             request.encodeHeader(self.contentDisposition, key: "x-amz-fwd-header-Content-Disposition")

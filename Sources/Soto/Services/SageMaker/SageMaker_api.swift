@@ -94,6 +94,7 @@ public struct SageMaker: AWSService {
             "ap-southeast-2": "api-fips.sagemaker.ap-southeast-2.amazonaws.com",
             "ap-southeast-3": "api-fips.sagemaker.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "api-fips.sagemaker.ap-southeast-4.amazonaws.com",
+            "ap-southeast-5": "api-fips.sagemaker.ap-southeast-5.amazonaws.com",
             "ca-central-1": "api-fips.sagemaker.ca-central-1.amazonaws.com",
             "ca-west-1": "api-fips.sagemaker.ca-west-1.amazonaws.com",
             "eu-central-1": "api-fips.sagemaker.eu-central-1.amazonaws.com",
@@ -235,7 +236,7 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - clusterName: The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
-    ///   - nodeIds: A list of node IDs to be deleted from the specified cluster.  For SageMaker HyperPod clusters using the Slurm workload manager,  you cannot remove instances that are configured as Slurm controller nodes.
+    ///   - nodeIds: A list of node IDs to be deleted from the specified cluster.  For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchDeleteClusterNodes(
@@ -376,7 +377,7 @@ public struct SageMaker: AWSService {
         return try await self.createAlgorithm(input, logger: logger)
     }
 
-    /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
+    /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker AI upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
     @Sendable
     @inlinable
     public func createApp(_ input: CreateAppRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppResponse {
@@ -389,13 +390,13 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
+    /// Creates a running app for the specified UserProfile. This operation is automatically invoked by Amazon SageMaker AI upon access to the associated Domain, and when new kernel configurations are selected by the user. A user may have multiple Apps active simultaneously.
     ///
     /// Parameters:
     ///   - appName: The name of the app.
     ///   - appType: The type of app.
     ///   - domainId: The domain ID.
-    ///   - resourceSpec: The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.  The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
+    ///   - resourceSpec: The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.  The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
     ///   - spaceName: The name of the space. If this value is not set, then UserProfileName must be set.
     ///   - tags: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
     ///   - userProfileName: The user profile name. If this value is not set, then SpaceName must be set.
@@ -423,7 +424,7 @@ public struct SageMaker: AWSService {
         return try await self.createApp(input, logger: logger)
     }
 
-    /// Creates a configuration for running a SageMaker image as a KernelGateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image.
+    /// Creates a configuration for running a SageMaker AI image as a KernelGateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image.
     @Sendable
     @inlinable
     public func createAppImageConfig(_ input: CreateAppImageConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAppImageConfigResponse {
@@ -436,7 +437,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a configuration for running a SageMaker image as a KernelGateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image.
+    /// Creates a configuration for running a SageMaker AI image as a KernelGateway app. The configuration specifies the Amazon Elastic File System storage volume on the image, and a list of the kernels in the image.
     ///
     /// Parameters:
     ///   - appImageConfigName: The name of the AppImageConfig. Must be unique to your account.
@@ -508,7 +509,7 @@ public struct SageMaker: AWSService {
         return try await self.createArtifact(input, logger: logger)
     }
 
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. An AutoML job in SageMaker is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html in the SageMaker developer guide.  We recommend using the new versions CreateAutoMLJobV2 and DescribeAutoMLJobV2, which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  You can find the best-performing model after you run an AutoML job by calling DescribeAutoMLJobV2 (recommended) or DescribeAutoMLJob.
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker AI then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AI AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html in the SageMaker AI developer guide.  We recommend using the new versions CreateAutoMLJobV2 and DescribeAutoMLJobV2, which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  You can find the best-performing model after you run an AutoML job by calling DescribeAutoMLJobV2 (recommended) or DescribeAutoMLJob.
     @Sendable
     @inlinable
     public func createAutoMLJob(_ input: CreateAutoMLJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutoMLJobResponse {
@@ -521,7 +522,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. An AutoML job in SageMaker is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html in the SageMaker developer guide.  We recommend using the new versions CreateAutoMLJobV2 and DescribeAutoMLJobV2, which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  You can find the best-performing model after you run an AutoML job by calling DescribeAutoMLJobV2 (recommended) or DescribeAutoMLJob.
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker AI then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AI AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html in the SageMaker AI developer guide.  We recommend using the new versions CreateAutoMLJobV2 and DescribeAutoMLJobV2, which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  You can find the best-performing model after you run an AutoML job by calling DescribeAutoMLJobV2 (recommended) or DescribeAutoMLJob.
     ///
     /// Parameters:
     ///   - autoMLJobConfig: A collection of settings used to configure an AutoML job.
@@ -564,7 +565,7 @@ public struct SageMaker: AWSService {
         return try await self.createAutoMLJob(input, logger: logger)
     }
 
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. An AutoML job in SageMaker is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html in the SageMaker developer guide. AutoML jobs V2 support various problem types such as regression, binary, and multiclass classification with tabular data, text and image classification, time-series forecasting, and fine-tuning of large language models (LLMs) for text generation.   CreateAutoMLJobV2 and DescribeAutoMLJobV2 are new versions of CreateAutoMLJob and DescribeAutoMLJob which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  For the list of available problem types supported by CreateAutoMLJobV2, see AutoMLProblemTypeConfig. You can find the best-performing model after you run an AutoML job V2 by calling DescribeAutoMLJobV2.
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker AI then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AI AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html in the SageMaker AI developer guide. AutoML jobs V2 support various problem types such as regression, binary, and multiclass classification with tabular data, text and image classification, time-series forecasting, and fine-tuning of large language models (LLMs) for text generation.   CreateAutoMLJobV2 and DescribeAutoMLJobV2 are new versions of CreateAutoMLJob and DescribeAutoMLJob which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  For the list of available problem types supported by CreateAutoMLJobV2, see AutoMLProblemTypeConfig. You can find the best-performing model after you run an AutoML job V2 by calling DescribeAutoMLJobV2.
     @Sendable
     @inlinable
     public func createAutoMLJobV2(_ input: CreateAutoMLJobV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAutoMLJobV2Response {
@@ -577,7 +578,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. An AutoML job in SageMaker is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html in the SageMaker developer guide. AutoML jobs V2 support various problem types such as regression, binary, and multiclass classification with tabular data, text and image classification, time-series forecasting, and fine-tuning of large language models (LLMs) for text generation.   CreateAutoMLJobV2 and DescribeAutoMLJobV2 are new versions of CreateAutoMLJob and DescribeAutoMLJob which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  For the list of available problem types supported by CreateAutoMLJobV2, see AutoMLProblemTypeConfig. You can find the best-performing model after you run an AutoML job V2 by calling DescribeAutoMLJobV2.
+    /// Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2. An AutoML job in SageMaker AI is a fully automated process that allows you to build machine learning models with minimal effort and machine learning expertise. When initiating an AutoML job, you provide your data and optionally specify parameters tailored to your use case. SageMaker AI then automates the entire model development lifecycle, including data preprocessing, model training, tuning, and evaluation. AutoML jobs are designed to simplify and accelerate the model building process by automating various tasks and exploring different combinations of machine learning algorithms, data preprocessing techniques, and hyperparameter values. The output of an AutoML job comprises one or more trained models ready for deployment and inference. Additionally, SageMaker AI AutoML jobs generate a candidate model leaderboard, allowing you to select the best-performing model for deployment. For more information about AutoML jobs, see https://docs.aws.amazon.com/sagemaker/latest/dg/autopilot-automate-model-development.html in the SageMaker AI developer guide. AutoML jobs V2 support various problem types such as regression, binary, and multiclass classification with tabular data, text and image classification, time-series forecasting, and fine-tuning of large language models (LLMs) for text generation.   CreateAutoMLJobV2 and DescribeAutoMLJobV2 are new versions of CreateAutoMLJob and DescribeAutoMLJob which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to those of its previous version CreateAutoMLJob, as well as time-series forecasting, non-tabular problem types such as image or text classification, and text generation (LLMs fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  For the list of available problem types supported by CreateAutoMLJobV2, see AutoMLProblemTypeConfig. You can find the best-performing model after you run an AutoML job V2 by calling DescribeAutoMLJobV2.
     ///
     /// Parameters:
     ///   - autoMLComputeConfig: Specifies the compute configuration for the AutoML job V2.
@@ -644,7 +645,7 @@ public struct SageMaker: AWSService {
     ///   - nodeRecovery: The node recovery mode for the SageMaker HyperPod cluster. When set to Automatic, SageMaker HyperPod will automatically reboot or replace faulty nodes when issues are detected. When set to None, cluster administrators will need to manually manage any faulty cluster instances.
     ///   - orchestrator: The type of orchestrator to use for the SageMaker HyperPod cluster. Currently, the only supported value is "eks", which is to use an Amazon Elastic Kubernetes Service (EKS) cluster as the orchestrator.
     ///   - tags: Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide.
-    ///   - vpcConfig: 
+    ///   - vpcConfig: Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see Give SageMaker access to resources in your Amazon VPC.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCluster(
@@ -708,7 +709,7 @@ public struct SageMaker: AWSService {
         return try await self.createClusterSchedulerConfig(input, logger: logger)
     }
 
-    /// Creates a Git repository as a resource in your SageMaker account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in any other Git repository.
+    /// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker AI account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in any other Git repository.
     @Sendable
     @inlinable
     public func createCodeRepository(_ input: CreateCodeRepositoryInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCodeRepositoryOutput {
@@ -721,7 +722,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a Git repository as a resource in your SageMaker account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in any other Git repository.
+    /// Creates a Git repository as a resource in your SageMaker AI account. You can associate the repository with notebook instances so that you can use Git source control for the notebooks you create. The Git repository is a resource in your SageMaker AI account, so it can be associated with more than one notebook instance, and it persists independently from the lifecycle of any notebook instances it is associated with. The repository can be hosted either in Amazon Web Services CodeCommit or in any other Git repository.
     ///
     /// Parameters:
     ///   - codeRepositoryName: The name of the Git repository. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
@@ -743,7 +744,7 @@ public struct SageMaker: AWSService {
         return try await self.createCodeRepository(input, logger: logger)
     }
 
-    /// Starts a model compilation job. After the model has been compiled, Amazon SageMaker saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts with Amazon Web Services IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the following:   A name for the compilation job   Information about the input model artifacts    The output location for the compiled model and the device (target) that the model runs on    The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the model compilation job.    You can also provide a Tag to track the model compilation job's resource use and costs. The response body contains the CompilationJobArn for the compiled job. To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
+    /// Starts a model compilation job. After the model has been compiled, Amazon SageMaker AI saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify.  If you choose to host your model using Amazon SageMaker AI hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts with Amazon Web Services IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the following:   A name for the compilation job   Information about the input model artifacts    The output location for the compiled model and the device (target) that the model runs on    The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker AI assumes to perform the model compilation job.    You can also provide a Tag to track the model compilation job's resource use and costs. The response body contains the CompilationJobArn for the compiled job. To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
     @Sendable
     @inlinable
     public func createCompilationJob(_ input: CreateCompilationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCompilationJobResponse {
@@ -756,15 +757,15 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Starts a model compilation job. After the model has been compiled, Amazon SageMaker saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify.  If you choose to host your model using Amazon SageMaker hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts with Amazon Web Services IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the following:   A name for the compilation job   Information about the input model artifacts    The output location for the compiled model and the device (target) that the model runs on    The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker assumes to perform the model compilation job.    You can also provide a Tag to track the model compilation job's resource use and costs. The response body contains the CompilationJobArn for the compiled job. To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
+    /// Starts a model compilation job. After the model has been compiled, Amazon SageMaker AI saves the resulting model artifacts to an Amazon Simple Storage Service (Amazon S3) bucket that you specify.  If you choose to host your model using Amazon SageMaker AI hosting services, you can use the resulting model artifacts as part of the model. You can also use the artifacts with Amazon Web Services IoT Greengrass. In that case, deploy them as an ML resource. In the request body, you provide the following:   A name for the compilation job   Information about the input model artifacts    The output location for the compiled model and the device (target) that the model runs on    The Amazon Resource Name (ARN) of the IAM role that Amazon SageMaker AI assumes to perform the model compilation job.    You can also provide a Tag to track the model compilation job's resource use and costs. The response body contains the CompilationJobArn for the compiled job. To stop a model compilation job, use StopCompilationJob. To get information about a particular model compilation job, use DescribeCompilationJob. To get information about multiple model compilation jobs, use ListCompilationJobs.
     ///
     /// Parameters:
     ///   - compilationJobName: A name for the model compilation job. The name must be unique within the Amazon Web Services Region and within your Amazon Web Services account.
     ///   - inputConfig: Provides information about the location of input model artifacts, the name and shape of the expected data inputs, and the framework in which the model was trained.
     ///   - modelPackageVersionArn: The Amazon Resource Name (ARN) of a versioned model package. Provide either a  ModelPackageVersionArn or an InputConfig object in the  request syntax. The presence of both objects in the CreateCompilationJob  request will return an exception.
     ///   - outputConfig: Provides information about the output location for the compiled model and the target device the model runs on.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.  During model compilation, Amazon SageMaker needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker Roles.
-    ///   - stoppingCondition: Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.  During model compilation, Amazon SageMaker AI needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker AI Roles.
+    ///   - stoppingCondition: Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker AI ends the compilation job. Use this API to cap model training costs.
     ///   - tags: An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
     ///   - vpcConfig: A VpcConfig object that specifies the VPC that you want your compilation job to connect to. Control access to your models by configuring the VPC. For more information, see Protect Compilation Jobs by Using an Amazon Virtual Private Cloud.
     ///   - logger: Logger use during operation
@@ -884,7 +885,7 @@ public struct SageMaker: AWSService {
         return try await self.createContext(input, logger: logger)
     }
 
-    /// Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker Model Monitor.
+    /// Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
     @Sendable
     @inlinable
     public func createDataQualityJobDefinition(_ input: CreateDataQualityJobDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataQualityJobDefinitionResponse {
@@ -897,7 +898,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker Model Monitor.
+    /// Creates a definition for a job that monitors data quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
     ///
     /// Parameters:
     ///   - dataQualityAppSpecification: Specifies the container that runs the monitoring job.
@@ -907,7 +908,7 @@ public struct SageMaker: AWSService {
     ///   - jobDefinitionName: The name for the monitoring job definition.
     ///   - jobResources: 
     ///   - networkConfig: Specifies networking configuration for the monitoring job.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
     ///   - stoppingCondition: 
     ///   - tags: (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
     ///   - logger: Logger use during operation
@@ -984,7 +985,7 @@ public struct SageMaker: AWSService {
         return try await self.createDeviceFleet(input, logger: logger)
     }
 
-    /// Creates a Domain. A domain consists of an associated Amazon Elastic File System volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other.  EFS storage  When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, you can specify a customer managed key. For more information, see Protect Data at Rest Using Encryption.  VPC configuration  All traffic between the domain and the Amazon EFS volume is through the specified VPC and subnets. For other traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to the domain. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.    VpcOnly - All traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to run a Amazon SageMaker Studio notebook or to train or host models unless your VPC has an interface endpoint to the SageMaker API and runtime or a NAT gateway and your security groups allow outbound connections.    NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a Amazon SageMaker Studio app successfully.  For more information, see Connect Amazon SageMaker Studio Notebooks to Resources in a VPC.
+    /// Creates a Domain. A domain consists of an associated Amazon Elastic File System volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other.  EFS storage  When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker AI uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, you can specify a customer managed key. For more information, see Protect Data at Rest Using Encryption.  VPC configuration  All traffic between the domain and the Amazon EFS volume is through the specified VPC and subnets. For other traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to the domain. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker AI, which allows internet access. This is the default value.    VpcOnly - All traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to run a Amazon SageMaker AI Studio notebook or to train or host models unless your VPC has an interface endpoint to the SageMaker AI API and runtime or a NAT gateway and your security groups allow outbound connections.    NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a Amazon SageMaker AI Studio app successfully.  For more information, see Connect Amazon SageMaker AI Studio Notebooks to Resources in a VPC.
     @Sendable
     @inlinable
     public func createDomain(_ input: CreateDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDomainResponse {
@@ -997,17 +998,17 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a Domain. A domain consists of an associated Amazon Elastic File System volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other.  EFS storage  When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, you can specify a customer managed key. For more information, see Protect Data at Rest Using Encryption.  VPC configuration  All traffic between the domain and the Amazon EFS volume is through the specified VPC and subnets. For other traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to the domain. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.    VpcOnly - All traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to run a Amazon SageMaker Studio notebook or to train or host models unless your VPC has an interface endpoint to the SageMaker API and runtime or a NAT gateway and your security groups allow outbound connections.    NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a Amazon SageMaker Studio app successfully.  For more information, see Connect Amazon SageMaker Studio Notebooks to Resources in a VPC.
+    /// Creates a Domain. A domain consists of an associated Amazon Elastic File System volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files and other artifacts with each other.  EFS storage  When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker AI uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, you can specify a customer managed key. For more information, see Protect Data at Rest Using Encryption.  VPC configuration  All traffic between the domain and the Amazon EFS volume is through the specified VPC and subnets. For other traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to the domain. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker AI, which allows internet access. This is the default value.    VpcOnly - All traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to run a Amazon SageMaker AI Studio notebook or to train or host models unless your VPC has an interface endpoint to the SageMaker AI API and runtime or a NAT gateway and your security groups allow outbound connections.    NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a Amazon SageMaker AI Studio app successfully.  For more information, see Connect Amazon SageMaker AI Studio Notebooks to Resources in a VPC.
     ///
     /// Parameters:
-    ///   - appNetworkAccessType: Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All traffic is through the specified VPC and subnets
+    ///   - appNetworkAccessType: Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access    VpcOnly - All traffic is through the specified VPC and subnets
     ///   - appSecurityGroupManagement: The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If setting up the domain for use with RStudio, this value must be set to Service.
     ///   - authMode: The mode of authentication that members use to access the domain.
     ///   - defaultSpaceSettings: The default settings for shared spaces that users create in the domain.
     ///   - defaultUserSettings: The default settings to use to create a user profile when UserSettings isn't specified in the call to the CreateUserProfile API.  SecurityGroups is aggregated when specified in both calls. For all other settings in UserSettings, the values specified in CreateUserProfile take precedence over those specified in CreateDomain.
     ///   - domainName: A name for the domain.
     ///   - domainSettings: A collection of Domain settings.
-    ///   - kmsKeyId: SageMaker uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
+    ///   - kmsKeyId: SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     ///   - subnetIds: The VPC subnets that the domain uses for communication.
     ///   - tagPropagation: Indicates whether custom tag propagation is supported for the domain. Defaults to DISABLED.
     ///   - tags: Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags that you specify for the Domain are also added to all Apps that the Domain launches.
@@ -1227,7 +1228,7 @@ public struct SageMaker: AWSService {
     ///   - dataCaptureConfig: 
     ///   - enableNetworkIsolation: Sets whether all model containers deployed to the endpoint are isolated. If they are, no inbound or outbound network calls can be made to or from the model containers.
     ///   - endpointConfigName: The name of the endpoint configuration. You specify this name in a CreateEndpoint request.
-    ///   - executionRoleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform actions on your behalf. For more information, see SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this action must have the iam:PassRole permission.
+    ///   - executionRoleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform actions on your behalf. For more information, see SageMaker AI Roles.   To be able to pass this role to Amazon SageMaker AI, the caller of this action must have the iam:PassRole permission.
     ///   - explainerConfig: A member of CreateEndpointConfig that enables explainers.
     ///   - kmsKeyId: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias    The KMS key policy must grant permission to the IAM role that you specify in your CreateEndpoint, UpdateEndpoint requests. For more information, refer to the Amazon Web Services Key Management Service section Using Key Policies in Amazon Web Services KMS    Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a KmsKeyId when using an instance type with local storage. If any of the models that you specify in the ProductionVariants parameter use nitro-based instances with local storage, do not specify a value for the KmsKeyId parameter. If you specify a value for KmsKeyId when using any nitro-based instances with local storage, the call to CreateEndpointConfig fails. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.
     ///   - productionVariants: An array of ProductionVariant objects, one for each model that you want to host at this endpoint.
@@ -1574,7 +1575,7 @@ public struct SageMaker: AWSService {
         return try await self.createHyperParameterTuningJob(input, logger: logger)
     }
 
-    /// Creates a custom SageMaker image. A SageMaker image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker image.
+    /// Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker AI image.
     @Sendable
     @inlinable
     public func createImage(_ input: CreateImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageResponse {
@@ -1587,13 +1588,13 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a custom SageMaker image. A SageMaker image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker image.
+    /// Creates a custom SageMaker AI image. A SageMaker AI image is a set of image versions. Each image version represents a container image stored in Amazon ECR. For more information, see Bring your own SageMaker AI image.
     ///
     /// Parameters:
     ///   - description: The description of the image.
     ///   - displayName: The display name of the image. If not provided, ImageName is displayed.
     ///   - imageName: The name of the image. Must be unique to your account.
-    ///   - roleArn: The ARN of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+    ///   - roleArn: The ARN of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
     ///   - tags: A list of tags to apply to the image.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1615,7 +1616,7 @@ public struct SageMaker: AWSService {
         return try await self.createImage(input, logger: logger)
     }
 
-    /// Creates a version of the SageMaker image specified by ImageName. The version represents the Amazon ECR container image specified by BaseImage.
+    /// Creates a version of the SageMaker AI image specified by ImageName. The version represents the Amazon ECR container image specified by BaseImage.
     @Sendable
     @inlinable
     public func createImageVersion(_ input: CreateImageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateImageVersionResponse {
@@ -1628,7 +1629,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a version of the SageMaker image specified by ImageName. The version represents the Amazon ECR container image specified by BaseImage.
+    /// Creates a version of the SageMaker AI image specified by ImageName. The version represents the Amazon ECR container image specified by BaseImage.
     ///
     /// Parameters:
     ///   - aliases: A list of aliases created with the image version.
@@ -1636,7 +1637,7 @@ public struct SageMaker: AWSService {
     ///   - clientToken: A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
     ///   - horovod: Indicates Horovod compatibility.
     ///   - imageName: The ImageName of the Image to create a version of.
-    ///   - jobType: Indicates SageMaker job type compatibility.    TRAINING: The image version is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+    ///   - jobType: Indicates SageMaker AI job type compatibility.    TRAINING: The image version is compatible with SageMaker AI training jobs.    INFERENCE: The image version is compatible with SageMaker AI inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
     ///   - mlFramework: The machine learning framework vended in the image version.
     ///   - processor: Indicates CPU or GPU compatibility.    CPU: The image version is compatible with CPU.    GPU: The image version is compatible with GPU.
     ///   - programmingLang: The supported programming language and its version.
@@ -1674,7 +1675,7 @@ public struct SageMaker: AWSService {
         return try await self.createImageVersion(input, logger: logger)
     }
 
-    /// Creates an inference component, which is a SageMaker hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the resource utilization needs for that individual model. After you deploy an inference component, you can directly invoke the associated model when you use the InvokeEndpoint API action.
+    /// Creates an inference component, which is a SageMaker AI hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the resource utilization needs for that individual model. After you deploy an inference component, you can directly invoke the associated model when you use the InvokeEndpoint API action.
     @Sendable
     @inlinable
     public func createInferenceComponent(_ input: CreateInferenceComponentInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInferenceComponentOutput {
@@ -1687,7 +1688,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates an inference component, which is a SageMaker hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the resource utilization needs for that individual model. After you deploy an inference component, you can directly invoke the associated model when you use the InvokeEndpoint API action.
+    /// Creates an inference component, which is a SageMaker AI hosting object that you can use to deploy a model to an endpoint. In the inference component settings, you specify the model, the endpoint, and how the model utilizes the resources that the endpoint hosts. You can optimize resource utilization by tailoring how the required CPU cores, accelerators, and memory are allocated. You can deploy multiple inference components to an endpoint, where each inference component contains one model and the resource utilization needs for that individual model. After you deploy an inference component, you can directly invoke the associated model when you use the InvokeEndpoint API action.
     ///
     /// Parameters:
     ///   - endpointName: The name of an existing endpoint where you host the inference component.
@@ -2006,7 +2007,7 @@ public struct SageMaker: AWSService {
     ///   - modelBiasJobInput: Inputs for the model bias job.
     ///   - modelBiasJobOutputConfig: 
     ///   - networkConfig: Networking options for a model bias job.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
     ///   - stoppingCondition: 
     ///   - tags: (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
     ///   - logger: Logger use during operation
@@ -2141,7 +2142,7 @@ public struct SageMaker: AWSService {
     ///   - modelExplainabilityJobInput: Inputs for the model explainability job.
     ///   - modelExplainabilityJobOutputConfig: 
     ///   - networkConfig: Networking options for a model explainability job.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
     ///   - stoppingCondition: 
     ///   - tags: (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
     ///   - logger: Logger use during operation
@@ -2304,7 +2305,7 @@ public struct SageMaker: AWSService {
         return try await self.createModelPackageGroup(input, logger: logger)
     }
 
-    /// Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker Model Monitor.
+    /// Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
     @Sendable
     @inlinable
     public func createModelQualityJobDefinition(_ input: CreateModelQualityJobDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateModelQualityJobDefinitionResponse {
@@ -2317,7 +2318,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker Model Monitor.
+    /// Creates a definition for a job that monitors model quality and drift. For information about model monitor, see Amazon SageMaker AI Model Monitor.
     ///
     /// Parameters:
     ///   - jobDefinitionName: The name of the monitoring job definition.
@@ -2327,7 +2328,7 @@ public struct SageMaker: AWSService {
     ///   - modelQualityJobInput: A list of the inputs that are monitored. Currently endpoints are supported.
     ///   - modelQualityJobOutputConfig: 
     ///   - networkConfig: Specifies the network configuration for the monitoring job.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
     ///   - stoppingCondition: 
     ///   - tags: (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
     ///   - logger: Logger use during operation
@@ -2360,7 +2361,7 @@ public struct SageMaker: AWSService {
         return try await self.createModelQualityJobDefinition(input, logger: logger)
     }
 
-    /// Creates a schedule that regularly starts Amazon SageMaker Processing Jobs to monitor the data captured for an Amazon SageMaker Endpoint.
+    /// Creates a schedule that regularly starts Amazon SageMaker AI Processing Jobs to monitor the data captured for an Amazon SageMaker AI Endpoint.
     @Sendable
     @inlinable
     public func createMonitoringSchedule(_ input: CreateMonitoringScheduleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateMonitoringScheduleResponse {
@@ -2373,7 +2374,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a schedule that regularly starts Amazon SageMaker Processing Jobs to monitor the data captured for an Amazon SageMaker Endpoint.
+    /// Creates a schedule that regularly starts Amazon SageMaker AI Processing Jobs to monitor the data captured for an Amazon SageMaker AI Endpoint.
     ///
     /// Parameters:
     ///   - monitoringScheduleConfig: The configuration object that specifies the monitoring schedule and defines the monitoring  job.
@@ -2395,7 +2396,7 @@ public struct SageMaker: AWSService {
         return try await self.createMonitoringSchedule(input, logger: logger)
     }
 
-    /// Creates an SageMaker notebook instance. A notebook instance is a machine learning (ML) compute instance running on a Jupyter notebook.  In a CreateNotebookInstance request, specify the type of ML compute instance that you want to run. SageMaker launches the instance, installs common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance.  SageMaker also provides a set of example notebooks. Each notebook demonstrates how to use SageMaker with a specific algorithm or with a machine learning framework.  After receiving the request, SageMaker does the following:   Creates a network interface in the SageMaker VPC.   (Option) If you specified SubnetId, SageMaker creates a network interface in your own VPC, which is inferred from the subnet ID that you provide in the input. When creating this network interface, SageMaker attaches the security group that you specified in the request to the network interface that it creates in your VPC.   Launches an EC2 instance of the type specified in the request in the SageMaker VPC. If you specified SubnetId of your VPC, SageMaker specifies both network interfaces when launching this instance. This enables inbound traffic from your own VPC to the notebook instance, assuming that the security groups allow it.   After creating the notebook instance, SageMaker returns its Amazon Resource Name (ARN). You can't change the name of a notebook instance after you create it. After SageMaker creates the notebook instance, you can connect to the Jupyter server and work in Jupyter notebooks. For example, you can write code to explore a dataset that you can use for model training, train a model, host models by creating SageMaker endpoints, and validate hosted models.  For more information, see How It Works.
+    /// Creates an SageMaker AI notebook instance. A notebook instance is a machine learning (ML) compute instance running on a Jupyter notebook.  In a CreateNotebookInstance request, specify the type of ML compute instance that you want to run. SageMaker AI launches the instance, installs common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance.  SageMaker AI also provides a set of example notebooks. Each notebook demonstrates how to use SageMaker AI with a specific algorithm or with a machine learning framework.  After receiving the request, SageMaker AI does the following:   Creates a network interface in the SageMaker AI VPC.   (Option) If you specified SubnetId, SageMaker AI creates a network interface in your own VPC, which is inferred from the subnet ID that you provide in the input. When creating this network interface, SageMaker AI attaches the security group that you specified in the request to the network interface that it creates in your VPC.   Launches an EC2 instance of the type specified in the request in the SageMaker AI VPC. If you specified SubnetId of your VPC, SageMaker AI specifies both network interfaces when launching this instance. This enables inbound traffic from your own VPC to the notebook instance, assuming that the security groups allow it.   After creating the notebook instance, SageMaker AI returns its Amazon Resource Name (ARN). You can't change the name of a notebook instance after you create it. After SageMaker AI creates the notebook instance, you can connect to the Jupyter server and work in Jupyter notebooks. For example, you can write code to explore a dataset that you can use for model training, train a model, host models by creating SageMaker AI endpoints, and validate hosted models.  For more information, see How It Works.
     @Sendable
     @inlinable
     public func createNotebookInstance(_ input: CreateNotebookInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNotebookInstanceOutput {
@@ -2408,20 +2409,20 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates an SageMaker notebook instance. A notebook instance is a machine learning (ML) compute instance running on a Jupyter notebook.  In a CreateNotebookInstance request, specify the type of ML compute instance that you want to run. SageMaker launches the instance, installs common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance.  SageMaker also provides a set of example notebooks. Each notebook demonstrates how to use SageMaker with a specific algorithm or with a machine learning framework.  After receiving the request, SageMaker does the following:   Creates a network interface in the SageMaker VPC.   (Option) If you specified SubnetId, SageMaker creates a network interface in your own VPC, which is inferred from the subnet ID that you provide in the input. When creating this network interface, SageMaker attaches the security group that you specified in the request to the network interface that it creates in your VPC.   Launches an EC2 instance of the type specified in the request in the SageMaker VPC. If you specified SubnetId of your VPC, SageMaker specifies both network interfaces when launching this instance. This enables inbound traffic from your own VPC to the notebook instance, assuming that the security groups allow it.   After creating the notebook instance, SageMaker returns its Amazon Resource Name (ARN). You can't change the name of a notebook instance after you create it. After SageMaker creates the notebook instance, you can connect to the Jupyter server and work in Jupyter notebooks. For example, you can write code to explore a dataset that you can use for model training, train a model, host models by creating SageMaker endpoints, and validate hosted models.  For more information, see How It Works.
+    /// Creates an SageMaker AI notebook instance. A notebook instance is a machine learning (ML) compute instance running on a Jupyter notebook.  In a CreateNotebookInstance request, specify the type of ML compute instance that you want to run. SageMaker AI launches the instance, installs common libraries that you can use to explore datasets for model training, and attaches an ML storage volume to the notebook instance.  SageMaker AI also provides a set of example notebooks. Each notebook demonstrates how to use SageMaker AI with a specific algorithm or with a machine learning framework.  After receiving the request, SageMaker AI does the following:   Creates a network interface in the SageMaker AI VPC.   (Option) If you specified SubnetId, SageMaker AI creates a network interface in your own VPC, which is inferred from the subnet ID that you provide in the input. When creating this network interface, SageMaker AI attaches the security group that you specified in the request to the network interface that it creates in your VPC.   Launches an EC2 instance of the type specified in the request in the SageMaker AI VPC. If you specified SubnetId of your VPC, SageMaker AI specifies both network interfaces when launching this instance. This enables inbound traffic from your own VPC to the notebook instance, assuming that the security groups allow it.   After creating the notebook instance, SageMaker AI returns its Amazon Resource Name (ARN). You can't change the name of a notebook instance after you create it. After SageMaker AI creates the notebook instance, you can connect to the Jupyter server and work in Jupyter notebooks. For example, you can write code to explore a dataset that you can use for model training, train a model, host models by creating SageMaker AI endpoints, and validate hosted models.  For more information, see How It Works.
     ///
     /// Parameters:
     ///   - acceleratorTypes: This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of EI instance types to associate with this notebook instance.
-    ///   - additionalCodeRepositories: An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
-    ///   - defaultCodeRepository: A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
-    ///   - directInternetAccess: Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
+    ///   - additionalCodeRepositories: An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
+    ///   - defaultCodeRepository: A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
+    ///   - directInternetAccess: Sets whether SageMaker AI provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker AI training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
     ///   - instanceMetadataServiceConfiguration: Information on the IMDS configuration of the notebook instance
     ///   - instanceType: The type of ML compute instance to launch for the notebook instance.
-    ///   - kmsKeyId: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
+    ///   - kmsKeyId: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
     ///   - lifecycleConfigName: The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
     ///   - notebookInstanceName: The name of the new notebook instance.
     ///   - platformIdentifier: The platform identifier of the notebook instance runtime environment.
-    ///   - roleArn:  When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker can perform these tasks. The policy must allow the SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
+    ///   - roleArn:  When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     ///   - rootAccess: Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
     ///   - securityGroupIds: The VPC security group IDs, in the form sg-xxxxxxxx. The security groups must be for the same VPC as specified in the subnet.
     ///   - subnetId: The ID of the subnet in a VPC to which you would like to have a connectivity from your ML compute instance.
@@ -2526,7 +2527,7 @@ public struct SageMaker: AWSService {
     ///   - optimizationEnvironment: The environment variables to set in the model container.
     ///   - optimizationJobName: A custom name for the new optimization job.
     ///   - outputConfig: Details for where to store the optimized model that you create with the optimization job.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.  During model optimization, Amazon SageMaker needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker Roles.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.  During model optimization, Amazon SageMaker AI needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker AI Roles.
     ///   - stoppingCondition: 
     ///   - tags: A list of key-value pairs associated with the optimization job. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
     ///   - vpcConfig: A VPC in Amazon VPC that your optimized model has access to.
@@ -2704,7 +2705,7 @@ public struct SageMaker: AWSService {
         return try await self.createPipeline(input, logger: logger)
     }
 
-    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .    The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.   The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
+    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker AI Studio Through an Interface VPC Endpoint .    The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.   The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
     @Sendable
     @inlinable
     public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedDomainUrlResponse {
@@ -2717,7 +2718,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .    The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.   The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
+    /// Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to the domain, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System volume. This operation can only be called when the authentication mode equals IAM.  The IAM role or user passed to this API defines the permissions to access the app. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the app. You can restrict access to this API and to the URL that it returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information, see Connect to Amazon SageMaker AI Studio Through an Interface VPC Endpoint .    The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL after the timeout limit expires, you are directed to the Amazon Web Services console sign-in page.   The JupyterLab session default expiration time is 12 hours. You can configure this value using SessionExpirationDurationInSeconds.
     ///
     /// Parameters:
     ///   - domainId: The domain ID.
@@ -2783,7 +2784,7 @@ public struct SageMaker: AWSService {
         return try await self.createPresignedMlflowTrackingServerUrl(input, logger: logger)
     }
 
-    /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker console, when you choose Open next to a notebook instance, SageMaker opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
+    /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker AI console, when you choose Open next to a notebook instance, SageMaker AI opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
     @Sendable
     @inlinable
     public func createPresignedNotebookInstanceUrl(_ input: CreatePresignedNotebookInstanceUrlInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePresignedNotebookInstanceUrlOutput {
@@ -2796,7 +2797,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker console, when you choose Open next to a notebook instance, SageMaker opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
+    /// Returns a URL that you can use to connect to the Jupyter server from a notebook instance. In the SageMaker AI console, when you choose Open next to a notebook instance, SageMaker AI opens a new tab showing the Jupyter server home page from the notebook instance. The console uses this API to get the URL and show the page. The IAM role or user used to call this API defines the permissions to access the notebook instance. Once the presigned URL is created, no additional permission is required to access this URL. IAM authorization policies for this API are also enforced for every HTTP request and WebSocket frame that attempts to connect to the notebook instance. You can restrict access to this API and to the URL that it returns to a list of IP addresses that you specify. Use the NotIpAddress condition operator and the aws:SourceIP condition context key to specify the list of IP addresses that you want to have access to the notebook instance. For more information, see Limit Access to a Notebook Instance by IP Address.  The URL that you get from a call to CreatePresignedNotebookInstanceUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the Amazon Web Services console sign-in page.
     ///
     /// Parameters:
     ///   - notebookInstanceName: The name of the notebook instance.
@@ -2959,7 +2960,7 @@ public struct SageMaker: AWSService {
         return try await self.createSpace(input, logger: logger)
     }
 
-    /// Creates a new Amazon SageMaker Studio Lifecycle Configuration.
+    /// Creates a new Amazon SageMaker AI Studio Lifecycle Configuration.
     @Sendable
     @inlinable
     public func createStudioLifecycleConfig(_ input: CreateStudioLifecycleConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateStudioLifecycleConfigResponse {
@@ -2972,12 +2973,12 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Creates a new Amazon SageMaker Studio Lifecycle Configuration.
+    /// Creates a new Amazon SageMaker AI Studio Lifecycle Configuration.
     ///
     /// Parameters:
     ///   - studioLifecycleConfigAppType: The App type that the Lifecycle Configuration is attached to.
-    ///   - studioLifecycleConfigContent: The content of your Amazon SageMaker Studio Lifecycle Configuration script. This content must be base64 encoded.
-    ///   - studioLifecycleConfigName: The name of the Amazon SageMaker Studio Lifecycle Configuration to create.
+    ///   - studioLifecycleConfigContent: The content of your Amazon SageMaker AI Studio Lifecycle Configuration script. This content must be base64 encoded.
+    ///   - studioLifecycleConfigName: The name of the Amazon SageMaker AI Studio Lifecycle Configuration to create.
     ///   - tags: Tags to be associated with the Lifecycle Configuration. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3714,7 +3715,7 @@ public struct SageMaker: AWSService {
         return try await self.deleteCodeRepository(input, logger: logger)
     }
 
-    /// Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role. You can delete a compilation job only if its current status is COMPLETED, FAILED, or STOPPED. If the job status is STARTING or INPROGRESS, stop the job, and then delete it after its status becomes STOPPED.
+    /// Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role. You can delete a compilation job only if its current status is COMPLETED, FAILED, or STOPPED. If the job status is STARTING or INPROGRESS, stop the job, and then delete it after its status becomes STOPPED.
     @Sendable
     @inlinable
     public func deleteCompilationJob(_ input: DeleteCompilationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -3727,7 +3728,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role. You can delete a compilation job only if its current status is COMPLETED, FAILED, or STOPPED. If the job status is STARTING or INPROGRESS, stop the job, and then delete it after its status becomes STOPPED.
+    /// Deletes the specified compilation job. This action deletes only the compilation job resource in Amazon SageMaker AI. It doesn't delete other resources that are related to that job, such as the model artifacts that the job creates, the compilation logs in CloudWatch, the compiled model, or the IAM role. You can delete a compilation job only if its current status is COMPLETED, FAILED, or STOPPED. If the job status is STARTING or INPROGRESS, stop the job, and then delete it after its status becomes STOPPED.
     ///
     /// Parameters:
     ///   - compilationJobName: The name of the compilation job to delete.
@@ -4257,7 +4258,7 @@ public struct SageMaker: AWSService {
         return try await self.deleteHyperParameterTuningJob(input, logger: logger)
     }
 
-    /// Deletes a SageMaker image and all versions of the image. The container images aren't deleted.
+    /// Deletes a SageMaker AI image and all versions of the image. The container images aren't deleted.
     @Sendable
     @inlinable
     public func deleteImage(_ input: DeleteImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImageResponse {
@@ -4270,7 +4271,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes a SageMaker image and all versions of the image. The container images aren't deleted.
+    /// Deletes a SageMaker AI image and all versions of the image. The container images aren't deleted.
     ///
     /// Parameters:
     ///   - imageName: The name of the image to delete.
@@ -4286,7 +4287,7 @@ public struct SageMaker: AWSService {
         return try await self.deleteImage(input, logger: logger)
     }
 
-    /// Deletes a version of a SageMaker image. The container image the version represents isn't deleted.
+    /// Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted.
     @Sendable
     @inlinable
     public func deleteImageVersion(_ input: DeleteImageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteImageVersionResponse {
@@ -4299,7 +4300,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes a version of a SageMaker image. The container image the version represents isn't deleted.
+    /// Deletes a version of a SageMaker AI image. The container image the version represents isn't deleted.
     ///
     /// Parameters:
     ///   - alias: The alias of the image to delete.
@@ -4437,7 +4438,7 @@ public struct SageMaker: AWSService {
         return try await self.deleteModel(input, logger: logger)
     }
 
-    /// Deletes an Amazon SageMaker model bias job definition.
+    /// Deletes an Amazon SageMaker AI model bias job definition.
     @Sendable
     @inlinable
     public func deleteModelBiasJobDefinition(_ input: DeleteModelBiasJobDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -4450,7 +4451,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon SageMaker model bias job definition.
+    /// Deletes an Amazon SageMaker AI model bias job definition.
     ///
     /// Parameters:
     ///   - jobDefinitionName: The name of the model bias job definition to delete.
@@ -4495,7 +4496,7 @@ public struct SageMaker: AWSService {
         return try await self.deleteModelCard(input, logger: logger)
     }
 
-    /// Deletes an Amazon SageMaker model explainability job definition.
+    /// Deletes an Amazon SageMaker AI model explainability job definition.
     @Sendable
     @inlinable
     public func deleteModelExplainabilityJobDefinition(_ input: DeleteModelExplainabilityJobDefinitionRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -4508,7 +4509,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes an Amazon SageMaker model explainability job definition.
+    /// Deletes an Amazon SageMaker AI model explainability job definition.
     ///
     /// Parameters:
     ///   - jobDefinitionName: The name of the model explainability job definition to delete.
@@ -4669,7 +4670,7 @@ public struct SageMaker: AWSService {
         return try await self.deleteMonitoringSchedule(input, logger: logger)
     }
 
-    ///  Deletes an SageMaker notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API.   When you delete a notebook instance, you lose all of your data. SageMaker removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.
+    ///  Deletes an SageMaker AI notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API.   When you delete a notebook instance, you lose all of your data. SageMaker AI removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.
     @Sendable
     @inlinable
     public func deleteNotebookInstance(_ input: DeleteNotebookInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -4682,10 +4683,10 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    ///  Deletes an SageMaker notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API.   When you delete a notebook instance, you lose all of your data. SageMaker removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.
+    ///  Deletes an SageMaker AI notebook instance. Before you can delete a notebook instance, you must call the StopNotebookInstance API.   When you delete a notebook instance, you lose all of your data. SageMaker AI removes the ML compute instance, and deletes the ML storage volume and the network interface associated with the notebook instance.
     ///
     /// Parameters:
-    ///   - notebookInstanceName: The name of the SageMaker notebook instance to delete.
+    ///   - notebookInstanceName: The name of the SageMaker AI notebook instance to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteNotebookInstance(
@@ -4881,7 +4882,7 @@ public struct SageMaker: AWSService {
         return try await self.deleteSpace(input, logger: logger)
     }
 
-    /// Deletes the Amazon SageMaker Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
+    /// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
     @Sendable
     @inlinable
     public func deleteStudioLifecycleConfig(_ input: DeleteStudioLifecycleConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -4894,10 +4895,10 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Deletes the Amazon SageMaker Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
+    /// Deletes the Amazon SageMaker AI Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration. You must also remove the Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
     ///
     /// Parameters:
-    ///   - studioLifecycleConfigName: The name of the Amazon SageMaker Studio Lifecycle Configuration to delete.
+    ///   - studioLifecycleConfigName: The name of the Amazon SageMaker AI Studio Lifecycle Configuration to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteStudioLifecycleConfig(
@@ -6040,7 +6041,7 @@ public struct SageMaker: AWSService {
         return try await self.describeHyperParameterTuningJob(input, logger: logger)
     }
 
-    /// Describes a SageMaker image.
+    /// Describes a SageMaker AI image.
     @Sendable
     @inlinable
     public func describeImage(_ input: DescribeImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImageResponse {
@@ -6053,7 +6054,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a SageMaker image.
+    /// Describes a SageMaker AI image.
     ///
     /// Parameters:
     ///   - imageName: The name of the image to describe.
@@ -6069,7 +6070,7 @@ public struct SageMaker: AWSService {
         return try await self.describeImage(input, logger: logger)
     }
 
-    /// Describes a version of a SageMaker image.
+    /// Describes a version of a SageMaker AI image.
     @Sendable
     @inlinable
     public func describeImageVersion(_ input: DescribeImageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImageVersionResponse {
@@ -6082,7 +6083,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes a version of a SageMaker image.
+    /// Describes a version of a SageMaker AI image.
     ///
     /// Parameters:
     ///   - alias: The alias of the image version.
@@ -6835,7 +6836,7 @@ public struct SageMaker: AWSService {
         return try await self.describeSpace(input, logger: logger)
     }
 
-    /// Describes the Amazon SageMaker Studio Lifecycle Configuration.
+    /// Describes the Amazon SageMaker AI Studio Lifecycle Configuration.
     @Sendable
     @inlinable
     public func describeStudioLifecycleConfig(_ input: DescribeStudioLifecycleConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStudioLifecycleConfigResponse {
@@ -6848,10 +6849,10 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Describes the Amazon SageMaker Studio Lifecycle Configuration.
+    /// Describes the Amazon SageMaker AI Studio Lifecycle Configuration.
     ///
     /// Parameters:
-    ///   - studioLifecycleConfigName: The name of the Amazon SageMaker Studio Lifecycle Configuration to describe.
+    ///   - studioLifecycleConfigName: The name of the Amazon SageMaker AI Studio Lifecycle Configuration to describe.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeStudioLifecycleConfig(
@@ -10370,7 +10371,7 @@ public struct SageMaker: AWSService {
         return try await self.listNotebookInstanceLifecycleConfigs(input, logger: logger)
     }
 
-    /// Returns a list of the SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
+    /// Returns a list of the SageMaker AI notebook instances in the requester's account in an Amazon Web Services Region.
     @Sendable
     @inlinable
     public func listNotebookInstances(_ input: ListNotebookInstancesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNotebookInstancesOutput {
@@ -10383,7 +10384,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of the SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
+    /// Returns a list of the SageMaker AI notebook instances in the requester's account in an Amazon Web Services Region.
     ///
     /// Parameters:
     ///   - additionalCodeRepositoryEquals: A filter that returns only notebook instances with associated with the specified git repository.
@@ -10928,7 +10929,7 @@ public struct SageMaker: AWSService {
         return try await self.listStageDevices(input, logger: logger)
     }
 
-    /// Lists the Amazon SageMaker Studio Lifecycle Configurations in your Amazon Web Services Account.
+    /// Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account.
     @Sendable
     @inlinable
     public func listStudioLifecycleConfigs(_ input: ListStudioLifecycleConfigsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStudioLifecycleConfigsResponse {
@@ -10941,7 +10942,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Lists the Amazon SageMaker Studio Lifecycle Configurations in your Amazon Web Services Account.
+    /// Lists the Amazon SageMaker AI Studio Lifecycle Configurations in your Amazon Web Services Account.
     ///
     /// Parameters:
     ///   - appTypeEquals: A parameter to search for the App Type to which the Lifecycle Configuration is attached.
@@ -11962,7 +11963,7 @@ public struct SageMaker: AWSService {
         return try await self.startMonitoringSchedule(input, logger: logger)
     }
 
-    /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook.
+    /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook.
     @Sendable
     @inlinable
     public func startNotebookInstance(_ input: StartNotebookInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -11975,7 +11976,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook.
+    /// Launches an ML compute instance with the latest version of the libraries and attaches your ML storage volume. After configuring the notebook instance, SageMaker AI sets the notebook instance status to InService. A notebook instance's status must be InService before you can connect to your Jupyter notebook.
     ///
     /// Parameters:
     ///   - notebookInstanceName: The name of the notebook instance to start.
@@ -12067,7 +12068,7 @@ public struct SageMaker: AWSService {
         return try await self.stopAutoMLJob(input, logger: logger)
     }
 
-    /// Stops a model compilation job. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker changes the CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobStatus to Stopped.
+    /// Stops a model compilation job. To stop a job, Amazon SageMaker AI sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker AI changes the CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobStatus to Stopped.
     @Sendable
     @inlinable
     public func stopCompilationJob(_ input: StopCompilationJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -12080,7 +12081,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Stops a model compilation job. To stop a job, Amazon SageMaker sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker changes the CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobStatus to Stopped.
+    /// Stops a model compilation job. To stop a job, Amazon SageMaker AI sends the algorithm the SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker AI changes the CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets the CompilationJobStatus to Stopped.
     ///
     /// Parameters:
     ///   - compilationJobName: The name of the model compilation job to stop.
@@ -12343,7 +12344,7 @@ public struct SageMaker: AWSService {
         return try await self.stopMonitoringSchedule(input, logger: logger)
     }
 
-    /// Terminates the ML compute instance. Before terminating the instance, SageMaker disconnects the ML storage volume from it. SageMaker preserves the ML storage volume. SageMaker stops charging you for the ML compute instance when you call StopNotebookInstance. To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
+    /// Terminates the ML compute instance. Before terminating the instance, SageMaker AI disconnects the ML storage volume from it. SageMaker AI preserves the ML storage volume. SageMaker AI stops charging you for the ML compute instance when you call StopNotebookInstance. To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
     @Sendable
     @inlinable
     public func stopNotebookInstance(_ input: StopNotebookInstanceInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -12356,7 +12357,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Terminates the ML compute instance. Before terminating the instance, SageMaker disconnects the ML storage volume from it. SageMaker preserves the ML storage volume. SageMaker stops charging you for the ML compute instance when you call StopNotebookInstance. To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
+    /// Terminates the ML compute instance. Before terminating the instance, SageMaker AI disconnects the ML storage volume from it. SageMaker AI preserves the ML storage volume. SageMaker AI stops charging you for the ML compute instance when you call StopNotebookInstance. To access data on the ML storage volume for a notebook instance that has been terminated, call the StartNotebookInstance API. StartNotebookInstance launches another ML compute instance, configures it, and attaches the preserved ML storage volume so you can continue your work.
     ///
     /// Parameters:
     ///   - notebookInstanceName: The name of the notebook instance to terminate.
@@ -12655,18 +12656,21 @@ public struct SageMaker: AWSService {
     /// Parameters:
     ///   - clusterName: Specify the name of the SageMaker HyperPod cluster you want to update.
     ///   - instanceGroups: Specify the instance groups to update.
+    ///   - instanceGroupsToDelete: Specify the names of the instance groups to delete.  Use a single , as the separator between multiple names.
     ///   - nodeRecovery: The node recovery mode to be applied to the SageMaker HyperPod cluster.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCluster(
         clusterName: String? = nil,
         instanceGroups: [ClusterInstanceGroupSpecification]? = nil,
+        instanceGroupsToDelete: [String]? = nil,
         nodeRecovery: ClusterNodeRecovery? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateClusterResponse {
         let input = UpdateClusterRequest(
             clusterName: clusterName, 
             instanceGroups: instanceGroups, 
+            instanceGroupsToDelete: instanceGroupsToDelete, 
             nodeRecovery: nodeRecovery
         )
         return try await self.updateCluster(input, logger: logger)
@@ -12942,7 +12946,7 @@ public struct SageMaker: AWSService {
     /// Updates the default settings for new user profiles in the domain.
     ///
     /// Parameters:
-    ///   - appNetworkAccessType: Specifies the VPC used for non-EFS traffic.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access.    VpcOnly - All Studio traffic is through the specified VPC and subnets.   This configuration can only be modified if there are no apps in the InService, Pending, or Deleting state. The configuration cannot be updated if DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is already set or DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided as part of the same request.
+    ///   - appNetworkAccessType: Specifies the VPC used for non-EFS traffic.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access.    VpcOnly - All Studio traffic is through the specified VPC and subnets.   This configuration can only be modified if there are no apps in the InService, Pending, or Deleting state. The configuration cannot be updated if DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is already set or DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided as part of the same request.
     ///   - appSecurityGroupManagement: The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If setting up the domain for use with RStudio, this value must be set to Service.
     ///   - defaultSpaceSettings: The default settings for shared spaces that users create in the domain.
     ///   - defaultUserSettings: A collection of settings.
@@ -13204,7 +13208,7 @@ public struct SageMaker: AWSService {
         return try await self.updateHub(input, logger: logger)
     }
 
-    /// Updates the properties of a SageMaker image. To change the image's tags, use the AddTags and DeleteTags APIs.
+    /// Updates the properties of a SageMaker AI image. To change the image's tags, use the AddTags and DeleteTags APIs.
     @Sendable
     @inlinable
     public func updateImage(_ input: UpdateImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateImageResponse {
@@ -13217,14 +13221,14 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Updates the properties of a SageMaker image. To change the image's tags, use the AddTags and DeleteTags APIs.
+    /// Updates the properties of a SageMaker AI image. To change the image's tags, use the AddTags and DeleteTags APIs.
     ///
     /// Parameters:
     ///   - deleteProperties: A list of properties to delete. Only the Description and DisplayName properties can be deleted.
     ///   - description: The new description for the image.
     ///   - displayName: The new display name for the image.
     ///   - imageName: The name of the image to update.
-    ///   - roleArn: The new ARN for the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+    ///   - roleArn: The new ARN for the IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateImage(
@@ -13245,7 +13249,7 @@ public struct SageMaker: AWSService {
         return try await self.updateImage(input, logger: logger)
     }
 
-    /// Updates the properties of a SageMaker image version.
+    /// Updates the properties of a SageMaker AI image version.
     @Sendable
     @inlinable
     public func updateImageVersion(_ input: UpdateImageVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateImageVersionResponse {
@@ -13258,7 +13262,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Updates the properties of a SageMaker image version.
+    /// Updates the properties of a SageMaker AI image version.
     ///
     /// Parameters:
     ///   - alias: The alias of the image version.
@@ -13266,7 +13270,7 @@ public struct SageMaker: AWSService {
     ///   - aliasesToDelete: A list of aliases to delete.
     ///   - horovod: Indicates Horovod compatibility.
     ///   - imageName: The name of the image.
-    ///   - jobType: Indicates SageMaker job type compatibility.    TRAINING: The image version is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+    ///   - jobType: Indicates SageMaker AI job type compatibility.    TRAINING: The image version is compatible with SageMaker AI training jobs.    INFERENCE: The image version is compatible with SageMaker AI inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
     ///   - mlFramework: The machine learning framework vended in the image version.
     ///   - processor: Indicates CPU or GPU compatibility.    CPU: The image version is compatible with CPU.    GPU: The image version is compatible with GPU.
     ///   - programmingLang: The supported programming language and its version.
@@ -13640,8 +13644,8 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - acceleratorTypes: This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance.
-    ///   - additionalCodeRepositories: An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
-    ///   - defaultCodeRepository: The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
+    ///   - additionalCodeRepositories: An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
+    ///   - defaultCodeRepository: The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
     ///   - disassociateAcceleratorTypes: This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to remove from this notebook instance.
     ///   - disassociateAdditionalCodeRepositories: A list of names or URLs of the default Git repositories to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
     ///   - disassociateDefaultCodeRepository: The name or URL of the default Git repository to remove from this notebook instance. This operation is idempotent. If you specify a Git repository that is not associated with the notebook instance when you call this method, it does not throw an error.
@@ -13650,9 +13654,9 @@ public struct SageMaker: AWSService {
     ///   - instanceType: The Amazon ML compute instance type.
     ///   - lifecycleConfigName: The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
     ///   - notebookInstanceName: The name of the notebook instance to update.
-    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that SageMaker can assume to access the notebook instance. For more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
+    ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
     ///   - rootAccess: Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  If you set this to Disabled, users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions.
-    ///   - volumeSizeInGB: The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
+    ///   - volumeSizeInGB: The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker AI can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateNotebookInstance(
@@ -13896,7 +13900,7 @@ public struct SageMaker: AWSService {
         return try await self.updateProject(input, logger: logger)
     }
 
-    /// Updates the settings of a space.
+    /// Updates the settings of a space.  You can't edit the app type of a space in the SpaceSettings.
     @Sendable
     @inlinable
     public func updateSpace(_ input: UpdateSpaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSpaceResponse {
@@ -13909,7 +13913,7 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Updates the settings of a space.
+    /// Updates the settings of a space.  You can't edit the app type of a space in the SpaceSettings.
     ///
     /// Parameters:
     ///   - domainId: The ID of the associated domain.

@@ -106,6 +106,7 @@ public struct Transcribe: AWSService {
             "us-east-2": "fips.transcribe.us-east-2.amazonaws.com",
             "us-gov-east-1": "fips.transcribe.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "fips.transcribe.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "fips.transcribe.us-iso-east-1.c2s.ic.gov",
             "us-west-1": "fips.transcribe.us-west-1.amazonaws.com",
             "us-west-2": "fips.transcribe.us-west-2.amazonaws.com"
         ])
@@ -132,18 +133,21 @@ public struct Transcribe: AWSService {
     ///   - categoryName: A unique name, chosen by you, for your Call Analytics category. It's helpful to use a detailed naming system that will make sense to you in the future. For example, it's better to use sentiment-positive-last30seconds for a category over a generic name like test-category. Category names are case sensitive.
     ///   - inputType: Choose whether you want to create a real-time or a post-call category for your Call  Analytics transcription. Specifying POST_CALL assigns your category to post-call transcriptions;  categories with this input type cannot be applied to streaming (real-time)  transcriptions. Specifying REAL_TIME assigns your category to streaming transcriptions;  categories with this input type cannot be applied to post-call transcriptions. If you do not include InputType, your category is created as a post-call  category by default.
     ///   - rules: Rules define a Call Analytics category. When creating a new category, you must create  between 1 and 20 rules for that category. For each rule, you specify a filter you want  applied to the attributes of a call. For example, you can choose a sentiment filter that  detects if a customer's sentiment was positive during the last 30 seconds of the call.
+    ///   - tags: Adds one or more custom tags, each in the form of a key:value pair, to a new call analytics category at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCallAnalyticsCategory(
         categoryName: String,
         inputType: InputType? = nil,
         rules: [Rule],
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateCallAnalyticsCategoryResponse {
         let input = CreateCallAnalyticsCategoryRequest(
             categoryName: categoryName, 
             inputType: inputType, 
-            rules: rules
+            rules: rules, 
+            tags: tags
         )
         return try await self.createCallAnalyticsCategory(input, logger: logger)
     }
@@ -1222,6 +1226,7 @@ public struct Transcribe: AWSService {
     ///   - outputEncryptionKMSKeyId: The KMS key you want to use to encrypt your Call Analytics output. If using a key located in the current Amazon Web Services account, you can specify your KMS key in one of four ways:   Use the KMS key ID itself. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Use an alias for the KMS key ID. For example, alias/ExampleAlias.   Use the Amazon Resource Name (ARN) for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.   If using a key located in a different Amazon Web Services account than the current Amazon Web Services account, you can specify your KMS key in one of two ways:   Use the ARN for the KMS key ID. For example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example, arn:aws:kms:region:account-ID:alias/ExampleAlias.   If you do not specify an encryption key, your output is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location using the OutputLocation parameter. Note that the role making the  request must have permission to use the specified KMS key.
     ///   - outputLocation: The Amazon S3 location where you want your Call Analytics transcription output stored. You can use any of the following formats to specify the output location:   s3://DOC-EXAMPLE-BUCKET   s3://DOC-EXAMPLE-BUCKET/my-output-folder/   s3://DOC-EXAMPLE-BUCKET/my-output-folder/my-call-analytics-job.json   Unless you specify a file name (option 3), the name of your output file has a default value that matches the name you specified for your transcription job using the CallAnalyticsJobName parameter. You can specify a KMS key to encrypt your output using the OutputEncryptionKMSKeyId parameter. If you do not specify a KMS key, Amazon Transcribe uses the default Amazon S3 key for server-side encryption. If you do not specify OutputLocation, your transcript is placed in a service-managed Amazon S3 bucket and you are provided with a URI to access your transcript.
     ///   - settings: Specify additional optional settings in your  request, including content redaction; allows you to apply custom language models, vocabulary filters, and custom vocabularies to your Call Analytics job.
+    ///   - tags: Adds one or more custom tags, each in the form of a key:value pair, to a new call analytics job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func startCallAnalyticsJob(
@@ -1232,6 +1237,7 @@ public struct Transcribe: AWSService {
         outputEncryptionKMSKeyId: String? = nil,
         outputLocation: String? = nil,
         settings: CallAnalyticsJobSettings? = nil,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartCallAnalyticsJobResponse {
         let input = StartCallAnalyticsJobRequest(
@@ -1241,7 +1247,8 @@ public struct Transcribe: AWSService {
             media: media, 
             outputEncryptionKMSKeyId: outputEncryptionKMSKeyId, 
             outputLocation: outputLocation, 
-            settings: settings
+            settings: settings, 
+            tags: tags
         )
         return try await self.startCallAnalyticsJob(input, logger: logger)
     }
@@ -1388,9 +1395,9 @@ public struct Transcribe: AWSService {
     ///   - identifyMultipleLanguages: Enables automatic multi-language identification in your transcription job request. Use this parameter if your media file contains more than one language. If your media contains only one language, use IdentifyLanguage instead. If you include IdentifyMultipleLanguages, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your media file. Including LanguageOptions restricts IdentifyLanguage to only the language options that you specify, which can improve transcription accuracy. If you want to apply a custom vocabulary or a custom vocabulary filter to your automatic language identification request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName and VocabularyFilterName). If you include LanguageIdSettings, also include LanguageOptions. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails.
     ///   - jobExecutionSettings: Makes it possible to control how your transcription job is processed. Currently, the only JobExecutionSettings modification you can choose is enabling job queueing using the AllowDeferredExecution sub-parameter. If you include JobExecutionSettings in your request, you must also include the sub-parameters: AllowDeferredExecution and DataAccessRoleArn.
     ///   - kmsEncryptionContext: A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS.
-    ///   - languageCode: The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using IdentifyLanguage or IdentifyMultipleLanguages to enable automatic language identification. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. For a list of supported languages and their associated language codes, refer to the Supported languages table.  To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+    ///   - languageCode: The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using IdentifyLanguage or IdentifyMultipleLanguages to enable automatic language identification. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. For a list of supported languages and their associated language codes, refer to the Supported languages table.  To transcribe speech in Modern Standard Arabic (ar-SA) in Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary, ca-west-1) and Africa (Cape Town, af-south-1), your media file must be encoded at a sample rate of 16,000 Hz or higher.
     ///   - languageIdSettings: If using automatic language identification in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). Note that multi-language identification (IdentifyMultipleLanguages) doesn't support custom language models.  LanguageIdSettings supports two to five language codes. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The language codes that you specify must match the languages of the associated custom language models, custom vocabularies, and custom vocabulary filters. It's recommended that you include LanguageOptions when using LanguageIdSettings to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in en-US but Amazon Transcribe determines that the language spoken in your media is en-AU, your custom vocabulary is not applied to your transcription. If you include LanguageOptions and include en-US as the only English language dialect, your custom vocabulary is applied to your transcription. If you want to include a custom language model with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use instead the  parameter with the VocabularyName or VocabularyFilterName (or both) sub-parameter.
-    ///   - languageOptions: You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to Supported languages. To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+    ///   - languageOptions: You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to Supported languages. To transcribe speech in Modern Standard Arabic (ar-SA)in Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), in Canada (Calgary) ca-west-1 and Africa (Cape Town) af-south-1, your media file must be encoded at a sample rate of 16,000 Hz or higher.
     ///   - media: Describes the Amazon S3 location of the media file you want to use in your request.
     ///   - mediaFormat: Specify the format of your input media file.
     ///   - mediaSampleRateHertz: The sample rate, in hertz, of the audio track in your input media file. If you do not specify the media sample rate, Amazon Transcribe determines it for you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe. If there's a mismatch between the value that you specify and the value detected, your job fails. In most cases, you can omit MediaSampleRateHertz and let Amazon Transcribe determine the sample rate.

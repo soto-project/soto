@@ -1784,7 +1784,7 @@ extension Detective {
     }
 
     public struct UpdateDatasourcePackagesRequest: AWSEncodableShape {
-        /// The data source package start for the behavior graph.
+        /// The data source package to start for the behavior graph.
         public let datasourcePackages: [DatasourcePackage]
         /// The ARN of the behavior graph.
         public let graphArn: String

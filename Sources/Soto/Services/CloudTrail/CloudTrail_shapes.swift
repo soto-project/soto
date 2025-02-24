@@ -221,7 +221,7 @@ extension CloudTrail {
         public let endsWith: [String]?
         ///  An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public let equals: [String]?
-        ///  A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For more information, see  AdvancedFieldSelector  in the CloudTrailUser Guide.
+        ///  A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For more information, see  AdvancedFieldSelector  in the CloudTrail API Reference.  Selectors don't support the use of wildcards like * . To match multiple values with a single condition,  you may use StartsWith, EndsWith, NotStartsWith, or NotEndsWith to explicitly match the beginning or end of the event field.
         public let field: String
         ///  An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
         public let notEndsWith: [String]?
@@ -3333,6 +3333,83 @@ extension CloudTrail {
             case s3BucketAccessRoleArn = "S3BucketAccessRoleArn"
             case s3BucketRegion = "S3BucketRegion"
             case s3LocationUri = "S3LocationUri"
+        }
+    }
+
+    public struct SearchSampleQueriesRequest: AWSEncodableShape {
+        ///  The maximum number of results to return on a single page. The default value is 10.
+        public let maxResults: Int?
+        ///  A token you can use to get the next page of results. The length constraint is in characters, not words.
+        public let nextToken: String?
+        ///  The natural language phrase to use for the semantic search. The phrase must be in English. The length constraint is in characters, not words.
+        public let searchPhrase: String
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, searchPhrase: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.searchPhrase = searchPhrase
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.searchPhrase, name: "searchPhrase", parent: name, max: 1000)
+            try self.validate(self.searchPhrase, name: "searchPhrase", parent: name, min: 2)
+            try self.validate(self.searchPhrase, name: "searchPhrase", parent: name, pattern: "^[ -~\\n]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case searchPhrase = "SearchPhrase"
+        }
+    }
+
+    public struct SearchSampleQueriesResponse: AWSDecodableShape {
+        ///  A token you can use to get the next page of results.
+        public let nextToken: String?
+        ///  A list of objects containing the search results ordered from most relevant to least relevant.
+        public let searchResults: [SearchSampleQueriesSearchResult]?
+
+        @inlinable
+        public init(nextToken: String? = nil, searchResults: [SearchSampleQueriesSearchResult]? = nil) {
+            self.nextToken = nextToken
+            self.searchResults = searchResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case searchResults = "SearchResults"
+        }
+    }
+
+    public struct SearchSampleQueriesSearchResult: AWSDecodableShape {
+        ///  A longer description of a sample query.
+        public let description: String?
+        ///  The name of a sample query.
+        public let name: String?
+        ///  A value between 0 and 1 indicating the similarity between the search phrase and result.
+        public let relevance: Float?
+        ///  The SQL code of the sample query.
+        public let sql: String?
+
+        @inlinable
+        public init(description: String? = nil, name: String? = nil, relevance: Float? = nil, sql: String? = nil) {
+            self.description = description
+            self.name = name
+            self.relevance = relevance
+            self.sql = sql
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case relevance = "Relevance"
+            case sql = "SQL"
         }
     }
 

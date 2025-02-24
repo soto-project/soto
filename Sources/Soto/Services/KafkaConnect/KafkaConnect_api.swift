@@ -340,6 +340,35 @@ public struct KafkaConnect: AWSService {
         return try await self.describeConnector(input, logger: logger)
     }
 
+    /// Returns information about the specified connector's operations.
+    @Sendable
+    @inlinable
+    public func describeConnectorOperation(_ input: DescribeConnectorOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConnectorOperationResponse {
+        try await self.client.execute(
+            operation: "DescribeConnectorOperation", 
+            path: "/v1/connectorOperations/{connectorOperationArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the specified connector's operations.
+    ///
+    /// Parameters:
+    ///   - connectorOperationArn: ARN of the connector operation to be described.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeConnectorOperation(
+        connectorOperationArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeConnectorOperationResponse {
+        let input = DescribeConnectorOperationRequest(
+            connectorOperationArn: connectorOperationArn
+        )
+        return try await self.describeConnectorOperation(input, logger: logger)
+    }
+
     /// A summary description of the custom plugin.
     @Sendable
     @inlinable
@@ -396,6 +425,41 @@ public struct KafkaConnect: AWSService {
             workerConfigurationArn: workerConfigurationArn
         )
         return try await self.describeWorkerConfiguration(input, logger: logger)
+    }
+
+    /// Lists information about a connector's operation(s).
+    @Sendable
+    @inlinable
+    public func listConnectorOperations(_ input: ListConnectorOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectorOperationsResponse {
+        try await self.client.execute(
+            operation: "ListConnectorOperations", 
+            path: "/v1/connectors/{connectorArn}/operations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists information about a connector's operation(s).
+    ///
+    /// Parameters:
+    ///   - connectorArn: The Amazon Resource Name (ARN) of the connector for which to list operations.
+    ///   - maxResults: Maximum number of connector operations to fetch in one get request.
+    ///   - nextToken: If the response is truncated, it includes a NextToken. Send this NextToken in a subsequent request to continue listing from where it left off.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectorOperations(
+        connectorArn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectorOperationsResponse {
+        let input = ListConnectorOperationsRequest(
+            connectorArn: connectorArn, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConnectorOperations(input, logger: logger)
     }
 
     /// Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
@@ -614,18 +678,21 @@ public struct KafkaConnect: AWSService {
     /// Parameters:
     ///   - capacity: The target capacity.
     ///   - connectorArn: The Amazon Resource Name (ARN) of the connector that you want to update.
+    ///   - connectorConfiguration: A map of keys to values that represent the configuration for the connector.
     ///   - currentVersion: The current version of the connector that you want to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateConnector(
-        capacity: CapacityUpdate,
+        capacity: CapacityUpdate? = nil,
         connectorArn: String,
+        connectorConfiguration: [String: String]? = nil,
         currentVersion: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConnectorResponse {
         let input = UpdateConnectorRequest(
             capacity: capacity, 
             connectorArn: connectorArn, 
+            connectorConfiguration: connectorConfiguration, 
             currentVersion: currentVersion
         )
         return try await self.updateConnector(input, logger: logger)
@@ -645,6 +712,43 @@ extension KafkaConnect {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension KafkaConnect {
+    /// Return PaginatorSequence for operation ``listConnectorOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorOperationsPaginator(
+        _ input: ListConnectorOperationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectorOperationsRequest, ListConnectorOperationsResponse> {
+        return .init(
+            input: input,
+            command: self.listConnectorOperations,
+            inputKey: \ListConnectorOperationsRequest.nextToken,
+            outputKey: \ListConnectorOperationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnectorOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - connectorArn: The Amazon Resource Name (ARN) of the connector for which to list operations.
+    ///   - maxResults: Maximum number of connector operations to fetch in one get request.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectorOperationsPaginator(
+        connectorArn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectorOperationsRequest, ListConnectorOperationsResponse> {
+        let input = ListConnectorOperationsRequest(
+            connectorArn: connectorArn, 
+            maxResults: maxResults
+        )
+        return self.listConnectorOperationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listConnectors(_:logger:)``.
     ///
     /// - Parameters:
@@ -754,6 +858,17 @@ extension KafkaConnect {
             namePrefix: namePrefix
         )
         return self.listWorkerConfigurationsPaginator(input, logger: logger)
+    }
+}
+
+extension KafkaConnect.ListConnectorOperationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> KafkaConnect.ListConnectorOperationsRequest {
+        return .init(
+            connectorArn: self.connectorArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

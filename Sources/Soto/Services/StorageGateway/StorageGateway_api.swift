@@ -435,6 +435,35 @@ public struct StorageGateway: AWSService {
         return try await self.cancelArchival(input, logger: logger)
     }
 
+    /// Cancels generation of a specified cache report. You can use this operation to manually cancel an IN-PROGRESS report for any reason. This action changes the report status from IN-PROGRESS to CANCELLED. You can only cancel in-progress reports. If the the report you attempt to cancel is in FAILED, ERROR, or COMPLETED state, the cancel operation returns an error.
+    @Sendable
+    @inlinable
+    public func cancelCacheReport(_ input: CancelCacheReportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelCacheReportOutput {
+        try await self.client.execute(
+            operation: "CancelCacheReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Cancels generation of a specified cache report. You can use this operation to manually cancel an IN-PROGRESS report for any reason. This action changes the report status from IN-PROGRESS to CANCELLED. You can only cancel in-progress reports. If the the report you attempt to cancel is in FAILED, ERROR, or COMPLETED state, the cancel operation returns an error.
+    ///
+    /// Parameters:
+    ///   - cacheReportARN: The Amazon Resource Name (ARN) of the cache report you want to cancel.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelCacheReport(
+        cacheReportARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelCacheReportOutput {
+        let input = CancelCacheReportInput(
+            cacheReportARN: cacheReportARN
+        )
+        return try await self.cancelCacheReport(input, logger: logger)
+    }
+
     /// Cancels retrieval of a virtual tape from the virtual tape shelf (VTS) to a gateway after the retrieval process is initiated. The virtual tape is returned to the VTS. This operation is only supported in the tape gateway type.
     @Sendable
     @inlinable
@@ -1047,6 +1076,35 @@ public struct StorageGateway: AWSService {
         return try await self.deleteBandwidthRateLimit(input, logger: logger)
     }
 
+    /// Deletes the specified cache report and any associated tags from the Storage Gateway database. You can only delete completed reports. If the status of the report you attempt to delete still IN-PROGRESS, the delete operation returns an error. You can use CancelCacheReport to cancel an IN-PROGRESS report.   DeleteCacheReport does not delete the report object from your Amazon S3 bucket.
+    @Sendable
+    @inlinable
+    public func deleteCacheReport(_ input: DeleteCacheReportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteCacheReportOutput {
+        try await self.client.execute(
+            operation: "DeleteCacheReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified cache report and any associated tags from the Storage Gateway database. You can only delete completed reports. If the status of the report you attempt to delete still IN-PROGRESS, the delete operation returns an error. You can use CancelCacheReport to cancel an IN-PROGRESS report.   DeleteCacheReport does not delete the report object from your Amazon S3 bucket.
+    ///
+    /// Parameters:
+    ///   - cacheReportARN: The Amazon Resource Name (ARN) of the cache report you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteCacheReport(
+        cacheReportARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteCacheReportOutput {
+        let input = DeleteCacheReportInput(
+            cacheReportARN: cacheReportARN
+        )
+        return try await self.deleteCacheReport(input, logger: logger)
+    }
+
     /// Deletes Challenge-Handshake Authentication Protocol (CHAP) credentials for a specified iSCSI target and initiator pair. This operation is supported in volume and tape gateway types.
     @Sendable
     @inlinable
@@ -1408,6 +1466,35 @@ public struct StorageGateway: AWSService {
             gatewayARN: gatewayARN
         )
         return try await self.describeCache(input, logger: logger)
+    }
+
+    /// Returns information about the specified cache report, including completion status and generation progress.
+    @Sendable
+    @inlinable
+    public func describeCacheReport(_ input: DescribeCacheReportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCacheReportOutput {
+        try await self.client.execute(
+            operation: "DescribeCacheReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns information about the specified cache report, including completion status and generation progress.
+    ///
+    /// Parameters:
+    ///   - cacheReportARN: The Amazon Resource Name (ARN) of the cache report you want to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeCacheReport(
+        cacheReportARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeCacheReportOutput {
+        let input = DescribeCacheReportInput(
+            cacheReportARN: cacheReportARN
+        )
+        return try await self.describeCacheReport(input, logger: logger)
     }
 
     /// Returns a description of the gateway volumes specified in the request. This operation is only supported in the cached volume gateway types. The list of gateway volumes in the request must be from one gateway. In the response, Storage Gateway returns volume information sorted by volume Amazon Resource Name (ARN).
@@ -2073,6 +2160,35 @@ public struct StorageGateway: AWSService {
         return try await self.listAutomaticTapeCreationPolicies(input, logger: logger)
     }
 
+    /// Returns a list of existing cache reports for all file shares associated with your Amazon Web Services account. This list includes all information provided by the DescribeCacheReport action, such as report name, status, completion progress, start time, end time, filters, and tags.
+    @Sendable
+    @inlinable
+    public func listCacheReports(_ input: ListCacheReportsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCacheReportsOutput {
+        try await self.client.execute(
+            operation: "ListCacheReports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of existing cache reports for all file shares associated with your Amazon Web Services account. This list includes all information provided by the DescribeCacheReport action, such as report name, status, completion progress, start time, end time, filters, and tags.
+    ///
+    /// Parameters:
+    ///   - marker: Opaque pagination token returned from a previous ListCacheReports operation. If present, Marker specifies where to continue the list from after a previous call to ListCacheReports. Optional.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCacheReports(
+        marker: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCacheReportsOutput {
+        let input = ListCacheReportsInput(
+            marker: marker
+        )
+        return try await self.listCacheReports(input, logger: logger)
+    }
+
     /// Gets a list of the file shares for a specific S3 File Gateway, or the list of file shares that belong to the calling Amazon Web Services account. This operation is only supported for S3 File Gateways.
     @Sendable
     @inlinable
@@ -2402,7 +2518,7 @@ public struct StorageGateway: AWSService {
         return try await self.listVolumes(input, logger: logger)
     }
 
-    /// Sends you notification through CloudWatch Events when all files written to your file share have been uploaded to Amazon S3. Storage Gateway can send a notification through Amazon CloudWatch Events when all files written to your file share up to that point in time have been uploaded to Amazon S3. These files include files written to the file share up to the time that you make a request for notification. When the upload is done, Storage Gateway sends you notification through an Amazon CloudWatch Event. You can configure CloudWatch Events to send the notification through event targets such as Amazon SNS or Lambda function. This operation is only supported for S3 File Gateways. For more information, see Getting file upload notification in the Amazon S3 File Gateway User Guide.
+    /// Sends you notification through Amazon EventBridge when all files written to your file share have been uploaded to Amazon S3. Storage Gateway can send a notification through Amazon EventBridge when all files written to your file share up to that point in time have been uploaded to Amazon S3. These files include files written to the file share up to the time that you make a request for notification. When the upload is done, Storage Gateway sends you notification through EventBridge. You can configure EventBridge to send the notification through event targets such as Amazon SNS or Lambda function. This operation is only supported for S3 File Gateways. For more information, see Getting file upload notification in the Amazon S3 File Gateway User Guide.
     @Sendable
     @inlinable
     public func notifyWhenUploaded(_ input: NotifyWhenUploadedInput, logger: Logger = AWSClient.loggingDisabled) async throws -> NotifyWhenUploadedOutput {
@@ -2415,7 +2531,7 @@ public struct StorageGateway: AWSService {
             logger: logger
         )
     }
-    /// Sends you notification through CloudWatch Events when all files written to your file share have been uploaded to Amazon S3. Storage Gateway can send a notification through Amazon CloudWatch Events when all files written to your file share up to that point in time have been uploaded to Amazon S3. These files include files written to the file share up to the time that you make a request for notification. When the upload is done, Storage Gateway sends you notification through an Amazon CloudWatch Event. You can configure CloudWatch Events to send the notification through event targets such as Amazon SNS or Lambda function. This operation is only supported for S3 File Gateways. For more information, see Getting file upload notification in the Amazon S3 File Gateway User Guide.
+    /// Sends you notification through Amazon EventBridge when all files written to your file share have been uploaded to Amazon S3. Storage Gateway can send a notification through Amazon EventBridge when all files written to your file share up to that point in time have been uploaded to Amazon S3. These files include files written to the file share up to the time that you make a request for notification. When the upload is done, Storage Gateway sends you notification through EventBridge. You can configure EventBridge to send the notification through event targets such as Amazon SNS or Lambda function. This operation is only supported for S3 File Gateways. For more information, see Getting file upload notification in the Amazon S3 File Gateway User Guide.
     ///
     /// Parameters:
     ///   - fileShareARN: 
@@ -2711,6 +2827,59 @@ public struct StorageGateway: AWSService {
             gatewayARN: gatewayARN
         )
         return try await self.startAvailabilityMonitorTest(input, logger: logger)
+    }
+
+    /// Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve issues if you have files failing upload from your gateway to Amazon S3. The report is a CSV file containing a list of files which match the set of filter parameters you specify in the request.  The Files Failing Upload flag is reset every 24 hours and during gateway reboot. If this report captures the files after the reset, but before they become flagged again, they will not be reported as Files Failing Upload.  The following requirements must be met to successfully generate a cache report:   You must have permissions to list the entire Amazon S3 bucket associated with the specified file share.   No other cache reports can currently be in-progress for the specified file share.   There must be fewer than 10 existing cache reports for the specified file share.   The gateway must be online and connected to Amazon Web Services.   The root disk must have at least 20GB of free space when report generation starts.   You must specify at least one value for InclusionFilters or ExclusionFilters in the request.
+    @Sendable
+    @inlinable
+    public func startCacheReport(_ input: StartCacheReportInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCacheReportOutput {
+        try await self.client.execute(
+            operation: "StartCacheReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve issues if you have files failing upload from your gateway to Amazon S3. The report is a CSV file containing a list of files which match the set of filter parameters you specify in the request.  The Files Failing Upload flag is reset every 24 hours and during gateway reboot. If this report captures the files after the reset, but before they become flagged again, they will not be reported as Files Failing Upload.  The following requirements must be met to successfully generate a cache report:   You must have permissions to list the entire Amazon S3 bucket associated with the specified file share.   No other cache reports can currently be in-progress for the specified file share.   There must be fewer than 10 existing cache reports for the specified file share.   The gateway must be online and connected to Amazon Web Services.   The root disk must have at least 20GB of free space when report generation starts.   You must specify at least one value for InclusionFilters or ExclusionFilters in the request.
+    ///
+    /// Parameters:
+    ///   - bucketRegion: The Amazon Web Services Region of the Amazon S3 bucket associated with the file share for which you want to generate the cache report.
+    ///   - clientToken: A unique identifier that you use to ensure idempotent report generation if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request.
+    ///   - exclusionFilters: The list of filters and parameters that determine which files are excluded from the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
+    ///   - fileShareARN: 
+    ///   - inclusionFilters: The list of filters and parameters that determine which files are included in the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
+    ///   - locationARN: The ARN of the Amazon S3 bucket where the cache report will be saved.  We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
+    ///   - role: The ARN of the IAM role used when saving the cache report to Amazon S3.
+    ///   - tags: A list of up to 50 key/value tags that you can assign to the cache report. Using tags can help you categorize your reports and more easily locate them in search results.
+    ///   - vpcEndpointDNSName: The DNS name of the VPC endpoint associated with the Amazon S3 where you want to save the cache report. Optional.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startCacheReport(
+        bucketRegion: String,
+        clientToken: String,
+        exclusionFilters: [CacheReportFilter]? = nil,
+        fileShareARN: String,
+        inclusionFilters: [CacheReportFilter]? = nil,
+        locationARN: String,
+        role: String,
+        tags: [Tag]? = nil,
+        vpcEndpointDNSName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartCacheReportOutput {
+        let input = StartCacheReportInput(
+            bucketRegion: bucketRegion, 
+            clientToken: clientToken, 
+            exclusionFilters: exclusionFilters, 
+            fileShareARN: fileShareARN, 
+            inclusionFilters: inclusionFilters, 
+            locationARN: locationARN, 
+            role: role, 
+            tags: tags, 
+            vpcEndpointDNSName: vpcEndpointDNSName
+        )
+        return try await self.startCacheReport(input, logger: logger)
     }
 
     /// Starts a gateway that you previously shut down (see ShutdownGateway). After the gateway starts, you can then make other API calls, your applications can read from or write to the gateway's storage volumes and you will be able to take snapshot backups.  When you make a request, you will get a 200 OK success response immediately. However, it might take some time for the gateway to be ready. You should call DescribeGatewayInformation and check the status before making any additional API calls. For more information, see ActivateGateway.  To specify which gateway to start, use the Amazon Resource Name (ARN) of the gateway in your request.

@@ -76,6 +76,12 @@ extension ACMPCA {
         public var description: String { return self.rawValue }
     }
 
+    public enum CrlType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case complete = "COMPLETE"
+        case partitioned = "PARTITIONED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExtendedKeyUsageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case certificateTransparency = "CERTIFICATE_TRANSPARENCY"
         case clientAuth = "CLIENT_AUTH"
@@ -649,6 +655,18 @@ extension ACMPCA {
     public struct CrlConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Configures the behavior of the CRL Distribution Point extension for certificates issued by your certificate authority. If this field is not provided, then the CRl Distribution Point Extension will be present and contain the default CRL URL.
         public let crlDistributionPointExtensionConfiguration: CrlDistributionPointExtensionConfiguration?
+        /// Specifies whether to create a complete or partitioned CRL. This setting determines the maximum
+        /// 		number of certificates that the certificate authority can issue and revoke. For more information, see
+        /// 		Amazon Web Services Private CA quotas.    COMPLETE - The default setting. Amazon Web Services Private CA maintains a single CRL ﬁle for all unexpired
+        /// 				certiﬁcates issued by a CA that have been revoked for any reason. Each certiﬁcate that Amazon Web Services Private CA
+        /// 			issues is bound to a speciﬁc CRL through its CRL distribution point (CDP) extension, deﬁned in
+        /// 				RFC 5280.    PARTITIONED - Compared to complete CRLs, partitioned CRLs
+        /// 			dramatically increase the number of certiﬁcates your private CA can issue.   When using partitioned CRLs, you must validate that the CRL's associated
+        /// 						issuing distribution point (IDP) URI matches the certiﬁcate's CDP URI to ensure
+        /// 						the right CRL has been fetched. Amazon Web Services Private CA marks the IDP extension as critical,
+        /// 						which your client must be able to process.
+        ///
+        public let crlType: CrlType?
         /// Name inserted into the certificate CRL Distribution
         /// 				Points extension that enables the use of an alias for the CRL
         /// 			distribution point. Use this value if you don't want the name of your S3 bucket to be
@@ -656,6 +674,10 @@ extension ACMPCA {
         /// 				use of special characters in URIs. Additionally, the value of the CNAME must not
         /// 				include a protocol prefix such as "http://" or "https://".
         public let customCname: String?
+        /// Designates a custom ﬁle path in S3 for CRL(s). For example, http://&lt;CustomName&gt;/
+        /// 			&lt;CustomPath&gt;/&lt;CrlPartition_GUID&gt;.crl.
+        ///
+        public let customPath: String?
         /// Boolean value that specifies whether certificate revocation lists (CRLs) are enabled.
         /// 			You can use this value to enable certificate revocation for a new CA when you call the
         /// 				CreateCertificateAuthority action or for an existing CA when you call the
@@ -684,9 +706,11 @@ extension ACMPCA {
         public let s3ObjectAcl: S3ObjectAcl?
 
         @inlinable
-        public init(crlDistributionPointExtensionConfiguration: CrlDistributionPointExtensionConfiguration? = nil, customCname: String? = nil, enabled: Bool, expirationInDays: Int? = nil, s3BucketName: String? = nil, s3ObjectAcl: S3ObjectAcl? = nil) {
+        public init(crlDistributionPointExtensionConfiguration: CrlDistributionPointExtensionConfiguration? = nil, crlType: CrlType? = nil, customCname: String? = nil, customPath: String? = nil, enabled: Bool, expirationInDays: Int? = nil, s3BucketName: String? = nil, s3ObjectAcl: S3ObjectAcl? = nil) {
             self.crlDistributionPointExtensionConfiguration = crlDistributionPointExtensionConfiguration
+            self.crlType = crlType
             self.customCname = customCname
+            self.customPath = customPath
             self.enabled = enabled
             self.expirationInDays = expirationInDays
             self.s3BucketName = s3BucketName
@@ -696,6 +720,8 @@ extension ACMPCA {
         public func validate(name: String) throws {
             try self.validate(self.customCname, name: "customCname", parent: name, max: 253)
             try self.validate(self.customCname, name: "customCname", parent: name, pattern: "^[-a-zA-Z0-9;/?:@&=+$,%_.!~*()']*$")
+            try self.validate(self.customPath, name: "customPath", parent: name, max: 253)
+            try self.validate(self.customPath, name: "customPath", parent: name, pattern: "^[-a-zA-Z0-9;?:@&=+$,%_.!~*()']+(/[-a-zA-Z0-9;?:@&=+$,%_.!~*()']+)*$")
             try self.validate(self.expirationInDays, name: "expirationInDays", parent: name, max: 5000)
             try self.validate(self.expirationInDays, name: "expirationInDays", parent: name, min: 1)
             try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 255)
@@ -705,7 +731,9 @@ extension ACMPCA {
 
         private enum CodingKeys: String, CodingKey {
             case crlDistributionPointExtensionConfiguration = "CrlDistributionPointExtensionConfiguration"
+            case crlType = "CrlType"
             case customCname = "CustomCname"
+            case customPath = "CustomPath"
             case enabled = "Enabled"
             case expirationInDays = "ExpirationInDays"
             case s3BucketName = "S3BucketName"
@@ -1853,7 +1881,7 @@ extension ACMPCA {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.policy, name: "policy", parent: name, max: 20480)
+            try self.validate(self.policy, name: "policy", parent: name, max: 81920)
             try self.validate(self.policy, name: "policy", parent: name, min: 1)
             try self.validate(self.policy, name: "policy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)

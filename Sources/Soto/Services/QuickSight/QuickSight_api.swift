@@ -538,6 +538,7 @@ public struct QuickSight: AWSService {
     ///   - importMode: Indicates whether you want to import the data into SPICE.
     ///   - logicalTableMap: Configures the combination and transformation of the data from the physical tables.
     ///   - name: The display name for the dataset.
+    ///   - performanceConfiguration: The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
     ///   - permissions: A list of resource permissions on the dataset.
     ///   - physicalTableMap: Declares the physical tables that are available in the underlying data sources.
     ///   - rowLevelPermissionDataSet: The row-level security configuration for the data that you want to create.
@@ -557,6 +558,7 @@ public struct QuickSight: AWSService {
         importMode: DataSetImportMode,
         logicalTableMap: [String: LogicalTable]? = nil,
         name: String,
+        performanceConfiguration: PerformanceConfiguration? = nil,
         permissions: [ResourcePermission]? = nil,
         physicalTableMap: [String: PhysicalTable],
         rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil,
@@ -576,6 +578,7 @@ public struct QuickSight: AWSService {
             importMode: importMode, 
             logicalTableMap: logicalTableMap, 
             name: name, 
+            performanceConfiguration: performanceConfiguration, 
             permissions: permissions, 
             physicalTableMap: physicalTableMap, 
             rowLevelPermissionDataSet: rowLevelPermissionDataSet, 
@@ -6872,6 +6875,7 @@ public struct QuickSight: AWSService {
     ///   - importMode: Indicates whether you want to import the data into SPICE.
     ///   - logicalTableMap: Configures the combination and transformation of the data from the physical tables.
     ///   - name: The display name for the dataset.
+    ///   - performanceConfiguration: The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
     ///   - physicalTableMap: Declares the physical tables that are available in the underlying data sources.
     ///   - rowLevelPermissionDataSet: The row-level security configuration for the data you want to create.
     ///   - rowLevelPermissionTagConfiguration: The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
@@ -6888,6 +6892,7 @@ public struct QuickSight: AWSService {
         importMode: DataSetImportMode,
         logicalTableMap: [String: LogicalTable]? = nil,
         name: String,
+        performanceConfiguration: PerformanceConfiguration? = nil,
         physicalTableMap: [String: PhysicalTable],
         rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil,
         rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil,
@@ -6904,6 +6909,7 @@ public struct QuickSight: AWSService {
             importMode: importMode, 
             logicalTableMap: logicalTableMap, 
             name: name, 
+            performanceConfiguration: performanceConfiguration, 
             physicalTableMap: physicalTableMap, 
             rowLevelPermissionDataSet: rowLevelPermissionDataSet, 
             rowLevelPermissionTagConfiguration: rowLevelPermissionTagConfiguration

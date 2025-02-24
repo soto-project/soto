@@ -209,6 +209,8 @@ extension S3Tables {
     public struct CreateTableRequest: AWSEncodableShape {
         /// The format for the table.
         public let format: OpenTableFormat
+        /// The metadata for the table.
+        public let metadata: TableMetadata?
         /// The name for the table.
         public let name: String
         /// The namespace to associated with the table.
@@ -217,8 +219,9 @@ extension S3Tables {
         public let tableBucketARN: String
 
         @inlinable
-        public init(format: OpenTableFormat, name: String, namespace: String, tableBucketARN: String) {
+        public init(format: OpenTableFormat, metadata: TableMetadata? = nil, name: String, namespace: String, tableBucketARN: String) {
             self.format = format
+            self.metadata = metadata
             self.name = name
             self.namespace = namespace
             self.tableBucketARN = tableBucketARN
@@ -228,6 +231,7 @@ extension S3Tables {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.format, forKey: .format)
+            try container.encodeIfPresent(self.metadata, forKey: .metadata)
             try container.encode(self.name, forKey: .name)
             request.encodePath(self.namespace, key: "namespace")
             request.encodePath(self.tableBucketARN, key: "tableBucketARN")
@@ -245,6 +249,7 @@ extension S3Tables {
 
         private enum CodingKeys: String, CodingKey {
             case format = "format"
+            case metadata = "metadata"
             case name = "name"
         }
     }
@@ -297,7 +302,7 @@ extension S3Tables {
     }
 
     public struct DeleteTableBucketPolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Number (ARN) of the table bucket.
+        /// The Amazon Resource Name (ARN) of the table bucket.
         public let tableBucketARN: String
 
         @inlinable
@@ -345,7 +350,7 @@ extension S3Tables {
         public let name: String
         /// The namespace associated with the table.
         public let namespace: String
-        /// The Amazon Resource Number (ARN) of the table bucket that contains the table.
+        /// The Amazon Resource Name (ARN) of the table bucket that contains the table.
         public let tableBucketARN: String
 
         @inlinable
@@ -514,7 +519,7 @@ extension S3Tables {
     }
 
     public struct GetTableBucketPolicyRequest: AWSEncodableShape {
-        /// The Amazon Resource Number (ARN) of the table bucket.
+        /// The Amazon Resource Name (ARN) of the table bucket.
         public let tableBucketARN: String
 
         @inlinable
@@ -536,7 +541,7 @@ extension S3Tables {
     }
 
     public struct GetTableBucketPolicyResponse: AWSDecodableShape {
-        /// The name of the resource policy.
+        /// The JSON that defines the policy.
         public let resourcePolicy: String
 
         @inlinable
@@ -768,7 +773,7 @@ extension S3Tables {
         public let name: String
         /// The namespace associated with the table.
         public let namespace: String
-        /// The Amazon Resource Number (ARN) of the table bucket that contains the table.
+        /// The Amazon Resource Name (ARN) of the table bucket that contains the table.
         public let tableBucketARN: String
 
         @inlinable
@@ -800,7 +805,7 @@ extension S3Tables {
     }
 
     public struct GetTablePolicyResponse: AWSDecodableShape {
-        /// The name of the resource policy.
+        /// The JSON that defines the policy.
         public let resourcePolicy: String
 
         @inlinable
@@ -931,6 +936,34 @@ extension S3Tables {
 
         private enum CodingKeys: String, CodingKey {
             case targetFileSizeMB = "targetFileSizeMB"
+        }
+    }
+
+    public struct IcebergMetadata: AWSEncodableShape {
+        /// The schema for an Iceberg table.
+        public let schema: IcebergSchema
+
+        @inlinable
+        public init(schema: IcebergSchema) {
+            self.schema = schema
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case schema = "schema"
+        }
+    }
+
+    public struct IcebergSchema: AWSEncodableShape {
+        /// The schema fields for the table
+        public let fields: [SchemaField]
+
+        @inlinable
+        public init(fields: [SchemaField]) {
+            self.fields = fields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
         }
     }
 
@@ -1101,7 +1134,7 @@ extension S3Tables {
         public let namespace: String?
         /// The prefix of the tables.
         public let prefix: String?
-        /// The Amazon resource Number (ARN) of the table bucket.
+        /// The Amazon resource Name (ARN) of the table bucket.
         public let tableBucketARN: String
 
         @inlinable
@@ -1215,9 +1248,9 @@ extension S3Tables {
     }
 
     public struct PutTableBucketPolicyRequest: AWSEncodableShape {
-        /// The name of the resource policy.
+        /// The JSON that defines the policy.
         public let resourcePolicy: String
-        /// The Amazon Resource Number (ARN) of the table bucket.
+        /// The Amazon Resource Name (ARN) of the table bucket.
         public let tableBucketARN: String
 
         @inlinable
@@ -1296,9 +1329,9 @@ extension S3Tables {
         public let name: String
         /// The namespace associated with the table.
         public let namespace: String
-        /// The name of the resource policy.
+        /// The JSON that defines the policy.
         public let resourcePolicy: String
-        /// The Amazon Resource Number (ARN) of the table bucket that contains the table.
+        /// The Amazon Resource Name (ARN) of the table bucket that contains the table.
         public let tableBucketARN: String
 
         @inlinable
@@ -1395,6 +1428,28 @@ extension S3Tables {
         }
     }
 
+    public struct SchemaField: AWSEncodableShape {
+        /// The name of the field.
+        public let name: String
+        /// A Boolean value that specifies whether values are required for each row in this field. By default, this is false and null values are allowed in the field. If this is true the field does not allow null values.
+        public let required: Bool?
+        /// The field type. S3 Tables supports all Apache Iceberg primitive types. For more information, see the Apache Iceberg documentation.
+        public let type: String
+
+        @inlinable
+        public init(name: String, required: Bool? = nil, type: String) {
+            self.name = name
+            self.required = required
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case required = "required"
+            case type = "type"
+        }
+    }
+
     public struct TableBucketMaintenanceConfigurationValue: AWSEncodableShape & AWSDecodableShape {
         /// Contains details about the settings of the maintenance configuration.
         public let settings: TableBucketMaintenanceSettings?
@@ -1418,7 +1473,7 @@ extension S3Tables {
     }
 
     public struct TableBucketSummary: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the table bucket.
+        /// The Amazon Resource Name (ARN) of the table bucket.
         public let arn: String
         /// The date and time the table bucket was created at.
         public let createdAt: Date
@@ -1496,7 +1551,7 @@ extension S3Tables {
         public let name: String
         /// The name of the namespace.
         public let namespace: [String]
-        /// The Amazon Resource Number (ARN) of the table.
+        /// The Amazon Resource Name (ARN) of the table.
         public let tableARN: String
         /// The type of the table.
         public let type: TableType
@@ -1579,7 +1634,7 @@ extension S3Tables {
         public let name: String
         /// The namespace the table is associated with.
         public let namespace: [String]
-        /// The Amazon Resource Number (ARN) of the table.
+        /// The Amazon Resource Name (ARN) of the table.
         public let tableARN: String
         /// The version token of the table.
         public let versionToken: String
@@ -1617,6 +1672,20 @@ extension S3Tables {
 
         private enum CodingKeys: String, CodingKey {
             case icebergUnreferencedFileRemoval = "icebergUnreferencedFileRemoval"
+        }
+    }
+
+    public struct TableMetadata: AWSEncodableShape {
+        /// Contains details about the metadata of an Iceberg table.
+        public let iceberg: IcebergMetadata?
+
+        @inlinable
+        public init(iceberg: IcebergMetadata? = nil) {
+            self.iceberg = iceberg
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iceberg = "iceberg"
         }
     }
 }

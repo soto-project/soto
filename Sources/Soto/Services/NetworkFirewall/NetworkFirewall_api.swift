@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS NetworkFirewall service.
 ///
-/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.    The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To access Network Firewall using the REST API endpoint: https://network-firewall..amazonaws.com     Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs.   For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide.   Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    In Network Firewall, create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.    In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.
+/// This is the API Reference for Network Firewall. This guide is for developers who need detailed information about the Network Firewall API actions, data types, and errors.  The REST API requires you to handle connection details, such as calculating signatures, handling request retries, and error handling. For general information about using the Amazon Web Services REST APIs, see Amazon Web Services APIs.  To view the complete list of Amazon Web Services Regions where Network Firewall is available, see Service endpoints and quotas in the Amazon Web Services General Reference.  To access Network Firewall using the IPv4 REST API endpoint: https://network-firewall..amazonaws.com   To access Network Firewall using the Dualstack (IPv4 and IPv6) REST API endpoint: https://network-firewall..aws.api   Alternatively, you can use one of the Amazon Web Services SDKs to access an API that's tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. For descriptions of Network Firewall features, including and step-by-step instructions on how to use them through the Network Firewall console, see the Network Firewall Developer Guide. Network Firewall is a stateful, managed, network firewall and intrusion detection and prevention service for Amazon Virtual Private Cloud (Amazon VPC). With Network Firewall, you can filter traffic at the perimeter of your VPC. This includes filtering traffic going to and coming from an internet gateway, NAT gateway, or over VPN or Direct Connect. Network Firewall uses rules that are compatible with Suricata, a free, open source network analysis and threat detection engine. Network Firewall supports Suricata version 7.0.3. For information about Suricata, see the Suricata website and the  Suricata User Guide.  You can use Network Firewall to monitor and protect your VPC traffic in a number of ways. The following are just a few examples:    Allow domains or IP addresses for known Amazon Web Services service endpoints, such as Amazon S3, and block all other forms of traffic.   Use custom lists of known bad domains to limit the types of domain names that your applications can access.   Perform deep packet inspection on traffic entering or leaving your VPC.   Use stateful protocol detection to filter protocols like HTTPS, regardless of the port used.   To enable Network Firewall for your VPCs, you perform steps in both Amazon VPC and in Network Firewall. For information about using Amazon VPC, see Amazon VPC User Guide. To start using Network Firewall, do the following:    (Optional) If you don't already have a VPC that you want to protect, create it in Amazon VPC.    In Amazon VPC, in each Availability Zone where you want to have a firewall endpoint, create a subnet for the sole use of Network Firewall.    In Network Firewall, create stateless and stateful rule groups, to define the components of the network traffic filtering behavior that you want your firewall to have.    In Network Firewall, create a firewall policy that uses your rule groups and specifies additional default traffic filtering behavior.    In Network Firewall, create a firewall and specify your new firewall policy and VPC subnets. Network Firewall creates a firewall endpoint in each subnet that you specify, with the behavior that's defined in the firewall policy.   In Amazon VPC, use ingress routing enhancements to route traffic through the new firewall endpoints.
 public struct NetworkFirewall: AWSService {
     // MARK: Member variables
 
@@ -169,7 +169,7 @@ public struct NetworkFirewall: AWSService {
         return try await self.associateSubnets(input, logger: logger)
     }
 
-    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall.
+    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall. To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
     @Sendable
     @inlinable
     public func createFirewall(_ input: CreateFirewallRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFirewallResponse {
@@ -182,11 +182,12 @@ public struct NetworkFirewall: AWSService {
             logger: logger
         )
     }
-    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall.
+    /// Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.  The firewall defines the configuration settings for an Network Firewall firewall. The settings that you can define at creation include the firewall policy, the subnets in your VPC to use for the firewall endpoints, and any tags that are attached to the firewall Amazon Web Services resource.  After you create a firewall, you can provide additional settings, like the logging configuration.  To update the settings for a firewall, you use the operations that apply to the settings themselves, for example UpdateLoggingConfiguration, AssociateSubnets, and UpdateFirewallDeleteProtection.  To manage a firewall's tags, use the standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource, and UntagResource. To retrieve information about firewalls, use ListFirewalls and DescribeFirewall. To generate a report on the last 30 days of traffic monitored by a firewall, use StartAnalysisReport.
     ///
     /// Parameters:
     ///   - deleteProtection: A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
     ///   - description: A description of the firewall.
+    ///   - enabledAnalysisTypes: An optional setting indicating the specific traffic analysis types to enable on the firewall.
     ///   - encryptionConfiguration: A complex type that contains settings for encryption of your firewall resources.
     ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it.
     ///   - firewallPolicyArn: The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall.
@@ -200,19 +201,21 @@ public struct NetworkFirewall: AWSService {
     public func createFirewall(
         deleteProtection: Bool? = nil,
         description: String? = nil,
+        enabledAnalysisTypes: [EnabledAnalysisType]? = nil,
         encryptionConfiguration: EncryptionConfiguration? = nil,
         firewallName: String,
         firewallPolicyArn: String,
         firewallPolicyChangeProtection: Bool? = nil,
         subnetChangeProtection: Bool? = nil,
-        subnetMappings: [SubnetMapping],
+        subnetMappings: [SubnetMapping]? = nil,
         tags: [Tag]? = nil,
-        vpcId: String,
+        vpcId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateFirewallResponse {
         let input = CreateFirewallRequest(
             deleteProtection: deleteProtection, 
             description: description, 
+            enabledAnalysisTypes: enabledAnalysisTypes, 
             encryptionConfiguration: encryptionConfiguration, 
             firewallName: firewallName, 
             firewallPolicyArn: firewallPolicyArn, 
@@ -799,6 +802,85 @@ public struct NetworkFirewall: AWSService {
         return try await self.disassociateSubnets(input, logger: logger)
     }
 
+    /// The results of a COMPLETED analysis report generated with StartAnalysisReport. For more information, see AnalysisTypeReportResult.
+    @Sendable
+    @inlinable
+    public func getAnalysisReportResults(_ input: GetAnalysisReportResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAnalysisReportResultsResponse {
+        try await self.client.execute(
+            operation: "GetAnalysisReportResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The results of a COMPLETED analysis report generated with StartAnalysisReport. For more information, see AnalysisTypeReportResult.
+    ///
+    /// Parameters:
+    ///   - analysisReportId: The unique ID of the query that ran when you requested an analysis report.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAnalysisReportResults(
+        analysisReportId: String,
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAnalysisReportResultsResponse {
+        let input = GetAnalysisReportResultsRequest(
+            analysisReportId: analysisReportId, 
+            firewallArn: firewallArn, 
+            firewallName: firewallName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.getAnalysisReportResults(input, logger: logger)
+    }
+
+    /// Returns a list of all traffic analysis reports generated within the last 30 days.
+    @Sendable
+    @inlinable
+    public func listAnalysisReports(_ input: ListAnalysisReportsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAnalysisReportsResponse {
+        try await self.client.execute(
+            operation: "ListAnalysisReports", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of all traffic analysis reports generated within the last 30 days.
+    ///
+    /// Parameters:
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAnalysisReports(
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAnalysisReportsResponse {
+        let input = ListAnalysisReportsRequest(
+            firewallArn: firewallArn, 
+            firewallName: firewallName, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAnalysisReports(input, logger: logger)
+    }
+
     /// Retrieves the metadata for the firewall policies that you have defined. Depending on your setting for max results and the number of firewall policies, a single call might not return the full list.
     @Sendable
     @inlinable
@@ -1006,6 +1088,41 @@ public struct NetworkFirewall: AWSService {
         return try await self.putResourcePolicy(input, logger: logger)
     }
 
+    /// Generates a traffic analysis report for the timeframe and traffic type you specify. For information on the contents of a traffic analysis report, see AnalysisReport.
+    @Sendable
+    @inlinable
+    public func startAnalysisReport(_ input: StartAnalysisReportRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAnalysisReportResponse {
+        try await self.client.execute(
+            operation: "StartAnalysisReport", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Generates a traffic analysis report for the timeframe and traffic type you specify. For information on the contents of a traffic analysis report, see AnalysisReport.
+    ///
+    /// Parameters:
+    ///   - analysisType: The type of traffic that will be used to generate a report.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAnalysisReport(
+        analysisType: EnabledAnalysisType,
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAnalysisReportResponse {
+        let input = StartAnalysisReportRequest(
+            analysisType: analysisType, 
+            firewallArn: firewallArn, 
+            firewallName: firewallName
+        )
+        return try await self.startAnalysisReport(input, logger: logger)
+    }
+
     /// Adds the specified tags to the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
     @Sendable
     @inlinable
@@ -1068,6 +1185,44 @@ public struct NetworkFirewall: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Enables specific types of firewall analysis on a specific firewall you define.
+    @Sendable
+    @inlinable
+    public func updateFirewallAnalysisSettings(_ input: UpdateFirewallAnalysisSettingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFirewallAnalysisSettingsResponse {
+        try await self.client.execute(
+            operation: "UpdateFirewallAnalysisSettings", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Enables specific types of firewall analysis on a specific firewall you define.
+    ///
+    /// Parameters:
+    ///   - enabledAnalysisTypes: An optional setting indicating the specific traffic analysis types to enable on the firewall.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - updateToken: An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateFirewallAnalysisSettings(
+        enabledAnalysisTypes: [EnabledAnalysisType]? = nil,
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        updateToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateFirewallAnalysisSettingsResponse {
+        let input = UpdateFirewallAnalysisSettingsRequest(
+            enabledAnalysisTypes: enabledAnalysisTypes, 
+            firewallArn: firewallArn, 
+            firewallName: firewallName, 
+            updateToken: updateToken
+        )
+        return try await self.updateFirewallAnalysisSettings(input, logger: logger)
     }
 
     /// Modifies the flag, DeleteProtection, which indicates whether it is possible to delete the firewall. If the flag is set to TRUE, the firewall is protected against deletion. This setting helps protect against accidentally deleting a firewall that's in use.
@@ -1457,6 +1612,89 @@ extension NetworkFirewall {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension NetworkFirewall {
+    /// Return PaginatorSequence for operation ``getAnalysisReportResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAnalysisReportResultsPaginator(
+        _ input: GetAnalysisReportResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAnalysisReportResultsRequest, GetAnalysisReportResultsResponse> {
+        return .init(
+            input: input,
+            command: self.getAnalysisReportResults,
+            inputKey: \GetAnalysisReportResultsRequest.nextToken,
+            outputKey: \GetAnalysisReportResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getAnalysisReportResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - analysisReportId: The unique ID of the query that ran when you requested an analysis report.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAnalysisReportResultsPaginator(
+        analysisReportId: String,
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetAnalysisReportResultsRequest, GetAnalysisReportResultsResponse> {
+        let input = GetAnalysisReportResultsRequest(
+            analysisReportId: analysisReportId, 
+            firewallArn: firewallArn, 
+            firewallName: firewallName, 
+            maxResults: maxResults
+        )
+        return self.getAnalysisReportResultsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAnalysisReports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAnalysisReportsPaginator(
+        _ input: ListAnalysisReportsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAnalysisReportsRequest, ListAnalysisReportsResponse> {
+        return .init(
+            input: input,
+            command: self.listAnalysisReports,
+            inputKey: \ListAnalysisReportsRequest.nextToken,
+            outputKey: \ListAnalysisReportsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAnalysisReports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+    ///   - firewallName: The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAnalysisReportsPaginator(
+        firewallArn: String? = nil,
+        firewallName: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAnalysisReportsRequest, ListAnalysisReportsResponse> {
+        let input = ListAnalysisReportsRequest(
+            firewallArn: firewallArn, 
+            firewallName: firewallName, 
+            maxResults: maxResults
+        )
+        return self.listAnalysisReportsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listFirewallPolicies(_:logger:)``.
     ///
     /// - Parameters:
@@ -1640,6 +1878,31 @@ extension NetworkFirewall {
             resourceArn: resourceArn
         )
         return self.listTagsForResourcePaginator(input, logger: logger)
+    }
+}
+
+extension NetworkFirewall.GetAnalysisReportResultsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkFirewall.GetAnalysisReportResultsRequest {
+        return .init(
+            analysisReportId: self.analysisReportId,
+            firewallArn: self.firewallArn,
+            firewallName: self.firewallName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension NetworkFirewall.ListAnalysisReportsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListAnalysisReportsRequest {
+        return .init(
+            firewallArn: self.firewallArn,
+            firewallName: self.firewallName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

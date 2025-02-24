@@ -1133,7 +1133,7 @@ extension DynamoDB {
     public struct ConditionCheck: AWSEncodableShape {
         /// A condition that must be satisfied in order for a conditional update to succeed. For more information, see Condition expressions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String
-        /// One or more substitution tokens for attribute names in an expression. For more information, see Expression attribute names  in the Amazon DynamoDB Developer Guide.
+        /// One or more substitution tokens for attribute names in an expression. For more information, see Expression attribute names in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeNames: [String: String]?
         /// One or more values that can be substituted in an expression. For more information, see Condition expressions in the Amazon DynamoDB Developer Guide.
         public let expressionAttributeValues: [String: AttributeValue]?
@@ -4068,32 +4068,45 @@ extension DynamoDB {
         public let latestRestorableDateTime: Date?
         /// The current state of point in time recovery:    ENABLED - Point in time recovery is enabled.    DISABLED - Point in time recovery is disabled.
         public let pointInTimeRecoveryStatus: PointInTimeRecoveryStatus?
+        /// The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35.
+        public let recoveryPeriodInDays: Int?
 
         @inlinable
-        public init(earliestRestorableDateTime: Date? = nil, latestRestorableDateTime: Date? = nil, pointInTimeRecoveryStatus: PointInTimeRecoveryStatus? = nil) {
+        public init(earliestRestorableDateTime: Date? = nil, latestRestorableDateTime: Date? = nil, pointInTimeRecoveryStatus: PointInTimeRecoveryStatus? = nil, recoveryPeriodInDays: Int? = nil) {
             self.earliestRestorableDateTime = earliestRestorableDateTime
             self.latestRestorableDateTime = latestRestorableDateTime
             self.pointInTimeRecoveryStatus = pointInTimeRecoveryStatus
+            self.recoveryPeriodInDays = recoveryPeriodInDays
         }
 
         private enum CodingKeys: String, CodingKey {
             case earliestRestorableDateTime = "EarliestRestorableDateTime"
             case latestRestorableDateTime = "LatestRestorableDateTime"
             case pointInTimeRecoveryStatus = "PointInTimeRecoveryStatus"
+            case recoveryPeriodInDays = "RecoveryPeriodInDays"
         }
     }
 
     public struct PointInTimeRecoverySpecification: AWSEncodableShape {
         /// Indicates whether point in time recovery is enabled (true) or disabled (false) on the table.
         public let pointInTimeRecoveryEnabled: Bool
+        /// The number of preceding days for which continuous backups are taken and maintained. Your table data is only recoverable to any point-in-time from within the configured recovery period. This parameter is optional. If no value is provided, the value will default to 35.
+        public let recoveryPeriodInDays: Int?
 
         @inlinable
-        public init(pointInTimeRecoveryEnabled: Bool) {
+        public init(pointInTimeRecoveryEnabled: Bool, recoveryPeriodInDays: Int? = nil) {
             self.pointInTimeRecoveryEnabled = pointInTimeRecoveryEnabled
+            self.recoveryPeriodInDays = recoveryPeriodInDays
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recoveryPeriodInDays, name: "recoveryPeriodInDays", parent: name, max: 35)
+            try self.validate(self.recoveryPeriodInDays, name: "recoveryPeriodInDays", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case pointInTimeRecoveryEnabled = "PointInTimeRecoveryEnabled"
+            case recoveryPeriodInDays = "RecoveryPeriodInDays"
         }
     }
 
@@ -5993,6 +6006,7 @@ extension DynamoDB {
         }
 
         public func validate(name: String) throws {
+            try self.pointInTimeRecoverySpecification.validate(name: "\(name).pointInTimeRecoverySpecification")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 1024)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
         }

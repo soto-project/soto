@@ -249,7 +249,7 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:\\d{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[-a-z]*:logs:[-a-z0-9]+:[0-9]{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -367,6 +367,8 @@ extension Amp {
         public let clientToken: String?
         /// The Amazon Managed Service for Prometheus workspace to send metrics to.
         public let destination: Destination
+        /// The scraper role configuration for the workspace.
+        public let roleConfiguration: RoleConfiguration?
         /// The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User  Guide.
         public let scrapeConfiguration: ScrapeConfiguration
         /// The Amazon EKS cluster from which the scraper will collect metrics.
@@ -375,10 +377,11 @@ extension Amp {
         public let tags: [String: String]?
 
         @inlinable
-        public init(alias: String? = nil, clientToken: String? = CreateScraperRequest.idempotencyToken(), destination: Destination, scrapeConfiguration: ScrapeConfiguration, source: Source, tags: [String: String]? = nil) {
+        public init(alias: String? = nil, clientToken: String? = CreateScraperRequest.idempotencyToken(), destination: Destination, roleConfiguration: RoleConfiguration? = nil, scrapeConfiguration: ScrapeConfiguration, source: Source, tags: [String: String]? = nil) {
             self.alias = alias
             self.clientToken = clientToken
             self.destination = destination
+            self.roleConfiguration = roleConfiguration
             self.scrapeConfiguration = scrapeConfiguration
             self.source = source
             self.tags = tags
@@ -392,6 +395,7 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.destination.validate(name: "\(name).destination")
+            try self.roleConfiguration?.validate(name: "\(name).roleConfiguration")
             try self.source.validate(name: "\(name).source")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -407,6 +411,7 @@ extension Amp {
             case alias = "alias"
             case clientToken = "clientToken"
             case destination = "destination"
+            case roleConfiguration = "roleConfiguration"
             case scrapeConfiguration = "scrapeConfiguration"
             case source = "source"
             case tags = "tags"
@@ -465,7 +470,7 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
-            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws:kms:[a-z0-9\\-]+:\\d+:key/[a-f0-9\\-]+$")
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:aws[-a-z]*:kms:[-a-z0-9]+:[0-9]{12}:key/[-a-f0-9]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1314,6 +1319,29 @@ extension Amp {
         }
     }
 
+    public struct RoleConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A ARN identifying the source role configuration.
+        public let sourceRoleArn: String?
+        /// A ARN identifying the target role configuration.
+        public let targetRoleArn: String?
+
+        @inlinable
+        public init(sourceRoleArn: String? = nil, targetRoleArn: String? = nil) {
+            self.sourceRoleArn = sourceRoleArn
+            self.targetRoleArn = targetRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceRoleArn, name: "sourceRoleArn", parent: name, pattern: "^arn:aws[-a-z]*:iam::[0-9]{12}:role/.+$")
+            try self.validate(self.targetRoleArn, name: "targetRoleArn", parent: name, pattern: "^arn:aws[-a-z]*:iam::[0-9]{12}:role/.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceRoleArn = "sourceRoleArn"
+            case targetRoleArn = "targetRoleArn"
+        }
+    }
+
     public struct RuleGroupsNamespaceDescription: AWSDecodableShape {
         /// The ARN of the rule groups namespace. For example,  arn:aws:aps:&lt;region&gt;:123456789012:rulegroupsnamespace/ws-example1-1234-abcd-5678-ef90abcd1234/rulesfile1.
         public let arn: String
@@ -1417,6 +1445,7 @@ extension Amp {
         public let lastModifiedAt: Date
         /// The Amazon Resource Name (ARN) of the IAM role that provides  permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
         public let roleArn: String
+        public let roleConfiguration: RoleConfiguration?
         /// The configuration in use by the scraper.
         public let scrapeConfiguration: ScrapeConfiguration
         /// The ID of the scraper. For example, s-example1-1234-abcd-5678-ef9012abcd34.
@@ -1431,13 +1460,14 @@ extension Amp {
         public let tags: [String: String]?
 
         @inlinable
-        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, scrapeConfiguration: ScrapeConfiguration, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
+        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, roleConfiguration: RoleConfiguration? = nil, scrapeConfiguration: ScrapeConfiguration, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
             self.destination = destination
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
+            self.roleConfiguration = roleConfiguration
             self.scrapeConfiguration = scrapeConfiguration
             self.scraperId = scraperId
             self.source = source
@@ -1453,6 +1483,7 @@ extension Amp {
             case destination = "destination"
             case lastModifiedAt = "lastModifiedAt"
             case roleArn = "roleArn"
+            case roleConfiguration = "roleConfiguration"
             case scrapeConfiguration = "scrapeConfiguration"
             case scraperId = "scraperId"
             case source = "source"
@@ -1489,6 +1520,7 @@ extension Amp {
         public let lastModifiedAt: Date
         /// The Amazon Resource Name (ARN) of the IAM role that provides  permissions for the scraper to discover and collect metrics on your behalf.
         public let roleArn: String
+        public let roleConfiguration: RoleConfiguration?
         /// The ID of the scraper.
         public let scraperId: String
         /// The Amazon EKS cluster from which the scraper collects metrics.
@@ -1501,13 +1533,14 @@ extension Amp {
         public let tags: [String: String]?
 
         @inlinable
-        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
+        public init(alias: String? = nil, arn: String, createdAt: Date, destination: Destination, lastModifiedAt: Date, roleArn: String, roleConfiguration: RoleConfiguration? = nil, scraperId: String, source: Source, status: ScraperStatus, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.alias = alias
             self.arn = arn
             self.createdAt = createdAt
             self.destination = destination
             self.lastModifiedAt = lastModifiedAt
             self.roleArn = roleArn
+            self.roleConfiguration = roleConfiguration
             self.scraperId = scraperId
             self.source = source
             self.status = status
@@ -1522,6 +1555,7 @@ extension Amp {
             case destination = "destination"
             case lastModifiedAt = "lastModifiedAt"
             case roleArn = "roleArn"
+            case roleConfiguration = "roleConfiguration"
             case scraperId = "scraperId"
             case source = "source"
             case status = "status"
@@ -1630,7 +1664,7 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
-            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[a-z0-9-]*:logs:[a-z0-9-]+:\\d{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "^arn:aws[-a-z]*:logs:[-a-z0-9]+:[0-9]{12}:log-group:[A-Za-z0-9\\.\\-\\_\\#/]{1,512}\\:\\*$")
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
@@ -1663,16 +1697,19 @@ extension Amp {
         public let clientToken: String?
         /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
         public let destination: Destination?
+        /// The scraper role configuration for the workspace.
+        public let roleConfiguration: RoleConfiguration?
         /// Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus  User Guide.
         public let scrapeConfiguration: ScrapeConfiguration?
         /// The ID of the scraper to update.
         public let scraperId: String
 
         @inlinable
-        public init(alias: String? = nil, clientToken: String? = UpdateScraperRequest.idempotencyToken(), destination: Destination? = nil, scrapeConfiguration: ScrapeConfiguration? = nil, scraperId: String) {
+        public init(alias: String? = nil, clientToken: String? = UpdateScraperRequest.idempotencyToken(), destination: Destination? = nil, roleConfiguration: RoleConfiguration? = nil, scrapeConfiguration: ScrapeConfiguration? = nil, scraperId: String) {
             self.alias = alias
             self.clientToken = clientToken
             self.destination = destination
+            self.roleConfiguration = roleConfiguration
             self.scrapeConfiguration = scrapeConfiguration
             self.scraperId = scraperId
         }
@@ -1683,6 +1720,7 @@ extension Amp {
             try container.encodeIfPresent(self.alias, forKey: .alias)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.destination, forKey: .destination)
+            try container.encodeIfPresent(self.roleConfiguration, forKey: .roleConfiguration)
             try container.encodeIfPresent(self.scrapeConfiguration, forKey: .scrapeConfiguration)
             request.encodePath(self.scraperId, key: "scraperId")
         }
@@ -1695,6 +1733,7 @@ extension Amp {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
             try self.destination?.validate(name: "\(name).destination")
+            try self.roleConfiguration?.validate(name: "\(name).roleConfiguration")
             try self.validate(self.scraperId, name: "scraperId", parent: name, max: 64)
             try self.validate(self.scraperId, name: "scraperId", parent: name, min: 1)
             try self.validate(self.scraperId, name: "scraperId", parent: name, pattern: "^[0-9A-Za-z][-.0-9A-Z_a-z]*$")
@@ -1704,6 +1743,7 @@ extension Amp {
             case alias = "alias"
             case clientToken = "clientToken"
             case destination = "destination"
+            case roleConfiguration = "roleConfiguration"
             case scrapeConfiguration = "scrapeConfiguration"
         }
     }

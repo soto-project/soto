@@ -1552,6 +1552,64 @@ public struct Imagebuilder: AWSService {
         return try await self.importComponent(input, logger: logger)
     }
 
+    /// Import a Windows operating system image from a verified Microsoft ISO disk
+    /// 			file. The following disk images are supported:   Windows 11 Enterprise
+    @Sendable
+    @inlinable
+    public func importDiskImage(_ input: ImportDiskImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ImportDiskImageResponse {
+        try await self.client.execute(
+            operation: "ImportDiskImage", 
+            path: "/ImportDiskImage", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Import a Windows operating system image from a verified Microsoft ISO disk
+    /// 			file. The following disk images are supported:   Windows 11 Enterprise
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+    ///   - description: The description for your disk image import.
+    ///   - executionRole: The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access
+    ///   - infrastructureConfigurationArn: The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for
+    ///   - name: The name of the image resource that's created from the import.
+    ///   - osVersion: The operating system version for the imported image. Allowed values include
+    ///   - platform: The operating system platform for the imported image. Allowed values include
+    ///   - semanticVersion: The semantic version to attach to the image that's created during the import
+    ///   - tags: Tags that are attached to image resources created from the import.
+    ///   - uri: The uri of the ISO disk file that's stored in Amazon S3.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func importDiskImage(
+        clientToken: String = ImportDiskImageRequest.idempotencyToken(),
+        description: String? = nil,
+        executionRole: String? = nil,
+        infrastructureConfigurationArn: String,
+        name: String,
+        osVersion: String,
+        platform: String,
+        semanticVersion: String,
+        tags: [String: String]? = nil,
+        uri: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ImportDiskImageResponse {
+        let input = ImportDiskImageRequest(
+            clientToken: clientToken, 
+            description: description, 
+            executionRole: executionRole, 
+            infrastructureConfigurationArn: infrastructureConfigurationArn, 
+            name: name, 
+            osVersion: osVersion, 
+            platform: platform, 
+            semanticVersion: semanticVersion, 
+            tags: tags, 
+            uri: uri
+        )
+        return try await self.importDiskImage(input, logger: logger)
+    }
+
     /// When you export your virtual machine (VM) from its virtualization environment, that
     /// 			process creates a set of one or more disk container files that act as snapshots of your
     /// 			VM’s environment, settings, and data. The Amazon EC2 API ImportImage

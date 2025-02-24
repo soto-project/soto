@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS BedrockDataAutomationRuntime service.
 ///
-/// Amazon Bedrock Keystone Runtime
+/// Amazon Bedrock Data Automation Runtime
 public struct BedrockDataAutomationRuntime: AWSService {
     // MARK: Member variables
 

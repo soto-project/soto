@@ -993,7 +993,7 @@ extension Batch {
         public let tags: [String: String]?
         /// The type of the compute environment: MANAGED or UNMANAGED. For more information, see Compute Environments in the Batch User Guide.
         public let type: CEType?
-        /// The maximum number of vCPUs for an unmanaged compute environment. This parameter is only used for fair share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity is reserved.  This parameter is only supported when the type parameter is set to UNMANAGED.
+        /// The maximum number of vCPUs for an unmanaged compute environment. This parameter is only used for fair-share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity is reserved.  This parameter is only supported when the type parameter is set to UNMANAGED.
         public let unmanagedvCpus: Int?
 
         @inlinable
@@ -1060,7 +1060,7 @@ extension Batch {
         public let jobStateTimeLimitActions: [JobStateTimeLimitAction]?
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.
         public let priority: Int?
-        /// The Amazon Resource Name (ARN) of the fair share scheduling policy. Job queues that don't have a scheduling policy are scheduled in a first-in, first-out (FIFO) model.  After a job queue has a scheduling policy, it can be replaced but can't be removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy. A job queue without a scheduling policy is scheduled as a FIFO job queue and can't have a scheduling policy added. Jobs queues with a scheduling policy can have a maximum of 500 active fair share identifiers. When the limit has been reached, submissions of any jobs that add a new fair share identifier fail.
+        /// The Amazon Resource Name (ARN) of the fair-share scheduling policy. Job queues that don't have a fair-share scheduling policy are scheduled in a first-in, first-out (FIFO) model.  After a job queue has a fair-share scheduling policy, it can be replaced but can't be removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . An example is aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy. A job queue without a fair-share scheduling policy is scheduled as a FIFO job queue and can't have a fair-share scheduling policy added. Jobs queues with a fair-share scheduling policy can have a maximum of 500 active share identifiers. When the limit has been reached, submissions of any jobs that add a new share identifier fail.
         public let schedulingPolicyArn: String?
         /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
         public let state: JQState?
@@ -1118,9 +1118,9 @@ extension Batch {
     }
 
     public struct CreateSchedulingPolicyRequest: AWSEncodableShape {
-        /// The fair share policy of the scheduling policy.
+        /// The fair-share scheduling policy details.
         public let fairsharePolicy: FairsharePolicy?
-        /// The name of the scheduling policy. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
+        /// The name of the fair-share scheduling policy. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
         public let name: String?
         /// The tags that you apply to the scheduling policy to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations.
         public let tags: [String: String]?
@@ -2205,7 +2205,7 @@ extension Batch {
     public struct EksPodPropertiesOverride: AWSEncodableShape {
         /// The overrides for the container that's used on the Amazon EKS pod.
         public let containers: [EksContainerOverride]?
-        /// The overrides for the initContainers defined in the Amazon EKS pod. These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see Init Containers in the Kubernetes documentation.
+        /// The overrides for the initContainers defined in the Amazon EKS pod. These containers run before application containers, always run to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see Init Containers in the Kubernetes documentation.
         public let initContainers: [EksContainerOverride]?
         /// Metadata about the overrides for the container that's used on the Amazon EKS pod.
         public let metadata: EksMetadata?
@@ -2376,11 +2376,11 @@ extension Batch {
     }
 
     public struct FairsharePolicy: AWSEncodableShape & AWSDecodableShape {
-        /// A value used to reserve some of the available maximum vCPU for fair share identifiers that aren't already used. The reserved ratio is (computeReservation/100)^ActiveFairShares  where  ActiveFairShares is the number of active fair share identifiers. For example, a computeReservation value of 50 indicates that Batch reserves 50% of the maximum available vCPU if there's only one fair share identifier. It reserves 25% if there are two fair share identifiers. It reserves 12.5% if there are three fair share identifiers. A computeReservation value of 25 indicates that Batch should reserve 25% of the maximum available vCPU if there's only one fair share identifier, 6.25% if there are two fair share identifiers, and 1.56% if there are three fair share identifiers. The minimum value is 0 and the maximum value is 99.
+        /// A value used to reserve some of the available maximum vCPU for share identifiers that aren't already used. The reserved ratio is (computeReservation/100)^ActiveFairShares  where  ActiveFairShares is the number of active share identifiers. For example, a computeReservation value of 50 indicates that Batch reserves 50% of the maximum available vCPU if there's only one share identifier. It reserves 25% if there are two share identifiers. It reserves 12.5% if there are three share identifiers. A computeReservation value of 25 indicates that Batch should reserve 25% of the maximum available vCPU if there's only one share identifier, 6.25% if there are two fair share identifiers, and 1.56% if there are three share identifiers. The minimum value is 0 and the maximum value is 99.
         public let computeReservation: Int?
-        /// The amount of time (in seconds) to use to calculate a fair share percentage for each fair share identifier in use. A value of zero (0) indicates that only current usage is measured. The decay allows for more recently run jobs to have more weight than jobs that ran earlier. The maximum supported value is 604800 (1 week).
+        /// The amount of time (in seconds) to use to calculate a fair-share percentage for each  share identifier in use. A value of zero (0) indicates the default minimum time window (600 seconds). The maximum supported value is 604800 (1 week). The decay allows for more recently run jobs to have more weight than jobs that ran earlier.  Consider adjusting this number if you have jobs that (on average) run longer than ten minutes,  or a large difference in job count or job run times between share identifiers, and the allocation of resources doesn’t meet your needs.
         public let shareDecaySeconds: Int?
-        /// An array of SharedIdentifier objects that contain the weights for the fair share identifiers for the fair share policy. Fair share identifiers that aren't included have a default weight of 1.0.
+        /// An array of SharedIdentifier objects that contain the weights for the  share identifiers for the fair-share policy. Share identifiers that aren't included have a default weight of 1.0.
         public let shareDistribution: [ShareAttributes]?
 
         @inlinable
@@ -2412,7 +2412,7 @@ extension Batch {
     }
 
     public struct FrontOfQueueDetail: AWSDecodableShape {
-        /// The Amazon Resource Names (ARNs) of the first 100 RUNNABLE jobs in a named job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+        /// The Amazon Resource Names (ARNs) of the first 100 RUNNABLE jobs in a named job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair-share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
         public let jobs: [FrontOfQueueJobSummary]?
         /// The Unix timestamp (in milliseconds) for when each of the first 100 RUNNABLE jobs were last updated.
         public let lastUpdatedAt: Int64?
@@ -2462,7 +2462,7 @@ extension Batch {
     }
 
     public struct GetJobQueueSnapshotResponse: AWSDecodableShape {
-        /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
+        /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair-share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
         public let frontOfQueue: FrontOfQueueDetail?
 
         @inlinable
@@ -2528,7 +2528,7 @@ extension Batch {
         public let retryStrategy: RetryStrategy?
         /// The revision of the job definition.
         public let revision: Int?
-        /// The scheduling priority of the job definition. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority.
+        /// The scheduling priority of the job definition. This only affects jobs in job queues with a fair-share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority.
         public let schedulingPriority: Int?
         /// The status of the job definition.
         public let status: String?
@@ -2642,7 +2642,7 @@ extension Batch {
         public let propagateTags: Bool?
         /// The retry strategy to use for this job if an attempt fails.
         public let retryStrategy: RetryStrategy?
-        /// The scheduling policy of the job definition. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority.
+        /// The scheduling policy of the job definition. This only affects jobs in job queues with a fair-share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority.
         public let schedulingPriority: Int?
         /// The share identifier for the job.
         public let shareIdentifier: String?
@@ -2734,7 +2734,7 @@ extension Batch {
         public let jobQueueName: String?
         /// The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed.
         public let jobStateTimeLimitActions: [JobStateTimeLimitAction]?
-        /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either Amazon EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). Amazon EC2 and Fargate compute environments can't be mixed.
+        /// The priority of the job queue. Job queue priority determines the order  that job queues are evaluated when multiple queues dispatch jobs within a  shared compute environment. A higher value for priority indicates a higher priority. Queues are evaluated in cycles, in descending order by priority. For example, a job queue with a priority value of 10 is  evaluated before a queue with a priority value of 1. All of the  compute environments must be either Amazon EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). Amazon EC2 and  Fargate compute environments can't be mixed.  Job queue priority doesn't guarantee that a particular job executes before  a job in a lower priority queue. Jobs added to higher priority queues during the  queue evaluation cycle might not be evaluated until the next cycle. A job is  dispatched from a queue only if resources are available when the queue is evaluated.  If there are insufficient resources available at that time, the cycle proceeds to the  next queue. This means that jobs added to higher priority queues might have to wait  for jobs in multiple lower priority queues to complete before they are dispatched.  You can use job dependencies to control the order for jobs from queues with different  priorities. For more information, see Job Dependencies in the Batch User Guide.
         public let priority: Int?
         /// The Amazon Resource Name (ARN) of the scheduling policy. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
         public let schedulingPolicyArn: String?
@@ -2940,7 +2940,7 @@ extension Batch {
         public let launchTemplateId: String?
         /// The name of the launch template.  Note: If you specify the launchTemplateName you can't specify the launchTemplateId as well.
         public let launchTemplateName: String?
-        /// The instance type or family that this this override launch template should be applied to. This parameter is required when defining a launch template override. Information included in this parameter must meet the following requirements:   Must be a valid Amazon EC2 instance type or family.    optimal isn't allowed.    targetInstanceTypes can target only instance types and families that are included within the  ComputeResource.instanceTypes set. targetInstanceTypes doesn't need to include all of the instances from the instanceType set, but at least a subset. For example, if ComputeResource.instanceTypes includes [m5, g5], targetInstanceTypes can include [m5.2xlarge] and [m5.large] but not [c5.large].    targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
+        /// The instance type or family that this override launch template should be applied to. This parameter is required when defining a launch template override. Information included in this parameter must meet the following requirements:   Must be a valid Amazon EC2 instance type or family.    optimal isn't allowed.    targetInstanceTypes can target only instance types and families that are included within the  ComputeResource.instanceTypes set. targetInstanceTypes doesn't need to include all of the instances from the instanceType set, but at least a subset. For example, if ComputeResource.instanceTypes includes [m5, g5], targetInstanceTypes can include [m5.2xlarge] and [m5.large] but not [c5.large].    targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
         public let targetInstanceTypes: [String]?
         /// The version number of the launch template,  $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used.   If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  Default: $Default  Latest: $Latest
         public let version: String?
@@ -2966,7 +2966,7 @@ extension Batch {
         public let devices: [Device]?
         /// If true, run an init process inside the container that forwards signals and reaps processes. This parameter maps to the --init option to docker run. This parameter requires version 1.25 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version"
         public let initProcessEnabled: Bool?
-        /// The total amount of swap memory (in MiB) a container can use. This parameter is translated to the --memory-swap option to docker run where the value is the sum of the container memory plus the maxSwap value. For more information, see  --memory-swap details in the Docker documentation. If a maxSwap value of 0 is specified, the container doesn't use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container doesn't use the swap configuration for the container instance that it's running on. A maxSwap value must be set for the swappiness parameter to be used.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs.
+        /// The total amount of swap memory (in MiB) a container can use. This parameter is translated to the --memory-swap option to docker run where the value is the sum of the container memory plus the maxSwap value. For more information, see  --memory-swap details in the Docker documentation. If a maxSwap value of 0 is specified, the container doesn't use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container doesn't use the swap configuration for the container instance on which it runs. A maxSwap value must be set for the swappiness parameter to be used.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs.
         public let maxSwap: Int?
         /// The value for the size (in MiB) of the /dev/shm volume. This parameter maps to the --shm-size option to docker run.  This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs.
         public let sharedMemorySize: Int?
@@ -3378,7 +3378,7 @@ extension Batch {
         public let propagateTags: Bool?
         /// The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that's specified during a SubmitJob operation overrides the retry strategy defined here. If a job is terminated due to a timeout, it isn't retried.
         public let retryStrategy: RetryStrategy?
-        /// The scheduling priority for jobs that are submitted with this job definition. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. The minimum supported value is 0 and the maximum supported value is 9999.
+        /// The scheduling priority for jobs that are submitted with this job definition. This only affects jobs in job queues with a fair-share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. The minimum supported value is 0 and the maximum supported value is 9999.
         public let schedulingPriority: Int?
         /// The tags that you apply to the job definition to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Batch User Guide.
         public let tags: [String: String]?
@@ -3528,11 +3528,11 @@ extension Batch {
     public struct SchedulingPolicyDetail: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the scheduling policy. An example is arn:aws:batch:us-east-1:123456789012:scheduling-policy/HighPriority .
         public let arn: String?
-        /// The fair share policy for the scheduling policy.
+        /// The fair-share scheduling policy details.
         public let fairsharePolicy: FairsharePolicy?
-        /// The name of the scheduling policy.
+        /// The name of the fair-share scheduling policy.
         public let name: String?
-        /// The tags that you apply to the scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services resources in Amazon Web Services General Reference.
+        /// The tags that you apply to the fair-share scheduling policy to categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services resources in Amazon Web Services General Reference.
         public let tags: [String: String]?
 
         @inlinable
@@ -3584,9 +3584,9 @@ extension Batch {
     }
 
     public struct ShareAttributes: AWSEncodableShape & AWSDecodableShape {
-        /// A fair share identifier or fair share identifier prefix. If the string ends with an asterisk (*), this entry specifies the weight factor to use for fair share identifiers that start with that prefix. The list of fair share identifiers in a fair share policy can't overlap. For example, you can't have one that specifies a shareIdentifier of UserA* and another that specifies a shareIdentifier of UserA-1. There can be no more than 500 fair share identifiers active in a job queue. The string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
+        /// A share identifier or share identifier prefix. If the string ends with an asterisk (*), this entry specifies the weight factor to use for share identifiers that start with that prefix. The list of share identifiers in a fair-share policy can't overlap. For example, you can't have one that specifies a shareIdentifier of UserA* and another that specifies a shareIdentifier of UserA-1. There can be no more than 500 share identifiers active in a job queue. The string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
         public let shareIdentifier: String?
-        /// The weight factor for the fair share identifier. The default value is 1.0. A lower value has a higher priority for compute resources. For example, jobs that use a share identifier with a weight factor of 0.125 (1/8) get 8 times the compute resources of jobs that use a share identifier with a weight factor of 1. The smallest supported value is 0.0001, and the largest supported value is 999.9999.
+        /// The weight factor for the share identifier. The default value is 1.0. A lower value has a higher priority for compute resources. For example, jobs that use a share identifier with a weight factor of 0.125 (1/8) get 8 times the compute resources of jobs that use a share identifier with a weight factor of 1. The smallest supported value is 0.0001, and the largest supported value is 999.9999.
         public let weightFactor: Float?
 
         @inlinable
@@ -3626,9 +3626,9 @@ extension Batch {
         public let propagateTags: Bool?
         /// The retry strategy to use for failed jobs from this SubmitJob operation. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: RetryStrategy?
-        /// The scheduling priority for the job. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. This overrides any scheduling priority in the job definition and works only  within a single share identifier. The minimum supported value is 0 and the maximum supported value is 9999.
+        /// The scheduling priority for the job. This only affects jobs in job queues with a  fair-share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. This overrides any scheduling priority in the job definition and works only  within a single share identifier. The minimum supported value is 0 and the maximum supported value is 9999.
         public let schedulingPriorityOverride: Int?
-        /// The share identifier for the job. Don't specify this parameter if the job queue doesn't have a scheduling policy. If the job queue has a scheduling policy, then this parameter must be specified. This string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
+        /// The share identifier for the job. Don't specify this parameter if the job queue doesn't have a fair-share scheduling policy. If the job queue has a fair-share scheduling policy, then this parameter must be specified. This string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
         public let shareIdentifier: String?
         /// The tags that you apply to the job request to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
         public let tags: [String: String]?
@@ -3886,7 +3886,7 @@ extension Batch {
         public let command: [String]?
         /// A list of containers that this container depends on.
         public let dependsOn: [TaskContainerDependency]?
-        /// The environment variables to pass to a container. This parameter maps to Env inthe Create a container section of the Docker Remote API and the --env parameter to docker run.   We don't recommend using plaintext environment variables for sensitive information, such as credential data.   Environment variables cannot start with AWS_BATCH. This naming convention is reserved for variables that Batch sets.
+        /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env parameter to docker run.   We don't recommend using plaintext environment variables for sensitive information, such as credential data.   Environment variables cannot start with AWS_BATCH. This naming convention is reserved for variables that Batch sets.
         public let environment: [KeyValuePair]?
         /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All jobs must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see Application Architecture in the Amazon Elastic Container Service Developer Guide.
         public let essential: Bool?
@@ -4081,7 +4081,7 @@ extension Batch {
         public let serviceRole: String?
         /// The state of the compute environment. Compute environments in the ENABLED state can accept jobs from a queue and scale in or out automatically based on the workload demand of its associated queues. If the state is ENABLED, then the Batch scheduler can attempt to place jobs from an associated job queue on the compute resources within the environment. If the compute environment is managed, then it can scale its instances out or in automatically, based on the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress normally. Managed compute environments in the DISABLED state don't scale out.   Compute environments in a DISABLED state may continue to incur billing charges. To prevent additional charges, turn off and then delete the compute environment. For more information, see State in the Batch User Guide.  When an instance is idle, the instance scales down to the minvCpus value. However, the instance size doesn't change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
         public let state: CEState?
-        /// The maximum number of vCPUs expected to be used for an unmanaged compute environment. Don't specify this parameter for a managed compute environment. This parameter is only used for fair share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair share job queue, no vCPU capacity is reserved.
+        /// The maximum number of vCPUs expected to be used for an unmanaged compute environment. Don't specify this parameter for a managed compute environment. This parameter is only used for fair-share scheduling to reserve vCPU capacity for new share identifiers. If this parameter isn't provided for a fair-share job queue, no vCPU capacity is reserved.
         public let unmanagedvCpus: Int?
         /// Specifies the updated infrastructure update policy for the compute environment. For more information about infrastructure updates, see Updating compute environments in the Batch User Guide.
         public let updatePolicy: UpdatePolicy?
@@ -4140,7 +4140,7 @@ extension Batch {
         public let jobStateTimeLimitActions: [JobStateTimeLimitAction]?
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.
         public let priority: Int?
-        /// Amazon Resource Name (ARN) of the fair share scheduling policy. Once a job queue is created, the fair share scheduling policy can be replaced but not removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
+        /// Amazon Resource Name (ARN) of the fair-share scheduling policy. Once a job queue is created, the fair-share scheduling policy can be replaced but not removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
         public let schedulingPolicyArn: String?
         /// Describes the queue's ability to accept new jobs. If the job queue state is ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to the queue, but jobs already in the queue can finish.
         public let state: JQState?
@@ -4209,7 +4209,7 @@ extension Batch {
     public struct UpdateSchedulingPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the scheduling policy to update.
         public let arn: String?
-        /// The fair share policy.
+        /// The fair-share policy scheduling details.
         public let fairsharePolicy: FairsharePolicy?
 
         @inlinable

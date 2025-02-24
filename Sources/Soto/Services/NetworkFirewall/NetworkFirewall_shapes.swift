@@ -43,6 +43,12 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum EnabledAnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case httpHost = "HTTP_HOST"
+        case tlsSni = "TLS_SNI"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
         case customerKms = "CUSTOMER_KMS"
@@ -241,6 +247,32 @@ extension NetworkFirewall {
         }
     }
 
+    public struct AnalysisReport: AWSDecodableShape {
+        /// The unique ID of the query that ran when you requested an analysis report.
+        public let analysisReportId: String?
+        /// The type of traffic that will be used to generate a report.
+        public let analysisType: EnabledAnalysisType?
+        /// The date and time the analysis report was ran.
+        public let reportTime: Date?
+        /// The status of the analysis report you specify. Statuses include RUNNING, COMPLETED, or FAILED.
+        public let status: String?
+
+        @inlinable
+        public init(analysisReportId: String? = nil, analysisType: EnabledAnalysisType? = nil, reportTime: Date? = nil, status: String? = nil) {
+            self.analysisReportId = analysisReportId
+            self.analysisType = analysisType
+            self.reportTime = reportTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReportId = "AnalysisReportId"
+            case analysisType = "AnalysisType"
+            case reportTime = "ReportTime"
+            case status = "Status"
+        }
+    }
+
     public struct AnalysisResult: AWSDecodableShape {
         /// Provides analysis details for the identified rule.
         public let analysisDetail: String?
@@ -260,6 +292,40 @@ extension NetworkFirewall {
             case analysisDetail = "AnalysisDetail"
             case identifiedRuleIds = "IdentifiedRuleIds"
             case identifiedType = "IdentifiedType"
+        }
+    }
+
+    public struct AnalysisTypeReportResult: AWSDecodableShape {
+        /// The most frequently accessed domains.
+        public let domain: String?
+        /// The date and time any domain was first accessed (within the last 30 day period).
+        public let firstAccessed: Date?
+        /// The number of attempts made to access a observed domain.
+        public let hits: Hits?
+        /// The date and time any domain was last accessed (within the last 30 day period).
+        public let lastAccessed: Date?
+        /// The type of traffic captured by the analysis report.
+        public let `protocol`: String?
+        /// The number of unique source IP addresses that connected to a domain.
+        public let uniqueSources: UniqueSources?
+
+        @inlinable
+        public init(domain: String? = nil, firstAccessed: Date? = nil, hits: Hits? = nil, lastAccessed: Date? = nil, protocol: String? = nil, uniqueSources: UniqueSources? = nil) {
+            self.domain = domain
+            self.firstAccessed = firstAccessed
+            self.hits = hits
+            self.lastAccessed = lastAccessed
+            self.`protocol` = `protocol`
+            self.uniqueSources = uniqueSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case firstAccessed = "FirstAccessed"
+            case hits = "Hits"
+            case lastAccessed = "LastAccessed"
+            case `protocol` = "Protocol"
+            case uniqueSources = "UniqueSources"
         }
     }
 
@@ -546,6 +612,8 @@ extension NetworkFirewall {
         public let deleteProtection: Bool?
         /// A description of the firewall.
         public let description: String?
+        /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+        public let enabledAnalysisTypes: [EnabledAnalysisType]?
         /// A complex type that contains settings for encryption of your firewall resources.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
@@ -557,16 +625,17 @@ extension NetworkFirewall {
         /// A setting indicating whether the firewall is protected against changes to the subnet associations. Use this setting to protect against accidentally modifying the subnet associations for a firewall that is in use. When you create a firewall, the operation initializes this setting to TRUE.
         public let subnetChangeProtection: Bool?
         /// The public subnets to use for your Network Firewall firewalls. Each subnet must belong to a different Availability Zone in the VPC. Network Firewall creates a firewall endpoint in each subnet.
-        public let subnetMappings: [SubnetMapping]
+        public let subnetMappings: [SubnetMapping]?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
         /// The unique identifier of the VPC where Network Firewall should create the firewall.  You can't change this setting after you create the firewall.
-        public let vpcId: String
+        public let vpcId: String?
 
         @inlinable
-        public init(deleteProtection: Bool? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
+        public init(deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping]? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.deleteProtection = deleteProtection
             self.description = description
+            self.enabledAnalysisTypes = enabledAnalysisTypes
             self.encryptionConfiguration = encryptionConfiguration
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
@@ -600,6 +669,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case deleteProtection = "DeleteProtection"
             case description = "Description"
+            case enabledAnalysisTypes = "EnabledAnalysisTypes"
             case encryptionConfiguration = "EncryptionConfiguration"
             case firewallName = "FirewallName"
             case firewallPolicyArn = "FirewallPolicyArn"
@@ -1476,6 +1546,8 @@ extension NetworkFirewall {
         public let deleteProtection: Bool?
         /// A description of the firewall.
         public let description: String?
+        /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+        public let enabledAnalysisTypes: [EnabledAnalysisType]?
         /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your firewall.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the firewall.
@@ -1497,9 +1569,10 @@ extension NetworkFirewall {
         public let vpcId: String
 
         @inlinable
-        public init(deleteProtection: Bool? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
+        public init(deleteProtection: Bool? = nil, description: String? = nil, enabledAnalysisTypes: [EnabledAnalysisType]? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
             self.deleteProtection = deleteProtection
             self.description = description
+            self.enabledAnalysisTypes = enabledAnalysisTypes
             self.encryptionConfiguration = encryptionConfiguration
             self.firewallArn = firewallArn
             self.firewallId = firewallId
@@ -1515,6 +1588,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case deleteProtection = "DeleteProtection"
             case description = "Description"
+            case enabledAnalysisTypes = "EnabledAnalysisTypes"
             case encryptionConfiguration = "EncryptionConfiguration"
             case firewallArn = "FirewallArn"
             case firewallId = "FirewallId"
@@ -1720,6 +1794,90 @@ extension NetworkFirewall {
         }
     }
 
+    public struct GetAnalysisReportResultsRequest: AWSEncodableShape {
+        /// The unique ID of the query that ran when you requested an analysis report.
+        public let analysisReportId: String
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallName: String?
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(analysisReportId: String, firewallArn: String? = nil, firewallName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.analysisReportId = analysisReportId
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, max: 128)
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, min: 1)
+            try self.validate(self.analysisReportId, name: "analysisReportId", parent: name, pattern: "^\\S+$")
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReportId = "AnalysisReportId"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetAnalysisReportResultsResponse: AWSDecodableShape {
+        /// Retrieves the results of a traffic analysis report.
+        public let analysisReportResults: [AnalysisTypeReportResult]?
+        /// The type of traffic that will be used to generate a report.
+        public let analysisType: EnabledAnalysisType?
+        /// The date and time, up to the current date, from which to stop retrieving analysis data,  in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
+        public let endTime: Date?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+        /// The date and time the analysis report was ran.
+        public let reportTime: Date?
+        ///  The date and time within the last 30 days from which to start retrieving analysis data,  in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ.
+        public let startTime: Date?
+        /// The status of the analysis report you specify. Statuses include RUNNING, COMPLETED, or FAILED.
+        public let status: String?
+
+        @inlinable
+        public init(analysisReportResults: [AnalysisTypeReportResult]? = nil, analysisType: EnabledAnalysisType? = nil, endTime: Date? = nil, nextToken: String? = nil, reportTime: Date? = nil, startTime: Date? = nil, status: String? = nil) {
+            self.analysisReportResults = analysisReportResults
+            self.analysisType = analysisType
+            self.endTime = endTime
+            self.nextToken = nextToken
+            self.reportTime = reportTime
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReportResults = "AnalysisReportResults"
+            case analysisType = "AnalysisType"
+            case endTime = "EndTime"
+            case nextToken = "NextToken"
+            case reportTime = "ReportTime"
+            case startTime = "StartTime"
+            case status = "Status"
+        }
+    }
+
     public struct Header: AWSEncodableShape & AWSDecodableShape {
         /// The destination IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.  Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure Network Firewall to inspect for the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure Network Firewall to inspect for IP addresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let destination: String
@@ -1766,6 +1924,20 @@ extension NetworkFirewall {
             case `protocol` = "Protocol"
             case source = "Source"
             case sourcePort = "SourcePort"
+        }
+    }
+
+    public struct Hits: AWSDecodableShape {
+        /// The number of attempts made to access a domain.
+        public let count: Int?
+
+        @inlinable
+        public init(count: Int? = nil) {
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
         }
     }
 
@@ -1821,6 +1993,64 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case referenceArn = "ReferenceArn"
+        }
+    }
+
+    public struct ListAnalysisReportsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallName: String?
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(firewallArn: String? = nil, firewallName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAnalysisReportsResponse: AWSDecodableShape {
+        /// The id and ReportTime associated with a requested analysis report. Does not provide the status of the analysis report.
+        public let analysisReports: [AnalysisReport]?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(analysisReports: [AnalysisReport]? = nil, nextToken: String? = nil) {
+            self.analysisReports = analysisReports
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReports = "AnalysisReports"
+            case nextToken = "NextToken"
         }
     }
 
@@ -2741,6 +2971,51 @@ extension NetworkFirewall {
         }
     }
 
+    public struct StartAnalysisReportRequest: AWSEncodableShape {
+        /// The type of traffic that will be used to generate a report.
+        public let analysisType: EnabledAnalysisType
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallName: String?
+
+        @inlinable
+        public init(analysisType: EnabledAnalysisType, firewallArn: String? = nil, firewallName: String? = nil) {
+            self.analysisType = analysisType
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisType = "AnalysisType"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+        }
+    }
+
+    public struct StartAnalysisReportResponse: AWSDecodableShape {
+        /// The unique ID of the query that ran when you requested an analysis report.
+        public let analysisReportId: String
+
+        @inlinable
+        public init(analysisReportId: String) {
+            self.analysisReportId = analysisReportId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisReportId = "AnalysisReportId"
+        }
+    }
+
     public struct StatefulEngineOptions: AWSEncodableShape & AWSDecodableShape {
         /// Configures the amount of time that can pass without any traffic sent through the firewall before the firewall determines that the connection is idle.
         public let flowTimeouts: FlowTimeouts?
@@ -3156,6 +3431,20 @@ extension NetworkFirewall {
         }
     }
 
+    public struct UniqueSources: AWSDecodableShape {
+        /// The number of unique source IP addresses that connected to a domain.
+        public let count: Int?
+
+        @inlinable
+        public init(count: Int? = nil) {
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -3188,6 +3477,70 @@ extension NetworkFirewall {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateFirewallAnalysisSettingsRequest: AWSEncodableShape {
+        /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+        public let enabledAnalysisTypes: [EnabledAnalysisType]?
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(enabledAnalysisTypes: [EnabledAnalysisType]? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.enabledAnalysisTypes = enabledAnalysisTypes
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledAnalysisTypes = "EnabledAnalysisTypes"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateFirewallAnalysisSettingsResponse: AWSDecodableShape {
+        /// An optional setting indicating the specific traffic analysis types to enable on the firewall.
+        public let enabledAnalysisTypes: [EnabledAnalysisType]?
+        /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it. You must specify the ARN or the name, and you can specify both.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        @inlinable
+        public init(enabledAnalysisTypes: [EnabledAnalysisType]? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.enabledAnalysisTypes = enabledAnalysisTypes
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabledAnalysisTypes = "EnabledAnalysisTypes"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
+        }
     }
 
     public struct UpdateFirewallDeleteProtectionRequest: AWSEncodableShape {

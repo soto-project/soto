@@ -50,6 +50,21 @@ extension StorageGateway {
         public var description: String { return self.rawValue }
     }
 
+    public enum CacheReportFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case uploadFailureReason = "UploadFailureReason"
+        case uploadState = "UploadState"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CacheReportStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canceled = "CANCELED"
+        case completed = "COMPLETED"
+        case error = "ERROR"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CaseSensitivity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case caseSensitive = "CaseSensitive"
         case clientSpecified = "ClientSpecified"
@@ -671,6 +686,87 @@ extension StorageGateway {
         }
     }
 
+    public struct CacheReportFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter name for a filter that determines which files are included or excluded from a cache report.  Valid Names:  UploadFailureReason | UploadState
+        public let name: CacheReportFilterName
+        /// The parameter value for a filter that determines which files are included or excluded from a cache report.  Valid UploadFailureReason Values:   InaccessibleStorageClass | InvalidObjectState | ObjectMissing | S3AccessDenied   Valid UploadState Values:   FailingUpload
+        public let values: [String]
+
+        @inlinable
+        public init(name: CacheReportFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 25)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case values = "Values"
+        }
+    }
+
+    public struct CacheReportInfo: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cache report you want to describe.
+        public let cacheReportARN: String?
+        /// The status of the specified cache report.
+        public let cacheReportStatus: CacheReportStatus?
+        /// The time at which the gateway stopped generating the cache report.
+        public let endTime: Date?
+        /// The list of filters and parameters that determine which files are excluded from the report.
+        public let exclusionFilters: [CacheReportFilter]?
+        public let fileShareARN: String?
+        /// The list of filters and parameters that determine which files are included in the report.
+        public let inclusionFilters: [CacheReportFilter]?
+        /// The ARN of the Amazon S3 bucket location where the cache report is saved.
+        public let locationARN: String?
+        /// The percentage of the report generation process that has been completed at time of inquiry.
+        public let reportCompletionPercent: Int?
+        /// The file name of the completed cache report object stored in Amazon S3.
+        public let reportName: String?
+        public let role: String?
+        /// The time at which the gateway started generating the cache report.
+        public let startTime: Date?
+        /// The list of key/value tags associated with the report.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(cacheReportARN: String? = nil, cacheReportStatus: CacheReportStatus? = nil, endTime: Date? = nil, exclusionFilters: [CacheReportFilter]? = nil, fileShareARN: String? = nil, inclusionFilters: [CacheReportFilter]? = nil, locationARN: String? = nil, reportCompletionPercent: Int? = nil, reportName: String? = nil, role: String? = nil, startTime: Date? = nil, tags: [Tag]? = nil) {
+            self.cacheReportARN = cacheReportARN
+            self.cacheReportStatus = cacheReportStatus
+            self.endTime = endTime
+            self.exclusionFilters = exclusionFilters
+            self.fileShareARN = fileShareARN
+            self.inclusionFilters = inclusionFilters
+            self.locationARN = locationARN
+            self.reportCompletionPercent = reportCompletionPercent
+            self.reportName = reportName
+            self.role = role
+            self.startTime = startTime
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheReportARN = "CacheReportARN"
+            case cacheReportStatus = "CacheReportStatus"
+            case endTime = "EndTime"
+            case exclusionFilters = "ExclusionFilters"
+            case fileShareARN = "FileShareARN"
+            case inclusionFilters = "InclusionFilters"
+            case locationARN = "LocationARN"
+            case reportCompletionPercent = "ReportCompletionPercent"
+            case reportName = "ReportName"
+            case role = "Role"
+            case startTime = "StartTime"
+            case tags = "Tags"
+        }
+    }
+
     public struct CachediSCSIVolume: AWSDecodableShape {
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this timestamp.
         public let createdDate: Date?
@@ -768,6 +864,39 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case tapeARN = "TapeARN"
+        }
+    }
+
+    public struct CancelCacheReportInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the cache report you want to cancel.
+        public let cacheReportARN: String
+
+        @inlinable
+        public init(cacheReportARN: String) {
+            self.cacheReportARN = cacheReportARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cacheReportARN, name: "cacheReportARN", parent: name, max: 500)
+            try self.validate(self.cacheReportARN, name: "cacheReportARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheReportARN = "CacheReportARN"
+        }
+    }
+
+    public struct CancelCacheReportOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cache report you want to cancel.
+        public let cacheReportARN: String?
+
+        @inlinable
+        public init(cacheReportARN: String? = nil) {
+            self.cacheReportARN = cacheReportARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheReportARN = "CacheReportARN"
         }
     }
 
@@ -1784,6 +1913,39 @@ extension StorageGateway {
         }
     }
 
+    public struct DeleteCacheReportInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the cache report you want to delete.
+        public let cacheReportARN: String
+
+        @inlinable
+        public init(cacheReportARN: String) {
+            self.cacheReportARN = cacheReportARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cacheReportARN, name: "cacheReportARN", parent: name, max: 500)
+            try self.validate(self.cacheReportARN, name: "cacheReportARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheReportARN = "CacheReportARN"
+        }
+    }
+
+    public struct DeleteCacheReportOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cache report you want to delete.
+        public let cacheReportARN: String?
+
+        @inlinable
+        public init(cacheReportARN: String? = nil) {
+            self.cacheReportARN = cacheReportARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheReportARN = "CacheReportARN"
+        }
+    }
+
     public struct DeleteChapCredentialsInput: AWSEncodableShape {
         /// The iSCSI initiator that connects to the target.
         public let initiatorName: String
@@ -2247,6 +2409,39 @@ extension StorageGateway {
         }
     }
 
+    public struct DescribeCacheReportInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the cache report you want to describe.
+        public let cacheReportARN: String
+
+        @inlinable
+        public init(cacheReportARN: String) {
+            self.cacheReportARN = cacheReportARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cacheReportARN, name: "cacheReportARN", parent: name, max: 500)
+            try self.validate(self.cacheReportARN, name: "cacheReportARN", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheReportARN = "CacheReportARN"
+        }
+    }
+
+    public struct DescribeCacheReportOutput: AWSDecodableShape {
+        /// Contains all informational fields associated with a cache report. Includes name, ARN, tags, status, progress, filters, start time, and end time.
+        public let cacheReportInfo: CacheReportInfo?
+
+        @inlinable
+        public init(cacheReportInfo: CacheReportInfo? = nil) {
+            self.cacheReportInfo = cacheReportInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheReportInfo = "CacheReportInfo"
+        }
+    }
+
     public struct DescribeCachediSCSIVolumesInput: AWSEncodableShape {
         /// An array of strings where each string represents the Amazon Resource Name (ARN) of a cached volume. All of the specified cached volumes must be from the same gateway. Use ListVolumes to get volume ARNs for a gateway.
         public let volumeARNs: [String]
@@ -2616,7 +2811,7 @@ extension StorageGateway {
     }
 
     public struct DescribeSMBSettingsOutput: AWSDecodableShape {
-        /// Indicates the status of a gateway that is a member of the Active Directory domain.    ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.    DETACHED: Indicates that gateway is not joined to a domain.    JOINED: Indicates that the gateway has successfully joined a domain.    JOINING: Indicates that a JoinDomain operation is in progress.    NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.    TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.    UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.
+        /// Indicates the status of a gateway that is a member of the Active Directory domain.  This field is only used as part of a JoinDomain request. It is not affected by Active Directory connectivity changes that occur after the JoinDomain request succeeds.     ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.    DETACHED: Indicates that gateway is not joined to a domain.    JOINED: Indicates that the gateway has successfully joined a domain.    JOINING: Indicates that a JoinDomain operation is in progress.    NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.    TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.    UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.
         public let activeDirectoryStatus: ActiveDirectoryStatus?
         /// The name of the domain that the gateway is joined to.
         public let domainName: String?
@@ -3463,7 +3658,7 @@ extension StorageGateway {
     }
 
     public struct JoinDomainOutput: AWSDecodableShape {
-        /// Indicates the status of the gateway as a member of the Active Directory domain.    ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.    DETACHED: Indicates that gateway is not joined to a domain.    JOINED: Indicates that the gateway has successfully joined a domain.    JOINING: Indicates that a JoinDomain operation is in progress.    NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.    TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.    UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.
+        /// Indicates the status of the gateway as a member of the Active Directory domain.  This field is only used as part of a JoinDomain request. It is not affected by Active Directory connectivity changes that occur after the JoinDomain request succeeds.     ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.    DETACHED: Indicates that gateway is not joined to a domain.    JOINED: Indicates that the gateway has successfully joined a domain.    JOINING: Indicates that a JoinDomain operation is in progress.    NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.    TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.    UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.
         public let activeDirectoryStatus: ActiveDirectoryStatus?
         /// The unique Amazon Resource Name (ARN) of the gateway that joined the domain.
         public let gatewayARN: String?
@@ -3509,6 +3704,43 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case automaticTapeCreationPolicyInfos = "AutomaticTapeCreationPolicyInfos"
+        }
+    }
+
+    public struct ListCacheReportsInput: AWSEncodableShape {
+        /// Opaque pagination token returned from a previous ListCacheReports operation. If present, Marker specifies where to continue the list from after a previous call to ListCacheReports. Optional.
+        public let marker: String?
+
+        @inlinable
+        public init(marker: String? = nil) {
+            self.marker = marker
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+        }
+    }
+
+    public struct ListCacheReportsOutput: AWSDecodableShape {
+        /// A list of existing cache reports for all file shares associated with your Amazon Web Services account. This list includes all information provided by the DescribeCacheReport action, such as report status, completion progress, start time, end time, filters, and tags.
+        public let cacheReportList: [CacheReportInfo]?
+        /// If the request includes Marker, the response returns that value in this field.
+        public let marker: String?
+
+        @inlinable
+        public init(cacheReportList: [CacheReportInfo]? = nil, marker: String? = nil) {
+            self.cacheReportList = cacheReportList
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheReportList = "CacheReportList"
+            case marker = "Marker"
         }
     }
 
@@ -4748,6 +4980,91 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
+        }
+    }
+
+    public struct StartCacheReportInput: AWSEncodableShape {
+        /// The Amazon Web Services Region of the Amazon S3 bucket associated with the file share for which you want to generate the cache report.
+        public let bucketRegion: String
+        /// A unique identifier that you use to ensure idempotent report generation if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request.
+        public let clientToken: String
+        /// The list of filters and parameters that determine which files are excluded from the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
+        public let exclusionFilters: [CacheReportFilter]?
+        public let fileShareARN: String
+        /// The list of filters and parameters that determine which files are included in the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
+        public let inclusionFilters: [CacheReportFilter]?
+        /// The ARN of the Amazon S3 bucket where the cache report will be saved.  We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
+        public let locationARN: String
+        /// The ARN of the IAM role used when saving the cache report to Amazon S3.
+        public let role: String
+        /// A list of up to 50 key/value tags that you can assign to the cache report. Using tags can help you categorize your reports and more easily locate them in search results.
+        public let tags: [Tag]?
+        /// The DNS name of the VPC endpoint associated with the Amazon S3 where you want to save the cache report. Optional.
+        public let vpcEndpointDNSName: String?
+
+        @inlinable
+        public init(bucketRegion: String, clientToken: String, exclusionFilters: [CacheReportFilter]? = nil, fileShareARN: String, inclusionFilters: [CacheReportFilter]? = nil, locationARN: String, role: String, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
+            self.bucketRegion = bucketRegion
+            self.clientToken = clientToken
+            self.exclusionFilters = exclusionFilters
+            self.fileShareARN = fileShareARN
+            self.inclusionFilters = inclusionFilters
+            self.locationARN = locationARN
+            self.role = role
+            self.tags = tags
+            self.vpcEndpointDNSName = vpcEndpointDNSName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketRegion, name: "bucketRegion", parent: name, max: 25)
+            try self.validate(self.bucketRegion, name: "bucketRegion", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
+            try self.exclusionFilters?.forEach {
+                try $0.validate(name: "\(name).exclusionFilters[]")
+            }
+            try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, max: 500)
+            try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
+            try self.inclusionFilters?.forEach {
+                try $0.validate(name: "\(name).inclusionFilters[]")
+            }
+            try self.validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
+            try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
+            try self.validate(self.role, name: "role", parent: name, max: 2048)
+            try self.validate(self.role, name: "role", parent: name, min: 20)
+            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:(aws(|-cn|-us-gov|-iso[A-Za-z0-9_-]*)):iam::([0-9]+):role/(\\S+)$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.vpcEndpointDNSName, name: "vpcEndpointDNSName", parent: name, max: 255)
+            try self.validate(self.vpcEndpointDNSName, name: "vpcEndpointDNSName", parent: name, min: 1)
+            try self.validate(self.vpcEndpointDNSName, name: "vpcEndpointDNSName", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketRegion = "BucketRegion"
+            case clientToken = "ClientToken"
+            case exclusionFilters = "ExclusionFilters"
+            case fileShareARN = "FileShareARN"
+            case inclusionFilters = "InclusionFilters"
+            case locationARN = "LocationARN"
+            case role = "Role"
+            case tags = "Tags"
+            case vpcEndpointDNSName = "VPCEndpointDNSName"
+        }
+    }
+
+    public struct StartCacheReportOutput: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cache report generated by the StartCacheReport request.
+        public let cacheReportARN: String?
+
+        @inlinable
+        public init(cacheReportARN: String? = nil) {
+            self.cacheReportARN = cacheReportARN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheReportARN = "CacheReportARN"
         }
     }
 

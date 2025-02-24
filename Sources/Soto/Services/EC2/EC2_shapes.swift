@@ -116,6 +116,7 @@ extension EC2 {
     }
 
     public enum AllocationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case future = "future"
         case used = "used"
         public var description: String { return self.rawValue }
     }
@@ -1373,6 +1374,8 @@ extension EC2 {
         public static var f116Xlarge: Self { .init(rawValue: "f1.16xlarge") }
         public static var f12Xlarge: Self { .init(rawValue: "f1.2xlarge") }
         public static var f14Xlarge: Self { .init(rawValue: "f1.4xlarge") }
+        public static var f212Xlarge: Self { .init(rawValue: "f2.12xlarge") }
+        public static var f248Xlarge: Self { .init(rawValue: "f2.48xlarge") }
         public static var g22Xlarge: Self { .init(rawValue: "g2.2xlarge") }
         public static var g28Xlarge: Self { .init(rawValue: "g2.8xlarge") }
         public static var g316Xlarge: Self { .init(rawValue: "g3.16xlarge") }
@@ -1729,6 +1732,8 @@ extension EC2 {
         public static var p4d24Xlarge: Self { .init(rawValue: "p4d.24xlarge") }
         public static var p4de24Xlarge: Self { .init(rawValue: "p4de.24xlarge") }
         public static var p548Xlarge: Self { .init(rawValue: "p5.48xlarge") }
+        public static var p5e48Xlarge: Self { .init(rawValue: "p5e.48xlarge") }
+        public static var p5en48Xlarge: Self { .init(rawValue: "p5en.48xlarge") }
         public static var r32Xlarge: Self { .init(rawValue: "r3.2xlarge") }
         public static var r34Xlarge: Self { .init(rawValue: "r3.4xlarge") }
         public static var r38Xlarge: Self { .init(rawValue: "r3.8xlarge") }
@@ -1965,6 +1970,7 @@ extension EC2 {
         public static var trn12Xlarge: Self { .init(rawValue: "trn1.2xlarge") }
         public static var trn132Xlarge: Self { .init(rawValue: "trn1.32xlarge") }
         public static var trn1n32Xlarge: Self { .init(rawValue: "trn1n.32xlarge") }
+        public static var trn248Xlarge: Self { .init(rawValue: "trn2.48xlarge") }
         public static var u12Tb1112Xlarge: Self { .init(rawValue: "u-12tb1.112xlarge") }
         public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
         public static var u18Tb1112Xlarge: Self { .init(rawValue: "u-18tb1.112xlarge") }
@@ -1976,10 +1982,13 @@ extension EC2 {
         public static var u6Tb156Xlarge: Self { .init(rawValue: "u-6tb1.56xlarge") }
         public static var u6Tb1Metal: Self { .init(rawValue: "u-6tb1.metal") }
         public static var u7i12Tb224Xlarge: Self { .init(rawValue: "u7i-12tb.224xlarge") }
+        public static var u7i6Tb112Xlarge: Self { .init(rawValue: "u7i-6tb.112xlarge") }
+        public static var u7i8Tb112Xlarge: Self { .init(rawValue: "u7i-8tb.112xlarge") }
         public static var u7ib12Tb224Xlarge: Self { .init(rawValue: "u7ib-12tb.224xlarge") }
         public static var u7in16Tb224Xlarge: Self { .init(rawValue: "u7in-16tb.224xlarge") }
         public static var u7in24Tb224Xlarge: Self { .init(rawValue: "u7in-24tb.224xlarge") }
         public static var u7in32Tb224Xlarge: Self { .init(rawValue: "u7in-32tb.224xlarge") }
+        public static var u7inh32Tb480Xlarge: Self { .init(rawValue: "u7inh-32tb.480xlarge") }
         public static var u9Tb1112Xlarge: Self { .init(rawValue: "u-9tb1.112xlarge") }
         public static var u9Tb1Metal: Self { .init(rawValue: "u-9tb1.metal") }
         public static var vt124Xlarge: Self { .init(rawValue: "vt1.24xlarge") }
@@ -5100,7 +5109,7 @@ extension EC2 {
         public var ipv6Addresses: [String]?
         /// The number of IPv6 prefixes that Amazon Web Services automatically assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes option.
         public let ipv6PrefixCount: Int?
-        /// One or more IPv6 prefixes assigned to the network interface. You cannot use this option if you use the Ipv6PrefixCount option.
+        /// One or more IPv6 prefixes assigned to the network interface. You can't use this option if you use the Ipv6PrefixCount option.
         @OptionalCustomCoding<EC2ArrayCoder<_Ipv6PrefixesEncoding, String>>
         public var ipv6Prefixes: [String]?
         /// The ID of the network interface.
@@ -5157,9 +5166,9 @@ extension EC2 {
 
         /// Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
         public let allowReassignment: Bool?
-        /// The number of IPv4 prefixes that Amazon Web Services automatically assigns to the network interface. You cannot use this option if you use the Ipv4 Prefixes option.
+        /// The number of IPv4 prefixes that Amazon Web Services automatically assigns to the network interface. You can't use this option if you use the Ipv4 Prefixes option.
         public let ipv4PrefixCount: Int?
-        /// One or more IPv4 prefixes assigned to the network interface. You cannot use this option if you use the Ipv4PrefixCount option.
+        /// One or more IPv4 prefixes assigned to the network interface. You can't use this option if you use the Ipv4PrefixCount option.
         @OptionalCustomCoding<EC2ArrayCoder<_Ipv4PrefixesEncoding, String>>
         public var ipv4Prefixes: [String]?
         /// The ID of the network interface.
@@ -6634,7 +6643,7 @@ extension EC2 {
         public struct _IpPermissionsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The IPv4 address range, in CIDR format. To specify an IPv6 address range, use IP permissions instead. To specify multiple rules and descriptions for the rules, use IP permissions instead.
+        /// The IPv4 address range, in CIDR format.   Amazon Web Services canonicalizes IPv4 and IPv6 CIDRs. For example, if you specify 100.68.0.18/18 for the CIDR block,  Amazon Web Services canonicalizes the CIDR block to 100.68.0.0/18. Any subsequent DescribeSecurityGroups and DescribeSecurityGroupRules calls will  return the canonicalized form of the CIDR block. Additionally, if you attempt to add another rule with the  non-canonical form of the CIDR (such as 100.68.0.18/18) and there is already a rule for the canonicalized  form of the CIDR block (such as 100.68.0.0/18), the API throws an duplicate rule error.  To specify an IPv6 address range, use IP permissions instead. To specify multiple rules and descriptions for the rules, use IP permissions instead.
         public let cidrIp: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -6713,7 +6722,7 @@ extension EC2 {
     public struct AvailabilityZone: AWSDecodableShape {
         public struct _MessagesEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        ///  For Availability Zones, this parameter has the same value as the Region name. For Local Zones, the name of the associated group, for example us-west-2-lax-1. For Wavelength Zones, the name of the associated group, for example us-east-1-wl1-bos-wlz-1.
+        /// The name of the zone group. For example:   Availability Zones - us-east-1-zg-1    Local Zones - us-west-2-lax-1    Wavelength Zones - us-east-1-wl1-bos-wlz-1
         public let groupName: String?
         /// Any messages about the Availability Zone, Local Zone, or Wavelength Zone.
         @OptionalCustomCoding<EC2ArrayCoder<_MessagesEncoding, AvailabilityZoneMessage>>
@@ -8746,6 +8755,8 @@ extension EC2 {
         public let deletionTime: String?
         /// A brief description of the endpoint.
         public let description: String?
+        /// Indicates whether the client VPN session is disconnected after the maximum sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is false.
+        public let disconnectOnSessionTimeout: Bool?
         /// The DNS name to be used by clients when connecting to the Client VPN endpoint.
         public let dnsName: String?
         /// Information about the DNS servers to be used for DNS resolution.
@@ -8778,7 +8789,7 @@ extension EC2 {
         public let vpnProtocol: VpnProtocol?
 
         @inlinable
-        public init(authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
+        public init(authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
             self.associatedTargetNetworks = nil
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
@@ -8789,6 +8800,7 @@ extension EC2 {
             self.creationTime = creationTime
             self.deletionTime = deletionTime
             self.description = description
+            self.disconnectOnSessionTimeout = disconnectOnSessionTimeout
             self.dnsName = dnsName
             self.dnsServers = dnsServers
             self.securityGroupIds = securityGroupIds
@@ -8806,7 +8818,7 @@ extension EC2 {
 
         @available(*, deprecated, message: "Members associatedTargetNetworks have been deprecated")
         @inlinable
-        public init(associatedTargetNetworks: [AssociatedTargetNetwork]? = nil, authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
+        public init(associatedTargetNetworks: [AssociatedTargetNetwork]? = nil, authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
             self.associatedTargetNetworks = associatedTargetNetworks
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
@@ -8817,6 +8829,7 @@ extension EC2 {
             self.creationTime = creationTime
             self.deletionTime = deletionTime
             self.description = description
+            self.disconnectOnSessionTimeout = disconnectOnSessionTimeout
             self.dnsName = dnsName
             self.dnsServers = dnsServers
             self.securityGroupIds = securityGroupIds
@@ -8843,6 +8856,7 @@ extension EC2 {
             case creationTime = "creationTime"
             case deletionTime = "deletionTime"
             case description = "description"
+            case disconnectOnSessionTimeout = "disconnectOnSessionTimeout"
             case dnsName = "dnsName"
             case dnsServers = "dnsServer"
             case securityGroupIds = "securityGroupIdSet"
@@ -9902,7 +9916,7 @@ extension EC2 {
         ///  Deprecated.
         public let ephemeralStorage: Bool?
         /// The number of instances for which to reserve capacity.  You can request future-dated Capacity Reservations for an instance count
-        /// 				with a minimum of 100 VPUs. For example, if you request a future-dated Capacity
+        /// 				with a minimum of 100 vCPUs. For example, if you request a future-dated Capacity
         /// 				Reservation for m5.xlarge instances, you must request at least
         /// 				25 instances (25 * m5.xlarge = 100 vCPUs).  Valid range: 1 - 1000
         public let instanceCount: Int?
@@ -10077,6 +10091,8 @@ extension EC2 {
         public let connectionLogOptions: ConnectionLogOptions?
         /// A brief description of the Client VPN endpoint.
         public let description: String?
+        /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically.  The default value is false.
+        public let disconnectOnSessionTimeout: Bool?
         /// Information about the DNS servers to be used for DNS resolution. A Client VPN endpoint can
         /// 			have up to two DNS servers. If no DNS server is specified, the DNS address configured on the device is used for the DNS server.
         @OptionalCustomCoding<EC2ArrayCoder<_DnsServersEncoding, String>>
@@ -10107,7 +10123,7 @@ extension EC2 {
         public let vpnPort: Int?
 
         @inlinable
-        public init(authenticationOptions: [ClientVpnAuthenticationRequest]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
+        public init(authenticationOptions: [ClientVpnAuthenticationRequest]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientConnectOptions = clientConnectOptions
@@ -10115,6 +10131,7 @@ extension EC2 {
             self.clientToken = clientToken
             self.connectionLogOptions = connectionLogOptions
             self.description = description
+            self.disconnectOnSessionTimeout = disconnectOnSessionTimeout
             self.dnsServers = dnsServers
             self.dryRun = dryRun
             self.securityGroupIds = securityGroupIds
@@ -10136,6 +10153,7 @@ extension EC2 {
             case clientToken = "ClientToken"
             case connectionLogOptions = "ConnectionLogOptions"
             case description = "Description"
+            case disconnectOnSessionTimeout = "DisconnectOnSessionTimeout"
             case dnsServers = "DnsServers"
             case dryRun = "DryRun"
             case securityGroupIds = "SecurityGroupId"
@@ -10577,7 +10595,7 @@ extension EC2 {
         public struct _LaunchTemplateConfigsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency.
+        /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. For more information, see Ensuring idempotency.
         public let clientToken: String?
         /// Reserved.
         public let context: String?
@@ -10609,7 +10627,7 @@ extension EC2 {
         public let validUntil: Date?
 
         @inlinable
-        public init(clientToken: String? = nil, context: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]? = nil, onDemandOptions: OnDemandOptionsRequest? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptionsRequest? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
+        public init(clientToken: String? = CreateFleetRequest.idempotencyToken(), context: String? = nil, dryRun: Bool? = nil, excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil, launchTemplateConfigs: [FleetLaunchTemplateConfigRequest]? = nil, onDemandOptions: OnDemandOptionsRequest? = nil, replaceUnhealthyInstances: Bool? = nil, spotOptions: SpotOptionsRequest? = nil, tagSpecifications: [TagSpecification]? = nil, targetCapacitySpecification: TargetCapacitySpecificationRequest? = nil, terminateInstancesWithExpiration: Bool? = nil, type: FleetType? = nil, validFrom: Date? = nil, validUntil: Date? = nil) {
             self.clientToken = clientToken
             self.context = context
             self.dryRun = dryRun
@@ -12190,7 +12208,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// If you’re creating a network interface in a dual-stack or IPv6-only subnet, you have the option to assign a primary IPv6 IP address. A primary IPv6 address is an IPv6 GUA address associated with an ENI that you have enabled to use a primary IPv6 address. Use this option if the instance that this ENI will be attached to relies on its IPv6 address not changing. Amazon Web Services will automatically assign an IPv6 address associated with the ENI attached to your instance to be the primary IPv6 address. Once you enable an IPv6 GUA address to be a primary IPv6, you cannot disable it. When you enable an IPv6 GUA address to be a primary IPv6, the first IPv6 GUA will be made the primary IPv6 address until the instance is terminated or the network interface is detached. If you have multiple IPv6 addresses associated with an ENI attached to your instance and you enable a primary IPv6 address, the first IPv6 GUA address associated with the ENI becomes the primary IPv6 address.
         public let enablePrimaryIpv6: Bool?
-        /// The IDs of one or more security groups.
+        /// The IDs of the security groups.
         @OptionalCustomCoding<EC2ArrayCoder<_GroupsEncoding, String>>
         public var groups: [String]?
         /// The type of network interface. The default is interface. If you specify efa-only, do not assign any IP addresses to the network  interface. EFA-only network interfaces do not support IP addresses. The only supported values are interface, efa, efa-only, and trunk.
@@ -18364,7 +18382,7 @@ extension EC2 {
         public let allAvailabilityZones: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    group-name - For Availability Zones, use the Region name. For Local Zones, use the name of the group associated with the Local Zone (for example, us-west-2-lax-1) For Wavelength Zones, use the name of the group associated with the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
+        /// The filters.    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the Availability Zones, Local Zones, and Wavelength Zones.
@@ -21043,7 +21061,7 @@ extension EC2 {
     }
 
     public struct DescribeInstanceAttributeRequest: AWSEncodableShape {
-        /// The instance attribute. Note: The enaSupport attribute is not supported at this time.
+        /// The instance attribute. Note that the enaSupport attribute is not supported.
         public let attribute: InstanceAttributeName?
         /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -23546,7 +23564,7 @@ extension EC2 {
         /// 		               gateway_load_balancer_endpoint | global_accelerator_managed |  interface |
         /// 		               iot_rules_managed | lambda | load_balancer | nat_gateway |
         /// 		               network_load_balancer | quicksight |  transit_gateway | trunk |
-        /// 		               vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services
+        /// 		               vpc_endpoint).    mac-address - The MAC address of the network interface.    network-interface-id - The ID of the network interface.    operator.managed - A Boolean that indicates whether this is a managed network interface.    operator.principal - The principal that manages the network interface. Only valid for managed network interfaces, where managed is true.    owner-id - The Amazon Web Services account ID of the network interface owner.    private-dns-name - The private DNS name of the network interface (IPv4).    private-ip-address - The private IPv4 address or addresses of the network interface.    requester-id - The alias or Amazon Web Services account ID of the principal or service that created the network interface.    requester-managed - Indicates whether the network interface is being managed by an Amazon Web Services
         /// 		               service (for example, Amazon Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates whether the network interface performs source/destination checking.
         /// 		            A value of true means checking is enabled, and false means checking is disabled.
         /// 		            The value must be false for the network interface to perform network address translation (NAT) in your VPC.     status - The status of the network interface. If the network interface is not attached to an instance, the status is available;
@@ -27417,7 +27435,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    ip-address-type - The IP address type (ipv4 | ipv6).    service-name - The name of the service.    service-region - The Region of the service.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC in which the endpoint resides.    vpc-endpoint-id - The ID of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer).
+        /// The filters.    ip-address-type - The IP address type (ipv4 | ipv6).    service-name - The name of the service.    service-region - The Region of the service.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC in which the endpoint resides.    vpc-endpoint-id - The ID of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer | Resource |  ServiceNetwork).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1,000, we return only 1,000 items.
@@ -30873,7 +30891,7 @@ extension EC2 {
     public struct EventInformation: AWSDecodableShape {
         /// The description of the event.
         public let eventDescription: String?
-        /// The event.  error events:    iamFleetRoleInvalid - The EC2 Fleet or Spot Fleet does not have the required permissions either to launch or terminate an instance.    allLaunchSpecsTemporarilyBlacklisted - None of the configurations are valid, and several attempts to launch instances have failed. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot Instances that you can launch.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.    fleetRequestChange events:    active - The EC2 Fleet or Spot Fleet request has been validated and Amazon EC2 is attempting to maintain the target number of running instances.    deleted (EC2 Fleet) / cancelled (Spot Fleet) - The EC2 Fleet is deleted or the Spot Fleet request is canceled and has no running instances. The EC2 Fleet or Spot Fleet will be deleted two days after its instances are terminated.    deleted_running (EC2 Fleet) / cancelled_running (Spot Fleet) - The EC2 Fleet is deleted or the Spot Fleet request is canceled and does not launch additional instances. Its existing instances continue to run until they are interrupted or terminated. The request remains in this state until all instances are interrupted or terminated.    deleted_terminating (EC2 Fleet) / cancelled_terminating (Spot Fleet) - The EC2 Fleet is deleted or the Spot Fleet request is canceled and its instances are terminating. The request remains in this state until all instances are terminated.    expired - The EC2 Fleet or Spot Fleet request has expired. If the request was created with TerminateInstancesWithExpiration set, a subsequent terminated event indicates that the instances are terminated.    modify_in_progress - The EC2 Fleet or Spot Fleet request is being modified. The request remains in this state until the modification is fully processed.    modify_succeeded - The EC2 Fleet or Spot Fleet request was modified.    submitted - The EC2 Fleet or Spot Fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of instances.    progress - The EC2 Fleet or Spot Fleet request is in the process of being fulfilled.    instanceChange events:    launched - A new instance was launched.    terminated - An instance was terminated by the user.    termination_notified - An instance termination notification was sent when a Spot Instance was terminated by Amazon EC2 during scale-down, when the target capacity of the fleet was modified down, for example, from a target capacity of 4 to a target capacity of 3.    Information events:    fleetProgressHalted - The price in every launch specification is not valid because it is below the Spot price (all the launch specifications have produced launchSpecUnusable events). A launch specification might become valid if the Spot price changes.    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    launchSpecUnusable - The price in a launch specification is not valid because it is below the Spot price.    registerWithLoadBalancersFailed - An attempt to register instances with load balancers failed. For more information, see the description of the event.
+        /// The event.  error events:    iamFleetRoleInvalid - The EC2 Fleet or Spot Fleet does not have the required permissions either to launch or terminate an instance.    allLaunchSpecsTemporarilyBlacklisted - None of the configurations are valid, and several attempts to launch instances have failed. For more information, see the description of the event.    spotInstanceCountLimitExceeded - You've reached the limit on the number of Spot Instances that you can launch.    spotFleetRequestConfigurationInvalid - The configuration is not valid. For more information, see the description of the event.    fleetRequestChange events:    active - The EC2 Fleet or Spot Fleet request has been validated and Amazon EC2 is attempting to maintain the target number of running instances.    deleted (EC2 Fleet) / cancelled (Spot Fleet) - The EC2 Fleet is deleted or the Spot Fleet request is canceled and has no running instances. The EC2 Fleet or Spot Fleet will be deleted two days after its instances are terminated.    deleted_running (EC2 Fleet) / cancelled_running (Spot Fleet) - The EC2 Fleet is deleted or the Spot Fleet request is canceled and does not launch additional instances. Its existing instances continue to run until they are interrupted or terminated. The request remains in this state until all instances are interrupted or terminated.    deleted_terminating (EC2 Fleet) / cancelled_terminating (Spot Fleet) - The EC2 Fleet is deleted or the Spot Fleet request is canceled and its instances are terminating. The request remains in this state until all instances are terminated.    expired - The EC2 Fleet or Spot Fleet request has expired. If the request was created with TerminateInstancesWithExpiration set, a subsequent terminated event indicates that the instances are terminated.    modify_in_progress - The EC2 Fleet or Spot Fleet request is being modified. The request remains in this state until the modification is fully processed.    modify_succeeded - The EC2 Fleet or Spot Fleet request was modified.    submitted - The EC2 Fleet or Spot Fleet request is being evaluated and Amazon EC2 is preparing to launch the target number of instances.    progress - The EC2 Fleet or Spot Fleet request is in the process of being fulfilled.    instanceChange events:    launched - A new instance was launched.    terminated - An instance was terminated by the user.    termination_notified - An instance termination notification was sent when a Spot Instance was terminated by Amazon EC2 during scale-down, when the target capacity of the fleet was modified down, for example, from a target capacity of 4 to a target capacity of 3.    Information events:    fleetProgressHalted - The price in every launch specification is not valid because it is below the Spot price (all the launch specifications have produced launchSpecUnusable events). A launch specification might become valid if the Spot price changes.    launchSpecTemporarilyBlacklisted - The configuration is not valid and several attempts to launch instances have failed. For more information, see the description of the event.    launchSpecUnusable - The price specified in a launch specification  is not valid because it is below the Spot price for the requested Spot pools. Note: Even if a fleet with the maintain request type is in the process  of being canceled, it may still publish a launchSpecUnusable event. This  does not mean that the canceled fleet is attempting to launch a new instance.    registerWithLoadBalancersFailed - An attempt to register instances with load balancers failed. For more information, see the description of the event.
         public let eventSubType: String?
         /// The ID of the instance. This information is available only for instanceChange events.
         public let instanceId: String?
@@ -37285,15 +37303,15 @@ extension EC2 {
         /// The block device mapping of the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_BlockDeviceMappingsEncoding, InstanceBlockDeviceMapping>>
         public var blockDeviceMappings: [InstanceBlockDeviceMapping]?
-        /// To enable the instance for Amazon Web Services Stop Protection, set this parameter to true; otherwise, set it to false.
+        /// Indicates whether stop protection is enabled for the instance.
         public let disableApiStop: AttributeBooleanValue?
-        /// If the value is true, you can't terminate the instance through the Amazon EC2 console, CLI, or API; otherwise, you can.
+        /// Indicates whether termination protection is enabled. If the value is true,  you can't terminate the instance using the Amazon EC2 console, command line tools, or API.
         public let disableApiTermination: AttributeBooleanValue?
         /// Indicates whether the instance is optimized for Amazon EBS I/O.
         public let ebsOptimized: AttributeBooleanValue?
         /// Indicates whether enhanced networking with ENA is enabled.
         public let enaSupport: AttributeBooleanValue?
-        /// To enable the instance for Amazon Web Services Nitro Enclaves, set this parameter to true; otherwise, set it to false.
+        /// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.
         public let enclaveOptions: EnclaveOptions?
         /// The security groups associated with the instance.
         @OptionalCustomCoding<EC2ArrayCoder<_GroupsEncoding, GroupIdentifier>>
@@ -37306,14 +37324,14 @@ extension EC2 {
         public let instanceType: AttributeValue?
         /// The kernel ID.
         public let kernelId: AttributeValue?
-        /// A list of product codes.
+        /// The product codes.
         @OptionalCustomCoding<EC2ArrayCoder<_ProductCodesEncoding, ProductCode>>
         public var productCodes: [ProductCode]?
         /// The RAM disk ID.
         public let ramdiskId: AttributeValue?
         /// The device name of the root device volume (for example, /dev/sda1).
         public let rootDeviceName: AttributeValue?
-        /// Enable or disable source/destination checks, which ensure that the instance is either the source or the destination of any traffic that it receives. If the value is true, source/destination checks are enabled; otherwise, they are disabled. The default value is true. You must disable source/destination checks if the instance runs services such as network address translation, routing, or firewalls.
+        /// Indicates whether source/destination checks are enabled.
         public let sourceDestCheck: AttributeBooleanValue?
         /// Indicates whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
         public let sriovNetSupport: AttributeValue?
@@ -37385,7 +37403,7 @@ extension EC2 {
         public let deviceName: String?
         /// Parameters used to automatically set up EBS volumes when the instance is launched.
         public let ebs: EbsInstanceBlockDeviceSpecification?
-        /// suppress the specified device included in the block device mapping.
+        /// Suppresses the specified device included in the block device mapping.
         public let noDevice: String?
         /// The virtual device name.
         public let virtualName: String?
@@ -38225,7 +38243,7 @@ extension EC2 {
         /// The private IPv4 addresses to assign to the network interface. Only one private IPv4 address can be designated as primary. You cannot specify this option if you're 	launching more than one instance in a RunInstances request.
         @OptionalCustomCoding<EC2ArrayCoder<_PrivateIpAddressesEncoding, PrivateIpAddressSpecification>>
         public var privateIpAddresses: [PrivateIpAddressSpecification]?
-        /// The number of secondary private IPv4 addresses. You can't specify this option and specify more than one private IP address using the private IP addresses option. You cannot specify this option if you're 	launching more than one instance in a RunInstances request.
+        /// The number of secondary private IPv4 addresses. You can’t specify this parameter and also specify a secondary private IP address using the PrivateIpAddress parameter.
         public let secondaryPrivateIpAddressCount: Int?
         /// The ID of the subnet associated with the network interface. Applies only if creating a network interface when launching an instance.
         public let subnetId: String?
@@ -38356,7 +38374,7 @@ extension EC2 {
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB?
-        /// The accelerator types that must be on the instance type.   For instance types with GPU accelerators, specify gpu.   For instance types with FPGA accelerators, specify fpga.   Default: Any accelerator type
+        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   Default: Any accelerator type
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
         /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
@@ -38498,7 +38516,7 @@ extension EC2 {
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest?
-        /// The accelerator types that must be on the instance type.   To include instance types with GPU hardware, specify gpu.   To include instance types with FPGA hardware, specify fpga.   Default: Any accelerator type
+        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   Default: Any accelerator type
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
         /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
@@ -39247,7 +39265,7 @@ extension EC2 {
     }
 
     public struct IpRange: AWSEncodableShape & AWSDecodableShape {
-        /// The IPv4 address range. You can either specify a CIDR block or a source security group, not both. To specify a single IPv4 address, use the /32 prefix length.
+        /// The IPv4 address range. You can either specify a CIDR block or a source security group, not both. To specify a single IPv4 address, use the /32 prefix length.   Amazon Web Services canonicalizes IPv4 and IPv6 CIDRs. For example, if you specify 100.68.0.18/18 for the CIDR block,  Amazon Web Services canonicalizes the CIDR block to 100.68.0.0/18. Any subsequent DescribeSecurityGroups and DescribeSecurityGroupRules calls will  return the canonicalized form of the CIDR block. Additionally, if you attempt to add another rule with the  non-canonical form of the CIDR (such as 100.68.0.18/18) and there is already a rule for the canonicalized  form of the CIDR block (such as 100.68.0.0/18), the API throws an duplicate rule error.
         public let cidrIp: String?
         /// A description for the security group rule that references this IPv4 address range. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
         public let description: String?
@@ -40430,7 +40448,7 @@ extension EC2 {
     }
 
     public struct Ipv6Range: AWSEncodableShape & AWSDecodableShape {
-        /// The IPv6 address range. You can either specify a CIDR block or a source security group, not both. To specify a single IPv6 address, use the /128 prefix length.
+        /// The IPv6 address range. You can either specify a CIDR block or a source security group, not both. To specify a single IPv6 address, use the /128 prefix length.   Amazon Web Services canonicalizes IPv4 and IPv6 CIDRs. For example, if you specify 100.68.0.18/18 for the CIDR block,  Amazon Web Services canonicalizes the CIDR block to 100.68.0.0/18. Any subsequent DescribeSecurityGroups and DescribeSecurityGroupRules calls will  return the canonicalized form of the CIDR block. Additionally, if you attempt to add another rule with the  non-canonical form of the CIDR (such as 100.68.0.18/18) and there is already a rule for the canonicalized  form of the CIDR block (such as 100.68.0.0/18), the API throws an duplicate rule error.
         public let cidrIpv6: String?
         /// A description for the security group rule that references this IPv6 address range. Constraints: Up to 255 characters in length. Allowed characters are a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
         public let description: String?
@@ -43070,6 +43088,8 @@ extension EC2 {
         public let connectionLogOptions: ConnectionLogOptions?
         /// A brief description of the Client VPN endpoint.
         public let description: String?
+        /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is false.
+        public let disconnectOnSessionTimeout: Bool?
         /// Information about the DNS servers to be used by Client VPN connections. A Client VPN endpoint can have
         /// 			up to two DNS servers.
         public let dnsServers: DnsServersOptionsModifyStructure?
@@ -43093,12 +43113,13 @@ extension EC2 {
         public let vpnPort: Int?
 
         @inlinable
-        public init(clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, dnsServers: DnsServersOptionsModifyStructure? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
+        public init(clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsServers: DnsServersOptionsModifyStructure? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
             self.clientConnectOptions = clientConnectOptions
             self.clientLoginBannerOptions = clientLoginBannerOptions
             self.clientVpnEndpointId = clientVpnEndpointId
             self.connectionLogOptions = connectionLogOptions
             self.description = description
+            self.disconnectOnSessionTimeout = disconnectOnSessionTimeout
             self.dnsServers = dnsServers
             self.dryRun = dryRun
             self.securityGroupIds = securityGroupIds
@@ -43116,6 +43137,7 @@ extension EC2 {
             case clientVpnEndpointId = "ClientVpnEndpointId"
             case connectionLogOptions = "ConnectionLogOptions"
             case description = "Description"
+            case disconnectOnSessionTimeout = "DisconnectOnSessionTimeout"
             case dnsServers = "DnsServers"
             case dryRun = "DryRun"
             case securityGroupIds = "SecurityGroupId"
@@ -43526,7 +43548,7 @@ extension EC2 {
         public var blockDeviceMappings: [InstanceBlockDeviceMappingSpecification]?
         /// Indicates whether an instance is enabled for stop protection. For more information, see Enable stop protection for your instance.
         public let disableApiStop: AttributeBooleanValue?
-        /// If the value is true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this parameter for Spot Instances.
+        /// Enable or disable termination protection for the instance. If the value is true,  you can't terminate the instance using the Amazon EC2 console, command line interface, or API.  You can't enable termination protection for Spot Instances.
         public let disableApiTermination: AttributeBooleanValue?
         /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -44238,7 +44260,7 @@ extension EC2 {
         /// Add operating Regions to the resource discovery. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions.
         @OptionalCustomCoding<EC2StandardArrayCoder<AddIpamOperatingRegion>>
         public var addOperatingRegions: [AddIpamOperatingRegion]?
-        /// Add an Organizational Unit (OU) exclusion to your IPAM. If your IPAM is integrated with Amazon Web Services Organizations and you add an organizational unit (OU) exclusion, IPAM will not manage the IP addresses in accounts in that OU exclusion. There is a limit on the number of exclusions you can create. For more information, see Quotas for your IPAM in the Amazon VPC IPAM User Guide.
+        /// Add an Organizational Unit (OU) exclusion to your IPAM. If your IPAM is integrated with Amazon Web Services Organizations and you add an organizational unit (OU) exclusion, IPAM will not manage the IP addresses in accounts in that OU exclusion. There is a limit on the number of exclusions you can create. For more information, see Quotas for your IPAM in the Amazon VPC IPAM User Guide.  The resulting set of exclusions must not result in "overlap", meaning two or more OU exclusions must not exclude the same OU. For more information and examples, see the Amazon Web Services CLI request process in Add or remove OU exclusions in the Amazon VPC User Guide.
         @OptionalCustomCoding<EC2StandardArrayCoder<AddIpamOrganizationalUnitExclusion>>
         public var addOrganizationalUnitExclusions: [AddIpamOrganizationalUnitExclusion]?
         /// A resource discovery description.
@@ -44250,7 +44272,7 @@ extension EC2 {
         /// Remove operating Regions.
         @OptionalCustomCoding<EC2StandardArrayCoder<RemoveIpamOperatingRegion>>
         public var removeOperatingRegions: [RemoveIpamOperatingRegion]?
-        /// Remove an Organizational Unit (OU) exclusion to your IPAM. If your IPAM is integrated with Amazon Web Services Organizations and you add an organizational unit (OU) exclusion, IPAM will not manage the IP addresses in accounts in that OU exclusion. There is a limit on the number of exclusions you can create. For more information, see Quotas for your IPAM in the Amazon VPC IPAM User Guide.
+        /// Remove an Organizational Unit (OU) exclusion to your IPAM. If your IPAM is integrated with Amazon Web Services Organizations and you add an organizational unit (OU) exclusion, IPAM will not manage the IP addresses in accounts in that OU exclusion. There is a limit on the number of exclusions you can create. For more information, see Quotas for your IPAM in the Amazon VPC IPAM User Guide.  The resulting set of exclusions must not result in "overlap", meaning two or more OU exclusions must not exclude the same OU. For more information and examples, see the Amazon Web Services CLI request process in Add or remove OU exclusions in the Amazon VPC User Guide.
         @OptionalCustomCoding<EC2StandardArrayCoder<RemoveIpamOrganizationalUnitExclusion>>
         public var removeOrganizationalUnitExclusions: [RemoveIpamOrganizationalUnitExclusion]?
 
@@ -51232,7 +51254,7 @@ extension EC2 {
         public let creditSpecification: CreditSpecificationRequest?
         /// Indicates whether to enable the instance for stop protection. For more information, see Enable stop protection for your instance in the Amazon EC2 User Guide.
         public let disableApiStop: Bool?
-        /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance.
+        /// Indicates whether termination protection is enabled for the instance. The default is false, which means that you can terminate the instance using the Amazon EC2 console, command line tools, or API. You can enable termination protection when you launch an instance, while the instance is running, or while the instance is stopped.
         public let disableApiTermination: Bool?
         /// Indicates whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal Amazon EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance.
         public let ebsOptimized: Bool?
@@ -53261,7 +53283,7 @@ extension EC2 {
         public let creditSpecification: CreditSpecificationRequest?
         /// Indicates whether an instance is enabled for stop protection. For more information, see Stop protection.
         public let disableApiStop: Bool?
-        /// If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false
+        /// Indicates whether termination protection is enabled for the instance. The default is false, which means that you can terminate the instance using the Amazon EC2 console, command line tools, or API. You can enable termination protection when you launch an instance, while the instance is running, or while the instance is stopped.
         public let disableApiTermination: Bool?
         /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -54762,6 +54784,8 @@ extension EC2 {
         public let description: String?
         /// Indicates whether the snapshot is encrypted.
         public let encrypted: Bool?
+        /// The full size of the snapshot, in bytes.  This is not the incremental size of the snapshot.  This is the full snapshot size and represents the size of all the blocks that were  written to the source volume at the time the snapshot was created.
+        public let fullSnapshotSizeInBytes: Int64?
         /// The Amazon Resource Name (ARN) of the KMS key that was used to protect the volume encryption key for the parent volume.
         public let kmsKeyId: String?
         /// The ARN of the Outpost on which the snapshot is stored. For more information, see Amazon EBS local snapshots on Outposts in the  		Amazon EBS User Guide.
@@ -54797,13 +54821,14 @@ extension EC2 {
         public let volumeSize: Int?
 
         @inlinable
-        public init(availabilityZone: String? = nil, completionDurationMinutes: Int? = nil, completionTime: Date? = nil, dataEncryptionKeyId: String? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, outpostArn: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, progress: String? = nil, restoreExpiryTime: Date? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, state: SnapshotState? = nil, stateMessage: String? = nil, storageTier: StorageTier? = nil, tags: [Tag]? = nil, transferType: TransferType? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
+        public init(availabilityZone: String? = nil, completionDurationMinutes: Int? = nil, completionTime: Date? = nil, dataEncryptionKeyId: String? = nil, description: String? = nil, encrypted: Bool? = nil, fullSnapshotSizeInBytes: Int64? = nil, kmsKeyId: String? = nil, outpostArn: String? = nil, ownerAlias: String? = nil, ownerId: String? = nil, progress: String? = nil, restoreExpiryTime: Date? = nil, snapshotId: String? = nil, sseType: SSEType? = nil, startTime: Date? = nil, state: SnapshotState? = nil, stateMessage: String? = nil, storageTier: StorageTier? = nil, tags: [Tag]? = nil, transferType: TransferType? = nil, volumeId: String? = nil, volumeSize: Int? = nil) {
             self.availabilityZone = availabilityZone
             self.completionDurationMinutes = completionDurationMinutes
             self.completionTime = completionTime
             self.dataEncryptionKeyId = dataEncryptionKeyId
             self.description = description
             self.encrypted = encrypted
+            self.fullSnapshotSizeInBytes = fullSnapshotSizeInBytes
             self.kmsKeyId = kmsKeyId
             self.outpostArn = outpostArn
             self.ownerAlias = ownerAlias
@@ -54829,6 +54854,7 @@ extension EC2 {
             case dataEncryptionKeyId = "dataEncryptionKeyId"
             case description = "description"
             case encrypted = "encrypted"
+            case fullSnapshotSizeInBytes = "fullSnapshotSizeInBytes"
             case kmsKeyId = "kmsKeyId"
             case outpostArn = "outpostArn"
             case ownerAlias = "ownerAlias"
@@ -54992,7 +55018,7 @@ extension EC2 {
     public struct SnapshotRecycleBinInfo: AWSDecodableShape {
         /// The description for the snapshot.
         public let description: String?
-        /// The date and time when the snaphsot entered the Recycle Bin.
+        /// The date and time when the snapshot entered the Recycle Bin.
         public let recycleBinEnterTime: Date?
         /// The date and time when the snapshot is to be permanently deleted from the Recycle Bin.
         public let recycleBinExitTime: Date?
@@ -55632,7 +55658,7 @@ extension EC2 {
         public let blockDurationMinutes: Int?
         /// The behavior when a Spot Instance is interrupted. If Configured (for  HibernationOptions ) is set to true, the InstanceInterruptionBehavior parameter is automatically set to hibernate. If you set it to stop or terminate, you'll get an error. If Configured (for  HibernationOptions ) is set to false or null, the InstanceInterruptionBehavior parameter is automatically set to terminate. You can also set it to stop or hibernate. For more information, see Interruption behavior in the Amazon EC2 User Guide.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
-        /// The maximum hourly price that you're willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter.
+        /// The maximum hourly price that you're willing to pay for a Spot Instance. We do not recommend using this parameter because it can lead to increased interruptions. If you do not specify this parameter, you will pay the current Spot price.  If you specify a maximum price, your Spot Instances will be interrupted more frequently than if you do not specify this parameter. If you specify a maximum price, it must be more than USD $0.001. Specifying a value below USD $0.001 will result in an InvalidParameterValue error message.
         public let maxPrice: String?
         /// The Spot Instance request type. For RunInstances, persistent Spot Instance requests are only supported when the instance interruption behavior is either hibernate or stop.
         public let spotInstanceType: SpotInstanceType?
@@ -58787,7 +58813,7 @@ extension EC2 {
         /// The IPv6 addresses that have been unassigned from the network interface.
         @OptionalCustomCoding<EC2ArrayCoder<_UnassignedIpv6AddressesEncoding, String>>
         public var unassignedIpv6Addresses: [String]?
-        /// The IPv4 prefixes that have been unassigned from  the network interface.
+        /// The IPv6 prefixes that have been unassigned from  the network interface.
         @OptionalCustomCoding<EC2ArrayCoder<_UnassignedIpv6PrefixesEncoding, String>>
         public var unassignedIpv6Prefixes: [String]?
 

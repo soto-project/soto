@@ -811,7 +811,7 @@ public struct CodePipeline: AWSService {
         return try await self.listRuleExecutions(input, logger: logger)
     }
 
-    /// Lists the rules for the condition. For more information about conditions, see Stage conditions. For more information about rules, see the CodePipeline rule reference.
+    /// Lists the rules for the condition. For more information about conditions, see Stage conditions and How do stage conditions work?.For more information about rules, see the CodePipeline rule reference.
     @Sendable
     @inlinable
     public func listRuleTypes(_ input: ListRuleTypesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRuleTypesOutput {
@@ -824,7 +824,7 @@ public struct CodePipeline: AWSService {
             logger: logger
         )
     }
-    /// Lists the rules for the condition. For more information about conditions, see Stage conditions. For more information about rules, see the CodePipeline rule reference.
+    /// Lists the rules for the condition. For more information about conditions, see Stage conditions and How do stage conditions work?.For more information about rules, see the CodePipeline rule reference.
     ///
     /// Parameters:
     ///   - regionFilter: The rule Region to filter on.
@@ -910,7 +910,7 @@ public struct CodePipeline: AWSService {
         return try await self.listWebhooks(input, logger: logger)
     }
 
-    /// Used to override a stage condition.
+    /// Used to override a stage condition. For more information about conditions, see Stage conditions and How do stage conditions work?.
     @Sendable
     @inlinable
     public func overrideStageCondition(_ input: OverrideStageConditionInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -923,7 +923,7 @@ public struct CodePipeline: AWSService {
             logger: logger
         )
     }
-    /// Used to override a stage condition.
+    /// Used to override a stage condition. For more information about conditions, see Stage conditions and How do stage conditions work?.
     ///
     /// Parameters:
     ///   - conditionType: The type of condition to override for the stage, such as entry conditions, failure conditions, or success conditions.
@@ -1073,7 +1073,7 @@ public struct CodePipeline: AWSService {
     ///   - pipelineName: The name of the pipeline that contains the action.
     ///   - result: Represents information about the result of the approval request.
     ///   - stageName: The name of the stage that contains the action.
-    ///   - token: The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.  For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject approval request as detailed above is not available. Instead, use the externalExecutionId from the GetPipelineState action as the token in the approval request.
+    ///   - token: The system-generated token used to identify a unique approval request. The token for each open approval request can be obtained using the GetPipelineState action. It is used to validate that the approval request corresponding to this token is still valid.  For a pipeline where the execution mode is set to PARALLEL, the token required to approve/reject an approval request as detailed above is not available. Instead, use the externalExecutionId in the response output from the ListActionExecutions action as the token in the approval request.
     ///   - logger: Logger use during operation
     @inlinable
     public func putApprovalResult(

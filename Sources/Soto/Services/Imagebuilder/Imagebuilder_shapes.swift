@@ -28,6 +28,7 @@ extension Imagebuilder {
 
     public enum BuildType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `import` = "IMPORT"
+        case importIso = "IMPORT_ISO"
         case scheduled = "SCHEDULED"
         case userInitiated = "USER_INITIATED"
         public var description: String { return self.rawValue }
@@ -3668,7 +3669,8 @@ extension Imagebuilder {
         /// 			following ways:    USER_INITIATED – A manual
         /// 					pipeline build request.    SCHEDULED – A pipeline build
         /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.    IMPORT – A VM import created
-        /// 					the image to use as the base image for the recipe.
+        /// 					the image to use as the base image for the recipe.    IMPORT_ISO – An ISO disk import created
+        /// 					the image.
         public let buildType: BuildType?
         /// For container images, this is the container recipe that Image Builder used to create the
         /// 			image. For images that distribute an AMI, this is empty.
@@ -4248,7 +4250,8 @@ extension Imagebuilder {
         /// 			following ways:    USER_INITIATED – A manual
         /// 					pipeline build request.    SCHEDULED – A pipeline build
         /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.    IMPORT – A VM import created
-        /// 					the image to use as the base image for the recipe.
+        /// 					the image to use as the base image for the recipe.    IMPORT_ISO – An ISO disk import created
+        /// 					the image.
         public let buildType: BuildType?
         /// The date on which Image Builder created this image.
         public let dateCreated: String?
@@ -4320,7 +4323,7 @@ extension Imagebuilder {
         /// Determines if tests should run after building the image. Image Builder defaults to enable tests
         /// 			to run following the image build, before image distribution.
         public let imageTestsEnabled: Bool?
-        /// The maximum time in minutes that tests are permitted to run.  The timeout attribute is not currently active. This value is
+        /// The maximum time in minutes that tests are permitted to run.  The timeout property is not currently active. This value is
         /// 				ignored.
         public let timeoutMinutes: Int?
 
@@ -4350,7 +4353,8 @@ extension Imagebuilder {
         /// 			following ways:    USER_INITIATED – A manual
         /// 					pipeline build request.    SCHEDULED – A pipeline build
         /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.    IMPORT – A VM import created
-        /// 					the image to use as the base image for the recipe.
+        /// 					the image to use as the base image for the recipe.    IMPORT_ISO – An ISO disk import created
+        /// 					the image.
         public let buildType: BuildType?
         /// The date on which this specific version of the Image Builder image was created.
         public let dateCreated: String?
@@ -4520,6 +4524,104 @@ extension Imagebuilder {
             case clientToken = "clientToken"
             case componentBuildVersionArn = "componentBuildVersionArn"
             case requestId = "requestId"
+        }
+    }
+
+    public struct ImportDiskImageRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        public let clientToken: String
+        /// The description for your disk image import.
+        public let description: String?
+        /// The name or Amazon Resource Name (ARN) for the IAM role you create that grants Image Builder access
+        /// 			to perform workflow actions to import an image from a Microsoft ISO file.
+        public let executionRole: String?
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration resource that's used for
+        /// 			launching the EC2 instance on which the ISO image is built.
+        public let infrastructureConfigurationArn: String
+        /// The name of the image resource that's created from the import.
+        public let name: String
+        /// The operating system version for the imported image. Allowed values include
+        /// 			the following: Microsoft Windows 11.
+        public let osVersion: String
+        /// The operating system platform for the imported image. Allowed values include
+        /// 			the following: Windows.
+        public let platform: String
+        /// The semantic version to attach to the image that's created during the import
+        /// 			process. This version follows the semantic version syntax.
+        public let semanticVersion: String
+        /// Tags that are attached to image resources created from the import.
+        public let tags: [String: String]?
+        /// The uri of the ISO disk file that's stored in Amazon S3.
+        public let uri: String
+
+        @inlinable
+        public init(clientToken: String = ImportDiskImageRequest.idempotencyToken(), description: String? = nil, executionRole: String? = nil, infrastructureConfigurationArn: String, name: String, osVersion: String, platform: String, semanticVersion: String, tags: [String: String]? = nil, uri: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.executionRole = executionRole
+            self.infrastructureConfigurationArn = infrastructureConfigurationArn
+            self.name = name
+            self.osVersion = osVersion
+            self.platform = platform
+            self.semanticVersion = semanticVersion
+            self.tags = tags
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, min: 1)
+            try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^(?:arn:aws(?:-[a-z]+)*:iam::[0-9]{12}:role/)?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.infrastructureConfigurationArn, name: "infrastructureConfigurationArn", parent: name, pattern: "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws):infrastructure-configuration/[a-z0-9-_]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.osVersion, name: "osVersion", parent: name, min: 1)
+            try self.validate(self.platform, name: "platform", parent: name, max: 1024)
+            try self.validate(self.platform, name: "platform", parent: name, min: 1)
+            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case description = "description"
+            case executionRole = "executionRole"
+            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
+            case name = "name"
+            case osVersion = "osVersion"
+            case platform = "platform"
+            case semanticVersion = "semanticVersion"
+            case tags = "tags"
+            case uri = "uri"
+        }
+    }
+
+    public struct ImportDiskImageResponse: AWSDecodableShape {
+        /// The client token that uniquely identifies the request.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the output AMI that was created from the ISO disk file.
+        public let imageBuildVersionArn: String?
+
+        @inlinable
+        public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil) {
+            self.clientToken = clientToken
+            self.imageBuildVersionArn = imageBuildVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case imageBuildVersionArn = "imageBuildVersionArn"
         }
     }
 
@@ -7313,14 +7415,13 @@ extension Imagebuilder {
     }
 
     public struct Schedule: AWSEncodableShape & AWSDecodableShape {
-        /// The condition configures when the pipeline should trigger a new image build. When the
-        /// 				pipelineExecutionStartCondition is set to
-        /// 				EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, and you use semantic
-        /// 			version filters on the base image or components in your image recipe, EC2 Image Builder will
-        /// 			build a new image only when there are new versions of the image or components in your
-        /// 			recipe that match the semantic version filter. When it is set to
-        /// 				EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON
-        /// 			expression matches the current time. For semantic version syntax, see CreateComponent in the  EC2 Image Builder API Reference.
+        /// The start condition configures when the pipeline should trigger a new image build,
+        /// 			as follows. If no value is set Image Builder defaults to
+        /// 			EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE.    EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE (default) –
+        /// 					When you use semantic version filters on the base image or components in your
+        /// 					image recipe, EC2 Image Builder builds a new image only when there are new versions of
+        /// 					the base image or components in your recipe that match the filter.  For semantic version syntax, see CreateComponent.     EXPRESSION_MATCH_ONLY – This condition builds a new
+        /// 					image every time the CRON expression matches the current time.
         public let pipelineExecutionStartCondition: PipelineExecutionStartCondition?
         /// The cron expression determines how often EC2 Image Builder evaluates your
         /// 				pipelineExecutionStartCondition. For information on how to format a cron expression in Image Builder, see Use

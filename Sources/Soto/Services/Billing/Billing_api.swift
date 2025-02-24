@@ -80,6 +80,137 @@ public struct Billing: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a billing view with the specified billing view attributes.
+    @Sendable
+    @inlinable
+    public func createBillingView(_ input: CreateBillingViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBillingViewResponse {
+        try await self.client.execute(
+            operation: "CreateBillingView", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a billing view with the specified billing view attributes.
+    ///
+    /// Parameters:
+    ///   - clientToken: A unique, case-sensitive identifier you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. If the original request completes successfully, any subsequent retries complete successfully without performing any further actions with an idempotent request.
+    ///   - dataFilterExpression:  See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+    ///   - description:  The description of the billing view.
+    ///   - name:  The name of the billing view.
+    ///   - resourceTags: A list of key value map specifying tags associated to the billing view being created.
+    ///   - sourceViews: A list of billing views used as the data source for the custom billing view.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createBillingView(
+        clientToken: String? = CreateBillingViewRequest.idempotencyToken(),
+        dataFilterExpression: Expression? = nil,
+        description: String? = nil,
+        name: String,
+        resourceTags: [ResourceTag]? = nil,
+        sourceViews: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateBillingViewResponse {
+        let input = CreateBillingViewRequest(
+            clientToken: clientToken, 
+            dataFilterExpression: dataFilterExpression, 
+            description: description, 
+            name: name, 
+            resourceTags: resourceTags, 
+            sourceViews: sourceViews
+        )
+        return try await self.createBillingView(input, logger: logger)
+    }
+
+    /// Deletes the specified billing view.
+    @Sendable
+    @inlinable
+    public func deleteBillingView(_ input: DeleteBillingViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBillingViewResponse {
+        try await self.client.execute(
+            operation: "DeleteBillingView", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified billing view.
+    ///
+    /// Parameters:
+    ///   - arn:  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteBillingView(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteBillingViewResponse {
+        let input = DeleteBillingViewRequest(
+            arn: arn
+        )
+        return try await self.deleteBillingView(input, logger: logger)
+    }
+
+    /// Returns the metadata associated to the specified billing view ARN.
+    @Sendable
+    @inlinable
+    public func getBillingView(_ input: GetBillingViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBillingViewResponse {
+        try await self.client.execute(
+            operation: "GetBillingView", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the metadata associated to the specified billing view ARN.
+    ///
+    /// Parameters:
+    ///   - arn:  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getBillingView(
+        arn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetBillingViewResponse {
+        let input = GetBillingViewRequest(
+            arn: arn
+        )
+        return try await self.getBillingView(input, logger: logger)
+    }
+
+    /// Returns the resource-based policy document attached to the resource in JSON format.
+    @Sendable
+    @inlinable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the resource-based policy document attached to the resource in JSON format.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the billing view resource to which the policy is attached to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePolicy(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePolicyResponse {
+        let input = GetResourcePolicyRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.getResourcePolicy(input, logger: logger)
+    }
+
     /// Lists the billing views available for a given time period.  Every Amazon Web Services account has a unique PRIMARY billing view that represents the billing data available by default. Accounts that use Billing Conductor also have BILLING_GROUP billing views representing pro forma costs associated with each created billing group.
     @Sendable
     @inlinable
@@ -97,22 +228,197 @@ public struct Billing: AWSService {
     ///
     /// Parameters:
     ///   - activeTimeRange:  The time range for the billing views listed. PRIMARY billing view is always listed. BILLING_GROUP billing views are listed for time ranges when the associated billing group resource in Billing Conductor is active. The time range must be within one calendar month.
+    ///   - arns: The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+    ///   - billingViewTypes: The type of billing view.
     ///   - maxResults: The maximum number of billing views to retrieve. Default is 100.
     ///   - nextToken: The pagination token that is used on subsequent calls to list billing views.
+    ///   - ownerAccountId:  The list of owners of the billing view.
     ///   - logger: Logger use during operation
     @inlinable
     public func listBillingViews(
-        activeTimeRange: ActiveTimeRange,
+        activeTimeRange: ActiveTimeRange? = nil,
+        arns: [String]? = nil,
+        billingViewTypes: [BillingViewType]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        ownerAccountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListBillingViewsResponse {
         let input = ListBillingViewsRequest(
             activeTimeRange: activeTimeRange, 
+            arns: arns, 
+            billingViewTypes: billingViewTypes, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            ownerAccountId: ownerAccountId
+        )
+        return try await self.listBillingViews(input, logger: logger)
+    }
+
+    /// Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
+    @Sendable
+    @inlinable
+    public func listSourceViewsForBillingView(_ input: ListSourceViewsForBillingViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSourceViewsForBillingViewResponse {
+        try await self.client.execute(
+            operation: "ListSourceViewsForBillingView", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the source views (managed Amazon Web Services billing views) associated with the billing view.
+    ///
+    /// Parameters:
+    ///   - arn:  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+    ///   - maxResults:  The number of entries a paginated response contains.
+    ///   - nextToken:  The pagination token that is used on subsequent calls to list billing views.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSourceViewsForBillingView(
+        arn: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSourceViewsForBillingViewResponse {
+        let input = ListSourceViewsForBillingViewRequest(
+            arn: arn, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
-        return try await self.listBillingViews(input, logger: logger)
+        return try await self.listSourceViewsForBillingView(input, logger: logger)
+    }
+
+    /// Lists tags associated with the billing view resource.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists tags associated with the billing view resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    ///  An API operation for adding one or more tags (key-value pairs) to a resource.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  An API operation for adding one or more tags (key-value pairs) to a resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of the resource.
+    ///   - resourceTags:  A list of tag key value pairs that are associated with the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        resourceTags: [ResourceTag],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceArn: resourceArn, 
+            resourceTags: resourceTags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    ///  Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Removes one or more tags from a resource. Specify only tag keys in your request. Don't specify the value.
+    ///
+    /// Parameters:
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of the resource.
+    ///   - resourceTagKeys:  A list of tag key value pairs that are associated with the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        resourceTagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceArn: resourceArn, 
+            resourceTagKeys: resourceTagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
+
+    /// An API to update the attributes of the billing view.
+    @Sendable
+    @inlinable
+    public func updateBillingView(_ input: UpdateBillingViewRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBillingViewResponse {
+        try await self.client.execute(
+            operation: "UpdateBillingView", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// An API to update the attributes of the billing view.
+    ///
+    /// Parameters:
+    ///   - arn:  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+    ///   - dataFilterExpression: See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+    ///   - description:  The description of the billing view.
+    ///   - name:  The name of the billing view.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateBillingView(
+        arn: String,
+        dataFilterExpression: Expression? = nil,
+        description: String? = nil,
+        name: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateBillingViewResponse {
+        let input = UpdateBillingViewRequest(
+            arn: arn, 
+            dataFilterExpression: dataFilterExpression, 
+            description: description, 
+            name: name
+        )
+        return try await self.updateBillingView(input, logger: logger)
     }
 }
 
@@ -151,19 +457,65 @@ extension Billing {
     ///
     /// - Parameters:
     ///   - activeTimeRange:  The time range for the billing views listed. PRIMARY billing view is always listed. BILLING_GROUP billing views are listed for time ranges when the associated billing group resource in Billing Conductor is active. The time range must be within one calendar month.
+    ///   - arns: The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+    ///   - billingViewTypes: The type of billing view.
     ///   - maxResults: The maximum number of billing views to retrieve. Default is 100.
+    ///   - ownerAccountId:  The list of owners of the billing view.
     ///   - logger: Logger used for logging
     @inlinable
     public func listBillingViewsPaginator(
-        activeTimeRange: ActiveTimeRange,
+        activeTimeRange: ActiveTimeRange? = nil,
+        arns: [String]? = nil,
+        billingViewTypes: [BillingViewType]? = nil,
         maxResults: Int? = nil,
+        ownerAccountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListBillingViewsRequest, ListBillingViewsResponse> {
         let input = ListBillingViewsRequest(
             activeTimeRange: activeTimeRange, 
-            maxResults: maxResults
+            arns: arns, 
+            billingViewTypes: billingViewTypes, 
+            maxResults: maxResults, 
+            ownerAccountId: ownerAccountId
         )
         return self.listBillingViewsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSourceViewsForBillingView(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourceViewsForBillingViewPaginator(
+        _ input: ListSourceViewsForBillingViewRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSourceViewsForBillingViewRequest, ListSourceViewsForBillingViewResponse> {
+        return .init(
+            input: input,
+            command: self.listSourceViewsForBillingView,
+            inputKey: \ListSourceViewsForBillingViewRequest.nextToken,
+            outputKey: \ListSourceViewsForBillingViewResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSourceViewsForBillingView(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - arn:  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+    ///   - maxResults:  The number of entries a paginated response contains.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSourceViewsForBillingViewPaginator(
+        arn: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSourceViewsForBillingViewRequest, ListSourceViewsForBillingViewResponse> {
+        let input = ListSourceViewsForBillingViewRequest(
+            arn: arn, 
+            maxResults: maxResults
+        )
+        return self.listSourceViewsForBillingViewPaginator(input, logger: logger)
     }
 }
 
@@ -172,6 +524,20 @@ extension Billing.ListBillingViewsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Billing.ListBillingViewsRequest {
         return .init(
             activeTimeRange: self.activeTimeRange,
+            arns: self.arns,
+            billingViewTypes: self.billingViewTypes,
+            maxResults: self.maxResults,
+            nextToken: token,
+            ownerAccountId: self.ownerAccountId
+        )
+    }
+}
+
+extension Billing.ListSourceViewsForBillingViewRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Billing.ListSourceViewsForBillingViewRequest {
+        return .init(
+            arn: self.arn,
             maxResults: self.maxResults,
             nextToken: token
         )

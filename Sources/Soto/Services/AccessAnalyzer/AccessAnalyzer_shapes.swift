@@ -519,6 +519,37 @@ extension AccessAnalyzer {
         }
     }
 
+    public enum FindingsStatistics: AWSDecodableShape, Sendable {
+        /// The aggregate statistics for an external access analyzer.
+        case externalAccessFindingsStatistics(ExternalAccessFindingsStatistics)
+        /// The aggregate statistics for an unused access analyzer.
+        case unusedAccessFindingsStatistics(UnusedAccessFindingsStatistics)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .externalAccessFindingsStatistics:
+                let value = try container.decode(ExternalAccessFindingsStatistics.self, forKey: .externalAccessFindingsStatistics)
+                self = .externalAccessFindingsStatistics(value)
+            case .unusedAccessFindingsStatistics:
+                let value = try container.decode(UnusedAccessFindingsStatistics.self, forKey: .unusedAccessFindingsStatistics)
+                self = .unusedAccessFindingsStatistics(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case externalAccessFindingsStatistics = "externalAccessFindingsStatistics"
+            case unusedAccessFindingsStatistics = "unusedAccessFindingsStatistics"
+        }
+    }
+
     public enum NetworkOriginConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The configuration for the Amazon S3 access point or multi-region access point with an Internet origin.
         case internetConfiguration(InternetConfiguration)
@@ -1582,6 +1613,32 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct ExternalAccessFindingsStatistics: AWSDecodableShape {
+        /// The total number of active cross-account and public findings for each resource type of the specified external access analyzer.
+        public let resourceTypeStatistics: [ResourceType: ResourceTypeDetails]?
+        /// The number of active findings for the specified external access analyzer.
+        public let totalActiveFindings: Int?
+        /// The number of archived findings for the specified external access analyzer.
+        public let totalArchivedFindings: Int?
+        /// The number of resolved findings for the specified external access analyzer.
+        public let totalResolvedFindings: Int?
+
+        @inlinable
+        public init(resourceTypeStatistics: [ResourceType: ResourceTypeDetails]? = nil, totalActiveFindings: Int? = nil, totalArchivedFindings: Int? = nil, totalResolvedFindings: Int? = nil) {
+            self.resourceTypeStatistics = resourceTypeStatistics
+            self.totalActiveFindings = totalActiveFindings
+            self.totalArchivedFindings = totalArchivedFindings
+            self.totalResolvedFindings = totalResolvedFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceTypeStatistics = "resourceTypeStatistics"
+            case totalActiveFindings = "totalActiveFindings"
+            case totalArchivedFindings = "totalArchivedFindings"
+            case totalResolvedFindings = "totalResolvedFindings"
+        }
+    }
+
     public struct Finding: AWSDecodableShape {
         /// The action in the analyzed policy statement that an external principal has permission to use.
         public let action: [String]?
@@ -1652,6 +1709,28 @@ extension AccessAnalyzer {
             case sources = "sources"
             case status = "status"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct FindingAggregationAccountDetails: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account for which unused access finding details are provided.
+        public let account: String?
+        /// Provides the number of active findings for each type of unused access for the specified Amazon Web Services account.
+        public let details: [String: Int]?
+        /// The number of active unused access findings for the specified Amazon Web Services account.
+        public let numberOfActiveFindings: Int?
+
+        @inlinable
+        public init(account: String? = nil, details: [String: Int]? = nil, numberOfActiveFindings: Int? = nil) {
+            self.account = account
+            self.details = details
+            self.numberOfActiveFindings = numberOfActiveFindings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case account = "account"
+            case details = "details"
+            case numberOfActiveFindings = "numberOfActiveFindings"
         }
     }
 
@@ -2271,6 +2350,43 @@ extension AccessAnalyzer {
             case resourceType = "resourceType"
             case status = "status"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct GetFindingsStatisticsRequest: AWSEncodableShape {
+        /// The ARN of the analyzer used to generate the statistics.
+        public let analyzerArn: String
+
+        @inlinable
+        public init(analyzerArn: String) {
+            self.analyzerArn = analyzerArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analyzerArn, name: "analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzerArn = "analyzerArn"
+        }
+    }
+
+    public struct GetFindingsStatisticsResponse: AWSDecodableShape {
+        /// A group of external access or unused access findings statistics.
+        public let findingsStatistics: [FindingsStatistics]?
+        /// The time at which the retrieval of the findings statistics was last updated. If the findings statistics have not been previously retrieved for the specified analyzer, this field will not be populated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastUpdatedAt: Date?
+
+        @inlinable
+        public init(findingsStatistics: [FindingsStatistics]? = nil, lastUpdatedAt: Date? = nil) {
+            self.findingsStatistics = findingsStatistics
+            self.lastUpdatedAt = lastUpdatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case findingsStatistics = "findingsStatistics"
+            case lastUpdatedAt = "lastUpdatedAt"
         }
     }
 
@@ -3089,6 +3205,24 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct ResourceTypeDetails: AWSDecodableShape {
+        /// The total number of active cross-account findings for the resource type.
+        public let totalActiveCrossAccount: Int?
+        /// The total number of active public findings for the resource type.
+        public let totalActivePublic: Int?
+
+        @inlinable
+        public init(totalActiveCrossAccount: Int? = nil, totalActivePublic: Int? = nil) {
+            self.totalActiveCrossAccount = totalActiveCrossAccount
+            self.totalActivePublic = totalActivePublic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalActiveCrossAccount = "totalActiveCrossAccount"
+            case totalActivePublic = "totalActivePublic"
+        }
+    }
+
     public struct S3AccessPointConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The access point or multi-region access point policy.
         public let accessPointPolicy: String?
@@ -3500,6 +3634,54 @@ extension AccessAnalyzer {
         private enum CodingKeys: String, CodingKey {
             case analysisRule = "analysisRule"
             case unusedAccessAge = "unusedAccessAge"
+        }
+    }
+
+    public struct UnusedAccessFindingsStatistics: AWSDecodableShape {
+        /// A list of one to ten Amazon Web Services accounts that have the most active findings for the unused access analyzer.
+        public let topAccounts: [FindingAggregationAccountDetails]?
+        /// The total number of active findings for the unused access analyzer.
+        public let totalActiveFindings: Int?
+        /// The total number of archived findings for the unused access analyzer.
+        public let totalArchivedFindings: Int?
+        /// The total number of resolved findings for the unused access analyzer.
+        public let totalResolvedFindings: Int?
+        /// A list of details about the total number of findings for each type of unused access for the analyzer.
+        public let unusedAccessTypeStatistics: [UnusedAccessTypeStatistics]?
+
+        @inlinable
+        public init(topAccounts: [FindingAggregationAccountDetails]? = nil, totalActiveFindings: Int? = nil, totalArchivedFindings: Int? = nil, totalResolvedFindings: Int? = nil, unusedAccessTypeStatistics: [UnusedAccessTypeStatistics]? = nil) {
+            self.topAccounts = topAccounts
+            self.totalActiveFindings = totalActiveFindings
+            self.totalArchivedFindings = totalArchivedFindings
+            self.totalResolvedFindings = totalResolvedFindings
+            self.unusedAccessTypeStatistics = unusedAccessTypeStatistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case topAccounts = "topAccounts"
+            case totalActiveFindings = "totalActiveFindings"
+            case totalArchivedFindings = "totalArchivedFindings"
+            case totalResolvedFindings = "totalResolvedFindings"
+            case unusedAccessTypeStatistics = "unusedAccessTypeStatistics"
+        }
+    }
+
+    public struct UnusedAccessTypeStatistics: AWSDecodableShape {
+        /// The total number of findings for the specified unused access type.
+        public let total: Int?
+        /// The type of unused access.
+        public let unusedAccessType: String?
+
+        @inlinable
+        public init(total: Int? = nil, unusedAccessType: String? = nil) {
+            self.total = total
+            self.unusedAccessType = unusedAccessType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case total = "total"
+            case unusedAccessType = "unusedAccessType"
         }
     }
 

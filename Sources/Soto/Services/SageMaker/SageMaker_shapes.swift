@@ -671,6 +671,15 @@ extension SageMaker {
         case mlC5N9Xlarge = "ml.c5n.9xlarge"
         case mlC5NLarge = "ml.c5n.large"
         case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC6I12Xlarge = "ml.c6i.12xlarge"
+        case mlC6I16Xlarge = "ml.c6i.16xlarge"
+        case mlC6I24Xlarge = "ml.c6i.24xlarge"
+        case mlC6I2Xlarge = "ml.c6i.2xlarge"
+        case mlC6I32Xlarge = "ml.c6i.32xlarge"
+        case mlC6I4Xlarge = "ml.c6i.4xlarge"
+        case mlC6I8Xlarge = "ml.c6i.8xlarge"
+        case mlC6ILarge = "ml.c6i.large"
+        case mlC6IXlarge = "ml.c6i.xlarge"
         case mlG512Xlarge = "ml.g5.12xlarge"
         case mlG516Xlarge = "ml.g5.16xlarge"
         case mlG524Xlarge = "ml.g5.24xlarge"
@@ -705,11 +714,29 @@ extension SageMaker {
         case mlM58Xlarge = "ml.m5.8xlarge"
         case mlM5Large = "ml.m5.large"
         case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM6I12Xlarge = "ml.m6i.12xlarge"
+        case mlM6I16Xlarge = "ml.m6i.16xlarge"
+        case mlM6I24Xlarge = "ml.m6i.24xlarge"
+        case mlM6I2Xlarge = "ml.m6i.2xlarge"
+        case mlM6I32Xlarge = "ml.m6i.32xlarge"
+        case mlM6I4Xlarge = "ml.m6i.4xlarge"
+        case mlM6I8Xlarge = "ml.m6i.8xlarge"
+        case mlM6ILarge = "ml.m6i.large"
+        case mlM6IXlarge = "ml.m6i.xlarge"
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
+        case mlR6I12Xlarge = "ml.r6i.12xlarge"
+        case mlR6I16Xlarge = "ml.r6i.16xlarge"
+        case mlR6I24Xlarge = "ml.r6i.24xlarge"
+        case mlR6I2Xlarge = "ml.r6i.2xlarge"
+        case mlR6I32Xlarge = "ml.r6i.32xlarge"
+        case mlR6I4Xlarge = "ml.r6i.4xlarge"
+        case mlR6I8Xlarge = "ml.r6i.8xlarge"
+        case mlR6ILarge = "ml.r6i.large"
+        case mlR6IXlarge = "ml.r6i.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
         case mlT3Large = "ml.t3.large"
         case mlT3Medium = "ml.t3.medium"
@@ -2099,6 +2126,8 @@ extension SageMaker {
 
     public enum ProductionVariantInferenceAmiVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case al2Gpu2 = "al2-ami-sagemaker-inference-gpu-2"
+        case al2Gpu21 = "al2-ami-sagemaker-inference-gpu-2-1"
+        case al2Gpu31 = "al2-ami-sagemaker-inference-gpu-3-1"
         public var description: String { return self.rawValue }
     }
 
@@ -2264,6 +2293,7 @@ extension SageMaker {
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
+        case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
         case mlR52Xlarge = "ml.r5.2xlarge"
@@ -2308,6 +2338,16 @@ extension SageMaker {
         case mlR7I8Xlarge = "ml.r7i.8xlarge"
         case mlR7ILarge = "ml.r7i.large"
         case mlR7IXlarge = "ml.r7i.xlarge"
+        case mlR8G12Xlarge = "ml.r8g.12xlarge"
+        case mlR8G16Xlarge = "ml.r8g.16xlarge"
+        case mlR8G24Xlarge = "ml.r8g.24xlarge"
+        case mlR8G2Xlarge = "ml.r8g.2xlarge"
+        case mlR8G48Xlarge = "ml.r8g.48xlarge"
+        case mlR8G4Xlarge = "ml.r8g.4xlarge"
+        case mlR8G8Xlarge = "ml.r8g.8xlarge"
+        case mlR8GLarge = "ml.r8g.large"
+        case mlR8GMedium = "ml.r8g.medium"
+        case mlR8GXlarge = "ml.r8g.xlarge"
         case mlT22Xlarge = "ml.t2.2xlarge"
         case mlT2Large = "ml.t2.large"
         case mlT2Medium = "ml.t2.medium"
@@ -2432,6 +2472,7 @@ extension SageMaker {
         case mlP548Xlarge = "ml.p5.48xlarge"
         case mlP5E48Xlarge = "ml.p5e.48xlarge"
         case mlP5En48Xlarge = "ml.p5en.48xlarge"
+        case mlTrn132Xlarge = "ml.trn1.32xlarge"
         case mlTrn248Xlarge = "ml.trn2.48xlarge"
         public var description: String { return self.rawValue }
     }
@@ -3196,6 +3237,8 @@ extension SageMaker {
         case mlR7I8Xlarge = "ml.r7i.8xlarge"
         case mlR7ILarge = "ml.r7i.large"
         case mlR7IXlarge = "ml.r7i.xlarge"
+        case mlTrn12Xlarge = "ml.trn1.2xlarge"
+        case mlTrn132Xlarge = "ml.trn1.32xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -3882,14 +3925,17 @@ extension SageMaker {
     public struct AdditionalS3DataSource: AWSEncodableShape & AWSDecodableShape {
         /// The type of compression used for an additional data source used in inference or training. Specify None if your additional data source is not compressed.
         public let compressionType: CompressionType?
+        /// The ETag associated with S3 URI.
+        public let eTag: String?
         /// The data type of the additional data source that you specify for use in inference or training.
         public let s3DataType: AdditionalS3DataSourceDataType?
         /// The uniform resource identifier (URI) used to identify an additional data source used in inference or training.
         public let s3Uri: String?
 
         @inlinable
-        public init(compressionType: CompressionType? = nil, s3DataType: AdditionalS3DataSourceDataType? = nil, s3Uri: String? = nil) {
+        public init(compressionType: CompressionType? = nil, eTag: String? = nil, s3DataType: AdditionalS3DataSourceDataType? = nil, s3Uri: String? = nil) {
             self.compressionType = compressionType
+            self.eTag = eTag
             self.s3DataType = s3DataType
             self.s3Uri = s3Uri
         }
@@ -3901,6 +3947,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case compressionType = "CompressionType"
+            case eTag = "ETag"
             case s3DataType = "S3DataType"
             case s3Uri = "S3Uri"
         }
@@ -4232,7 +4279,7 @@ extension SageMaker {
         public let creationTime: Date?
         /// The configuration for the file system and the runtime, such as the environment variables and entry point.
         public let jupyterLabAppImageConfig: JupyterLabAppImageConfig?
-        /// The configuration for the file system and kernels in the SageMaker image.
+        /// The configuration for the file system and kernels in the SageMaker AI image.
         public let kernelGatewayImageConfig: KernelGatewayImageConfig?
         /// When the AppImageConfig was last modified.
         public let lastModifiedTime: Date?
@@ -5147,7 +5194,7 @@ extension SageMaker {
     }
 
     public struct AutoMLS3DataSource: AWSEncodableShape & AWSDecodableShape {
-        /// The data type.    If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker uses all objects that match the specified key name prefix for model training. The S3Prefix should have the following format:  s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE    If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker to use for model training. A ManifestFile should have the format shown below:  [ {"prefix": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"},    "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1",   "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",   ... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]    If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile is available for V2 API jobs only (for example, for jobs created by calling CreateAutoMLJobV2). Here is a minimal, single-record example of an AugmentedManifestFile:  {"source-ref": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/cats/cat.jpg",   "label-metadata": {"class-name": "cat" } For more information on AugmentedManifestFile, see Provide Dataset Metadata to Training Jobs with an Augmented Manifest File.
+        /// The data type.    If you choose S3Prefix, S3Uri identifies a key name prefix. SageMaker AI uses all objects that match the specified key name prefix for model training. The S3Prefix should have the following format:  s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER-OR-FILE    If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want SageMaker AI to use for model training. A ManifestFile should have the format shown below:  [ {"prefix": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/DOC-EXAMPLE-PREFIX/"},    "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-1",   "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-2",   ... "DOC-EXAMPLE-RELATIVE-PATH/DOC-EXAMPLE-FOLDER/DATA-N" ]    If you choose AugmentedManifestFile, S3Uri identifies an object that is an augmented manifest file in JSON lines format. This file contains the data you want to use for model training. AugmentedManifestFile is available for V2 API jobs only (for example, for jobs created by calling CreateAutoMLJobV2). Here is a minimal, single-record example of an AugmentedManifestFile:  {"source-ref": "s3://DOC-EXAMPLE-BUCKET/DOC-EXAMPLE-FOLDER/cats/cat.jpg",   "label-metadata": {"class-name": "cat" } For more information on AugmentedManifestFile, see Provide Dataset Metadata to Training Jobs with an Augmented Manifest File.
         public let s3DataType: AutoMLS3DataType?
         /// The URL to the Amazon S3 data source. The Uri refers to the Amazon S3 prefix or ManifestFile depending on the data type.
         public let s3Uri: String?
@@ -5312,7 +5359,7 @@ extension SageMaker {
     public struct BatchDeleteClusterNodesRequest: AWSEncodableShape {
         /// The name of the SageMaker HyperPod cluster from which to delete the specified nodes.
         public let clusterName: String?
-        /// A list of node IDs to be deleted from the specified cluster.  For SageMaker HyperPod clusters using the Slurm workload manager,  you cannot remove instances that are configured as Slurm controller nodes.
+        /// A list of node IDs to be deleted from the specified cluster.  For SageMaker HyperPod clusters using the Slurm workload manager, you cannot remove instances that are configured as Slurm controller nodes.
         public let nodeIds: [String]?
 
         @inlinable
@@ -5778,9 +5825,9 @@ extension SageMaker {
     }
 
     public struct CaptureContentTypeHeader: AWSEncodableShape & AWSDecodableShape {
-        /// The list of all content type headers that Amazon SageMaker will treat as CSV and capture accordingly.
+        /// The list of all content type headers that Amazon SageMaker AI will treat as CSV and capture accordingly.
         public let csvContentTypes: [String]?
-        /// The list of all content type headers that SageMaker will treat as JSON and capture accordingly.
+        /// The list of all content type headers that SageMaker AI will treat as JSON and capture accordingly.
         public let jsonContentTypes: [String]?
 
         @inlinable
@@ -6305,6 +6352,7 @@ extension SageMaker {
         public let lifeCycleConfig: ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public let onStartDeepHealthChecks: [DeepHealthCheckType]?
+        /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public let overrideVpcConfig: VpcConfig?
         /// The current status of the cluster instance group.    InService: The instance group is active and healthy.    Creating: The instance group is being provisioned.    Updating: The instance group is being updated.    Failed: The instance group has failed to provision or is no longer healthy.    Degraded: The instance group is degraded, meaning that some instances have failed to provision or are no longer healthy.    Deleting: The instance group is being deleted.
         public let status: InstanceGroupStatus?
@@ -6366,6 +6414,7 @@ extension SageMaker {
         public let lifeCycleConfig: ClusterLifeCycleConfig?
         /// A flag indicating whether deep health checks should be performed when the cluster instance group is created or updated.
         public let onStartDeepHealthChecks: [DeepHealthCheckType]?
+        /// To configure multi-AZ deployments, customize the Amazon VPC configuration at the instance group level. You can specify different subnets and security groups across different AZs in the instance group specification to override a SageMaker HyperPod cluster's default Amazon VPC configuration. For more information about deploying a cluster in multiple AZs, see Setting up SageMaker HyperPod clusters across multiple AZs.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
         public let overrideVpcConfig: VpcConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
@@ -6390,6 +6439,7 @@ extension SageMaker {
             try self.validate(self.executionRole, name: "executionRole", parent: name, max: 2048)
             try self.validate(self.executionRole, name: "executionRole", parent: name, min: 20)
             try self.validate(self.executionRole, name: "executionRole", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.instanceCount, name: "instanceCount", parent: name, max: 6758)
             try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 0)
             try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, max: 63)
             try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, min: 1)
@@ -6500,6 +6550,7 @@ extension SageMaker {
         public let launchTime: Date?
         /// The LifeCycle configuration applied to the instance.
         public let lifeCycleConfig: ClusterLifeCycleConfig?
+        /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public let overrideVpcConfig: VpcConfig?
         /// The placement details of the SageMaker HyperPod cluster node.
         public let placement: ClusterInstancePlacement?
@@ -6507,11 +6558,13 @@ extension SageMaker {
         public let privateDnsHostname: String?
         /// The private primary IP address of the SageMaker HyperPod cluster node.
         public let privatePrimaryIp: String?
+        /// The private primary IPv6 address of the SageMaker HyperPod cluster node when configured with an Amazon VPC that supports IPv6 and includes subnets with IPv6 addressing enabled in either the cluster Amazon VPC configuration or the instance group Amazon VPC configuration.
+        public let privatePrimaryIpv6: String?
         /// The number of threads per CPU core you specified under CreateCluster.
         public let threadsPerCore: Int?
 
         @inlinable
-        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, overrideVpcConfig: VpcConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, threadsPerCore: Int? = nil) {
+        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, overrideVpcConfig: VpcConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, privatePrimaryIpv6: String? = nil, threadsPerCore: Int? = nil) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
@@ -6523,6 +6576,7 @@ extension SageMaker {
             self.placement = placement
             self.privateDnsHostname = privateDnsHostname
             self.privatePrimaryIp = privatePrimaryIp
+            self.privatePrimaryIpv6 = privatePrimaryIpv6
             self.threadsPerCore = threadsPerCore
         }
 
@@ -6538,6 +6592,7 @@ extension SageMaker {
             case placement = "Placement"
             case privateDnsHostname = "PrivateDnsHostname"
             case privatePrimaryIp = "PrivatePrimaryIp"
+            case privatePrimaryIpv6 = "PrivatePrimaryIpv6"
             case threadsPerCore = "ThreadsPerCore"
         }
     }
@@ -7555,7 +7610,7 @@ extension SageMaker {
         public let appType: AppType?
         /// The domain ID.
         public let domainId: String?
-        /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.  The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
+        /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.  The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
         public let resourceSpec: ResourceSpec?
         /// The name of the space. If this value is not set, then UserProfileName must be set.
         public let spaceName: String?
@@ -7871,6 +7926,7 @@ extension SageMaker {
         public let orchestrator: ClusterOrchestrator?
         /// Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web Services resource. You can add tags to your cluster in the same way you add them in other Amazon Web Services services that support tagging. To learn more about tagging Amazon Web Services resources in general, see Tagging Amazon Web Services Resources User Guide.
         public let tags: [Tag]?
+        /// Specifies the Amazon Virtual Private Cloud (VPC) that is associated with the Amazon SageMaker HyperPod cluster. You can control access to and from your resources by configuring your VPC. For more information, see Give SageMaker access to resources in your Amazon VPC.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
         public let vpcConfig: VpcConfig?
 
         @inlinable
@@ -8043,9 +8099,9 @@ extension SageMaker {
         public let modelPackageVersionArn: String?
         /// Provides information about the output location for the compiled model and the target device the model runs on.
         public let outputConfig: OutputConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.  During model compilation, Amazon SageMaker needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker Roles.
+        /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.  During model compilation, Amazon SageMaker AI needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker AI Roles.
         public let roleArn: String?
-        /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
+        /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker AI ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition?
         /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
         public let tags: [Tag]?
@@ -8097,7 +8153,7 @@ extension SageMaker {
     }
 
     public struct CreateCompilationJobResponse: AWSDecodableShape {
-        /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker returns the following data in JSON format:    CompilationJobArn: The Amazon Resource Name (ARN) of the compiled job.
+        /// If the action is successful, the service sends back an HTTP 200 response. Amazon SageMaker AI returns the following data in JSON format:    CompilationJobArn: The Amazon Resource Name (ARN) of the compiled job.
         public let compilationJobArn: String?
 
         @inlinable
@@ -8264,7 +8320,7 @@ extension SageMaker {
         public let jobResources: MonitoringResources?
         /// Specifies networking configuration for the monitoring job.
         public let networkConfig: MonitoringNetworkConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
         /// (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
@@ -8384,7 +8440,7 @@ extension SageMaker {
     }
 
     public struct CreateDomainRequest: AWSEncodableShape {
-        /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All traffic is through the specified VPC and subnets
+        /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access    VpcOnly - All traffic is through the specified VPC and subnets
         public let appNetworkAccessType: AppNetworkAccessType?
         /// The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If setting up the domain for use with RStudio, this value must be set to Service.
         public let appSecurityGroupManagement: AppSecurityGroupManagement?
@@ -8400,7 +8456,7 @@ extension SageMaker {
         public let domainSettings: DomainSettings?
         /// Use KmsKeyId.
         public let homeEfsFileSystemKmsKeyId: String?
-        /// SageMaker uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
+        /// SageMaker AI uses Amazon Web Services KMS to encrypt EFS and EBS volumes attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
         public let kmsKeyId: String?
         /// The VPC subnets that the domain uses for communication.
         public let subnetIds: [String]?
@@ -8670,7 +8726,7 @@ extension SageMaker {
         public let enableNetworkIsolation: Bool?
         /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request.
         public let endpointConfigName: String?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can assume to perform actions on your behalf. For more information, see SageMaker Roles.   To be able to pass this role to Amazon SageMaker, the caller of this action must have the iam:PassRole permission.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can assume to perform actions on your behalf. For more information, see SageMaker AI Roles.   To be able to pass this role to Amazon SageMaker AI, the caller of this action must have the iam:PassRole permission.
         public let executionRoleArn: String?
         /// A member of CreateEndpointConfig that enables explainers.
         public let explainerConfig: ExplainerConfig?
@@ -9274,7 +9330,7 @@ extension SageMaker {
         public let displayName: String?
         /// The name of the image. Must be unique to your account.
         public let imageName: String?
-        /// The ARN of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+        /// The ARN of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
         public let roleArn: String?
         /// A list of tags to apply to the image.
         public let tags: [Tag]?
@@ -9341,7 +9397,7 @@ extension SageMaker {
         public let horovod: Bool?
         /// The ImageName of the Image to create a version of.
         public let imageName: String?
-        /// Indicates SageMaker job type compatibility.    TRAINING: The image version is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+        /// Indicates SageMaker AI job type compatibility.    TRAINING: The image version is compatible with SageMaker AI training jobs.    INFERENCE: The image version is compatible with SageMaker AI inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
         public let jobType: JobType?
         /// The machine learning framework vended in the image version.
         public let mlFramework: String?
@@ -9829,7 +9885,7 @@ extension SageMaker {
         public let modelBiasJobOutputConfig: MonitoringOutputConfig?
         /// Networking options for a model bias job.
         public let networkConfig: MonitoringNetworkConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
         /// (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
@@ -10017,7 +10073,7 @@ extension SageMaker {
         public let modelExplainabilityJobOutputConfig: MonitoringOutputConfig?
         /// Networking options for a model explainability job.
         public let networkConfig: MonitoringNetworkConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
         /// (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
@@ -10383,7 +10439,7 @@ extension SageMaker {
         public let modelQualityJobOutputConfig: MonitoringOutputConfig?
         /// Specifies the network configuration for the monitoring job.
         public let networkConfig: MonitoringNetworkConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
         /// (Optional) An array of key-value pairs. For more information, see   Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
@@ -10501,17 +10557,17 @@ extension SageMaker {
     public struct CreateNotebookInstanceInput: AWSEncodableShape {
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of EI instance types to associate with this notebook instance.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
-        /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
+        /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
         public let additionalCodeRepositories: [String]?
-        /// A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
+        /// A Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
         public let defaultCodeRepository: String?
-        /// Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
+        /// Sets whether SageMaker AI provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker AI training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
         public let directInternetAccess: DirectInternetAccess?
         /// Information on the IMDS configuration of the notebook instance
         public let instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration?
         /// The type of ML compute instance to launch for the notebook instance.
         public let instanceType: InstanceType?
-        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
+        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker AI uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
         public let lifecycleConfigName: String?
@@ -10519,7 +10575,7 @@ extension SageMaker {
         public let notebookInstanceName: String?
         /// The platform identifier of the notebook instance runtime environment.
         public let platformIdentifier: String?
-        ///  When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker can perform these tasks. The policy must allow the SageMaker service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
+        ///  When you send any requests to Amazon Web Services resources from the notebook instance, SageMaker AI assumes this role to perform tasks on your behalf. You must grant this role necessary permissions so SageMaker AI can perform these tasks. The policy must allow the SageMaker AI service principal (sagemaker.amazonaws.com) permissions to assume this role. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String?
         /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  Lifecycle configurations need root access to be able to set up a notebook instance. Because of this, lifecycle configurations associated with a notebook instance always run with root access even if you disable root access for users.
         public let rootAccess: RootAccess?
@@ -10685,7 +10741,7 @@ extension SageMaker {
         public let optimizationJobName: String?
         /// Details for where to store the optimized model that you create with the optimization job.
         public let outputConfig: OptimizationJobOutputConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.  During model optimization, Amazon SageMaker needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker Roles.
+        /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.  During model optimization, Amazon SageMaker AI needs your permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker AI, the caller of this API must have the iam:PassRole permission. For more information, see Amazon SageMaker AI Roles.
         public let roleArn: String?
         public let stoppingCondition: StoppingCondition?
         /// A list of key-value pairs associated with the optimization job. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
@@ -11348,9 +11404,9 @@ extension SageMaker {
     public struct CreateStudioLifecycleConfigRequest: AWSEncodableShape {
         /// The App type that the Lifecycle Configuration is attached to.
         public let studioLifecycleConfigAppType: StudioLifecycleConfigAppType?
-        /// The content of your Amazon SageMaker Studio Lifecycle Configuration script. This content must be base64 encoded.
+        /// The content of your Amazon SageMaker AI Studio Lifecycle Configuration script. This content must be base64 encoded.
         public let studioLifecycleConfigContent: String?
-        /// The name of the Amazon SageMaker Studio Lifecycle Configuration to create.
+        /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to create.
         public let studioLifecycleConfigName: String?
         /// Tags to be associated with the Lifecycle Configuration. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
         public let tags: [Tag]?
@@ -12156,7 +12212,7 @@ extension SageMaker {
     }
 
     public struct DataCaptureConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Configuration specifying how to treat different headers. If no headers are specified SageMaker will by default base64 encode when capturing the data.
+        /// Configuration specifying how to treat different headers. If no headers are specified SageMaker AI will by default base64 encode when capturing the data.
         public let captureContentTypeHeader: CaptureContentTypeHeader?
         /// Specifies data Model Monitor will capture. You can configure whether to collect only input, only output, or both
         public let captureOptions: [CaptureOption]?
@@ -12164,9 +12220,9 @@ extension SageMaker {
         public let destinationS3Uri: String?
         /// Whether data capture should be enabled or disabled (defaults to enabled).
         public let enableCapture: Bool?
-        /// The percentage of requests SageMaker will capture. A lower value is recommended for Endpoints with high traffic.
+        /// The percentage of requests SageMaker AI will capture. A lower value is recommended for Endpoints with high traffic.
         public let initialSamplingPercentage: Int?
-        /// The Amazon Resource Name (ARN) of an Key Management Service key that SageMaker uses to encrypt the captured data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
+        /// The Amazon Resource Name (ARN) of an Key Management Service key that SageMaker AI uses to encrypt the captured data at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let kmsKeyId: String?
 
         @inlinable
@@ -12622,7 +12678,7 @@ extension SageMaker {
     }
 
     public struct DefaultSpaceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The settings for assigning a custom file system to a domain. Permitted users can access this file system in Amazon SageMaker Studio.
+        /// The settings for assigning a custom file system to a domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
         public let customFileSystemConfigs: [CustomFileSystemConfig]?
         public let customPosixUserConfig: CustomPosixUserConfig?
         /// The ARN of the execution role for the space.
@@ -13713,7 +13769,7 @@ extension SageMaker {
     }
 
     public struct DeleteNotebookInstanceInput: AWSEncodableShape {
-        /// The name of the SageMaker notebook instance to delete.
+        /// The name of the SageMaker AI notebook instance to delete.
         public let notebookInstanceName: String?
 
         @inlinable
@@ -13897,7 +13953,7 @@ extension SageMaker {
     }
 
     public struct DeleteStudioLifecycleConfigRequest: AWSEncodableShape {
-        /// The name of the Amazon SageMaker Studio Lifecycle Configuration to delete.
+        /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to delete.
         public let studioLifecycleConfigName: String?
 
         @inlinable
@@ -14526,7 +14582,7 @@ extension SageMaker {
         public let appType: AppType?
         /// The lifecycle configuration that runs before the default lifecycle configuration
         public let builtInLifecycleConfigArn: String?
-        /// The creation time of the application.  After an application has been shut down for 24 hours, SageMaker deletes all metadata for the application. To be considered an update and retain application metadata, applications must be restarted within 24 hours after the previous application has been shut down. After this time window, creation of an application is considered a new application rather than an update of the previous application.
+        /// The creation time of the application.  After an application has been shut down for 24 hours, SageMaker AI deletes all metadata for the application. To be considered an update and retain application metadata, applications must be restarted within 24 hours after the previous application has been shut down. After this time window, creation of an application is considered a new application rather than an update of the previous application.
         public let creationTime: Date?
         /// The domain ID.
         public let domainId: String?
@@ -14534,9 +14590,9 @@ extension SageMaker {
         public let failureReason: String?
         /// The timestamp of the last health check.
         public let lastHealthCheckTimestamp: Date?
-        /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
+        /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker AI performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
         public let lastUserActivityTimestamp: Date?
-        /// The instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
+        /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.
         public let resourceSpec: ResourceSpec?
         /// The name of the space. If this value is not set, then UserProfileName must be set.
         public let spaceName: String?
@@ -14684,7 +14740,7 @@ extension SageMaker {
         public let autoMLJobSecondaryStatus: AutoMLJobSecondaryStatus?
         /// Returns the status of the AutoML job.
         public let autoMLJobStatus: AutoMLJobStatus?
-        /// The best model candidate selected by SageMaker Autopilot using both the best objective metric and lowest InferenceLatency for an experiment.
+        /// The best model candidate selected by SageMaker AI Autopilot using both the best objective metric and lowest InferenceLatency for an experiment.
         public let bestCandidate: AutoMLCandidate?
         /// Returns the creation time of the AutoML job.
         public let creationTime: Date?
@@ -15142,7 +15198,7 @@ extension SageMaker {
     }
 
     public struct DescribeCompilationJobResponse: AWSDecodableShape {
-        /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker detected that the job failed.
+        /// The time when the model compilation job on a compilation job instance ended. For a successful or stopped job, this is when the job's model artifacts have finished uploading. For a failed job, this is when Amazon SageMaker AI detected that the job failed.
         public let compilationEndTime: Date?
         /// The Amazon Resource Name (ARN) of the model compilation job.
         public let compilationJobArn: String?
@@ -15172,9 +15228,9 @@ extension SageMaker {
         public let modelPackageVersionArn: String?
         /// Information about the output location for the compiled model and the target device that the model runs on.
         public let outputConfig: OutputConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker assumes to perform the model compilation job.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI assumes to perform the model compilation job.
         public let roleArn: String?
-        /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
+        /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker AI ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition?
         /// A VpcConfig object that specifies the VPC that you want your compilation job to connect to. Control access to your models by configuring the VPC. For more information, see Protect Compilation Jobs by Using an Amazon Virtual Private Cloud.
         public let vpcConfig: NeoVpcConfig?
@@ -15422,7 +15478,7 @@ extension SageMaker {
         public let jobResources: MonitoringResources?
         /// The networking configuration for the data quality monitoring job.
         public let networkConfig: MonitoringNetworkConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
 
@@ -15625,7 +15681,7 @@ extension SageMaker {
     }
 
     public struct DescribeDomainResponse: AWSDecodableShape {
-        /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All traffic is through the specified VPC and subnets
+        /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access    VpcOnly - All traffic is through the specified VPC and subnets
         public let appNetworkAccessType: AppNetworkAccessType?
         /// The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
         public let appSecurityGroupManagement: AppSecurityGroupManagement?
@@ -15657,7 +15713,7 @@ extension SageMaker {
         public let lastModifiedTime: Date?
         /// The ID of the security group that authorizes traffic between the RSessionGateway apps and the RStudioServerPro app.
         public let securityGroupIdForDomainBoundary: String?
-        /// The ARN of the application managed by SageMaker in IAM Identity Center. This value is only returned for domains created after October 1, 2023.
+        /// The ARN of the application managed by SageMaker AI in IAM Identity Center. This value is only returned for domains created after October 1, 2023.
         public let singleSignOnApplicationArn: String?
         /// The IAM Identity Center managed application instance ID.
         public let singleSignOnManagedApplicationInstanceId: String?
@@ -16776,7 +16832,7 @@ extension SageMaker {
         public let imageStatus: ImageStatus?
         /// When the image was last modified.
         public let lastModifiedTime: Date?
-        /// The ARN of the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+        /// The ARN of the IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
         public let roleArn: String?
 
         @inlinable
@@ -16854,7 +16910,7 @@ extension SageMaker {
         public let imageVersionArn: String?
         /// The status of the version.
         public let imageVersionStatus: ImageVersionStatus?
-        /// Indicates SageMaker job type compatibility.    TRAINING: The image version is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+        /// Indicates SageMaker AI job type compatibility.    TRAINING: The image version is compatible with SageMaker AI training jobs.    INFERENCE: The image version is compatible with SageMaker AI inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
         public let jobType: JobType?
         /// When the version was last modified.
         public let lastModifiedTime: Date?
@@ -18007,7 +18063,7 @@ extension SageMaker {
         public let modelQualityJobOutputConfig: MonitoringOutputConfig?
         /// Networking options for a model quality job.
         public let networkConfig: MonitoringNetworkConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
         public let roleArn: String?
         public let stoppingCondition: MonitoringStoppingCondition?
 
@@ -18186,13 +18242,13 @@ extension SageMaker {
     public struct DescribeNotebookInstanceOutput: AWSDecodableShape {
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types associated with this notebook instance.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
-        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
+        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
         public let additionalCodeRepositories: [String]?
         /// A timestamp. Use this parameter to return the time when the notebook instance was created
         public let creationTime: Date?
-        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
+        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
         public let defaultCodeRepository: String?
-        /// Describes whether SageMaker provides internet access to the notebook instance. If this value is set to Disabled, the notebook instance does not have internet access, and cannot connect to SageMaker training and endpoint services. For more information, see Notebook Instances Are Internet-Enabled by Default.
+        /// Describes whether SageMaker AI provides internet access to the notebook instance. If this value is set to Disabled, the notebook instance does not have internet access, and cannot connect to SageMaker AI training and endpoint services. For more information, see Notebook Instances Are Internet-Enabled by Default.
         public let directInternetAccess: DirectInternetAccess?
         /// If status is Failed, the reason it failed.
         public let failureReason: String?
@@ -18200,17 +18256,17 @@ extension SageMaker {
         public let instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration?
         /// The type of ML compute instance running on the notebook instance.
         public let instanceType: InstanceType?
-        /// The Amazon Web Services KMS key ID SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
+        /// The Amazon Web Services KMS key ID SageMaker AI uses to encrypt data when storing it on the ML storage volume attached to the instance.
         public let kmsKeyId: String?
         /// A timestamp. Use this parameter to retrieve the time when the notebook instance was last modified.
         public let lastModifiedTime: Date?
-        /// The network interface IDs that SageMaker created at the time of creating the instance.
+        /// The network interface IDs that SageMaker AI created at the time of creating the instance.
         public let networkInterfaceId: String?
         /// The Amazon Resource Name (ARN) of the notebook instance.
         public let notebookInstanceArn: String?
         /// Returns the name of a notebook instance lifecycle configuration. For information about notebook instance lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance
         public let notebookInstanceLifecycleConfigName: String?
-        /// The name of the SageMaker notebook instance.
+        /// The name of the SageMaker AI notebook instance.
         public let notebookInstanceName: String?
         /// The status of the notebook instance.
         public let notebookInstanceStatus: NotebookInstanceStatus?
@@ -18933,7 +18989,7 @@ extension SageMaker {
     }
 
     public struct DescribeStudioLifecycleConfigRequest: AWSEncodableShape {
-        /// The name of the Amazon SageMaker Studio Lifecycle Configuration to describe.
+        /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration to describe.
         public let studioLifecycleConfigName: String?
 
         @inlinable
@@ -18952,17 +19008,17 @@ extension SageMaker {
     }
 
     public struct DescribeStudioLifecycleConfigResponse: AWSDecodableShape {
-        /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
+        /// The creation time of the Amazon SageMaker AI Studio Lifecycle Configuration.
         public let creationTime: Date?
-        /// This value is equivalent to CreationTime because Amazon SageMaker Studio Lifecycle Configurations are immutable.
+        /// This value is equivalent to CreationTime because Amazon SageMaker AI Studio Lifecycle Configurations are immutable.
         public let lastModifiedTime: Date?
         /// The App type that the Lifecycle Configuration is attached to.
         public let studioLifecycleConfigAppType: StudioLifecycleConfigAppType?
         /// The ARN of the Lifecycle Configuration to describe.
         public let studioLifecycleConfigArn: String?
-        /// The content of your Amazon SageMaker Studio Lifecycle Configuration script.
+        /// The content of your Amazon SageMaker AI Studio Lifecycle Configuration script.
         public let studioLifecycleConfigContent: String?
-        /// The name of the Amazon SageMaker Studio Lifecycle Configuration that is described.
+        /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration that is described.
         public let studioLifecycleConfigName: String?
 
         @inlinable
@@ -20120,7 +20176,7 @@ extension SageMaker {
         public let amazonQSettings: AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public let dockerSettings: DockerSettings?
-        /// The configuration for attaching a SageMaker user profile name to the execution role as a sts:SourceIdentity key.
+        /// The configuration for attaching a SageMaker AI user profile name to the execution role as a sts:SourceIdentity key.
         public let executionRoleIdentityConfig: ExecutionRoleIdentityConfig?
         /// A collection of settings that configure the RStudioServerPro Domain-level app.
         public let rStudioServerProDomainSettings: RStudioServerProDomainSettings?
@@ -20161,7 +20217,7 @@ extension SageMaker {
         public let amazonQSettings: AmazonQSettings?
         /// A collection of settings that configure the domain's Docker interaction.
         public let dockerSettings: DockerSettings?
-        /// The configuration for attaching a SageMaker user profile name to the execution role as a sts:SourceIdentity key. This configuration can only be modified if there are no apps in the InService or Pending state.
+        /// The configuration for attaching a SageMaker AI user profile name to the execution role as a sts:SourceIdentity key. This configuration can only be modified if there are no apps in the InService or Pending state.
         public let executionRoleIdentityConfig: ExecutionRoleIdentityConfig?
         /// A collection of RStudioServerPro Domain-level app settings to update. A single RStudioServerPro application is created for a domain.
         public let rStudioServerProDomainSettingsForUpdate: RStudioServerProDomainSettingsForUpdate?
@@ -20380,7 +20436,7 @@ extension SageMaker {
     public struct EFSFileSystemConfig: AWSEncodableShape & AWSDecodableShape {
         /// The ID of your Amazon EFS file system.
         public let fileSystemId: String?
-        /// The path to the file system directory that is accessible in Amazon SageMaker Studio. Permitted users can access only this directory and below.
+        /// The path to the file system directory that is accessible in Amazon SageMaker AI Studio. Permitted users can access only this directory and below.
         public let fileSystemPath: String?
 
         @inlinable
@@ -23758,7 +23814,7 @@ extension SageMaker {
         public let computeResourceRequirements: InferenceComponentComputeResourceRequirements?
         /// Defines a container that provides the runtime environment for a model that you deploy with an inference component.
         public let container: InferenceComponentContainerSpecification?
-        /// The name of an existing SageMaker model object in your account that you want to deploy with the inference component.
+        /// The name of an existing SageMaker AI model object in your account that you want to deploy with the inference component.
         public let modelName: String?
         /// Settings that take effect while the model container starts up.
         public let startupParameters: InferenceComponentStartupParameters?
@@ -23798,7 +23854,7 @@ extension SageMaker {
         public let computeResourceRequirements: InferenceComponentComputeResourceRequirements?
         /// Details about the container that provides the runtime environment for the model that is deployed with the inference component.
         public let container: InferenceComponentContainerSpecificationSummary?
-        /// The name of the SageMaker model object that is deployed with the inference component.
+        /// The name of the SageMaker AI model object that is deployed with the inference component.
         public let modelName: String?
         /// Settings that take effect while the model container starts up.
         public let startupParameters: InferenceComponentStartupParameters?
@@ -24443,9 +24499,9 @@ extension SageMaker {
     }
 
     public struct JupyterServerAppSettings: AWSEncodableShape & AWSDecodableShape {
-        /// A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterServer application.
+        /// A list of Git repositories that SageMaker AI automatically displays to users for cloning in the JupyterServer application.
         public let codeRepositories: [CodeRepository]?
-        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the JupyterServer app. If you use the LifecycleConfigArns parameter, then this parameter is also required.
+        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the JupyterServer app. If you use the LifecycleConfigArns parameter, then this parameter is also required.
         public let defaultResourceSpec: ResourceSpec?
         ///  The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the JupyterServerApp. If you use this parameter, the DefaultResourceSpec parameter is also required.  To remove a Lifecycle Config, you must set LifecycleConfigArns to an empty list.
         public let lifecycleConfigArns: [String]?
@@ -24491,9 +24547,9 @@ extension SageMaker {
     }
 
     public struct KernelGatewayAppSettings: AWSEncodableShape & AWSDecodableShape {
-        /// A list of custom SageMaker images that are configured to run as a KernelGateway app.
+        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app.
         public let customImages: [CustomImage]?
-        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the KernelGateway app.  The Amazon SageMaker Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
+        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the KernelGateway app.  The Amazon SageMaker AI Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
         public let defaultResourceSpec: ResourceSpec?
         ///  The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the the user profile or domain.  To remove a Lifecycle Config, you must set LifecycleConfigArns to an empty list.
         public let lifecycleConfigArns: [String]?
@@ -24525,7 +24581,7 @@ extension SageMaker {
     }
 
     public struct KernelGatewayImageConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Elastic File System storage configuration for a SageMaker image.
+        /// The Amazon Elastic File System storage configuration for a SageMaker AI image.
         public let fileSystemConfig: FileSystemConfig?
         /// The specification of the Jupyter kernels in the image.
         public let kernelSpecs: [KernelSpec]?
@@ -25196,7 +25252,7 @@ extension SageMaker {
     public struct ListAliasesResponse: AWSDecodableShape {
         /// A token for getting the next set of aliases, if more aliases exist.
         public let nextToken: String?
-        /// A list of SageMaker image version aliases.
+        /// A list of SageMaker AI image version aliases.
         public let sageMakerImageVersionAliases: [String]?
 
         @inlinable
@@ -26009,7 +26065,7 @@ extension SageMaker {
     public struct ListCompilationJobsResponse: AWSDecodableShape {
         /// An array of CompilationJobSummary objects, each describing a model compilation job.
         public let compilationJobSummaries: [CompilationJobSummary]?
-        /// If the response is truncated, Amazon SageMaker returns this NextToken. To retrieve the next set of model compilation jobs, use this token in the next request.
+        /// If the response is truncated, Amazon SageMaker AI returns this NextToken. To retrieve the next set of model compilation jobs, use this token in the next request.
         public let nextToken: String?
 
         @inlinable
@@ -28640,7 +28696,7 @@ extension SageMaker {
     public struct ListModelQualityJobDefinitionsResponse: AWSDecodableShape {
         /// A list of summaries of model quality monitoring job definitions.
         public let jobDefinitionSummaries: [MonitoringJobDefinitionSummary]?
-        /// If the response is truncated, Amazon SageMaker returns this token. To retrieve the next set of model quality monitoring job definitions, use it in the next request.
+        /// If the response is truncated, Amazon SageMaker AI returns this token. To retrieve the next set of model quality monitoring job definitions, use it in the next request.
         public let nextToken: String?
 
         @inlinable
@@ -29100,7 +29156,7 @@ extension SageMaker {
     }
 
     public struct ListNotebookInstanceLifecycleConfigsOutput: AWSDecodableShape {
-        /// If the response is truncated, SageMaker returns this token. To get the next set of lifecycle configurations, use it in the next request.
+        /// If the response is truncated, SageMaker AI returns this token. To get the next set of lifecycle configurations, use it in the next request.
         public let nextToken: String?
         /// An array of NotebookInstanceLifecycleConfiguration objects, each listing a lifecycle configuration.
         public let notebookInstanceLifecycleConfigs: [NotebookInstanceLifecycleConfigSummary]?
@@ -29196,7 +29252,7 @@ extension SageMaker {
     }
 
     public struct ListNotebookInstancesOutput: AWSDecodableShape {
-        /// If the response to the previous ListNotebookInstances request was truncated, SageMaker returns this token. To retrieve the next set of notebook instances, use the token in the next request.
+        /// If the response to the previous ListNotebookInstances request was truncated, SageMaker AI returns this token. To retrieve the next set of notebook instances, use the token in the next request.
         public let nextToken: String?
         /// An array of NotebookInstanceSummary objects, one for each notebook instance.
         public let notebookInstances: [NotebookInstanceSummary]?
@@ -32033,10 +32089,12 @@ extension SageMaker {
         public let framework: String?
         /// The framework version of the Model Package Container Image.
         public let frameworkVersion: String?
-        /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.
+        /// The Amazon Elastic Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by SageMaker, the inference code must meet SageMaker requirements. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.
         public let image: String?
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public let imageDigest: String?
+        /// The ETag associated with Model Data URL.
+        public let modelDataETag: String?
         /// Specifies the location of ML model data to deploy during endpoint creation.
         public let modelDataSource: ModelDataSource?
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  The model artifacts must be in an S3 bucket that is in the same region as the model package.
@@ -32049,7 +32107,7 @@ extension SageMaker {
         public let productId: String?
 
         @inlinable
-        public init(additionalS3DataSource: AdditionalS3DataSource? = nil, containerHostname: String? = nil, environment: [String: String]? = nil, framework: String? = nil, frameworkVersion: String? = nil, image: String? = nil, imageDigest: String? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil, modelInput: ModelInput? = nil, nearestModelName: String? = nil, productId: String? = nil) {
+        public init(additionalS3DataSource: AdditionalS3DataSource? = nil, containerHostname: String? = nil, environment: [String: String]? = nil, framework: String? = nil, frameworkVersion: String? = nil, image: String? = nil, imageDigest: String? = nil, modelDataETag: String? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil, modelInput: ModelInput? = nil, nearestModelName: String? = nil, productId: String? = nil) {
             self.additionalS3DataSource = additionalS3DataSource
             self.containerHostname = containerHostname
             self.environment = environment
@@ -32057,6 +32115,7 @@ extension SageMaker {
             self.frameworkVersion = frameworkVersion
             self.image = image
             self.imageDigest = imageDigest
+            self.modelDataETag = modelDataETag
             self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
             self.modelInput = modelInput
@@ -32098,6 +32157,7 @@ extension SageMaker {
             case frameworkVersion = "FrameworkVersion"
             case image = "Image"
             case imageDigest = "ImageDigest"
+            case modelDataETag = "ModelDataETag"
             case modelDataSource = "ModelDataSource"
             case modelDataUrl = "ModelDataUrl"
             case modelInput = "ModelInput"
@@ -32828,7 +32888,7 @@ extension SageMaker {
         public let instanceCount: Int?
         /// The ML compute instance type for the processing job.
         public let instanceType: ProcessingInstanceType?
-        /// The Key Management Service (KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.
+        /// The Key Management Service (KMS) key that Amazon SageMaker AI uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.
         public let volumeKmsKeyId: String?
         /// The size of the ML storage volume, in gigabytes, that you want to provision. You must specify sufficient ML storage for your scenario.
         public let volumeSizeInGB: Int?
@@ -33012,7 +33072,7 @@ extension SageMaker {
         public let environment: [String: String]?
         /// Configures the monitoring job to run a specified Docker container image.
         public let monitoringAppSpecification: MonitoringAppSpecification?
-        /// The array of inputs for the monitoring job. Currently we support monitoring an Amazon SageMaker Endpoint.
+        /// The array of inputs for the monitoring job. Currently we support monitoring an Amazon SageMaker AI Endpoint.
         public let monitoringInputs: [MonitoringInput]?
         /// The array of outputs from the monitoring job to be uploaded to Amazon S3.
         public let monitoringOutputConfig: MonitoringOutputConfig?
@@ -33020,7 +33080,7 @@ extension SageMaker {
         public let monitoringResources: MonitoringResources?
         /// Specifies networking options for an monitoring job.
         public let networkConfig: NetworkConfig?
-        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker can  assume to perform tasks on your behalf.
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker AI can  assume to perform tasks on your behalf.
         public let roleArn: String?
         /// Specifies a time limit for how long the monitoring job is allowed to run.
         public let stoppingCondition: MonitoringStoppingCondition?
@@ -33159,7 +33219,7 @@ extension SageMaker {
     }
 
     public struct MonitoringOutputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Key Management Service (KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
+        /// The Key Management Service (KMS) key that Amazon SageMaker AI uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption.
         public let kmsKeyId: String?
         /// Monitoring outputs for monitoring jobs. This is where the output of the periodic monitoring jobs is uploaded.
         public let monitoringOutputs: [MonitoringOutput]?
@@ -33209,11 +33269,11 @@ extension SageMaker {
     }
 
     public struct MonitoringS3Output: AWSEncodableShape & AWSDecodableShape {
-        /// The local path to the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job. LocalPath is an absolute path for the output data.
+        /// The local path to the Amazon S3 storage location where Amazon SageMaker AI saves the results of a monitoring job. LocalPath is an absolute path for the output data.
         public let localPath: String?
         /// Whether to upload the results of the monitoring job continuously or after the job completes.
         public let s3UploadMode: ProcessingS3UploadMode?
-        /// A URI that identifies the Amazon S3 storage location where Amazon SageMaker saves the results of a monitoring job.
+        /// A URI that identifies the Amazon S3 storage location where Amazon SageMaker AI saves the results of a monitoring job.
         public let s3Uri: String?
 
         @inlinable
@@ -33551,11 +33611,11 @@ extension SageMaker {
     }
 
     public struct NotebookInstanceSummary: AWSDecodableShape {
-        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
+        /// An array of up to three Git repositories associated with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
         public let additionalCodeRepositories: [String]?
         /// A timestamp that shows when the notebook instance was created.
         public let creationTime: Date?
-        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
+        /// The Git repository associated with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
         public let defaultCodeRepository: String?
         /// The type of ML compute instance that the notebook instance is running on.
         public let instanceType: InstanceType?
@@ -34083,9 +34143,9 @@ extension SageMaker {
     public struct OutputConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies additional parameters for compiler options in JSON format. The compiler options are TargetPlatform specific. It is required for NVIDIA accelerators and highly recommended for CPU compilations. For any other cases, it is optional to specify CompilerOptions.     DTYPE: Specifies the data type for the input. When compiling for ml_* (except for ml_inf) instances using PyTorch framework, provide the data type (dtype) of the model's input. "float32" is used if "DTYPE" is not specified. Options for data type are:   float32: Use either "float" or "float32".   int64: Use either "int64" or "long".   For example, {"dtype" : "float32"}.    CPU: Compilation for CPU supports the following compiler options.    mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}       ARM: Details of ARM CPU compilations.    NEON: NEON is an implementation of the Advanced SIMD extension used in ARMv7 processors. For example, add {'mattr': ['+neon']} to the compiler options if compiling for ARM 32-bit platform with the NEON support.      NVIDIA: Compilation for NVIDIA GPU supports the following compiler options.    gpu_code: Specifies the targeted architecture.    trt-ver: Specifies the TensorRT versions in x.y.z. format.    cuda-ver: Specifies the CUDA version in x.y format.   For example, {'gpu-code': 'sm_72', 'trt-ver': '6.0.1', 'cuda-ver': '10.1'}     ANDROID: Compilation for the Android OS supports the following compiler options:    ANDROID_PLATFORM: Specifies the Android API levels. Available levels range from 21 to 29. For example, {'ANDROID_PLATFORM': 28}.    mattr: Add {'mattr': ['+neon']} to compiler options if compiling for ARM 32-bit platform with NEON support.      INFERENTIA: Compilation for target ml_inf1 uses compiler options passed in as a JSON string. For example, "CompilerOptions": "\"--verbose 1 --num-neuroncores 2 -O2\"".  For information about supported compiler options, see  Neuron Compiler CLI Reference Guide.     CoreML: Compilation for the CoreML OutputConfig TargetDevice supports the following compiler options:    class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.
         public let compilerOptions: String?
-        /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
+        /// The Amazon Web Services Key Management Service key (Amazon Web Services KMS) that Amazon SageMaker AI uses to encrypt your output models with Amazon S3 server-side encryption after compilation job. If you don't provide a KMS key ID, Amazon SageMaker AI uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let kmsKeyId: String?
-        /// Identifies the S3 bucket where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
+        /// Identifies the S3 bucket where you want Amazon SageMaker AI to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputLocation: String?
         /// Identifies the target device or the machine learning instance that you want to run your model on after the compilation has completed. Alternatively, you can specify OS, architecture, and accelerator using TargetPlatform fields. It can be used instead of TargetPlatform.  Currently ml_trn1 is available only in US East (N. Virginia) Region, and ml_inf2 is available only in US East (Ohio) Region.
         public let targetDevice: TargetDevice?
@@ -35381,7 +35441,7 @@ extension SageMaker {
         public let coreDumpConfig: ProductionVariantCoreDumpConfig?
         ///  You can use this parameter to turn on native Amazon Web Services Systems Manager (SSM) access for a production variant behind an endpoint. By default, SSM access is disabled for all production variants behind an endpoint. You can turn on or turn off SSM access for a production variant behind an existing endpoint by creating a new endpoint configuration and calling UpdateEndpoint.
         public let enableSSMAccess: Bool?
-        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions. The AMI version names, and their configurations, are the following:  al2-ami-sagemaker-inference-gpu-2    Accelerator: GPU   NVIDIA driver version: 535.54.03   CUDA driver version: 12.2   Supported instance types: ml.g4dn.*, ml.g5.*, ml.g6.*, ml.p3.*, ml.p4d.*, ml.p4de.*, ml.p5.*
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions. The AMI version names, and their configurations, are the following:  al2-ami-sagemaker-inference-gpu-2    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2    al2-ami-sagemaker-inference-gpu-2-1    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-gpu-3-1    Accelerator: GPU   NVIDIA driver version: 550   CUDA version: 12.4   NVIDIA Container Toolkit with disabled CUDA-compat mounting
         public let inferenceAmiVersion: ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public let initialInstanceCount: Int?
@@ -36206,7 +36266,7 @@ extension SageMaker {
     }
 
     public struct RSessionAppSettings: AWSEncodableShape & AWSDecodableShape {
-        /// A list of custom SageMaker images that are configured to run as a RSession app.
+        /// A list of custom SageMaker AI images that are configured to run as a RSession app.
         public let customImages: [CustomImage]?
         public let defaultResourceSpec: ResourceSpec?
 
@@ -37233,11 +37293,11 @@ extension SageMaker {
         public let instanceType: AppInstanceType?
         ///  The Amazon Resource Name (ARN) of the Lifecycle Configuration attached to the Resource.
         public let lifecycleConfigArn: String?
-        /// The ARN of the SageMaker image that the image version belongs to.
+        /// The ARN of the SageMaker AI image that the image version belongs to.
         public let sageMakerImageArn: String?
         /// The SageMakerImageVersionAlias of the image to launch with. This value is in SemVer 2.0.0 versioning format.
         public let sageMakerImageVersionAlias: String?
-        /// The ARN of the image version created on the instance.
+        /// The ARN of the image version created on the instance. To clear the value set for SageMakerImageVersionArn, pass None as the value.
         public let sageMakerImageVersionArn: String?
 
         @inlinable
@@ -37432,8 +37492,12 @@ extension SageMaker {
     public struct S3ModelDataSource: AWSEncodableShape & AWSDecodableShape {
         /// Specifies how the ML model data is prepared. If you choose Gzip and choose S3Object as the value of S3DataType, S3Uri identifies an object that is a gzip-compressed TAR archive. SageMaker will attempt to decompress and untar the object during model deployment. If you choose None and chooose S3Object as the value of S3DataType, S3Uri identifies an object that represents an uncompressed ML model to deploy. If you choose None and choose S3Prefix as the value of S3DataType, S3Uri identifies a key name prefix, under which all objects represents the uncompressed ML model to deploy. If you choose None, then SageMaker will follow rules below when creating model data files under /opt/ml/model directory for use by your inference code:   If you choose S3Object as the value of S3DataType, then SageMaker will split the key of the S3 object referenced by S3Uri by slash (/), and use the last part as the filename of the file holding the content of the S3 object.   If you choose S3Prefix as the value of S3DataType, then for each S3 object under the key name pefix referenced by S3Uri, SageMaker will trim its key by the prefix, and use the remainder as the path (relative to /opt/ml/model) of the file holding the content of the S3 object. SageMaker will split the remainder by slash (/), using intermediate parts as directory names and the last part as filename of the file holding the content of the S3 object.   Do not use any of the following as file names or directory names:   An empty or blank string   A string which contains null bytes   A string longer than 255 bytes   A single dot (.)   A double dot (..)     Ambiguous file names will result in model deployment failure. For example, if your uncompressed ML model consists of two S3 objects s3://mybucket/model/weights and s3://mybucket/model/weights/part1 and you specify s3://mybucket/model/ as the value of S3Uri and S3Prefix as the value of S3DataType, then it will result in name clash between /opt/ml/model/weights (a regular file) and /opt/ml/model/weights/ (a directory).   Do not organize the model artifacts in S3 console using folders. When you create a folder in S3 console, S3 creates a 0-byte object with a key set to the folder name you provide. They key of the 0-byte object ends with a slash (/) which violates SageMaker restrictions on model artifact file names, leading to model deployment failure.
         public let compressionType: ModelCompressionType?
+        /// The ETag associated with S3 URI.
+        public let eTag: String?
         /// Configuration information for hub access.
         public let hubAccessConfig: InferenceHubAccessConfig?
+        /// The ETag associated with Manifest S3 URI.
+        public let manifestEtag: String?
         /// The Amazon S3 URI of the manifest file. The manifest file is a CSV file that stores the artifact locations.
         public let manifestS3Uri: String?
         /// Specifies the access configuration file for the ML model. You can explicitly accept the model end-user license agreement (EULA) within the ModelAccessConfig. You are responsible for reviewing and complying with any applicable license terms and making sure they are acceptable for your use case before downloading or using a model.
@@ -37444,9 +37508,11 @@ extension SageMaker {
         public let s3Uri: String?
 
         @inlinable
-        public init(compressionType: ModelCompressionType? = nil, hubAccessConfig: InferenceHubAccessConfig? = nil, manifestS3Uri: String? = nil, modelAccessConfig: ModelAccessConfig? = nil, s3DataType: S3ModelDataType? = nil, s3Uri: String? = nil) {
+        public init(compressionType: ModelCompressionType? = nil, eTag: String? = nil, hubAccessConfig: InferenceHubAccessConfig? = nil, manifestEtag: String? = nil, manifestS3Uri: String? = nil, modelAccessConfig: ModelAccessConfig? = nil, s3DataType: S3ModelDataType? = nil, s3Uri: String? = nil) {
             self.compressionType = compressionType
+            self.eTag = eTag
             self.hubAccessConfig = hubAccessConfig
+            self.manifestEtag = manifestEtag
             self.manifestS3Uri = manifestS3Uri
             self.modelAccessConfig = modelAccessConfig
             self.s3DataType = s3DataType
@@ -37463,7 +37529,9 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case compressionType = "CompressionType"
+            case eTag = "ETag"
             case hubAccessConfig = "HubAccessConfig"
+            case manifestEtag = "ManifestEtag"
             case manifestS3Uri = "ManifestS3Uri"
             case modelAccessConfig = "ModelAccessConfig"
             case s3DataType = "S3DataType"
@@ -37557,7 +37625,7 @@ extension SageMaker {
         public let dataAnalysisEndTime: String?
         /// Sets the start time for a monitoring job window. Express this time as an offset to the times that you schedule your monitoring jobs to run. You schedule monitoring jobs with the ScheduleExpression parameter. Specify this offset in ISO 8601 duration format. For example, if you want to monitor the five hours of data in your dataset that precede the start of each monitoring job, you would specify: "-PT5H". The start time that you specify must not precede the end time that you specify by more than 24 hours. You specify the end time with the DataAnalysisEndTime parameter. If you set ScheduleExpression to NOW, this parameter is required.
         public let dataAnalysisStartTime: String?
-        /// A cron expression that describes details about the monitoring schedule. The supported cron expressions are:   If you want to set the job to start every hour, use the following:  Hourly: cron(0 * ? * * *)    If you want to start the job daily:  cron(0 [00-23] ? * * *)    If you want to run the job one time, immediately, use the following keyword:  NOW    For example, the following are valid cron expressions:   Daily at noon UTC: cron(0 12 ? * * *)    Daily at midnight UTC: cron(0 0 ? * * *)    To support running every 6, 12 hours, the following are also supported:  cron(0 [00-23]/[01-24] ? * * *)  For example, the following are valid cron expressions:   Every 12 hours, starting at 5pm UTC: cron(0 17/12 ? * * *)    Every two hours starting at midnight: cron(0 0/2 ? * * *)       Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.    We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker will pick a time for running every day.    You can also specify the keyword NOW to run the monitoring job immediately, one time, without recurring.
+        /// A cron expression that describes details about the monitoring schedule. The supported cron expressions are:   If you want to set the job to start every hour, use the following:  Hourly: cron(0 * ? * * *)    If you want to start the job daily:  cron(0 [00-23] ? * * *)    If you want to run the job one time, immediately, use the following keyword:  NOW    For example, the following are valid cron expressions:   Daily at noon UTC: cron(0 12 ? * * *)    Daily at midnight UTC: cron(0 0 ? * * *)    To support running every 6, 12 hours, the following are also supported:  cron(0 [00-23]/[01-24] ? * * *)  For example, the following are valid cron expressions:   Every 12 hours, starting at 5pm UTC: cron(0 17/12 ? * * *)    Every two hours starting at midnight: cron(0 0/2 ? * * *)       Even though the cron expression is set to start at 5PM UTC, note that there could be a delay of 0-20 minutes from the actual requested time to run the execution.    We recommend that if you would like a daily schedule, you do not provide this parameter. Amazon SageMaker AI will pick a time for running every day.    You can also specify the keyword NOW to run the monitoring job immediately, one time, without recurring.
         public let scheduleExpression: String?
 
         @inlinable
@@ -38220,14 +38288,17 @@ extension SageMaker {
     public struct SourceAlgorithm: AWSEncodableShape & AWSDecodableShape {
         /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your SageMaker account or an algorithm in Amazon Web Services Marketplace that you are subscribed to.
         public let algorithmName: String?
+        /// The ETag associated with Model Data URL.
+        public let modelDataETag: String?
         /// Specifies the location of ML model data to deploy during endpoint creation.
         public let modelDataSource: ModelDataSource?
         /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  The model artifacts must be in an S3 bucket that is in the same Amazon Web Services region as the algorithm.
         public let modelDataUrl: String?
 
         @inlinable
-        public init(algorithmName: String? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil) {
+        public init(algorithmName: String? = nil, modelDataETag: String? = nil, modelDataSource: ModelDataSource? = nil, modelDataUrl: String? = nil) {
             self.algorithmName = algorithmName
+            self.modelDataETag = modelDataETag
             self.modelDataSource = modelDataSource
             self.modelDataUrl = modelDataUrl
         }
@@ -38243,6 +38314,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case algorithmName = "AlgorithmName"
+            case modelDataETag = "ModelDataETag"
             case modelDataSource = "ModelDataSource"
             case modelDataUrl = "ModelDataUrl"
         }
@@ -38428,11 +38500,11 @@ extension SageMaker {
     }
 
     public struct SpaceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The type of app created within the space.
+        /// The type of app created within the space. If using the  UpdateSpace API, you can't change the app type of your space by specifying a different value for this field.
         public let appType: AppType?
         /// The Code Editor application settings.
         public let codeEditorAppSettings: SpaceCodeEditorAppSettings?
-        /// A file system, created by you, that you assign to a space for an Amazon SageMaker Domain. Permitted users can access this file system in Amazon SageMaker Studio.
+        /// A file system, created by you, that you assign to a space for an Amazon SageMaker AI Domain. Permitted users can access this file system in Amazon SageMaker AI Studio.
         public let customFileSystems: [CustomFileSystem]?
         /// The settings for the JupyterLab application.
         public let jupyterLabAppSettings: SpaceJupyterLabAppSettings?
@@ -39205,15 +39277,15 @@ extension SageMaker {
     }
 
     public struct StudioLifecycleConfigDetails: AWSDecodableShape {
-        /// The creation time of the Amazon SageMaker Studio Lifecycle Configuration.
+        /// The creation time of the Amazon SageMaker AI Studio Lifecycle Configuration.
         public let creationTime: Date?
-        /// This value is equivalent to CreationTime because Amazon SageMaker Studio Lifecycle Configurations are immutable.
+        /// This value is equivalent to CreationTime because Amazon SageMaker AI Studio Lifecycle Configurations are immutable.
         public let lastModifiedTime: Date?
         /// The App type to which the Lifecycle Configuration is attached.
         public let studioLifecycleConfigAppType: StudioLifecycleConfigAppType?
         ///  The Amazon Resource Name (ARN) of the Lifecycle Configuration.
         public let studioLifecycleConfigArn: String?
-        /// The name of the Amazon SageMaker Studio Lifecycle Configuration.
+        /// The name of the Amazon SageMaker AI Studio Lifecycle Configuration.
         public let studioLifecycleConfigName: String?
 
         @inlinable
@@ -39448,7 +39520,7 @@ extension SageMaker {
     }
 
     public struct TensorBoardAppSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
+        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.
         public let defaultResourceSpec: ResourceSpec?
 
         @inlinable
@@ -41552,13 +41624,16 @@ extension SageMaker {
         public let clusterName: String?
         /// Specify the instance groups to update.
         public let instanceGroups: [ClusterInstanceGroupSpecification]?
+        /// Specify the names of the instance groups to delete.  Use a single , as the separator between multiple names.
+        public let instanceGroupsToDelete: [String]?
         /// The node recovery mode to be applied to the SageMaker HyperPod cluster.
         public let nodeRecovery: ClusterNodeRecovery?
 
         @inlinable
-        public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, nodeRecovery: ClusterNodeRecovery? = nil) {
+        public init(clusterName: String? = nil, instanceGroups: [ClusterInstanceGroupSpecification]? = nil, instanceGroupsToDelete: [String]? = nil, nodeRecovery: ClusterNodeRecovery? = nil) {
             self.clusterName = clusterName
             self.instanceGroups = instanceGroups
+            self.instanceGroupsToDelete = instanceGroupsToDelete
             self.nodeRecovery = nodeRecovery
         }
 
@@ -41570,11 +41645,18 @@ extension SageMaker {
             }
             try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, max: 100)
             try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, min: 1)
+            try self.instanceGroupsToDelete?.forEach {
+                try validate($0, name: "instanceGroupsToDelete[]", parent: name, max: 63)
+                try validate($0, name: "instanceGroupsToDelete[]", parent: name, min: 1)
+                try validate($0, name: "instanceGroupsToDelete[]", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            }
+            try self.validate(self.instanceGroupsToDelete, name: "instanceGroupsToDelete", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "ClusterName"
             case instanceGroups = "InstanceGroups"
+            case instanceGroupsToDelete = "InstanceGroupsToDelete"
             case nodeRecovery = "NodeRecovery"
         }
     }
@@ -41907,7 +41989,7 @@ extension SageMaker {
     }
 
     public struct UpdateDomainRequest: AWSEncodableShape {
-        /// Specifies the VPC used for non-EFS traffic.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access.    VpcOnly - All Studio traffic is through the specified VPC and subnets.   This configuration can only be modified if there are no apps in the InService, Pending, or Deleting state. The configuration cannot be updated if DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is already set or DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided as part of the same request.
+        /// Specifies the VPC used for non-EFS traffic.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker AI, which allows direct internet access.    VpcOnly - All Studio traffic is through the specified VPC and subnets.   This configuration can only be modified if there are no apps in the InService, Pending, or Deleting state. The configuration cannot be updated if DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is already set or DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided as part of the same request.
         public let appNetworkAccessType: AppNetworkAccessType?
         /// The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If setting up the domain for use with RStudio, this value must be set to Service.
         public let appSecurityGroupManagement: AppSecurityGroupManagement?
@@ -42286,7 +42368,7 @@ extension SageMaker {
         public let displayName: String?
         /// The name of the image to update.
         public let imageName: String?
-        /// The new ARN for the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+        /// The new ARN for the IAM role that enables Amazon SageMaker AI to perform tasks on your behalf.
         public let roleArn: String?
 
         @inlinable
@@ -42353,7 +42435,7 @@ extension SageMaker {
         public let horovod: Bool?
         /// The name of the image.
         public let imageName: String?
-        /// Indicates SageMaker job type compatibility.    TRAINING: The image version is compatible with SageMaker training jobs.    INFERENCE: The image version is compatible with SageMaker inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker notebook kernels.
+        /// Indicates SageMaker AI job type compatibility.    TRAINING: The image version is compatible with SageMaker AI training jobs.    INFERENCE: The image version is compatible with SageMaker AI inference jobs.    NOTEBOOK_KERNEL: The image version is compatible with SageMaker AI notebook kernels.
         public let jobType: JobType?
         /// The machine learning framework vended in the image version.
         public let mlFramework: String?
@@ -42888,9 +42970,9 @@ extension SageMaker {
     public struct UpdateNotebookInstanceInput: AWSEncodableShape {
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to associate with this notebook instance.
         public let acceleratorTypes: [NotebookInstanceAcceleratorType]?
-        /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
+        /// An array of up to three Git repositories to associate with the notebook instance. These can be either the names of Git repositories stored as resources in your account, or the URL of Git repositories in Amazon Web Services CodeCommit or in any other Git repository. These repositories are cloned at the same level as the default repository of your notebook instance. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
         public let additionalCodeRepositories: [String]?
-        /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker Notebook Instances.
+        /// The Git repository to associate with the notebook instance as its default code repository. This can be either the name of a Git repository stored as a resource in your account, or the URL of a Git repository in Amazon Web Services CodeCommit or in any other Git repository. When you open a notebook instance, it opens in the directory that contains this repository. For more information, see Associating Git Repositories with SageMaker AI Notebook Instances.
         public let defaultCodeRepository: String?
         /// This parameter is no longer supported. Elastic Inference (EI) is no longer available. This parameter was used to specify a list of the EI instance types to remove from this notebook instance.
         public let disassociateAcceleratorTypes: Bool?
@@ -42908,11 +42990,11 @@ extension SageMaker {
         public let lifecycleConfigName: String?
         /// The name of the notebook instance to update.
         public let notebookInstanceName: String?
-        /// The Amazon Resource Name (ARN) of the IAM role that SageMaker can assume to access the notebook instance. For more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the caller of this API must have the iam:PassRole permission.
+        /// The Amazon Resource Name (ARN) of the IAM role that SageMaker AI can assume to access the notebook instance. For more information, see SageMaker AI Roles.   To be able to pass this role to SageMaker AI, the caller of this API must have the iam:PassRole permission.
         public let roleArn: String?
         /// Whether root access is enabled or disabled for users of the notebook instance. The default value is Enabled.  If you set this to Disabled, users don't have root access on the notebook instance, but lifecycle configuration scripts still run with root permissions.
         public let rootAccess: RootAccess?
-        /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
+        /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker AI can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
         public let volumeSizeInGB: Int?
 
         @inlinable
@@ -43730,7 +43812,7 @@ extension SageMaker {
         public let canvasAppSettings: CanvasAppSettings?
         /// The Code Editor application settings. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public let codeEditorAppSettings: CodeEditorAppSettings?
-        /// The settings for assigning a custom file system to a user profile. Permitted users can access this file system in Amazon SageMaker Studio. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
+        /// The settings for assigning a custom file system to a user profile. Permitted users can access this file system in Amazon SageMaker AI Studio. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public let customFileSystemConfigs: [CustomFileSystemConfig]?
         /// Details about the POSIX identity that is used for file system operations. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public let customPosixUserConfig: CustomPosixUserConfig?
@@ -43748,9 +43830,9 @@ extension SageMaker {
         public let rSessionAppSettings: RSessionAppSettings?
         /// A collection of settings that configure user interaction with the RStudioServerPro app.
         public let rStudioServerProAppSettings: RStudioServerProAppSettings?
-        /// The security groups for the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly, unless specified as part of the DefaultUserSettings for the domain. Amazon SageMaker adds a security group to allow NFS traffic from Amazon SageMaker Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
+        /// The security groups for the Amazon Virtual Private Cloud (VPC) that the domain uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly, unless specified as part of the DefaultUserSettings for the domain. Amazon SageMaker AI adds a security group to allow NFS traffic from Amazon SageMaker AI Studio. Therefore, the number of security groups that you can specify is one less than the maximum number shown. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public let securityGroups: [String]?
-        /// Specifies options for sharing Amazon SageMaker Studio notebooks.
+        /// Specifies options for sharing Amazon SageMaker AI Studio notebooks.
         public let sharingSettings: SharingSettings?
         /// The storage settings for a space. SageMaker applies these settings only to private spaces that the user creates in the domain. SageMaker doesn't apply these settings to shared spaces.
         public let spaceStorageSettings: DefaultSpaceStorageSettings?

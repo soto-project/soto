@@ -104,6 +104,41 @@ extension ConnectParticipant {
         }
     }
 
+    public struct CancelParticipantAuthenticationRequest: AWSEncodableShape {
+        /// The authentication token associated with the participant's connection.
+        public let connectionToken: String
+        /// The sessionId provided in the authenticationInitiated event.
+        public let sessionId: String
+
+        @inlinable
+        public init(connectionToken: String, sessionId: String) {
+            self.connectionToken = connectionToken
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
+            try container.encode(self.sessionId, forKey: .sessionId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct CancelParticipantAuthenticationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CompleteAttachmentUploadRequest: AWSEncodableShape {
         /// A list of unique identifiers for the attachments.
         public let attachmentIds: [String]
@@ -303,11 +338,14 @@ extension ConnectParticipant {
         public let attachmentId: String
         /// The authentication token associated with the participant's connection.
         public let connectionToken: String
+        /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601 format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+        public let urlExpiryInSeconds: Int?
 
         @inlinable
-        public init(attachmentId: String, connectionToken: String) {
+        public init(attachmentId: String, connectionToken: String, urlExpiryInSeconds: Int? = nil) {
             self.attachmentId = attachmentId
             self.connectionToken = connectionToken
+            self.urlExpiryInSeconds = urlExpiryInSeconds
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -315,6 +353,7 @@ extension ConnectParticipant {
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encode(self.attachmentId, forKey: .attachmentId)
             request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
+            try container.encodeIfPresent(self.urlExpiryInSeconds, forKey: .urlExpiryInSeconds)
         }
 
         public func validate(name: String) throws {
@@ -322,14 +361,19 @@ extension ConnectParticipant {
             try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 1)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
             try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+            try self.validate(self.urlExpiryInSeconds, name: "urlExpiryInSeconds", parent: name, max: 300)
+            try self.validate(self.urlExpiryInSeconds, name: "urlExpiryInSeconds", parent: name, min: 5)
         }
 
         private enum CodingKeys: String, CodingKey {
             case attachmentId = "AttachmentId"
+            case urlExpiryInSeconds = "UrlExpiryInSeconds"
         }
     }
 
     public struct GetAttachmentResponse: AWSDecodableShape {
+        /// The size of the attachment in bytes.
+        public let attachmentSizeInBytes: Int64
         /// This is the pre-signed URL that can be used for uploading the file to Amazon S3 when used in response
         /// to StartAttachmentUpload.
         public let url: String?
@@ -337,14 +381,68 @@ extension ConnectParticipant {
         public let urlExpiry: String?
 
         @inlinable
-        public init(url: String? = nil, urlExpiry: String? = nil) {
+        public init(attachmentSizeInBytes: Int64, url: String? = nil, urlExpiry: String? = nil) {
+            self.attachmentSizeInBytes = attachmentSizeInBytes
             self.url = url
             self.urlExpiry = urlExpiry
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attachmentSizeInBytes = "AttachmentSizeInBytes"
             case url = "Url"
             case urlExpiry = "UrlExpiry"
+        }
+    }
+
+    public struct GetAuthenticationUrlRequest: AWSEncodableShape {
+        /// The authentication token associated with the participant's connection.
+        public let connectionToken: String
+        /// The URL where the customer will be redirected after Amazon Cognito authorizes the user.
+        public let redirectUri: String
+        /// The sessionId provided in the authenticationInitiated event.
+        public let sessionId: String
+
+        @inlinable
+        public init(connectionToken: String, redirectUri: String, sessionId: String) {
+            self.connectionToken = connectionToken
+            self.redirectUri = redirectUri
+            self.sessionId = sessionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.connectionToken, key: "X-Amz-Bearer")
+            try container.encode(self.redirectUri, forKey: .redirectUri)
+            try container.encode(self.sessionId, forKey: .sessionId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, max: 1000)
+            try self.validate(self.connectionToken, name: "connectionToken", parent: name, min: 1)
+            try self.validate(self.redirectUri, name: "redirectUri", parent: name, max: 1024)
+            try self.validate(self.redirectUri, name: "redirectUri", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 36)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 36)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case redirectUri = "RedirectUri"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct GetAuthenticationUrlResponse: AWSDecodableShape {
+        /// The URL where the customer will sign in to the identity provider. This URL contains the authorize endpoint for the Cognito UserPool used in the authentication.
+        public let authenticationUrl: String?
+
+        @inlinable
+        public init(authenticationUrl: String? = nil) {
+            self.authenticationUrl = authenticationUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authenticationUrl = "AuthenticationUrl"
         }
     }
 
@@ -707,7 +805,7 @@ extension ConnectParticipant {
     public struct StartAttachmentUploadResponse: AWSDecodableShape {
         /// A unique identifier for the attachment.
         public let attachmentId: String?
-        /// Fields to be used while uploading the attachment.
+        /// The headers to be provided while uploading the file to the URL.
         public let uploadMetadata: UploadMetadata?
 
         @inlinable

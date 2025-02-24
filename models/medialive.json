@@ -3555,6 +3555,13 @@
                         "smithy.api#documentation": "Anywhere settings for this channel.",
                         "smithy.api#jsonName": "anywhereSettings"
                     }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "Requested engine version for this channel.",
+                        "smithy.api#jsonName": "channelEngineVersion"
+                    }
                 }
             },
             "traits": {
@@ -3594,6 +3601,43 @@
             },
             "traits": {
                 "smithy.api#documentation": "Placeholder documentation for ChannelEgressEndpoint"
+            }
+        },
+        "com.amazonaws.medialive#ChannelEngineVersionRequest": {
+            "type": "structure",
+            "members": {
+                "Version": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The build identifier of the engine version to use for this channel. Specify 'DEFAULT' to reset to the default version.",
+                        "smithy.api#jsonName": "version"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for ChannelEngineVersionRequest"
+            }
+        },
+        "com.amazonaws.medialive#ChannelEngineVersionResponse": {
+            "type": "structure",
+            "members": {
+                "ExpirationDate": {
+                    "target": "com.amazonaws.medialive#__timestampIso8601",
+                    "traits": {
+                        "smithy.api#documentation": "The UTC time when the version expires.",
+                        "smithy.api#jsonName": "expirationDate"
+                    }
+                },
+                "Version": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "The build identifier for this version of the channel version.",
+                        "smithy.api#jsonName": "version"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for ChannelEngineVersionResponse"
             }
         },
         "com.amazonaws.medialive#ChannelPipelineIdToRestart": {
@@ -3859,6 +3903,20 @@
                     "traits": {
                         "smithy.api#documentation": "AnywhereSettings settings for this channel.",
                         "smithy.api#jsonName": "anywhereSettings"
+                    }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "The engine version that you requested for this channel.",
+                        "smithy.api#jsonName": "channelEngineVersion"
+                    }
+                },
+                "UsedChannelEngineVersions": {
+                    "target": "com.amazonaws.medialive#__listOfChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "The engine version that the running pipelines are using.",
+                        "smithy.api#jsonName": "usedChannelEngineVersions"
                     }
                 }
             },
@@ -4270,6 +4328,12 @@
                     "traits": {
                         "smithy.api#enumValue": "S3_BUCKET"
                     }
+                },
+                "MEDIATAILOR_PLAYBACK_CONFIGURATION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MEDIATAILOR_PLAYBACK_CONFIGURATION"
+                    }
                 }
             },
             "traits": {
@@ -4432,6 +4496,26 @@
                 "smithy.api#documentation": "Used in CreateClusterSummary, DescribeClusterSummary, DescribeClusterResult, UpdateClusterResult."
             }
         },
+        "com.amazonaws.medialive#CmafId3Behavior": {
+            "type": "enum",
+            "members": {
+                "DISABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISABLED"
+                    }
+                },
+                "ENABLED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ENABLED"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Cmaf Id3 Behavior"
+            }
+        },
         "com.amazonaws.medialive#CmafIngestGroupSettings": {
             "type": "structure",
             "members": {
@@ -4505,6 +4589,20 @@
                     "traits": {
                         "smithy.api#documentation": "Change the modifier that MediaLive automatically adds to the Streams() name for a SCTE 35 track. The default is \"scte\", which means the default name will be Streams(scte.cmfm). Any string you enter here will replace the \"scte\" string.\\nThe modifier can only contain: numbers, letters, plus (+), minus (-), underscore (_) and period (.) and has a maximum length of 100 characters.",
                         "smithy.api#jsonName": "scte35NameModifier"
+                    }
+                },
+                "Id3Behavior": {
+                    "target": "com.amazonaws.medialive#CmafId3Behavior",
+                    "traits": {
+                        "smithy.api#documentation": "Set to ENABLED to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group, or you add an ID3 action to the channel schedule.",
+                        "smithy.api#jsonName": "id3Behavior"
+                    }
+                },
+                "Id3NameModifier": {
+                    "target": "com.amazonaws.medialive#__stringMax100",
+                    "traits": {
+                        "smithy.api#documentation": "Change the modifier that MediaLive automatically adds to the Streams() name that identifies an ID3 track. The default is \"id3\", which means the default name will be Streams(id3.cmfm). Any string you enter here will replace the \"id3\" string.\\nThe modifier can only contain: numbers, letters, plus (+), minus (-), underscore (_) and period (.) and has a maximum length of 100 characters.",
+                        "smithy.api#jsonName": "id3NameModifier"
                     }
                 }
             },
@@ -4878,7 +4976,7 @@
                 "Nodes": {
                     "target": "com.amazonaws.medialive#__listOf__string",
                     "traits": {
-                        "smithy.api#documentation": "An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.",
+                        "smithy.api#documentation": "An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.",
                         "smithy.api#jsonName": "nodes"
                     }
                 },
@@ -5002,6 +5100,19 @@
                         "smithy.api#documentation": "The Elemental Anywhere settings for this channel.",
                         "smithy.api#jsonName": "anywhereSettings"
                     }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionRequest",
+                    "traits": {
+                        "smithy.api#documentation": "The desired engine version for this channel.",
+                        "smithy.api#jsonName": "channelEngineVersion"
+                    }
+                },
+                "DryRun": {
+                    "target": "com.amazonaws.medialive#__boolean",
+                    "traits": {
+                        "smithy.api#jsonName": "dryRun"
+                    }
                 }
             },
             "traits": {
@@ -5121,6 +5232,14 @@
                     "target": "com.amazonaws.medialive#TagMap",
                     "traits": {
                         "smithy.api#jsonName": "tags"
+                    }
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.medialive#__stringMin1Max256PatternS",
+                    "traits": {
+                        "smithy.api#documentation": "An ID that you assign to a create request. This ID ensures idempotency when creating resources.",
+                        "smithy.api#idempotencyToken": {},
+                        "smithy.api#jsonName": "requestId"
                     }
                 }
             },
@@ -5291,6 +5410,14 @@
                         "smithy.api#clientOptional": {},
                         "smithy.api#jsonName": "treatMissingData",
                         "smithy.api#required": {}
+                    }
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.medialive#__stringMin1Max256PatternS",
+                    "traits": {
+                        "smithy.api#documentation": "An ID that you assign to a create request. This ID ensures idempotency when creating resources.",
+                        "smithy.api#idempotencyToken": {},
+                        "smithy.api#jsonName": "requestId"
                     }
                 }
             },
@@ -5674,6 +5801,14 @@
                     "traits": {
                         "smithy.api#jsonName": "tags"
                     }
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.medialive#__stringMin1Max256PatternS",
+                    "traits": {
+                        "smithy.api#documentation": "An ID that you assign to a create request. This ID ensures idempotency when creating resources.",
+                        "smithy.api#idempotencyToken": {},
+                        "smithy.api#jsonName": "requestId"
+                    }
                 }
             },
             "traits": {
@@ -5782,6 +5917,14 @@
                     "target": "com.amazonaws.medialive#TagMap",
                     "traits": {
                         "smithy.api#jsonName": "tags"
+                    }
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.medialive#__stringMin1Max256PatternS",
+                    "traits": {
+                        "smithy.api#documentation": "An ID that you assign to a create request. This ID ensures idempotency when creating resources.",
+                        "smithy.api#idempotencyToken": {},
+                        "smithy.api#jsonName": "requestId"
                     }
                 }
             },
@@ -6902,6 +7045,14 @@
                     "traits": {
                         "smithy.api#jsonName": "tags"
                     }
+                },
+                "RequestId": {
+                    "target": "com.amazonaws.medialive#__stringMin1Max256PatternS",
+                    "traits": {
+                        "smithy.api#documentation": "An ID that you assign to a create request. This ID ensures idempotency when creating resources.",
+                        "smithy.api#idempotencyToken": {},
+                        "smithy.api#jsonName": "requestId"
+                    }
                 }
             },
             "traits": {
@@ -7386,7 +7537,7 @@
                 "Nodes": {
                     "target": "com.amazonaws.medialive#__listOf__string",
                     "traits": {
-                        "smithy.api#documentation": "An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.",
+                        "smithy.api#documentation": "An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.",
                         "smithy.api#jsonName": "nodes"
                     }
                 },
@@ -7552,6 +7703,13 @@
                     "traits": {
                         "smithy.api#documentation": "Anywhere settings for this channel.",
                         "smithy.api#jsonName": "anywhereSettings"
+                    }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "Requested engine version for this channel.",
+                        "smithy.api#jsonName": "channelEngineVersion"
                     }
                 }
             },
@@ -9391,7 +9549,7 @@
                 "Nodes": {
                     "target": "com.amazonaws.medialive#__listOf__string",
                     "traits": {
-                        "smithy.api#documentation": "An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.",
+                        "smithy.api#documentation": "An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.",
                         "smithy.api#jsonName": "nodes"
                     }
                 },
@@ -9449,7 +9607,7 @@
                 "Nodes": {
                     "target": "com.amazonaws.medialive#__listOf__string",
                     "traits": {
-                        "smithy.api#documentation": "An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.",
+                        "smithy.api#documentation": "An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.",
                         "smithy.api#jsonName": "nodes"
                     }
                 },
@@ -9614,6 +9772,13 @@
                     "traits": {
                         "smithy.api#documentation": "Anywhere settings for this channel.",
                         "smithy.api#jsonName": "anywhereSettings"
+                    }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "Requested engine version for this channel.",
+                        "smithy.api#jsonName": "channelEngineVersion"
                     }
                 }
             },
@@ -18550,6 +18715,28 @@
                 "smithy.api#documentation": "When set to \"standard\", an I-Frame only playlist will be written out for each video output in the output group. This I-Frame only playlist will contain byte range offsets pointing to the I-frame(s) in each segment."
             }
         },
+        "com.amazonaws.medialive#Id3SegmentTaggingScheduleActionSettings": {
+            "type": "structure",
+            "members": {
+                "Id3": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "Complete this parameter if you want to specify the entire ID3 metadata. Enter a base64 string that contains one or more fully formed ID3 tags, according to the ID3 specification: http://id3.org/id3v2.4.0-structure",
+                        "smithy.api#jsonName": "id3"
+                    }
+                },
+                "Tag": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#documentation": "Complete this parameter if you want to specify only the metadata, not the entire frame. MediaLive will insert the metadata in a TXXX frame. Enter the value as plain text. You can include standard MediaLive variable data such as the current segment number.",
+                        "smithy.api#jsonName": "tag"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Settings for the action to insert ID3 metadata in every segment, in applicable output groups."
+            }
+        },
         "com.amazonaws.medialive#ImmediateModeScheduleActionStartSettings": {
             "type": "structure",
             "members": {},
@@ -22786,6 +22973,73 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.medialive#ListVersions": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.medialive#ListVersionsRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.medialive#ListVersionsResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.medialive#BadGatewayException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#BadRequestException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#ConflictException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#ForbiddenException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#GatewayTimeoutException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#InternalServerErrorException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#NotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.medialive#TooManyRequestsException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "Retrieves an array of all the encoder engine versions that are available in this AWS account.",
+                "smithy.api#http": {
+                    "method": "GET",
+                    "uri": "/prod/versions",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.medialive#ListVersionsRequest": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for ListVersionsRequest",
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.medialive#ListVersionsResponse": {
+            "type": "structure",
+            "members": {
+                "Versions": {
+                    "target": "com.amazonaws.medialive#__listOfChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "List of engine versions that are available for this AWS account.",
+                        "smithy.api#jsonName": "versions"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for ListVersionsResponse",
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.medialive#LogLevel": {
             "type": "enum",
             "members": {
@@ -24236,6 +24490,9 @@
                 },
                 {
                     "target": "com.amazonaws.medialive#ListTagsForResource"
+                },
+                {
+                    "target": "com.amazonaws.medialive#ListVersions"
                 },
                 {
                     "target": "com.amazonaws.medialive#PurchaseOffering"
@@ -27971,6 +28228,13 @@
                         "smithy.api#documentation": "Pipeline ID",
                         "smithy.api#jsonName": "pipelineId"
                     }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "Current engine version of the encoder for this pipeline.",
+                        "smithy.api#jsonName": "channelEngineVersion"
+                    }
                 }
             },
             "traits": {
@@ -29089,6 +29353,13 @@
                         "smithy.api#documentation": "Anywhere settings for this channel.",
                         "smithy.api#jsonName": "anywhereSettings"
                     }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "Requested engine version for this channel.",
+                        "smithy.api#jsonName": "channelEngineVersion"
+                    }
                 }
             },
             "traits": {
@@ -29524,6 +29795,20 @@
                     "traits": {
                         "smithy.api#documentation": "Action to deactivate a static image overlay in one or more specified outputs",
                         "smithy.api#jsonName": "staticImageOutputDeactivateSettings"
+                    }
+                },
+                "Id3SegmentTaggingSettings": {
+                    "target": "com.amazonaws.medialive#Id3SegmentTaggingScheduleActionSettings",
+                    "traits": {
+                        "smithy.api#documentation": "Action to insert ID3 metadata in every segment, in applicable output groups",
+                        "smithy.api#jsonName": "id3SegmentTaggingSettings"
+                    }
+                },
+                "TimedMetadataSettings": {
+                    "target": "com.amazonaws.medialive#TimedMetadataScheduleActionSettings",
+                    "traits": {
+                        "smithy.api#documentation": "Action to insert ID3 metadata once, in applicable output groups",
+                        "smithy.api#jsonName": "timedMetadataSettings"
                     }
                 }
             },
@@ -31135,6 +31420,13 @@
                         "smithy.api#documentation": "Anywhere settings for this channel.",
                         "smithy.api#jsonName": "anywhereSettings"
                     }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "Requested engine version for this channel.",
+                        "smithy.api#jsonName": "channelEngineVersion"
+                    }
                 }
             },
             "traits": {
@@ -32451,6 +32743,13 @@
                         "smithy.api#documentation": "Anywhere settings for this channel.",
                         "smithy.api#jsonName": "anywhereSettings"
                     }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionResponse",
+                    "traits": {
+                        "smithy.api#documentation": "Requested engine version for this channel.",
+                        "smithy.api#jsonName": "channelEngineVersion"
+                    }
                 }
             },
             "traits": {
@@ -33215,6 +33514,23 @@
                 "smithy.api#documentation": "Timecode Config Source"
             }
         },
+        "com.amazonaws.medialive#TimedMetadataScheduleActionSettings": {
+            "type": "structure",
+            "members": {
+                "Id3": {
+                    "target": "com.amazonaws.medialive#__string",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "Enter a base64 string that contains one or more fully formed ID3 tags.See the ID3 specification: http://id3.org/id3v2.4.0-structure",
+                        "smithy.api#jsonName": "id3",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "Settings for the action to insert ID3 metadata (as a one-time action) in applicable output groups."
+            }
+        },
         "com.amazonaws.medialive#TooManyRequestsException": {
             "type": "structure",
             "members": {
@@ -33853,7 +34169,7 @@
                 "Nodes": {
                     "target": "com.amazonaws.medialive#__listOf__string",
                     "traits": {
-                        "smithy.api#documentation": "An array with one item, which is the signle Node that is associated with the ChannelPlacementGroup.",
+                        "smithy.api#documentation": "An array with one item, which is the single Node that is associated with the ChannelPlacementGroup.",
                         "smithy.api#jsonName": "nodes"
                     }
                 },
@@ -33941,6 +34257,19 @@
                     "traits": {
                         "smithy.api#documentation": "An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.",
                         "smithy.api#jsonName": "roleArn"
+                    }
+                },
+                "ChannelEngineVersion": {
+                    "target": "com.amazonaws.medialive#ChannelEngineVersionRequest",
+                    "traits": {
+                        "smithy.api#documentation": "Channel engine version for this channel",
+                        "smithy.api#jsonName": "channelEngineVersion"
+                    }
+                },
+                "DryRun": {
+                    "target": "com.amazonaws.medialive#__boolean",
+                    "traits": {
+                        "smithy.api#jsonName": "dryRun"
                     }
                 }
             },
@@ -37169,6 +37498,15 @@
                 "smithy.api#documentation": "Placeholder documentation for __listOfChannelEgressEndpoint"
             }
         },
+        "com.amazonaws.medialive#__listOfChannelEngineVersionResponse": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.medialive#ChannelEngineVersionResponse"
+            },
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __listOfChannelEngineVersionResponse"
+            }
+        },
         "com.amazonaws.medialive#__listOfChannelPipelineIdToRestart": {
             "type": "list",
             "member": {
@@ -38071,6 +38409,17 @@
                     "min": 1,
                     "max": 256
                 }
+            }
+        },
+        "com.amazonaws.medialive#__stringMin1Max256PatternS": {
+            "type": "string",
+            "traits": {
+                "smithy.api#documentation": "Placeholder documentation for __stringMin1Max256PatternS",
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[\\S]+$"
             }
         },
         "com.amazonaws.medialive#__stringMin1Max35": {

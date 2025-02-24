@@ -369,6 +369,7 @@ extension OpenSearchServerless {
                 try validate($0, name: "ids[]", parent: name, min: 1)
                 try validate($0, name: "ids[]", parent: name, pattern: "^vpce-[0-9a-z]*$")
             }
+            try self.validate(self.ids, name: "ids", parent: name, max: 100)
             try self.validate(self.ids, name: "ids", parent: name, min: 1)
         }
 
@@ -1979,15 +1980,18 @@ extension OpenSearchServerless {
         public let groupAttribute: String?
         /// The XML IdP metadata file generated from your identity provider.
         public let metadata: String
+        /// Custom entity id attribute to override default entity id for this saml integration.
+        public let openSearchServerlessEntityId: String?
         /// The session timeout, in minutes. Default is 60 minutes (12 hours).
         public let sessionTimeout: Int?
         /// A user attribute for this SAML integration.
         public let userAttribute: String?
 
         @inlinable
-        public init(groupAttribute: String? = nil, metadata: String, sessionTimeout: Int? = nil, userAttribute: String? = nil) {
+        public init(groupAttribute: String? = nil, metadata: String, openSearchServerlessEntityId: String? = nil, sessionTimeout: Int? = nil, userAttribute: String? = nil) {
             self.groupAttribute = groupAttribute
             self.metadata = metadata
+            self.openSearchServerlessEntityId = openSearchServerlessEntityId
             self.sessionTimeout = sessionTimeout
             self.userAttribute = userAttribute
         }
@@ -1999,6 +2003,9 @@ extension OpenSearchServerless {
             try self.validate(self.metadata, name: "metadata", parent: name, max: 51200)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 1)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+")
+            try self.validate(self.openSearchServerlessEntityId, name: "openSearchServerlessEntityId", parent: name, max: 1024)
+            try self.validate(self.openSearchServerlessEntityId, name: "openSearchServerlessEntityId", parent: name, min: 1)
+            try self.validate(self.openSearchServerlessEntityId, name: "openSearchServerlessEntityId", parent: name, pattern: "^aws:opensearch:[0-9]{12}:*")
             try self.validate(self.userAttribute, name: "userAttribute", parent: name, max: 2048)
             try self.validate(self.userAttribute, name: "userAttribute", parent: name, min: 1)
             try self.validate(self.userAttribute, name: "userAttribute", parent: name, pattern: "[\\w+=,.@-]+")
@@ -2007,6 +2014,7 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case groupAttribute = "groupAttribute"
             case metadata = "metadata"
+            case openSearchServerlessEntityId = "openSearchServerlessEntityId"
             case sessionTimeout = "sessionTimeout"
             case userAttribute = "userAttribute"
         }

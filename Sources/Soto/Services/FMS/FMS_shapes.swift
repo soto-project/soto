@@ -136,6 +136,12 @@ extension FMS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceTagLogicalOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case and = "AND"
+        case or = "OR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RuleOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case defaultActionOrder = "DEFAULT_ACTION_ORDER"
         case strictOrder = "STRICT_ORDER"
@@ -3050,6 +3056,8 @@ extension FMS {
         public let remediationEnabled: Bool
         /// The unique identifiers of the resource sets used by the policy.
         public let resourceSetIds: [String]?
+        /// Specifies whether to combine multiple resource tags with AND,  so that a resource must have all tags to be included or excluded, or OR,  so that a resource must have at least one tag. Default: AND
+        public let resourceTagLogicalOperator: ResourceTagLogicalOperator?
         /// An array of ResourceTag objects.
         public let resourceTags: [ResourceTag]?
         /// The type of resource protected by or in scope of the policy. This is in the format shown in the Amazon Web Services Resource Types Reference. To apply this policy to multiple resource types, specify a resource type of ResourceTypeList and then specify the resource types in a ResourceTypeList. The following are valid resource types for each Firewall Manager policy type:   Amazon Web Services WAF Classic - AWS::ApiGateway::Stage, AWS::CloudFront::Distribution, and AWS::ElasticLoadBalancingV2::LoadBalancer.   WAF - AWS::ApiGateway::Stage, AWS::ElasticLoadBalancingV2::LoadBalancer, and AWS::CloudFront::Distribution.   Shield Advanced - AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::ElasticLoadBalancing::LoadBalancer, AWS::EC2::EIP, and AWS::CloudFront::Distribution.   Network ACL - AWS::EC2::Subnet.   Security group usage audit - AWS::EC2::SecurityGroup.   Security group content audit - AWS::EC2::SecurityGroup, AWS::EC2::NetworkInterface, and AWS::EC2::Instance.   DNS Firewall, Network Firewall, and third-party firewall - AWS::EC2::VPC.
@@ -3060,7 +3068,7 @@ extension FMS {
         public let securityServicePolicyData: SecurityServicePolicyData
 
         @inlinable
-        public init(deleteUnusedFMManagedResources: Bool? = nil, excludeMap: [CustomerPolicyScopeIdType: [String]]? = nil, excludeResourceTags: Bool, includeMap: [CustomerPolicyScopeIdType: [String]]? = nil, policyDescription: String? = nil, policyId: String? = nil, policyName: String, policyStatus: CustomerPolicyStatus? = nil, policyUpdateToken: String? = nil, remediationEnabled: Bool, resourceSetIds: [String]? = nil, resourceTags: [ResourceTag]? = nil, resourceType: String, resourceTypeList: [String]? = nil, securityServicePolicyData: SecurityServicePolicyData) {
+        public init(deleteUnusedFMManagedResources: Bool? = nil, excludeMap: [CustomerPolicyScopeIdType: [String]]? = nil, excludeResourceTags: Bool, includeMap: [CustomerPolicyScopeIdType: [String]]? = nil, policyDescription: String? = nil, policyId: String? = nil, policyName: String, policyStatus: CustomerPolicyStatus? = nil, policyUpdateToken: String? = nil, remediationEnabled: Bool, resourceSetIds: [String]? = nil, resourceTagLogicalOperator: ResourceTagLogicalOperator? = nil, resourceTags: [ResourceTag]? = nil, resourceType: String, resourceTypeList: [String]? = nil, securityServicePolicyData: SecurityServicePolicyData) {
             self.deleteUnusedFMManagedResources = deleteUnusedFMManagedResources
             self.excludeMap = excludeMap
             self.excludeResourceTags = excludeResourceTags
@@ -3072,6 +3080,7 @@ extension FMS {
             self.policyUpdateToken = policyUpdateToken
             self.remediationEnabled = remediationEnabled
             self.resourceSetIds = resourceSetIds
+            self.resourceTagLogicalOperator = resourceTagLogicalOperator
             self.resourceTags = resourceTags
             self.resourceType = resourceType
             self.resourceTypeList = resourceTypeList
@@ -3122,6 +3131,7 @@ extension FMS {
             case policyUpdateToken = "PolicyUpdateToken"
             case remediationEnabled = "RemediationEnabled"
             case resourceSetIds = "ResourceSetIds"
+            case resourceTagLogicalOperator = "ResourceTagLogicalOperator"
             case resourceTags = "ResourceTags"
             case resourceType = "ResourceType"
             case resourceTypeList = "ResourceTypeList"
@@ -3902,9 +3912,9 @@ extension FMS {
         public func validate(name: String) throws {
             try self.validate(self.key, name: "key", parent: name, max: 128)
             try self.validate(self.key, name: "key", parent: name, min: 1)
-            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@*\\\\]*)$")
             try self.validate(self.value, name: "value", parent: name, max: 256)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@*\\\\]*)$")
         }
 
         private enum CodingKeys: String, CodingKey {

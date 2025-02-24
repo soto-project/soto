@@ -108,6 +108,7 @@ public struct ComputeOptimizer: AWSService {
         "us-east-2": "compute-optimizer.us-east-2.amazonaws.com",
         "us-gov-east-1": "compute-optimizer-fips.us-gov-east-1.amazonaws.com",
         "us-gov-west-1": "compute-optimizer-fips.us-gov-west-1.amazonaws.com",
+        "us-isof-south-1": "compute-optimizer.us-isof-south-1.csp.hci.ic.gov",
         "us-west-1": "compute-optimizer.us-west-1.amazonaws.com",
         "us-west-2": "compute-optimizer.us-west-2.amazonaws.com"
     ]}

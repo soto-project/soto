@@ -94,6 +94,7 @@ public struct KMS: AWSService {
             "ap-southeast-3": "kms-fips.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "kms-fips.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "kms-fips.ap-southeast-5.amazonaws.com",
+            "ap-southeast-7": "kms-fips.ap-southeast-7.amazonaws.com",
             "ca-central-1": "kms-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "kms-fips.ca-west-1.amazonaws.com",
             "eu-central-1": "kms-fips.eu-central-1.amazonaws.com",
@@ -107,6 +108,7 @@ public struct KMS: AWSService {
             "il-central-1": "kms-fips.il-central-1.amazonaws.com",
             "me-central-1": "kms-fips.me-central-1.amazonaws.com",
             "me-south-1": "kms-fips.me-south-1.amazonaws.com",
+            "mx-central-1": "kms-fips.mx-central-1.amazonaws.com",
             "sa-east-1": "kms-fips.sa-east-1.amazonaws.com",
             "us-east-1": "kms-fips.us-east-1.amazonaws.com",
             "us-east-2": "kms-fips.us-east-2.amazonaws.com",
@@ -115,6 +117,8 @@ public struct KMS: AWSService {
             "us-iso-east-1": "kms-fips.us-iso-east-1.c2s.ic.gov",
             "us-iso-west-1": "kms-fips.us-iso-west-1.c2s.ic.gov",
             "us-isob-east-1": "kms-fips.us-isob-east-1.sc2s.sgov.gov",
+            "us-isof-east-1": "kms-fips.us-isof-east-1.csp.hci.ic.gov",
+            "us-isof-south-1": "kms-fips.us-isof-south-1.csp.hci.ic.gov",
             "us-west-1": "kms-fips.us-west-1.amazonaws.com",
             "us-west-2": "kms-fips.us-west-2.amazonaws.com"
         ])

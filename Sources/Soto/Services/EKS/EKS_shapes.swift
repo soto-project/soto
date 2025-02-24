@@ -130,6 +130,13 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClusterVersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case extendedSupport = "extended-support"
+        case standardSupport = "standard-support"
+        case unsupported = "unsupported"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -282,6 +289,12 @@ extension EKS {
         public var description: String { return self.rawValue }
     }
 
+    public enum NodegroupUpdateStrategies: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case minimal = "MINIMAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResolveConflicts: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case overwrite = "OVERWRITE"
@@ -334,6 +347,7 @@ extension EKS {
         case subnets = "Subnets"
         case taintsToAdd = "TaintsToAdd"
         case taintsToRemove = "TaintsToRemove"
+        case updateStrategy = "UpdateStrategy"
         case upgradePolicy = "UpgradePolicy"
         case version = "Version"
         case zonalShiftConfig = "ZonalShiftConfig"
@@ -362,6 +376,13 @@ extension EKS {
         case versionUpdate = "VersionUpdate"
         case vpcConfigUpdate = "VpcConfigUpdate"
         case zonalShiftConfigUpdate = "ZonalShiftConfigUpdate"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VersionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case extendedSupport = "EXTENDED_SUPPORT"
+        case standardSupport = "STANDARD_SUPPORT"
+        case unsupported = "UNSUPPORTED"
         public var description: String { return self.rawValue }
     }
 
@@ -488,7 +509,7 @@ extension EKS {
         public let modifiedAt: Date?
         /// The owner of the add-on.
         public let owner: String?
-        /// An array of Pod Identity Assocations owned by the Addon. Each EKS Pod Identity association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the EKS User Guide.
+        /// An array of Pod Identity Assocations owned by the Addon. Each EKS Pod Identity association maps a role to a service account in a namespace in the cluster. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the Amazon EKS User Guide.
         public let podIdentityAssociations: [String]?
         /// The publisher of the add-on.
         public let publisher: String?
@@ -534,6 +555,24 @@ extension EKS {
             case serviceAccountRoleArn = "serviceAccountRoleArn"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct AddonCompatibilityDetail: AWSDecodableShape {
+        /// The list of compatible Amazon EKS add-on versions for the next Kubernetes version.
+        public let compatibleVersions: [String]?
+        /// The name of the Amazon EKS add-on.
+        public let name: String?
+
+        @inlinable
+        public init(compatibleVersions: [String]? = nil, name: String? = nil) {
+            self.compatibleVersions = compatibleVersions
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compatibleVersions = "compatibleVersions"
+            case name = "name"
         }
     }
 
@@ -942,7 +981,7 @@ extension EKS {
         /// A unique, case-sensitive identifier that you provide to ensure
         /// the idempotency of the request.
         public let clientRequestToken: String?
-        /// Indicates the current configuration of the compute capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account. For more information, see EKS Auto Mode compute capability in the EKS User Guide.
+        /// Indicates the current configuration of the compute capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account. For more information, see EKS Auto Mode compute capability in the Amazon EKS User Guide.
         public let computeConfig: ComputeConfigResponse?
         /// The configuration used to connect to a cluster for registration.
         public let connectorConfig: ConnectorConfigResponse?
@@ -976,11 +1015,11 @@ extension EKS {
         public let roleArn: String?
         /// The current status of the cluster.
         public let status: ClusterStatus?
-        /// Indicates the current configuration of the block storage capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account. For more information, see EKS Auto Mode block storage capability in the EKS User Guide.
+        /// Indicates the current configuration of the block storage capability on your EKS Auto Mode cluster. For example, if the capability is enabled or disabled. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account. For more information, see EKS Auto Mode block storage capability in the Amazon EKS User Guide.
         public let storageConfig: StorageConfigResponse?
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
-        /// This value indicates if extended support is enabled or disabled for the cluster.  Learn more about EKS Extended Support in the EKS User Guide.
+        /// This value indicates if extended support is enabled or disabled for the cluster.  Learn more about EKS Extended Support in the Amazon EKS User Guide.
         public let upgradePolicy: UpgradePolicyResponse?
         /// The Kubernetes server version for the cluster.
         public let version: String?
@@ -1083,6 +1122,56 @@ extension EKS {
         }
     }
 
+    public struct ClusterVersionInformation: AWSDecodableShape {
+        /// The type of cluster this version is for.
+        public let clusterType: String?
+        /// The Kubernetes version for the cluster.
+        public let clusterVersion: String?
+        /// Default platform version for this Kubernetes version.
+        public let defaultPlatformVersion: String?
+        /// Indicates if this is a default version.
+        public let defaultVersion: Bool?
+        /// Date when extended support ends for this version.
+        public let endOfExtendedSupportDate: Date?
+        /// Date when standard support ends for this version.
+        public let endOfStandardSupportDate: Date?
+        /// The patch version of Kubernetes for this cluster version.
+        public let kubernetesPatchVersion: String?
+        /// The release date of this cluster version.
+        public let releaseDate: Date?
+        ///  This field is deprecated. Use versionStatus instead, as that field matches for input and output of this action.  Current status of this cluster version.
+        public let status: ClusterVersionStatus?
+        /// Current status of this cluster version.
+        public let versionStatus: VersionStatus?
+
+        @inlinable
+        public init(clusterType: String? = nil, clusterVersion: String? = nil, defaultPlatformVersion: String? = nil, defaultVersion: Bool? = nil, endOfExtendedSupportDate: Date? = nil, endOfStandardSupportDate: Date? = nil, kubernetesPatchVersion: String? = nil, releaseDate: Date? = nil, status: ClusterVersionStatus? = nil, versionStatus: VersionStatus? = nil) {
+            self.clusterType = clusterType
+            self.clusterVersion = clusterVersion
+            self.defaultPlatformVersion = defaultPlatformVersion
+            self.defaultVersion = defaultVersion
+            self.endOfExtendedSupportDate = endOfExtendedSupportDate
+            self.endOfStandardSupportDate = endOfStandardSupportDate
+            self.kubernetesPatchVersion = kubernetesPatchVersion
+            self.releaseDate = releaseDate
+            self.status = status
+            self.versionStatus = versionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterType = "clusterType"
+            case clusterVersion = "clusterVersion"
+            case defaultPlatformVersion = "defaultPlatformVersion"
+            case defaultVersion = "defaultVersion"
+            case endOfExtendedSupportDate = "endOfExtendedSupportDate"
+            case endOfStandardSupportDate = "endOfStandardSupportDate"
+            case kubernetesPatchVersion = "kubernetesPatchVersion"
+            case releaseDate = "releaseDate"
+            case status = "status"
+            case versionStatus = "versionStatus"
+        }
+    }
+
     public struct Compatibility: AWSDecodableShape {
         /// The supported Kubernetes version of the cluster.
         public let clusterVersion: String?
@@ -1108,9 +1197,9 @@ extension EKS {
     public struct ComputeConfigRequest: AWSEncodableShape {
         /// Request to enable or disable the compute capability on your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account.
         public let enabled: Bool?
-        /// Configuration for node pools that defines the compute resources for your EKS Auto Mode cluster. For more information, see EKS Auto Mode Node Pools in the EKS User Guide.
+        /// Configuration for node pools that defines the compute resources for your EKS Auto Mode cluster. For more information, see EKS Auto Mode Node Pools in the Amazon EKS User Guide.
         public let nodePools: [String]?
-        /// The ARN of the IAM Role EKS will assign to EC2 Managed Instances in your EKS Auto Mode cluster. This value cannot be changed after the compute capability of EKS Auto Mode is enabled. For more information, see the IAM Reference in the EKS User Guide.
+        /// The ARN of the IAM Role EKS will assign to EC2 Managed Instances in your EKS Auto Mode cluster. This value cannot be changed after the compute capability of EKS Auto Mode is enabled. For more information, see the IAM Reference in the Amazon EKS User Guide.
         public let nodeRoleArn: String?
 
         @inlinable
@@ -1130,7 +1219,7 @@ extension EKS {
     public struct ComputeConfigResponse: AWSDecodableShape {
         /// Indicates if the compute capability is enabled on your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account.
         public let enabled: Bool?
-        /// Indicates the current configuration of node pools in your EKS Auto Mode cluster. For more information, see EKS Auto Mode Node Pools in the EKS User Guide.
+        /// Indicates the current configuration of node pools in your EKS Auto Mode cluster. For more information, see EKS Auto Mode Node Pools in the Amazon EKS User Guide.
         public let nodePools: [String]?
         /// The ARN of the IAM Role EKS will assign to EC2 Managed Instances in your EKS Auto Mode cluster.
         public let nodeRoleArn: String?
@@ -1251,11 +1340,11 @@ extension EKS {
         public let clusterName: String
         /// The value for name that you've specified for kind: Group as a subject in a Kubernetes RoleBinding or ClusterRoleBinding object. Amazon EKS doesn't confirm that the value for name exists in any bindings on your cluster. You can specify one or more names. Kubernetes authorizes the principalArn of the access entry to access any cluster objects that you've specified in a Kubernetes Role or ClusterRole object that is also specified in a binding's roleRef. For more information about creating Kubernetes RoleBinding, ClusterRoleBinding, Role, or ClusterRole objects, see Using RBAC Authorization in the Kubernetes documentation. If you want Amazon EKS to authorize the principalArn (instead of, or in addition to Kubernetes authorizing the principalArn), you can associate one or more access policies to the access entry using AssociateAccessPolicy. If you associate any access policies, the principalARN has all permissions assigned in the associated access policies and all permissions in any Kubernetes Role or ClusterRole objects that the group names are bound to.
         public let kubernetesGroups: [String]?
-        /// The ARN of the IAM principal for the AccessEntry. You can specify one ARN for each access entry. You can't specify the same ARN in more than one access entry. This value can't be changed after access entry creation. The valid principals differ depending on the type of the access entry in the type field. The only valid ARN is IAM roles for the types of access entries for nodes:  . You can use every IAM principal type for STANDARD access entries. You can't use the STS session principal type with access entries because this is a temporary principal for each session and not a permanent identity that can be assigned permissions.  IAM best practices recommend using IAM roles with temporary credentials, rather than IAM users with long-term credentials.
+        /// The ARN of the IAM principal for the AccessEntry. You can specify one ARN for each access entry. You can't specify the same ARN in more than one access entry. This value can't be changed after access entry creation. The valid principals differ depending on the type of the access entry in the type field. For STANDARD access entries, you can use every IAM principal type. For nodes (EC2 (for EKS Auto Mode), EC2_LINUX, EC2_WINDOWS, FARGATE_LINUX, and HYBRID_LINUX), the only valid ARN is IAM roles.  You can't use the STS session principal type with access entries because this is a temporary principal for each session and not a permanent identity that can be assigned permissions.  IAM best practices recommend using IAM roles with temporary credentials, rather than IAM users with long-term credentials.
         public let principalArn: String
         /// Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
         public let tags: [String: String]?
-        /// The type of the new access entry. Valid values are Standard, FARGATE_LINUX, EC2_LINUX, and EC2_WINDOWS. If the principalArn is for an IAM role that's used for self-managed Amazon EC2 nodes, specify EC2_LINUX or EC2_WINDOWS. Amazon EKS grants the necessary permissions to the node for you. If the principalArn is for any other purpose, specify STANDARD. If you don't specify a value, Amazon EKS sets the value to STANDARD. It's unnecessary to create access entries for IAM roles used with Fargate profiles or managed Amazon EC2 nodes, because Amazon EKS creates entries in the aws-auth ConfigMap for the roles. You can't change this value once you've created the access entry. If you set the value to EC2_LINUX or EC2_WINDOWS, you can't specify values for kubernetesGroups, or associate an AccessPolicy to the access entry.
+        /// The type of the new access entry. Valid values are STANDARD, FARGATE_LINUX, EC2_LINUX, EC2_WINDOWS, EC2 (for EKS Auto Mode), HYBRID_LINUX, and HYPERPOD_LINUX.  If the principalArn is for an IAM role that's used for self-managed Amazon EC2 nodes, specify EC2_LINUX or EC2_WINDOWS. Amazon EKS grants the necessary permissions to the node for you. If the principalArn is for any other purpose, specify STANDARD. If you don't specify a value, Amazon EKS sets the value to STANDARD. If you have the access mode of the cluster set to API_AND_CONFIG_MAP, it's unnecessary to create access entries for IAM roles used with Fargate profiles or managed Amazon EC2 nodes, because Amazon EKS creates entries in the aws-auth ConfigMap for the roles. You can't change this value once you've created the access entry. If you set the value to EC2_LINUX or EC2_WINDOWS, you can't specify values for kubernetesGroups, or associate an AccessPolicy to the access entry.
         public let type: String?
         /// The username to authenticate to Kubernetes with. We recommend not specifying a username and letting Amazon EKS specify it for you. For more information about the value Amazon EKS specifies for you, or constraints before specifying your own username, see Creating access entries in the Amazon EKS User Guide.
         public let username: String?
@@ -1328,9 +1417,9 @@ extension EKS {
         public let clusterName: String
         /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
         public let configurationValues: String?
-        /// An array of Pod Identity Assocations to be created. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the EKS User Guide.
+        /// An array of Pod Identity Assocations to be created. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the Amazon EKS User Guide.
         public let podIdentityAssociations: [AddonPodIdentityAssociations]?
-        /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see UpdateAddon.   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
+        /// How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see  UpdateAddon .   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
         public let resolveConflicts: ResolveConflicts?
         /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
         public let serviceAccountRoleArn: String?
@@ -1418,7 +1507,7 @@ extension EKS {
         public let encryptionConfig: [EncryptionConfig]?
         /// The Kubernetes network configuration for the cluster.
         public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
-        /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
+        /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
         public let logging: Logging?
         /// The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive),
         /// hyphens, and underscores. It must start with an alphanumeric character and can't be longer than
@@ -1441,7 +1530,7 @@ extension EKS {
         public let upgradePolicy: UpgradePolicyRequest?
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used.  The default version might not be the latest version available.
         public let version: String?
-        /// Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS in the  Amazon EKS User Guide .
+        /// Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an Amazon EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your Amazon EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS in the  Amazon EKS User Guide .
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
@@ -2395,6 +2484,88 @@ extension EKS {
         }
     }
 
+    public struct DescribeClusterVersionsRequest: AWSEncodableShape {
+        /// The type of cluster to filter versions by.
+        public let clusterType: String?
+        /// List of specific cluster versions to describe.
+        public let clusterVersions: [String]?
+        /// Filter to show only default versions.
+        public let defaultOnly: Bool?
+        /// Include all available versions in the response.
+        public let includeAll: Bool?
+        /// Maximum number of results to return.
+        public let maxResults: Int?
+        /// Pagination token for the next set of results.
+        public let nextToken: String?
+        ///  This field is deprecated. Use versionStatus instead, as that field matches for input and output of this action.  Filter versions by their current status.
+        public let status: ClusterVersionStatus?
+        /// Filter versions by their current status.
+        public let versionStatus: VersionStatus?
+
+        @inlinable
+        public init(clusterType: String? = nil, clusterVersions: [String]? = nil, defaultOnly: Bool? = nil, includeAll: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, versionStatus: VersionStatus? = nil) {
+            self.clusterType = clusterType
+            self.clusterVersions = clusterVersions
+            self.defaultOnly = defaultOnly
+            self.includeAll = includeAll
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = nil
+            self.versionStatus = versionStatus
+        }
+
+        @available(*, deprecated, message: "Members status have been deprecated")
+        @inlinable
+        public init(clusterType: String? = nil, clusterVersions: [String]? = nil, defaultOnly: Bool? = nil, includeAll: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: ClusterVersionStatus? = nil, versionStatus: VersionStatus? = nil) {
+            self.clusterType = clusterType
+            self.clusterVersions = clusterVersions
+            self.defaultOnly = defaultOnly
+            self.includeAll = includeAll
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+            self.versionStatus = versionStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clusterType, key: "clusterType")
+            request.encodeQuery(self.clusterVersions, key: "clusterVersions")
+            request.encodeQuery(self.defaultOnly, key: "defaultOnly")
+            request.encodeQuery(self.includeAll, key: "includeAll")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+            request.encodeQuery(self.versionStatus, key: "versionStatus")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeClusterVersionsResponse: AWSDecodableShape {
+        /// List of cluster version information objects.
+        public let clusterVersions: [ClusterVersionInformation]?
+        /// Pagination token for the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(clusterVersions: [ClusterVersionInformation]? = nil, nextToken: String? = nil) {
+            self.clusterVersions = clusterVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterVersions = "clusterVersions"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct DescribeEksAnywhereSubscriptionRequest: AWSEncodableShape {
         /// The ID of the subscription.
         public let id: String
@@ -3065,15 +3236,19 @@ extension EKS {
     }
 
     public struct InsightCategorySpecificSummary: AWSDecodableShape {
+        /// A list of AddonCompatibilityDetail objects for Amazon EKS add-ons.
+        public let addonCompatibilityDetails: [AddonCompatibilityDetail]?
         /// The summary information about deprecated resource usage for an insight check in the UPGRADE_READINESS category.
         public let deprecationDetails: [DeprecationDetail]?
 
         @inlinable
-        public init(deprecationDetails: [DeprecationDetail]? = nil) {
+        public init(addonCompatibilityDetails: [AddonCompatibilityDetail]? = nil, deprecationDetails: [DeprecationDetail]? = nil) {
+            self.addonCompatibilityDetails = addonCompatibilityDetails
             self.deprecationDetails = deprecationDetails
         }
 
         private enum CodingKeys: String, CodingKey {
+            case addonCompatibilityDetails = "addonCompatibilityDetails"
             case deprecationDetails = "deprecationDetails"
         }
     }
@@ -3183,7 +3358,7 @@ extension EKS {
     }
 
     public struct Issue: AWSDecodableShape {
-        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
+        /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services  account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
         public let code: NodegroupIssueCode?
         /// The error message associated with the issue.
         public let message: String?
@@ -3205,7 +3380,7 @@ extension EKS {
     }
 
     public struct KubernetesNetworkConfigRequest: AWSEncodableShape {
-        /// Request to enable or disable the load balancing capability on your EKS Auto Mode cluster. For more information, see EKS Auto Mode load balancing capability in the EKS User Guide.
+        /// Request to enable or disable the load balancing capability on your EKS Auto Mode cluster. For more information, see EKS Auto Mode load balancing capability in the Amazon EKS User Guide.
         public let elasticLoadBalancing: ElasticLoadBalancing?
         /// Specify which IP family is used to assign Kubernetes pod and service IP addresses. If you don't specify a value, ipv4 is used by default. You can only specify an IP family when you create a cluster and can't change this value once the cluster is created. If you specify ipv6, the VPC and subnets that you specify for cluster creation must have both IPv4 and IPv6 CIDR blocks assigned to them. You can't specify ipv6 for clusters in China Regions. You can only specify ipv6 for 1.21 and later clusters that use version 1.10.1 or later of the Amazon VPC CNI add-on. If you specify ipv6, then ensure that your VPC meets the requirements listed in the considerations listed in Assigning IPv6 addresses to pods and services in the Amazon EKS User Guide. Kubernetes assigns services IPv6 addresses from the unique local address range (fc00::/7). You can't specify a custom IPv6 CIDR block. Pod addresses are assigned from the subnet's IPv6 CIDR.
         public let ipFamily: IpFamily?
@@ -3517,7 +3692,7 @@ extension EKS {
     }
 
     public struct ListClustersResponse: AWSDecodableShape {
-        /// A list of all of the clusters for your account in the specified Amazon Web Services Region.
+        /// A list of all of the clusters for your account in the specified Amazon Web Services Region .
         public let clusters: [String]?
         /// The nextToken value returned from a previous paginated request, where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
@@ -3934,7 +4109,7 @@ extension EKS {
     }
 
     public struct LogSetup: AWSEncodableShape & AWSDecodableShape {
-        /// If a log type is enabled, that log type exports its control plane logs to CloudWatch Logs. If a log type isn't enabled, that log type doesn't export its control plane logs. Each individual log type can be enabled or disabled independently.
+        /// If a log type is enabled, that log type exports its control plane logs to CloudWatch Logs . If a log type isn't enabled, that log type doesn't export its control plane logs. Each individual log type can be enabled or disabled independently.
         public let enabled: Bool?
         /// The available cluster control plane log types.
         public let types: [LogType]?
@@ -4136,9 +4311,9 @@ extension EKS {
     }
 
     public struct NodegroupScalingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The current number of nodes that the managed node group should maintain.  If you use the Kubernetes Cluster Autoscaler, you shouldn't change the desiredSize value directly, as this can cause the Cluster Autoscaler to suddenly scale up or scale down.  Whenever this parameter changes, the number of worker nodes in the node group is updated to the specified size. If this parameter is given a value that is smaller than the current number of running worker nodes, the necessary number of worker nodes are terminated to match the given value.  When using CloudFormation, no action occurs if you remove this parameter from your CFN template. This parameter can be different from minSize in some cases, such as when starting with extra hosts for testing. This parameter can also be different when you want to start with an estimated number of needed hosts, but let the Cluster Autoscaler reduce the number if there are too many. When the Cluster Autoscaler is used, the desiredSize parameter is altered by the Cluster Autoscaler (but can be out-of-date for short periods of time). the Cluster Autoscaler doesn't scale a managed node group lower than minSize or higher than maxSize.
+        /// The current number of nodes that the managed node group should maintain.  If you use the Kubernetes Cluster Autoscaler, you shouldn't change the desiredSize value directly, as this can cause the Cluster Autoscaler to suddenly scale up or scale down.  Whenever this parameter changes, the number of worker nodes in the node group is updated to the specified size. If this parameter is given a value that is smaller than the current number of running worker nodes, the necessary number of worker nodes are terminated to match the given value.  When using CloudFormation, no action occurs if you remove this parameter from your CFN template. This parameter can be different from minSize in some cases, such as when starting with extra hosts for testing. This parameter can also be different when you want to start with an estimated number of needed hosts, but let the Cluster Autoscaler reduce the number if there are too many. When the Cluster Autoscaler is used, the  desiredSize parameter is altered by the Cluster Autoscaler (but can be out-of-date for short periods of time). the Cluster Autoscaler doesn't scale a managed node group lower than minSize or higher than maxSize.
         public let desiredSize: Int?
-        /// The maximum number of nodes that the managed node group can scale out to. For information about the maximum number that you can specify, see Amazon EKS service quotas in the Amazon EKS User Guide.
+        /// The maximum number of nodes that the managed node group can scale out to. For information about the maximum number that you can specify, see Amazon EKS service  quotas in the Amazon EKS User Guide.
         public let maxSize: Int?
         /// The minimum number of nodes that the managed node group can scale in to.
         public let minSize: Int?
@@ -4168,11 +4343,14 @@ extension EKS {
         public let maxUnavailable: Int?
         /// The maximum percentage of nodes unavailable during a version update. This percentage of nodes are updated in parallel, up to 100 nodes at once. This value or maxUnavailable is required to have a value.
         public let maxUnavailablePercentage: Int?
+        /// The configuration for the behavior to follow during a node group version update of this managed node group. You choose between two possible strategies for replacing nodes during an  UpdateNodegroupVersion action. An Amazon EKS managed node group updates by replacing nodes with new nodes of newer AMI versions in parallel. The update strategy changes the managed node update behavior of the managed node group for each quantity. The default strategy has guardrails to protect you from misconfiguration and launches the new instances first, before terminating the old instances. The minimal strategy removes the guardrails and terminates the old instances before launching the new instances. This minimal strategy is useful in scenarios where you are constrained to resources or costs (for example, with hardware accelerators such as GPUs).
+        public let updateStrategy: NodegroupUpdateStrategies?
 
         @inlinable
-        public init(maxUnavailable: Int? = nil, maxUnavailablePercentage: Int? = nil) {
+        public init(maxUnavailable: Int? = nil, maxUnavailablePercentage: Int? = nil, updateStrategy: NodegroupUpdateStrategies? = nil) {
             self.maxUnavailable = maxUnavailable
             self.maxUnavailablePercentage = maxUnavailablePercentage
+            self.updateStrategy = updateStrategy
         }
 
         public func validate(name: String) throws {
@@ -4184,6 +4362,7 @@ extension EKS {
         private enum CodingKeys: String, CodingKey {
             case maxUnavailable = "maxUnavailable"
             case maxUnavailablePercentage = "maxUnavailablePercentage"
+            case updateStrategy = "updateStrategy"
         }
     }
 
@@ -4834,7 +5013,7 @@ extension EKS {
         public let clusterName: String
         /// The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
         public let configurationValues: String?
-        /// An array of Pod Identity Assocations to be updated. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. If this value is left blank, no change. If an empty array is provided, existing Pod Identity Assocations owned by the Addon are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the EKS User Guide.
+        /// An array of Pod Identity Assocations to be updated. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. If this value is left blank, no change. If an empty array is provided, existing Pod Identity Assocations owned by the Addon are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the Amazon EKS User Guide.
         public let podIdentityAssociations: [AddonPodIdentityAssociations]?
         /// How to resolve field value conflicts for an Amazon EKS add-on if you've changed a value from the Amazon EKS default value. Conflicts are handled based on the option you choose:    None – Amazon EKS doesn't change the value. The update might fail.    Overwrite – Amazon EKS overwrites the changed value back to the Amazon EKS default value.    Preserve – Amazon EKS preserves the value. If you choose this option, we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster.
         public let resolveConflicts: ResolveConflicts?
@@ -4906,7 +5085,7 @@ extension EKS {
         /// Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
         public let computeConfig: ComputeConfigRequest?
         public let kubernetesNetworkConfig: KubernetesNetworkConfigRequest?
-        /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
+        /// Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
         public let logging: Logging?
         /// The name of the Amazon EKS cluster to update.
         public let name: String
@@ -5317,7 +5496,7 @@ extension EKS {
     }
 
     public struct UpgradePolicyRequest: AWSEncodableShape {
-        /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support.  Learn more about EKS Extended Support in the EKS User Guide.
+        /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support.  Learn more about EKS Extended Support in the Amazon EKS User Guide.
         public let supportType: SupportType?
 
         @inlinable
@@ -5331,7 +5510,7 @@ extension EKS {
     }
 
     public struct UpgradePolicyResponse: AWSDecodableShape {
-        /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support.  Learn more about EKS Extended Support in the EKS User Guide.
+        /// If the cluster is set to EXTENDED, it will enter extended support at the end of standard support. If the cluster is set to STANDARD, it will be automatically upgraded at the end of standard support.  Learn more about EKS Extended Support in the Amazon EKS User Guide.
         public let supportType: SupportType?
 
         @inlinable
@@ -5349,7 +5528,7 @@ extension EKS {
         public let endpointPrivateAccess: Bool?
         /// Set this value to false to disable public access to your cluster's Kubernetes API server endpoint. If you disable public access, your cluster's Kubernetes API server can only receive requests from within the cluster VPC. The default value for this parameter is true, which enables public access for your Kubernetes API server. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
         public let endpointPublicAccess: Bool?
-        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access, make sure that you specify the necessary CIDR blocks for every node and Fargate Pod in the cluster. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .
+        /// The CIDR blocks that are allowed access to your cluster's public Kubernetes API server endpoint. Communication to the endpoint from addresses outside of the CIDR blocks that you specify is denied. The default value is 0.0.0.0/0. If you've disabled private endpoint access, make sure that you specify the necessary CIDR blocks for every node and Fargate Pod in the cluster. For more information, see Amazon EKS cluster  endpoint access control in the  Amazon EKS User Guide .
         public let publicAccessCidrs: [String]?
         /// Specify one or more security groups for the cross-account elastic network interfaces that Amazon EKS creates to use that allow communication between your nodes and the Kubernetes control plane. If you don't specify any security groups, then familiarize yourself with the difference between Amazon EKS defaults for clusters deployed with Kubernetes. For more information, see Amazon EKS security group considerations in the  Amazon EKS User Guide .
         public let securityGroupIds: [String]?

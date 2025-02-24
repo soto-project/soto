@@ -26,6 +26,32 @@ import Foundation
 extension WorkSpaces {
     // MARK: Enums
 
+    public enum AGAModeForDirectoryEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabledAuto = "ENABLED_AUTO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AGAModeForWorkSpaceEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabledAuto = "ENABLED_AUTO"
+        case inherited = "INHERITED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AGAPreferredProtocolForDirectory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case tcp = "TCP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AGAPreferredProtocolForWorkSpace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inherited = "INHERITED"
+        case none = "NONE"
+        case tcp = "TCP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AccessPropertyValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
@@ -124,6 +150,8 @@ extension WorkSpaces {
     }
 
     public enum Compute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case generalpurpose4Xlarge = "GENERALPURPOSE_4XLARGE"
+        case generalpurpose8Xlarge = "GENERALPURPOSE_8XLARGE"
         case graphics = "GRAPHICS"
         case graphicsG4Dn = "GRAPHICS_G4DN"
         case graphicspro = "GRAPHICSPRO"
@@ -3596,6 +3624,42 @@ extension WorkSpaces {
         }
     }
 
+    public struct GlobalAcceleratorForDirectory: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates if Global Accelerator for directory is enabled or disabled.
+        public let mode: AGAModeForDirectoryEnum
+        /// Indicates the preferred protocol for Global Accelerator.
+        public let preferredProtocol: AGAPreferredProtocolForDirectory?
+
+        @inlinable
+        public init(mode: AGAModeForDirectoryEnum, preferredProtocol: AGAPreferredProtocolForDirectory? = nil) {
+            self.mode = mode
+            self.preferredProtocol = preferredProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+            case preferredProtocol = "PreferredProtocol"
+        }
+    }
+
+    public struct GlobalAcceleratorForWorkSpace: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates if Global Accelerator for WorkSpaces is enabled, disabled,  or the same mode as the associated directory.
+        public let mode: AGAModeForWorkSpaceEnum
+        /// Indicates the preferred protocol for Global Accelerator.
+        public let preferredProtocol: AGAPreferredProtocolForWorkSpace?
+
+        @inlinable
+        public init(mode: AGAModeForWorkSpaceEnum, preferredProtocol: AGAPreferredProtocolForWorkSpace? = nil) {
+            self.mode = mode
+            self.preferredProtocol = preferredProtocol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "Mode"
+            case preferredProtocol = "PreferredProtocol"
+        }
+    }
+
     public struct IDCConfig: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationArn: String?
@@ -5098,6 +5162,8 @@ extension WorkSpaces {
     }
 
     public struct StreamingProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the Global Accelerator properties.
+        public let globalAccelerator: GlobalAcceleratorForDirectory?
         /// Indicates the storage connector used
         public let storageConnectors: [StorageConnector]?
         /// Indicates the type of preferred protocol for the streaming experience.
@@ -5106,7 +5172,8 @@ extension WorkSpaces {
         public let userSettings: [UserSetting]?
 
         @inlinable
-        public init(storageConnectors: [StorageConnector]? = nil, streamingExperiencePreferredProtocol: StreamingExperiencePreferredProtocolEnum? = nil, userSettings: [UserSetting]? = nil) {
+        public init(globalAccelerator: GlobalAcceleratorForDirectory? = nil, storageConnectors: [StorageConnector]? = nil, streamingExperiencePreferredProtocol: StreamingExperiencePreferredProtocolEnum? = nil, userSettings: [UserSetting]? = nil) {
+            self.globalAccelerator = globalAccelerator
             self.storageConnectors = storageConnectors
             self.streamingExperiencePreferredProtocol = streamingExperiencePreferredProtocol
             self.userSettings = userSettings
@@ -5121,6 +5188,7 @@ extension WorkSpaces {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case globalAccelerator = "GlobalAccelerator"
             case storageConnectors = "StorageConnectors"
             case streamingExperiencePreferredProtocol = "StreamingExperiencePreferredProtocol"
             case userSettings = "UserSettings"
@@ -6064,6 +6132,8 @@ extension WorkSpaces {
     public struct WorkspaceProperties: AWSEncodableShape & AWSDecodableShape {
         /// The compute type. For more information, see Amazon WorkSpaces Bundles.
         public let computeTypeName: Compute?
+        /// Indicates the Global Accelerator properties.
+        public let globalAccelerator: GlobalAcceleratorForWorkSpace?
         /// The name of the operating system.
         public let operatingSystemName: OperatingSystemName?
         /// The protocol. For more information, see   Protocols for Amazon WorkSpaces.    Only available for WorkSpaces created with PCoIP bundles.   The Protocols property is case sensitive. Ensure you use PCOIP or DCV (formerly WSP).   Unavailable for Windows 7 WorkSpaces and WorkSpaces using GPU-based bundles  (Graphics, GraphicsPro, Graphics.g4dn, and GraphicsPro.g4dn).
@@ -6078,8 +6148,9 @@ extension WorkSpaces {
         public let userVolumeSizeGib: Int?
 
         @inlinable
-        public init(computeTypeName: Compute? = nil, operatingSystemName: OperatingSystemName? = nil, protocols: [`Protocol`]? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
+        public init(computeTypeName: Compute? = nil, globalAccelerator: GlobalAcceleratorForWorkSpace? = nil, operatingSystemName: OperatingSystemName? = nil, protocols: [`Protocol`]? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
             self.computeTypeName = computeTypeName
+            self.globalAccelerator = globalAccelerator
             self.operatingSystemName = operatingSystemName
             self.protocols = protocols
             self.rootVolumeSizeGib = rootVolumeSizeGib
@@ -6090,6 +6161,7 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case computeTypeName = "ComputeTypeName"
+            case globalAccelerator = "GlobalAccelerator"
             case operatingSystemName = "OperatingSystemName"
             case protocols = "Protocols"
             case rootVolumeSizeGib = "RootVolumeSizeGib"

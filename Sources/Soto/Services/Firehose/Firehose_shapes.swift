@@ -805,7 +805,7 @@ extension Firehose {
     public struct CatalogConfiguration: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies the Glue catalog ARN identifier of the destination Apache Iceberg Tables. You must specify the ARN in the format arn:aws:glue:region:account-id:catalog.
         public let catalogARN: String?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The warehouse location for Apache Iceberg tables. You must configure this when schema evolution and table creation is enabled. Amazon Data Firehose is in preview release and is subject to change.
         public let warehouseLocation: String?
 
         @inlinable
@@ -895,7 +895,7 @@ extension Firehose {
         public let amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration?
         /// The destination in Amazon OpenSearch Service. You can specify only one destination.
         public let amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The top level object for configuring streams with database as a source.   Amazon Data Firehose is in preview release and is subject to change.
         public let databaseSourceConfiguration: DatabaseSourceConfiguration?
         /// Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
         public let deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput?
@@ -903,7 +903,9 @@ extension Firehose {
         public let deliveryStreamName: String
         /// The Firehose stream type. This parameter can be one of the following values:    DirectPut: Provider applications access the Firehose stream directly.    KinesisStreamAsSource: The Firehose stream uses a Kinesis data stream as a source.
         public let deliveryStreamType: DeliveryStreamType?
-        /// The destination in Amazon ES. You can specify only one destination.
+        /// The structure that configures parameters such as ThroughputHintInMBs for a stream configured with Direct PUT as a source.
+        public let directPutSourceConfiguration: DirectPutSourceConfiguration?
+        /// The destination in Amazon OpenSearch Service. You can specify only one destination.
         public let elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration?
         /// The destination in Amazon S3. You can specify only one destination.
         public let extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration?
@@ -922,17 +924,18 @@ extension Firehose {
         public let snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration?
         /// The destination in Splunk. You can specify only one destination.
         public let splunkDestinationConfiguration: SplunkDestinationConfiguration?
-        /// A set of tags to assign to the Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a Firehose stream. If you specify tags in the CreateDeliveryStream action, Amazon Data Firehose performs an additional authorization on the firehose:TagDeliveryStream action to verify if users have permissions to create tags. If you do not provide this permission, requests to create new Firehose Firehose streams with IAM resource tags will fail with an AccessDeniedException such as following.  AccessDeniedException  User: arn:aws:sts::x:assumed-role/x/x is not authorized to perform: firehose:TagDeliveryStream on resource: arn:aws:firehose:us-east-1:x:deliverystream/x with an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
+        /// A set of tags to assign to the Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a Firehose stream. If you specify tags in the CreateDeliveryStream action, Amazon Data Firehose performs an additional authorization on the firehose:TagDeliveryStream action to verify if users have permissions to create tags. If you do not provide this permission, requests to create new Firehose streams with IAM resource tags will fail with an AccessDeniedException such as following.  AccessDeniedException  User: arn:aws:sts::x:assumed-role/x/x is not authorized to perform: firehose:TagDeliveryStream on resource: arn:aws:firehose:us-east-1:x:deliverystream/x with an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
         public let tags: [Tag]?
 
         @inlinable
-        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, databaseSourceConfiguration: DatabaseSourceConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, databaseSourceConfiguration: DatabaseSourceConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, directPutSourceConfiguration: DirectPutSourceConfiguration? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.databaseSourceConfiguration = databaseSourceConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
             self.deliveryStreamType = deliveryStreamType
+            self.directPutSourceConfiguration = directPutSourceConfiguration
             self.elasticsearchDestinationConfiguration = elasticsearchDestinationConfiguration
             self.extendedS3DestinationConfiguration = extendedS3DestinationConfiguration
             self.httpEndpointDestinationConfiguration = httpEndpointDestinationConfiguration
@@ -948,13 +951,14 @@ extension Firehose {
 
         @available(*, deprecated, message: "Members s3DestinationConfiguration have been deprecated")
         @inlinable
-        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, databaseSourceConfiguration: DatabaseSourceConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(amazonOpenSearchServerlessDestinationConfiguration: AmazonOpenSearchServerlessDestinationConfiguration? = nil, amazonopensearchserviceDestinationConfiguration: AmazonopensearchserviceDestinationConfiguration? = nil, databaseSourceConfiguration: DatabaseSourceConfiguration? = nil, deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil, deliveryStreamName: String, deliveryStreamType: DeliveryStreamType? = nil, directPutSourceConfiguration: DirectPutSourceConfiguration? = nil, elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil, extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil, httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil, icebergDestinationConfiguration: IcebergDestinationConfiguration? = nil, kinesisStreamSourceConfiguration: KinesisStreamSourceConfiguration? = nil, mskSourceConfiguration: MSKSourceConfiguration? = nil, redshiftDestinationConfiguration: RedshiftDestinationConfiguration? = nil, s3DestinationConfiguration: S3DestinationConfiguration? = nil, snowflakeDestinationConfiguration: SnowflakeDestinationConfiguration? = nil, splunkDestinationConfiguration: SplunkDestinationConfiguration? = nil, tags: [Tag]? = nil) {
             self.amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfiguration
             self.amazonopensearchserviceDestinationConfiguration = amazonopensearchserviceDestinationConfiguration
             self.databaseSourceConfiguration = databaseSourceConfiguration
             self.deliveryStreamEncryptionConfigurationInput = deliveryStreamEncryptionConfigurationInput
             self.deliveryStreamName = deliveryStreamName
             self.deliveryStreamType = deliveryStreamType
+            self.directPutSourceConfiguration = directPutSourceConfiguration
             self.elasticsearchDestinationConfiguration = elasticsearchDestinationConfiguration
             self.extendedS3DestinationConfiguration = extendedS3DestinationConfiguration
             self.httpEndpointDestinationConfiguration = httpEndpointDestinationConfiguration
@@ -976,6 +980,7 @@ extension Firehose {
             try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, max: 64)
             try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, min: 1)
             try self.validate(self.deliveryStreamName, name: "deliveryStreamName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.directPutSourceConfiguration?.validate(name: "\(name).directPutSourceConfiguration")
             try self.elasticsearchDestinationConfiguration?.validate(name: "\(name).elasticsearchDestinationConfiguration")
             try self.extendedS3DestinationConfiguration?.validate(name: "\(name).extendedS3DestinationConfiguration")
             try self.httpEndpointDestinationConfiguration?.validate(name: "\(name).httpEndpointDestinationConfiguration")
@@ -1000,6 +1005,7 @@ extension Firehose {
             case deliveryStreamEncryptionConfigurationInput = "DeliveryStreamEncryptionConfigurationInput"
             case deliveryStreamName = "DeliveryStreamName"
             case deliveryStreamType = "DeliveryStreamType"
+            case directPutSourceConfiguration = "DirectPutSourceConfiguration"
             case elasticsearchDestinationConfiguration = "ElasticsearchDestinationConfiguration"
             case extendedS3DestinationConfiguration = "ExtendedS3DestinationConfiguration"
             case httpEndpointDestinationConfiguration = "HttpEndpointDestinationConfiguration"
@@ -1061,9 +1067,9 @@ extension Firehose {
     }
 
     public struct DatabaseColumnList: AWSEncodableShape & AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The list of column patterns in source database to be excluded for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let exclude: [String]?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The list of column patterns in source database to be included for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let include: [String]?
 
         @inlinable
@@ -1092,9 +1098,9 @@ extension Firehose {
     }
 
     public struct DatabaseList: AWSEncodableShape & AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The list of database patterns in source database endpoint to be excluded for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let exclude: [String]?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The list of database patterns in source database endpoint to be included for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let include: [String]?
 
         @inlinable
@@ -1124,15 +1130,15 @@ extension Firehose {
 
     public struct DatabaseSnapshotInfo: AWSDecodableShape {
         public let failureDescription: FailureDescription?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The identifier of the current snapshot of the table in source database endpoint.  Amazon Data Firehose is in preview release and is subject to change.
         public let id: String
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The principal that sent the request to take the current snapshot on the table.  Amazon Data Firehose is in preview release and is subject to change.
         public let requestedBy: SnapshotRequestedBy
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The timestamp when the current snapshot is taken on the table.  Amazon Data Firehose is in preview release and is subject to change.
         public let requestTimestamp: Date
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The status of the current snapshot of the table.  Amazon Data Firehose is in preview release and is subject to change.
         public let status: SnapshotStatus
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The fully qualified name of the table in source database endpoint that Firehose reads.  Amazon Data Firehose is in preview release and is subject to change.
         public let table: String
 
         @inlinable
@@ -1173,27 +1179,27 @@ extension Firehose {
     }
 
     public struct DatabaseSourceConfiguration: AWSEncodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The list of column patterns in source database endpoint for Firehose to read from.    Amazon Data Firehose is in preview release and is subject to change.
         public let columns: DatabaseColumnList?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The list of database patterns in source database endpoint for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let databases: DatabaseList
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The structure to configure the authentication methods for Firehose to connect to source database endpoint.  Amazon Data Firehose is in preview release and is subject to change.
         public let databaseSourceAuthenticationConfiguration: DatabaseSourceAuthenticationConfiguration
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The details of the VPC Endpoint Service which Firehose uses to create a PrivateLink to the database.  Amazon Data Firehose is in preview release and is subject to change.
         public let databaseSourceVPCConfiguration: DatabaseSourceVPCConfiguration
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The endpoint of the database server.  Amazon Data Firehose is in preview release and is subject to change.
         public let endpoint: String
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The port of the database. This can be one of the following values.   3306 for MySQL database type   5432 for PostgreSQL database type   Amazon Data Firehose is in preview release and is subject to change.
         public let port: Int
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The fully qualified name of the table in source database endpoint that Firehose uses to track snapshot progress.  Amazon Data Firehose is in preview release and is subject to change.
         public let snapshotWatermarkTable: String
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The mode to enable or disable SSL when Firehose connects to the database endpoint.  Amazon Data Firehose is in preview release and is subject to change.
         public let sslMode: SSLMode?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The optional list of table and column names used as unique key columns when taking snapshot if the tables don’t have primary keys configured.  Amazon Data Firehose is in preview release and is subject to change.
         public let surrogateKeys: [String]?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The list of table patterns in source database endpoint for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let tables: DatabaseTableList
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The type of database engine. This can be one of the following values.    MySQL   PostgreSQL   Amazon Data Firehose is in preview release and is subject to change.
         public let type: DatabaseType
 
         @inlinable
@@ -1248,29 +1254,29 @@ extension Firehose {
     }
 
     public struct DatabaseSourceDescription: AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The list of column patterns in source database endpoint for Firehose to read from.    Amazon Data Firehose is in preview release and is subject to change.
         public let columns: DatabaseColumnList?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The list of database patterns in source database endpoint for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let databases: DatabaseList?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The structure to configure the authentication methods for Firehose to connect to source database endpoint.  Amazon Data Firehose is in preview release and is subject to change.
         public let databaseSourceAuthenticationConfiguration: DatabaseSourceAuthenticationConfiguration?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The details of the VPC Endpoint Service which Firehose uses to create a PrivateLink to the database.  Amazon Data Firehose is in preview release and is subject to change.
         public let databaseSourceVPCConfiguration: DatabaseSourceVPCConfiguration?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The endpoint of the database server.  Amazon Data Firehose is in preview release and is subject to change.
         public let endpoint: String?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The port of the database. This can be one of the following values.   3306 for MySQL database type   5432 for PostgreSQL database type   Amazon Data Firehose is in preview release and is subject to change.
         public let port: Int?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The structure that describes the snapshot information of a table in source database endpoint that Firehose reads.    Amazon Data Firehose is in preview release and is subject to change.
         public let snapshotInfo: [DatabaseSnapshotInfo]?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The fully qualified name of the table in source database endpoint that Firehose uses to track snapshot progress.  Amazon Data Firehose is in preview release and is subject to change.
         public let snapshotWatermarkTable: String?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The mode to enable or disable SSL when Firehose connects to the database endpoint.  Amazon Data Firehose is in preview release and is subject to change.
         public let sslMode: SSLMode?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The optional list of table and column names used as unique key columns when taking snapshot if the tables don’t have primary keys configured.  Amazon Data Firehose is in preview release and is subject to change.
         public let surrogateKeys: [String]?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The list of table patterns in source database endpoint for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let tables: DatabaseTableList?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The type of database engine. This can be one of the following values.    MySQL   PostgreSQL   Amazon Data Firehose is in preview release and is subject to change.
         public let type: DatabaseType?
 
         @inlinable
@@ -1306,7 +1312,7 @@ extension Firehose {
     }
 
     public struct DatabaseSourceVPCConfiguration: AWSEncodableShape & AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The VPC endpoint service name which Firehose uses to create a PrivateLink to the database. The endpoint service must have the Firehose service principle firehose.amazonaws.com as an allowed principal on the VPC endpoint service. The VPC endpoint service name is a string that looks like com.amazonaws.vpce...   Amazon Data Firehose is in preview release and is subject to change.
         public let vpcEndpointServiceName: String
 
         @inlinable
@@ -1326,9 +1332,9 @@ extension Firehose {
     }
 
     public struct DatabaseTableList: AWSEncodableShape & AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The list of table patterns in source database endpoint to be excluded for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let exclude: [String]?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The list of table patterns in source database endpoint to be included for Firehose to read from.  Amazon Data Firehose is in preview release and is subject to change.
         public let include: [String]?
 
         @inlinable
@@ -1569,7 +1575,7 @@ extension Firehose {
         public let amazonopensearchserviceDestinationDescription: AmazonopensearchserviceDestinationDescription?
         /// The ID of the destination.
         public let destinationId: String
-        /// The destination in Amazon ES.
+        /// The destination in Amazon OpenSearch Service.
         public let elasticsearchDestinationDescription: ElasticsearchDestinationDescription?
         /// The destination in Amazon S3.
         public let extendedS3DestinationDescription: ExtendedS3DestinationDescription?
@@ -1621,7 +1627,7 @@ extension Firehose {
         public let destinationDatabaseName: String
         ///  Specifies the name of the Apache Iceberg Table.
         public let destinationTableName: String
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The partition spec configuration for a table that is used by automatic table creation. Amazon Data Firehose is in preview release and is subject to change.
         public let partitionSpec: PartitionSpec?
         ///  The table specific S3 error output prefix. All the errors that occurred while delivering to this table will be prefixed with this value in S3 destination.
         public let s3ErrorOutputPrefix: String?
@@ -1663,6 +1669,39 @@ extension Firehose {
         }
     }
 
+    public struct DirectPutSourceConfiguration: AWSEncodableShape {
+        ///  The value that you configure for this parameter is for information purpose only and does not affect Firehose delivery throughput limit. You can use the Firehose Limits form to request a throughput limit increase.
+        public let throughputHintInMBs: Int
+
+        @inlinable
+        public init(throughputHintInMBs: Int) {
+            self.throughputHintInMBs = throughputHintInMBs
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.throughputHintInMBs, name: "throughputHintInMBs", parent: name, max: 100)
+            try self.validate(self.throughputHintInMBs, name: "throughputHintInMBs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case throughputHintInMBs = "ThroughputHintInMBs"
+        }
+    }
+
+    public struct DirectPutSourceDescription: AWSDecodableShape {
+        ///  The value that you configure for this parameter is for information purpose only and does not affect Firehose delivery throughput limit. You can use the Firehose Limits form to request a throughput limit increase.
+        public let throughputHintInMBs: Int?
+
+        @inlinable
+        public init(throughputHintInMBs: Int? = nil) {
+            self.throughputHintInMBs = throughputHintInMBs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case throughputHintInMBs = "ThroughputHintInMBs"
+        }
+    }
+
     public struct DocumentIdOptions: AWSEncodableShape & AWSDecodableShape {
         /// When the FIREHOSE_DEFAULT option is chosen, Firehose generates a unique document ID for each record based on a unique internal identifier. The generated document ID is stable across multiple delivery attempts, which helps prevent the same record from being indexed multiple times with different document IDs. When the NO_DOCUMENT_ID option is chosen, Firehose does not include any document IDs in the requests it sends to the Amazon OpenSearch Service. This causes the Amazon OpenSearch Service domain to generate document IDs. In case of multiple delivery attempts, this may cause the same record to be indexed more than once with different document IDs. This option enables write-heavy operations, such as the ingestion of logs and observability data, to consume less resources in the Amazon OpenSearch Service domain, resulting in improved performance.
         public let defaultDocumentIdFormat: DefaultDocumentIdFormat
@@ -1678,7 +1717,7 @@ extension Firehose {
     }
 
     public struct DynamicPartitioningConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies that the dynamic partitioning is enabled for this Firehose Firehose stream.
+        /// Specifies that the dynamic partitioning is enabled for this Firehose stream.
         public let enabled: Bool?
         /// The retry behavior in case Firehose is unable to deliver data to an Amazon S3 prefix.
         public let retryOptions: RetryOptions?
@@ -1733,19 +1772,19 @@ extension Firehose {
         public let clusterEndpoint: String?
         /// Indicates the method for setting up document ID. The supported methods are Firehose generated document ID and OpenSearch Service generated document ID.
         public let documentIdOptions: DocumentIdOptions?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces. Specify either ClusterEndpoint or DomainARN.
+        /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces. Specify either ClusterEndpoint or DomainARN.
         public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String
-        /// The Elasticsearch index rotation period. Index rotation appends a timestamp to the IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon ES Destination. The default value is OneDay.
+        /// The Elasticsearch index rotation period. Index rotation appends a timestamp to the IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon OpenSearch Service Destination. The default value is OneDay.
         public let indexRotationPeriod: ElasticsearchIndexRotationPeriod?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// The retry behavior in case Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
+        /// The retry behavior in case Firehose is unable to deliver documents to Amazon OpenSearch Service. The default value is 300 (5 minutes).
         public let retryOptions: ElasticsearchRetryOptions?
-        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for calling the Amazon OpenSearch Service Configuration API and for indexing documents. For more information, see Grant Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String
-        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix. For more information, see Amazon S3 Backup for the Amazon ES Destination. Default value is FailedDocumentsOnly. You can't change this backup mode after you create the Firehose stream.
+        /// Defines how documents should be delivered to Amazon S3. When it is set to FailedDocumentsOnly, Firehose writes any documents that could not be indexed to the configured Amazon S3 destination, with AmazonOpenSearchService-failed/ appended to the key prefix. When set to AllDocuments, Firehose delivers all incoming records to Amazon S3, and also writes failed documents with AmazonOpenSearchService-failed/ appended to the prefix. For more information, see Amazon S3 Backup for the Amazon OpenSearch Service Destination. Default value is FailedDocumentsOnly. You can't change this backup mode after you create the Firehose stream.
         public let s3BackupMode: ElasticsearchS3BackupMode?
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
@@ -1818,11 +1857,11 @@ extension Firehose {
         public let bufferingHints: ElasticsearchBufferingHints?
         /// The Amazon CloudWatch logging options.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The endpoint to use when communicating with the cluster. Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon ES.
+        /// The endpoint to use when communicating with the cluster. Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon OpenSearch Service.
         public let clusterEndpoint: String?
         /// Indicates the method for setting up document ID. The supported methods are Firehose generated document ID and OpenSearch Service generated document ID.
         public let documentIdOptions: DocumentIdOptions?
-        /// The ARN of the Amazon ES domain. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces. Firehose uses either ClusterEndpoint or DomainARN to send data to Amazon ES.
+        /// The ARN of the Amazon OpenSearch Service domain. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces. Firehose uses either ClusterEndpoint or DomainARN to send data to Amazon OpenSearch Service.
         public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String?
@@ -1830,7 +1869,7 @@ extension Firehose {
         public let indexRotationPeriod: ElasticsearchIndexRotationPeriod?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// The Amazon ES retry options.
+        /// The Amazon OpenSearch Service retry options.
         public let retryOptions: ElasticsearchRetryOptions?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String?
@@ -1888,17 +1927,17 @@ extension Firehose {
         public let clusterEndpoint: String?
         /// Indicates the method for setting up document ID. The supported methods are Firehose generated document ID and OpenSearch Service generated document ID.
         public let documentIdOptions: DocumentIdOptions?
-        /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces. Specify either ClusterEndpoint or DomainARN.
+        /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces. Specify either ClusterEndpoint or DomainARN.
         public let domainARN: String?
         /// The Elasticsearch index name.
         public let indexName: String?
-        /// The Elasticsearch index rotation period. Index rotation appends a timestamp to IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon ES Destination. Default value is OneDay.
+        /// The Elasticsearch index rotation period. Index rotation appends a timestamp to IndexName to facilitate the expiration of old data. For more information, see Index Rotation for the Amazon OpenSearch Service Destination. Default value is OneDay.
         public let indexRotationPeriod: ElasticsearchIndexRotationPeriod?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
-        /// The retry behavior in case Firehose is unable to deliver documents to Amazon ES. The default value is 300 (5 minutes).
+        /// The retry behavior in case Firehose is unable to deliver documents to Amazon OpenSearch Service. The default value is 300 (5 minutes).
         public let retryOptions: ElasticsearchRetryOptions?
-        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for calling the Amazon ES Configuration API and for indexing documents. For more information, see Grant Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
+        /// The Amazon Resource Name (ARN) of the IAM role to be assumed by Firehose for calling the Amazon OpenSearch Service Configuration API and for indexing documents. For more information, see Grant Firehose Access to an Amazon S3 Destination and Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let roleARN: String?
         /// The Amazon S3 destination.
         public let s3Update: S3DestinationUpdate?
@@ -1960,7 +1999,7 @@ extension Firehose {
     }
 
     public struct ElasticsearchRetryOptions: AWSEncodableShape & AWSDecodableShape {
-        /// After an initial failure to deliver to Amazon ES, the total amount of time during which Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
+        /// After an initial failure to deliver to Amazon OpenSearch Service, the total amount of time during which Firehose retries delivery (including the first attempt). After this time has elapsed, the failed documents are written to Amazon S3. Default value is 300 seconds (5 minutes). A value of 0 (zero) results in no retries.
         public let durationInSeconds: Int?
 
         @inlinable
@@ -2614,6 +2653,8 @@ extension Firehose {
     }
 
     public struct IcebergDestinationConfiguration: AWSEncodableShape {
+        ///  Describes whether all incoming data for this delivery stream will be append only (inserts only and not for updates and deletes) for Iceberg delivery. This feature is only applicable for Apache Iceberg Tables. The default value is false. If you set this value to true, Firehose automatically increases the throughput limit of a stream based on the throttling levels of the stream. If you set this parameter to true for a stream with updates and deletes, you will see out of order delivery.
+        public let appendOnly: Bool?
         public let bufferingHints: BufferingHints?
         ///  Configuration describing where the destination Apache Iceberg Tables are persisted.
         public let catalogConfiguration: CatalogConfiguration
@@ -2627,13 +2668,14 @@ extension Firehose {
         ///  Describes how Firehose will backup records. Currently,S3 backup only supports FailedDataOnly.
         public let s3BackupMode: IcebergS3BackupMode?
         public let s3Configuration: S3DestinationConfiguration
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The configuration to enable automatic schema evolution. Amazon Data Firehose is in preview release and is subject to change.
         public let schemaEvolutionConfiguration: SchemaEvolutionConfiguration?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The configuration to enable automatic table creation. Amazon Data Firehose is in preview release and is subject to change.
         public let tableCreationConfiguration: TableCreationConfiguration?
 
         @inlinable
-        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, schemaEvolutionConfiguration: SchemaEvolutionConfiguration? = nil, tableCreationConfiguration: TableCreationConfiguration? = nil) {
+        public init(appendOnly: Bool? = nil, bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration, schemaEvolutionConfiguration: SchemaEvolutionConfiguration? = nil, tableCreationConfiguration: TableCreationConfiguration? = nil) {
+            self.appendOnly = appendOnly
             self.bufferingHints = bufferingHints
             self.catalogConfiguration = catalogConfiguration
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -2663,6 +2705,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appendOnly = "AppendOnly"
             case bufferingHints = "BufferingHints"
             case catalogConfiguration = "CatalogConfiguration"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
@@ -2678,6 +2721,8 @@ extension Firehose {
     }
 
     public struct IcebergDestinationDescription: AWSDecodableShape {
+        ///  Describes whether all incoming data for this delivery stream will be append only (inserts only and not for updates and deletes) for Iceberg delivery. This feature is only applicable for Apache Iceberg Tables. The default value is false. If you set this value to true, Firehose automatically increases the throughput limit of a stream based on the throttling levels of the stream. If you set this parameter to true for a stream with updates and deletes, you will see out of order delivery.
+        public let appendOnly: Bool?
         public let bufferingHints: BufferingHints?
         ///  Configuration describing where the destination Iceberg tables are persisted.
         public let catalogConfiguration: CatalogConfiguration?
@@ -2691,13 +2736,14 @@ extension Firehose {
         ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly.
         public let s3BackupMode: IcebergS3BackupMode?
         public let s3DestinationDescription: S3DestinationDescription?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// The description of automatic schema evolution configuration. Amazon Data Firehose is in preview release and is subject to change.
         public let schemaEvolutionConfiguration: SchemaEvolutionConfiguration?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The description of table creation configuration.  Amazon Data Firehose is in preview release and is subject to change.
         public let tableCreationConfiguration: TableCreationConfiguration?
 
         @inlinable
-        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, schemaEvolutionConfiguration: SchemaEvolutionConfiguration? = nil, tableCreationConfiguration: TableCreationConfiguration? = nil) {
+        public init(appendOnly: Bool? = nil, bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil, schemaEvolutionConfiguration: SchemaEvolutionConfiguration? = nil, tableCreationConfiguration: TableCreationConfiguration? = nil) {
+            self.appendOnly = appendOnly
             self.bufferingHints = bufferingHints
             self.catalogConfiguration = catalogConfiguration
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -2712,6 +2758,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appendOnly = "AppendOnly"
             case bufferingHints = "BufferingHints"
             case catalogConfiguration = "CatalogConfiguration"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
@@ -2727,6 +2774,8 @@ extension Firehose {
     }
 
     public struct IcebergDestinationUpdate: AWSEncodableShape {
+        ///  Describes whether all incoming data for this delivery stream will be append only (inserts only and not for updates and deletes) for Iceberg delivery. This feature is only applicable for Apache Iceberg Tables.  The default value is false. If you set this value to true, Firehose automatically increases the throughput limit of a stream based on the throttling levels of the stream. If you set this parameter to true for a stream with updates and deletes, you will see out of order delivery.
+        public let appendOnly: Bool?
         public let bufferingHints: BufferingHints?
         ///  Configuration describing where the destination Iceberg tables are persisted.
         public let catalogConfiguration: CatalogConfiguration?
@@ -2740,13 +2789,14 @@ extension Firehose {
         ///  Describes how Firehose will backup records. Currently,Firehose only supports FailedDataOnly.
         public let s3BackupMode: IcebergS3BackupMode?
         public let s3Configuration: S3DestinationConfiguration?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The configuration to enable automatic schema evolution.  Amazon Data Firehose is in preview release and is subject to change.
         public let schemaEvolutionConfiguration: SchemaEvolutionConfiguration?
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The configuration to enable automatic table creation.  Amazon Data Firehose is in preview release and is subject to change.
         public let tableCreationConfiguration: TableCreationConfiguration?
 
         @inlinable
-        public init(bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration? = nil, schemaEvolutionConfiguration: SchemaEvolutionConfiguration? = nil, tableCreationConfiguration: TableCreationConfiguration? = nil) {
+        public init(appendOnly: Bool? = nil, bufferingHints: BufferingHints? = nil, catalogConfiguration: CatalogConfiguration? = nil, cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, destinationTableConfigurationList: [DestinationTableConfiguration]? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: RetryOptions? = nil, roleARN: String? = nil, s3BackupMode: IcebergS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration? = nil, schemaEvolutionConfiguration: SchemaEvolutionConfiguration? = nil, tableCreationConfiguration: TableCreationConfiguration? = nil) {
+            self.appendOnly = appendOnly
             self.bufferingHints = bufferingHints
             self.catalogConfiguration = catalogConfiguration
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
@@ -2776,6 +2826,7 @@ extension Firehose {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appendOnly = "AppendOnly"
             case bufferingHints = "BufferingHints"
             case catalogConfiguration = "CatalogConfiguration"
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
@@ -3201,7 +3252,7 @@ extension Firehose {
     }
 
     public struct PartitionField: AWSEncodableShape & AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  The column name to be configured in partition spec.  Amazon Data Firehose is in preview release and is subject to change.
         public let sourceName: String
 
         @inlinable
@@ -3221,7 +3272,7 @@ extension Firehose {
     }
 
     public struct PartitionSpec: AWSEncodableShape & AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  List of identity transforms that performs an identity transformation. The transform takes the source value, and does not modify it. Result type is the source type. Amazon Data Firehose is in preview release and is subject to change.
         public let identity: [PartitionField]?
 
         @inlinable
@@ -3912,7 +3963,7 @@ extension Firehose {
     }
 
     public struct SchemaEvolutionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  Specify whether you want to enable schema evolution.  Amazon Data Firehose is in preview release and is subject to change.
         public let enabled: Bool
 
         @inlinable
@@ -4010,7 +4061,7 @@ extension Firehose {
         ///  Describes the buffering to perform before delivering data to the Snowflake destination. If you do not specify any value, Firehose uses the default values.
         public let bufferingHints: SnowflakeBufferingHints?
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
-        /// The name of the record content column
+        /// The name of the record content column.
         public let contentColumnName: String?
         /// All data in Snowflake is maintained in databases.
         public let database: String
@@ -4018,7 +4069,7 @@ extension Firehose {
         public let dataLoadingOption: SnowflakeDataLoadingOption?
         /// Passphrase to decrypt the private key when the key is encrypted. For information, see Using Key Pair Authentication & Key Rotation.
         public let keyPassphrase: String?
-        /// The name of the record metadata column
+        /// Specify a column name in the table, where the metadata information has to be loaded. When you enable this field, you will see the following column in the snowflake table, which differs based on the source type. For Direct PUT as source   { "firehoseDeliveryStreamName" : "streamname", "IngestionTime" : "timestamp" }  For Kinesis Data Stream as source   "kinesisStreamName" : "streamname", "kinesisShardId" : "Id", "kinesisPartitionKey" : "key", "kinesisSequenceNumber" : "1234", "subsequenceNumber" : "2334", "IngestionTime" : "timestamp" }
         public let metaDataColumnName: String?
         /// The private key used to encrypt your Snowflake client. For information, see Using Key Pair Authentication & Key Rotation.
         public let privateKey: String?
@@ -4383,22 +4434,26 @@ extension Firehose {
     }
 
     public struct SourceDescription: AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        /// Details about a database used as the source for a Firehose stream. Amazon Data Firehose is in preview release and is subject to change.
         public let databaseSourceDescription: DatabaseSourceDescription?
+        /// Details about Direct PUT used as the source for a Firehose stream.
+        public let directPutSourceDescription: DirectPutSourceDescription?
         /// The KinesisStreamSourceDescription value for the source Kinesis data stream.
         public let kinesisStreamSourceDescription: KinesisStreamSourceDescription?
         /// The configuration description for the Amazon MSK cluster to be used as the source for a delivery stream.
         public let mskSourceDescription: MSKSourceDescription?
 
         @inlinable
-        public init(databaseSourceDescription: DatabaseSourceDescription? = nil, kinesisStreamSourceDescription: KinesisStreamSourceDescription? = nil, mskSourceDescription: MSKSourceDescription? = nil) {
+        public init(databaseSourceDescription: DatabaseSourceDescription? = nil, directPutSourceDescription: DirectPutSourceDescription? = nil, kinesisStreamSourceDescription: KinesisStreamSourceDescription? = nil, mskSourceDescription: MSKSourceDescription? = nil) {
             self.databaseSourceDescription = databaseSourceDescription
+            self.directPutSourceDescription = directPutSourceDescription
             self.kinesisStreamSourceDescription = kinesisStreamSourceDescription
             self.mskSourceDescription = mskSourceDescription
         }
 
         private enum CodingKeys: String, CodingKey {
             case databaseSourceDescription = "DatabaseSourceDescription"
+            case directPutSourceDescription = "DirectPutSourceDescription"
             case kinesisStreamSourceDescription = "KinesisStreamSourceDescription"
             case mskSourceDescription = "MSKSourceDescription"
         }
@@ -4694,7 +4749,7 @@ extension Firehose {
     }
 
     public struct TableCreationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        ///   Amazon Data Firehose is in preview release and is subject to change.
+        ///  Specify whether you want to enable automatic table creation.  Amazon Data Firehose is in preview release and is subject to change.
         public let enabled: Bool
 
         @inlinable
@@ -4812,7 +4867,7 @@ extension Firehose {
         public let deliveryStreamName: String
         /// The ID of the destination.
         public let destinationId: String
-        /// Describes an update for a destination in Amazon ES.
+        /// Describes an update for a destination in Amazon OpenSearch Service.
         public let elasticsearchDestinationUpdate: ElasticsearchDestinationUpdate?
         /// Describes an update for a destination in Amazon S3.
         public let extendedS3DestinationUpdate: ExtendedS3DestinationUpdate?
@@ -4910,9 +4965,9 @@ extension Firehose {
     public struct VpcConfiguration: AWSEncodableShape {
         /// The ARN of the IAM role that you want the Firehose stream to use to create endpoints in the destination VPC. You can use your existing Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Firehose service principal and that it grants the following permissions:    ec2:DescribeVpcs     ec2:DescribeVpcAttribute     ec2:DescribeSubnets     ec2:DescribeSecurityGroups     ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface     ec2:CreateNetworkInterfacePermission     ec2:DeleteNetworkInterface     When you specify subnets for delivering data to the destination in a private VPC, make sure you have enough number of free IP addresses in chosen subnets. If there is no available free IP address in a specified subnet, Firehose cannot create or add ENIs for the data delivery in the private VPC, and the delivery will be degraded or fail.
         public let roleARN: String
-        /// The IDs of the security groups that you want Firehose to use when it creates ENIs in the VPC of the Amazon ES destination. You can use the same security group that the Amazon ES domain uses or different ones. If you specify different security groups here, ensure that they allow outbound HTTPS traffic to the Amazon ES domain's security group. Also ensure that the Amazon ES domain's security group allows HTTPS traffic from the security groups specified here. If you use the same security group for both your delivery stream and the Amazon ES domain, make sure the security group inbound rule allows HTTPS traffic. For more information about security group rules, see Security group rules in the Amazon VPC documentation.
+        /// The IDs of the security groups that you want Firehose to use when it creates ENIs in the VPC of the Amazon OpenSearch Service destination. You can use the same security group that the Amazon OpenSearch Service domain uses or different ones. If you specify different security groups here, ensure that they allow outbound HTTPS traffic to the Amazon OpenSearch Service domain's security group. Also ensure that the Amazon OpenSearch Service domain's security group allows HTTPS traffic from the security groups specified here. If you use the same security group for both your delivery stream and the Amazon OpenSearch Service domain, make sure the security group inbound rule allows HTTPS traffic. For more information about security group rules, see Security group rules in the Amazon VPC documentation.
         public let securityGroupIds: [String]
-        /// The IDs of the subnets that you want Firehose to use to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Firehose can create up to three ENIs for this Firehose stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces in the Amazon VPC Quotas topic.
+        /// The IDs of the subnets that you want Firehose to use to create ENIs in the VPC of the Amazon OpenSearch Service destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon OpenSearch Service endpoints. Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Firehose can create up to three ENIs for this Firehose stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces in the Amazon VPC Quotas topic.
         public let subnetIds: [String]
 
         @inlinable
@@ -4952,11 +5007,11 @@ extension Firehose {
     public struct VpcConfigurationDescription: AWSDecodableShape {
         /// The ARN of the IAM role that the Firehose stream uses to create endpoints in the destination VPC. You can use your existing Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Firehose service principal and that it grants the following permissions:    ec2:DescribeVpcs     ec2:DescribeVpcAttribute     ec2:DescribeSubnets     ec2:DescribeSecurityGroups     ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface     ec2:CreateNetworkInterfacePermission     ec2:DeleteNetworkInterface    If you revoke these permissions after you create the Firehose stream, Firehose can't scale out by creating more ENIs when necessary. You might therefore see a degradation in performance.
         public let roleARN: String
-        /// The IDs of the security groups that Firehose uses when it creates ENIs in the VPC of the Amazon ES destination. You can use the same security group that the Amazon ES domain uses or different ones. If you specify different security groups, ensure that they allow outbound HTTPS traffic to the Amazon ES domain's security group. Also ensure that the Amazon ES domain's security group allows HTTPS traffic from the security groups specified here. If you use the same security group for both your Firehose stream and the Amazon ES domain, make sure the security group inbound rule allows HTTPS traffic. For more information about security group rules, see Security group rules in the Amazon VPC documentation.
+        /// The IDs of the security groups that Firehose uses when it creates ENIs in the VPC of the Amazon OpenSearch Service destination. You can use the same security group that the Amazon ES domain uses or different ones. If you specify different security groups, ensure that they allow outbound HTTPS traffic to the Amazon OpenSearch Service domain's security group. Also ensure that the Amazon OpenSearch Service domain's security group allows HTTPS traffic from the security groups specified here. If you use the same security group for both your Firehose stream and the Amazon OpenSearch Service domain, make sure the security group inbound rule allows HTTPS traffic. For more information about security group rules, see Security group rules in the Amazon VPC documentation.
         public let securityGroupIds: [String]
-        /// The IDs of the subnets that Firehose uses to create ENIs in the VPC of the Amazon ES destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon ES endpoints. Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Firehose can create up to three ENIs for this Firehose stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces in the Amazon VPC Quotas topic.
+        /// The IDs of the subnets that Firehose uses to create ENIs in the VPC of the Amazon OpenSearch Service destination. Make sure that the routing tables and inbound and outbound rules allow traffic to flow from the subnets whose IDs are specified here to the subnets that have the destination Amazon OpenSearch Service endpoints. Firehose creates at least one ENI in each of the subnets that are specified here. Do not delete or modify these ENIs. The number of ENIs that Firehose creates in the subnets specified here scales up and down automatically based on throughput. To enable Firehose to scale up the number of ENIs to match throughput, ensure that you have sufficient quota. To help you calculate the quota you need, assume that Firehose can create up to three ENIs for this Firehose stream for each of the subnets specified here. For more information about ENI quota, see Network Interfaces in the Amazon VPC Quotas topic.
         public let subnetIds: [String]
-        /// The ID of the Amazon ES destination's VPC.
+        /// The ID of the Amazon OpenSearch Service destination's VPC.
         public let vpcId: String
 
         @inlinable

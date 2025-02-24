@@ -1536,7 +1536,7 @@ extension FIS {
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[\\S]+$")
-            try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 700)
             try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^[\\s\\S]+$")
         }
@@ -2402,9 +2402,8 @@ extension FIS {
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
             try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[\\S]+$")
-            try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
-            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
-            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 256)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^[\\S]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

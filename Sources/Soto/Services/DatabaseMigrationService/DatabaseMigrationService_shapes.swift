@@ -275,6 +275,13 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum TablePreparationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case doNothing = "do-nothing"
+        case dropTablesOnTarget = "drop-tables-on-target"
+        case truncate = "truncate"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetDbType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case multipleDatabases = "multiple-databases"
         case specificDatabase = "specific-database"
@@ -298,6 +305,10 @@ extension DatabaseMigrationService {
 
     public enum DataProviderSettings: AWSEncodableShape & AWSDecodableShape, Sendable {
         case docDbSettings(DocDbDataProviderSettings)
+        /// Provides information that defines an IBM DB2 LUW data provider.
+        case ibmDb2LuwSettings(IbmDb2LuwDataProviderSettings)
+        /// Provides information that defines an IBM DB2 for z/OS data provider.
+        case ibmDb2zOsSettings(IbmDb2zOsDataProviderSettings)
         /// Provides information that defines a MariaDB data provider.
         case mariaDbSettings(MariaDbDataProviderSettings)
         case microsoftSqlServerSettings(MicrosoftSqlServerDataProviderSettings)
@@ -321,6 +332,12 @@ extension DatabaseMigrationService {
             case .docDbSettings:
                 let value = try container.decode(DocDbDataProviderSettings.self, forKey: .docDbSettings)
                 self = .docDbSettings(value)
+            case .ibmDb2LuwSettings:
+                let value = try container.decode(IbmDb2LuwDataProviderSettings.self, forKey: .ibmDb2LuwSettings)
+                self = .ibmDb2LuwSettings(value)
+            case .ibmDb2zOsSettings:
+                let value = try container.decode(IbmDb2zOsDataProviderSettings.self, forKey: .ibmDb2zOsSettings)
+                self = .ibmDb2zOsSettings(value)
             case .mariaDbSettings:
                 let value = try container.decode(MariaDbDataProviderSettings.self, forKey: .mariaDbSettings)
                 self = .mariaDbSettings(value)
@@ -350,6 +367,10 @@ extension DatabaseMigrationService {
             switch self {
             case .docDbSettings(let value):
                 try container.encode(value, forKey: .docDbSettings)
+            case .ibmDb2LuwSettings(let value):
+                try container.encode(value, forKey: .ibmDb2LuwSettings)
+            case .ibmDb2zOsSettings(let value):
+                try container.encode(value, forKey: .ibmDb2zOsSettings)
             case .mariaDbSettings(let value):
                 try container.encode(value, forKey: .mariaDbSettings)
             case .microsoftSqlServerSettings(let value):
@@ -369,6 +390,8 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case docDbSettings = "DocDbSettings"
+            case ibmDb2LuwSettings = "IbmDb2LuwSettings"
+            case ibmDb2zOsSettings = "IbmDb2zOsSettings"
             case mariaDbSettings = "MariaDbSettings"
             case microsoftSqlServerSettings = "MicrosoftSqlServerSettings"
             case mongoDbSettings = "MongoDbSettings"
@@ -426,7 +449,7 @@ extension DatabaseMigrationService {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
-        /// The pending maintenance action to apply to this resource. Valid values: os-upgrade, system-update, db-upgrade
+        /// The pending maintenance action to apply to this resource. Valid values: os-upgrade, system-update, db-upgrade, os-patch
         public let applyAction: String
         /// A value that specifies the type of opt-in request, or undoes an opt-in request. You can't undo an opt-in request of type immediate. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.
         public let optInType: String
@@ -708,7 +731,7 @@ extension DatabaseMigrationService {
     }
 
     public struct ComputeConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Availability Zone where the DMS Serverless replication using this configuration will run.  The default value is a random, system-chosen Availability Zone in the configuration's Amazon Web Services Region, for example, "us-west-2". You can't set this parameter if the MultiAZ parameter is set to true.
+        /// The Availability Zone where the DMS Serverless replication using this configuration will run. The default value is a random, system-chosen Availability Zone in the configuration's Amazon Web Services Region, for example, "us-west-2". You can't set this parameter if the MultiAZ parameter is set to true.
         public let availabilityZone: String?
         /// A list of custom DNS name servers supported for the DMS Serverless replication to access your source or target database. This list overrides the default name servers supported by the DMS Serverless replication. You can specify a comma-separated list of internet addresses for up to four DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
         public let dnsNameServers: String?
@@ -716,7 +739,7 @@ extension DatabaseMigrationService {
         public let kmsKeyId: String?
         /// Specifies the maximum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum value that you can specify for DMS Serverless is 384. The MaxCapacityUnits parameter is the only DCU parameter you are required to specify.
         public let maxCapacityUnits: Int?
-        /// Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 1. If you don't set this value, DMS sets this parameter to the  minimum DCU value allowed, 1. If there is no current source activity, DMS scales down your replication until it  reaches the value specified in MinCapacityUnits.
+        /// Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 1. If you don't set this value, DMS sets this parameter to the minimum DCU value allowed, 1. If there is no current source activity, DMS scales down your replication until it reaches the value specified in MinCapacityUnits.
         public let minCapacityUnits: Int?
         /// Specifies whether the DMS Serverless replication is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
         public let multiAZ: Bool?
@@ -806,9 +829,11 @@ extension DatabaseMigrationService {
         public let sourceDataSettings: [SourceDataSetting]?
         /// One or more tags to be assigned to the data migration.
         public let tags: [Tag]?
+        /// Specifies information about the target data provider.
+        public let targetDataSettings: [TargetDataSetting]?
 
         @inlinable
-        public init(dataMigrationName: String? = nil, dataMigrationType: MigrationTypeValue, enableCloudwatchLogs: Bool? = nil, migrationProjectIdentifier: String, numberOfJobs: Int? = nil, selectionRules: String? = nil, serviceAccessRoleArn: String, sourceDataSettings: [SourceDataSetting]? = nil, tags: [Tag]? = nil) {
+        public init(dataMigrationName: String? = nil, dataMigrationType: MigrationTypeValue, enableCloudwatchLogs: Bool? = nil, migrationProjectIdentifier: String, numberOfJobs: Int? = nil, selectionRules: String? = nil, serviceAccessRoleArn: String, sourceDataSettings: [SourceDataSetting]? = nil, tags: [Tag]? = nil, targetDataSettings: [TargetDataSetting]? = nil) {
             self.dataMigrationName = dataMigrationName
             self.dataMigrationType = dataMigrationType
             self.enableCloudwatchLogs = enableCloudwatchLogs
@@ -818,6 +843,7 @@ extension DatabaseMigrationService {
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.sourceDataSettings = sourceDataSettings
             self.tags = tags
+            self.targetDataSettings = targetDataSettings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -830,6 +856,7 @@ extension DatabaseMigrationService {
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case sourceDataSettings = "SourceDataSettings"
             case tags = "Tags"
+            case targetDataSettings = "TargetDataSettings"
         }
     }
 
@@ -852,7 +879,7 @@ extension DatabaseMigrationService {
         public let dataProviderName: String?
         /// A user-friendly description of the data provider.
         public let description: String?
-        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
         public let engine: String
         /// The settings in JSON format for a data provider.
         public let settings: DataProviderSettings
@@ -899,15 +926,15 @@ extension DatabaseMigrationService {
         /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", }
         public let dmsTransferSettings: DmsTransferSettings?
         public let docDbSettings: DocDbSettings?
-        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other  available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
+        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
         public let dynamoDbSettings: DynamoDbSettings?
         /// Settings in JSON format for the target OpenSearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using OpenSearch as a Target for DMS in the Database Migration Service User Guide.
         public let elasticsearchSettings: ElasticsearchSettings?
         /// The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
         public let endpointIdentifier: String
-        /// The type of endpoint.  Valid values are source and target.
+        /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue
-        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora",  "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", "babelfish", redshift-serverless, aurora-serverless, aurora-postgresql-serverless, gcp-mysql, azure-sql-managed-instance, redis, dms-transfer.
+        /// The type of engine for the endpoint. Valid values, depending on the EndpointType value, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "opensearch", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "docdb", "sqlserver", "neptune", "babelfish", redshift-serverless, aurora-serverless, aurora-postgresql-serverless, gcp-mysql, azure-sql-managed-instance, redis, dms-transfer.
         public let engineName: String
         /// The external table definition.
         public let externalTableDefinition: String?
@@ -923,21 +950,21 @@ extension DatabaseMigrationService {
         public let kinesisSettings: KinesisSettings?
         /// An KMS key identifier that is used to encrypt the connection parameters for the endpoint. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
-        /// Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for DMS and  Extra connection attributes when using SQL Server as a target for DMS in the Database Migration Service User Guide.
+        /// Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for DMS and Extra connection attributes when using SQL Server as a target for DMS in the Database Migration Service User Guide.
         public let microsoftSQLServerSettings: MicrosoftSQLServerSettings?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see Endpoint configuration settings when using MongoDB as a source for Database Migration Service in the Database Migration Service User Guide.
         public let mongoDbSettings: MongoDbSettings?
-        /// Settings in JSON format for the source and target MySQL endpoint. For information about other available settings, see Extra connection attributes  when using MySQL as a source for DMS and Extra connection attributes when using a MySQL-compatible database as a target for DMS in the Database Migration Service User Guide.
+        /// Settings in JSON format for the source and target MySQL endpoint. For information about other available settings, see Extra connection attributes when using MySQL as a source for DMS and Extra connection attributes when using a MySQL-compatible database as a target for DMS in the Database Migration Service User Guide.
         public let mySQLSettings: MySQLSettings?
-        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target  in the Database Migration Service User Guide.
+        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target in the Database Migration Service User Guide.
         public let neptuneSettings: NeptuneSettings?
-        /// Settings in JSON format for the source and target Oracle endpoint. For information about other available settings, see Extra connection attributes  when using Oracle as a source for DMS and   Extra connection attributes when using Oracle as a target for DMS  in the Database Migration Service User Guide.
+        /// Settings in JSON format for the source and target Oracle endpoint. For information about other available settings, see Extra connection attributes when using Oracle as a source for DMS and  Extra connection attributes when using Oracle as a target for DMS in the Database Migration Service User Guide.
         public let oracleSettings: OracleSettings?
         /// The password to be used to log in to the endpoint database.
         public let password: String?
         /// The port used by the endpoint database.
         public let port: Int?
-        /// Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and  Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
+        /// Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
         public let postgreSQLSettings: PostgreSQLSettings?
         /// Settings in JSON format for the target Redis endpoint.
         public let redisSettings: RedisSettings?
@@ -1292,7 +1319,7 @@ extension DatabaseMigrationService {
         public let sourceEndpointArn: String
         /// Optional JSON settings for specifying supplemental data. For more information, see  Specifying supplemental data for task settings.
         public let supplementalSettings: String?
-        /// JSON table mappings for DMS Serverless replications that are provisioned using this replication configuration. For more information, see   Specifying table selection and transformations rules using JSON.
+        /// JSON table mappings for DMS Serverless replications that are provisioned using this replication configuration. For more information, see  Specifying table selection and transformations rules using JSON.
         public let tableMappings: String
         /// One or more optional tags associated with resources used by the DMS Serverless replication. For more information, see  Tagging resources in Database Migration Service.
         public let tags: [Tag]?
@@ -1350,21 +1377,21 @@ extension DatabaseMigrationService {
         public let availabilityZone: String?
         /// A list of custom DNS name servers supported for the replication instance to access your on-premise source or target database. This list overrides the default name servers supported by the replication instance. You can specify a comma-separated list of internet addresses for up to four on-premise DNS name servers. For example: "1.1.1.1,2.2.2.2,3.3.3.3,4.4.4.4"
         public let dnsNameServers: String?
-        /// The engine version number of the replication instance. If an engine version number is not specified when a replication  instance is created, the default is the latest engine version available.
+        /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available.
         public let engineVersion: String?
-        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when creating a replication instance.
+        /// Specifies the settings required for kerberos authentication when creating the replication instance.
         public let kerberosAuthenticationSettings: KerberosAuthenticationSettings?
         /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
-        /// The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+        /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
         public let networkType: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  Default: A 30-minute window selected at random from an 8-hour block of time per Amazon Web Services Region, occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
         ///  Specifies the accessibility options for the replication instance. A value of true represents an instance with a public IP address. A value of false represents an instance with a private IP address. The default value is true.
         public let publiclyAccessible: Bool?
-        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see   Choosing the right DMS replication instance; and,  Selecting the best size for a replication instance.
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see  Choosing the right DMS replication instance; and, Selecting the best size for a replication instance.
         public let replicationInstanceClass: String
         /// The replication instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance
         public let replicationInstanceIdentifier: String
@@ -1502,7 +1529,7 @@ extension DatabaseMigrationService {
         public let tags: [Tag]?
         /// An Amazon Resource Name (ARN) that uniquely identifies the target endpoint.
         public let targetEndpointArn: String
-        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints.  For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
+        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
         public let taskData: String?
 
         @inlinable
@@ -1589,9 +1616,11 @@ extension DatabaseMigrationService {
         public let sourceDataSettings: [SourceDataSetting]?
         /// The reason the data migration last stopped.
         public let stopReason: String?
+        /// Specifies information about the data migration's target data provider.
+        public let targetDataSettings: [TargetDataSetting]?
 
         @inlinable
-        public init(dataMigrationArn: String? = nil, dataMigrationCidrBlocks: [String]? = nil, dataMigrationCreateTime: Date? = nil, dataMigrationEndTime: Date? = nil, dataMigrationName: String? = nil, dataMigrationSettings: DataMigrationSettings? = nil, dataMigrationStartTime: Date? = nil, dataMigrationStatistics: DataMigrationStatistics? = nil, dataMigrationStatus: String? = nil, dataMigrationType: MigrationTypeValue? = nil, lastFailureMessage: String? = nil, migrationProjectArn: String? = nil, publicIpAddresses: [String]? = nil, serviceAccessRoleArn: String? = nil, sourceDataSettings: [SourceDataSetting]? = nil, stopReason: String? = nil) {
+        public init(dataMigrationArn: String? = nil, dataMigrationCidrBlocks: [String]? = nil, dataMigrationCreateTime: Date? = nil, dataMigrationEndTime: Date? = nil, dataMigrationName: String? = nil, dataMigrationSettings: DataMigrationSettings? = nil, dataMigrationStartTime: Date? = nil, dataMigrationStatistics: DataMigrationStatistics? = nil, dataMigrationStatus: String? = nil, dataMigrationType: MigrationTypeValue? = nil, lastFailureMessage: String? = nil, migrationProjectArn: String? = nil, publicIpAddresses: [String]? = nil, serviceAccessRoleArn: String? = nil, sourceDataSettings: [SourceDataSetting]? = nil, stopReason: String? = nil, targetDataSettings: [TargetDataSetting]? = nil) {
             self.dataMigrationArn = dataMigrationArn
             self.dataMigrationCidrBlocks = dataMigrationCidrBlocks
             self.dataMigrationCreateTime = dataMigrationCreateTime
@@ -1608,6 +1637,7 @@ extension DatabaseMigrationService {
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.sourceDataSettings = sourceDataSettings
             self.stopReason = stopReason
+            self.targetDataSettings = targetDataSettings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1627,6 +1657,7 @@ extension DatabaseMigrationService {
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case sourceDataSettings = "SourceDataSettings"
             case stopReason = "StopReason"
+            case targetDataSettings = "TargetDataSettings"
         }
     }
 
@@ -1710,7 +1741,7 @@ extension DatabaseMigrationService {
         public let dataProviderName: String?
         /// A description of the data provider. Descriptions can have up to 31 characters.  A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't  end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
         public let description: String?
-        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
         public let engine: String?
         /// The settings in JSON format for a data provider.
         public let settings: DataProviderSettings?
@@ -2328,9 +2359,11 @@ extension DatabaseMigrationService {
         public let maxRecords: Int?
         /// Name of the migration type that each provided individual assessment must support.
         public let migrationType: MigrationTypeValue?
+        /// Amazon Resource Name (ARN) of a serverless replication on which you want to base the default list of individual assessments.
+        public let replicationConfigArn: String?
         /// ARN of a replication instance on which you want to base the default list of individual assessments.
         public let replicationInstanceArn: String?
-        /// Amazon Resource Name (ARN) of a migration task on which you want to base  the default list of individual assessments.
+        /// Amazon Resource Name (ARN) of a migration task on which you want to base the default list of individual assessments.
         public let replicationTaskArn: String?
         /// Name of a database engine that the specified replication instance supports as a source.
         public let sourceEngineName: String?
@@ -2338,10 +2371,11 @@ extension DatabaseMigrationService {
         public let targetEngineName: String?
 
         @inlinable
-        public init(marker: String? = nil, maxRecords: Int? = nil, migrationType: MigrationTypeValue? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, sourceEngineName: String? = nil, targetEngineName: String? = nil) {
+        public init(marker: String? = nil, maxRecords: Int? = nil, migrationType: MigrationTypeValue? = nil, replicationConfigArn: String? = nil, replicationInstanceArn: String? = nil, replicationTaskArn: String? = nil, sourceEngineName: String? = nil, targetEngineName: String? = nil) {
             self.marker = marker
             self.maxRecords = maxRecords
             self.migrationType = migrationType
+            self.replicationConfigArn = replicationConfigArn
             self.replicationInstanceArn = replicationInstanceArn
             self.replicationTaskArn = replicationTaskArn
             self.sourceEngineName = sourceEngineName
@@ -2352,6 +2386,7 @@ extension DatabaseMigrationService {
             case marker = "Marker"
             case maxRecords = "MaxRecords"
             case migrationType = "MigrationType"
+            case replicationConfigArn = "ReplicationConfigArn"
             case replicationInstanceArn = "ReplicationInstanceArn"
             case replicationTaskArn = "ReplicationTaskArn"
             case sourceEngineName = "SourceEngineName"
@@ -2378,7 +2413,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeCertificatesMessage: AWSEncodableShape {
-        /// Filters applied to the certificates described in the form of key-value pairs.  Valid values are certificate-arn and certificate-id.
+        /// Filters applied to the certificates described in the form of key-value pairs. Valid values are certificate-arn and certificate-id.
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -2492,9 +2527,9 @@ extension DatabaseMigrationService {
     public struct DescribeDataMigrationsMessage: AWSEncodableShape {
         /// Filters applied to the data migrations.
         public let filters: [Filter]?
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
         /// An option to set to avoid returning information about settings. Use this to reduce overhead when setting information is too large. To use this option, choose true; otherwise, choose false (the default).
         public let withoutSettings: Bool?
@@ -2526,7 +2561,7 @@ extension DatabaseMigrationService {
     public struct DescribeDataMigrationsResponse: AWSDecodableShape {
         /// Returns information about the data migrations used in the project.
         public let dataMigrations: [DataMigration]?
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         @inlinable
@@ -2584,9 +2619,9 @@ extension DatabaseMigrationService {
     public struct DescribeEndpointSettingsMessage: AWSEncodableShape {
         /// The database engine used for your source or target endpoint.
         public let engineName: String
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than  the specified MaxRecords value, a pagination token called a marker is included in the response  so that the remaining results can be retrieved.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
 
         @inlinable
@@ -2606,7 +2641,7 @@ extension DatabaseMigrationService {
     public struct DescribeEndpointSettingsResponse: AWSDecodableShape {
         /// Descriptions of the endpoint settings available for your source or target database engine.
         public let endpointSettings: [EndpointSetting]?
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         @inlinable
@@ -2702,9 +2737,9 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEngineVersionsMessage: AWSEncodableShape {
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
 
         @inlinable
@@ -2722,7 +2757,7 @@ extension DatabaseMigrationService {
     public struct DescribeEngineVersionsResponse: AWSDecodableShape {
         /// Returned EngineVersion objects that describe the replication instance engine versions used in the project.
         public let engineVersions: [EngineVersion]?
-        /// An optional pagination token provided by a previous request. If this parameter is specified, the response  includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         @inlinable
@@ -2770,7 +2805,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSEncodableShape {
-        /// Filters applied to event subscriptions. Valid filter names: event-subscription-arn |  event-subscription-id
+        /// Filters applied to event subscriptions. Valid filter names: event-subscription-arn | event-subscription-id
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -3607,9 +3642,9 @@ extension DatabaseMigrationService {
     public struct DescribeReplicationConfigsMessage: AWSEncodableShape {
         /// Filters applied to the replication configs.
         public let filters: [Filter]?
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
 
         @inlinable
@@ -3627,7 +3662,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationConfigsResponse: AWSDecodableShape {
-        /// An optional pagination token provided by a previous request. If this parameter is specified, the response  includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// Returned configuration parameters that describe each provisioned DMS Serverless replication.
         public let replicationConfigs: [ReplicationConfig]?
@@ -3771,9 +3806,9 @@ extension DatabaseMigrationService {
     public struct DescribeReplicationTableStatisticsMessage: AWSEncodableShape {
         /// Filters applied to the replication table statistics.
         public let filters: [Filter]?
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
         /// The replication config to describe.
         public let replicationConfigArn: String
@@ -3795,7 +3830,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationTableStatisticsResponse: AWSDecodableShape {
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The Amazon Resource Name of the replication config.
         public let replicationConfigArn: String?
@@ -3987,9 +4022,9 @@ extension DatabaseMigrationService {
     public struct DescribeReplicationsMessage: AWSEncodableShape {
         /// Filters applied to the replications.
         public let filters: [Filter]?
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        /// The maximum number of records to include in the response. If more records exist than the specified  MaxRecords value, a pagination token called a marker is included in the response so that  the remaining results can be retrieved.
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.
         public let maxRecords: Int?
 
         @inlinable
@@ -4007,7 +4042,7 @@ extension DatabaseMigrationService {
     }
 
     public struct DescribeReplicationsResponse: AWSDecodableShape {
-        /// An optional pagination token provided by a previous request. If this parameter is specified,  the response includes only records beyond the marker, up to the value specified by MaxRecords.
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The replication descriptions.
         public let replications: [Replication]?
@@ -4237,15 +4272,15 @@ extension DatabaseMigrationService {
     }
 
     public struct ElasticsearchSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The endpoint for the OpenSearch cluster. DMS uses HTTPS if a transport  protocol (http/https) is not specified.
+        /// The endpoint for the OpenSearch cluster. DMS uses HTTPS if a transport protocol (http/https) is not specified.
         public let endpointUri: String
         /// The maximum number of seconds for which DMS retries failed API requests to the OpenSearch cluster.
         public let errorRetryDuration: Int?
-        /// The maximum percentage of records that can fail to be written before a full load operation stops. To avoid early failure, this counter is only effective after 1000 records  are transferred. OpenSearch also has the concept of error monitoring during the  last 10 minutes of an Observation Window. If transfer of all records fail in the  last 10 minutes, the full load operation stops.
+        /// The maximum percentage of records that can fail to be written before a full load operation stops. To avoid early failure, this counter is only effective after 1000 records are transferred. OpenSearch also has the concept of error monitoring during the last 10 minutes of an Observation Window. If transfer of all records fail in the last 10 minutes, the full load operation stops.
         public let fullLoadErrorPercentage: Int?
         /// The Amazon Resource Name (ARN) used by the service to access the IAM role. The role must allow the iam:PassRole action.
         public let serviceAccessRoleArn: String
-        /// Set this option to true for DMS to migrate documentation using the documentation type _doc.  OpenSearch and  an Elasticsearch cluster only support the _doc documentation type in versions 7. x and later. The default value is false.
+        /// Set this option to true for DMS to migrate documentation using the documentation type _doc. OpenSearch and an Elasticsearch cluster only support the _doc documentation type in versions 7. x and later. The default value is false.
         public let useNewMappingType: Bool?
 
         @inlinable
@@ -4282,11 +4317,11 @@ extension DatabaseMigrationService {
         public let endpointArn: String?
         /// The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String?
-        /// The type of endpoint.  Valid values are source and target.
+        /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora", this value would be "Amazon Aurora MySQL".
         public let engineDisplayName: String?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "redshift-serverless", "s3", "db2", "db2-zos",  "azuredb", "sybase", "dynamodb",  "mongodb", "kinesis", "kafka",  "elasticsearch", "documentdb", "sqlserver",  "neptune", and "babelfish".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "redshift-serverless", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", "neptune", and "babelfish".
         public let engineName: String?
         ///  Value returned by a call to CreateEndpoint that can be used for cross-account validation. Use it on a subsequent call to CreateEndpoint to create the endpoint with a cross-account.
         public let externalId: String?
@@ -4318,7 +4353,7 @@ extension DatabaseMigrationService {
         public let port: Int?
         /// The settings for the PostgreSQL source and target endpoint. For more information, see the PostgreSQLSettings structure.
         public let postgreSQLSettings: PostgreSQLSettings?
-        /// The settings for the Redis target endpoint. For more information, see the  RedisSettings structure.
+        /// The settings for the Redis target endpoint. For more information, see the RedisSettings structure.
         public let redisSettings: RedisSettings?
         /// Settings for the Amazon Redshift endpoint.
         public let redshiftSettings: RedshiftSettings?
@@ -4434,7 +4469,7 @@ extension DatabaseMigrationService {
         public let name: String?
         /// A value that marks this endpoint setting as sensitive.
         public let sensitive: Bool?
-        /// The type of endpoint.  Valid values are source and target.
+        /// The type of endpoint. Valid values are source and target.
         public let type: EndpointSettingTypeValue?
         /// The unit of measure for this endpoint setting.
         public let units: String?
@@ -4466,7 +4501,7 @@ extension DatabaseMigrationService {
     }
 
     public struct EngineVersion: AWSDecodableShape {
-        /// The date when the replication instance will be automatically upgraded. This setting only applies  if the auto-minor-version setting is enabled.
+        /// The date when the replication instance will be automatically upgraded. This setting only applies if the auto-minor-version setting is enabled.
         public let autoUpgradeDate: Date?
         /// The list of valid replication instance versions that you can upgrade to.
         public let availableUpgrades: [String]?
@@ -4476,7 +4511,7 @@ extension DatabaseMigrationService {
         public let forceUpgradeDate: Date?
         /// The date when the replication instance version became publicly available.
         public let launchDate: Date?
-        /// The lifecycle status of the replication instance version. Valid values are DEPRECATED,  DEFAULT_VERSION, and ACTIVE.
+        /// The lifecycle status of the replication instance version. Valid values are DEPRECATED, DEFAULT_VERSION, and ACTIVE.
         public let lifecycle: String?
         /// The release status of the replication instance version.
         public let releaseStatus: ReleaseStatusValues?
@@ -4752,23 +4787,23 @@ extension DatabaseMigrationService {
     }
 
     public struct GcpMySQLSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies a script to run immediately after DMS connects to the endpoint.  The migration task continues running regardless if the SQL statement succeeds or fails. For this parameter, provide the code of the script itself, not the name of a file containing the script.
+        /// Specifies a script to run immediately after DMS connects to the endpoint. The migration task continues running regardless if the SQL statement succeeds or fails. For this parameter, provide the code of the script itself, not the name of a file containing the script.
         public let afterConnectScript: String?
-        /// Cleans and recreates table metadata information on the replication instance  when a mismatch occurs. For example, in a situation where running an alter DDL  on the table could result in different information about the table cached in the  replication instance.
+        /// Cleans and recreates table metadata information on the replication instance when a mismatch occurs. For example, in a situation where running an alter DDL on the table could result in different information about the table cached in the replication instance.
         public let cleanSourceMetadataOnMismatch: Bool?
-        /// Database name for the endpoint. For a MySQL source or target endpoint, don't explicitly specify  the database using the DatabaseName request parameter on either the CreateEndpoint or ModifyEndpoint API call. Specifying DatabaseName when you create or modify a  MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify  the database only when you specify the schema in the table-mapping rules of the DMS task.
+        /// Database name for the endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on either the CreateEndpoint or ModifyEndpoint API call. Specifying DatabaseName when you create or modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
         public let databaseName: String?
         /// Specifies how often to check the binary log for new changes/events when the database is idle. The default is five seconds. Example: eventsPollInterval=5;  In the example, DMS checks for changes in the binary logs every five seconds.
         public let eventsPollInterval: Int?
         /// Specifies the maximum size (in KB) of any .csv file used to transfer data to a MySQL-compatible database. Example: maxFileSize=512
         public let maxFileSize: Int?
-        /// Improves performance when loading data into the MySQL-compatible target database. Specifies how many  threads to use to load the data into the MySQL-compatible target database. Setting a large number of  threads can have an adverse effect on database performance, because a separate connection is required  for each thread. The default is one. Example: parallelLoadThreads=1
+        /// Improves performance when loading data into the MySQL-compatible target database. Specifies how many threads to use to load the data into the MySQL-compatible target database. Setting a large number of threads can have an adverse effect on database performance, because a separate connection is required for each thread. The default is one. Example: parallelLoadThreads=1
         public let parallelLoadThreads: Int?
         /// Endpoint connection password.
         public let password: String?
         /// Endpoint TCP port.
         public let port: Int?
-        /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in  SecretsManagerSecret. The role must allow the iam:PassRole action.  SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret  that allows access to the MySQL endpoint.  You can specify one of two sets of values for these permissions. You can specify  the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret  and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to  access it, see Using secrets to access Database Migration Service resources in the  Database Migration Service User Guide.
+        /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the MySQL endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see Using secrets to access Database Migration Service resources in the Database Migration Service User Guide.
         public let secretsManagerAccessRoleArn: String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the MySQL endpoint connection details.
         public let secretsManagerSecretId: String?
@@ -4822,7 +4857,7 @@ extension DatabaseMigrationService {
         public let currentLsn: String?
         /// Database name for the endpoint.
         public let databaseName: String?
-        /// If true, DMS saves any .csv files to the Db2 LUW target that were used to replicate data. DMS uses these  files for analysis and troubleshooting. The default value is false.
+        /// If true, DMS saves any .csv files to the Db2 LUW target that were used to replicate data. DMS uses these files for analysis and troubleshooting. The default value is false.
         public let keepCsvFiles: Bool?
         /// The amount of time (in milliseconds) before DMS times out operations performed by DMS on the Db2 target. The default value is 1200 (20 minutes).
         public let loadTimeout: Int?
@@ -4880,6 +4915,66 @@ extension DatabaseMigrationService {
             case setDataCaptureChanges = "SetDataCaptureChanges"
             case username = "Username"
             case writeBufferSize = "WriteBufferSize"
+        }
+    }
+
+    public struct IbmDb2LuwDataProviderSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public let certificateArn: String?
+        /// The database name on the DB2 LUW data provider.
+        public let databaseName: String?
+        /// The port value for the DB2 LUW data provider.
+        public let port: Int?
+        /// The name of the DB2 LUW server.
+        public let serverName: String?
+        /// The SSL mode used to connect to the DB2 LUW data provider. The default value is none. Valid Values: none and verify-ca.
+        public let sslMode: DmsSslModeValue?
+
+        @inlinable
+        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case databaseName = "DatabaseName"
+            case port = "Port"
+            case serverName = "ServerName"
+            case sslMode = "SslMode"
+        }
+    }
+
+    public struct IbmDb2zOsDataProviderSettings: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public let certificateArn: String?
+        /// The database name on the DB2 for z/OS data provider.
+        public let databaseName: String?
+        /// The port value for the DB2 for z/OS data provider.
+        public let port: Int?
+        /// The name of the DB2 for z/OS server.
+        public let serverName: String?
+        /// The SSL mode used to connect to the DB2 for z/OS data provider. The default value is none. Valid Values: none and verify-ca.
+        public let sslMode: DmsSslModeValue?
+
+        @inlinable
+        public init(certificateArn: String? = nil, databaseName: String? = nil, port: Int? = nil, serverName: String? = nil, sslMode: DmsSslModeValue? = nil) {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case databaseName = "DatabaseName"
+            case port = "Port"
+            case serverName = "ServerName"
+            case sslMode = "SslMode"
         }
     }
 
@@ -5013,15 +5108,15 @@ extension DatabaseMigrationService {
         public let noHexPrefix: Bool?
         /// Prefixes schema and table names to partition values, when the partition type is primary-key-type. Doing this increases data distribution among Kafka partitions. For example, suppose that a SysBench schema has thousands of tables and each table has only limited range for a primary key. In this case, the same primary key is sent from thousands of tables to the same partition, which causes throttling. The default is false.
         public let partitionIncludeSchemaTable: Bool?
-        /// For SASL/SSL authentication, DMS supports the SCRAM-SHA-512 mechanism by default. DMS versions  3.5.0 and later also support the PLAIN mechanism. To use the PLAIN mechanism, set this parameter to PLAIN.
+        /// For SASL/SSL authentication, DMS supports the SCRAM-SHA-512 mechanism by default. DMS versions 3.5.0 and later also support the PLAIN mechanism. To use the PLAIN mechanism, set this parameter to PLAIN.
         public let saslMechanism: KafkaSaslMechanism?
-        /// The secure password you created when you first set up your MSK cluster to validate a client identity and  make an encrypted connection between server and client using SASL-SSL authentication.
+        /// The secure password you created when you first set up your MSK cluster to validate a client identity and make an encrypted connection between server and client using SASL-SSL authentication.
         public let saslPassword: String?
         ///  The secure user name you created when you first set up your MSK cluster to validate a client identity and make an encrypted connection between server and client using SASL-SSL authentication.
         public let saslUsername: String?
-        /// Set secure connection to a Kafka target endpoint using Transport Layer Security (TLS). Options include  ssl-encryption, ssl-authentication, and sasl-ssl.  sasl-ssl requires SaslUsername and SaslPassword.
+        /// Set secure connection to a Kafka target endpoint using Transport Layer Security (TLS). Options include ssl-encryption, ssl-authentication, and sasl-ssl. sasl-ssl requires SaslUsername and SaslPassword.
         public let securityProtocol: KafkaSecurityProtocol?
-        ///  The Amazon Resource Name (ARN) for the private certificate authority (CA) cert that DMS uses  to securely connect to your Kafka target endpoint.
+        ///  The Amazon Resource Name (ARN) for the private certificate authority (CA) cert that DMS uses to securely connect to your Kafka target endpoint.
         public let sslCaCertificateArn: String?
         /// The Amazon Resource Name (ARN) of the client certificate used to securely connect to a Kafka target endpoint.
         public let sslClientCertificateArn: String?
@@ -5087,11 +5182,11 @@ extension DatabaseMigrationService {
     }
 
     public struct KerberosAuthenticationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the Amazon Resource Name (ARN) of the IAM role that grants Amazon Web Services DMS access to the secret containing key cache file for the replication instance.
+        /// Specifies the Amazon Resource Name (ARN) of the IAM role that grants Amazon Web Services DMS access to the secret containing key cache file for the kerberos authentication.
         public let keyCacheSecretIamArn: String?
-        /// Specifies the secret ID of the key cache for the replication instance.
+        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication.
         public let keyCacheSecretId: String?
-        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication of the replication instance.
+        /// Specifies the contents of krb5 configuration file required for kerberos authentication.
         public let krb5FileContents: String?
 
         @inlinable
@@ -5255,7 +5350,7 @@ extension DatabaseMigrationService {
     }
 
     public struct MicrosoftSQLServerSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies using Kerberos authentication with Microsoft SQL Server.
+        /// Specifies the authentication method to be used with Microsoft SQL Server.
         public let authenticationMethod: SqlServerAuthenticationMethod?
         /// The maximum size of the packets (in bytes) used to transfer data using BCP.
         public let bcpPacketSize: Int?
@@ -5269,7 +5364,7 @@ extension DatabaseMigrationService {
         public let password: String?
         /// Endpoint TCP port.
         public let port: Int?
-        /// Cleans and recreates table metadata information on the replication instance when  a mismatch occurs. An example is a situation where running an alter DDL statement on  a table might result in different information about the table cached in the replication  instance.
+        /// Cleans and recreates table metadata information on the replication instance when a mismatch occurs. An example is a situation where running an alter DDL statement on a table might result in different information about the table cached in the replication instance.
         public let querySingleAlwaysOnNode: Bool?
         /// When this attribute is set to Y, DMS only reads changes from transaction log backups and doesn't read from the active transaction log file during ongoing replication. Setting this parameter to Y enables you to control active transaction log file growth during full load and ongoing replication tasks. However, it can add some source latency to ongoing replication.
         public let readBackupOnly: Bool?
@@ -5283,13 +5378,13 @@ extension DatabaseMigrationService {
         public let serverName: String?
         /// Indicates the mode used to fetch CDC data.
         public let tlogAccessMode: TlogAccessMode?
-        /// Use the TrimSpaceInChar source endpoint setting to right-trim data  on CHAR and NCHAR data types during migration. Setting TrimSpaceInChar does not left-trim data. The default value is true.
+        /// Use the TrimSpaceInChar source endpoint setting to right-trim data on CHAR and NCHAR data types during migration. Setting TrimSpaceInChar does not left-trim data. The default value is true.
         public let trimSpaceInChar: Bool?
         /// Use this to attribute to transfer data for full-load operations using BCP. When the target table contains an identity column that does not exist in the source table, you must disable the use BCP for loading table option.
         public let useBcpFullLoad: Bool?
         /// Endpoint connection user name.
         public let username: String?
-        /// When this attribute is set to Y, DMS processes third-party  transaction log backups if they are created in native format.
+        /// When this attribute is set to Y, DMS processes third-party transaction log backups if they are created in native format.
         public let useThirdPartyBackupDevice: Bool?
 
         @inlinable
@@ -5466,9 +5561,11 @@ extension DatabaseMigrationService {
         public let serviceAccessRoleArn: String?
         /// The new information about the source data provider for the data migration.
         public let sourceDataSettings: [SourceDataSetting]?
+        /// The new information about the target data provider for the data migration.
+        public let targetDataSettings: [TargetDataSetting]?
 
         @inlinable
-        public init(dataMigrationIdentifier: String, dataMigrationName: String? = nil, dataMigrationType: MigrationTypeValue? = nil, enableCloudwatchLogs: Bool? = nil, numberOfJobs: Int? = nil, selectionRules: String? = nil, serviceAccessRoleArn: String? = nil, sourceDataSettings: [SourceDataSetting]? = nil) {
+        public init(dataMigrationIdentifier: String, dataMigrationName: String? = nil, dataMigrationType: MigrationTypeValue? = nil, enableCloudwatchLogs: Bool? = nil, numberOfJobs: Int? = nil, selectionRules: String? = nil, serviceAccessRoleArn: String? = nil, sourceDataSettings: [SourceDataSetting]? = nil, targetDataSettings: [TargetDataSetting]? = nil) {
             self.dataMigrationIdentifier = dataMigrationIdentifier
             self.dataMigrationName = dataMigrationName
             self.dataMigrationType = dataMigrationType
@@ -5477,6 +5574,7 @@ extension DatabaseMigrationService {
             self.selectionRules = selectionRules
             self.serviceAccessRoleArn = serviceAccessRoleArn
             self.sourceDataSettings = sourceDataSettings
+            self.targetDataSettings = targetDataSettings
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5488,6 +5586,7 @@ extension DatabaseMigrationService {
             case selectionRules = "SelectionRules"
             case serviceAccessRoleArn = "ServiceAccessRoleArn"
             case sourceDataSettings = "SourceDataSettings"
+            case targetDataSettings = "TargetDataSettings"
         }
     }
 
@@ -5512,7 +5611,7 @@ extension DatabaseMigrationService {
         public let dataProviderName: String?
         /// A user-friendly description of the data provider.
         public let description: String?
-        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        /// The type of database engine for the data provider. Valid values include "aurora",  "aurora-postgresql", "mysql", "oracle", "postgres",  "sqlserver", redshift, mariadb, mongodb, db2, db2-zos and docdb. A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
         public let engine: String?
         /// If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:    It replaces any data provider settings that already exist with new values,  for settings with the same names.   It creates new data provider settings that you specify in the call,  for settings with different names.
         public let exactSettings: Bool?
@@ -5560,9 +5659,9 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The settings in JSON format for the DMS transfer type of source endpoint.  Attributes include the following:   serviceAccessRoleArn - The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.   BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string ,BucketName=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string"}
         public let dmsTransferSettings: DmsTransferSettings?
-        /// Settings in JSON format for the source DocumentDB endpoint. For more information about the available settings, see the configuration properties section in  Using DocumentDB as a Target for Database Migration Service in the Database Migration Service User Guide.
+        /// Settings in JSON format for the source DocumentDB endpoint. For more information about the available settings, see the configuration properties section in  Using DocumentDB as a Target for Database Migration Service  in the Database Migration Service User Guide.
         public let docDbSettings: DocDbSettings?
-        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other  available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
+        /// Settings in JSON format for the target Amazon DynamoDB endpoint. For information about other available settings, see Using Object Mapping to Migrate Data to DynamoDB in the Database Migration Service User Guide.
         public let dynamoDbSettings: DynamoDbSettings?
         /// Settings in JSON format for the target OpenSearch endpoint. For more information about the available settings, see Extra Connection Attributes When Using OpenSearch as a Target for DMS in the Database Migration Service User Guide.
         public let elasticsearchSettings: ElasticsearchSettings?
@@ -5570,9 +5669,9 @@ extension DatabaseMigrationService {
         public let endpointArn: String
         /// The database endpoint identifier. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen or contain two consecutive hyphens.
         public let endpointIdentifier: String?
-        /// The type of endpoint.  Valid values are source and target.
+        /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos",  "azuredb", "sybase", "dynamodb",  "mongodb", "kinesis", "kafka",  "elasticsearch", "documentdb", "sqlserver",  "neptune", and "babelfish".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", "neptune", and "babelfish".
         public let engineName: String?
         /// If this attribute is Y, the current call to ModifyEndpoint replaces all existing endpoint settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyEndpoint does two things:    It replaces any endpoint settings that already exist with new values, for settings with the same names.   It creates new endpoint settings that you specify in the call, for settings with different names.    For example, if you call create-endpoint ... --endpoint-settings '{"a":1}' ..., the endpoint has the following endpoint settings: '{"a":1}'. If you then call modify-endpoint ... --endpoint-settings '{"b":2}' ... for the same endpoint, the endpoint has the following settings: '{"a":1,"b":2}'.  However, suppose that you follow this with a call to modify-endpoint ... --endpoint-settings '{"b":2}' --exact-settings ... for that same endpoint again. Then the endpoint has the following settings: '{"b":2}'. All existing settings are replaced with the exact settings that you specify.
         public let exactSettings: Bool?
@@ -5588,13 +5687,13 @@ extension DatabaseMigrationService {
         public let kafkaSettings: KafkaSettings?
         /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using object mapping to migrate data to a Kinesis data stream in the Database Migration Service User Guide.
         public let kinesisSettings: KinesisSettings?
-        /// Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for DMS and  Extra connection attributes when using SQL Server as a target for DMS in the Database Migration Service User Guide.
+        /// Settings in JSON format for the source and target Microsoft SQL Server endpoint. For information about other available settings, see Extra connection attributes when using SQL Server as a source for DMS and Extra connection attributes when using SQL Server as a target for DMS in the Database Migration Service User Guide.
         public let microsoftSQLServerSettings: MicrosoftSQLServerSettings?
         /// Settings in JSON format for the source MongoDB endpoint. For more information about the available settings, see the configuration properties section in Endpoint configuration settings when using MongoDB as a source for Database Migration Service in the Database Migration Service User Guide.
         public let mongoDbSettings: MongoDbSettings?
         /// Settings in JSON format for the source and target MySQL endpoint. For information about other available settings, see Extra connection attributes when using MySQL as a source for DMS and Extra connection attributes when using a MySQL-compatible database as a target for DMS in the Database Migration Service User Guide.
         public let mySQLSettings: MySQLSettings?
-        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target  in the Database Migration Service User Guide.
+        /// Settings in JSON format for the target Amazon Neptune endpoint. For more information about the available settings, see Specifying graph-mapping rules using Gremlin and R2RML for Amazon Neptune as a target in the Database Migration Service User Guide.
         public let neptuneSettings: NeptuneSettings?
         /// Settings in JSON format for the source and target Oracle endpoint. For information about other available settings, see Extra connection attributes when using Oracle as a source for DMS and  Extra connection attributes when using Oracle as a target for DMS in the Database Migration Service User Guide.
         public let oracleSettings: OracleSettings?
@@ -5602,7 +5701,7 @@ extension DatabaseMigrationService {
         public let password: String?
         /// The port used by the endpoint database.
         public let port: Int?
-        /// Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and  Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
+        /// Settings in JSON format for the source and target PostgreSQL endpoint. For information about other available settings, see Extra connection attributes when using PostgreSQL as a source for DMS and Extra connection attributes when using PostgreSQL as a target for DMS in the Database Migration Service User Guide.
         public let postgreSQLSettings: PostgreSQLSettings?
         /// Settings in JSON format for the Redis target endpoint.
         public let redisSettings: RedisSettings?
@@ -5613,7 +5712,7 @@ extension DatabaseMigrationService {
         public let serverName: String?
         ///  The Amazon Resource Name (ARN) for the IAM role you want to use to modify the endpoint. The role must allow the iam:PassRole action.
         public let serviceAccessRoleArn: String?
-        /// The SSL mode used to connect to the endpoint.  The default value is none.
+        /// The SSL mode used to connect to the endpoint. The default value is none.
         public let sslMode: DmsSslModeValue?
         /// Settings in JSON format for the source and target SAP ASE endpoint. For information about other available settings, see Extra connection attributes when using SAP ASE as a source for DMS and Extra connection attributes when using SAP ASE as a target for DMS in the Database Migration Service User Guide.
         public let sybaseSettings: SybaseSettings?
@@ -5941,19 +6040,19 @@ extension DatabaseMigrationService {
         public let applyImmediately: Bool?
         /// A value that indicates that minor version upgrades are applied automatically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case described following. The change is asynchronously applied as soon as possible.  An outage does result if these factors apply:    This parameter is set to true during the maintenance window.   A newer minor version is available.    DMS has enabled automatic patching for the given engine version.
         public let autoMinorVersionUpgrade: Bool?
-        /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set  AllowMajorVersionUpgrade to true.
+        /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
         public let engineVersion: String?
-        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when modifying a replication instance.
+        /// Specifies the settings required for kerberos authentication when modifying a replication instance.
         public let kerberosAuthenticationSettings: KerberosAuthenticationSettings?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
-        /// The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+        /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
         public let networkType: String?
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter does not result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
         public let preferredMaintenanceWindow: String?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
-        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see   Selecting the right DMS replication instance for your migration.
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see  Selecting the right DMS replication instance for your migration.
         public let replicationInstanceClass: String?
         /// The replication instance identifier. This parameter is stored as a lowercase string.
         public let replicationInstanceIdentifier: String?
@@ -6063,9 +6162,9 @@ extension DatabaseMigrationService {
         public let replicationTaskIdentifier: String?
         /// JSON file that contains settings for the task, such as task metadata settings.
         public let replicationTaskSettings: String?
-        /// When using the CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://.  For example,  --table-mappings file://mappingfile.json. When working with the DMS  API,  provide the JSON as the parameter value.
+        /// When using the CLI or boto3, provide the path of the JSON file that contains the table mappings. Precede the path with file://. For example, --table-mappings file://mappingfile.json. When working with the DMS API, provide the JSON as the parameter value.
         public let tableMappings: String?
-        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints.  For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
+        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
         public let taskData: String?
 
         @inlinable
@@ -6177,7 +6276,7 @@ extension DatabaseMigrationService {
         public let secretsManagerAccessRoleArn: String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the MongoDB endpoint connection details.
         public let secretsManagerSecretId: String?
-        ///  The name of the server on the MongoDB source endpoint. For MongoDB Atlas, provide the  server name for any of the servers in the replication set.
+        ///  The name of the server on the MongoDB source endpoint. For MongoDB Atlas, provide the server name for any of the servers in the replication set.
         public let serverName: String?
         /// The user name you use to access the MongoDB source endpoint.
         public let username: String?
@@ -6259,7 +6358,7 @@ extension DatabaseMigrationService {
     public struct MySQLSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies a script to run immediately after DMS connects to the endpoint. The migration task continues running regardless if the SQL statement succeeds or fails. For this parameter, provide the code of the script itself, not the name of a file containing the script.
         public let afterConnectScript: String?
-        /// Cleans and recreates table metadata information on the replication instance  when a mismatch occurs. For example, in a situation where running an alter DDL  on the table could result in different information about the table cached in the  replication instance.
+        /// Cleans and recreates table metadata information on the replication instance when a mismatch occurs. For example, in a situation where running an alter DDL on the table could result in different information about the table cached in the replication instance.
         public let cleanSourceMetadataOnMismatch: Bool?
         /// Database name for the endpoint. For a MySQL source or target endpoint, don't explicitly specify the database using the DatabaseName request parameter on either the CreateEndpoint or ModifyEndpoint API call. Specifying DatabaseName when you create or modify a MySQL endpoint replicates all the task tables to this single database. For MySQL endpoints, you specify the database only when you specify the schema in the table-mapping rules of the DMS task.
         public let databaseName: String?
@@ -6459,7 +6558,7 @@ extension DatabaseMigrationService {
         public let asmServer: String?
         /// For an Oracle source endpoint, your ASM user name. You can set this value from the asm_user value. You set asm_user as part of the extra connection attribute string to access an Oracle server with Binary Reader that uses ASM. For more information, see Configuration for change data capture (CDC) on an Oracle source database.
         public let asmUser: String?
-        /// Specifies using Kerberos authentication with Oracle.
+        /// Specifies the authentication method to be used with Oracle.
         public let authenticationMethod: OracleAuthenticationMethod?
         /// Specifies whether the length of a character column is in bytes or in characters. To indicate that the character column length is in characters, set this attribute to CHAR. Otherwise, the character column length is in bytes. Example: charLengthSemantics=CHAR;
         public let charLengthSemantics: CharLengthSemantics?
@@ -6469,7 +6568,7 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// When set to true, this attribute helps to increase the commit rate on the Oracle target database by writing directly to tables and not writing a trail to database logs.
         public let directPathNoLog: Bool?
-        /// When set to true, this attribute specifies a parallel load when useDirectPathFullLoad is set to Y. This attribute also only applies when you use the DMS parallel load feature.  Note that the target table cannot have any constraints or indexes.
+        /// When set to true, this attribute specifies a parallel load when useDirectPathFullLoad is set to Y. This attribute also only applies when you use the DMS parallel load feature. Note that the target table cannot have any constraints or indexes.
         public let directPathParallelLoad: Bool?
         /// Set this attribute to enable homogenous tablespace replication and create existing tables or indexes under the same tablespace on the target.
         public let enableHomogenousTablespace: Bool?
@@ -6501,27 +6600,27 @@ extension DatabaseMigrationService {
         public let secretsManagerAccessRoleArn: String?
         /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the SecretsManagerOracleAsmSecret. This SecretsManagerOracleAsmSecret has the secret value that allows access to the Oracle ASM of the endpoint.  You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerOracleAsmSecretId. Or you can specify clear-text values for AsmUser, AsmPassword, and AsmServerName. You can't specify both. For more information on creating this SecretsManagerOracleAsmSecret and the SecretsManagerOracleAsmAccessRoleArn and SecretsManagerOracleAsmSecretId required to access it, see Using secrets to access Database Migration Service resources in the Database Migration Service User Guide.
         public let secretsManagerOracleAsmAccessRoleArn: String?
-        /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN, partial ARN, or friendly name of the SecretsManagerOracleAsmSecret  that contains the Oracle ASM connection details for the Oracle endpoint.
+        /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN, partial ARN, or friendly name of the SecretsManagerOracleAsmSecret that contains the Oracle ASM connection details for the Oracle endpoint.
         public let secretsManagerOracleAsmSecretId: String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the Oracle endpoint connection details.
         public let secretsManagerSecretId: String?
-        /// For an Oracle source endpoint, the transparent data encryption (TDE) password required by AWM DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the  TDE_Password part of the comma-separated value you set to the Password request parameter when you create the endpoint. The SecurityDbEncryptian setting is related to this SecurityDbEncryptionName setting. For more information, see  Supported encryption methods for using Oracle as a source for DMS in the Database Migration Service User Guide.
+        /// For an Oracle source endpoint, the transparent data encryption (TDE) password required by AWM DMS to access Oracle redo logs encrypted by TDE using Binary Reader. It is also the  TDE_Password part of the comma-separated value you set to the Password request parameter when you create the endpoint. The SecurityDbEncryptian setting is related to this SecurityDbEncryptionName setting. For more information, see  Supported encryption methods for using Oracle as a source for DMS  in the Database Migration Service User Guide.
         public let securityDbEncryption: String?
-        /// For an Oracle source endpoint, the name of a key used for the transparent data encryption (TDE) of the columns and tablespaces in an Oracle source database that is encrypted using TDE. The key value is the value of the SecurityDbEncryption setting. For more information on setting the key name value of SecurityDbEncryptionName, see the information and example for setting the securityDbEncryptionName extra connection attribute in  Supported encryption methods for using Oracle as a source for DMS in the Database Migration Service User Guide.
+        /// For an Oracle source endpoint, the name of a key used for the transparent data encryption (TDE) of the columns and tablespaces in an Oracle source database that is encrypted using TDE. The key value is the value of the SecurityDbEncryption setting. For more information on setting the key name value of SecurityDbEncryptionName, see the information and example for setting the securityDbEncryptionName extra connection attribute in  Supported encryption methods for using Oracle as a source for DMS  in the Database Migration Service User Guide.
         public let securityDbEncryptionName: String?
         /// Fully qualified domain name of the endpoint. For an Amazon RDS Oracle instance, this is the output of DescribeDBInstances, in the  Endpoint.Address field.
         public let serverName: String?
-        /// Use this attribute to convert SDO_GEOMETRY to  GEOJSON format. By default, DMS calls the  SDO2GEOJSON custom function if present and accessible.  Or you can create your own custom function that mimics the operation of  SDOGEOJSON and set  SpatialDataOptionToGeoJsonFunctionName to call it instead.
+        /// Use this attribute to convert SDO_GEOMETRY to GEOJSON format. By default, DMS calls the SDO2GEOJSON custom function if present and accessible. Or you can create your own custom function that mimics the operation of SDOGEOJSON and set SpatialDataOptionToGeoJsonFunctionName to call it instead.
         public let spatialDataOptionToGeoJsonFunctionName: String?
         /// Use this attribute to specify a time in minutes for the delay in standby sync. If the source is an Oracle Active Data Guard standby database, use this attribute to specify the time lag between primary and standby databases. In DMS, you can create an Oracle CDC task that uses an Active Data Guard standby instance as a source for replicating ongoing changes. Doing this eliminates the need to connect to an active database that might be in production.
         public let standbyDelayTime: Int?
-        /// Use the TrimSpaceInChar source endpoint setting to trim data  on CHAR and NCHAR data types during migration. The default value is true.
+        /// Use the TrimSpaceInChar source endpoint setting to trim data on CHAR and NCHAR data types during migration. The default value is true.
         public let trimSpaceInChar: Bool?
         /// Set this attribute to true in order to use the Binary Reader to capture change data for an Amazon RDS for Oracle as the source. This tells the DMS instance to use any specified prefix replacement to access all online redo logs.
         public let useAlternateFolderForOnline: Bool?
-        /// Set this attribute to True to capture change data using the Binary Reader utility. Set UseLogminerReader to False to set this attribute to True. To use Binary Reader with Amazon RDS for Oracle as the source, you set additional attributes. For more information about using this setting with Oracle Automatic Storage Management (ASM), see  Using Oracle LogMiner or DMS Binary Reader for CDC.
+        /// Set this attribute to True to capture change data using the Binary Reader utility. Set UseLogminerReader to False to set this attribute to True. To use Binary Reader with Amazon RDS for Oracle as the source, you set additional attributes. For more information about using this setting with Oracle Automatic Storage Management (ASM), see Using Oracle LogMiner or DMS Binary Reader for CDC.
         public let useBFile: Bool?
-        /// Set this attribute to True to have DMS use a direct path full load.  Specify this value to use the direct path protocol in the Oracle Call Interface (OCI).  By using this OCI protocol, you can bulk-load Oracle target tables during a full load.
+        /// Set this attribute to True to have DMS use a direct path full load. Specify this value to use the direct path protocol in the Oracle Call Interface (OCI). By using this OCI protocol, you can bulk-load Oracle target tables during a full load.
         public let useDirectPathFullLoad: Bool?
         /// Set this attribute to True to capture change data using the Oracle LogMiner utility (the default). Set this attribute to False if you want to access the redo logs as a binary file. When you set UseLogminerReader to False, also set UseBfile to True. For more information on this setting and using Oracle ASM, see  Using Oracle LogMiner or DMS Binary Reader for CDC in the DMS User Guide.
         public let useLogminerReader: Bool?
@@ -6639,9 +6738,9 @@ extension DatabaseMigrationService {
         public let maxAllocatedStorage: Int?
         /// The minimum amount of storage (in gigabytes) that can be allocated for the replication instance.
         public let minAllocatedStorage: Int?
-        /// The value returned when the specified EngineVersion of the replication  instance is in Beta or test mode. This indicates some features might not work as expected.  DMS supports the ReleaseStatus parameter in versions 3.1.4 and later.
+        /// The value returned when the specified EngineVersion of the replication instance is in Beta or test mode. This indicates some features might not work as expected.  DMS supports the ReleaseStatus parameter in versions 3.1.4 and later.
         public let releaseStatus: ReleaseStatusValues?
-        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see   Selecting the right DMS replication instance for your migration.
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For example to specify the instance class dms.c4.large, set this parameter to "dms.c4.large". For more information on the settings and capacities for the available replication instance classes, see  Selecting the right DMS replication instance for your migration.
         public let replicationInstanceClass: String?
         /// The type of storage used by the replication instance.
         public let storageType: String?
@@ -6719,7 +6818,7 @@ extension DatabaseMigrationService {
         public let databaseName: String?
         /// The schema in which the operational DDL database artifacts are created. The default value is public. Example: ddlArtifactsSchema=xyzddlschema;
         public let ddlArtifactsSchema: String?
-        /// Disables the Unicode source filter with PostgreSQL, for values passed into the Selection rule filter on Source Endpoint column values.  By default DMS performs source filter comparisons using a Unicode string which can cause look ups to ignore the indexes in the text columns and slow down migrations. Unicode support should only be disabled when using a selection rule filter is on a text column in the Source database that is indexed.
+        /// Disables the Unicode source filter with PostgreSQL, for values passed into the Selection rule filter on Source Endpoint column values. By default DMS performs source filter comparisons using a Unicode string which can cause look ups to ignore the indexes in the text columns and slow down migrations. Unicode support should only be disabled when using a selection rule filter is on a text column in the Source database that is indexed.
         public let disableUnicodeSourceFilter: Bool?
         /// Sets the client statement timeout for the PostgreSQL instance, in seconds. The default value is 60 seconds. Example: executeTimeout=100;
         public let executeTimeout: Int?
@@ -6731,7 +6830,7 @@ extension DatabaseMigrationService {
         public let heartbeatFrequency: Int?
         /// Sets the schema in which the heartbeat artifacts are created. The default value is public.
         public let heartbeatSchema: String?
-        /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as  varchar(5). You must set this setting on both the source and target endpoints for it to take effect. The default value is false.
+        /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as varchar(5). You must set this setting on both the source and target endpoints for it to take effect. The default value is false.
         public let mapBooleanAsBoolean: Bool?
         /// When true, DMS migrates JSONB values as CLOB. The default value is false.
         public let mapJsonbAsClob: Bool?
@@ -6753,7 +6852,7 @@ extension DatabaseMigrationService {
         public let serverName: String?
         /// Sets the name of a previously created logical replication slot for a change data capture (CDC) load of the PostgreSQL source instance.  When used with the CdcStartPosition request parameter for the DMS API , this attribute also makes it possible to use native CDC start points. DMS verifies that the specified logical replication slot exists before starting the CDC load task. It also verifies that the task was created with a valid setting of CdcStartPosition. If the specified slot doesn't exist or the task doesn't have a valid CdcStartPosition setting, DMS raises an error. For more information about setting the CdcStartPosition request parameter, see Determining a CDC native start point in the Database Migration Service User Guide. For more information about using CdcStartPosition, see CreateReplicationTask, StartReplicationTask, and ModifyReplicationTask.
         public let slotName: String?
-        /// Use the TrimSpaceInChar source endpoint setting to trim data  on CHAR and NCHAR data types during migration. The default value is true.
+        /// Use the TrimSpaceInChar source endpoint setting to trim data on CHAR and NCHAR data types during migration. The default value is true.
         public let trimSpaceInChar: Bool?
         /// Endpoint connection user name.
         public let username: String?
@@ -6843,6 +6942,58 @@ extension DatabaseMigrationService {
             case port = "Port"
             case serverName = "ServerName"
             case sslMode = "SslMode"
+        }
+    }
+
+    public struct PremigrationAssessmentStatus: AWSDecodableShape {
+        public let assessmentProgress: ReplicationTaskAssessmentRunProgress?
+        /// A configurable setting you can set to true (the defualt setting) or false. Use this setting to to stop the replication from starting automatically if the assessment fails. This can help you evaluate the issue that is preventing the replication from running successfully.
+        public let failOnAssessmentFailure: Bool?
+        /// The last message generated by an individual assessment failure.
+        public let lastFailureMessage: String?
+        /// The Amazon Resource Name (ARN) of this assessment run.
+        public let premigrationAssessmentRunArn: String?
+        /// The date which the assessment run was created.
+        public let premigrationAssessmentRunCreationDate: Date?
+        /// The supported values are SSE_KMS and SSE_S3. If these values are not provided, then the files are not encrypted at rest. For more information, see Creating Amazon Web Services KMS keys to encrypt Amazon S3 target objects.
+        public let resultEncryptionMode: String?
+        /// The ARN of a custom KMS encryption key that you specify when you set ResultEncryptionMode to SSE_KMS.
+        public let resultKmsKeyArn: String?
+        /// The Amazon S3 bucket that Database Migration Service Serverless created to store the results of this assessment run.
+        public let resultLocationBucket: String?
+        /// The folder within an Amazon S3 bucket where you want Database Migration Service to store the results of this assessment run.
+        public let resultLocationFolder: String?
+        public let resultStatistic: ReplicationTaskAssessmentRunResultStatistic?
+        /// This describes the assessment run status. The status can be one of the following values:    cancelling: The assessment run was canceled.    deleting: The assessment run was deleted.    failed: At least one individual assessment completed with a failed status.     error-provisioning: An internal error occurred while resources were provisioned (during the provisioning status).    error-executing An internal error occurred while individual assessments ran (during the running status).    invalid state: The assessment run is in an unknown state.     passed: All individual assessments have completed and none have a failed status.    provisioning: The resources required to run individual assessments are being provisioned.     running: Individual assessments are being run.     starting: The assessment run is starting, but resources are not yet being provisioned for individual assessments.     warning: At least one individual assessment completed with a warning status.
+        public let status: String?
+
+        @inlinable
+        public init(assessmentProgress: ReplicationTaskAssessmentRunProgress? = nil, failOnAssessmentFailure: Bool? = nil, lastFailureMessage: String? = nil, premigrationAssessmentRunArn: String? = nil, premigrationAssessmentRunCreationDate: Date? = nil, resultEncryptionMode: String? = nil, resultKmsKeyArn: String? = nil, resultLocationBucket: String? = nil, resultLocationFolder: String? = nil, resultStatistic: ReplicationTaskAssessmentRunResultStatistic? = nil, status: String? = nil) {
+            self.assessmentProgress = assessmentProgress
+            self.failOnAssessmentFailure = failOnAssessmentFailure
+            self.lastFailureMessage = lastFailureMessage
+            self.premigrationAssessmentRunArn = premigrationAssessmentRunArn
+            self.premigrationAssessmentRunCreationDate = premigrationAssessmentRunCreationDate
+            self.resultEncryptionMode = resultEncryptionMode
+            self.resultKmsKeyArn = resultKmsKeyArn
+            self.resultLocationBucket = resultLocationBucket
+            self.resultLocationFolder = resultLocationFolder
+            self.resultStatistic = resultStatistic
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentProgress = "AssessmentProgress"
+            case failOnAssessmentFailure = "FailOnAssessmentFailure"
+            case lastFailureMessage = "LastFailureMessage"
+            case premigrationAssessmentRunArn = "PremigrationAssessmentRunArn"
+            case premigrationAssessmentRunCreationDate = "PremigrationAssessmentRunCreationDate"
+            case resultEncryptionMode = "ResultEncryptionMode"
+            case resultKmsKeyArn = "ResultKmsKeyArn"
+            case resultLocationBucket = "ResultLocationBucket"
+            case resultLocationFolder = "ResultLocationFolder"
+            case resultStatistic = "ResultStatistic"
+            case status = "Status"
         }
     }
 
@@ -6983,9 +7134,9 @@ extension DatabaseMigrationService {
     }
 
     public struct RebootReplicationInstanceMessage: AWSEncodableShape {
-        /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. If the instance isn't configured for Multi-AZ, then you can't specify true.  ( --force-planned-failover and --force-failover can't both be set to true.)
+        /// If this parameter is true, the reboot is conducted through a Multi-AZ failover. If the instance isn't configured for Multi-AZ, then you can't specify true. ( --force-planned-failover and --force-failover can't both be set to true.)
         public let forceFailover: Bool?
-        /// If this parameter is true, the reboot is conducted through a planned Multi-AZ failover  where resources are released and cleaned up prior to conducting the failover.  If the instance isn''t configured for Multi-AZ, then you can't specify true.  ( --force-planned-failover and --force-failover can't both be set to true.)
+        /// If this parameter is true, the reboot is conducted through a planned Multi-AZ failover where resources are released and cleaned up prior to conducting the failover. If the instance isn''t configured for Multi-AZ, then you can't specify true. ( --force-planned-failover and --force-failover can't both be set to true.)
         public let forcePlannedFailover: Bool?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String
@@ -7089,11 +7240,11 @@ extension DatabaseMigrationService {
     }
 
     public struct RedisSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The password provided with the auth-role and  auth-token options of the AuthType setting for a Redis  target endpoint.
+        /// The password provided with the auth-role and auth-token options of the AuthType setting for a Redis target endpoint.
         public let authPassword: String?
         /// The type of authentication to perform when connecting to a Redis target. Options include none, auth-token, and auth-role. The auth-token option requires an AuthPassword value to be provided. The auth-role option requires AuthUserName and AuthPassword values to be provided.
         public let authType: RedisAuthTypeValue?
-        /// The user name provided with the auth-role option of the  AuthType setting for a Redis target endpoint.
+        /// The user name provided with the auth-role option of the AuthType setting for a Redis target endpoint.
         public let authUserName: String?
         /// Transmission Control Protocol (TCP) port for the endpoint.
         public let port: Int
@@ -7101,7 +7252,7 @@ extension DatabaseMigrationService {
         public let serverName: String
         /// The Amazon Resource Name (ARN) for the certificate authority (CA) that DMS uses to connect to your Redis target endpoint.
         public let sslCaCertificateArn: String?
-        /// The connection to a Redis target endpoint using Transport Layer Security (TLS). Valid values include plaintext and ssl-encryption. The default is ssl-encryption. The ssl-encryption option makes an encrypted connection. Optionally, you can identify an Amazon Resource Name (ARN) for an SSL certificate authority (CA)  using the SslCaCertificateArn setting. If an ARN isn't given for a CA, DMS uses the Amazon root CA. The plaintext option doesn't provide Transport Layer Security (TLS)  encryption for traffic between endpoint and database.
+        /// The connection to a Redis target endpoint using Transport Layer Security (TLS). Valid values include plaintext and ssl-encryption. The default is ssl-encryption. The ssl-encryption option makes an encrypted connection. Optionally, you can identify an Amazon Resource Name (ARN) for an SSL certificate authority (CA) using the SslCaCertificateArn setting. If an ARN isn't given for a CA, DMS uses the Amazon root CA. The plaintext option doesn't provide Transport Layer Security (TLS) encryption for traffic between endpoint and database.
         public let sslSecurityProtocol: SslSecurityProtocolValue?
 
         @inlinable
@@ -7153,7 +7304,7 @@ extension DatabaseMigrationService {
         public let acceptAnyDate: Bool?
         /// Code to run after connecting. This parameter should contain the code itself, not the name of a file containing the code.
         public let afterConnectScript: String?
-        /// An S3 folder where the comma-separated-value (.csv) files are stored before being  uploaded to the target Redshift cluster.  For full load mode, DMS converts source records into .csv files and loads them to the BucketFolder/TableID path. DMS uses the Redshift COPY command to upload the .csv files to the target table. The files are deleted once the COPY operation has finished. For more information, see COPY in the Amazon Redshift Database Developer Guide. For change-data-capture (CDC) mode, DMS creates a NetChanges table,  and loads the .csv files to this BucketFolder/NetChangesTableID path.
+        /// An S3 folder where the comma-separated-value (.csv) files are stored before being uploaded to the target Redshift cluster.  For full load mode, DMS converts source records into .csv files and loads them to the BucketFolder/TableID path. DMS uses the Redshift COPY command to upload the .csv files to the target table. The files are deleted once the COPY operation has finished. For more information, see COPY in the Amazon Redshift Database Developer Guide. For change-data-capture (CDC) mode, DMS creates a NetChanges table, and loads the .csv files to this BucketFolder/NetChangesTableID path.
         public let bucketFolder: String?
         /// The name of the intermediate S3 bucket used to store .csv files before uploading data to Redshift.
         public let bucketName: String?
@@ -7175,11 +7326,11 @@ extension DatabaseMigrationService {
         public let explicitIds: Bool?
         /// The number of threads used to upload a single file. This parameter accepts a value from 1 through 64. It defaults to 10. The number of parallel streams used to upload a single .csv file to an S3 bucket using S3 Multipart Upload. For more information, see Multipart upload overview.   FileTransferUploadStreams accepts a value from 1 through 64. It defaults to 10.
         public let fileTransferUploadStreams: Int?
-        /// The amount of time to wait (in milliseconds) before timing out of operations performed  by DMS on a Redshift cluster, such as Redshift COPY, INSERT, DELETE, and UPDATE.
+        /// The amount of time to wait (in milliseconds) before timing out of operations performed by DMS on a Redshift cluster, such as Redshift COPY, INSERT, DELETE, and UPDATE.
         public let loadTimeout: Int?
-        /// When true, lets Redshift migrate the boolean type as boolean. By default, Redshift migrates booleans as  varchar(1). You must set this setting on both the source and target endpoints for it to take effect.
+        /// When true, lets Redshift migrate the boolean type as boolean. By default, Redshift migrates booleans as varchar(1). You must set this setting on both the source and target endpoints for it to take effect.
         public let mapBooleanAsBoolean: Bool?
-        /// The maximum size (in KB) of any .csv file used to load data on an S3 bucket and transfer  data to Amazon Redshift. It defaults to 1048576KB (1 GB).
+        /// The maximum size (in KB) of any .csv file used to load data on an S3 bucket and transfer data to Amazon Redshift. It defaults to 1048576KB (1 GB).
         public let maxFileSize: Int?
         /// The password for the user named in the username property.
         public let password: String?
@@ -7209,7 +7360,7 @@ extension DatabaseMigrationService {
         public let truncateColumns: Bool?
         /// An Amazon Redshift user name for a registered user.
         public let username: String?
-        /// The size (in KB) of the in-memory file write buffer used when generating .csv files  on the local disk at the DMS replication instance. The default value is 1000  (buffer size is 1000KB).
+        /// The size (in KB) of the in-memory file write buffer used when generating .csv files on the local disk at the DMS replication instance. The default value is 1000 (buffer size is 1000KB).
         public let writeBufferSize: Int?
 
         @inlinable
@@ -7447,6 +7598,8 @@ extension DatabaseMigrationService {
         public let cdcStopPosition: String?
         /// Error and other information about why a serverless replication failed.
         public let failureMessages: [String]?
+        /// The status output of premigration assessment in describe-replications.
+        public let premigrationAssessmentStatuses: [PremigrationAssessmentStatus]?
         /// Information about provisioning resources for an DMS serverless replication.
         public let provisionData: ProvisionData?
         /// Indicates the last checkpoint that occurred during a change data capture (CDC) operation. You can provide this value to the CdcStartPosition parameter to start a CDC operation that begins at that checkpoint.
@@ -7473,17 +7626,18 @@ extension DatabaseMigrationService {
         public let startReplicationType: String?
         /// The current status of the serverless replication.
         public let status: String?
-        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "Stop Reason NORMAL"     "Stop Reason RECOVERABLE_ERROR"     "Stop Reason FATAL_ERROR"     "Stop Reason FULL_LOAD_ONLY_FINISHED"     "Stop Reason STOPPED_AFTER_FULL_LOAD" – Full load completed, with cached changes not applied    "Stop Reason STOPPED_AFTER_CACHED_EVENTS"  – Full load completed, with cached changes applied    "Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"     "Stop Reason STOPPED_AFTER_DDL_APPLY" – User-defined stop task after DDL applied    "Stop Reason STOPPED_DUE_TO_LOW_MEMORY"     "Stop Reason STOPPED_DUE_TO_LOW_DISK"     "Stop Reason STOPPED_AT_SERVER_TIME" – User-defined server time for stopping task    "Stop Reason STOPPED_AT_COMMIT_TIME" –  User-defined commit time for stopping task    "Stop Reason RECONFIGURATION_RESTART"     "Stop Reason RECYCLE_TASK"
+        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "Stop Reason NORMAL"     "Stop Reason RECOVERABLE_ERROR"     "Stop Reason FATAL_ERROR"     "Stop Reason FULL_LOAD_ONLY_FINISHED"     "Stop Reason STOPPED_AFTER_FULL_LOAD" – Full load completed, with cached changes not applied    "Stop Reason STOPPED_AFTER_CACHED_EVENTS" – Full load completed, with cached changes applied    "Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"     "Stop Reason STOPPED_AFTER_DDL_APPLY" – User-defined stop task after DDL applied    "Stop Reason STOPPED_DUE_TO_LOW_MEMORY"     "Stop Reason STOPPED_DUE_TO_LOW_DISK"     "Stop Reason STOPPED_AT_SERVER_TIME" – User-defined server time for stopping task    "Stop Reason STOPPED_AT_COMMIT_TIME" – User-defined commit time for stopping task    "Stop Reason RECONFIGURATION_RESTART"     "Stop Reason RECYCLE_TASK"
         public let stopReason: String?
         /// The Amazon Resource Name for an existing Endpoint the serverless replication uses for its data target.
         public let targetEndpointArn: String?
 
         @inlinable
-        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, failureMessages: [String]? = nil, provisionData: ProvisionData? = nil, recoveryCheckpoint: String? = nil, replicationConfigArn: String? = nil, replicationConfigIdentifier: String? = nil, replicationCreateTime: Date? = nil, replicationDeprovisionTime: Date? = nil, replicationLastStopTime: Date? = nil, replicationStats: ReplicationStats? = nil, replicationType: MigrationTypeValue? = nil, replicationUpdateTime: Date? = nil, sourceEndpointArn: String? = nil, startReplicationType: String? = nil, status: String? = nil, stopReason: String? = nil, targetEndpointArn: String? = nil) {
+        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, failureMessages: [String]? = nil, premigrationAssessmentStatuses: [PremigrationAssessmentStatus]? = nil, provisionData: ProvisionData? = nil, recoveryCheckpoint: String? = nil, replicationConfigArn: String? = nil, replicationConfigIdentifier: String? = nil, replicationCreateTime: Date? = nil, replicationDeprovisionTime: Date? = nil, replicationLastStopTime: Date? = nil, replicationStats: ReplicationStats? = nil, replicationType: MigrationTypeValue? = nil, replicationUpdateTime: Date? = nil, sourceEndpointArn: String? = nil, startReplicationType: String? = nil, status: String? = nil, stopReason: String? = nil, targetEndpointArn: String? = nil) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
             self.failureMessages = failureMessages
+            self.premigrationAssessmentStatuses = premigrationAssessmentStatuses
             self.provisionData = provisionData
             self.recoveryCheckpoint = recoveryCheckpoint
             self.replicationConfigArn = replicationConfigArn
@@ -7506,6 +7660,7 @@ extension DatabaseMigrationService {
             case cdcStartTime = "CdcStartTime"
             case cdcStopPosition = "CdcStopPosition"
             case failureMessages = "FailureMessages"
+            case premigrationAssessmentStatuses = "PremigrationAssessmentStatuses"
             case provisionData = "ProvisionData"
             case recoveryCheckpoint = "RecoveryCheckpoint"
             case replicationConfigArn = "ReplicationConfigArn"
@@ -7527,7 +7682,7 @@ extension DatabaseMigrationService {
     public struct ReplicationConfig: AWSDecodableShape {
         /// Configuration parameters for provisioning an DMS serverless replication.
         public let computeConfig: ComputeConfig?
-        /// The Amazon Resource Name (ARN) of  this DMS Serverless replication configuration.
+        /// The Amazon Resource Name (ARN) of this DMS Serverless replication configuration.
         public let replicationConfigArn: String?
         /// The time the serverless replication config was created.
         public let replicationConfigCreateTime: Date?
@@ -7587,19 +7742,19 @@ extension DatabaseMigrationService {
         public let availabilityZone: String?
         /// The DNS name servers supported for the replication instance to access your on-premise source or target database.
         public let dnsNameServers: String?
-        /// The engine version number of the replication instance. If an engine version number is not specified when a replication  instance is created, the default is the latest engine version available. When modifying a major engine version of an instance, also set   AllowMajorVersionUpgrade to true.
+        /// The engine version number of the replication instance. If an engine version number is not specified when a replication instance is created, the default is the latest engine version available. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
         public let engineVersion: String?
         ///  The expiration date of the free replication instance that is part of the Free DMS program.
         public let freeUntil: Date?
         /// The time the replication instance was created.
         public let instanceCreateTime: Date?
-        /// Specifies the ID of the secret that stores the key cache file required for kerberos authentication, when replicating an instance.
+        /// Specifies the settings required for kerberos authentication when replicating an instance.
         public let kerberosAuthenticationSettings: KerberosAuthenticationSettings?
         /// An KMS key identifier that is used to encrypt the data on the replication instance. If you don't specify a value for the KmsKeyId parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public let kmsKeyId: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
-        /// The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+        /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
         public let networkType: String?
         /// The pending modification values.
         public let pendingModifiedValues: ReplicationPendingModifiedValues?
@@ -7609,7 +7764,7 @@ extension DatabaseMigrationService {
         public let publiclyAccessible: Bool?
         /// The Amazon Resource Name (ARN) of the replication instance.
         public let replicationInstanceArn: String?
-        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. It is a required parameter, although a default value is pre-selected in the DMS console. For more information on the settings and capacities for the available replication instance classes, see   Selecting the right DMS replication instance for your migration.
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. It is a required parameter, although a default value is pre-selected in the DMS console. For more information on the settings and capacities for the available replication instance classes, see  Selecting the right DMS replication instance for your migration.
         public let replicationInstanceClass: String?
         /// The replication instance identifier is a required parameter. This parameter is stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or hyphens.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: myrepinstance
         public let replicationInstanceIdentifier: String?
@@ -7752,9 +7907,9 @@ extension DatabaseMigrationService {
         public let engineVersion: String?
         ///  Specifies whether the replication instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
         public let multiAZ: Bool?
-        /// The type of IP address protocol used by a replication instance,  such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing.  IPv6 only is not yet supported.
+        /// The type of IP address protocol used by a replication instance, such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
         public let networkType: String?
-        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For more information on the settings and capacities for the available replication instance classes, see   Selecting the right DMS replication instance for your migration.
+        /// The compute and memory capacity of the replication instance as defined for the specified replication instance class. For more information on the settings and capacities for the available replication instance classes, see  Selecting the right DMS replication instance for your migration.
         public let replicationInstanceClass: String?
 
         @inlinable
@@ -7838,7 +7993,7 @@ extension DatabaseMigrationService {
         public let subnetGroupStatus: String?
         /// The subnets that are in the subnet group.
         public let subnets: [Subnet]?
-        /// The IP addressing protocol supported by the subnet group. This is used by a  replication instance with values such as IPv4 only or Dual-stack that supports  both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
+        /// The IP addressing protocol supported by the subnet group. This is used by a replication instance with values such as IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet supported.
         public let supportedNetworkTypes: [String]?
         /// The ID of the VPC.
         public let vpcId: String?
@@ -7892,7 +8047,7 @@ extension DatabaseMigrationService {
         public let sourceEndpointArn: String?
         /// The status of the replication task. This response parameter can return one of the following values:    "moving" – The task is being moved in response to running the  MoveReplicationTask operation.    "creating" – The task is being created in response to running the  CreateReplicationTask operation.    "deleting" – The task is being deleted in response to running the  DeleteReplicationTask operation.    "failed" – The task failed to successfully complete the database migration in response to running the  StartReplicationTask operation.    "failed-move" – The task failed to move in response to running the  MoveReplicationTask operation.    "modifying" – The task definition is being modified in response to running the  ModifyReplicationTask operation.    "ready" – The task is in a ready state where it can respond to other task operations, such as  StartReplicationTask or  DeleteReplicationTask .     "running" – The task is performing a database migration in response to running the  StartReplicationTask operation.    "starting" – The task is preparing to perform a database migration in response to running the  StartReplicationTask operation.    "stopped" – The task has stopped in response to running the  StopReplicationTask operation.    "stopping" – The task is preparing to stop in response to running the  StopReplicationTask operation.    "testing" – The database migration specified for this task is being tested in response to running either the  StartReplicationTaskAssessmentRun or the  StartReplicationTaskAssessment  operation.    StartReplicationTaskAssessmentRun is an improved premigration task assessment operation. The  StartReplicationTaskAssessment  operation assesses data type compatibility only between the source and target database of a given migration task. In contrast,  StartReplicationTaskAssessmentRun  enables you to specify a variety of premigration task assessments in addition to data type compatibility. These assessments include ones for the validity of primary key definitions and likely issues with database migration performance, among others.
         public let status: String?
-        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "Stop Reason NORMAL" – The task completed successfully with no additional information returned.    "Stop Reason RECOVERABLE_ERROR"     "Stop Reason FATAL_ERROR"     "Stop Reason FULL_LOAD_ONLY_FINISHED"  – The task completed the full load phase. DMS applied cached changes if you set StopTaskCachedChangesApplied to true.    "Stop Reason STOPPED_AFTER_FULL_LOAD" – Full load completed, with cached changes not applied    "Stop Reason STOPPED_AFTER_CACHED_EVENTS"  – Full load completed, with cached changes applied    "Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"     "Stop Reason STOPPED_AFTER_DDL_APPLY" – User-defined stop task after DDL applied    "Stop Reason STOPPED_DUE_TO_LOW_MEMORY"     "Stop Reason STOPPED_DUE_TO_LOW_DISK"     "Stop Reason STOPPED_AT_SERVER_TIME" – User-defined server time for stopping task    "Stop Reason STOPPED_AT_COMMIT_TIME" –  User-defined commit time for stopping task    "Stop Reason RECONFIGURATION_RESTART"     "Stop Reason RECYCLE_TASK"
+        /// The reason the replication task was stopped. This response parameter can return one of the following values:    "Stop Reason NORMAL" – The task completed successfully with no additional information returned.    "Stop Reason RECOVERABLE_ERROR"     "Stop Reason FATAL_ERROR"     "Stop Reason FULL_LOAD_ONLY_FINISHED" – The task completed the full load phase. DMS applied cached changes if you set StopTaskCachedChangesApplied to true.    "Stop Reason STOPPED_AFTER_FULL_LOAD" – Full load completed, with cached changes not applied    "Stop Reason STOPPED_AFTER_CACHED_EVENTS" – Full load completed, with cached changes applied    "Stop Reason EXPRESS_LICENSE_LIMITS_REACHED"     "Stop Reason STOPPED_AFTER_DDL_APPLY" – User-defined stop task after DDL applied    "Stop Reason STOPPED_DUE_TO_LOW_MEMORY"     "Stop Reason STOPPED_DUE_TO_LOW_DISK"     "Stop Reason STOPPED_AT_SERVER_TIME" – User-defined server time for stopping task    "Stop Reason STOPPED_AT_COMMIT_TIME" – User-defined commit time for stopping task    "Stop Reason RECONFIGURATION_RESTART"     "Stop Reason RECYCLE_TASK"
         public let stopReason: String?
         /// Table mappings specified in the task.
         public let tableMappings: String?
@@ -7900,7 +8055,7 @@ extension DatabaseMigrationService {
         public let targetEndpointArn: String?
         /// The ARN of the replication instance to which this task is moved in response to running the  MoveReplicationTask operation. Otherwise, this response parameter isn't a member of the ReplicationTask object.
         public let targetReplicationInstanceArn: String?
-        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints.  For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
+        /// Supplemental information that the task requires to migrate the data for certain source and target endpoints. For more information, see Specifying Supplemental Data for Task Settings in the Database Migration Service User Guide.
         public let taskData: String?
 
         @inlinable
@@ -8142,7 +8297,7 @@ extension DatabaseMigrationService {
         public let fullLoadProgressPercent: Int?
         /// The date the replication task full load was started.
         public let fullLoadStartDate: Date?
-        /// The date the replication task was started either with a fresh start or a resume. For more information, see  StartReplicationTaskType.
+        /// The date the replication task was started either with a fresh start or a resume. For more information, see StartReplicationTaskType.
         public let startDate: Date?
         /// The date the replication task was stopped.
         public let stopDate: Date?
@@ -8224,7 +8379,7 @@ extension DatabaseMigrationService {
     public struct S3Settings: AWSEncodableShape & AWSDecodableShape {
         /// An optional parameter that, when set to true or y, you can use to add column name information to the .csv output file. The default value is false. Valid values are true, false, y, and n.
         public let addColumnName: Bool?
-        /// Use the S3 target endpoint setting AddTrailingPaddingCharacter to add  padding on string data. The default value is false.
+        /// Use the S3 target endpoint setting AddTrailingPaddingCharacter to add padding on string data. The default value is false.
         public let addTrailingPaddingCharacter: Bool?
         ///  An optional parameter to set a folder name in the S3 bucket. If provided, tables are created in the path  bucketFolder/schema_name/table_name/. If this parameter isn't specified, then the path used is  schema_name/table_name/.
         public let bucketFolder: String?
@@ -8238,7 +8393,7 @@ extension DatabaseMigrationService {
         public let cdcInsertsOnly: Bool?
         /// Maximum length of the interval, defined in seconds, after which to output a file to Amazon S3. When CdcMaxBatchInterval and CdcMinFileSize are both specified, the file write is triggered by whichever parameter condition is met first within an DMS CloudFormation template. The default value is 60 seconds.
         public let cdcMaxBatchInterval: Int?
-        /// Minimum file size, defined in kilobytes, to reach for a file output to Amazon S3. When CdcMinFileSize and CdcMaxBatchInterval are both specified, the file  write is triggered by whichever parameter condition is met first within an DMS  CloudFormation template. The default value is 32 MB.
+        /// Minimum file size, defined in kilobytes, to reach for a file output to Amazon S3. When CdcMinFileSize and CdcMaxBatchInterval are both specified, the file write is triggered by whichever parameter condition is met first within an DMS CloudFormation template. The default value is 32 MB.
         public let cdcMinFileSize: Int?
         /// Specifies the folder path of CDC files. For an S3 source, this setting is required if a task captures change data; otherwise, it's optional. If CdcPath is set, DMS reads CDC files from this path and replicates the data changes to the target endpoint. For an S3 target if you set  PreserveTransactions to true, DMS verifies that you have set this parameter to a folder path on your S3 target where DMS can save the transaction order for the CDC load. DMS creates this CDC folder path in either your S3 target working directory or the S3 target location specified by  BucketFolder and  BucketName . For example, if you specify CdcPath as MyChangedData, and you specify BucketName as MyTargetBucket but do not specify BucketFolder, DMS creates the CDC folder path following: MyTargetBucket/MyChangedData. If you specify the same CdcPath, and you specify BucketName as MyTargetBucket and BucketFolder as MyTargetData, DMS creates the CDC folder path following: MyTargetBucket/MyTargetData/MyChangedData. For more information on CDC including transaction order on an S3 target, see Capturing data changes (CDC) including transaction order on the S3 target.  This setting is supported in DMS versions 3.4.2 and later.
         public let cdcPath: String?
@@ -8256,11 +8411,11 @@ extension DatabaseMigrationService {
         public let dataFormat: DataFormatValue?
         /// The size of one data page in bytes. This parameter defaults to 1024 * 1024 bytes (1 MiB). This number is used for .parquet file format only.
         public let dataPageSize: Int?
-        /// Specifies a date separating delimiter to use during folder partitioning. The default value is  SLASH. Use this parameter when DatePartitionedEnabled is set to true.
+        /// Specifies a date separating delimiter to use during folder partitioning. The default value is SLASH. Use this parameter when DatePartitionedEnabled is set to true.
         public let datePartitionDelimiter: DatePartitionDelimiterValue?
         /// When set to true, this parameter partitions S3 bucket folders based on transaction commit dates. The default value is false. For more information about date-based folder partitioning, see Using date-based folder partitioning.
         public let datePartitionEnabled: Bool?
-        /// Identifies the sequence of the date format to use during folder partitioning. The default value is  YYYYMMDD. Use this parameter when DatePartitionedEnabled is set to true.
+        /// Identifies the sequence of the date format to use during folder partitioning. The default value is YYYYMMDD. Use this parameter when DatePartitionedEnabled is set to true.
         public let datePartitionSequence: DatePartitionSequenceValue?
         /// When creating an S3 target endpoint, set DatePartitionTimezone to convert the current UTC time into a specified time zone. The conversion occurs when a date partition folder is created and a CDC filename is generated. The time zone format is Area/Location. Use this parameter when DatePartitionedEnabled is set to true, as shown in the following example.  s3-settings='{"DatePartitionEnabled": true, "DatePartitionSequence": "YYYYMMDDHH", "DatePartitionDelimiter": "SLASH", "DatePartitionTimezone":"Asia/Seoul", "BucketName": "dms-nattarat-test"}'
         public let datePartitionTimezone: String?
@@ -8272,7 +8427,7 @@ extension DatabaseMigrationService {
         public let encodingType: EncodingTypeValue?
         /// The type of server-side encryption that you want to use for your data. This encryption type is part of the endpoint settings or the extra connections attributes for Amazon S3. You can choose either SSE_S3 (the default) or SSE_KMS.   For the ModifyEndpoint operation, you can change the existing value of the EncryptionMode parameter from SSE_KMS to SSE_S3. But you can’t change the existing value from SSE_S3 to SSE_KMS.  To use SSE_S3, you need an Identity and Access Management (IAM) role with permission to allow "arn:aws:s3:::dms-*" to use the following actions:    s3:CreateBucket     s3:ListBucket     s3:DeleteBucket     s3:GetBucketLocation     s3:GetObject     s3:PutObject     s3:DeleteObject     s3:GetObjectVersion     s3:GetBucketPolicy     s3:PutBucketPolicy     s3:DeleteBucketPolicy
         public let encryptionMode: EncryptionModeValue?
-        /// To specify a bucket owner and prevent sniping, you can use the  ExpectedBucketOwner endpoint setting.  Example: --s3-settings='{"ExpectedBucketOwner": "AWS_Account_ID"}'  When you make a request to test a connection or perform a migration, S3 checks the account  ID of the bucket owner against the specified parameter.
+        /// To specify a bucket owner and prevent sniping, you can use the ExpectedBucketOwner endpoint setting.  Example: --s3-settings='{"ExpectedBucketOwner": "AWS_Account_ID"}'  When you make a request to test a connection or perform a migration, S3 checks the account ID of the bucket owner against the specified parameter.
         public let expectedBucketOwner: String?
         ///  Specifies how tables are defined in the S3 source files only.
         public let externalTableDefinition: String?
@@ -8280,7 +8435,7 @@ extension DatabaseMigrationService {
         public let glueCatalogGeneration: Bool?
         /// When this value is set to 1, DMS ignores the first row header in a .csv file. A value of 1 turns on the feature; a value of 0 turns off the feature. The default is 0.
         public let ignoreHeaderRows: Int?
-        /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) or .parquet output files only to indicate how the rows were added to the source database.  DMS supports the IncludeOpForFullLoad parameter in versions 3.1.4 and later. DMS supports the use of the .parquet files with the IncludeOpForFullLoad  parameter in versions 3.4.7 and later.  For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load.  This setting works together with the CdcInsertsOnly and the CdcInsertsAndUpdates parameters for output to .csv files only. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the Database Migration Service User Guide..
+        /// A value that enables a full load to write INSERT operations to the comma-separated value (.csv) or .parquet output files only to indicate how the rows were added to the source database.  DMS supports the IncludeOpForFullLoad parameter in versions 3.1.4 and later. DMS supports the use of the .parquet files with the IncludeOpForFullLoad parameter in versions 3.4.7 and later.  For full load, records can only be inserted. By default (the false setting), no information is recorded in these output files for a full load to indicate that the rows were inserted at the source database. If IncludeOpForFullLoad is set to true or y, the INSERT is recorded as an I annotation in the first field of the .csv file. This allows the format of your target records from a full load to be consistent with the target records from a CDC load.  This setting works together with the CdcInsertsOnly and the CdcInsertsAndUpdates parameters for output to .csv files only. For more information about how these settings work together, see Indicating Source DB Operations in Migrated S3 Data in the Database Migration Service User Guide..
         public let includeOpForFullLoad: Bool?
         /// A value that specifies the maximum size (in KB) of any .csv file to be created while migrating to an S3 target during full load. The default value is 1,048,576 KB (1 GB). Valid values include 1 to 1,048,576.
         public let maxFileSize: Int?
@@ -8302,7 +8457,7 @@ extension DatabaseMigrationService {
         public let timestampColumnName: String?
         /// This setting applies if the S3 output files during a change data capture (CDC) load are written in .csv format. If set to true for columns not included in the supplemental log, DMS uses the value specified by  CsvNoSupValue . If not set or set to false, DMS uses the null value for these columns.  This setting is supported in DMS versions 3.4.1 and later.
         public let useCsvNoSupValue: Bool?
-        /// When set to true, this parameter uses the task start time as the timestamp column value instead of  the time data is written to target. For full load, when useTaskStartTimeForFullLoadTimestamp is set to true, each row of the timestamp column contains the task start time. For CDC loads,  each row of the timestamp column contains the transaction commit time. When useTaskStartTimeForFullLoadTimestamp is set to false, the full load timestamp  in the timestamp column increments with the time data arrives at the target.
+        /// When set to true, this parameter uses the task start time as the timestamp column value instead of the time data is written to target. For full load, when useTaskStartTimeForFullLoadTimestamp is set to true, each row of the timestamp column contains the task start time. For CDC loads, each row of the timestamp column contains the transaction commit time. When useTaskStartTimeForFullLoadTimestamp is set to false, the full load timestamp in the timestamp column increments with the time data arrives at the target.
         public let useTaskStartTimeForFullLoadTimestamp: Bool?
 
         @inlinable
@@ -8547,7 +8702,7 @@ extension DatabaseMigrationService {
         /// The change data capture (CDC) stop time for the source data provider.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var cdcStopTime: Date?
-        /// The name of the replication slot on the source data provider. This attribute is only  valid for a PostgreSQL or Aurora PostgreSQL source.
+        /// The name of the replication slot on the source data provider. This attribute is only valid for a PostgreSQL or Aurora PostgreSQL source.
         public let slotName: String?
 
         @inlinable
@@ -8569,7 +8724,7 @@ extension DatabaseMigrationService {
     public struct StartDataMigrationMessage: AWSEncodableShape {
         /// The identifier (name or ARN) of the data migration to start.
         public let dataMigrationIdentifier: String
-        /// Specifies the start type for the data migration. Valid values include  start-replication, reload-target, and resume-processing.
+        /// Specifies the start type for the data migration. Valid values include start-replication, reload-target, and resume-processing.
         public let startType: StartReplicationMigrationTypeValue
 
         @inlinable
@@ -8843,22 +8998,25 @@ extension DatabaseMigrationService {
     }
 
     public struct StartReplicationMessage: AWSEncodableShape {
-        /// Indicates when you want a change data capture (CDC) operation to start. Use either  CdcStartPosition or CdcStartTime to specify when you want a  CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format.
+        /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format.
         public let cdcStartPosition: String?
         /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error.
         public let cdcStartTime: Date?
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be  either server time or commit time.
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time.
         public let cdcStopPosition: String?
+        /// User-defined settings for the premigration assessment. The possible values are:    ResultLocationFinder: The folder within an Amazon Amazon S3 bucket where you want DMS to store the results of this assessment run.    ResultEncryptionMode: The supported values are SSE_KMS and SSE_S3. If these values are not provided, then the files are not encrypted at rest. For more information, see Creating Amazon Web Services KMS keys to encrypt Amazon Amazon S3 target objects.    ResultKmsKeyArn: The ARN of a customer KMS encryption key that you specify when you set ResultEncryptionMode to SSE_KMS.    IncludeOnly: A space-separated list of names for specific individual assessments that you want to include. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration.    Exclude: A space-separated list of names for specific individual assessments that you want to exclude. These names come from the default list of individual assessments that Database Migration Service supports for the associated migration.    FailOnAssessmentFailure: A configurable setting you can set to true (the default setting) or false. Use this setting to to stop the replication from starting automatically if the assessment fails. This can help you evaluate the issue that is preventing the replication from running successfully.
+        public let premigrationAssessmentSettings: String?
         /// The Amazon Resource Name of the replication for which to start replication.
         public let replicationConfigArn: String
-        /// The replication type. When the replication type is full-load or full-load-and-cdc, the only valid value  for the first run of the replication is start-replication. This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead  of restarting the replication. The resume-processing option isn't applicable for a full-load replication, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes  that occur on the source. To load all the tables again, and start capturing source changes,  use reload-target. Otherwise use resume-processing, to replicate the  changes from the last stop position.
+        /// The replication type. When the replication type is full-load or full-load-and-cdc, the only valid value for the first run of the replication is start-replication. This option will start the replication. You can also use ReloadTables to reload specific tables that failed during replication instead of restarting the replication. The resume-processing option isn't applicable for a full-load replication, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc replication, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position.
         public let startReplicationType: String
 
         @inlinable
-        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, replicationConfigArn: String, startReplicationType: String) {
+        public init(cdcStartPosition: String? = nil, cdcStartTime: Date? = nil, cdcStopPosition: String? = nil, premigrationAssessmentSettings: String? = nil, replicationConfigArn: String, startReplicationType: String) {
             self.cdcStartPosition = cdcStartPosition
             self.cdcStartTime = cdcStartTime
             self.cdcStopPosition = cdcStopPosition
+            self.premigrationAssessmentSettings = premigrationAssessmentSettings
             self.replicationConfigArn = replicationConfigArn
             self.startReplicationType = startReplicationType
         }
@@ -8867,6 +9025,7 @@ extension DatabaseMigrationService {
             case cdcStartPosition = "CdcStartPosition"
             case cdcStartTime = "CdcStartTime"
             case cdcStopPosition = "CdcStopPosition"
+            case premigrationAssessmentSettings = "PremigrationAssessmentSettings"
             case replicationConfigArn = "ReplicationConfigArn"
             case startReplicationType = "StartReplicationType"
         }
@@ -8987,7 +9146,7 @@ extension DatabaseMigrationService {
         public let cdcStopPosition: String?
         /// The Amazon Resource Name (ARN) of the replication task to be started.
         public let replicationTaskArn: String
-        /// The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value  for the first run of the task is start-replication. This option will start the migration. You can also use ReloadTables to reload specific tables that failed during migration instead  of restarting the task. The resume-processing option isn't applicable for a full-load task, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes  that occur on the source. To load all the tables again, and start capturing source changes,  use reload-target. Otherwise use resume-processing, to replicate the  changes from the last stop position.
+        /// The type of replication task to start. When the migration type is full-load or full-load-and-cdc, the only valid value for the first run of the task is start-replication. This option will start the migration. You can also use ReloadTables to reload specific tables that failed during migration instead of restarting the task. The resume-processing option isn't applicable for a full-load task, because you can't resume partially loaded tables during the full load phase. For a full-load-and-cdc task, DMS migrates table data, and then applies data changes that occur on the source. To load all the tables again, and start capturing source changes, use reload-target. Otherwise use resume-processing, to replicate the changes from the last stop position.
         public let startReplicationTaskType: StartReplicationTaskTypeValue
 
         @inlinable
@@ -9129,11 +9288,11 @@ extension DatabaseMigrationService {
     }
 
     public struct SupportedEndpointType: AWSDecodableShape {
-        /// The type of endpoint.  Valid values are source and target.
+        /// The type of endpoint. Valid values are source and target.
         public let endpointType: ReplicationEndpointTypeValue?
         /// The expanded name for the engine name. For example, if the EngineName parameter is "aurora", this value would be "Amazon Aurora MySQL".
         public let engineDisplayName: String?
-        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos",  "azuredb", "sybase", "dynamodb",  "mongodb", "kinesis", "kafka",  "elasticsearch", "documentdb", "sqlserver",  "neptune", and "babelfish".
+        /// The database engine name. Valid values, depending on the EndpointType, include "mysql", "oracle", "postgres", "mariadb", "aurora", "aurora-postgresql", "redshift", "s3", "db2", "db2-zos", "azuredb", "sybase", "dynamodb", "mongodb", "kinesis", "kafka", "elasticsearch", "documentdb", "sqlserver", "neptune", and "babelfish".
         public let engineName: String?
         /// The earliest DMS engine version that supports this endpoint engine. Note that endpoint engines released with DMS versions earlier than 3.1.1 do not return a value for this parameter.
         public let replicationInstanceEngineMinimumVersion: String?
@@ -9215,7 +9374,7 @@ extension DatabaseMigrationService {
         public let fullLoadEndTime: Date?
         /// The number of rows that failed to load during the full load operation (valid only for migrations where DynamoDB is the target).
         public let fullLoadErrorRows: Int64?
-        /// A value that indicates if the table was reloaded (true)  or loaded as part of a new full load operation (false).
+        /// A value that indicates if the table was reloaded (true) or loaded as part of a new full load operation (false).
         public let fullLoadReloaded: Bool?
         /// The number of rows added during the full load operation.
         public let fullLoadRows: Int64?
@@ -9237,7 +9396,7 @@ extension DatabaseMigrationService {
         public let validationFailedRecords: Int64?
         /// The number of records that have yet to be validated.
         public let validationPendingRecords: Int64?
-        /// The validation state of the table. This parameter can have the following values:   Not enabled – Validation isn't enabled for the table in the migration task.   Pending records – Some records in the table are waiting for validation.   Mismatched records – Some records in the table don't match between the source and target.   Suspended records – Some records in the table couldn't be validated.   No primary key  –The table couldn't be validated because it has no primary key.   Table error – The table wasn't validated because it's in an error state and some data wasn't migrated.   Validated – All rows in the table are validated. If the table is updated, the status can change from Validated.   Error – The table couldn't be validated because of an unexpected error.   Pending validation – The table is waiting validation.   Preparing table – Preparing the table enabled in the migration task for validation.   Pending revalidation – All rows in the table are pending validation after the table was updated.
+        /// The validation state of the table. This parameter can have the following values:   Not enabled – Validation isn't enabled for the table in the migration task.   Pending records – Some records in the table are waiting for validation.   Mismatched records – Some records in the table don't match between the source and target.   Suspended records – Some records in the table couldn't be validated.   No primary key –The table couldn't be validated because it has no primary key.   Table error – The table wasn't validated because it's in an error state and some data wasn't migrated.   Validated – All rows in the table are validated. If the table is updated, the status can change from Validated.   Error – The table couldn't be validated because of an unexpected error.   Pending validation – The table is waiting validation.   Preparing table – Preparing the table enabled in the migration task for validation.   Pending revalidation – All rows in the table are pending validation after the table was updated.
         public let validationState: String?
         /// Additional details about the state of validation.
         public let validationStateDetails: String?
@@ -9338,6 +9497,20 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct TargetDataSetting: AWSEncodableShape & AWSDecodableShape {
+        /// This setting determines how DMS handles the target tables before starting a data migration, either by leaving them untouched, dropping and recreating them, or truncating the existing data in the target tables.
+        public let tablePreparationMode: TablePreparationMode?
+
+        @inlinable
+        public init(tablePreparationMode: TablePreparationMode? = nil) {
+            self.tablePreparationMode = tablePreparationMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tablePreparationMode = "TablePreparationMode"
+        }
+    }
+
     public struct TestConnectionMessage: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) string that uniquely identifies the endpoint.
         public let endpointArn: String
@@ -9375,11 +9548,11 @@ extension DatabaseMigrationService {
         public let cdcInsertsAndUpdates: Bool?
         /// Database name for the endpoint.
         public let databaseName: String
-        /// Set this attribute to true to enable memory store writes. When this value is false, DMS does not write records that are older   in days than the value specified in MagneticDuration, because Amazon Timestream does not allow memory writes by default. For more information, see Storage in the Amazon Timestream Developer Guide.
+        /// Set this attribute to true to enable memory store writes. When this value is false, DMS does not write records that are older in days than the value specified in MagneticDuration, because Amazon Timestream does not allow memory writes by default. For more information, see Storage in the Amazon Timestream Developer Guide.
         public let enableMagneticStoreWrites: Bool?
-        /// Set this attribute to specify the default magnetic duration applied to the Amazon Timestream tables in days. This is the number of days that records remain in magnetic store  before being discarded. For more information, see Storage in the Amazon Timestream Developer Guide.
+        /// Set this attribute to specify the default magnetic duration applied to the Amazon Timestream tables in days. This is the number of days that records remain in magnetic store before being discarded. For more information, see Storage in the Amazon Timestream Developer Guide.
         public let magneticDuration: Int
-        /// Set this attribute to specify the length of time to store all of the tables in memory  that are migrated into Amazon Timestream from the source database. Time is measured in units  of hours. When Timestream data comes in, it first resides in memory for the specified duration,  which allows quick access to it.
+        /// Set this attribute to specify the length of time to store all of the tables in memory that are migrated into Amazon Timestream from the source database. Time is measured in units of hours. When Timestream data comes in, it first resides in memory for the specified duration, which allows quick access to it.
         public let memoryDuration: Int
 
         @inlinable

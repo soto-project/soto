@@ -223,6 +223,7 @@ public struct SupplyChain: AWSService {
     ///   - instanceName: The AWS Supply Chain instance name.
     ///   - kmsKeyArn: The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon Web Services owned KMS key. If you don't provide anything here, AWS Supply Chain uses the Amazon Web Services owned KMS key.
     ///   - tags: The Amazon Web Services tags of an instance to be created.
+    ///   - webAppDnsDomain: The DNS subdomain of the web app. This would be "example" in the URL "example.scn.global.on.aws". You can set this to a custom value, as long as the domain isn't already being used by someone else. The name may only include alphanumeric characters and hyphens.
     ///   - logger: Logger use during operation
     @inlinable
     public func createInstance(
@@ -231,6 +232,7 @@ public struct SupplyChain: AWSService {
         instanceName: String? = nil,
         kmsKeyArn: String? = nil,
         tags: [String: String]? = nil,
+        webAppDnsDomain: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateInstanceResponse {
         let input = CreateInstanceRequest(
@@ -238,7 +240,8 @@ public struct SupplyChain: AWSService {
             instanceDescription: instanceDescription, 
             instanceName: instanceName, 
             kmsKeyArn: kmsKeyArn, 
-            tags: tags
+            tags: tags, 
+            webAppDnsDomain: webAppDnsDomain
         )
         return try await self.createInstance(input, logger: logger)
     }
@@ -292,8 +295,8 @@ public struct SupplyChain: AWSService {
     ///
     /// Parameters:
     ///   - instanceId: The AWS Supply Chain instance identifier.
-    ///   - name: The name of the dataset. If the namespace is asc, the name must be one of the supported data entities .
-    ///   - namespace: The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+    ///   - name: The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
+    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteDataLakeDataset(
@@ -310,7 +313,7 @@ public struct SupplyChain: AWSService {
         return try await self.deleteDataLakeDataset(input, logger: logger)
     }
 
-    /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during  the instance creation process. You can use the GetInstance action to check the instance status.
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
     @Sendable
     @inlinable
     public func deleteInstance(_ input: DeleteInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteInstanceResponse {
@@ -323,7 +326,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during  the instance creation process. You can use the GetInstance action to check the instance status.
+    /// Enables you to programmatically delete an Amazon Web Services Supply Chain instance by deleting the KMS keys and relevant information associated with the API without using the Amazon Web Services console. This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
     ///
     /// Parameters:
     ///   - instanceId: The AWS Supply Chain instance identifier.
@@ -520,7 +523,7 @@ public struct SupplyChain: AWSService {
     /// Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
     ///   - maxResults: The max number of datasets to fetch in this paginated request.
-    ///   - namespace: The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
     ///   - nextToken: The pagination token to fetch next page of datasets.
     ///   - logger: Logger use during operation
     @inlinable
@@ -607,7 +610,7 @@ public struct SupplyChain: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Send the transactional data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.  New data events are synced with data lake at 5 PM GMT everyday. The updated transactional data is available in data lake after ingestion.
+    /// Send the transactional data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake. New data events are synced with data lake at 5 PM GMT everyday. The updated transactional data is available in data lake after ingestion.
     @Sendable
     @inlinable
     public func sendDataIntegrationEvent(_ input: SendDataIntegrationEventRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SendDataIntegrationEventResponse {
@@ -620,11 +623,11 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// Send the transactional data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.  New data events are synced with data lake at 5 PM GMT everyday. The updated transactional data is available in data lake after ingestion.
+    /// Send the transactional data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake. New data events are synced with data lake at 5 PM GMT everyday. The updated transactional data is available in data lake after ingestion.
     ///
     /// Parameters:
     ///   - clientToken: The idempotent client token.
-    ///   - data: The data payload of the event. For more information on the data schema to use, see Data entities supported in AWS Supply Chain .
+    ///   - data: The data payload of the event. For more information on the data schema to use, see Data entities supported in AWS Supply Chain.
     ///   - eventGroupId: Event identifier (for example, orderId for InboundOrder) used for data sharing or partitioning.
     ///   - eventTimestamp: The event timestamp (in epoch seconds).
     ///   - eventType: The data event type.
@@ -651,7 +654,7 @@ public struct SupplyChain: AWSService {
         return try await self.sendDataIntegrationEvent(input, logger: logger)
     }
 
-    /// You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows   created during the data ingestion process in the AWS Supply Chain datasets.  You can use these tags to identify a group of resources or a single resource used by the developer.
+    /// You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.  You can use these tags to identify a group of resources or a single resource used by the developer.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -664,7 +667,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows   created during the data ingestion process in the AWS Supply Chain datasets.  You can use these tags to identify a group of resources or a single resource used by the developer.
+    /// You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.  You can use these tags to identify a group of resources or a single resource used by the developer.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Web Services Supply chain resource ARN that needs to be tagged.
@@ -683,7 +686,7 @@ public struct SupplyChain: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows   created during the data ingestion process in the AWS Supply Chain datasets.
+    /// You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -696,7 +699,7 @@ public struct SupplyChain: AWSService {
             logger: logger
         )
     }
-    /// You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows   created during the data ingestion process in the AWS Supply Chain datasets.
+    /// You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Web Services Supply chain resource ARN that needs to be untagged.
@@ -903,7 +906,7 @@ extension SupplyChain {
     /// - Parameters:
     ///   - instanceId: The Amazon Web Services Supply Chain instance identifier.
     ///   - maxResults: The max number of datasets to fetch in this paginated request.
-    ///   - namespace: The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+    ///   - namespace: The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
     ///   - logger: Logger used for logging
     @inlinable
     public func listDataLakeDatasetsPaginator(

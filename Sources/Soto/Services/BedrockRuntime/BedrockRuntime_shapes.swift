@@ -2450,7 +2450,7 @@ extension BedrockRuntime {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2652,7 +2652,7 @@ extension BedrockRuntime {
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2680,7 +2680,7 @@ extension BedrockRuntime {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, max: 64)
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, min: 1)
             try self.validate(self.toolUseId, name: "toolUseId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")

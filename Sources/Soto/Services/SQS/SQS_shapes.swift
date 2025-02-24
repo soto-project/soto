@@ -425,9 +425,9 @@ extension SQS {
     }
 
     public struct GetQueueUrlRequest: AWSEncodableShape {
-        /// The name of the queue whose URL must be fetched. Maximum 80 characters. Valid values: alphanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.
+        /// (Required) The name of the queue for which you want to fetch the URL. The name can be up to 80 characters long and can include alphanumeric characters, hyphens (-), and underscores (_). Queue URLs and names are case-sensitive.
         public let queueName: String
-        /// The Amazon Web Services account ID of the account that created the queue.
+        /// (Optional) The Amazon Web Services account ID of the account that created the queue. This is only required when you are attempting to access a queue owned by another Amazon Web Services account.
         public let queueOwnerAWSAccountId: String?
 
         @inlinable
@@ -758,7 +758,7 @@ extension SQS {
     }
 
     public struct ReceiveMessageRequest: AWSEncodableShape {
-        ///  This parameter has been deprecated but will be supported for backward compatibility. To provide attribute names, you are encouraged to use MessageSystemAttributeNames.   A list of attributes that need to be returned along with each message. These attributes include:    All – Returns all values.    ApproximateFirstReceiveTimestamp – Returns the time the message was first received from the queue (epoch time in milliseconds).    ApproximateReceiveCount – Returns the number of times a message has been received across all queues but not deleted.    AWSTraceHeader – Returns the X-Ray trace header string.     SenderId    For a user, returns the user ID, for example ABCDEFGHI1JKLMNOPQ23R.   For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.      SentTimestamp – Returns the time the message was sent to the queue (epoch time in milliseconds).    SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, SSE-KMS or SSE-SQS).    MessageDeduplicationId – Returns the value provided by the producer that calls the  SendMessage  action.    MessageGroupId – Returns the value provided by the producer that calls the  SendMessage action. Messages with the same MessageGroupId are returned in sequence.    SequenceNumber – Returns the value provided by Amazon SQS.
+        ///  This parameter has been discontinued but will be supported for backward compatibility. To provide attribute names, you are encouraged to use MessageSystemAttributeNames.   A list of attributes that need to be returned along with each message. These attributes include:    All – Returns all values.    ApproximateFirstReceiveTimestamp – Returns the time the message was first received from the queue (epoch time in milliseconds).    ApproximateReceiveCount – Returns the number of times a message has been received across all queues but not deleted.    AWSTraceHeader – Returns the X-Ray trace header string.     SenderId    For a user, returns the user ID, for example ABCDEFGHI1JKLMNOPQ23R.   For an IAM role, returns the IAM role ID, for example ABCDE1F2GH3I4JK5LMNOP:i-a123b456.      SentTimestamp – Returns the time the message was sent to the queue (epoch time in milliseconds).    SqsManagedSseEnabled – Enables server-side queue encryption using SQS owned encryption keys. Only one server-side encryption option is supported per queue (for example, SSE-KMS or SSE-SQS).    MessageDeduplicationId – Returns the value provided by the producer that calls the  SendMessage  action.    MessageGroupId – Returns the value provided by the producer that calls the  SendMessage action. Messages with the same MessageGroupId are returned in sequence.    SequenceNumber – Returns the value provided by Amazon SQS.
         public let attributeNames: [QueueAttributeName]?
         /// The maximum number of messages to return. Amazon SQS never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 10. Default: 1.
         public let maxNumberOfMessages: Int?
@@ -770,9 +770,9 @@ extension SQS {
         public let queueUrl: String
         /// This parameter applies only to FIFO (first-in-first-out) queues. The token used for deduplication of ReceiveMessage calls. If a networking issue occurs after a ReceiveMessage action, and instead of a response you receive a generic error, it is possible to retry the same action with an identical ReceiveRequestAttemptId to retrieve the same set of messages, even if their visibility timeout has not yet expired.   You can use ReceiveRequestAttemptId only for 5 minutes after a ReceiveMessage action.   When you set FifoQueue, a caller of the ReceiveMessage action can provide a ReceiveRequestAttemptId explicitly.   It is possible to retry the ReceiveMessage action with the same ReceiveRequestAttemptId if none of the messages have been modified (deleted or had their visibility changes).   During a visibility timeout, subsequent calls with the same ReceiveRequestAttemptId return the same messages and receipt handles. If a retry occurs within the deduplication interval, it resets the visibility timeout. For more information, see Visibility Timeout in the Amazon SQS Developer Guide.  If a caller of the ReceiveMessage action still processes messages when the visibility timeout expires and messages become visible, another worker consuming from the same queue can receive the same messages and therefore process duplicates. Also, if a consumer whose message processing time is longer than the visibility timeout tries to delete the processed messages, the action fails with an error. To mitigate this effect, ensure that your application observes a safe threshold before the visibility timeout expires and extend the visibility timeout as necessary.    While messages with a particular MessageGroupId are invisible, no more messages belonging to the same MessageGroupId are returned until the visibility timeout expires. You can still receive messages with another MessageGroupId as long as it is also visible.   If a caller of ReceiveMessage can't track the ReceiveRequestAttemptId, no retries work until the original visibility timeout expires. As a result, delays might occur but the messages in the queue remain in a strict order.   The maximum length of ReceiveRequestAttemptId is 128 characters. ReceiveRequestAttemptId can contain alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&'()*+,-./:;?@[\]^_`{|}~). For best practices of using ReceiveRequestAttemptId, see Using the ReceiveRequestAttemptId Request Parameter in the Amazon SQS Developer Guide.
         public let receiveRequestAttemptId: String?
-        /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request.
+        /// The duration (in seconds) that the received messages are hidden from subsequent retrieve requests after being retrieved by a ReceiveMessage request. If not specified, the default visibility timeout for the queue is used, which is 30 seconds. Understanding VisibilityTimeout:   When a message is received from a queue, it becomes temporarily invisible to other consumers for the duration of the visibility timeout. This prevents multiple consumers from processing the same message simultaneously. If the message is not deleted or its visibility timeout is not extended before the timeout expires, it becomes visible again and can be retrieved by other consumers.   Setting an appropriate visibility timeout is crucial. If it's too short, the message might become visible again before processing is complete, leading to duplicate processing. If it's too long, it delays the reprocessing of messages if the initial processing fails.   You can adjust the visibility timeout using the --visibility-timeout parameter in the receive-message command to match the processing time required by your application.   A message that isn't deleted or a message whose visibility isn't extended before the visibility timeout expires counts as a failed receive. Depending on the configuration of the queue, the message might be sent to the dead-letter queue.   For more information, see Visibility Timeout in the Amazon SQS Developer Guide.
         public let visibilityTimeout: Int?
-        /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call does not return a message list.  To avoid HTTP errors, ensure that the HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds parameter. For example, with the Java SDK, you can set HTTP transport settings using the  NettyNioAsyncHttpClient for asynchronous clients, or the  ApacheHttpClient for synchronous clients.
+        /// The duration (in seconds) for which the call waits for a message to arrive in the queue before returning. If a message is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call does not return a message list. If you are using the Java SDK, it returns a ReceiveMessageResponse object, which has a empty list instead of a Null object.  To avoid HTTP errors, ensure that the HTTP response timeout for ReceiveMessage requests is longer than the WaitTimeSeconds parameter. For example, with the Java SDK, you can set HTTP transport settings using the  NettyNioAsyncHttpClient for asynchronous clients, or the  ApacheHttpClient for synchronous clients.
         public let waitTimeSeconds: Int?
 
         @inlinable
@@ -1180,7 +1180,7 @@ public struct SQSErrorType: AWSErrorType {
     public static var batchRequestTooLong: Self { .init(.batchRequestTooLong) }
     /// The batch request doesn't contain any entries.
     public static var emptyBatchRequest: Self { .init(.emptyBatchRequest) }
-    /// The accountId is invalid.
+    /// The specified ID is invalid.
     public static var invalidAddress: Self { .init(.invalidAddress) }
     /// The specified attribute doesn't exist.
     public static var invalidAttributeName: Self { .init(.invalidAttributeName) }
@@ -1192,7 +1192,7 @@ public struct SQSErrorType: AWSErrorType {
     public static var invalidIdFormat: Self { .init(.invalidIdFormat) }
     /// The message contains characters outside the allowed set.
     public static var invalidMessageContents: Self { .init(.invalidMessageContents) }
-    /// When the request to a queue is not HTTPS and SigV4.
+    /// The request was not made over HTTPS or did not use SigV4 for signing.
     public static var invalidSecurity: Self { .init(.invalidSecurity) }
     /// The caller doesn't have the required KMS access.
     public static var kmsAccessDenied: Self { .init(.kmsAccessDenied) }
@@ -1216,17 +1216,17 @@ public struct SQSErrorType: AWSErrorType {
     public static var purgeQueueInProgress: Self { .init(.purgeQueueInProgress) }
     /// You must wait 60 seconds after deleting a queue before you can create another queue with the same name.
     public static var queueDeletedRecently: Self { .init(.queueDeletedRecently) }
-    /// The specified queue doesn't exist.
+    /// Ensure that the QueueUrl is correct and that the queue has not been deleted.
     public static var queueDoesNotExist: Self { .init(.queueDoesNotExist) }
     /// A queue with this name already exists. Amazon SQS returns this error only if the request includes attributes whose values differ from those of the existing queue.
     public static var queueNameExists: Self { .init(.queueNameExists) }
     /// The specified receipt handle isn't valid.
     public static var receiptHandleIsInvalid: Self { .init(.receiptHandleIsInvalid) }
-    /// The request was denied due to request throttling.   The rate of requests per second exceeds the Amazon Web Services KMS request quota for an account and Region.    A burst or sustained high rate of requests to change the state of the same KMS key. This condition is often known as a "hot key."   Requests for operations on KMS keys in a Amazon Web Services CloudHSM key store might be throttled at a lower-than-expected rate when the Amazon Web Services CloudHSM cluster associated with the Amazon Web Services CloudHSM key store is processing numerous commands, including those unrelated to the Amazon Web Services CloudHSM key store.
+    /// The request was denied due to request throttling.   Exceeds the permitted request rate for the queue or for the recipient of the request.   Ensure that the request rate is within the Amazon SQS limits for sending messages. For more information, see Amazon SQS quotas in the Amazon SQS Developer Guide.
     public static var requestThrottled: Self { .init(.requestThrottled) }
     /// One or more specified resources don't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// The batch request contains more entries than permissible.
+    /// The batch request contains more entries than permissible. For Amazon SQS, the maximum number of entries you can include in a single SendMessageBatch, DeleteMessageBatch, or ChangeMessageVisibilityBatch request is 10.
     public static var tooManyEntriesInBatchRequest: Self { .init(.tooManyEntriesInBatchRequest) }
     /// Error code 400. Unsupported operation.
     public static var unsupportedOperation: Self { .init(.unsupportedOperation) }

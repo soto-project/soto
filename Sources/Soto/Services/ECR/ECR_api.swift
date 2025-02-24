@@ -93,6 +93,7 @@ public struct ECR: AWSService {
         "ap-southeast-3": "api.ecr.ap-southeast-3.amazonaws.com",
         "ap-southeast-4": "api.ecr.ap-southeast-4.amazonaws.com",
         "ap-southeast-5": "api.ecr.ap-southeast-5.amazonaws.com",
+        "ap-southeast-7": "api.ecr.ap-southeast-7.amazonaws.com",
         "ca-central-1": "api.ecr.ca-central-1.amazonaws.com",
         "ca-west-1": "api.ecr.ca-west-1.amazonaws.com",
         "cn-north-1": "api.ecr.cn-north-1.amazonaws.com.cn",
@@ -108,6 +109,7 @@ public struct ECR: AWSService {
         "il-central-1": "api.ecr.il-central-1.amazonaws.com",
         "me-central-1": "api.ecr.me-central-1.amazonaws.com",
         "me-south-1": "api.ecr.me-south-1.amazonaws.com",
+        "mx-central-1": "api.ecr.mx-central-1.amazonaws.com",
         "sa-east-1": "api.ecr.sa-east-1.amazonaws.com",
         "us-east-1": "api.ecr.us-east-1.amazonaws.com",
         "us-east-2": "api.ecr.us-east-2.amazonaws.com",
@@ -116,6 +118,8 @@ public struct ECR: AWSService {
         "us-iso-east-1": "api.ecr.us-iso-east-1.c2s.ic.gov",
         "us-iso-west-1": "api.ecr.us-iso-west-1.c2s.ic.gov",
         "us-isob-east-1": "api.ecr.us-isob-east-1.sc2s.sgov.gov",
+        "us-isof-east-1": "api.ecr.us-isof-east-1.csp.hci.ic.gov",
+        "us-isof-south-1": "api.ecr.us-isof-south-1.csp.hci.ic.gov",
         "us-west-1": "api.ecr.us-west-1.amazonaws.com",
         "us-west-2": "api.ecr.us-west-2.amazonaws.com"
     ]}
@@ -123,33 +127,53 @@ public struct ECR: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "ecr.af-south-1.api.aws",
+            "ap-east-1": "ecr.ap-east-1.api.aws",
+            "ap-northeast-1": "ecr.ap-northeast-1.api.aws",
+            "ap-northeast-2": "ecr.ap-northeast-2.api.aws",
+            "ap-northeast-3": "ecr.ap-northeast-3.api.aws",
+            "ap-south-1": "ecr.ap-south-1.api.aws",
+            "ap-south-2": "ecr.ap-south-2.api.aws",
+            "ap-southeast-1": "ecr.ap-southeast-1.api.aws",
+            "ap-southeast-2": "ecr.ap-southeast-2.api.aws",
+            "ap-southeast-3": "ecr.ap-southeast-3.api.aws",
+            "ap-southeast-4": "ecr.ap-southeast-4.api.aws",
+            "ap-southeast-5": "ecr.ap-southeast-5.api.aws",
+            "ap-southeast-7": "ecr.ap-southeast-7.api.aws",
+            "ca-central-1": "ecr.ca-central-1.api.aws",
+            "ca-west-1": "ecr.ca-west-1.api.aws",
+            "cn-north-1": "ecr.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "ecr.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "ecr.eu-central-1.api.aws",
+            "eu-central-2": "ecr.eu-central-2.api.aws",
+            "eu-north-1": "ecr.eu-north-1.api.aws",
+            "eu-south-1": "ecr.eu-south-1.api.aws",
+            "eu-south-2": "ecr.eu-south-2.api.aws",
+            "eu-west-1": "ecr.eu-west-1.api.aws",
+            "eu-west-2": "ecr.eu-west-2.api.aws",
+            "eu-west-3": "ecr.eu-west-3.api.aws",
+            "il-central-1": "ecr.il-central-1.api.aws",
+            "me-central-1": "ecr.me-central-1.api.aws",
+            "me-south-1": "ecr.me-south-1.api.aws",
+            "mx-central-1": "ecr.mx-central-1.api.aws",
+            "sa-east-1": "ecr.sa-east-1.api.aws",
+            "us-east-1": "ecr.us-east-1.api.aws",
+            "us-east-2": "ecr.us-east-2.api.aws",
+            "us-gov-east-1": "ecr.us-gov-east-1.api.aws",
+            "us-gov-west-1": "ecr.us-gov-west-1.api.aws",
+            "us-west-1": "ecr.us-west-1.api.aws",
+            "us-west-2": "ecr.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "ecr-fips.us-east-1.api.aws",
+            "us-east-2": "ecr-fips.us-east-2.api.aws",
+            "us-gov-east-1": "ecr-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "ecr-fips.us-gov-west-1.api.aws",
+            "us-west-1": "ecr-fips.us-west-1.api.aws",
+            "us-west-2": "ecr-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
-            "af-south-1": "ecr-fips.af-south-1.amazonaws.com",
-            "ap-east-1": "ecr-fips.ap-east-1.amazonaws.com",
-            "ap-northeast-1": "ecr-fips.ap-northeast-1.amazonaws.com",
-            "ap-northeast-2": "ecr-fips.ap-northeast-2.amazonaws.com",
-            "ap-northeast-3": "ecr-fips.ap-northeast-3.amazonaws.com",
-            "ap-south-1": "ecr-fips.ap-south-1.amazonaws.com",
-            "ap-south-2": "ecr-fips.ap-south-2.amazonaws.com",
-            "ap-southeast-1": "ecr-fips.ap-southeast-1.amazonaws.com",
-            "ap-southeast-2": "ecr-fips.ap-southeast-2.amazonaws.com",
-            "ap-southeast-3": "ecr-fips.ap-southeast-3.amazonaws.com",
-            "ap-southeast-4": "ecr-fips.ap-southeast-4.amazonaws.com",
-            "ap-southeast-5": "ecr-fips.ap-southeast-5.amazonaws.com",
-            "ca-central-1": "ecr-fips.ca-central-1.amazonaws.com",
-            "ca-west-1": "ecr-fips.ca-west-1.amazonaws.com",
-            "eu-central-1": "ecr-fips.eu-central-1.amazonaws.com",
-            "eu-central-2": "ecr-fips.eu-central-2.amazonaws.com",
-            "eu-north-1": "ecr-fips.eu-north-1.amazonaws.com",
-            "eu-south-1": "ecr-fips.eu-south-1.amazonaws.com",
-            "eu-south-2": "ecr-fips.eu-south-2.amazonaws.com",
-            "eu-west-1": "ecr-fips.eu-west-1.amazonaws.com",
-            "eu-west-2": "ecr-fips.eu-west-2.amazonaws.com",
-            "eu-west-3": "ecr-fips.eu-west-3.amazonaws.com",
-            "il-central-1": "ecr-fips.il-central-1.amazonaws.com",
-            "me-central-1": "ecr-fips.me-central-1.amazonaws.com",
-            "me-south-1": "ecr-fips.me-south-1.amazonaws.com",
-            "sa-east-1": "ecr-fips.sa-east-1.amazonaws.com",
             "us-east-1": "ecr-fips.us-east-1.amazonaws.com",
             "us-east-2": "ecr-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "ecr-fips.us-gov-east-1.amazonaws.com",
@@ -917,7 +941,7 @@ public struct ECR: AWSService {
         return try await self.describeRepositoryCreationTemplates(input, logger: logger)
     }
 
-    /// Retrieves the basic scan type version name.
+    /// Retrieves the account setting value for the specified setting name.
     @Sendable
     @inlinable
     public func getAccountSetting(_ input: GetAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountSettingResponse {
@@ -930,10 +954,10 @@ public struct ECR: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the basic scan type version name.
+    /// Retrieves the account setting value for the specified setting name.
     ///
     /// Parameters:
-    ///   - name: Basic scan type version name.
+    ///   - name: The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAccountSetting(
@@ -1269,7 +1293,7 @@ public struct ECR: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Allows you to change the basic scan type version by setting the name parameter to either CLAIR to AWS_NATIVE.
+    /// Allows you to change the basic scan type version or registry policy scope.
     @Sendable
     @inlinable
     public func putAccountSetting(_ input: PutAccountSettingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutAccountSettingResponse {
@@ -1282,11 +1306,11 @@ public struct ECR: AWSService {
             logger: logger
         )
     }
-    /// Allows you to change the basic scan type version by setting the name parameter to either CLAIR to AWS_NATIVE.
+    /// Allows you to change the basic scan type version or registry policy scope.
     ///
     /// Parameters:
-    ///   - name: Basic scan type version name.
-    ///   - value: Setting value that determines what basic scan type is being used: AWS_NATIVE or CLAIR.
+    ///   - name: The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
+    ///   - value: Setting value that is specified. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
     ///   - logger: Logger use during operation
     @inlinable
     public func putAccountSetting(
@@ -1578,7 +1602,7 @@ public struct ECR: AWSService {
         return try await self.setRepositoryPolicy(input, logger: logger)
     }
 
-    /// Starts an image vulnerability scan. An image scan can only be started once per 24 hours on an individual image. This limit includes if an image was scanned on initial push. For more information, see Image scanning in the Amazon Elastic Container Registry User Guide.
+    /// Starts a basic image vulnerability scan. A basic image scan can only be started once per 24 hours on an individual image. This limit includes if an image was scanned on initial push. You can start up to 100,000 basic scans per 24 hours. This limit includes both scans on initial push and scans initiated by the StartImageScan API. For more information, see Basic scanning in the Amazon Elastic Container Registry User Guide.
     @Sendable
     @inlinable
     public func startImageScan(_ input: StartImageScanRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartImageScanResponse {
@@ -1591,7 +1615,7 @@ public struct ECR: AWSService {
             logger: logger
         )
     }
-    /// Starts an image vulnerability scan. An image scan can only be started once per 24 hours on an individual image. This limit includes if an image was scanned on initial push. For more information, see Image scanning in the Amazon Elastic Container Registry User Guide.
+    /// Starts a basic image vulnerability scan. A basic image scan can only be started once per 24 hours on an individual image. This limit includes if an image was scanned on initial push. You can start up to 100,000 basic scans per 24 hours. This limit includes both scans on initial push and scans initiated by the StartImageScan API. For more information, see Basic scanning in the Amazon Elastic Container Registry User Guide.
     ///
     /// Parameters:
     ///   - imageId: 
