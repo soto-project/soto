@@ -8789,10 +8789,10 @@ extension Kendra {
 
     public struct TemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The template schema used for the data source, where templates schemas are supported. See Data source template schemas.
-        public let template: String?
+        public let template: AWSDocument?
 
         @inlinable
-        public init(template: String? = nil) {
+        public init(template: AWSDocument? = nil) {
             self.template = template
         }
 

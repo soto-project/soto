@@ -38,10 +38,10 @@ extension InspectorScan {
         /// The output format for the vulnerability report.
         public let outputFormat: OutputFormat?
         /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format.
-        public let sbom: String
+        public let sbom: AWSDocument
 
         @inlinable
-        public init(outputFormat: OutputFormat? = nil, sbom: String) {
+        public init(outputFormat: OutputFormat? = nil, sbom: AWSDocument) {
             self.outputFormat = outputFormat
             self.sbom = sbom
         }
@@ -54,10 +54,10 @@ extension InspectorScan {
 
     public struct ScanSbomResponse: AWSDecodableShape {
         /// The vulnerability report for the scanned SBOM.
-        public let sbom: String?
+        public let sbom: AWSDocument?
 
         @inlinable
-        public init(sbom: String? = nil) {
+        public init(sbom: AWSDocument? = nil) {
             self.sbom = sbom
         }
 

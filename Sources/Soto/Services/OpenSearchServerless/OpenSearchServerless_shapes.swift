@@ -132,14 +132,14 @@ extension OpenSearchServerless {
         /// The name of the policy.
         public let name: String?
         /// The JSON policy document without any whitespaces.
-        public let policy: String?
+        public let policy: AWSDocument?
         /// The version of the policy.
         public let policyVersion: String?
         /// The type of access policy.
         public let type: AccessPolicyType?
 
         @inlinable
-        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: AccessPolicyType? = nil) {
+        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: AWSDocument? = nil, policyVersion: String? = nil, type: AccessPolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -1538,14 +1538,14 @@ extension OpenSearchServerless {
         /// The name of the lifecycle policy.
         public let name: String?
         /// The JSON policy document without any whitespaces.
-        public let policy: String?
+        public let policy: AWSDocument?
         /// The version of the lifecycle policy.
         public let policyVersion: String?
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType?
 
         @inlinable
-        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: LifecyclePolicyType? = nil) {
+        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: AWSDocument? = nil, policyVersion: String? = nil, type: LifecyclePolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -2120,14 +2120,14 @@ extension OpenSearchServerless {
         /// The name of the policy.
         public let name: String?
         /// The JSON policy document without any whitespaces.
-        public let policy: String?
+        public let policy: AWSDocument?
         /// The version of the policy.
         public let policyVersion: String?
         /// The type of security policy.
         public let type: SecurityPolicyType?
 
         @inlinable
-        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: SecurityPolicyType? = nil) {
+        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: AWSDocument? = nil, policyVersion: String? = nil, type: SecurityPolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate

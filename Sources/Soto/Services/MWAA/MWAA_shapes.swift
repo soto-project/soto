@@ -654,7 +654,7 @@ extension MWAA {
 
     public struct InvokeRestApiRequest: AWSEncodableShape {
         /// The request body for the Apache Airflow REST API call, provided as a JSON object.
-        public let body: String?
+        public let body: AWSDocument?
         /// The HTTP method used for making Airflow REST API calls. For example, POST.
         public let method: RestApiMethod
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
@@ -662,10 +662,10 @@ extension MWAA {
         /// The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances. For more information, see Apache Airflow API
         public let path: String
         /// Query parameters to be included in the Apache Airflow REST API call, provided as a JSON object.
-        public let queryParameters: String?
+        public let queryParameters: AWSDocument?
 
         @inlinable
-        public init(body: String? = nil, method: RestApiMethod, name: String, path: String, queryParameters: String? = nil) {
+        public init(body: AWSDocument? = nil, method: RestApiMethod, name: String, path: String, queryParameters: AWSDocument? = nil) {
             self.body = body
             self.method = method
             self.name = name
@@ -701,12 +701,12 @@ extension MWAA {
 
     public struct InvokeRestApiResponse: AWSDecodableShape {
         /// The response data from the Apache Airflow REST API call, provided as a JSON object.
-        public let restApiResponse: String?
+        public let restApiResponse: AWSDocument?
         /// The HTTP status code returned by the Apache Airflow REST API call.
         public let restApiStatusCode: Int?
 
         @inlinable
-        public init(restApiResponse: String? = nil, restApiStatusCode: Int? = nil) {
+        public init(restApiResponse: AWSDocument? = nil, restApiStatusCode: Int? = nil) {
             self.restApiResponse = restApiResponse
             self.restApiStatusCode = restApiStatusCode
         }

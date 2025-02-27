@@ -3652,7 +3652,7 @@ extension Omics {
         /// The run's output URI.
         public let outputUri: String?
         /// The run's parameters.
-        public let parameters: String?
+        public let parameters: AWSDocument?
         /// The run's priority.
         public let priority: Int?
         /// The run's resource digests.
@@ -3695,7 +3695,7 @@ extension Omics {
         public let workflowType: WorkflowType?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
             self.accelerators = accelerators
             self.arn = arn
             self.cacheBehavior = cacheBehavior
@@ -7351,7 +7351,7 @@ extension Omics {
         /// An output URI for the run.
         public let outputUri: String?
         /// Parameters for the run.
-        public let parameters: String?
+        public let parameters: AWSDocument?
         /// A priority for the run.
         public let priority: Int?
         /// To ensure that requests don't run multiple times, specify a unique ID for each request.
@@ -7378,7 +7378,7 @@ extension Omics {
         public let workflowType: WorkflowType?
 
         @inlinable
-        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: String? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
             self.logLevel = logLevel

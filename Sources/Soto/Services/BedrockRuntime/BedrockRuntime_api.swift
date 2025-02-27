@@ -148,7 +148,7 @@ public struct BedrockRuntime: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func converse(
-        additionalModelRequestFields: String? = nil,
+        additionalModelRequestFields: AWSDocument? = nil,
         additionalModelResponseFieldPaths: [String]? = nil,
         guardrailConfig: GuardrailConfiguration? = nil,
         inferenceConfig: InferenceConfiguration? = nil,
@@ -207,7 +207,7 @@ public struct BedrockRuntime: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func converseStream(
-        additionalModelRequestFields: String? = nil,
+        additionalModelRequestFields: AWSDocument? = nil,
         additionalModelResponseFieldPaths: [String]? = nil,
         guardrailConfig: GuardrailStreamConfiguration? = nil,
         inferenceConfig: InferenceConfiguration? = nil,
@@ -438,7 +438,7 @@ public struct BedrockRuntime: AWSService {
     public func startAsyncInvoke(
         clientRequestToken: String? = StartAsyncInvokeRequest.idempotencyToken(),
         modelId: String,
-        modelInput: String,
+        modelInput: AWSDocument,
         outputDataConfig: AsyncInvokeOutputDataConfig,
         tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        

@@ -1425,10 +1425,10 @@ extension QApps {
 
     public struct FormInputCardMetadata: AWSEncodableShape & AWSDecodableShape {
         /// The JSON schema that defines the shape of the response data.
-        public let schema: String
+        public let schema: AWSDocument
 
         @inlinable
-        public init(schema: String) {
+        public init(schema: AWSDocument) {
             self.schema = schema
         }
 
@@ -2245,10 +2245,10 @@ extension QApps {
         /// The user who submitted the response for a Q App session.
         public let user: User
         /// The response submitted for a Q App session.
-        public let value: String?
+        public let value: AWSDocument?
 
         @inlinable
-        public init(cardId: String, submissionId: String? = nil, timestamp: Date? = nil, user: User, value: String? = nil) {
+        public init(cardId: String, submissionId: String? = nil, timestamp: Date? = nil, user: User, value: AWSDocument? = nil) {
             self.cardId = cardId
             self.submissionId = submissionId
             self.timestamp = timestamp
@@ -2565,10 +2565,10 @@ extension QApps {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var timestamp: Date?
         /// The data submitted by the user.
-        public let value: String?
+        public let value: AWSDocument?
 
         @inlinable
-        public init(submissionId: String? = nil, timestamp: Date? = nil, value: String? = nil) {
+        public init(submissionId: String? = nil, timestamp: Date? = nil, value: AWSDocument? = nil) {
             self.submissionId = submissionId
             self.timestamp = timestamp
             self.value = value

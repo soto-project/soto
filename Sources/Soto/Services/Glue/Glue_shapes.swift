@@ -12805,10 +12805,10 @@ extension Glue {
         /// A continuation token, present if the current segment is not the last.
         public let nextToken: String?
         /// A list of the requested objects.
-        public let records: [String]?
+        public let records: [AWSDocument]?
 
         @inlinable
-        public init(nextToken: String? = nil, records: [String]? = nil) {
+        public init(nextToken: String? = nil, records: [AWSDocument]? = nil) {
             self.nextToken = nextToken
             self.records = records
         }

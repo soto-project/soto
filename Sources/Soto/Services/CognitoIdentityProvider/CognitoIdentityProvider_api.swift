@@ -1219,7 +1219,7 @@ public struct CognitoIdentityProvider: AWSService {
     @inlinable
     public func completeWebAuthnRegistration(
         accessToken: String,
-        credential: String,
+        credential: AWSDocument,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CompleteWebAuthnRegistrationResponse {
         let input = CompleteWebAuthnRegistrationRequest(
@@ -1481,7 +1481,7 @@ public struct CognitoIdentityProvider: AWSService {
     public func createManagedLoginBranding(
         assets: [AssetType]? = nil,
         clientId: String,
-        settings: String? = nil,
+        settings: AWSDocument? = nil,
         useCognitoProvidedValues: Bool? = nil,
         userPoolId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -4018,7 +4018,7 @@ public struct CognitoIdentityProvider: AWSService {
     public func updateManagedLoginBranding(
         assets: [AssetType]? = nil,
         managedLoginBrandingId: String? = nil,
-        settings: String? = nil,
+        settings: AWSDocument? = nil,
         useCognitoProvidedValues: Bool? = nil,
         userPoolId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        

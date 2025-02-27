@@ -1778,12 +1778,12 @@ extension BedrockAgentRuntime {
 
     public struct BedrockRerankingModelConfiguration: AWSEncodableShape {
         /// A JSON object whose keys are request fields for the model and whose values are values for those fields.
-        public let additionalModelRequestFields: [String: String]?
+        public let additionalModelRequestFields: [String: AWSDocument]?
         /// The ARN of the reranker model.
         public let modelArn: String
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, modelArn: String) {
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, modelArn: String) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.modelArn = modelArn
         }
@@ -2115,7 +2115,7 @@ extension BedrockAgentRuntime {
 
     public struct ExternalSourcesGenerationConfiguration: AWSEncodableShape {
         ///  Additional model parameters and their corresponding values not included in the textInferenceConfig structure for an external source. Takes in custom model parameters specific to the language model being used.
-        public let additionalModelRequestFields: [String: String]?
+        public let additionalModelRequestFields: [String: AWSDocument]?
         /// The configuration details for the guardrail.
         public let guardrailConfiguration: GuardrailConfiguration?
         ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using an external source.
@@ -2126,7 +2126,7 @@ extension BedrockAgentRuntime {
         public let promptTemplate: PromptTemplate?
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: PromptTemplate? = nil) {
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: PromptTemplate? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.inferenceConfig = inferenceConfig
@@ -2263,10 +2263,10 @@ extension BedrockAgentRuntime {
         /// The name that the metadata attribute must match.
         public let key: String
         /// The value to whcih to compare the value of the metadata attribute.
-        public let value: String
+        public let value: AWSDocument
 
         @inlinable
-        public init(key: String, value: String) {
+        public init(key: String, value: AWSDocument) {
             self.key = key
             self.value = value
         }
@@ -2715,7 +2715,7 @@ extension BedrockAgentRuntime {
 
     public struct GenerationConfiguration: AWSEncodableShape {
         ///  Additional model parameters and corresponding values not included in the textInferenceConfig structure for a knowledge base. This allows users to provide custom model parameters specific to the language model being used.
-        public let additionalModelRequestFields: [String: String]?
+        public let additionalModelRequestFields: [String: AWSDocument]?
         /// The configuration details for the guardrail.
         public let guardrailConfiguration: GuardrailConfiguration?
         ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
@@ -2726,7 +2726,7 @@ extension BedrockAgentRuntime {
         public let promptTemplate: PromptTemplate?
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: PromptTemplate? = nil) {
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: PromptTemplate? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.inferenceConfig = inferenceConfig
@@ -3872,12 +3872,12 @@ extension BedrockAgentRuntime {
         /// Contains information about the location of the data source.
         public let location: RetrievalResultLocation?
         /// Contains metadata attributes and their values for the file in the data source. For more information, see Metadata and filtering.
-        public let metadata: [String: String]?
+        public let metadata: [String: AWSDocument]?
         /// The level of relevance of the result to the query.
         public let score: Double?
 
         @inlinable
-        public init(content: RetrievalResultContent, location: RetrievalResultLocation? = nil, metadata: [String: String]? = nil, score: Double? = nil) {
+        public init(content: RetrievalResultContent, location: RetrievalResultLocation? = nil, metadata: [String: AWSDocument]? = nil, score: Double? = nil) {
             self.content = content
             self.location = location
             self.metadata = metadata
@@ -4240,7 +4240,7 @@ extension BedrockAgentRuntime {
 
     public struct OrchestrationConfiguration: AWSEncodableShape {
         ///  Additional model parameters and corresponding values not included in the textInferenceConfig structure for a knowledge base. This allows users to provide custom model parameters specific to the language model being used.
-        public let additionalModelRequestFields: [String: String]?
+        public let additionalModelRequestFields: [String: AWSDocument]?
         ///  Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source.
         public let inferenceConfig: InferenceConfig?
         /// The latency configuration for the model.
@@ -4251,7 +4251,7 @@ extension BedrockAgentRuntime {
         public let queryTransformationConfiguration: QueryTransformationConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, inferenceConfig: InferenceConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: PromptTemplate? = nil, queryTransformationConfiguration: QueryTransformationConfiguration? = nil) {
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, inferenceConfig: InferenceConfig? = nil, performanceConfig: PerformanceConfiguration? = nil, promptTemplate: PromptTemplate? = nil, queryTransformationConfiguration: QueryTransformationConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.inferenceConfig = inferenceConfig
             self.performanceConfig = performanceConfig
@@ -4488,7 +4488,7 @@ extension BedrockAgentRuntime {
 
     public struct PromptConfiguration: AWSEncodableShape {
         /// If the Converse or ConverseStream operations support the model, additionalModelRequestFields contains additional inference parameters, beyond the base set of inference parameters in the inferenceConfiguration field.  For more information, see Inference request parameters and response fields for foundation models in the Amazon Bedrock user guide.
-        public let additionalModelRequestFields: String?
+        public let additionalModelRequestFields: AWSDocument?
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
         public let basePromptTemplate: String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see Inference parameters for foundation models.
@@ -4503,7 +4503,7 @@ extension BedrockAgentRuntime {
         public let promptType: PromptType?
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, basePromptTemplate: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, basePromptTemplate: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.basePromptTemplate = basePromptTemplate
             self.inferenceConfiguration = inferenceConfiguration
@@ -4688,14 +4688,14 @@ extension BedrockAgentRuntime {
 
     public struct RerankDocument: AWSEncodableShape & AWSDecodableShape {
         /// Contains a JSON document to rerank.
-        public let jsonDocument: String?
+        public let jsonDocument: AWSDocument?
         /// Contains information about a text document to rerank.
         public let textDocument: RerankTextDocument?
         /// The type of document to rerank.
         public let type: RerankDocumentType
 
         @inlinable
-        public init(jsonDocument: String? = nil, textDocument: RerankTextDocument? = nil, type: RerankDocumentType) {
+        public init(jsonDocument: AWSDocument? = nil, textDocument: RerankTextDocument? = nil, type: RerankDocumentType) {
             self.jsonDocument = jsonDocument
             self.textDocument = textDocument
             self.type = type
@@ -5358,10 +5358,10 @@ extension BedrockAgentRuntime {
         /// Contains information about the location of the data source.
         public let location: RetrievalResultLocation?
         /// Contains metadata attributes and their values for the file in the data source. For more information, see Metadata and filtering.
-        public let metadata: [String: String]?
+        public let metadata: [String: AWSDocument]?
 
         @inlinable
-        public init(content: RetrievalResultContent? = nil, location: RetrievalResultLocation? = nil, metadata: [String: String]? = nil) {
+        public init(content: RetrievalResultContent? = nil, location: RetrievalResultLocation? = nil, metadata: [String: AWSDocument]? = nil) {
             self.content = content
             self.location = location
             self.metadata = metadata
@@ -5840,12 +5840,12 @@ extension BedrockAgentRuntime {
 
     public struct VectorSearchBedrockRerankingModelConfiguration: AWSEncodableShape {
         /// A JSON object whose keys are request fields for the model and whose values are values for those fields.
-        public let additionalModelRequestFields: [String: String]?
+        public let additionalModelRequestFields: [String: AWSDocument]?
         /// The ARN of the reranker model to use.
         public let modelArn: String
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, modelArn: String) {
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, modelArn: String) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.modelArn = modelArn
         }
@@ -5918,10 +5918,10 @@ extension BedrockAgentRuntime {
 
     public struct FlowInputContent: AWSEncodableShape {
         /// The input to send to the prompt flow input node.
-        public let document: String?
+        public let document: AWSDocument?
 
         @inlinable
-        public init(document: String? = nil) {
+        public init(document: AWSDocument? = nil) {
             self.document = document
         }
 
@@ -5932,10 +5932,10 @@ extension BedrockAgentRuntime {
 
     public struct FlowMultiTurnInputContent: AWSDecodableShape {
         /// The requested additional input to send back to the multi-turn flow node.
-        public let document: String?
+        public let document: AWSDocument?
 
         @inlinable
-        public init(document: String? = nil) {
+        public init(document: AWSDocument? = nil) {
             self.document = document
         }
 
@@ -5946,10 +5946,10 @@ extension BedrockAgentRuntime {
 
     public struct FlowOutputContent: AWSDecodableShape {
         /// The content in the output.
-        public let document: String?
+        public let document: AWSDocument?
 
         @inlinable
-        public init(document: String? = nil) {
+        public init(document: AWSDocument? = nil) {
             self.document = document
         }
 
@@ -5960,10 +5960,10 @@ extension BedrockAgentRuntime {
 
     public struct FlowTraceNodeInputContent: AWSDecodableShape {
         /// The content of the node input.
-        public let document: String?
+        public let document: AWSDocument?
 
         @inlinable
-        public init(document: String? = nil) {
+        public init(document: AWSDocument? = nil) {
             self.document = document
         }
 
@@ -5974,10 +5974,10 @@ extension BedrockAgentRuntime {
 
     public struct FlowTraceNodeOutputContent: AWSDecodableShape {
         /// The content of the node output.
-        public let document: String?
+        public let document: AWSDocument?
 
         @inlinable
-        public init(document: String? = nil) {
+        public init(document: AWSDocument? = nil) {
             self.document = document
         }
 

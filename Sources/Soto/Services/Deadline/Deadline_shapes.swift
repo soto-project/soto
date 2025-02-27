@@ -3629,10 +3629,10 @@ extension Deadline {
         /// The schema version in the environment.
         public let schemaVersion: String
         /// The template used for the environment.
-        public let template: String
+        public let template: AWSDocument
 
         @inlinable
-        public init(environmentId: String, jobId: String, schemaVersion: String, template: String) {
+        public init(environmentId: String, jobId: String, schemaVersion: String, template: AWSDocument) {
             self.environmentId = environmentId
             self.jobId = jobId
             self.schemaVersion = schemaVersion
@@ -6690,12 +6690,12 @@ extension Deadline {
 
     public struct ListJobParameterDefinitionsResponse: AWSDecodableShape {
         /// Lists parameter definitions of a job.
-        public let jobParameterDefinitions: [String]
+        public let jobParameterDefinitions: [AWSDocument]
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
         @inlinable
-        public init(jobParameterDefinitions: [String], nextToken: String? = nil) {
+        public init(jobParameterDefinitions: [AWSDocument], nextToken: String? = nil) {
             self.jobParameterDefinitions = jobParameterDefinitions
             self.nextToken = nextToken
         }
@@ -9267,10 +9267,10 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
         /// The template for a step.
-        public let template: String
+        public let template: AWSDocument
 
         @inlinable
-        public init(dependencies: [String], jobId: String, schemaVersion: String, stepId: String, template: String) {
+        public init(dependencies: [String], jobId: String, schemaVersion: String, stepId: String, template: AWSDocument) {
             self.dependencies = dependencies
             self.jobId = jobId
             self.schemaVersion = schemaVersion

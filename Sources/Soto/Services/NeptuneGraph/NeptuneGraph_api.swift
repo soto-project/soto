@@ -490,7 +490,7 @@ public struct NeptuneGraph: AWSService {
         explainMode: ExplainMode? = nil,
         graphIdentifier: String,
         language: QueryLanguage,
-        parameters: [String: String]? = nil,
+        parameters: [String: AWSDocument]? = nil,
         planCache: PlanCacheType? = nil,
         queryString: String,
         queryTimeoutMilliseconds: Int? = nil,

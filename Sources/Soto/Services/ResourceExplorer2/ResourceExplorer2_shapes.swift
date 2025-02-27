@@ -889,14 +889,14 @@ extension ResourceExplorer2 {
 
     public struct ResourceProperty: AWSDecodableShape {
         /// Details about this property. The content of this field is a JSON object that varies based on the resource type.
-        public let data: String?
+        public let data: AWSDocument?
         /// The date and time that the information about this resource property was last updated.
         public let lastReportedAt: Date?
         /// The name of this property of the resource.
         public let name: String?
 
         @inlinable
-        public init(data: String? = nil, lastReportedAt: Date? = nil, name: String? = nil) {
+        public init(data: AWSDocument? = nil, lastReportedAt: Date? = nil, name: String? = nil) {
             self.data = data
             self.lastReportedAt = lastReportedAt
             self.name = name

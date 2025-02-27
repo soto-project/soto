@@ -1177,10 +1177,10 @@ extension QBusiness {
 
     public struct ActionExecutionPayloadField: AWSEncodableShape & AWSDecodableShape {
         /// The content of a user input field in an plugin action execution payload.
-        public let value: String
+        public let value: AWSDocument
 
         @inlinable
-        public init(value: String) {
+        public init(value: AWSDocument) {
             self.value = value
         }
 
@@ -1276,7 +1276,7 @@ extension QBusiness {
         /// Information about the field values that an end user can use to provide to Amazon Q Business for Amazon Q Business to perform the requested plugin action.
         public let allowedValues: [ActionReviewPayloadFieldAllowedValue]?
         /// Use to create a custom form with array fields (fields with nested objects inside an array).
-        public let arrayItemJsonSchema: String?
+        public let arrayItemJsonSchema: AWSDocument?
         /// The field level description of each action review input field. This could be an explanation of the field. In the Amazon Q Business web experience, these descriptions could be used to display as tool tips to help users understand the field.
         public let displayDescription: String?
         ///  The name of the field.
@@ -1288,10 +1288,10 @@ extension QBusiness {
         /// The type of field.
         public let type: ActionPayloadFieldType?
         /// The field value.
-        public let value: String?
+        public let value: AWSDocument?
 
         @inlinable
-        public init(allowedFormat: String? = nil, allowedValues: [ActionReviewPayloadFieldAllowedValue]? = nil, arrayItemJsonSchema: String? = nil, displayDescription: String? = nil, displayName: String? = nil, displayOrder: Int? = nil, required: Bool? = nil, type: ActionPayloadFieldType? = nil, value: String? = nil) {
+        public init(allowedFormat: String? = nil, allowedValues: [ActionReviewPayloadFieldAllowedValue]? = nil, arrayItemJsonSchema: AWSDocument? = nil, displayDescription: String? = nil, displayName: String? = nil, displayOrder: Int? = nil, required: Bool? = nil, type: ActionPayloadFieldType? = nil, value: AWSDocument? = nil) {
             self.allowedFormat = allowedFormat
             self.allowedValues = allowedValues
             self.arrayItemJsonSchema = arrayItemJsonSchema
@@ -1318,12 +1318,12 @@ extension QBusiness {
 
     public struct ActionReviewPayloadFieldAllowedValue: AWSDecodableShape {
         /// The name of the field.
-        public let displayValue: String?
+        public let displayValue: AWSDocument?
         /// The field value.
-        public let value: String?
+        public let value: AWSDocument?
 
         @inlinable
-        public init(displayValue: String? = nil, value: String? = nil) {
+        public init(displayValue: AWSDocument? = nil, value: AWSDocument? = nil) {
             self.displayValue = displayValue
             self.value = value
         }
@@ -2633,7 +2633,7 @@ extension QBusiness {
         /// A token you provide to identify a request to create a data source connector. Multiple calls to the CreateDataSource API with the same client token will create only one data source connector.
         public let clientToken: String?
         /// Configuration information to connect your data source repository to Amazon Q Business. Use this parameter to provide a JSON schema with configuration information specific to your data source connector. Each data source has a JSON schema provided by Amazon Q Business that you must use. For example, the Amazon S3 and Web Crawler connectors require the following JSON schemas:    Amazon S3 JSON schema     Web Crawler JSON schema    You can find configuration templates for your specific data source using the following steps:   Navigate to the Supported connectors page in the Amazon Q Business User Guide, and select the data source of your choice.   Then, from your specific data source connector page, select Using the API. You will find the JSON schema for your data source, including parameter descriptions, in this section.
-        public let configuration: String
+        public let configuration: AWSDocument
         /// A description for the data source connector.
         public let description: String?
         /// A name for the data source connector.
@@ -2653,7 +2653,7 @@ extension QBusiness {
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         @inlinable
-        public init(applicationId: String, clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: String, description: String? = nil, displayName: String, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, roleArn: String? = nil, syncSchedule: String? = nil, tags: [Tag]? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(applicationId: String, clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: AWSDocument, description: String? = nil, displayName: String, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, roleArn: String? = nil, syncSchedule: String? = nil, tags: [Tag]? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.applicationId = applicationId
             self.clientToken = clientToken
             self.configuration = configuration
@@ -4615,7 +4615,7 @@ extension QBusiness {
         /// The identifier of the Amazon Q Business application.
         public let applicationId: String?
         /// The details of how the data source connector is configured.
-        public let configuration: String?
+        public let configuration: AWSDocument?
         /// The Unix timestamp when the data source connector was created.
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the data source.
@@ -4647,7 +4647,7 @@ extension QBusiness {
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         @inlinable
-        public init(applicationId: String? = nil, configuration: String? = nil, createdAt: Date? = nil, dataSourceArn: String? = nil, dataSourceId: String? = nil, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, error: ErrorDetail? = nil, indexId: String? = nil, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, roleArn: String? = nil, status: DataSourceStatus? = nil, syncSchedule: String? = nil, type: String? = nil, updatedAt: Date? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(applicationId: String? = nil, configuration: AWSDocument? = nil, createdAt: Date? = nil, dataSourceArn: String? = nil, dataSourceId: String? = nil, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, error: ErrorDetail? = nil, indexId: String? = nil, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, roleArn: String? = nil, status: DataSourceStatus? = nil, syncSchedule: String? = nil, type: String? = nil, updatedAt: Date? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.applicationId = applicationId
             self.configuration = configuration
             self.createdAt = createdAt
@@ -8153,7 +8153,7 @@ extension QBusiness {
     public struct UpdateDataSourceRequest: AWSEncodableShape {
         ///  The identifier of the Amazon Q Business application the data source is attached to.
         public let applicationId: String
-        public let configuration: String?
+        public let configuration: AWSDocument?
         /// The identifier of the data source connector.
         public let dataSourceId: String
         /// The description of the data source connector.
@@ -8172,7 +8172,7 @@ extension QBusiness {
         public let vpcConfiguration: DataSourceVpcConfiguration?
 
         @inlinable
-        public init(applicationId: String, configuration: String? = nil, dataSourceId: String, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, roleArn: String? = nil, syncSchedule: String? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+        public init(applicationId: String, configuration: AWSDocument? = nil, dataSourceId: String, description: String? = nil, displayName: String? = nil, documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil, indexId: String, mediaExtractionConfiguration: MediaExtractionConfiguration? = nil, roleArn: String? = nil, syncSchedule: String? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
             self.applicationId = applicationId
             self.configuration = configuration
             self.dataSourceId = dataSourceId

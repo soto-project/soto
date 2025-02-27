@@ -7849,7 +7849,7 @@ extension BedrockAgent {
 
     public struct PromptConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// If the Converse or ConverseStream operations support the model, additionalModelRequestFields contains additional inference parameters, beyond the base set of inference parameters in the inferenceConfiguration field.  For more information, see Inference request parameters and response fields for foundation models in the Amazon Bedrock user guide.
-        public let additionalModelRequestFields: String?
+        public let additionalModelRequestFields: AWSDocument?
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
         public let basePromptTemplate: String?
         /// The agent's foundation model.
@@ -7866,7 +7866,7 @@ extension BedrockAgent {
         public let promptType: PromptType?
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, basePromptTemplate: String? = nil, foundationModel: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, basePromptTemplate: String? = nil, foundationModel: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.basePromptTemplate = basePromptTemplate
             self.foundationModel = foundationModel
@@ -7923,7 +7923,7 @@ extension BedrockAgent {
 
     public struct PromptFlowNodeInlineConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Additional fields to be included in the model request for the Prompt node.
-        public let additionalModelRequestFields: String?
+        public let additionalModelRequestFields: AWSDocument?
         /// Contains inference configurations for the prompt.
         public let inferenceConfiguration: PromptInferenceConfiguration?
         /// The unique identifier of the model or inference profile to run inference with.
@@ -7934,7 +7934,7 @@ extension BedrockAgent {
         public let templateType: PromptTemplateType
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.inferenceConfiguration = inferenceConfiguration
             self.modelId = modelId
@@ -8126,7 +8126,7 @@ extension BedrockAgent {
 
     public struct PromptVariant: AWSEncodableShape & AWSDecodableShape {
         /// Contains model-specific inference configurations that aren't in the inferenceConfiguration field. To see model-specific inference parameters, see Inference request parameters and response fields for foundation models.
-        public let additionalModelRequestFields: String?
+        public let additionalModelRequestFields: AWSDocument?
         /// Specifies a generative AI resource with which to use the prompt.
         public let genAiResource: PromptGenAiResource?
         /// Contains inference configurations for the prompt variant.
@@ -8143,7 +8143,7 @@ extension BedrockAgent {
         public let templateType: PromptTemplateType
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, genAiResource: PromptGenAiResource? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, metadata: [PromptMetadataEntry]? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, genAiResource: PromptGenAiResource? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, metadata: [PromptMetadataEntry]? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.genAiResource = genAiResource
             self.inferenceConfiguration = inferenceConfiguration
@@ -10920,10 +10920,10 @@ extension BedrockAgent {
 
     public struct ToolInputSchema: AWSEncodableShape & AWSDecodableShape {
         /// A JSON object defining the input schema for the tool.
-        public let json: String?
+        public let json: AWSDocument?
 
         @inlinable
-        public init(json: String? = nil) {
+        public init(json: AWSDocument? = nil) {
             self.json = json
         }
 

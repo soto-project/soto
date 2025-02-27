@@ -567,7 +567,7 @@ public struct QBusiness: AWSService {
     public func createDataSource(
         applicationId: String,
         clientToken: String? = CreateDataSourceRequest.idempotencyToken(),
-        configuration: String,
+        configuration: AWSDocument,
         description: String? = nil,
         displayName: String,
         documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil,
@@ -2774,7 +2774,7 @@ public struct QBusiness: AWSService {
     @inlinable
     public func updateDataSource(
         applicationId: String,
-        configuration: String? = nil,
+        configuration: AWSDocument? = nil,
         dataSourceId: String,
         description: String? = nil,
         displayName: String? = nil,

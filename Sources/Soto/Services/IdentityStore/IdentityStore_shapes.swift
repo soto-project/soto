@@ -129,10 +129,10 @@ extension IdentityStore {
         /// A string representation of the path to a given attribute or sub-attribute. Supports JMESPath.
         public let attributePath: String
         /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI.
-        public let attributeValue: String?
+        public let attributeValue: AWSDocument?
 
         @inlinable
-        public init(attributePath: String, attributeValue: String? = nil) {
+        public init(attributePath: String, attributeValue: AWSDocument? = nil) {
             self.attributePath = attributePath
             self.attributeValue = attributeValue
         }
@@ -1376,10 +1376,10 @@ extension IdentityStore {
         /// A string representation of the path to a given attribute or sub-attribute. Supports JMESPath.
         public let attributePath: String
         /// The value of the attribute. This is a Document type. This type is not supported by Java V1, Go V1, and older versions of the CLI.
-        public let attributeValue: String
+        public let attributeValue: AWSDocument
 
         @inlinable
-        public init(attributePath: String, attributeValue: String) {
+        public init(attributePath: String, attributeValue: AWSDocument) {
             self.attributePath = attributePath
             self.attributeValue = attributeValue
         }

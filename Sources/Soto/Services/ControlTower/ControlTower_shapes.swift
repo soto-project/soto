@@ -315,14 +315,14 @@ extension ControlTower {
 
     public struct CreateLandingZoneInput: AWSEncodableShape {
         /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review  Launch your landing zone.
-        public let manifest: String
+        public let manifest: AWSDocument
         /// Tags to be applied to the landing zone.
         public let tags: [String: String]?
         /// The landing zone version, for example, 3.0.
         public let version: String
 
         @inlinable
-        public init(manifest: String, tags: [String: String]? = nil, version: String) {
+        public init(manifest: AWSDocument, tags: [String: String]? = nil, version: String) {
             self.manifest = manifest
             self.tags = tags
             self.version = version
@@ -694,10 +694,10 @@ extension ControlTower {
         /// A string denoting the parameter key.
         public let key: String
         /// A low-level Document object of any type (for example, a Java Object).
-        public let value: String
+        public let value: AWSDocument
 
         @inlinable
-        public init(key: String, value: String) {
+        public init(key: String, value: AWSDocument) {
             self.key = key
             self.value = value
         }
@@ -712,10 +712,10 @@ extension ControlTower {
         /// A string denoting the parameter key.
         public let key: String
         /// A low-level document object of any type (for example, a Java Object).
-        public let value: String
+        public let value: AWSDocument
 
         @inlinable
-        public init(key: String, value: String) {
+        public init(key: String, value: AWSDocument) {
             self.key = key
             self.value = value
         }
@@ -837,10 +837,10 @@ extension ControlTower {
         /// The key of a key/value pair.
         public let key: String
         /// The value of a key/value pair.
-        public let value: String
+        public let value: AWSDocument
 
         @inlinable
-        public init(key: String, value: String) {
+        public init(key: String, value: AWSDocument) {
             self.key = key
             self.value = value
         }
@@ -855,10 +855,10 @@ extension ControlTower {
         /// The key of a key/value pair.
         public let key: String
         /// The value of a key/value pair.
-        public let value: String
+        public let value: AWSDocument
 
         @inlinable
-        public init(key: String, value: String) {
+        public init(key: String, value: AWSDocument) {
             self.key = key
             self.value = value
         }
@@ -1163,14 +1163,14 @@ extension ControlTower {
         /// The latest available version of the landing zone.
         public let latestAvailableVersion: String?
         /// The landing zone manifest JSON text file that specifies the landing zone configurations.
-        public let manifest: String
+        public let manifest: AWSDocument
         /// The landing zone deployment status. One of ACTIVE, PROCESSING, FAILED.
         public let status: LandingZoneStatus?
         /// The landing zone's current deployed version.
         public let version: String
 
         @inlinable
-        public init(arn: String? = nil, driftStatus: LandingZoneDriftStatusSummary? = nil, latestAvailableVersion: String? = nil, manifest: String, status: LandingZoneStatus? = nil, version: String) {
+        public init(arn: String? = nil, driftStatus: LandingZoneDriftStatusSummary? = nil, latestAvailableVersion: String? = nil, manifest: AWSDocument, status: LandingZoneStatus? = nil, version: String) {
             self.arn = arn
             self.driftStatus = driftStatus
             self.latestAvailableVersion = latestAvailableVersion
@@ -1891,12 +1891,12 @@ extension ControlTower {
         /// The unique identifier of the landing zone.
         public let landingZoneIdentifier: String
         /// The manifest file (JSON) is a text file that describes your Amazon Web Services resources. For an example, review  Launch your landing zone. The example manifest file contains each of the available parameters. The schema for the landing zone's JSON manifest file is not published, by design.
-        public let manifest: String
+        public let manifest: AWSDocument
         /// The landing zone version, for example, 3.2.
         public let version: String
 
         @inlinable
-        public init(landingZoneIdentifier: String, manifest: String, version: String) {
+        public init(landingZoneIdentifier: String, manifest: AWSDocument, version: String) {
             self.landingZoneIdentifier = landingZoneIdentifier
             self.manifest = manifest
             self.version = version

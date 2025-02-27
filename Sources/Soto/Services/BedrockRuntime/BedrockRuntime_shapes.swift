@@ -674,7 +674,7 @@ extension BedrockRuntime {
         /// A tool result that is an image.  This field is only supported by Anthropic Claude 3 models.
         case image(ImageBlock)
         /// A tool result that is JSON format data.
-        case json(String)
+        case json(AWSDocument)
         /// A tool result that is text.
         case text(String)
         /// A tool result that is video.
@@ -697,7 +697,7 @@ extension BedrockRuntime {
                 let value = try container.decode(ImageBlock.self, forKey: .image)
                 self = .image(value)
             case .json:
-                let value = try container.decode(String.self, forKey: .json)
+                let value = try container.decode(AWSDocument.self, forKey: .json)
                 self = .json(value)
             case .text:
                 let value = try container.decode(String.self, forKey: .text)
@@ -1018,7 +1018,7 @@ extension BedrockRuntime {
 
     public struct ConverseRequest: AWSEncodableShape {
         /// Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse and ConverseStream support in the inferenceConfig field. For more information, see Model parameters.
-        public let additionalModelRequestFields: String?
+        public let additionalModelRequestFields: AWSDocument?
         /// Additional model parameters field paths to return in the response. Converse and ConverseStream return the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths.  [ "/stop_sequence" ]  For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation.  Converse and ConverseStream reject an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by Converse.
         public let additionalModelResponseFieldPaths: [String]?
         /// Configuration information for a guardrail that you want to use in the request. If you include guardContent blocks in the content field in the messages field, the guardrail operates only on those messages. If you include no guardContent blocks, the guardrail operates on all messages in the request body and in any included prompt resource.
@@ -1041,7 +1041,7 @@ extension BedrockRuntime {
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
@@ -1105,7 +1105,7 @@ extension BedrockRuntime {
 
     public struct ConverseResponse: AWSDecodableShape {
         /// Additional fields in the response that are unique to the model.
-        public let additionalModelResponseFields: String?
+        public let additionalModelResponseFields: AWSDocument?
         /// Metrics for the call to Converse.
         public let metrics: ConverseMetrics
         /// The result from the call to Converse.
@@ -1120,7 +1120,7 @@ extension BedrockRuntime {
         public let usage: TokenUsage
 
         @inlinable
-        public init(additionalModelResponseFields: String? = nil, metrics: ConverseMetrics, output: ConverseOutput, performanceConfig: PerformanceConfiguration? = nil, stopReason: StopReason, trace: ConverseTrace? = nil, usage: TokenUsage) {
+        public init(additionalModelResponseFields: AWSDocument? = nil, metrics: ConverseMetrics, output: ConverseOutput, performanceConfig: PerformanceConfiguration? = nil, stopReason: StopReason, trace: ConverseTrace? = nil, usage: TokenUsage) {
             self.additionalModelResponseFields = additionalModelResponseFields
             self.metrics = metrics
             self.output = output
@@ -1183,7 +1183,7 @@ extension BedrockRuntime {
 
     public struct ConverseStreamRequest: AWSEncodableShape {
         /// Additional inference parameters that the model supports, beyond the base set of inference parameters that Converse and ConverseStream support in the inferenceConfig field. For more information, see Model parameters.
-        public let additionalModelRequestFields: String?
+        public let additionalModelRequestFields: AWSDocument?
         /// Additional model parameters field paths to return in the response. Converse and ConverseStream return the requested fields as a JSON Pointer object in the additionalModelResponseFields field. The following is example JSON for additionalModelResponseFieldPaths.  [ "/stop_sequence" ]  For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation.  Converse and ConverseStream reject an empty JSON Pointer or incorrectly structured JSON Pointer with a 400 error code. if the JSON Pointer is valid, but the requested field is not in the model response, it is ignored by Converse.
         public let additionalModelResponseFieldPaths: [String]?
         /// Configuration information for a guardrail that you want to use in the request. If you include guardContent blocks in the content field in the messages field, the guardrail operates only on those messages. If you include no guardContent blocks, the guardrail operates on all messages in the request body and in any included prompt resource.
@@ -1206,7 +1206,7 @@ extension BedrockRuntime {
         public let toolConfig: ToolConfiguration?
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, additionalModelResponseFieldPaths: [String]? = nil, guardrailConfig: GuardrailStreamConfiguration? = nil, inferenceConfig: InferenceConfiguration? = nil, messages: [Message]? = nil, modelId: String, performanceConfig: PerformanceConfiguration? = nil, promptVariables: [String: PromptVariableValues]? = nil, requestMetadata: [String: String]? = nil, system: [SystemContentBlock]? = nil, toolConfig: ToolConfiguration? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.additionalModelResponseFieldPaths = additionalModelResponseFieldPaths
             self.guardrailConfig = guardrailConfig
@@ -2308,12 +2308,12 @@ extension BedrockRuntime {
 
     public struct MessageStopEvent: AWSDecodableShape {
         /// The additional model response fields.
-        public let additionalModelResponseFields: String?
+        public let additionalModelResponseFields: AWSDocument?
         /// The reason why the model stopped generating output.
         public let stopReason: StopReason
 
         @inlinable
-        public init(additionalModelResponseFields: String? = nil, stopReason: StopReason) {
+        public init(additionalModelResponseFields: AWSDocument? = nil, stopReason: StopReason) {
             self.additionalModelResponseFields = additionalModelResponseFields
             self.stopReason = stopReason
         }
@@ -2464,14 +2464,14 @@ extension BedrockRuntime {
         /// The model to invoke.
         public let modelId: String
         /// Input to send to the model.
-        public let modelInput: String
+        public let modelInput: AWSDocument
         /// Where to store the output.
         public let outputDataConfig: AsyncInvokeOutputDataConfig
         /// Tags to apply to the invocation.
         public let tags: [Tag]?
 
         @inlinable
-        public init(clientRequestToken: String? = StartAsyncInvokeRequest.idempotencyToken(), modelId: String, modelInput: String, outputDataConfig: AsyncInvokeOutputDataConfig, tags: [Tag]? = nil) {
+        public init(clientRequestToken: String? = StartAsyncInvokeRequest.idempotencyToken(), modelId: String, modelInput: AWSDocument, outputDataConfig: AsyncInvokeOutputDataConfig, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
             self.modelId = modelId
             self.modelInput = modelInput
@@ -2664,14 +2664,14 @@ extension BedrockRuntime {
 
     public struct ToolUseBlock: AWSEncodableShape & AWSDecodableShape {
         /// The input to pass to the tool.
-        public let input: String
+        public let input: AWSDocument
         /// The name of the tool that the model wants to use.
         public let name: String
         /// The ID for the tool request.
         public let toolUseId: String
 
         @inlinable
-        public init(input: String, name: String, toolUseId: String) {
+        public init(input: AWSDocument, name: String, toolUseId: String) {
             self.input = input
             self.name = name
             self.toolUseId = toolUseId
@@ -2896,10 +2896,10 @@ extension BedrockRuntime {
 
     public struct ToolInputSchema: AWSEncodableShape {
         /// The JSON schema for the tool. For more information, see JSON Schema Reference.
-        public let json: String?
+        public let json: AWSDocument?
 
         @inlinable
-        public init(json: String? = nil) {
+        public init(json: AWSDocument? = nil) {
             self.json = json
         }
 

@@ -2250,10 +2250,10 @@ extension SSOAdmin {
 
     public struct IamAuthenticationMethod: AWSEncodableShape & AWSDecodableShape {
         /// An IAM policy document in JSON.
-        public let actorPolicy: String
+        public let actorPolicy: AWSDocument
 
         @inlinable
-        public init(actorPolicy: String) {
+        public init(actorPolicy: AWSDocument) {
             self.actorPolicy = actorPolicy
         }
 

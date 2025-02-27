@@ -326,11 +326,11 @@ public struct MWAA: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeRestApi(
-        body: String? = nil,
+        body: AWSDocument? = nil,
         method: RestApiMethod,
         name: String,
         path: String,
-        queryParameters: String? = nil,
+        queryParameters: AWSDocument? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeRestApiResponse {
         let input = InvokeRestApiRequest(

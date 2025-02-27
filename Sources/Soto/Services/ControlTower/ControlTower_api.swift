@@ -115,7 +115,7 @@ public struct ControlTower: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createLandingZone(
-        manifest: String,
+        manifest: AWSDocument,
         tags: [String: String]? = nil,
         version: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -980,7 +980,7 @@ public struct ControlTower: AWSService {
     @inlinable
     public func updateLandingZone(
         landingZoneIdentifier: String,
-        manifest: String,
+        manifest: AWSDocument,
         version: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateLandingZoneOutput {

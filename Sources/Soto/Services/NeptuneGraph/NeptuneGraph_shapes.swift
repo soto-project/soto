@@ -962,7 +962,7 @@ extension NeptuneGraph {
         /// The query language the query is written in. Currently only openCypher is supported.
         public let language: QueryLanguage
         /// The data parameters the query can use in JSON format. For example: {"name": "john", "age": 20}. (optional)
-        public let parameters: [String: String]?
+        public let parameters: [String: AWSDocument]?
         /// Query plan cache is a feature that saves the query plan and reuses it on successive executions of the same query.  This reduces query latency, and works for both READ and UPDATE queries. The plan cache is an  LRU cache with a 5 minute TTL and a capacity of 1000.
         public let planCache: PlanCacheType?
         /// The query string to be executed.
@@ -971,7 +971,7 @@ extension NeptuneGraph {
         public let queryTimeoutMilliseconds: Int?
 
         @inlinable
-        public init(explainMode: ExplainMode? = nil, graphIdentifier: String, language: QueryLanguage, parameters: [String: String]? = nil, planCache: PlanCacheType? = nil, queryString: String, queryTimeoutMilliseconds: Int? = nil) {
+        public init(explainMode: ExplainMode? = nil, graphIdentifier: String, language: QueryLanguage, parameters: [String: AWSDocument]? = nil, planCache: PlanCacheType? = nil, queryString: String, queryTimeoutMilliseconds: Int? = nil) {
             self.explainMode = explainMode
             self.graphIdentifier = graphIdentifier
             self.language = language
