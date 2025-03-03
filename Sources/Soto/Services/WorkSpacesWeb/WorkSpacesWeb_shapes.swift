@@ -60,6 +60,18 @@ extension WorkSpacesWeb {
         public var description: String { return self.rawValue }
     }
 
+    public enum MaxDisplayResolution: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case size1024X768 = "size1024X768"
+        case size1280X720 = "size1280X720"
+        case size1920X1080 = "size1920X1080"
+        case size2560X1440 = "size2560X1440"
+        case size3440X1440 = "size3440X1440"
+        case size3840X2160 = "size3840X2160"
+        case size4096X2160 = "size4096X2160"
+        case size800X600 = "size800X600"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PortalStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case incomplete = "Incomplete"
@@ -86,6 +98,27 @@ extension WorkSpacesWeb {
     public enum SessionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case terminated = "Terminated"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ToolbarItem: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualMonitor = "DualMonitor"
+        case fullScreen = "FullScreen"
+        case microphone = "Microphone"
+        case webcam = "Webcam"
+        case windows = "Windows"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ToolbarType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case docked = "Docked"
+        case floating = "Floating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VisualMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dark = "Dark"
+        case light = "Light"
         public var description: String { return self.rawValue }
     }
 
@@ -1164,11 +1197,13 @@ extension WorkSpacesWeb {
         public let printAllowed: EnabledType
         /// The tags to add to the user settings resource. A tag is a key-value pair.
         public let tags: [Tag]?
+        /// The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
+        public let toolbarConfiguration: ToolbarConfiguration?
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, uploadAllowed: EnabledType) {
+        public init(additionalEncryptionContext: [String: String]? = nil, clientToken: String? = CreateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType, printAllowed: EnabledType, tags: [Tag]? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.clientToken = clientToken
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -1181,6 +1216,7 @@ extension WorkSpacesWeb {
             self.pasteAllowed = pasteAllowed
             self.printAllowed = printAllowed
             self.tags = tags
+            self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
         }
 
@@ -1220,6 +1256,7 @@ extension WorkSpacesWeb {
             case pasteAllowed = "pasteAllowed"
             case printAllowed = "printAllowed"
             case tags = "tags"
+            case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
         }
     }
@@ -3530,6 +3567,32 @@ extension WorkSpacesWeb {
         public init() {}
     }
 
+    public struct ToolbarConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of toolbar items to be hidden.
+        public let hiddenToolbarItems: [ToolbarItem]?
+        /// The maximum display resolution that is allowed for the session.
+        public let maxDisplayResolution: MaxDisplayResolution?
+        /// The type of toolbar displayed during the session.
+        public let toolbarType: ToolbarType?
+        /// The visual mode of the toolbar.
+        public let visualMode: VisualMode?
+
+        @inlinable
+        public init(hiddenToolbarItems: [ToolbarItem]? = nil, maxDisplayResolution: MaxDisplayResolution? = nil, toolbarType: ToolbarType? = nil, visualMode: VisualMode? = nil) {
+            self.hiddenToolbarItems = hiddenToolbarItems
+            self.maxDisplayResolution = maxDisplayResolution
+            self.toolbarType = toolbarType
+            self.visualMode = visualMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hiddenToolbarItems = "hiddenToolbarItems"
+            case maxDisplayResolution = "maxDisplayResolution"
+            case toolbarType = "toolbarType"
+            case visualMode = "visualMode"
+        }
+    }
+
     public struct TrustStore: AWSDecodableShape {
         /// A list of web portal ARNs that this trust store is associated with.
         public let associatedPortalArns: [String]?
@@ -4140,13 +4203,15 @@ extension WorkSpacesWeb {
         public let pasteAllowed: EnabledType?
         /// Specifies whether the user can print to the local device.
         public let printAllowed: EnabledType?
+        /// The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
+        public let toolbarConfiguration: ToolbarConfiguration?
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
         @inlinable
-        public init(clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(clientToken: String? = UpdateUserSettingsRequest.idempotencyToken(), cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.clientToken = clientToken
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
@@ -4156,6 +4221,7 @@ extension WorkSpacesWeb {
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
             self.pasteAllowed = pasteAllowed
             self.printAllowed = printAllowed
+            self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
         }
@@ -4172,6 +4238,7 @@ extension WorkSpacesWeb {
             try container.encodeIfPresent(self.idleDisconnectTimeoutInMinutes, forKey: .idleDisconnectTimeoutInMinutes)
             try container.encodeIfPresent(self.pasteAllowed, forKey: .pasteAllowed)
             try container.encodeIfPresent(self.printAllowed, forKey: .printAllowed)
+            try container.encodeIfPresent(self.toolbarConfiguration, forKey: .toolbarConfiguration)
             try container.encodeIfPresent(self.uploadAllowed, forKey: .uploadAllowed)
             request.encodePath(self.userSettingsArn, key: "userSettingsArn")
         }
@@ -4199,6 +4266,7 @@ extension WorkSpacesWeb {
             case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
             case pasteAllowed = "pasteAllowed"
             case printAllowed = "printAllowed"
+            case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
         }
     }
@@ -4280,13 +4348,15 @@ extension WorkSpacesWeb {
         public let pasteAllowed: EnabledType?
         /// Specifies whether the user can print to the local device.
         public let printAllowed: EnabledType?
+        /// The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
+        public let toolbarConfiguration: ToolbarConfiguration?
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
         @inlinable
-        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(additionalEncryptionContext: [String: String]? = nil, associatedPortalArns: [String]? = nil, cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, customerManagedKey: String? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.associatedPortalArns = associatedPortalArns
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
@@ -4298,6 +4368,7 @@ extension WorkSpacesWeb {
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
             self.pasteAllowed = pasteAllowed
             self.printAllowed = printAllowed
+            self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
         }
@@ -4314,6 +4385,7 @@ extension WorkSpacesWeb {
             case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
             case pasteAllowed = "pasteAllowed"
             case printAllowed = "printAllowed"
+            case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
             case userSettingsArn = "userSettingsArn"
         }
@@ -4336,13 +4408,15 @@ extension WorkSpacesWeb {
         public let pasteAllowed: EnabledType?
         /// Specifies whether the user can print to the local device.
         public let printAllowed: EnabledType?
+        /// The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
+        public let toolbarConfiguration: ToolbarConfiguration?
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public let uploadAllowed: EnabledType?
         /// The ARN of the user settings.
         public let userSettingsArn: String
 
         @inlinable
-        public init(cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
+        public init(cookieSynchronizationConfiguration: CookieSynchronizationConfiguration? = nil, copyAllowed: EnabledType? = nil, deepLinkAllowed: EnabledType? = nil, disconnectTimeoutInMinutes: Int? = nil, downloadAllowed: EnabledType? = nil, idleDisconnectTimeoutInMinutes: Int? = nil, pasteAllowed: EnabledType? = nil, printAllowed: EnabledType? = nil, toolbarConfiguration: ToolbarConfiguration? = nil, uploadAllowed: EnabledType? = nil, userSettingsArn: String) {
             self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.deepLinkAllowed = deepLinkAllowed
@@ -4351,6 +4425,7 @@ extension WorkSpacesWeb {
             self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
             self.pasteAllowed = pasteAllowed
             self.printAllowed = printAllowed
+            self.toolbarConfiguration = toolbarConfiguration
             self.uploadAllowed = uploadAllowed
             self.userSettingsArn = userSettingsArn
         }
@@ -4364,6 +4439,7 @@ extension WorkSpacesWeb {
             case idleDisconnectTimeoutInMinutes = "idleDisconnectTimeoutInMinutes"
             case pasteAllowed = "pasteAllowed"
             case printAllowed = "printAllowed"
+            case toolbarConfiguration = "toolbarConfiguration"
             case uploadAllowed = "uploadAllowed"
             case userSettingsArn = "userSettingsArn"
         }

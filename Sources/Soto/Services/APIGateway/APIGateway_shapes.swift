@@ -659,7 +659,7 @@ extension APIGateway {
         public let basePath: String?
         /// The domain name of the BasePathMapping resource to create.
         public let domainName: String
-        /// The identifier for the domain name resource. Supported only for private custom domain names.
+        /// The identifier for the domain name resource. Required for private custom domain names.
         public let domainNameId: String?
         /// The string identifier of the associated RestApi.
         public let restApiId: String
@@ -2628,7 +2628,7 @@ extension APIGateway {
     public struct GetDomainNameRequest: AWSEncodableShape {
         /// The name of the DomainName resource.
         public let domainName: String
-        ///  The identifier for the domain name resource. Supported only for private custom domain names.
+        ///  The identifier for the domain name resource. Required for private custom domain names.
         public let domainNameId: String?
 
         @inlinable

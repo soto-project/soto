@@ -80,6 +80,26 @@ extension MailManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImportDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case csv = "CSV"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case created = "CREATED"
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IngressAddressListEmailAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case recipient = "RECIPIENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IngressBooleanOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case isFalse = "IS_FALSE"
         case isTrue = "IS_TRUE"
@@ -173,6 +193,16 @@ extension MailManager {
         case threeMonths = "THREE_MONTHS"
         case threeYears = "THREE_YEARS"
         case twoYears = "TWO_YEARS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RuleAddressListEmailAttribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cc = "CC"
+        case from = "FROM"
+        case mailFrom = "MAIL_FROM"
+        case recipient = "RECIPIENT"
+        case sender = "SENDER"
+        case to = "TO"
         public var description: String { return self.rawValue }
     }
 
@@ -325,6 +355,56 @@ extension MailManager {
         private enum CodingKeys: String, CodingKey {
             case booleanExpression = "BooleanExpression"
             case stringExpression = "StringExpression"
+        }
+    }
+
+    public enum IngressBooleanToEvaluate: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The structure type for a boolean condition stating the Add On ARN and its returned value.
+        case analysis(IngressAnalysis)
+        /// The structure type for a boolean condition that provides the address lists to evaluate incoming traffic on.
+        case isInAddressList(IngressIsInAddressList)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .analysis:
+                let value = try container.decode(IngressAnalysis.self, forKey: .analysis)
+                self = .analysis(value)
+            case .isInAddressList:
+                let value = try container.decode(IngressIsInAddressList.self, forKey: .isInAddressList)
+                self = .isInAddressList(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .analysis(let value):
+                try container.encode(value, forKey: .analysis)
+            case .isInAddressList(let value):
+                try container.encode(value, forKey: .isInAddressList)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .analysis(let value):
+                try value.validate(name: "\(name).analysis")
+            case .isInAddressList(let value):
+                try value.validate(name: "\(name).isInAddressList")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysis = "Analysis"
+            case isInAddressList = "IsInAddressList"
         }
     }
 
@@ -599,6 +679,56 @@ extension MailManager {
         }
     }
 
+    public enum RuleBooleanToEvaluate: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The boolean type representing the allowed attribute types for an email.
+        case attribute(RuleBooleanEmailAttribute)
+        /// The structure representing the address lists and address list attribute that will be used in evaluation of boolean expression.
+        case isInAddressList(RuleIsInAddressList)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .attribute:
+                let value = try container.decode(RuleBooleanEmailAttribute.self, forKey: .attribute)
+                self = .attribute(value)
+            case .isInAddressList:
+                let value = try container.decode(RuleIsInAddressList.self, forKey: .isInAddressList)
+                self = .isInAddressList(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .attribute(let value):
+                try container.encode(value, forKey: .attribute)
+            case .isInAddressList(let value):
+                try container.encode(value, forKey: .isInAddressList)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .isInAddressList(let value):
+                try value.validate(name: "\(name).isInAddressList")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attribute = "Attribute"
+            case isInAddressList = "IsInAddressList"
+        }
+    }
+
     public enum RuleCondition: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The condition applies to a boolean expression passed in this field.
         case booleanExpression(RuleBooleanExpression)
@@ -664,6 +794,8 @@ extension MailManager {
 
         public func validate(name: String) throws {
             switch self {
+            case .booleanExpression(let value):
+                try value.validate(name: "\(name).booleanExpression")
             case .dmarcExpression(let value):
                 try value.validate(name: "\(name).dmarcExpression")
             case .ipExpression(let value):
@@ -868,6 +1000,55 @@ extension MailManager {
             case addonSubscriptionArn = "AddonSubscriptionArn"
             case addonSubscriptionId = "AddonSubscriptionId"
             case createdTimestamp = "CreatedTimestamp"
+        }
+    }
+
+    public struct AddressFilter: AWSEncodableShape {
+        /// Filter to limit the results to addresses having the provided prefix.
+        public let addressPrefix: String?
+
+        @inlinable
+        public init(addressPrefix: String? = nil) {
+            self.addressPrefix = addressPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressPrefix, name: "addressPrefix", parent: name, max: 320)
+            try self.validate(self.addressPrefix, name: "addressPrefix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressPrefix = "AddressPrefix"
+        }
+    }
+
+    public struct AddressList: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the address list.
+        public let addressListArn: String
+        /// The identifier of the address list.
+        public let addressListId: String
+        /// The user-friendly name of the address list.
+        public let addressListName: String
+        /// The timestamp of when the address list was created.
+        public let createdTimestamp: Date
+        /// The timestamp of when the address list was last updated.
+        public let lastUpdatedTimestamp: Date
+
+        @inlinable
+        public init(addressListArn: String, addressListId: String, addressListName: String, createdTimestamp: Date, lastUpdatedTimestamp: Date) {
+            self.addressListArn = addressListArn
+            self.addressListId = addressListId
+            self.addressListName = addressListName
+            self.createdTimestamp = createdTimestamp
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListArn = "AddressListArn"
+            case addressListId = "AddressListId"
+            case addressListName = "AddressListName"
+            case createdTimestamp = "CreatedTimestamp"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
         }
     }
 
@@ -1114,6 +1295,109 @@ extension MailManager {
 
         private enum CodingKeys: String, CodingKey {
             case addonSubscriptionId = "AddonSubscriptionId"
+        }
+    }
+
+    public struct CreateAddressListImportJobRequest: AWSEncodableShape {
+        /// The unique identifier of the address list for importing addresses to.
+        public let addressListId: String
+        /// A unique token that Amazon SES uses to recognize subsequent retries of the same request.
+        public let clientToken: String?
+        /// The format of the input for an import job.
+        public let importDataFormat: ImportDataFormat
+        /// A user-friendly name for the import job.
+        public let name: String
+
+        @inlinable
+        public init(addressListId: String, clientToken: String? = CreateAddressListImportJobRequest.idempotencyToken(), importDataFormat: ImportDataFormat, name: String) {
+            self.addressListId = addressListId
+            self.clientToken = clientToken
+            self.importDataFormat = importDataFormat
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressListId, name: "addressListId", parent: name, max: 255)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, min: 1)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListId = "AddressListId"
+            case clientToken = "ClientToken"
+            case importDataFormat = "ImportDataFormat"
+            case name = "Name"
+        }
+    }
+
+    public struct CreateAddressListImportJobResponse: AWSDecodableShape {
+        /// The identifier of the created import job.
+        public let jobId: String
+        /// The pre-signed URL target for uploading the input file.
+        public let preSignedUrl: String
+
+        @inlinable
+        public init(jobId: String, preSignedUrl: String) {
+            self.jobId = jobId
+            self.preSignedUrl = preSignedUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case preSignedUrl = "PreSignedUrl"
+        }
+    }
+
+    public struct CreateAddressListRequest: AWSEncodableShape {
+        /// A user-friendly name for the address list.
+        public let addressListName: String
+        /// A unique token that Amazon SES uses to recognize subsequent retries of the same request.
+        public let clientToken: String?
+        /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(addressListName: String, clientToken: String? = CreateAddressListRequest.idempotencyToken(), tags: [Tag]? = nil) {
+            self.addressListName = addressListName
+            self.clientToken = clientToken
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressListName, name: "addressListName", parent: name, max: 255)
+            try self.validate(self.addressListName, name: "addressListName", parent: name, min: 1)
+            try self.validate(self.addressListName, name: "addressListName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListName = "AddressListName"
+            case clientToken = "ClientToken"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAddressListResponse: AWSDecodableShape {
+        /// The identifier of the created address list.
+        public let addressListId: String
+
+        @inlinable
+        public init(addressListId: String) {
+            self.addressListId = addressListId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListId = "AddressListId"
         }
     }
 
@@ -1477,6 +1761,30 @@ extension MailManager {
         public init() {}
     }
 
+    public struct DeleteAddressListRequest: AWSEncodableShape {
+        /// The identifier of an existing address list resource to delete.
+        public let addressListId: String
+
+        @inlinable
+        public init(addressListId: String) {
+            self.addressListId = addressListId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressListId, name: "addressListId", parent: name, max: 255)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, min: 1)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListId = "AddressListId"
+        }
+    }
+
+    public struct DeleteAddressListResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteArchiveRequest: AWSEncodableShape {
         /// The identifier of the archive to delete.
         public let archiveId: String
@@ -1662,6 +1970,36 @@ extension MailManager {
         }
     }
 
+    public struct DeregisterMemberFromAddressListRequest: AWSEncodableShape {
+        /// The address to be removed from the address list.
+        public let address: String
+        /// The unique identifier of the address list to remove the address from.
+        public let addressListId: String
+
+        @inlinable
+        public init(address: String, addressListId: String) {
+            self.address = address
+            self.addressListId = addressListId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.address, name: "address", parent: name, max: 320)
+            try self.validate(self.address, name: "address", parent: name, min: 3)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, max: 255)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, min: 1)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case addressListId = "AddressListId"
+        }
+    }
+
+    public struct DeregisterMemberFromAddressListResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DropAction: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -1817,6 +2155,134 @@ extension MailManager {
             case addonName = "AddonName"
             case addonSubscriptionArn = "AddonSubscriptionArn"
             case createdTimestamp = "CreatedTimestamp"
+        }
+    }
+
+    public struct GetAddressListImportJobRequest: AWSEncodableShape {
+        /// The identifier of the import job that needs to be retrieved.
+        public let jobId: String
+
+        @inlinable
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct GetAddressListImportJobResponse: AWSDecodableShape {
+        /// The unique identifier of the address list the import job was created for.
+        public let addressListId: String
+        /// The timestamp of when the import job was completed.
+        public let completedTimestamp: Date?
+        /// The timestamp of when the import job was created.
+        public let createdTimestamp: Date
+        /// The reason for failure of an import job.
+        public let error: String?
+        /// The number of input addresses that failed to be imported into the address list.
+        public let failedItemsCount: Int?
+        /// The format of the input for an import job.
+        public let importDataFormat: ImportDataFormat
+        /// The number of input addresses successfully imported into the address list.
+        public let importedItemsCount: Int?
+        /// The identifier of the import job.
+        public let jobId: String
+        /// A user-friendly name for the import job.
+        public let name: String
+        /// The pre-signed URL target for uploading the input file.
+        public let preSignedUrl: String
+        /// The timestamp of when the import job was started.
+        public let startTimestamp: Date?
+        /// The status of the import job.
+        public let status: ImportJobStatus
+
+        @inlinable
+        public init(addressListId: String, completedTimestamp: Date? = nil, createdTimestamp: Date, error: String? = nil, failedItemsCount: Int? = nil, importDataFormat: ImportDataFormat, importedItemsCount: Int? = nil, jobId: String, name: String, preSignedUrl: String, startTimestamp: Date? = nil, status: ImportJobStatus) {
+            self.addressListId = addressListId
+            self.completedTimestamp = completedTimestamp
+            self.createdTimestamp = createdTimestamp
+            self.error = error
+            self.failedItemsCount = failedItemsCount
+            self.importDataFormat = importDataFormat
+            self.importedItemsCount = importedItemsCount
+            self.jobId = jobId
+            self.name = name
+            self.preSignedUrl = preSignedUrl
+            self.startTimestamp = startTimestamp
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListId = "AddressListId"
+            case completedTimestamp = "CompletedTimestamp"
+            case createdTimestamp = "CreatedTimestamp"
+            case error = "Error"
+            case failedItemsCount = "FailedItemsCount"
+            case importDataFormat = "ImportDataFormat"
+            case importedItemsCount = "ImportedItemsCount"
+            case jobId = "JobId"
+            case name = "Name"
+            case preSignedUrl = "PreSignedUrl"
+            case startTimestamp = "StartTimestamp"
+            case status = "Status"
+        }
+    }
+
+    public struct GetAddressListRequest: AWSEncodableShape {
+        /// The identifier of an existing address list resource to be retrieved.
+        public let addressListId: String
+
+        @inlinable
+        public init(addressListId: String) {
+            self.addressListId = addressListId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressListId, name: "addressListId", parent: name, max: 255)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, min: 1)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListId = "AddressListId"
+        }
+    }
+
+    public struct GetAddressListResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the address list resource.
+        public let addressListArn: String
+        /// The identifier of the address list resource.
+        public let addressListId: String
+        /// A user-friendly name for the address list resource.
+        public let addressListName: String
+        /// The date of when then address list was created.
+        public let createdTimestamp: Date
+        /// The date of when the address list was last updated.
+        public let lastUpdatedTimestamp: Date
+
+        @inlinable
+        public init(addressListArn: String, addressListId: String, addressListName: String, createdTimestamp: Date, lastUpdatedTimestamp: Date) {
+            self.addressListArn = addressListArn
+            self.addressListId = addressListId
+            self.addressListName = addressListName
+            self.createdTimestamp = createdTimestamp
+            self.lastUpdatedTimestamp = lastUpdatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListArn = "AddressListArn"
+            case addressListId = "AddressListId"
+            case addressListName = "AddressListName"
+            case createdTimestamp = "CreatedTimestamp"
+            case lastUpdatedTimestamp = "LastUpdatedTimestamp"
         }
     }
 
@@ -2161,6 +2627,50 @@ extension MailManager {
         }
     }
 
+    public struct GetMemberOfAddressListRequest: AWSEncodableShape {
+        /// The address to be retrieved from the address list.
+        public let address: String
+        /// The unique identifier of the address list to retrieve the address from.
+        public let addressListId: String
+
+        @inlinable
+        public init(address: String, addressListId: String) {
+            self.address = address
+            self.addressListId = addressListId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.address, name: "address", parent: name, max: 320)
+            try self.validate(self.address, name: "address", parent: name, min: 3)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, max: 255)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, min: 1)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case addressListId = "AddressListId"
+        }
+    }
+
+    public struct GetMemberOfAddressListResponse: AWSDecodableShape {
+        /// The address retrieved from the address list.
+        public let address: String
+        /// The timestamp of when the address was created.
+        public let createdTimestamp: Date
+
+        @inlinable
+        public init(address: String, createdTimestamp: Date) {
+            self.address = address
+            self.createdTimestamp = createdTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case createdTimestamp = "CreatedTimestamp"
+        }
+    }
+
     public struct GetRelayRequest: AWSEncodableShape {
         /// A unique relay identifier.
         public let relayId: String
@@ -2337,6 +2847,78 @@ extension MailManager {
         }
     }
 
+    public struct ImportDataFormat: AWSEncodableShape & AWSDecodableShape {
+        /// The type of file that would be passed as an input for the address list import job.
+        public let importDataType: ImportDataType
+
+        @inlinable
+        public init(importDataType: ImportDataType) {
+            self.importDataType = importDataType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importDataType = "ImportDataType"
+        }
+    }
+
+    public struct ImportJob: AWSDecodableShape {
+        /// The unique identifier of the address list the import job was created for.
+        public let addressListId: String
+        /// The timestamp of when the import job was completed.
+        public let completedTimestamp: Date?
+        /// The timestamp of when the import job was created.
+        public let createdTimestamp: Date
+        /// The reason for failure of an import job.
+        public let error: String?
+        /// The number of addresses in the input that failed to get imported into address list.
+        public let failedItemsCount: Int?
+        /// The format of the input for the import job.
+        public let importDataFormat: ImportDataFormat
+        /// The number of addresses in the input that were successfully imported into the address list.
+        public let importedItemsCount: Int?
+        /// The identifier of the import job.
+        public let jobId: String
+        /// A user-friendly name for the import job.
+        public let name: String
+        /// The pre-signed URL target for uploading the input file.
+        public let preSignedUrl: String
+        /// The timestamp of when the import job was started.
+        public let startTimestamp: Date?
+        /// The status of the import job.
+        public let status: ImportJobStatus
+
+        @inlinable
+        public init(addressListId: String, completedTimestamp: Date? = nil, createdTimestamp: Date, error: String? = nil, failedItemsCount: Int? = nil, importDataFormat: ImportDataFormat, importedItemsCount: Int? = nil, jobId: String, name: String, preSignedUrl: String, startTimestamp: Date? = nil, status: ImportJobStatus) {
+            self.addressListId = addressListId
+            self.completedTimestamp = completedTimestamp
+            self.createdTimestamp = createdTimestamp
+            self.error = error
+            self.failedItemsCount = failedItemsCount
+            self.importDataFormat = importDataFormat
+            self.importedItemsCount = importedItemsCount
+            self.jobId = jobId
+            self.name = name
+            self.preSignedUrl = preSignedUrl
+            self.startTimestamp = startTimestamp
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListId = "AddressListId"
+            case completedTimestamp = "CompletedTimestamp"
+            case createdTimestamp = "CreatedTimestamp"
+            case error = "Error"
+            case failedItemsCount = "FailedItemsCount"
+            case importDataFormat = "ImportDataFormat"
+            case importedItemsCount = "ImportedItemsCount"
+            case jobId = "JobId"
+            case name = "Name"
+            case preSignedUrl = "PreSignedUrl"
+            case startTimestamp = "StartTimestamp"
+            case status = "Status"
+        }
+    }
+
     public struct IngressAnalysis: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of an Add On.
         public let analyzer: String
@@ -2409,6 +2991,29 @@ extension MailManager {
             case evaluate = "Evaluate"
             case `operator` = "Operator"
             case values = "Values"
+        }
+    }
+
+    public struct IngressIsInAddressList: AWSEncodableShape & AWSDecodableShape {
+        /// The address lists that will be used for evaluation.
+        public let addressLists: [String]
+        /// The email attribute that needs to be evaluated against the address list.
+        public let attribute: IngressAddressListEmailAttribute
+
+        @inlinable
+        public init(addressLists: [String], attribute: IngressAddressListEmailAttribute) {
+            self.addressLists = addressLists
+            self.attribute = attribute
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressLists, name: "addressLists", parent: name, max: 1)
+            try self.validate(self.addressLists, name: "addressLists", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressLists = "AddressLists"
+            case attribute = "Attribute"
         }
     }
 
@@ -2612,6 +3217,99 @@ extension MailManager {
         }
     }
 
+    public struct ListAddressListImportJobsRequest: AWSEncodableShape {
+        /// The unique identifier of the address list for listing import jobs.
+        public let addressListId: String
+        /// If you received a pagination token from a previous call to this API, you can provide it here to continue paginating through the next page of results.
+        public let nextToken: String?
+        /// The maximum number of import jobs that are returned per call. You can use NextToken to retrieve the next page of jobs.
+        public let pageSize: Int?
+
+        @inlinable
+        public init(addressListId: String, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.addressListId = addressListId
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressListId, name: "addressListId", parent: name, max: 255)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, min: 1)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 50)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListId = "AddressListId"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListAddressListImportJobsResponse: AWSDecodableShape {
+        /// The list of import jobs.
+        public let importJobs: [ImportJob]
+        /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(importJobs: [ImportJob], nextToken: String? = nil) {
+            self.importJobs = importJobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case importJobs = "ImportJobs"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAddressListsRequest: AWSEncodableShape {
+        /// If you received a pagination token from a previous call to this API, you can provide it here to continue paginating through the next page of results.
+        public let nextToken: String?
+        /// The maximum number of address list resources that are returned per call. You can use NextToken to retrieve the next page of address lists.
+        public let pageSize: Int?
+
+        @inlinable
+        public init(nextToken: String? = nil, pageSize: Int? = nil) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 50)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListAddressListsResponse: AWSDecodableShape {
+        /// The list of address lists.
+        public let addressLists: [AddressList]
+        /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(addressLists: [AddressList], nextToken: String? = nil) {
+            self.addressLists = addressLists
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressLists = "AddressLists"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListArchiveExportsRequest: AWSEncodableShape {
         /// The identifier of the archive.
         public let archiveId: String
@@ -2794,6 +3492,61 @@ extension MailManager {
 
         private enum CodingKeys: String, CodingKey {
             case ingressPoints = "IngressPoints"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMembersOfAddressListRequest: AWSEncodableShape {
+        /// The unique identifier of the address list to list the addresses from.
+        public let addressListId: String
+        /// Filter to be used to limit the results.
+        public let filter: AddressFilter?
+        /// If you received a pagination token from a previous call to this API, you can provide it here to continue paginating through the next page of results.
+        public let nextToken: String?
+        /// The maximum number of address list members that are returned per call. You can use NextToken to retrieve the next page of members.
+        public let pageSize: Int?
+
+        @inlinable
+        public init(addressListId: String, filter: AddressFilter? = nil, nextToken: String? = nil, pageSize: Int? = nil) {
+            self.addressListId = addressListId
+            self.filter = filter
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressListId, name: "addressListId", parent: name, max: 255)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, min: 1)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, max: 1000)
+            try self.validate(self.pageSize, name: "pageSize", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressListId = "AddressListId"
+            case filter = "Filter"
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+        }
+    }
+
+    public struct ListMembersOfAddressListResponse: AWSDecodableShape {
+        /// The list of addresses.
+        public let addresses: [SavedAddress]
+        /// If NextToken is returned, there are more results available. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(addresses: [SavedAddress], nextToken: String? = nil) {
+            self.addresses = addresses
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addresses = "Addresses"
             case nextToken = "NextToken"
         }
     }
@@ -2982,6 +3735,8 @@ extension MailManager {
     }
 
     public struct Metadata: AWSDecodableShape {
+        /// The name of the configuration set used when sent through a configuration set with archiving enabled.
+        public let configurationSet: String?
         /// The ID of the ingress endpoint through which the email was received.
         public let ingressPointId: String?
         /// The ID of the rule set that processed the email.
@@ -2990,6 +3745,14 @@ extension MailManager {
         public let senderHostname: String?
         /// The IP address of the host from which the email was received.
         public let senderIpAddress: String?
+        /// The name of the API call used when sent through a configuration set with archiving enabled.
+        public let sendingMethod: String?
+        /// The name of the dedicated IP pool used when sent through a configuration set with archiving enabled.
+        public let sendingPool: String?
+        /// Specifies the archived email source, identified by either a Rule Set's ARN with an Archive action, or a Configuration Set's Archive ARN.
+        public let sourceArn: String?
+        /// The identity name used to authorize the sending action when sent through a configuration set with archiving enabled.
+        public let sourceIdentity: String?
         /// The timestamp of when the email was received.
         public let timestamp: Date?
         /// The TLS cipher suite used to communicate with the host from which the email was received.
@@ -3000,11 +3763,16 @@ extension MailManager {
         public let trafficPolicyId: String?
 
         @inlinable
-        public init(ingressPointId: String? = nil, ruleSetId: String? = nil, senderHostname: String? = nil, senderIpAddress: String? = nil, timestamp: Date? = nil, tlsCipherSuite: String? = nil, tlsProtocol: String? = nil, trafficPolicyId: String? = nil) {
+        public init(configurationSet: String? = nil, ingressPointId: String? = nil, ruleSetId: String? = nil, senderHostname: String? = nil, senderIpAddress: String? = nil, sendingMethod: String? = nil, sendingPool: String? = nil, sourceArn: String? = nil, sourceIdentity: String? = nil, timestamp: Date? = nil, tlsCipherSuite: String? = nil, tlsProtocol: String? = nil, trafficPolicyId: String? = nil) {
+            self.configurationSet = configurationSet
             self.ingressPointId = ingressPointId
             self.ruleSetId = ruleSetId
             self.senderHostname = senderHostname
             self.senderIpAddress = senderIpAddress
+            self.sendingMethod = sendingMethod
+            self.sendingPool = sendingPool
+            self.sourceArn = sourceArn
+            self.sourceIdentity = sourceIdentity
             self.timestamp = timestamp
             self.tlsCipherSuite = tlsCipherSuite
             self.tlsProtocol = tlsProtocol
@@ -3012,10 +3780,15 @@ extension MailManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configurationSet = "ConfigurationSet"
             case ingressPointId = "IngressPointId"
             case ruleSetId = "RuleSetId"
             case senderHostname = "SenderHostname"
             case senderIpAddress = "SenderIpAddress"
+            case sendingMethod = "SendingMethod"
+            case sendingPool = "SendingPool"
+            case sourceArn = "SourceArn"
+            case sourceIdentity = "SourceIdentity"
             case timestamp = "Timestamp"
             case tlsCipherSuite = "TlsCipherSuite"
             case tlsProtocol = "TlsProtocol"
@@ -3050,6 +3823,36 @@ extension MailManager {
             case action = "Action"
             case conditions = "Conditions"
         }
+    }
+
+    public struct RegisterMemberToAddressListRequest: AWSEncodableShape {
+        /// The address to be added to the address list.
+        public let address: String
+        /// The unique identifier of the address list where the address should be added.
+        public let addressListId: String
+
+        @inlinable
+        public init(address: String, addressListId: String) {
+            self.address = address
+            self.addressListId = addressListId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.address, name: "address", parent: name, max: 320)
+            try self.validate(self.address, name: "address", parent: name, min: 3)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, max: 255)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, min: 1)
+            try self.validate(self.addressListId, name: "addressListId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case addressListId = "AddressListId"
+        }
+    }
+
+    public struct RegisterMemberToAddressListResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct Relay: AWSDecodableShape {
@@ -3150,8 +3953,10 @@ extension MailManager {
         public let receivedTimestamp: Date?
         /// The name of the host from which the email was received.
         public let senderHostname: String?
-        /// The IP address of the host from which the email was received.
+        ///   Mail archived with Mail Manager: The IP address of the client that connects to the ingress endpoint.   Mail sent through a configuration set with the archiving option enabled: The IP address of the client that makes the SendEmail API call.
         public let senderIpAddress: String?
+        /// Specifies the archived email source, identified by either a Rule Set's ARN with an Archive action, or a Configuration Set's Archive ARN.
+        public let sourceArn: String?
         /// The subject header value of the email.
         public let subject: String?
         /// The email addresses in the To header.
@@ -3164,7 +3969,7 @@ extension MailManager {
         public let xPriority: String?
 
         @inlinable
-        public init(archivedMessageId: String? = nil, cc: String? = nil, date: String? = nil, envelope: Envelope? = nil, from: String? = nil, hasAttachments: Bool? = nil, ingressPointId: String? = nil, inReplyTo: String? = nil, messageId: String? = nil, receivedHeaders: [String]? = nil, receivedTimestamp: Date? = nil, senderHostname: String? = nil, senderIpAddress: String? = nil, subject: String? = nil, to: String? = nil, xMailer: String? = nil, xOriginalMailer: String? = nil, xPriority: String? = nil) {
+        public init(archivedMessageId: String? = nil, cc: String? = nil, date: String? = nil, envelope: Envelope? = nil, from: String? = nil, hasAttachments: Bool? = nil, ingressPointId: String? = nil, inReplyTo: String? = nil, messageId: String? = nil, receivedHeaders: [String]? = nil, receivedTimestamp: Date? = nil, senderHostname: String? = nil, senderIpAddress: String? = nil, sourceArn: String? = nil, subject: String? = nil, to: String? = nil, xMailer: String? = nil, xOriginalMailer: String? = nil, xPriority: String? = nil) {
             self.archivedMessageId = archivedMessageId
             self.cc = cc
             self.date = date
@@ -3178,6 +3983,7 @@ extension MailManager {
             self.receivedTimestamp = receivedTimestamp
             self.senderHostname = senderHostname
             self.senderIpAddress = senderIpAddress
+            self.sourceArn = sourceArn
             self.subject = subject
             self.to = to
             self.xMailer = xMailer
@@ -3199,6 +4005,7 @@ extension MailManager {
             case receivedTimestamp = "ReceivedTimestamp"
             case senderHostname = "SenderHostname"
             case senderIpAddress = "SenderIpAddress"
+            case sourceArn = "SourceArn"
             case subject = "Subject"
             case to = "To"
             case xMailer = "XMailer"
@@ -3264,6 +4071,10 @@ extension MailManager {
             self.`operator` = `operator`
         }
 
+        public func validate(name: String) throws {
+            try self.evaluate.validate(name: "\(name).evaluate")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case evaluate = "Evaluate"
             case `operator` = "Operator"
@@ -3322,6 +4133,29 @@ extension MailManager {
             case evaluate = "Evaluate"
             case `operator` = "Operator"
             case values = "Values"
+        }
+    }
+
+    public struct RuleIsInAddressList: AWSEncodableShape & AWSDecodableShape {
+        /// The address lists that will be used for evaluation.
+        public let addressLists: [String]
+        /// The email attribute that needs to be evaluated against the address list.
+        public let attribute: RuleAddressListEmailAttribute
+
+        @inlinable
+        public init(addressLists: [String], attribute: RuleAddressListEmailAttribute) {
+            self.addressLists = addressLists
+            self.attribute = attribute
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressLists, name: "addressLists", parent: name, max: 1)
+            try self.validate(self.addressLists, name: "addressLists", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressLists = "AddressLists"
+            case attribute = "Attribute"
         }
     }
 
@@ -3492,6 +4326,24 @@ extension MailManager {
         }
     }
 
+    public struct SavedAddress: AWSDecodableShape {
+        /// The email or domain that constitutes the address.
+        public let address: String
+        /// The timestamp of when the address was added to the address list.
+        public let createdTimestamp: Date
+
+        @inlinable
+        public init(address: String, createdTimestamp: Date) {
+            self.address = address
+            self.createdTimestamp = createdTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case createdTimestamp = "CreatedTimestamp"
+        }
+    }
+
     public struct SearchStatus: AWSDecodableShape {
         /// The timestamp of when the search completed (if finished).
         public let completionTimestamp: Date?
@@ -3558,6 +4410,30 @@ extension MailManager {
             case actionFailurePolicy = "ActionFailurePolicy"
             case roleArn = "RoleArn"
         }
+    }
+
+    public struct StartAddressListImportJobRequest: AWSEncodableShape {
+        /// The identifier of the import job that needs to be started.
+        public let jobId: String
+
+        @inlinable
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StartAddressListImportJobResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct StartArchiveExportRequest: AWSEncodableShape {
@@ -3671,6 +4547,30 @@ extension MailManager {
         private enum CodingKeys: String, CodingKey {
             case searchId = "SearchId"
         }
+    }
+
+    public struct StopAddressListImportJobRequest: AWSEncodableShape {
+        /// The identifier of the import job that needs to be stopped.
+        public let jobId: String
+
+        @inlinable
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopAddressListImportJobResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct StopArchiveExportRequest: AWSEncodableShape {
@@ -4111,24 +5011,6 @@ extension MailManager {
         }
     }
 
-    public struct IngressBooleanToEvaluate: AWSEncodableShape & AWSDecodableShape {
-        /// The structure type for a boolean condition stating the Add On ARN and its returned value.
-        public let analysis: IngressAnalysis?
-
-        @inlinable
-        public init(analysis: IngressAnalysis? = nil) {
-            self.analysis = analysis
-        }
-
-        public func validate(name: String) throws {
-            try self.analysis?.validate(name: "\(name).analysis")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case analysis = "Analysis"
-        }
-    }
-
     public struct IngressIpToEvaluate: AWSEncodableShape & AWSDecodableShape {
         /// An enum type representing the allowed attribute types for an IP condition.
         public let attribute: IngressIpv4Attribute?
@@ -4163,20 +5045,6 @@ extension MailManager {
 
         @inlinable
         public init(attribute: IngressTlsAttribute? = nil) {
-            self.attribute = attribute
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case attribute = "Attribute"
-        }
-    }
-
-    public struct RuleBooleanToEvaluate: AWSEncodableShape & AWSDecodableShape {
-        /// The boolean type representing the allowed attribute types for an email.
-        public let attribute: RuleBooleanEmailAttribute?
-
-        @inlinable
-        public init(attribute: RuleBooleanEmailAttribute? = nil) {
             self.attribute = attribute
         }
 

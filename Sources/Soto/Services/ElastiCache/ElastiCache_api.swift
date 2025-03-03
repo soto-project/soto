@@ -366,9 +366,9 @@ public struct ElastiCache: AWSService {
     ///   - cacheSubnetGroupName: The name of the subnet group to be used for the cluster. Use this parameter only when you are creating a cluster in an Amazon Virtual Private Cloud (Amazon VPC).  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups.
     ///   - engine: The name of the cache engine to be used for this cluster. Valid values for this parameter are: memcached | redis
     ///   - engineVersion: The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
-    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
-    ///   - networkType: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+    ///   - networkType: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - notificationTopicArn: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
     ///   - numCacheNodes: The initial number of cache nodes that the cluster has. For clusters running Valkey or Redis OSS, this value must be 1. For clusters running Memcached, this value must be between 1 and 40. If you need more than 40 nodes for your Memcached cluster, please fill out the ElastiCache Limit Increase Request form at http://aws.amazon.com/contact-us/elasticache-node-limit-request/.
     ///   - outpostMode: Specifies whether the nodes in the cluster are created in a single outpost or across multiple outposts.
@@ -618,7 +618,7 @@ public struct ElastiCache: AWSService {
     /// Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group. This API can be used to create a standalone regional replication group or a secondary replication group associated with a Global datastore. A Valkey or Redis OSS (cluster mode disabled) replication group is a collection of nodes, where one of the nodes is a read/write primary and the others are read-only replicas. Writes to the primary are asynchronously propagated to the replicas. A Valkey or Redis OSS cluster-mode enabled cluster is comprised of from 1 to 90 shards (API/CLI: node groups). Each shard has a primary node and up to 5 read-only replica nodes. The configuration can range from 90 shards and 0 replicas to 15 shards and 5 replicas, which is the maximum number or replicas allowed.  The node or shard limit can be increased to a maximum of 500 per cluster if the Valkey or Redis OSS  engine version is 5.0.6 or higher. For example, you can choose to configure a 500 node cluster that ranges between 83 shards (one primary and 5 replicas per shard) and 500 shards (single primary and no replicas). Make sure there are enough available IP addresses to accommodate the increase. Common pitfalls include the subnets in the subnet group have too small a CIDR range or the subnets are shared and heavily used by other clusters. For more information, see Creating a Subnet Group. For versions below 5.0.6, the limit is 250 per cluster. To request a limit increase, see Amazon Service Limits and choose the limit type Nodes per cluster per instance type.  When a Valkey or Redis OSS (cluster mode disabled) replication group has been successfully created, you can add one or more read replicas to it, up to a total of 5 read replicas. If you need to increase or decrease the number of node groups (console: shards), you can use scaling.  For more information, see Scaling self-designed clusters in the ElastiCache User Guide.  This operation is valid for Valkey and Redis OSS only.
     ///
     /// Parameters:
-    ///   - atRestEncryptionEnabled: A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using Redis OSS version 3.2.6, 4.x or later. Default: false
+    ///   - atRestEncryptionEnabled: A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using Valkey 7.2 and later, Redis OSS version 3.2.6, or Redis OSS 4.x and later. Default: true when using Valkey, false when using Redis OSS
     ///   - authToken:  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
     ///   - automaticFailoverEnabled: Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails.  AutomaticFailoverEnabled must be enabled for Valkey or Redis OSS (cluster mode enabled) replication groups. Default: false
     ///   - autoMinorVersionUpgrade:  If you are running Valkey 7.2 and above or Redis OSS engine version 6.0 and above, set this parameter to yes  to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
@@ -628,14 +628,14 @@ public struct ElastiCache: AWSService {
     ///   - cacheSubnetGroupName: The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC, you need to create a subnet group before you start creating a cluster. For more information, see Subnets and Subnet Groups.
     ///   - clusterMode: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS  clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
     ///   - dataTieringEnabled: Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
-    ///   - engine: The name of the cache engine to be used for the clusters in this replication group. The value must be set to Redis.
+    ///   - engine: The name of the cache engine to be used for the clusters in this replication group. The value must be set to valkey or redis.
     ///   - engineVersion: The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
     ///   - globalReplicationGroupId: The name of the Global datastore
-    ///   - ipDiscovery: The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+    ///   - ipDiscovery: The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - kmsKeyId: The ID of the KMS key used to encrypt the disk in the cluster.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
     ///   - multiAZEnabled: A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ.
-    ///   - networkType: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+    ///   - networkType: Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - nodeGroupConfiguration: A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Valkey or Redis OSS (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
     ///   - notificationTopicArn: The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
     ///   - numCacheClusters: The number of clusters this replication group initially has. This parameter is not used if there is more than one node group (shard). You should use ReplicasPerNodeGroup instead. If AutomaticFailoverEnabled is true, the value of this parameter must be at least 2. If AutomaticFailoverEnabled is false you can omit this parameter (it will default to 1), or you can explicitly set it to a value between 2 and 6. The maximum permitted value for NumCacheClusters is 6 (1 primary plus 5 replicas).
@@ -889,7 +889,7 @@ public struct ElastiCache: AWSService {
         return try await self.createSnapshot(input, logger: logger)
     }
 
-    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 and onwards: Creates a user. For more information, see Using Role Based Access Control (RBAC).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user. For more information, see Using Role Based Access Control (RBAC).
     @Sendable
     @inlinable
     public func createUser(_ input: CreateUserMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> User {
@@ -902,12 +902,12 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 and onwards: Creates a user. For more information, see Using Role Based Access Control (RBAC).
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user. For more information, see Using Role Based Access Control (RBAC).
     ///
     /// Parameters:
     ///   - accessString: Access permissions string used for this user.
     ///   - authenticationMode: Specifies how to authenticate the user.
-    ///   - engine: The current supported value is Redis.
+    ///   - engine: The options are valkey or redis.
     ///   - noPasswordRequired: Indicates a password is not required for this user.
     ///   - passwords: Passwords used for this user. You can create up to two passwords for each user.
     ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
@@ -939,7 +939,7 @@ public struct ElastiCache: AWSService {
         return try await self.createUser(input, logger: logger)
     }
 
-    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Creates a user group. For more information, see Using Role Based Access Control (RBAC)
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user group. For more information, see Using Role Based Access Control (RBAC)
     @Sendable
     @inlinable
     public func createUserGroup(_ input: CreateUserGroupMessage, logger: Logger = AWSClient.loggingDisabled) async throws -> UserGroup {
@@ -952,10 +952,10 @@ public struct ElastiCache: AWSService {
             logger: logger
         )
     }
-    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Creates a user group. For more information, see Using Role Based Access Control (RBAC)
+    /// For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user group. For more information, see Using Role Based Access Control (RBAC)
     ///
     /// Parameters:
-    ///   - engine: The current supported value is Redis user.
+    ///   - engine: Sets the engine listed in a user group. The options are valkey or redis.
     ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Valkey and Redis OSS only.
     ///   - userGroupId: The ID of the user group.
     ///   - userIds: The list of user IDs that belong to the user group.
@@ -2433,7 +2433,7 @@ public struct ElastiCache: AWSService {
     ///   - cacheSecurityGroupNames: A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
     ///   - engine: Modifies the engine listed in a cluster message. The options are redis, memcached or valkey.
     ///   - engineVersion: The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
-    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
     ///   - newAvailabilityZones:  This option is only supported on Memcached clusters.  The list of Availability Zones where the new Memcached cache nodes are created. This parameter is only valid when NumCacheNodes in the request is greater than the sum of the number of active cache nodes and the number of cache nodes pending creation (which may be zero). The number of Availability Zones supplied in this list must match the cache nodes being added in this request. Scenarios:    Scenario 1: You have 3 active nodes and wish to add 2 nodes. Specify NumCacheNodes=5 (3 + 2) and optionally specify two Availability Zones for the two new nodes.    Scenario 2: You have 3 active nodes and 2 nodes pending creation (from the scenario 1 call) and want to add 1 more node. Specify NumCacheNodes=6 ((3 + 2) + 1) and optionally specify an Availability Zone for the new node.    Scenario 3: You want to cancel all pending operations. Specify NumCacheNodes=3 to cancel all pending operations.   The Availability Zone placement of nodes pending creation cannot be modified. If you wish to cancel any nodes pending creation, add 0 nodes by setting NumCacheNodes to the number of current nodes. If cross-az is specified, existing Memcached nodes remain in their current Availability Zone. Only newly created nodes can be located in different Availability Zones. For guidance on how to move existing Memcached nodes to different Availability Zones, see the Availability Zone Considerations section of Cache Node Considerations for Memcached.  Impact of new add/remove requests upon pending requests    Scenario-1   Pending Action: Delete   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending delete.     Scenario-2   Pending Action: Delete   New Request: Create   Result: The new create, pending or immediate, replaces the pending delete.     Scenario-3   Pending Action: Create   New Request: Delete   Result: The new delete, pending or immediate, replaces the pending create.     Scenario-4   Pending Action: Create   New Request: Create   Result: The new create is added to the pending create.   Important: If the new create request is Apply Immediately - Yes, all creates are performed immediately. If the new create request is Apply Immediately - No, all creates are pending.
     ///   - notificationTopicArn: The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the cluster owner.
@@ -2641,7 +2641,7 @@ public struct ElastiCache: AWSService {
     ///   - clusterMode: Enabled or Disabled. To modify cluster mode from Disabled to Enabled, you must first set the cluster mode to Compatible. Compatible mode allows your Valkey or Redis OSS clients to connect using both cluster mode enabled and cluster mode disabled. After you migrate all Valkey or Redis OSS clients to use cluster mode enabled, you can then complete cluster mode configuration and set the cluster mode to Enabled.
     ///   - engine: Modifies the engine listed in a replication group message. The options are redis, memcached or valkey.
     ///   - engineVersion: The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
-    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+    ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
     ///   - multiAZEnabled: A flag to indicate MultiAZ is enabled.
     ///   - notificationTopicArn: The Amazon Resource Name (ARN) of the Amazon SNS topic to which notifications are sent.  The Amazon SNS topic owner must be same as the replication group owner.
@@ -2846,7 +2846,7 @@ public struct ElastiCache: AWSService {
     ///   - accessString: Access permissions string used for this user.
     ///   - appendAccessString: Adds additional user permissions to the access string.
     ///   - authenticationMode: Specifies how to authenticate the user.
-    ///   - engine: The engine for a specific user.
+    ///   - engine: Modifies the engine listed for a user. The options are valkey or redis.
     ///   - noPasswordRequired: Indicates no password is required for the user.
     ///   - passwords: The passwords belonging to the user. You are allowed up to two.
     ///   - userId: The ID of the user.
@@ -2890,7 +2890,7 @@ public struct ElastiCache: AWSService {
     /// Changes the list of users that belong to the user group.
     ///
     /// Parameters:
-    ///   - engine: The engine for a user group.
+    ///   - engine: Modifies the engine listed in a user group. The options are valkey or redis.
     ///   - userGroupId: The ID of the user group.
     ///   - userIdsToAdd: The list of user IDs to add to the user group.
     ///   - userIdsToRemove: The list of user IDs to remove from the user group.

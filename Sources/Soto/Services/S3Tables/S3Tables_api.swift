@@ -79,7 +79,7 @@ public struct S3Tables: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see Table namespaces.
+    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see Create a namespace in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateNamespace permission to use this operation.
     @Sendable
     @inlinable
     public func createNamespace(_ input: CreateNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNamespaceResponse {
@@ -92,7 +92,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see Table namespaces.
+    /// Creates a namespace. A namespace is a logical grouping of tables within your table bucket, which you can use to organize tables. For more information, see Create a namespace in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateNamespace permission to use this operation.
     ///
     /// Parameters:
     ///   - namespace: A name for the namespace.
@@ -111,7 +111,7 @@ public struct S3Tables: AWSService {
         return try await self.createNamespace(input, logger: logger)
     }
 
-    /// Creates a new table associated with the given namespace in a table bucket.
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateTable permission to use this operation.   Additionally, you must have the s3tables:PutTableData permission to use this operation with the optional metadata request parameter.
     @Sendable
     @inlinable
     public func createTable(_ input: CreateTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableResponse {
@@ -124,10 +124,11 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new table associated with the given namespace in a table bucket.
+    /// Creates a new table associated with the given namespace in a table bucket. For more information, see Creating an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateTable permission to use this operation.   Additionally, you must have the s3tables:PutTableData permission to use this operation with the optional metadata request parameter.
     ///
     /// Parameters:
     ///   - format: The format for the table.
+    ///   - metadata: The metadata for the table.
     ///   - name: The name for the table.
     ///   - namespace: The namespace to associated with the table.
     ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket to create the table in.
@@ -135,6 +136,7 @@ public struct S3Tables: AWSService {
     @inlinable
     public func createTable(
         format: OpenTableFormat,
+        metadata: TableMetadata? = nil,
         name: String,
         namespace: String,
         tableBucketARN: String,
@@ -142,6 +144,7 @@ public struct S3Tables: AWSService {
     ) async throws -> CreateTableResponse {
         let input = CreateTableRequest(
             format: format, 
+            metadata: metadata, 
             name: name, 
             namespace: namespace, 
             tableBucketARN: tableBucketARN
@@ -149,7 +152,7 @@ public struct S3Tables: AWSService {
         return try await self.createTable(input, logger: logger)
     }
 
-    /// Creates a table bucket.
+    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateTableBucket permission to use this operation.
     @Sendable
     @inlinable
     public func createTableBucket(_ input: CreateTableBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTableBucketResponse {
@@ -162,7 +165,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a table bucket.
+    /// Creates a table bucket. For more information, see Creating a table bucket in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:CreateTableBucket permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name for the table bucket.
@@ -178,7 +181,7 @@ public struct S3Tables: AWSService {
         return try await self.createTableBucket(input, logger: logger)
     }
 
-    /// Deletes a namespace.
+    /// Deletes a namespace. For more information, see Delete a namespace in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteNamespace permission to use this operation.
     @Sendable
     @inlinable
     public func deleteNamespace(_ input: DeleteNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -191,7 +194,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Deletes a namespace.
+    /// Deletes a namespace. For more information, see Delete a namespace in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteNamespace permission to use this operation.
     ///
     /// Parameters:
     ///   - namespace: The name of the namespace.
@@ -210,7 +213,7 @@ public struct S3Tables: AWSService {
         return try await self.deleteNamespace(input, logger: logger)
     }
 
-    /// Deletes a table.
+    /// Deletes a table. For more information, see Deleting an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTable permission to use this operation.
     @Sendable
     @inlinable
     public func deleteTable(_ input: DeleteTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -223,7 +226,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Deletes a table.
+    /// Deletes a table. For more information, see Deleting an Amazon S3 table in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTable permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name of the table.
@@ -248,7 +251,7 @@ public struct S3Tables: AWSService {
         return try await self.deleteTable(input, logger: logger)
     }
 
-    /// Deletes a table bucket.
+    /// Deletes a table bucket. For more information, see Deleting a table bucket in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTableBucket permission to use this operation.
     @Sendable
     @inlinable
     public func deleteTableBucket(_ input: DeleteTableBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -261,7 +264,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Deletes a table bucket.
+    /// Deletes a table bucket. For more information, see Deleting a table bucket in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTableBucket permission to use this operation.
     ///
     /// Parameters:
     ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
@@ -277,7 +280,7 @@ public struct S3Tables: AWSService {
         return try await self.deleteTableBucket(input, logger: logger)
     }
 
-    /// Deletes a table bucket policy.
+    /// Deletes a table bucket policy. For more information, see Deleting a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTableBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
     public func deleteTableBucketPolicy(_ input: DeleteTableBucketPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -290,10 +293,10 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Deletes a table bucket policy.
+    /// Deletes a table bucket policy. For more information, see Deleting a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTableBucketPolicy permission to use this operation.
     ///
     /// Parameters:
-    ///   - tableBucketARN: The Amazon Resource Number (ARN) of the table bucket.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteTableBucketPolicy(
@@ -306,7 +309,7 @@ public struct S3Tables: AWSService {
         return try await self.deleteTableBucketPolicy(input, logger: logger)
     }
 
-    /// Deletes a table policy.
+    /// Deletes a table policy. For more information, see Deleting a table policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTablePolicy permission to use this operation.
     @Sendable
     @inlinable
     public func deleteTablePolicy(_ input: DeleteTablePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -319,12 +322,12 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Deletes a table policy.
+    /// Deletes a table policy. For more information, see Deleting a table policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:DeleteTablePolicy permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The table name.
     ///   - namespace: The namespace associated with the table.
-    ///   - tableBucketARN: The Amazon Resource Number (ARN) of the table bucket that contains the table.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket that contains the table.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteTablePolicy(
@@ -341,7 +344,7 @@ public struct S3Tables: AWSService {
         return try await self.deleteTablePolicy(input, logger: logger)
     }
 
-    /// Gets details about a namespace.
+    /// Gets details about a namespace. For more information, see Table namespaces in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetNamespace permission to use this operation.
     @Sendable
     @inlinable
     public func getNamespace(_ input: GetNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetNamespaceResponse {
@@ -354,7 +357,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets details about a namespace.
+    /// Gets details about a namespace. For more information, see Table namespaces in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetNamespace permission to use this operation.
     ///
     /// Parameters:
     ///   - namespace: The name of the namespace.
@@ -373,7 +376,7 @@ public struct S3Tables: AWSService {
         return try await self.getNamespace(input, logger: logger)
     }
 
-    /// Gets details about a table.
+    /// Gets details about a table. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTable permission to use this operation.
     @Sendable
     @inlinable
     public func getTable(_ input: GetTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableResponse {
@@ -386,7 +389,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets details about a table.
+    /// Gets details about a table. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTable permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name of the table.
@@ -408,7 +411,7 @@ public struct S3Tables: AWSService {
         return try await self.getTable(input, logger: logger)
     }
 
-    /// Gets details on a table bucket.
+    /// Gets details on a table bucket. For more information, see Viewing details about an Amazon S3 table bucket in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableBucket permission to use this operation.
     @Sendable
     @inlinable
     public func getTableBucket(_ input: GetTableBucketRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableBucketResponse {
@@ -421,7 +424,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets details on a table bucket.
+    /// Gets details on a table bucket. For more information, see Viewing details about an Amazon S3 table bucket in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableBucket permission to use this operation.
     ///
     /// Parameters:
     ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
@@ -437,7 +440,7 @@ public struct S3Tables: AWSService {
         return try await self.getTableBucket(input, logger: logger)
     }
 
-    /// Gets details about a maintenance configuration for a given table bucket.
+    /// Gets details about a maintenance configuration for a given table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableBucketMaintenanceConfiguration permission to use this operation.
     @Sendable
     @inlinable
     public func getTableBucketMaintenanceConfiguration(_ input: GetTableBucketMaintenanceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableBucketMaintenanceConfigurationResponse {
@@ -450,7 +453,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets details about a maintenance configuration for a given table bucket.
+    /// Gets details about a maintenance configuration for a given table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableBucketMaintenanceConfiguration permission to use this operation.
     ///
     /// Parameters:
     ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket associated with the maintenance configuration.
@@ -466,7 +469,7 @@ public struct S3Tables: AWSService {
         return try await self.getTableBucketMaintenanceConfiguration(input, logger: logger)
     }
 
-    /// Gets details about a table bucket policy.
+    /// Gets details about a table bucket policy. For more information, see Viewing a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
     public func getTableBucketPolicy(_ input: GetTableBucketPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableBucketPolicyResponse {
@@ -479,10 +482,10 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets details about a table bucket policy.
+    /// Gets details about a table bucket policy. For more information, see Viewing a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableBucketPolicy permission to use this operation.
     ///
     /// Parameters:
-    ///   - tableBucketARN: The Amazon Resource Number (ARN) of the table bucket.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
     ///   - logger: Logger use during operation
     @inlinable
     public func getTableBucketPolicy(
@@ -495,7 +498,7 @@ public struct S3Tables: AWSService {
         return try await self.getTableBucketPolicy(input, logger: logger)
     }
 
-    /// Gets details about the maintenance configuration of a table.
+    /// Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.
     @Sendable
     @inlinable
     public func getTableMaintenanceConfiguration(_ input: GetTableMaintenanceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableMaintenanceConfigurationResponse {
@@ -508,7 +511,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets details about the maintenance configuration of a table.
+    /// Gets details about the maintenance configuration of a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableMaintenanceConfiguration permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name of the table.
@@ -530,7 +533,7 @@ public struct S3Tables: AWSService {
         return try await self.getTableMaintenanceConfiguration(input, logger: logger)
     }
 
-    /// Gets the status of a maintenance job for a table.
+    /// Gets the status of a maintenance job for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableMaintenanceJobStatus permission to use this operation.
     @Sendable
     @inlinable
     public func getTableMaintenanceJobStatus(_ input: GetTableMaintenanceJobStatusRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableMaintenanceJobStatusResponse {
@@ -543,7 +546,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets the status of a maintenance job for a table.
+    /// Gets the status of a maintenance job for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTableMaintenanceJobStatus permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name of the maintenance job.
@@ -565,7 +568,7 @@ public struct S3Tables: AWSService {
         return try await self.getTableMaintenanceJobStatus(input, logger: logger)
     }
 
-    /// Gets the location of the table metadata.
+    /// Gets the location of the table metadata.  Permissions  You must have the s3tables:GetTableMetadataLocation permission to use this operation.
     @Sendable
     @inlinable
     public func getTableMetadataLocation(_ input: GetTableMetadataLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTableMetadataLocationResponse {
@@ -578,7 +581,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets the location of the table metadata.
+    /// Gets the location of the table metadata.  Permissions  You must have the s3tables:GetTableMetadataLocation permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name of the table.
@@ -600,7 +603,7 @@ public struct S3Tables: AWSService {
         return try await self.getTableMetadataLocation(input, logger: logger)
     }
 
-    /// Gets details about a table policy.
+    /// Gets details about a table policy. For more information, see Viewing a table policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTablePolicy permission to use this operation.
     @Sendable
     @inlinable
     public func getTablePolicy(_ input: GetTablePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTablePolicyResponse {
@@ -613,12 +616,12 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Gets details about a table policy.
+    /// Gets details about a table policy. For more information, see Viewing a table policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:GetTablePolicy permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name of the table.
     ///   - namespace: The namespace associated with the table.
-    ///   - tableBucketARN: The Amazon Resource Number (ARN) of the table bucket that contains the table.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket that contains the table.
     ///   - logger: Logger use during operation
     @inlinable
     public func getTablePolicy(
@@ -635,7 +638,7 @@ public struct S3Tables: AWSService {
         return try await self.getTablePolicy(input, logger: logger)
     }
 
-    /// Lists the namespaces within a table bucket.
+    /// Lists the namespaces within a table bucket. For more information, see Table namespaces in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:ListNamespaces permission to use this operation.
     @Sendable
     @inlinable
     public func listNamespaces(_ input: ListNamespacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListNamespacesResponse {
@@ -648,7 +651,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Lists the namespaces within a table bucket.
+    /// Lists the namespaces within a table bucket. For more information, see Table namespaces in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:ListNamespaces permission to use this operation.
     ///
     /// Parameters:
     ///   - continuationToken:  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
@@ -673,7 +676,7 @@ public struct S3Tables: AWSService {
         return try await self.listNamespaces(input, logger: logger)
     }
 
-    /// Lists table buckets for your account.
+    /// Lists table buckets for your account. For more information, see S3 Table buckets in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:ListTableBuckets permission to use this operation.
     @Sendable
     @inlinable
     public func listTableBuckets(_ input: ListTableBucketsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTableBucketsResponse {
@@ -686,7 +689,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Lists table buckets for your account.
+    /// Lists table buckets for your account. For more information, see S3 Table buckets in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:ListTableBuckets permission to use this operation.
     ///
     /// Parameters:
     ///   - continuationToken:  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
@@ -708,7 +711,7 @@ public struct S3Tables: AWSService {
         return try await self.listTableBuckets(input, logger: logger)
     }
 
-    /// List tables in the given table bucket.
+    /// List tables in the given table bucket. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:ListTables permission to use this operation.
     @Sendable
     @inlinable
     public func listTables(_ input: ListTablesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTablesResponse {
@@ -721,14 +724,14 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// List tables in the given table bucket.
+    /// List tables in the given table bucket. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:ListTables permission to use this operation.
     ///
     /// Parameters:
     ///   - continuationToken:  ContinuationToken indicates to Amazon S3 that the list is being continued on this bucket with a token. ContinuationToken is obfuscated and is not a real key. You can use this ContinuationToken for pagination of the list results.
     ///   - maxTables: The maximum number of tables to return.
     ///   - namespace: The namespace of the tables.
     ///   - prefix: The prefix of the tables.
-    ///   - tableBucketARN: The Amazon resource Number (ARN) of the table bucket.
+    ///   - tableBucketARN: The Amazon resource Name (ARN) of the table bucket.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTables(
@@ -749,7 +752,7 @@ public struct S3Tables: AWSService {
         return try await self.listTables(input, logger: logger)
     }
 
-    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket.
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableBucketMaintenanceConfiguration permission to use this operation.
     @Sendable
     @inlinable
     public func putTableBucketMaintenanceConfiguration(_ input: PutTableBucketMaintenanceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -762,7 +765,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket.
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table bucket. For more information, see Amazon S3 table bucket maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableBucketMaintenanceConfiguration permission to use this operation.
     ///
     /// Parameters:
     ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket associated with the maintenance configuration.
@@ -784,7 +787,7 @@ public struct S3Tables: AWSService {
         return try await self.putTableBucketMaintenanceConfiguration(input, logger: logger)
     }
 
-    /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket.
+    /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket. For more information, see Adding a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableBucketPolicy permission to use this operation.
     @Sendable
     @inlinable
     public func putTableBucketPolicy(_ input: PutTableBucketPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -797,11 +800,11 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket.
+    /// Creates a new maintenance configuration or replaces an existing table bucket policy for a table bucket. For more information, see Adding a table bucket policy in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableBucketPolicy permission to use this operation.
     ///
     /// Parameters:
-    ///   - resourcePolicy: The name of the resource policy.
-    ///   - tableBucketARN: The Amazon Resource Number (ARN) of the table bucket.
+    ///   - resourcePolicy: The JSON that defines the policy.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket.
     ///   - logger: Logger use during operation
     @inlinable
     public func putTableBucketPolicy(
@@ -816,7 +819,7 @@ public struct S3Tables: AWSService {
         return try await self.putTableBucketPolicy(input, logger: logger)
     }
 
-    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table.
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation.
     @Sendable
     @inlinable
     public func putTableMaintenanceConfiguration(_ input: PutTableMaintenanceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -829,7 +832,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table.
+    /// Creates a new maintenance configuration or replaces an existing maintenance configuration for a table. For more information, see S3 Tables maintenance in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:PutTableMaintenanceConfiguration permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name of the maintenance configuration.
@@ -857,7 +860,7 @@ public struct S3Tables: AWSService {
         return try await self.putTableMaintenanceConfiguration(input, logger: logger)
     }
 
-    /// Creates a new maintenance configuration or replaces an existing table policy for a table.
+    /// Creates a new maintenance configuration or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide.   Permissions  You must have the s3tables:PutTablePolicy permission to use this operation.
     @Sendable
     @inlinable
     public func putTablePolicy(_ input: PutTablePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -870,13 +873,13 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Creates a new maintenance configuration or replaces an existing table policy for a table.
+    /// Creates a new maintenance configuration or replaces an existing table policy for a table. For more information, see Adding a table policy in the Amazon Simple Storage Service User Guide.   Permissions  You must have the s3tables:PutTablePolicy permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The name of the table.
     ///   - namespace: The namespace associated with the table.
-    ///   - resourcePolicy: The name of the resource policy.
-    ///   - tableBucketARN: The Amazon Resource Number (ARN) of the table bucket that contains the table.
+    ///   - resourcePolicy: The JSON that defines the policy.
+    ///   - tableBucketARN: The Amazon Resource Name (ARN) of the table bucket that contains the table.
     ///   - logger: Logger use during operation
     @inlinable
     public func putTablePolicy(
@@ -895,7 +898,7 @@ public struct S3Tables: AWSService {
         return try await self.putTablePolicy(input, logger: logger)
     }
 
-    /// Renames a table or a namespace.
+    /// Renames a table or a namespace. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:RenameTable permission to use this operation.
     @Sendable
     @inlinable
     public func renameTable(_ input: RenameTableRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -908,7 +911,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Renames a table or a namespace.
+    /// Renames a table or a namespace. For more information, see S3 Tables in the Amazon Simple Storage Service User Guide.  Permissions  You must have the s3tables:RenameTable permission to use this operation.
     ///
     /// Parameters:
     ///   - name: The current name of the table.
@@ -939,7 +942,7 @@ public struct S3Tables: AWSService {
         return try await self.renameTable(input, logger: logger)
     }
 
-    /// Updates the metadata location for a table.
+    /// Updates the metadata location for a table.  The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json, or if the metadata file is Gzip-compressed, .metadata.json.gz.  Permissions  You must have the s3tables:UpdateTableMetadataLocation permission to use this operation.
     @Sendable
     @inlinable
     public func updateTableMetadataLocation(_ input: UpdateTableMetadataLocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateTableMetadataLocationResponse {
@@ -952,7 +955,7 @@ public struct S3Tables: AWSService {
             logger: logger
         )
     }
-    /// Updates the metadata location for a table.
+    /// Updates the metadata location for a table.  The metadata location of a table must be an S3 URI that begins with the table's warehouse location. The metadata location for an Apache Iceberg table must end with .metadata.json, or if the metadata file is Gzip-compressed, .metadata.json.gz.  Permissions  You must have the s3tables:UpdateTableMetadataLocation permission to use this operation.
     ///
     /// Parameters:
     ///   - metadataLocation: The new metadata location for the table.
@@ -1095,7 +1098,7 @@ extension S3Tables {
     ///   - maxTables: The maximum number of tables to return.
     ///   - namespace: The namespace of the tables.
     ///   - prefix: The prefix of the tables.
-    ///   - tableBucketARN: The Amazon resource Number (ARN) of the table bucket.
+    ///   - tableBucketARN: The Amazon resource Name (ARN) of the table bucket.
     ///   - logger: Logger used for logging
     @inlinable
     public func listTablesPaginator(

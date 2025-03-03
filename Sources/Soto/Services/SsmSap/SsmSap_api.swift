@@ -79,6 +79,43 @@ public struct SsmSap: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "ssm-sap.af-south-1.api.aws",
+            "ap-east-1": "ssm-sap.ap-east-1.api.aws",
+            "ap-northeast-1": "ssm-sap.ap-northeast-1.api.aws",
+            "ap-northeast-2": "ssm-sap.ap-northeast-2.api.aws",
+            "ap-northeast-3": "ssm-sap.ap-northeast-3.api.aws",
+            "ap-south-1": "ssm-sap.ap-south-1.api.aws",
+            "ap-south-2": "ssm-sap.ap-south-2.api.aws",
+            "ap-southeast-1": "ssm-sap.ap-southeast-1.api.aws",
+            "ap-southeast-2": "ssm-sap.ap-southeast-2.api.aws",
+            "ap-southeast-3": "ssm-sap.ap-southeast-3.api.aws",
+            "ap-southeast-4": "ssm-sap.ap-southeast-4.api.aws",
+            "ca-central-1": "ssm-sap.ca-central-1.api.aws",
+            "eu-central-1": "ssm-sap.eu-central-1.api.aws",
+            "eu-central-2": "ssm-sap.eu-central-2.api.aws",
+            "eu-north-1": "ssm-sap.eu-north-1.api.aws",
+            "eu-south-1": "ssm-sap.eu-south-1.api.aws",
+            "eu-south-2": "ssm-sap.eu-south-2.api.aws",
+            "eu-west-1": "ssm-sap.eu-west-1.api.aws",
+            "eu-west-2": "ssm-sap.eu-west-2.api.aws",
+            "eu-west-3": "ssm-sap.eu-west-3.api.aws",
+            "il-central-1": "ssm-sap.il-central-1.api.aws",
+            "me-central-1": "ssm-sap.me-central-1.api.aws",
+            "me-south-1": "ssm-sap.me-south-1.api.aws",
+            "sa-east-1": "ssm-sap.sa-east-1.api.aws",
+            "us-east-1": "ssm-sap.us-east-1.api.aws",
+            "us-east-2": "ssm-sap.us-east-2.api.aws",
+            "us-west-1": "ssm-sap.us-west-1.api.aws",
+            "us-west-2": "ssm-sap.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "ssm-sap-fips.ca-central-1.api.aws",
+            "us-east-1": "ssm-sap-fips.us-east-1.api.aws",
+            "us-east-2": "ssm-sap-fips.us-east-2.api.aws",
+            "us-west-1": "ssm-sap-fips.us-west-1.api.aws",
+            "us-west-2": "ssm-sap-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "ssm-sap-fips.ca-central-1.amazonaws.com",
             "us-east-1": "ssm-sap-fips.us-east-1.amazonaws.com",
@@ -586,6 +623,7 @@ public struct SsmSap: AWSService {
     /// Parameters:
     ///   - applicationId: The ID of the application.
     ///   - applicationType: The type of the application.
+    ///   - componentsInfo: This is an optional parameter for component details  to which the SAP ABAP application is attached,  such as Web Dispatcher. This is an array of ApplicationComponent objects.  You may input 0 to 5 items.
     ///   - credentials: The credentials of the SAP application.
     ///   - databaseArn: The Amazon Resource Name of the SAP HANA database.
     ///   - instances: The Amazon EC2 instances on which your SAP application is running.
@@ -597,6 +635,7 @@ public struct SsmSap: AWSService {
     public func registerApplication(
         applicationId: String,
         applicationType: ApplicationType,
+        componentsInfo: [ComponentInfo]? = nil,
         credentials: [ApplicationCredential]? = nil,
         databaseArn: String? = nil,
         instances: [String],
@@ -608,6 +647,7 @@ public struct SsmSap: AWSService {
         let input = RegisterApplicationInput(
             applicationId: applicationId, 
             applicationType: applicationType, 
+            componentsInfo: componentsInfo, 
             credentials: credentials, 
             databaseArn: databaseArn, 
             instances: instances, 

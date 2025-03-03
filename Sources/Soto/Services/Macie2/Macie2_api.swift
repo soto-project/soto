@@ -79,6 +79,36 @@ public struct Macie2: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "macie2.af-south-1.api.aws",
+            "ap-east-1": "macie2.ap-east-1.api.aws",
+            "ap-northeast-1": "macie2.ap-northeast-1.api.aws",
+            "ap-northeast-2": "macie2.ap-northeast-2.api.aws",
+            "ap-northeast-3": "macie2.ap-northeast-3.api.aws",
+            "ap-south-1": "macie2.ap-south-1.api.aws",
+            "ap-southeast-1": "macie2.ap-southeast-1.api.aws",
+            "ap-southeast-2": "macie2.ap-southeast-2.api.aws",
+            "ca-central-1": "macie2.ca-central-1.api.aws",
+            "eu-central-1": "macie2.eu-central-1.api.aws",
+            "eu-north-1": "macie2.eu-north-1.api.aws",
+            "eu-south-1": "macie2.eu-south-1.api.aws",
+            "eu-west-1": "macie2.eu-west-1.api.aws",
+            "eu-west-2": "macie2.eu-west-2.api.aws",
+            "eu-west-3": "macie2.eu-west-3.api.aws",
+            "il-central-1": "macie2.il-central-1.api.aws",
+            "me-south-1": "macie2.me-south-1.api.aws",
+            "sa-east-1": "macie2.sa-east-1.api.aws",
+            "us-east-1": "macie2.us-east-1.api.aws",
+            "us-east-2": "macie2.us-east-2.api.aws",
+            "us-west-1": "macie2.us-west-1.api.aws",
+            "us-west-2": "macie2.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "macie2-fips.us-east-1.api.aws",
+            "us-east-2": "macie2-fips.us-east-2.api.aws",
+            "us-west-1": "macie2-fips.us-west-1.api.aws",
+            "us-west-2": "macie2-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "macie2-fips.us-east-1.amazonaws.com",
             "us-east-2": "macie2-fips.us-east-2.amazonaws.com",
@@ -1732,7 +1762,7 @@ public struct Macie2: AWSService {
         return try await self.listClassificationScopes(input, logger: logger)
     }
 
-    /// Retrieves a subset of information about all the custom data identifiers for an account.
+    /// Retrieves a subset of information about the custom data identifiers for an account.
     @Sendable
     @inlinable
     public func listCustomDataIdentifiers(_ input: ListCustomDataIdentifiersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCustomDataIdentifiersResponse {
@@ -1745,7 +1775,7 @@ public struct Macie2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves a subset of information about all the custom data identifiers for an account.
+    /// Retrieves a subset of information about the custom data identifiers for an account.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of items to include in each page of the response.
@@ -2151,7 +2181,7 @@ public struct Macie2: AWSService {
         return try await self.putFindingsPublicationConfiguration(input, logger: logger)
     }
 
-    /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
+    /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
     @Sendable
     @inlinable
     public func searchResources(_ input: SearchResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchResourcesResponse {
@@ -2164,7 +2194,7 @@ public struct Macie2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
+    /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes for an account.
     ///
     /// Parameters:
     ///   - bucketCriteria: The filter conditions that determine which S3 buckets to include or exclude from the query results.
@@ -2617,7 +2647,7 @@ public struct Macie2: AWSService {
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
-    ///   - suppressDataIdentifiers: An array of objects, one for each custom data identifier or managed data identifier that detected the type of sensitive data to start excluding or including in the bucket's score. To start including all sensitive data types in the score, don't specify any values for this array.
+    ///   - suppressDataIdentifiers: An array of objects, one for each custom data identifier or managed data identifier that detected a type of sensitive data to exclude from the bucket's score. To include all sensitive data types in the score, don't specify any values for this array.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateResourceProfileDetections(

@@ -484,12 +484,12 @@ extension ElastiCache {
         public let engine: String?
         /// The version of the cache engine that is used in this cluster.
         public let engineVersion: String?
-        /// The network type associated with the cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// The network type associated with the cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// Returns the destination, format and type of the logs.
         @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfiguration>>
         public var logDeliveryConfigurations: [LogDeliveryConfiguration]?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let networkType: NetworkType?
         /// Describes a notification topic and its status. Notification topics are used for publishing ElastiCache events to subscribers using Amazon Simple Notification Service (SNS).
         public let notificationConfiguration: NotificationConfiguration?
@@ -1016,7 +1016,7 @@ extension ElastiCache {
         /// A list of subnets associated with the cache subnet group.
         @OptionalCustomCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
-        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         @OptionalCustomCoding<StandardArrayCoder<NetworkType>>
         public var supportedNetworkTypes: [NetworkType]?
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group.
@@ -1309,12 +1309,12 @@ extension ElastiCache {
         public let engine: String?
         /// The version number of the cache engine to be used for this cluster. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// Specifies the destination, format and type of the logs.
         @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
         public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let networkType: NetworkType?
         /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (SNS) topic to which notifications are sent.  The Amazon SNS topic owner must be the same as the cluster owner.
         public let notificationTopicArn: String?
@@ -1605,7 +1605,7 @@ extension ElastiCache {
         public struct _SnapshotArnsEncoding: ArrayCoderProperties { public static let member = "SnapshotArn" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using Redis OSS version 3.2.6, 4.x or later. Default: false
+        /// A flag that enables encryption at rest when set to true. You cannot modify the value of AtRestEncryptionEnabled after the replication group is created. To enable encryption at rest on a replication group you must set AtRestEncryptionEnabled to true when you create the replication group.   Required: Only available when creating a replication group in an Amazon VPC using Valkey 7.2 and later, Redis OSS version 3.2.6, or Redis OSS 4.x and later. Default: true when using Valkey, false when using Redis OSS
         public let atRestEncryptionEnabled: Bool?
         ///  Reserved parameter. The password used to access a password protected server.  AuthToken can be specified only on replication groups where TransitEncryptionEnabled is true.  For HIPAA compliance, you must specify TransitEncryptionEnabled as true, an AuthToken, and a CacheSubnetGroup.  Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
         public let authToken: String?
@@ -1654,13 +1654,13 @@ extension ElastiCache {
         public let clusterMode: ClusterMode?
         /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
         public let dataTieringEnabled: Bool?
-        /// The name of the cache engine to be used for the clusters in this replication group. The value must be set to Redis.
+        /// The name of the cache engine to be used for the clusters in this replication group. The value must be set to valkey or redis.
         public let engine: String?
         /// The version number of the cache engine to be used for the clusters in this replication group. To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version) in the ElastiCache User Guide, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster or replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
         /// The name of the Global datastore
         public let globalReplicationGroupId: String?
-        /// The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// The network type you choose when creating a replication group, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
@@ -1669,7 +1669,7 @@ extension ElastiCache {
         public var logDeliveryConfigurations: [LogDeliveryConfigurationRequest]?
         /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ.
         public let multiAZEnabled: Bool?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let networkType: NetworkType?
         /// A list of node group (shard) configuration options. Each node group (shard) configuration has the following members: PrimaryAvailabilityZone, ReplicaAvailabilityZones, ReplicaCount, and Slots. If you're creating a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (cluster mode enabled) replication group, you can use this parameter to individually configure each node group (shard), or you can omit this parameter. However, it is required when seeding a Valkey or Redis OSS (cluster mode enabled) cluster from a S3 rdb file. You must configure each node group (shard) using this parameter because you must specify the slots for each node group.
         @OptionalCustomCoding<ArrayCoder<_NodeGroupConfigurationEncoding, NodeGroupConfiguration>>
@@ -2007,7 +2007,7 @@ extension ElastiCache {
     public struct CreateUserGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The current supported value is Redis user.
+        /// Sets the engine listed in a user group. The options are valkey or redis.
         public let engine: String?
         /// A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted. Available for Valkey and Redis OSS only.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -2050,7 +2050,7 @@ extension ElastiCache {
         public let accessString: String?
         /// Specifies how to authenticate the user.
         public let authenticationMode: AuthenticationMode?
-        /// The current supported value is Redis.
+        /// The options are valkey or redis.
         public let engine: String?
         /// Indicates a password is not required for this user.
         public let noPasswordRequired: Bool?
@@ -3931,7 +3931,7 @@ extension ElastiCache {
         public let engine: String?
         /// The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// Specifies the destination, format and type of the logs.
         @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
@@ -4162,7 +4162,7 @@ extension ElastiCache {
         public let engine: String?
         /// The upgraded version of the cache engine to be run on the clusters in the replication group.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing replication group and create it anew with the earlier engine version.
         public let engineVersion: String?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 and Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// Specifies the destination, format and type of the logs.
         @OptionalCustomCoding<ArrayCoder<_LogDeliveryConfigurationsEncoding, LogDeliveryConfigurationRequest>>
@@ -4470,7 +4470,7 @@ extension ElastiCache {
     }
 
     public struct ModifyUserGroupMessage: AWSEncodableShape {
-        /// The engine for a user group.
+        /// Modifies the engine listed in a user group. The options are valkey or redis.
         public let engine: String?
         /// The ID of the user group.
         public let userGroupId: String?
@@ -4518,7 +4518,7 @@ extension ElastiCache {
         public let appendAccessString: String?
         /// Specifies how to authenticate the user.
         public let authenticationMode: AuthenticationMode?
-        /// The engine for a specific user.
+        /// Modifies the engine listed for a user. The options are valkey or redis.
         public let engine: String?
         /// Indicates no password is required for the user.
         public let noPasswordRequired: Bool?
@@ -5174,7 +5174,7 @@ extension ElastiCache {
         public let engine: String?
         /// The name of the Global datastore and role of this replication group in the Global datastore.
         public let globalReplicationGroupInfo: GlobalReplicationGroupInfo?
-        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let ipDiscovery: IpDiscovery?
         /// The ID of the KMS key used to encrypt the disk in the cluster.
         public let kmsKeyId: String?
@@ -5189,7 +5189,7 @@ extension ElastiCache {
         public var memberClustersOutpostArns: [String]?
         /// A flag indicating if you have Multi-AZ enabled to enhance fault tolerance. For more information, see Minimizing Downtime: Multi-AZ
         public let multiAZ: MultiAZStatus?
-        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// Must be either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         public let networkType: NetworkType?
         /// A list of node groups in this replication group. For Valkey or Redis OSS (cluster mode disabled) replication groups, this is a single-element list. For Valkey or Redis OSS (cluster mode enabled) replication groups, the list contains an entry for each node group (shard).
         @OptionalCustomCoding<ArrayCoder<_NodeGroupsEncoding, NodeGroup>>
@@ -6117,7 +6117,7 @@ extension ElastiCache {
         public let subnetIdentifier: String?
         /// The outpost ARN of the subnet.
         public let subnetOutpost: SubnetOutpost?
-        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 and above or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
+        /// Either ipv4 | ipv6 | dual_stack. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
         @OptionalCustomCoding<StandardArrayCoder<NetworkType>>
         public var supportedNetworkTypes: [NetworkType]?
 
@@ -6437,7 +6437,7 @@ extension ElastiCache {
         public let arn: String?
         /// Denotes whether the user requires a password to authenticate.
         public let authentication: Authentication?
-        /// The current supported value is Redis.
+        /// The options are valkey or redis.
         public let engine: String?
         /// The minimum engine version required, which is Redis OSS 6.0
         public let minimumEngineVersion: String?
@@ -6480,7 +6480,7 @@ extension ElastiCache {
     public struct UserGroup: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the user group.
         public let arn: String?
-        /// The current supported value is Redis user.
+        /// The options are valkey or redis.
         public let engine: String?
         /// The minimum engine version required, which is Redis OSS 6.0
         public let minimumEngineVersion: String?

@@ -467,6 +467,7 @@ public struct RedshiftServerless: AWSService {
     ///   - securityGroupIds: An array of security group IDs to associate with the workgroup.
     ///   - subnetIds: An array of VPC subnet IDs to associate with the workgroup.
     ///   - tags: A array of tag instances.
+    ///   - trackName: An optional parameter for the name of the track for the workgroup. If you don't provide  a track name, the workgroup is assigned to the current track.
     ///   - workgroupName: The name of the created workgroup.
     ///   - logger: Logger use during operation
     @inlinable
@@ -483,6 +484,7 @@ public struct RedshiftServerless: AWSService {
         securityGroupIds: [String]? = nil,
         subnetIds: [String]? = nil,
         tags: [Tag]? = nil,
+        trackName: String? = nil,
         workgroupName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateWorkgroupResponse {
@@ -499,6 +501,7 @@ public struct RedshiftServerless: AWSService {
             securityGroupIds: securityGroupIds, 
             subnetIds: subnetIds, 
             tags: tags, 
+            trackName: trackName, 
             workgroupName: workgroupName
         )
         return try await self.createWorkgroup(input, logger: logger)
@@ -1053,6 +1056,35 @@ public struct RedshiftServerless: AWSService {
         return try await self.getTableRestoreStatus(input, logger: logger)
     }
 
+    /// Get the Redshift Serverless version for a specified track.
+    @Sendable
+    @inlinable
+    public func getTrack(_ input: GetTrackRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTrackResponse {
+        try await self.client.execute(
+            operation: "GetTrack", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Get the Redshift Serverless version for a specified track.
+    ///
+    /// Parameters:
+    ///   - trackName: The name of the track of which its version is fetched.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getTrack(
+        trackName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetTrackResponse {
+        let input = GetTrackRequest(
+            trackName: trackName
+        )
+        return try await self.getTrack(input, logger: logger)
+    }
+
     /// Returns information about a usage limit.
     @Sendable
     @inlinable
@@ -1483,6 +1515,38 @@ public struct RedshiftServerless: AWSService {
             resourceArn: resourceArn
         )
         return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// List the Amazon Redshift Serverless versions.
+    @Sendable
+    @inlinable
+    public func listTracks(_ input: ListTracksRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTracksResponse {
+        try await self.client.execute(
+            operation: "ListTracks", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List the Amazon Redshift Serverless versions.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of response records to return in each call.  If the number of remaining response records exceeds the specified  MaxRecords value, a value is returned in a marker field of the response.  You can retrieve the next set of records by retrying the command with the  returned marker value.
+    ///   - nextToken: If your initial ListTracksRequest operation returns a  nextToken, you can include the returned nextToken in following ListTracksRequest operations, which returns results in the next page.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTracks(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTracksResponse {
+        let input = ListTracksRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listTracks(input, logger: logger)
     }
 
     /// Lists all usage limits within Amazon Redshift Serverless.
@@ -2143,6 +2207,7 @@ public struct RedshiftServerless: AWSService {
     ///   - publiclyAccessible: A value that specifies whether the workgroup can be accessible from a public network.
     ///   - securityGroupIds: An array of security group IDs to associate with the workgroup.
     ///   - subnetIds: An array of VPC subnet IDs to associate with the workgroup.
+    ///   - trackName: An optional parameter for the name of the track for the workgroup. If you don't provide  a track name, the workgroup is assigned to the current track.
     ///   - workgroupName: The name of the workgroup to update. You can't update the name of a workgroup once it is created.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2157,6 +2222,7 @@ public struct RedshiftServerless: AWSService {
         publiclyAccessible: Bool? = nil,
         securityGroupIds: [String]? = nil,
         subnetIds: [String]? = nil,
+        trackName: String? = nil,
         workgroupName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateWorkgroupResponse {
@@ -2171,6 +2237,7 @@ public struct RedshiftServerless: AWSService {
             publiclyAccessible: publiclyAccessible, 
             securityGroupIds: securityGroupIds, 
             subnetIds: subnetIds, 
+            trackName: trackName, 
             workgroupName: workgroupName
         )
         return try await self.updateWorkgroup(input, logger: logger)
@@ -2553,6 +2620,40 @@ extension RedshiftServerless {
         return self.listTableRestoreStatusPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listTracks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTracksPaginator(
+        _ input: ListTracksRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListTracksRequest, ListTracksResponse> {
+        return .init(
+            input: input,
+            command: self.listTracks,
+            inputKey: \ListTracksRequest.nextToken,
+            outputKey: \ListTracksResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listTracks(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of response records to return in each call.  If the number of remaining response records exceeds the specified  MaxRecords value, a value is returned in a marker field of the response.  You can retrieve the next set of records by retrying the command with the  returned marker value.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listTracksPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListTracksRequest, ListTracksResponse> {
+        let input = ListTracksRequest(
+            maxResults: maxResults
+        )
+        return self.listTracksPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listUsageLimits(_:logger:)``.
     ///
     /// - Parameters:
@@ -2736,6 +2837,16 @@ extension RedshiftServerless.ListTableRestoreStatusRequest: AWSPaginateToken {
             namespaceName: self.namespaceName,
             nextToken: token,
             workgroupName: self.workgroupName
+        )
+    }
+}
+
+extension RedshiftServerless.ListTracksRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> RedshiftServerless.ListTracksRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

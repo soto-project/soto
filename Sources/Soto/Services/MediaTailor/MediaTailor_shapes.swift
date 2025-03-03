@@ -69,6 +69,12 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum LoggingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case legacyCloudwatch = "LEGACY_CLOUDWATCH"
+        case vendedLogs = "VENDED_LOGS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case spliceInsert = "SPLICE_INSERT"
         case timeSignal = "TIME_SIGNAL"
@@ -109,6 +115,12 @@ extension MediaTailor {
         case alternateMedia = "ALTERNATE_MEDIA"
         case fillerSlate = "FILLER_SLATE"
         case program = "PROGRAM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamingMediaFileConditioning: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case transcode = "TRANSCODE"
         public var description: String { return self.rawValue }
     }
 
@@ -189,6 +201,20 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case offsetMillis = "OffsetMillis"
+        }
+    }
+
+    public struct AdConditioningConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS.  TRANSCODE indicates that MediaTailor must transcode the ads.  NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow.  For more information about ad conditioning see https://docs.aws.amazon.com/precondition-ads.html.
+        public let streamingMediaFileConditioning: StreamingMediaFileConditioning
+
+        @inlinable
+        public init(streamingMediaFileConditioning: StreamingMediaFileConditioning) {
+            self.streamingMediaFileConditioning = streamingMediaFileConditioning
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamingMediaFileConditioning = "StreamingMediaFileConditioning"
         }
     }
 
@@ -487,36 +513,44 @@ extension MediaTailor {
     }
 
     public struct ConfigureLogsForPlaybackConfigurationRequest: AWSEncodableShape {
-        /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
+        /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to  send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in Enable logging from AWS services, Logging that requires additional permissions [V2].
+        public let enabledLoggingStrategies: [LoggingStrategy]?
+        /// The percentage of session logs that MediaTailor sends to your CloudWatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
         public let percentEnabled: Int
         /// The name of the playback configuration.
         public let playbackConfigurationName: String
 
         @inlinable
-        public init(percentEnabled: Int = 0, playbackConfigurationName: String) {
+        public init(enabledLoggingStrategies: [LoggingStrategy]? = nil, percentEnabled: Int = 0, playbackConfigurationName: String) {
+            self.enabledLoggingStrategies = enabledLoggingStrategies
             self.percentEnabled = percentEnabled
             self.playbackConfigurationName = playbackConfigurationName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enabledLoggingStrategies = "EnabledLoggingStrategies"
             case percentEnabled = "PercentEnabled"
             case playbackConfigurationName = "PlaybackConfigurationName"
         }
     }
 
     public struct ConfigureLogsForPlaybackConfigurationResponse: AWSDecodableShape {
+        /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
+        public let enabledLoggingStrategies: [LoggingStrategy]?
         /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account.
         public let percentEnabled: Int
         /// The name of the playback configuration.
         public let playbackConfigurationName: String?
 
         @inlinable
-        public init(percentEnabled: Int, playbackConfigurationName: String? = nil) {
+        public init(enabledLoggingStrategies: [LoggingStrategy]? = nil, percentEnabled: Int, playbackConfigurationName: String? = nil) {
+            self.enabledLoggingStrategies = enabledLoggingStrategies
             self.percentEnabled = percentEnabled
             self.playbackConfigurationName = playbackConfigurationName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enabledLoggingStrategies = "EnabledLoggingStrategies"
             case percentEnabled = "PercentEnabled"
             case playbackConfigurationName = "PlaybackConfigurationName"
         }
@@ -1797,6 +1831,8 @@ extension MediaTailor {
     }
 
     public struct GetPlaybackConfigurationResponse: AWSDecodableShape {
+        /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+        public let adConditioningConfiguration: AdConditioningConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing, you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -1815,7 +1851,7 @@ extension MediaTailor {
         public let insertionMode: InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public let livePreRollConfiguration: LivePreRollConfiguration?
-        /// The Amazon CloudWatch log settings for a playback configuration.
+        /// The configuration that defines where AWS Elemental MediaTailor sends logs for the playback configuration.
         public let logConfiguration: LogConfiguration?
         /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
         public let manifestProcessingRules: ManifestProcessingRules?
@@ -1839,7 +1875,8 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+            self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -1863,6 +1900,7 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adConditioningConfiguration = "AdConditioningConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
@@ -2458,15 +2496,19 @@ extension MediaTailor {
     }
 
     public struct LogConfiguration: AWSDecodableShape {
-        /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
+        /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
+        public let enabledLoggingStrategies: [LoggingStrategy]?
+        /// The percentage of session logs that MediaTailor sends to your configured log destination. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
         public let percentEnabled: Int
 
         @inlinable
-        public init(percentEnabled: Int) {
+        public init(enabledLoggingStrategies: [LoggingStrategy]? = nil, percentEnabled: Int) {
+            self.enabledLoggingStrategies = enabledLoggingStrategies
             self.percentEnabled = percentEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enabledLoggingStrategies = "EnabledLoggingStrategies"
             case percentEnabled = "PercentEnabled"
         }
     }
@@ -2500,6 +2542,8 @@ extension MediaTailor {
     }
 
     public struct PlaybackConfiguration: AWSDecodableShape {
+        /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+        public let adConditioningConfiguration: AdConditioningConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -2518,7 +2562,7 @@ extension MediaTailor {
         public let insertionMode: InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public let livePreRollConfiguration: LivePreRollConfiguration?
-        /// The Amazon CloudWatch log settings for a playback configuration.
+        /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
         public let logConfiguration: LogConfiguration?
         /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
         public let manifestProcessingRules: ManifestProcessingRules?
@@ -2542,7 +2586,8 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+            self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -2566,6 +2611,7 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adConditioningConfiguration = "AdConditioningConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
@@ -2595,7 +2641,7 @@ extension MediaTailor {
         /// The time when MediaTailor no longer considers the prefetched ads for use in an ad break. MediaTailor automatically deletes prefetch schedules no less than seven days after the end time. If you'd like to manually delete the prefetch schedule, you can call DeletePrefetchSchedule.
         @CustomCoding<UnixEpochDateCoder>
         public var endTime: Date
-        /// The time when prefetched ads are considered for use in an ad break. If you don't specify StartTime, the prefetched ads are available after MediaTailor retrives them from the ad decision server.
+        /// The time when prefetched ads are considered for use in an ad break. If you don't specify StartTime, the prefetched ads are available after MediaTailor retrieves them from the ad decision server.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var startTime: Date?
 
@@ -2700,6 +2746,8 @@ extension MediaTailor {
     }
 
     public struct PutPlaybackConfigurationRequest: AWSEncodableShape {
+        /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+        public let adConditioningConfiguration: AdConditioningConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -2732,7 +2780,8 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfigurationForPut? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String, personalizationThresholdSeconds: Int? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+            self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -2755,6 +2804,7 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adConditioningConfiguration = "AdConditioningConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"
@@ -2774,6 +2824,8 @@ extension MediaTailor {
     }
 
     public struct PutPlaybackConfigurationResponse: AWSDecodableShape {
+        /// The setting that indicates what conditioning MediaTailor will perform on ads that the ad decision server (ADS) returns, and what priority MediaTailor uses when inserting ads.
+        public let adConditioningConfiguration: AdConditioningConfiguration?
         /// The URL for the ad decision server (ADS). This includes the specification of static parameters and placeholders for dynamic parameters. AWS Elemental MediaTailor substitutes player-specific and session-specific parameters as needed when calling the ADS. Alternately, for testing you can provide a static VAST URL. The maximum length is 25,000 characters.
         public let adDecisionServerUrl: String?
         /// The configuration for avail suppression, also known as ad suppression. For more information about ad suppression, see Ad Suppression.
@@ -2792,7 +2844,7 @@ extension MediaTailor {
         public let insertionMode: InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public let livePreRollConfiguration: LivePreRollConfiguration?
-        /// The Amazon CloudWatch log settings for a playback configuration.
+        /// The configuration that defines where AWS Elemental MediaTailor sends logs for the playback configuration.
         public let logConfiguration: LogConfiguration?
         /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
         public let manifestProcessingRules: ManifestProcessingRules?
@@ -2816,7 +2868,8 @@ extension MediaTailor {
         public let videoContentSourceUrl: String?
 
         @inlinable
-        public init(adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+        public init(adConditioningConfiguration: AdConditioningConfiguration? = nil, adDecisionServerUrl: String? = nil, availSuppression: AvailSuppression? = nil, bumper: Bumper? = nil, cdnConfiguration: CdnConfiguration? = nil, configurationAliases: [String: [String: String]]? = nil, dashConfiguration: DashConfiguration? = nil, hlsConfiguration: HlsConfiguration? = nil, insertionMode: InsertionMode? = nil, livePreRollConfiguration: LivePreRollConfiguration? = nil, logConfiguration: LogConfiguration? = nil, manifestProcessingRules: ManifestProcessingRules? = nil, name: String? = nil, personalizationThresholdSeconds: Int? = nil, playbackConfigurationArn: String? = nil, playbackEndpointPrefix: String? = nil, sessionInitializationEndpointPrefix: String? = nil, slateAdUrl: String? = nil, tags: [String: String]? = nil, transcodeProfileName: String? = nil, videoContentSourceUrl: String? = nil) {
+            self.adConditioningConfiguration = adConditioningConfiguration
             self.adDecisionServerUrl = adDecisionServerUrl
             self.availSuppression = availSuppression
             self.bumper = bumper
@@ -2840,6 +2893,7 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adConditioningConfiguration = "AdConditioningConfiguration"
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case availSuppression = "AvailSuppression"
             case bumper = "Bumper"

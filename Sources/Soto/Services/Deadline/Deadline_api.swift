@@ -658,7 +658,7 @@ public struct Deadline: AWSService {
         return try await self.createFleet(input, logger: logger)
     }
 
-    /// Creates a job. A job is a set of instructions that AWS Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
+    /// Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
     @Sendable
     @inlinable
     public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateJobResponse {
@@ -672,7 +672,7 @@ public struct Deadline: AWSService {
             logger: logger
         )
     }
-    /// Creates a job. A job is a set of instructions that AWS Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
+    /// Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
     ///
     /// Parameters:
     ///   - attachments: The attachments for the job. Attach files required for the job to run to a render job.
@@ -680,6 +680,7 @@ public struct Deadline: AWSService {
     ///   - farmId: The farm ID of the farm to connect to the job.
     ///   - maxFailedTasksCount: The number of task failures before the job stops running and is marked as FAILED.
     ///   - maxRetriesPerTask: The maximum number of retries for each task.
+    ///   - maxWorkerCount: The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
     ///   - parameters: The parameters for the job.
     ///   - priority: The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
     ///   - queueId: The ID of the queue that the job is submitted to.
@@ -696,6 +697,7 @@ public struct Deadline: AWSService {
         farmId: String,
         maxFailedTasksCount: Int? = nil,
         maxRetriesPerTask: Int? = nil,
+        maxWorkerCount: Int? = nil,
         parameters: [String: JobParameter]? = nil,
         priority: Int,
         queueId: String,
@@ -712,6 +714,7 @@ public struct Deadline: AWSService {
             farmId: farmId, 
             maxFailedTasksCount: maxFailedTasksCount, 
             maxRetriesPerTask: maxRetriesPerTask, 
+            maxWorkerCount: maxWorkerCount, 
             parameters: parameters, 
             priority: priority, 
             queueId: queueId, 
@@ -764,6 +767,51 @@ public struct Deadline: AWSService {
             vpcId: vpcId
         )
         return try await self.createLicenseEndpoint(input, logger: logger)
+    }
+
+    /// Creates a limit that manages the distribution of shared resources, such as floating licenses. A limit can throttle work assignments, help manage workloads, and track current usage. Before you use a limit, you must associate the limit with one or more queues.  You must add the amountRequirementName to a step in a job template to declare the limit requirement.
+    @Sendable
+    @inlinable
+    public func createLimit(_ input: CreateLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLimitResponse {
+        try await self.client.execute(
+            operation: "CreateLimit", 
+            path: "/2023-10-12/farms/{farmId}/limits", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Creates a limit that manages the distribution of shared resources, such as floating licenses. A limit can throttle work assignments, help manage workloads, and track current usage. Before you use a limit, you must associate the limit with one or more queues.  You must add the amountRequirementName to a step in a job template to declare the limit requirement.
+    ///
+    /// Parameters:
+    ///   - amountRequirementName: The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+    ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
+    ///   - description: A description of the limit. A description helps you identify the purpose of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    ///   - displayName: The display name of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    ///   - farmId: The farm ID of the farm that contains the limit.
+    ///   - maxCount: The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createLimit(
+        amountRequirementName: String,
+        clientToken: String? = CreateLimitRequest.idempotencyToken(),
+        description: String? = nil,
+        displayName: String,
+        farmId: String,
+        maxCount: Int,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateLimitResponse {
+        let input = CreateLimitRequest(
+            amountRequirementName: amountRequirementName, 
+            clientToken: clientToken, 
+            description: description, 
+            displayName: displayName, 
+            farmId: farmId, 
+            maxCount: maxCount
+        )
+        return try await self.createLimit(input, logger: logger)
     }
 
     /// Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and fleets. After you submit a job, you can track the progress of the tasks and steps that make up the job, and then download the job's results.
@@ -947,6 +995,42 @@ public struct Deadline: AWSService {
             queueId: queueId
         )
         return try await self.createQueueFleetAssociation(input, logger: logger)
+    }
+
+    /// Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same amountRequirementName to the same queue.
+    @Sendable
+    @inlinable
+    public func createQueueLimitAssociation(_ input: CreateQueueLimitAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateQueueLimitAssociationResponse {
+        try await self.client.execute(
+            operation: "CreateQueueLimitAssociation", 
+            path: "/2023-10-12/farms/{farmId}/queue-limit-associations", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same amountRequirementName to the same queue.
+    ///
+    /// Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the queue and limit to associate.
+    ///   - limitId: The unique identifier of the limit to associate with the queue.
+    ///   - queueId: The unique identifier of the queue to associate with the limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createQueueLimitAssociation(
+        farmId: String,
+        limitId: String,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateQueueLimitAssociationResponse {
+        let input = CreateQueueLimitAssociationRequest(
+            farmId: farmId, 
+            limitId: limitId, 
+            queueId: queueId
+        )
+        return try await self.createQueueLimitAssociation(input, logger: logger)
     }
 
     /// Creates a storage profile that specifies the operating system, file type, and file location of resources used on a farm.
@@ -1159,6 +1243,39 @@ public struct Deadline: AWSService {
         return try await self.deleteLicenseEndpoint(input, logger: logger)
     }
 
+    /// Removes a limit from the specified farm. Before you delete a limit you must use the DeleteQueueLimitAssociation operation to remove the association with any queues.
+    @Sendable
+    @inlinable
+    public func deleteLimit(_ input: DeleteLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLimitResponse {
+        try await self.client.execute(
+            operation: "DeleteLimit", 
+            path: "/2023-10-12/farms/{farmId}/limits/{limitId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Removes a limit from the specified farm. Before you delete a limit you must use the DeleteQueueLimitAssociation operation to remove the association with any queues.
+    ///
+    /// Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the limit to delete.
+    ///   - limitId: The unique identifier of the limit to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteLimit(
+        farmId: String,
+        limitId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteLimitResponse {
+        let input = DeleteLimitRequest(
+            farmId: farmId, 
+            limitId: limitId
+        )
+        return try await self.deleteLimit(input, logger: logger)
+    }
+
     /// Deletes a metered product.
     @Sendable
     @inlinable
@@ -1325,6 +1442,42 @@ public struct Deadline: AWSService {
             queueId: queueId
         )
         return try await self.deleteQueueFleetAssociation(input, logger: logger)
+    }
+
+    /// Removes the association between a queue and a limit. You must use the UpdateQueueLimitAssociation operation to set the status to STOP_LIMIT_USAGE_AND_COMPLETE_TASKS or STOP_LIMIT_USAGE_AND_CANCEL_TASKS. The status does not change immediately. Use the GetQueueLimitAssociation operation to see if the status changed to STOPPED before deleting the association.
+    @Sendable
+    @inlinable
+    public func deleteQueueLimitAssociation(_ input: DeleteQueueLimitAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteQueueLimitAssociationResponse {
+        try await self.client.execute(
+            operation: "DeleteQueueLimitAssociation", 
+            path: "/2023-10-12/farms/{farmId}/queue-limit-associations/{queueId}/{limitId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Removes the association between a queue and a limit. You must use the UpdateQueueLimitAssociation operation to set the status to STOP_LIMIT_USAGE_AND_COMPLETE_TASKS or STOP_LIMIT_USAGE_AND_CANCEL_TASKS. The status does not change immediately. Use the GetQueueLimitAssociation operation to see if the status changed to STOPPED before deleting the association.
+    ///
+    /// Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the queue and limit to disassociate.
+    ///   - limitId: The unique identifier of the limit to disassociate.
+    ///   - queueId: The unique identifier of the queue to disassociate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteQueueLimitAssociation(
+        farmId: String,
+        limitId: String,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteQueueLimitAssociationResponse {
+        let input = DeleteQueueLimitAssociationRequest(
+            farmId: farmId, 
+            limitId: limitId, 
+            queueId: queueId
+        )
+        return try await self.deleteQueueLimitAssociation(input, logger: logger)
     }
 
     /// Deletes a storage profile.
@@ -1702,6 +1855,39 @@ public struct Deadline: AWSService {
         return try await self.getLicenseEndpoint(input, logger: logger)
     }
 
+    /// Gets information about a specific limit.
+    @Sendable
+    @inlinable
+    public func getLimit(_ input: GetLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLimitResponse {
+        try await self.client.execute(
+            operation: "GetLimit", 
+            path: "/2023-10-12/farms/{farmId}/limits/{limitId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Gets information about a specific limit.
+    ///
+    /// Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the limit.
+    ///   - limitId: The unique identifier of the limit to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getLimit(
+        farmId: String,
+        limitId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetLimitResponse {
+        let input = GetLimitRequest(
+            farmId: farmId, 
+            limitId: limitId
+        )
+        return try await self.getLimit(input, logger: logger)
+    }
+
     /// Gets information about the specified monitor.
     @Sendable
     @inlinable
@@ -1835,6 +2021,42 @@ public struct Deadline: AWSService {
             queueId: queueId
         )
         return try await self.getQueueFleetAssociation(input, logger: logger)
+    }
+
+    /// Gets information about a specific association between a queue and a limit.
+    @Sendable
+    @inlinable
+    public func getQueueLimitAssociation(_ input: GetQueueLimitAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetQueueLimitAssociationResponse {
+        try await self.client.execute(
+            operation: "GetQueueLimitAssociation", 
+            path: "/2023-10-12/farms/{farmId}/queue-limit-associations/{queueId}/{limitId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Gets information about a specific association between a queue and a limit.
+    ///
+    /// Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the associated queue and limit.
+    ///   - limitId: The unique identifier of the limit associated with the queue.
+    ///   - queueId: The unique identifier of the queue associated with the limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getQueueLimitAssociation(
+        farmId: String,
+        limitId: String,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetQueueLimitAssociationResponse {
+        let input = GetQueueLimitAssociationRequest(
+            farmId: farmId, 
+            limitId: limitId, 
+            queueId: queueId
+        )
+        return try await self.getQueueLimitAssociation(input, logger: logger)
     }
 
     /// Gets a session.
@@ -2527,6 +2749,42 @@ public struct Deadline: AWSService {
         return try await self.listLicenseEndpoints(input, logger: logger)
     }
 
+    /// Gets a list of limits defined in the specified farm.
+    @Sendable
+    @inlinable
+    public func listLimits(_ input: ListLimitsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListLimitsResponse {
+        try await self.client.execute(
+            operation: "ListLimits", 
+            path: "/2023-10-12/farms/{farmId}/limits", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Gets a list of limits defined in the specified farm.
+    ///
+    /// Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the limits.
+    ///   - maxResults: The maximum number of limits to return in each page of results.
+    ///   - nextToken: The token for the next set of results, or null to start from the beginning.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listLimits(
+        farmId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListLimitsResponse {
+        let input = ListLimitsRequest(
+            farmId: farmId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listLimits(input, logger: logger)
+    }
+
     /// Lists metered products.
     @Sendable
     @inlinable
@@ -2675,6 +2933,48 @@ public struct Deadline: AWSService {
             queueId: queueId
         )
         return try await self.listQueueFleetAssociations(input, logger: logger)
+    }
+
+    /// Gets a list of the associations between queues and limits defined in a farm.
+    @Sendable
+    @inlinable
+    public func listQueueLimitAssociations(_ input: ListQueueLimitAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListQueueLimitAssociationsResponse {
+        try await self.client.execute(
+            operation: "ListQueueLimitAssociations", 
+            path: "/2023-10-12/farms/{farmId}/queue-limit-associations", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Gets a list of the associations between queues and limits defined in a farm.
+    ///
+    /// Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the limits and associations.
+    ///   - limitId: Specifies that the operation should return only the queue limit associations for the specified limit. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+    ///   - maxResults: The maximum number of associations to return in each page of results.
+    ///   - nextToken: The token for the next set of results, or null to start from the beginning.
+    ///   - queueId: Specifies that the operation should return only the queue limit associations for the specified queue. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listQueueLimitAssociations(
+        farmId: String,
+        limitId: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        queueId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListQueueLimitAssociationsResponse {
+        let input = ListQueueLimitAssociationsRequest(
+            farmId: farmId, 
+            limitId: limitId, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            queueId: queueId
+        )
+        return try await self.listQueueLimitAssociations(input, logger: logger)
     }
 
     /// Lists the members in a queue.
@@ -3717,6 +4017,7 @@ public struct Deadline: AWSService {
     ///   - lifecycleStatus: The status of a job in its lifecycle. When you change the status of the job to ARCHIVED, the job can't be scheduled or archived.  An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
     ///   - maxFailedTasksCount: The number of task failures before the job stops running and is marked as FAILED.
     ///   - maxRetriesPerTask: The maximum number of retries for a job.
+    ///   - maxWorkerCount: The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1. The maximum number of workers that can process tasks in the job.
     ///   - priority: The job priority to update.
     ///   - queueId: The queue ID of the job to update.
     ///   - targetTaskRunStatus: The task status to update the job's tasks to.
@@ -3729,6 +4030,7 @@ public struct Deadline: AWSService {
         lifecycleStatus: UpdateJobLifecycleStatus? = nil,
         maxFailedTasksCount: Int? = nil,
         maxRetriesPerTask: Int? = nil,
+        maxWorkerCount: Int? = nil,
         priority: Int? = nil,
         queueId: String,
         targetTaskRunStatus: JobTargetTaskRunStatus? = nil,
@@ -3741,11 +4043,54 @@ public struct Deadline: AWSService {
             lifecycleStatus: lifecycleStatus, 
             maxFailedTasksCount: maxFailedTasksCount, 
             maxRetriesPerTask: maxRetriesPerTask, 
+            maxWorkerCount: maxWorkerCount, 
             priority: priority, 
             queueId: queueId, 
             targetTaskRunStatus: targetTaskRunStatus
         )
         return try await self.updateJob(input, logger: logger)
+    }
+
+    /// Updates the properties of the specified limit.
+    @Sendable
+    @inlinable
+    public func updateLimit(_ input: UpdateLimitRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLimitResponse {
+        try await self.client.execute(
+            operation: "UpdateLimit", 
+            path: "/2023-10-12/farms/{farmId}/limits/{limitId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Updates the properties of the specified limit.
+    ///
+    /// Parameters:
+    ///   - description: The new description of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    ///   - displayName: The new display name of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+    ///   - farmId: The unique identifier of the farm that contains the limit.
+    ///   - limitId: The unique identifier of the limit to update.
+    ///   - maxCount: The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. If more than the new maximum number is currently in use, running jobs finish but no new jobs are started until the number of resources in use is below the new maximum number. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLimit(
+        description: String? = nil,
+        displayName: String? = nil,
+        farmId: String,
+        limitId: String,
+        maxCount: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLimitResponse {
+        let input = UpdateLimitRequest(
+            description: description, 
+            displayName: displayName, 
+            farmId: farmId, 
+            limitId: limitId, 
+            maxCount: maxCount
+        )
+        return try await self.updateLimit(input, logger: logger)
     }
 
     /// Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call UpdateMonitor.
@@ -3938,6 +4283,45 @@ public struct Deadline: AWSService {
             status: status
         )
         return try await self.updateQueueFleetAssociation(input, logger: logger)
+    }
+
+    /// Updates the status of the queue. If you set the status to one of the STOP_LIMIT_USAGE* values, there will be a delay before the status transitions to the STOPPED state.
+    @Sendable
+    @inlinable
+    public func updateQueueLimitAssociation(_ input: UpdateQueueLimitAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateQueueLimitAssociationResponse {
+        try await self.client.execute(
+            operation: "UpdateQueueLimitAssociation", 
+            path: "/2023-10-12/farms/{farmId}/queue-limit-associations/{queueId}/{limitId}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            hostPrefix: "management.", 
+            logger: logger
+        )
+    }
+    /// Updates the status of the queue. If you set the status to one of the STOP_LIMIT_USAGE* values, there will be a delay before the status transitions to the STOPPED state.
+    ///
+    /// Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the associated queues and limits.
+    ///   - limitId: The unique identifier of the limit associated to the queue.
+    ///   - queueId: The unique identifier of the queue associated to the limit.
+    ///   - status: Sets the status of the limit. You can mark the limit active, or you can stop usage of the limit and either complete existing tasks or cancel any existing tasks immediately.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateQueueLimitAssociation(
+        farmId: String,
+        limitId: String,
+        queueId: String,
+        status: UpdateQueueLimitAssociationStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateQueueLimitAssociationResponse {
+        let input = UpdateQueueLimitAssociationRequest(
+            farmId: farmId, 
+            limitId: limitId, 
+            queueId: queueId, 
+            status: status
+        )
+        return try await self.updateQueueLimitAssociation(input, logger: logger)
     }
 
     /// Updates a session.
@@ -4661,6 +5045,43 @@ extension Deadline {
         return self.listLicenseEndpointsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listLimits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLimitsPaginator(
+        _ input: ListLimitsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListLimitsRequest, ListLimitsResponse> {
+        return .init(
+            input: input,
+            command: self.listLimits,
+            inputKey: \ListLimitsRequest.nextToken,
+            outputKey: \ListLimitsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listLimits(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the limits.
+    ///   - maxResults: The maximum number of limits to return in each page of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listLimitsPaginator(
+        farmId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListLimitsRequest, ListLimitsResponse> {
+        let input = ListLimitsRequest(
+            farmId: farmId, 
+            maxResults: maxResults
+        )
+        return self.listLimitsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listMeteredProducts(_:logger:)``.
     ///
     /// - Parameters:
@@ -4813,6 +5234,49 @@ extension Deadline {
             queueId: queueId
         )
         return self.listQueueFleetAssociationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listQueueLimitAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listQueueLimitAssociationsPaginator(
+        _ input: ListQueueLimitAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListQueueLimitAssociationsRequest, ListQueueLimitAssociationsResponse> {
+        return .init(
+            input: input,
+            command: self.listQueueLimitAssociations,
+            inputKey: \ListQueueLimitAssociationsRequest.nextToken,
+            outputKey: \ListQueueLimitAssociationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listQueueLimitAssociations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the limits and associations.
+    ///   - limitId: Specifies that the operation should return only the queue limit associations for the specified limit. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+    ///   - maxResults: The maximum number of associations to return in each page of results.
+    ///   - queueId: Specifies that the operation should return only the queue limit associations for the specified queue. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listQueueLimitAssociationsPaginator(
+        farmId: String,
+        limitId: String? = nil,
+        maxResults: Int? = nil,
+        queueId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListQueueLimitAssociationsRequest, ListQueueLimitAssociationsResponse> {
+        let input = ListQueueLimitAssociationsRequest(
+            farmId: farmId, 
+            limitId: limitId, 
+            maxResults: maxResults, 
+            queueId: queueId
+        )
+        return self.listQueueLimitAssociationsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listQueueMembers(_:logger:)``.
@@ -5463,6 +5927,17 @@ extension Deadline.ListLicenseEndpointsRequest: AWSPaginateToken {
     }
 }
 
+extension Deadline.ListLimitsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Deadline.ListLimitsRequest {
+        return .init(
+            farmId: self.farmId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Deadline.ListMeteredProductsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Deadline.ListMeteredProductsRequest {
@@ -5502,6 +5977,19 @@ extension Deadline.ListQueueFleetAssociationsRequest: AWSPaginateToken {
         return .init(
             farmId: self.farmId,
             fleetId: self.fleetId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            queueId: self.queueId
+        )
+    }
+}
+
+extension Deadline.ListQueueLimitAssociationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Deadline.ListQueueLimitAssociationsRequest {
+        return .init(
+            farmId: self.farmId,
+            limitId: self.limitId,
             maxResults: self.maxResults,
             nextToken: token,
             queueId: self.queueId
@@ -5875,6 +6363,49 @@ extension Deadline {
             queueId: queueId
         )
         try await self.waitUntilQueueFleetAssociationStopped(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getQueueLimitAssociation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilQueueLimitAssociationStopped(
+        _ input: GetQueueLimitAssociationRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetQueueLimitAssociationRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("status", expected: "STOPPED")),
+            ],
+            minDelayTime: .seconds(10),
+            maxDelayTime: .seconds(600),
+            command: self.getQueueLimitAssociation
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getQueueLimitAssociation(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - farmId: The unique identifier of the farm that contains the associated queue and limit.
+    ///   - limitId: The unique identifier of the limit associated with the queue.
+    ///   - queueId: The unique identifier of the queue associated with the limit.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilQueueLimitAssociationStopped(
+        farmId: String,
+        limitId: String,
+        queueId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetQueueLimitAssociationRequest(
+            farmId: farmId, 
+            limitId: limitId, 
+            queueId: queueId
+        )
+        try await self.waitUntilQueueLimitAssociationStopped(input, logger: logger)
     }
 
     /// Waiter for operation ``getQueue(_:logger:)``.

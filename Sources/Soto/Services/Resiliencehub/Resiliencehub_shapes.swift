@@ -471,6 +471,24 @@ extension Resiliencehub {
         }
     }
 
+    public struct Alarm: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the Amazon CloudWatch alarm.
+        public let alarmArn: String?
+        /// Indicates the source of the Amazon CloudWatch alarm. That is, it indicates if the alarm was created using Resilience Hub recommendation (AwsResilienceHub), or if you had created the alarm in Amazon CloudWatch (Customer).
+        public let source: String?
+
+        @inlinable
+        public init(alarmArn: String? = nil, source: String? = nil) {
+            self.alarmArn = alarmArn
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmArn = "alarmArn"
+            case source = "source"
+        }
+    }
+
     public struct AlarmRecommendation: AWSDecodableShape {
         /// Application Component name for the CloudWatch alarm recommendation. This name is saved as the first item in the appComponentNames list.
         public let appComponentName: String?
@@ -976,7 +994,7 @@ extension Resiliencehub {
     }
 
     public struct AssessmentRiskRecommendation: AWSDecodableShape {
-        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessnent and are associated with the identified risk and recommendation.  This property is available only in the US East (N. Virginia) Region.
+        /// Indicates the Application Components (AppComponents) that were assessed as part of the assessment and are associated with the identified risk and recommendation.  This property is available only in the US East (N. Virginia) Region.
         public let appComponents: [String]?
         /// Indicates the recommendation provided by the Resilience Hub to address the identified risks in the application.  This property is available only in the US East (N. Virginia) Region.
         public let recommendation: String?
@@ -1087,6 +1105,8 @@ extension Resiliencehub {
     }
 
     public struct BatchUpdateRecommendationStatusSuccessfulEntry: AWSDecodableShape {
+        /// Indicates the identifier of an AppComponent.
+        public let appComponentId: String?
         /// An identifier for an entry in this batch that is used to communicate the result.  The entryIds of a batch request need to be unique within a request.
         public let entryId: String
         /// Indicates if the operational recommendation was successfully excluded.
@@ -1099,7 +1119,8 @@ extension Resiliencehub {
         public let referenceId: String
 
         @inlinable
-        public init(entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem? = nil, referenceId: String) {
+        public init(appComponentId: String? = nil, entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem? = nil, referenceId: String) {
+            self.appComponentId = appComponentId
             self.entryId = entryId
             self.excluded = excluded
             self.excludeReason = excludeReason
@@ -1108,6 +1129,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appComponentId = "appComponentId"
             case entryId = "entryId"
             case excluded = "excluded"
             case excludeReason = "excludeReason"
@@ -2792,6 +2814,24 @@ extension Resiliencehub {
         }
     }
 
+    public struct Experiment: AWSDecodableShape {
+        /// Amazon Resource Name (ARN) of the FIS experiment.
+        public let experimentArn: String?
+        /// Identifier of the FIS experiment template.
+        public let experimentTemplateId: String?
+
+        @inlinable
+        public init(experimentArn: String? = nil, experimentTemplateId: String? = nil) {
+            self.experimentArn = experimentArn
+            self.experimentTemplateId = experimentTemplateId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case experimentArn = "experimentArn"
+            case experimentTemplateId = "experimentTemplateId"
+        }
+    }
+
     public struct FailedGroupingRecommendationEntry: AWSDecodableShape {
         /// Indicates the error that occurred while implementing a grouping recommendation.
         public let errorMessage: String
@@ -4281,7 +4321,7 @@ extension Resiliencehub {
     public struct PermissionModel: AWSEncodableShape & AWSDecodableShape {
         /// Defines a list of role Amazon Resource Names (ARNs) to be used in other accounts. These ARNs are used for querying purposes while importing resources and assessing your application.    These ARNs are required only when your resources are in other accounts and you have different role name in these accounts. Else, the invoker role name will be used in the other accounts.   These roles must have a trust policy with iam:AssumeRole permission to the invoker role in the primary account.
         public let crossAccountRoleArns: [String]?
-        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment.    You must have iam:passRole permission for this role while creating or updating the application.   Currently, invokerRoleName accepts only [A-Za-z0-9_+=,.@-] characters.
+        /// Existing Amazon Web Services IAM role name in the primary Amazon Web Services account that will be assumed by Resilience Hub Service Principle to obtain a read-only access to your application resources while running an assessment.  If your IAM role includes a path, you must include the path in the invokerRoleName parameter.  For example, if your IAM role's ARN is arn:aws:iam:123456789012:role/my-path/role-name, you should pass my-path/role-name.     You must have iam:passRole permission for this role while creating or updating the application.   Currently, invokerRoleName accepts only [A-Za-z0-9_+=,.@-] characters.
         public let invokerRoleName: String?
         /// Defines how Resilience Hub scans your resources. It can scan for the resources by using a pre-existing role in your Amazon Web Services account, or by using the credentials of the current IAM user.
         public let type: PermissionModelType
@@ -4519,10 +4559,14 @@ extension Resiliencehub {
     public struct RecommendationItem: AWSDecodableShape {
         /// Specifies if the recommendation has already been implemented.
         public let alreadyImplemented: Bool?
+        /// Indicates the previously implemented Amazon CloudWatch alarm discovered by Resilience Hub.
+        public let discoveredAlarm: Alarm?
         /// Indicates if an operational recommendation item is excluded.
         public let excluded: Bool?
         /// Indicates the reason for excluding an operational recommendation.
         public let excludeReason: ExcludeRecommendationReason?
+        /// Indicates the experiment created in FIS that was discovered by Resilience Hub, which matches the recommendation.
+        public let latestDiscoveredExperiment: Experiment?
         /// Identifier of the resource.
         public let resourceId: String?
         /// Identifier of the target account.
@@ -4531,10 +4575,12 @@ extension Resiliencehub {
         public let targetRegion: String?
 
         @inlinable
-        public init(alreadyImplemented: Bool? = nil, excluded: Bool? = nil, excludeReason: ExcludeRecommendationReason? = nil, resourceId: String? = nil, targetAccountId: String? = nil, targetRegion: String? = nil) {
+        public init(alreadyImplemented: Bool? = nil, discoveredAlarm: Alarm? = nil, excluded: Bool? = nil, excludeReason: ExcludeRecommendationReason? = nil, latestDiscoveredExperiment: Experiment? = nil, resourceId: String? = nil, targetAccountId: String? = nil, targetRegion: String? = nil) {
             self.alreadyImplemented = alreadyImplemented
+            self.discoveredAlarm = discoveredAlarm
             self.excluded = excluded
             self.excludeReason = excludeReason
+            self.latestDiscoveredExperiment = latestDiscoveredExperiment
             self.resourceId = resourceId
             self.targetAccountId = targetAccountId
             self.targetRegion = targetRegion
@@ -4542,8 +4588,10 @@ extension Resiliencehub {
 
         private enum CodingKeys: String, CodingKey {
             case alreadyImplemented = "alreadyImplemented"
+            case discoveredAlarm = "discoveredAlarm"
             case excluded = "excluded"
             case excludeReason = "excludeReason"
+            case latestDiscoveredExperiment = "latestDiscoveredExperiment"
             case resourceId = "resourceId"
             case targetAccountId = "targetAccountId"
             case targetRegion = "targetRegion"
@@ -5379,6 +5427,8 @@ extension Resiliencehub {
     }
 
     public struct TestRecommendation: AWSDecodableShape {
+        /// Indicates the identifier of the AppComponent.
+        public let appComponentId: String?
         /// Name of the Application Component.
         public let appComponentName: String?
         ///  A list of recommended alarms that are used in the test and must be exported before or with the test.
@@ -5405,7 +5455,8 @@ extension Resiliencehub {
         public let type: TestType?
 
         @inlinable
-        public init(appComponentName: String? = nil, dependsOnAlarms: [String]? = nil, description: String? = nil, intent: String? = nil, items: [RecommendationItem]? = nil, name: String? = nil, prerequisite: String? = nil, recommendationId: String? = nil, recommendationStatus: RecommendationStatus? = nil, referenceId: String, risk: TestRisk? = nil, type: TestType? = nil) {
+        public init(appComponentId: String? = nil, appComponentName: String? = nil, dependsOnAlarms: [String]? = nil, description: String? = nil, intent: String? = nil, items: [RecommendationItem]? = nil, name: String? = nil, prerequisite: String? = nil, recommendationId: String? = nil, recommendationStatus: RecommendationStatus? = nil, referenceId: String, risk: TestRisk? = nil, type: TestType? = nil) {
+            self.appComponentId = appComponentId
             self.appComponentName = appComponentName
             self.dependsOnAlarms = dependsOnAlarms
             self.description = description
@@ -5421,6 +5472,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appComponentId = "appComponentId"
             case appComponentName = "appComponentName"
             case dependsOnAlarms = "dependsOnAlarms"
             case description = "description"
@@ -5817,6 +5869,8 @@ extension Resiliencehub {
     }
 
     public struct UpdateRecommendationStatusRequestEntry: AWSEncodableShape {
+        /// Indicates the identifier of the AppComponent.
+        public let appComponentId: String?
         /// An identifier for an entry in this batch that is used to communicate the result.  The entryIds of a batch request need to be unique within a request.
         public let entryId: String
         /// Indicates if the operational recommendation needs to be excluded. If set to True, the operational recommendation will be excluded.
@@ -5829,7 +5883,8 @@ extension Resiliencehub {
         public let referenceId: String
 
         @inlinable
-        public init(entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem? = nil, referenceId: String) {
+        public init(appComponentId: String? = nil, entryId: String, excluded: Bool, excludeReason: ExcludeRecommendationReason? = nil, item: UpdateRecommendationStatusItem? = nil, referenceId: String) {
+            self.appComponentId = appComponentId
             self.entryId = entryId
             self.excluded = excluded
             self.excludeReason = excludeReason
@@ -5838,6 +5893,7 @@ extension Resiliencehub {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.appComponentId, name: "appComponentId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{0,254}$")
             try self.validate(self.entryId, name: "entryId", parent: name, max: 255)
             try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
             try self.item?.validate(name: "\(name).item")
@@ -5846,6 +5902,7 @@ extension Resiliencehub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appComponentId = "appComponentId"
             case entryId = "entryId"
             case excluded = "excluded"
             case excludeReason = "excludeReason"

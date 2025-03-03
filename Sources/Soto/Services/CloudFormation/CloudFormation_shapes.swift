@@ -389,6 +389,12 @@ extension CloudFormation {
         case deleteFailed = "DELETE_FAILED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
         case deleteSkipped = "DELETE_SKIPPED"
+        case exportComplete = "EXPORT_COMPLETE"
+        case exportFailed = "EXPORT_FAILED"
+        case exportInProgress = "EXPORT_IN_PROGRESS"
+        case exportRollbackComplete = "EXPORT_ROLLBACK_COMPLETE"
+        case exportRollbackFailed = "EXPORT_ROLLBACK_FAILED"
+        case exportRollbackInProgress = "EXPORT_ROLLBACK_IN_PROGRESS"
         case importComplete = "IMPORT_COMPLETE"
         case importFailed = "IMPORT_FAILED"
         case importInProgress = "IMPORT_IN_PROGRESS"
@@ -445,6 +451,47 @@ extension CloudFormation {
         case current = "CURRENT"
         case inoperable = "INOPERABLE"
         case outdated = "OUTDATED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackRefactorActionEntity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case resource = "RESOURCE"
+        case stack = "STACK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackRefactorActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case create = "CREATE"
+        case move = "MOVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackRefactorDetection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case auto = "AUTO"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackRefactorExecutionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "AVAILABLE"
+        case executeComplete = "EXECUTE_COMPLETE"
+        case executeFailed = "EXECUTE_FAILED"
+        case executeInProgress = "EXECUTE_IN_PROGRESS"
+        case obsolete = "OBSOLETE"
+        case rollbackComplete = "ROLLBACK_COMPLETE"
+        case rollbackFailed = "ROLLBACK_FAILED"
+        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StackRefactorStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createComplete = "CREATE_COMPLETE"
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case deleteComplete = "DELETE_COMPLETE"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -820,7 +867,7 @@ extension CloudFormation {
     }
 
     public struct Change: AWSDecodableShape {
-        /// Is either null, if no hooks invoke for the resource, or contains the number of hooks that will invoke for the resource.
+        /// Is either null, if no Hooks invoke for the resource, or contains the number of Hooks that will invoke for the resource.
         public let hookInvocationCount: Int?
         /// A ResourceChange structure that describes the resource and action that CloudFormation will perform.
         public let resourceChange: ResourceChange?
@@ -938,7 +985,7 @@ extension CloudFormation {
         public let stackId: String?
         /// The name of the stack with which the change set is associated.
         public let stackName: String?
-        /// The state of the change set, such as CREATE_IN_PROGRESS, CREATE_COMPLETE, or FAILED.
+        /// The state of the change set, such as CREATE_PENDING, CREATE_COMPLETE, or FAILED.
         public let status: ChangeSetStatus?
         /// A description of the change set's status. For example, if your change set is in the FAILED state, CloudFormation shows the error message.
         public let statusReason: String?
@@ -1022,7 +1069,7 @@ extension CloudFormation {
     }
 
     public struct CreateChangeSetInput: AWSEncodableShape {
-        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group     AWS::IAM::InstanceProfile      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation.  This capacity doesn't apply to creating change sets, and specifying it when creating change sets has no effect. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the CreateStack or UpdateStack action, and specifying this capability.  For more information about macros, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
+        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group     AWS::IAM::InstanceProfile      AWS::IAM::ManagedPolicy      AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation.  This capacity doesn't apply to creating change sets, and specifying it when creating change sets has no effect. If you want to create a stack from a stack template that contains macros and nested stacks, you must create or update the stack directly from the template using the CreateStack or UpdateStack action, and specifying this capability.  For more information about macros, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
         @OptionalCustomCoding<StandardArrayCoder<Capability>>
         public var capabilities: [Capability]?
         /// The name of the change set. The name must be unique among all change sets that are associated with the specified stack. A change set name can contain only alphanumeric, case sensitive characters, and hyphens. It must start with an alphabetical character and can't exceed 128 characters.
@@ -1062,7 +1109,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
         public let templateBody: String?
-        /// The location of the file that contains the revised template. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only TemplateBody or TemplateURL.
+        /// The URL of the file that contains the revised template. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only TemplateBody or TemplateURL.
         public let templateURL: String?
         /// Whether to reuse the template that's associated with the stack to create the change set.
         public let usePreviousTemplate: Bool?
@@ -1214,7 +1261,7 @@ extension CloudFormation {
     }
 
     public struct CreateStackInput: AWSEncodableShape {
-        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.    AWS::IAM::AccessKey     AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::Policy     AWS::IAM::Role     AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation. If you want to create a stack from a stack template that contains macros and nested stacks, you must create the stack directly from the template using this capability.  You should only create stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without CloudFormation being notified.  For more information, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
+        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to create the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.    AWS::IAM::AccessKey     AWS::IAM::Group     AWS::IAM::InstanceProfile      AWS::IAM::ManagedPolicy     AWS::IAM::Policy     AWS::IAM::Role     AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually creating the stack. If your stack template contains one or more macros, and you choose to create a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation. If you want to create a stack from a stack template that contains macros and nested stacks, you must create the stack directly from the template using this capability.  You should only create stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without CloudFormation being notified.  For more information, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
         @OptionalCustomCoding<StandardArrayCoder<Capability>>
         public var capabilities: [Capability]?
         /// A unique identifier for this CreateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create a stack with the same name. You might retry CreateStack requests to ensure that CloudFormation successfully received them. All events initiated by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
@@ -1251,7 +1298,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateBody: String?
-        /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+        /// The URL of a file containing the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
         /// The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
         public let timeoutInMinutes: Int?
@@ -1327,7 +1374,7 @@ extension CloudFormation {
     }
 
     public struct CreateStackInstancesInput: AWSEncodableShape {
-        /// [Self-managed permissions] The names of one or more Amazon Web Services accounts that you want to create stack instances in the specified Region(s) for. You can specify Accounts or DeploymentTargets, but not both.
+        /// [Self-managed permissions] The account IDs of one or more Amazon Web Services accounts that you want to create stack instances in the specified Region(s) for. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var accounts: [String]?
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
@@ -1413,14 +1460,64 @@ extension CloudFormation {
         }
     }
 
+    public struct CreateStackRefactorInput: AWSEncodableShape {
+        /// A description to help you identify the stack refactor.
+        public let description: String?
+        /// Determines if a new stack is created with the refactor.
+        public let enableStackCreation: Bool?
+        /// The mappings for the stack resource Source and stack resource Destination.
+        @OptionalCustomCoding<StandardArrayCoder<ResourceMapping>>
+        public var resourceMappings: [ResourceMapping]?
+        /// The stacks being refactored.
+        @OptionalCustomCoding<StandardArrayCoder<StackDefinition>>
+        public var stackDefinitions: [StackDefinition]?
+
+        @inlinable
+        public init(description: String? = nil, enableStackCreation: Bool? = nil, resourceMappings: [ResourceMapping]? = nil, stackDefinitions: [StackDefinition]? = nil) {
+            self.description = description
+            self.enableStackCreation = enableStackCreation
+            self.resourceMappings = resourceMappings
+            self.stackDefinitions = stackDefinitions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.stackDefinitions?.forEach {
+                try $0.validate(name: "\(name).stackDefinitions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case enableStackCreation = "EnableStackCreation"
+            case resourceMappings = "ResourceMappings"
+            case stackDefinitions = "StackDefinitions"
+        }
+    }
+
+    public struct CreateStackRefactorOutput: AWSDecodableShape {
+        /// The ID associated with the stack refactor created from the CreateStackRefactor action.
+        public let stackRefactorId: String?
+
+        @inlinable
+        public init(stackRefactorId: String? = nil) {
+            self.stackRefactorId = stackRefactorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackRefactorId = "StackRefactorId"
+        }
+    }
+
     public struct CreateStackSetInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM role to use to create this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the CloudFormation User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to use to create this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites for using StackSets in the CloudFormation User Guide.
         public let administrationRoleARN: String?
         /// Describes whether StackSets automatically deploys to Organizations accounts that are added to the target organization or organizational unit (OU). Specify only if PermissionModel is SERVICE_MANAGED.
         public let autoDeployment: AutoDeployment?
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   To create a stack set with service-managed permissions while signed in to the management account, specify SELF.   To create a stack set with service-managed permissions while signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated admin in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.   Stack sets with service-managed permissions are created in the management account, including stack sets that are created by delegated administrators.
         public let callAs: CallAs?
-        /// In some cases, you must explicitly acknowledge that your stack set template contains certain capabilities in order for CloudFormation to create the stack set and related stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stack sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.    AWS::IAM::AccessKey     AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::Policy     AWS::IAM::Role     AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some templates reference macros. If your stack set template references one or more macros, you must create the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To create the stack set directly, you must acknowledge this capability. For more information, see Using CloudFormation Macros to Perform Custom Processing on Templates.  Stack sets with service-managed permissions don't currently support the use of macros in templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
+        /// In some cases, you must explicitly acknowledge that your stack set template contains certain capabilities in order for CloudFormation to create the stack set and related stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stack sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.    AWS::IAM::AccessKey     AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::Policy     AWS::IAM::Role     AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some templates reference macros. If your stack set template references one or more macros, you must create the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To create the stack set directly, you must acknowledge this capability. For more information, see Perform custom processing on CloudFormation templates with template macros.  Stack sets with service-managed permissions don't currently support the use of macros in templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
         @OptionalCustomCoding<StandardArrayCoder<Capability>>
         public var capabilities: [Capability]?
         /// A unique identifier for this CreateStackSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another stack set with the same name. You might retry CreateStackSet requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.
@@ -1434,7 +1531,7 @@ extension CloudFormation {
         /// The input parameters for the stack set template.
         @OptionalCustomCoding<StandardArrayCoder<Parameter>>
         public var parameters: [Parameter]?
-        /// Describes how the IAM roles required for stack set operations are created. By default, SELF-MANAGED is specified.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant Self-Managed Stack Set Permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Grant Service-Managed Stack Set Permissions.
+        /// Describes how the IAM roles required for stack set operations are created. By default, SELF-MANAGED is specified.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant self-managed permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Activate trusted access for stack sets with Organizations.
         public let permissionModel: PermissionModels?
         /// The stack ID you are importing into a new stack set. Specify the Amazon Resource Name (ARN) of the stack.
         public let stackId: String?
@@ -1445,7 +1542,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateBody: String?
-        /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+        /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
         public let templateURL: String?
 
         @inlinable
@@ -1651,7 +1748,7 @@ extension CloudFormation {
     }
 
     public struct DeleteStackInstancesInput: AWSEncodableShape {
-        /// [Self-managed permissions] The names of the Amazon Web Services accounts that you want to delete stack instances for. You can specify Accounts or DeploymentTargets, but not both.
+        /// [Self-managed permissions] The account IDs of the Amazon Web Services accounts that you want to delete stack instances for. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var accounts: [String]?
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
@@ -1747,12 +1844,12 @@ extension CloudFormation {
     public struct DeploymentTargets: AWSEncodableShape & AWSDecodableShape {
         /// Limit deployment targets to individual accounts or include additional accounts with provided OUs. The following is a list of possible values for the AccountFilterType operation.    INTERSECTION: StackSets deploys to the accounts specified in Accounts parameter.     DIFFERENCE: StackSets excludes the accounts specified in Accounts parameter. This enables user to avoid certain accounts within an OU such as suspended accounts.    UNION: StackSets includes additional accounts deployment targets.  This is the default value if AccountFilterType is not provided. This enables user to update an entire OU and individual accounts from a different OU in one request, which used to be two separate requests.    NONE: Deploys to all the accounts in specified organizational units (OU).
         public let accountFilterType: AccountFilterType?
-        /// The names of one or more Amazon Web Services accounts for which you want to deploy stack set updates.
+        /// The account IDs of the Amazon Web Services accounts. If you have many account numbers, you can provide those accounts using the AccountsUrl property instead.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var accounts: [String]?
-        /// Returns the value of the AccountsUrl property.
+        /// The Amazon S3 URL path to a file that contains a list of Amazon Web Services account IDs. The file format must be either .csv or .txt, and the data can be comma-separated or new-line-separated. There is currently a 10MB limit for the data (approximately 800,000 accounts).
         public let accountsUrl: String?
-        /// The organization root ID or organizational unit (OU) IDs to which StackSets deploys.
+        /// The organization root ID or organizational unit (OU) IDs.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var organizationalUnitIds: [String]?
 
@@ -1866,7 +1963,7 @@ extension CloudFormation {
     public struct DescribeChangeSetHooksInput: AWSEncodableShape {
         /// The name or Amazon Resource Name (ARN) of the change set that you want to describe.
         public let changeSetName: String?
-        /// If specified, lists only the hooks related to the specified LogicalResourceId.
+        /// If specified, lists only the Hooks related to the specified LogicalResourceId.
         public let logicalResourceId: String?
         /// A string, provided by the DescribeChangeSetHooks response output, that identifies the next page of information that you want to retrieve.
         public let nextToken: String?
@@ -2015,7 +2112,7 @@ extension CloudFormation {
         public let stackId: String?
         /// The name of the stack that's associated with the change set.
         public let stackName: String?
-        /// The current status of the change set, such as CREATE_IN_PROGRESS, CREATE_COMPLETE, or FAILED.
+        /// The current status of the change set, such as CREATE_PENDING, CREATE_COMPLETE, or FAILED.
         public let status: ChangeSetStatus?
         /// A description of the change set's status. For example, if your attempt to create a change set failed, CloudFormation shows the error message.
         public let statusReason: String?
@@ -2423,6 +2520,59 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case stackInstance = "StackInstance"
+        }
+    }
+
+    public struct DescribeStackRefactorInput: AWSEncodableShape {
+        /// The ID associated with the stack refactor created from the CreateStackRefactor action.
+        public let stackRefactorId: String?
+
+        @inlinable
+        public init(stackRefactorId: String? = nil) {
+            self.stackRefactorId = stackRefactorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackRefactorId = "StackRefactorId"
+        }
+    }
+
+    public struct DescribeStackRefactorOutput: AWSDecodableShape {
+        /// A description to help you identify the refactor.
+        public let description: String?
+        /// The stack refactor execution operation status that's provided after calling the ExecuteStackRefactor action.
+        public let executionStatus: StackRefactorExecutionStatus?
+        /// A detailed explanation for the stack refactor ExecutionStatus.
+        public let executionStatusReason: String?
+        /// The unique ID for each stack.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var stackIds: [String]?
+        /// The ID associated with the stack refactor created from the CreateStackRefactor action.
+        public let stackRefactorId: String?
+        /// The stack refactor operation status that's provided after calling the CreateStackRefactor action.
+        public let status: StackRefactorStatus?
+        /// A detailed explanation for the stack refactor operation Status.
+        public let statusReason: String?
+
+        @inlinable
+        public init(description: String? = nil, executionStatus: StackRefactorExecutionStatus? = nil, executionStatusReason: String? = nil, stackIds: [String]? = nil, stackRefactorId: String? = nil, status: StackRefactorStatus? = nil, statusReason: String? = nil) {
+            self.description = description
+            self.executionStatus = executionStatus
+            self.executionStatusReason = executionStatusReason
+            self.stackIds = stackIds
+            self.stackRefactorId = stackRefactorId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case executionStatus = "ExecutionStatus"
+            case executionStatusReason = "ExecutionStatusReason"
+            case stackIds = "StackIds"
+            case stackRefactorId = "StackRefactorId"
+            case status = "Status"
+            case statusReason = "StatusReason"
         }
     }
 
@@ -3014,7 +3164,7 @@ extension CloudFormation {
         public var parameters: [Parameter]?
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateBody or TemplateURL. If both are passed, only TemplateBody is used.
         public let templateBody: String?
-        /// Location of file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+        /// The URL of a file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateURL: String?
 
         @inlinable
@@ -3094,6 +3244,20 @@ extension CloudFormation {
 
     public struct ExecuteChangeSetOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ExecuteStackRefactorInput: AWSEncodableShape {
+        /// The ID associated with the stack refactor created from the CreateStackRefactor action.
+        public let stackRefactorId: String?
+
+        @inlinable
+        public init(stackRefactorId: String? = nil) {
+            self.stackRefactorId = stackRefactorId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackRefactorId = "StackRefactorId"
+        }
     }
 
     public struct Export: AWSDecodableShape {
@@ -3245,7 +3409,7 @@ extension CloudFormation {
         public let templateBody: String?
         /// Specifies options for the GetTemplateSummary API action.
         public let templateSummaryConfig: TemplateSummaryConfig?
-        /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
+        /// The URL of a file containing the template body. The URL must point to a template (max size: 1 MB) that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
         public let templateURL: String?
 
         @inlinable
@@ -3335,7 +3499,7 @@ extension CloudFormation {
     public struct HookResultSummary: AWSDecodableShape {
         /// The failure mode of the invocation. The following are potential modes:    FAIL: If the hook invocation returns a failure, then the requested target operation should fail.    WARN: If the hook invocation returns a failure, then the requested target operation should warn.
         public let failureMode: HookFailureMode?
-        /// A description of the Hook results status. For example, if the Hook result is in a FAILED state, this  may contain additional information for the FAILED state.
+        /// A description of the Hook results status. For example, if the Hook result is in a FAILED state, this may contain additional information for the FAILED state.
         public let hookStatusReason: String?
         /// The exact point in the provisioning logic where the Hook runs.
         public let invocationPoint: HookInvocationPoint?
@@ -3975,6 +4139,103 @@ extension CloudFormation {
         }
     }
 
+    public struct ListStackRefactorActionsInput: AWSEncodableShape {
+        /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
+        public let maxResults: Int?
+        /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+        public let nextToken: String?
+        /// The ID associated with the stack refactor created from the CreateStackRefactor action.
+        public let stackRefactorId: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stackRefactorId: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.stackRefactorId = stackRefactorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case stackRefactorId = "StackRefactorId"
+        }
+    }
+
+    public struct ListStackRefactorActionsOutput: AWSDecodableShape {
+        /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+        public let nextToken: String?
+        /// The stack refactor actions.
+        @OptionalCustomCoding<StandardArrayCoder<StackRefactorAction>>
+        public var stackRefactorActions: [StackRefactorAction]?
+
+        @inlinable
+        public init(nextToken: String? = nil, stackRefactorActions: [StackRefactorAction]? = nil) {
+            self.nextToken = nextToken
+            self.stackRefactorActions = stackRefactorActions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case stackRefactorActions = "StackRefactorActions"
+        }
+    }
+
+    public struct ListStackRefactorsInput: AWSEncodableShape {
+        /// Execution status to use as a filter. Specify one or more execution status codes to list only stack refactors with the specified execution status codes.
+        @OptionalCustomCoding<StandardArrayCoder<StackRefactorExecutionStatus>>
+        public var executionStatusFilter: [StackRefactorExecutionStatus]?
+        /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
+        public let maxResults: Int?
+        /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+        public let nextToken: String?
+
+        @inlinable
+        public init(executionStatusFilter: [StackRefactorExecutionStatus]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.executionStatusFilter = executionStatusFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionStatusFilter = "ExecutionStatusFilter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListStackRefactorsOutput: AWSDecodableShape {
+        /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If the request returns all results, NextToken is set to null.
+        public let nextToken: String?
+        /// Provides a summary of a stack refactor, including the following:    StackRefactorId     Status     StatusReason     ExecutionStatus     ExecutionStatusReason     Description
+        @OptionalCustomCoding<StandardArrayCoder<StackRefactorSummary>>
+        public var stackRefactorSummaries: [StackRefactorSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, stackRefactorSummaries: [StackRefactorSummary]? = nil) {
+            self.nextToken = nextToken
+            self.stackRefactorSummaries = stackRefactorSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case stackRefactorSummaries = "StackRefactorSummaries"
+        }
+    }
+
     public struct ListStackResourcesInput: AWSEncodableShape {
         /// A string that identifies the next page of stack resources that you want to retrieve.
         public let nextToken: String?
@@ -4601,7 +4862,7 @@ extension CloudFormation {
         public let parameterKey: String?
         /// The input value associated with the parameter.
         public let parameterValue: String?
-        /// Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for Systems Manager parameter types in the template. For more information, see Use CloudFormation-supplied parameter types in the CloudFormation User Guide.
+        /// Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for Systems Manager parameter types in the template. For more information, see Specify existing resources at runtime with CloudFormation-supplied parameter types in the CloudFormation User Guide.
         public let resolvedValue: String?
         /// During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true, do not specify a parameter value.
         public let usePreviousValue: Bool?
@@ -4867,7 +5128,7 @@ extension CloudFormation {
         public let schemaHandlerPackage: String?
         /// The kind of extension.
         public let type: RegistryType?
-        /// The name of the extension being registered. We suggest that extension names adhere to the following patterns:   For resource types, company_or_organization::service::type.   For modules, company_or_organization::service::type::MODULE.   For hooks, MyCompany::Testing::MyTestHook.    The following organization namespaces are reserved and can't be used in your extension names:    Alexa     AMZN     Amazon     AWS     Custom     Dev
+        /// The name of the extension being registered. We suggest that extension names adhere to the following patterns:   For resource types, company_or_organization::service::type.   For modules, company_or_organization::service::type::MODULE.   For Hooks, MyCompany::Testing::MyTestHook.    The following organization namespaces are reserved and can't be used in your extension names:    Alexa     AMZN     Amazon     AWS     Custom     Dev
         public let typeName: String?
 
         @inlinable
@@ -5125,6 +5386,42 @@ extension CloudFormation {
             case logicalResourceIds = "LogicalResourceIds"
             case resourceIdentifiers = "ResourceIdentifiers"
             case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The logical name of the resource specified in the template.
+        public let logicalResourceId: String?
+        /// The name associated with the stack.
+        public let stackName: String?
+
+        @inlinable
+        public init(logicalResourceId: String? = nil, stackName: String? = nil) {
+            self.logicalResourceId = logicalResourceId
+            self.stackName = stackName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalResourceId = "LogicalResourceId"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct ResourceMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The destination stack StackName and LogicalResourceId for the resource being refactored.
+        public let destination: ResourceLocation?
+        /// The source stack StackName and LogicalResourceId for the resource being refactored.
+        public let source: ResourceLocation?
+
+        @inlinable
+        public init(destination: ResourceLocation? = nil, source: ResourceLocation? = nil) {
+            self.destination = destination
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case source = "Source"
         }
     }
 
@@ -5652,6 +5949,34 @@ extension CloudFormation {
         }
     }
 
+    public struct StackDefinition: AWSEncodableShape {
+        /// The name associated with the stack.
+        public let stackName: String?
+        /// The file path for the stack template file.
+        public let templateBody: String?
+        /// The desired final state of the stack template.
+        public let templateURL: String?
+
+        @inlinable
+        public init(stackName: String? = nil, templateBody: String? = nil, templateURL: String? = nil) {
+            self.stackName = stackName
+            self.templateBody = templateBody
+            self.templateURL = templateURL
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackName = "StackName"
+            case templateBody = "TemplateBody"
+            case templateURL = "TemplateURL"
+        }
+    }
+
     public struct StackDriftInformation: AWSDecodableShape {
         /// Most recent time when a drift detection operation was initiated on the stack, or any of its individual resources that support drift detection.
         public let lastCheckTimestamp: Date?
@@ -5697,7 +6022,7 @@ extension CloudFormation {
         public let eventId: String?
         /// Specify the hook failure mode for non-compliant resources in the followings ways.    FAIL Stops provisioning resources.    WARN Allows provisioning to continue with a warning message.
         public let hookFailureMode: HookFailureMode?
-        /// Invocation points are points in provisioning logic where hooks are initiated.
+        /// Invocation points are points in provisioning logic where Hooks are initiated.
         public let hookInvocationPoint: HookInvocationPoint?
         /// Provides the status of the change set hook.
         public let hookStatus: HookStatus?
@@ -5874,7 +6199,7 @@ extension CloudFormation {
         /// Status of the actual configuration of the resource compared to its expected configuration. These will be present only for resources whose StackInstanceResourceDriftStatus is MODIFIED.
         @OptionalCustomCoding<StandardArrayCoder<PropertyDifference>>
         public var propertyDifferences: [PropertyDifference]?
-        /// Type of resource. For more information, see Amazon Web Services resource and  property types reference in the CloudFormation User Guide.
+        /// Type of resource. For more information, see Amazon Web Services resource and property types reference in the CloudFormation User Guide.
         public let resourceType: String?
         /// The ID of the stack instance.
         public let stackId: String?
@@ -5956,6 +6281,92 @@ extension CloudFormation {
             case stackId = "StackId"
             case stackInstanceStatus = "StackInstanceStatus"
             case stackSetId = "StackSetId"
+            case status = "Status"
+            case statusReason = "StatusReason"
+        }
+    }
+
+    public struct StackRefactorAction: AWSDecodableShape {
+        /// The action that CloudFormation takes on the stack.
+        public let action: StackRefactorActionType?
+        /// A description to help you identify the refactor.
+        public let description: String?
+        /// The detection type is one of the following:   Auto: CloudFormation figured out the mapping on its own.   Manual: The customer provided the mapping in the ResourceMapping parameter.
+        public let detection: StackRefactorDetection?
+        /// The description of the detection type.
+        public let detectionReason: String?
+        /// The type that will be evaluated in the StackRefactorAction. The following are potential Entity types:    Stack     Resource
+        public let entity: StackRefactorActionEntity?
+        /// The name or unique identifier associated with the physical instance of the resource.
+        public let physicalResourceId: String?
+        /// A key-value pair that identifies the target resource. The key is an identifier property (for example, BucketName for AWS::S3::Bucket resources) and the value is the actual property value (for example, MyS3Bucket).
+        public let resourceIdentifier: String?
+        /// The mapping for the stack resource Source and stack resource Destination.
+        public let resourceMapping: ResourceMapping?
+        /// Assigns one or more tags to specified resources.
+        @OptionalCustomCoding<StandardArrayCoder<Tag>>
+        public var tagResources: [Tag]?
+        /// Removes one or more tags to specified resources.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var untagResources: [String]?
+
+        @inlinable
+        public init(action: StackRefactorActionType? = nil, description: String? = nil, detection: StackRefactorDetection? = nil, detectionReason: String? = nil, entity: StackRefactorActionEntity? = nil, physicalResourceId: String? = nil, resourceIdentifier: String? = nil, resourceMapping: ResourceMapping? = nil, tagResources: [Tag]? = nil, untagResources: [String]? = nil) {
+            self.action = action
+            self.description = description
+            self.detection = detection
+            self.detectionReason = detectionReason
+            self.entity = entity
+            self.physicalResourceId = physicalResourceId
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceMapping = resourceMapping
+            self.tagResources = tagResources
+            self.untagResources = untagResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case description = "Description"
+            case detection = "Detection"
+            case detectionReason = "DetectionReason"
+            case entity = "Entity"
+            case physicalResourceId = "PhysicalResourceId"
+            case resourceIdentifier = "ResourceIdentifier"
+            case resourceMapping = "ResourceMapping"
+            case tagResources = "TagResources"
+            case untagResources = "UntagResources"
+        }
+    }
+
+    public struct StackRefactorSummary: AWSDecodableShape {
+        /// A description to help you identify the refactor.
+        public let description: String?
+        /// The operation status that's provided after calling the ExecuteStackRefactor action.
+        public let executionStatus: StackRefactorExecutionStatus?
+        /// A detailed explanation for the stack refactor ExecutionStatus.
+        public let executionStatusReason: String?
+        /// The ID associated with the stack refactor created from the CreateStackRefactor action.
+        public let stackRefactorId: String?
+        /// The stack refactor operation status that's provided after calling the CreateStackRefactor action.
+        public let status: StackRefactorStatus?
+        /// A detailed explanation for the stack refactor Status.
+        public let statusReason: String?
+
+        @inlinable
+        public init(description: String? = nil, executionStatus: StackRefactorExecutionStatus? = nil, executionStatusReason: String? = nil, stackRefactorId: String? = nil, status: StackRefactorStatus? = nil, statusReason: String? = nil) {
+            self.description = description
+            self.executionStatus = executionStatus
+            self.executionStatusReason = executionStatusReason
+            self.stackRefactorId = stackRefactorId
+            self.status = status
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case executionStatus = "ExecutionStatus"
+            case executionStatusReason = "ExecutionStatusReason"
+            case stackRefactorId = "StackRefactorId"
             case status = "Status"
             case statusReason = "StatusReason"
         }
@@ -6208,7 +6619,7 @@ extension CloudFormation {
     }
 
     public struct StackSet: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites: Granting Permissions for Stack Set Operations in the CloudFormation User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites for using CloudFormation StackSets in the CloudFormation User Guide.
         public let administrationRoleARN: String?
         /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU).
         public let autoDeployment: AutoDeployment?
@@ -6227,7 +6638,7 @@ extension CloudFormation {
         /// A list of input parameters for a stack set.
         @OptionalCustomCoding<StandardArrayCoder<Parameter>>
         public var parameters: [Parameter]?
-        /// Describes how the IAM roles required for stack set operations are created.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant Self-Managed Stack Set Permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Grant Service-Managed Stack Set Permissions.
+        /// Describes how the IAM roles required for stack set operations are created.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant self-managed permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Activate trusted access for stack sets with Organizations.
         public let permissionModel: PermissionModels?
         /// Returns a list of all Amazon Web Services Regions the given StackSet has stack instances deployed in. The Amazon Web Services Regions list output is in no particular order.
         @OptionalCustomCoding<StandardArrayCoder<String>>
@@ -6354,7 +6765,7 @@ extension CloudFormation {
     public struct StackSetOperation: AWSDecodableShape {
         /// The type of stack set operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack set instances that are associated with the specified stack set. Update operations affect both the stack set itself, in addition to all associated stack set instances.
         public let action: StackSetOperationAction?
-        /// The Amazon Resource Name (ARN) of the IAM role used to perform this stack set operation. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Define Permissions for Multiple Administrators in the CloudFormation User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role used to perform this stack set operation. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Grant self-managed permissions in the CloudFormation User Guide.
         public let administrationRoleARN: String?
         /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested Regions, before actually creating the first stacks.
         public let creationTimestamp: Date?
@@ -6370,11 +6781,11 @@ extension CloudFormation {
         public let operationPreferences: StackSetOperationPreferences?
         /// For stack set operations of action type DELETE, specifies whether to remove the stack instances from the specified stack set, but doesn't delete the stacks. You can't re-associate a retained stack, or add an existing, saved stack to a new stack set.
         public let retainStacks: Bool?
-        /// Detailed information about the drift status of the stack set. This includes information about drift operations currently being performed on the stack set. This information will only be present for stack set operations whose Action type is DETECT_DRIFT. For more information, see Detect stack set drift in the CloudFormation User Guide.
+        /// Detailed information about the drift status of the stack set. This includes information about drift operations currently being performed on the stack set. This information will only be present for stack set operations whose Action type is DETECT_DRIFT. For more information, see Performing drift detection on CloudFormation StackSets in the CloudFormation User Guide.
         public let stackSetDriftDetectionDetails: StackSetDriftDetectionDetails?
         /// The ID of the stack set.
         public let stackSetId: String?
-        /// The status of the operation.    FAILED: The operation exceeded the specified failure tolerance. The failure tolerance value that you've set for an operation is applied for each Region during stack create and update operations. If the number of failed stacks within a Region exceeds the failure tolerance, the status of the operation in the Region is set to FAILED. This in turn sets the status of the operation as a whole to FAILED, and CloudFormation cancels the operation in any remaining Regions.    QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the stack set operation status codes in the CloudFormation User Guide.    RUNNING: The operation is currently being performed.    STOPPED: The user has canceled the operation.    STOPPING: The operation is in the process of stopping, at user request.    SUCCEEDED: The operation completed creating or updating all the specified stacks without exceeding the failure tolerance for the operation.
+        /// The status of the operation.    FAILED: The operation exceeded the specified failure tolerance. The failure tolerance value that you've set for an operation is applied for each Region during stack create and update operations. If the number of failed stacks within a Region exceeds the failure tolerance, the status of the operation in the Region is set to FAILED. This in turn sets the status of the operation as a whole to FAILED, and CloudFormation cancels the operation in any remaining Regions.    QUEUED: [Service-managed permissions] For automatic deployments that require a sequence of operations, the operation is queued to be performed. For more information, see the StackSets status codes in the CloudFormation User Guide.    RUNNING: The operation is currently being performed.    STOPPED: The user has canceled the operation.    STOPPING: The operation is in the process of stopping, at user request.    SUCCEEDED: The operation completed creating or updating all the specified stacks without exceeding the failure tolerance for the operation.
         public let status: StackSetOperationStatus?
         /// Detailed information about the StackSet operation.
         public let statusDetails: StackSetOperationStatusDetails?
@@ -6569,7 +6980,7 @@ extension CloudFormation {
         public let lastDriftCheckTimestamp: Date?
         /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
         public let managedExecution: ManagedExecution?
-        /// Describes how the IAM roles required for stack set operations are created.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant Self-Managed Stack Set Permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Grant Service-Managed Stack Set Permissions.
+        /// Describes how the IAM roles required for stack set operations are created.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant self-managed permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Activate trusted access for stack sets with Organizations.
         public let permissionModel: PermissionModels?
         /// The ID of the stack set.
         public let stackSetId: String?
@@ -7210,7 +7621,7 @@ extension CloudFormation {
     }
 
     public struct UpdateStackInput: AWSEncodableShape {
-        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to update the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capability.  You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without CloudFormation being notified.  For more information, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
+        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to update the stack.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we suggest that you review all permissions associated with them and edit their permissions if necessary.     AWS::IAM::AccessKey      AWS::IAM::Group     AWS::IAM::InstanceProfile      AWS::IAM::ManagedPolicy     AWS::IAM::Policy      AWS::IAM::Role      AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some template contain macros. Macros perform custom processing on templates; this can include simple actions like find-and-replace operations, all the way to extensive transformations of entire templates. Because of this, users typically create a change set from the processed template, so that they can review the changes resulting from the macros before actually updating the stack. If your stack template contains one or more macros, and you choose to update a stack directly from the processed template, without first reviewing the resulting changes in a change set, you must acknowledge this capability. This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation. If you want to update a stack from a stack template that contains macros and nested stacks, you must update the stack directly from the template using this capability.  You should only update stacks directly from a stack template that contains macros if you know what processing the macro performs. Each macro relies on an underlying Lambda service function for processing stack templates. Be aware that the Lambda function owner can update the function operation without CloudFormation being notified.  For more information, see Perform custom processing on CloudFormation templates with template macros.    Only one of the Capabilities and ResourceType parameters can be specified.
         @OptionalCustomCoding<StandardArrayCoder<Capability>>
         public var capabilities: [Capability]?
         /// A unique identifier for this UpdateStack request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to update a stack with the same name. You might retry UpdateStack requests to ensure that CloudFormation successfully received them. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
@@ -7247,7 +7658,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let templateBody: String?
-        /// Location of file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+        /// The URL of a file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let templateURL: String?
         /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
@@ -7326,7 +7737,7 @@ extension CloudFormation {
     }
 
     public struct UpdateStackInstancesInput: AWSEncodableShape {
-        /// [Self-managed permissions] The names of one or more Amazon Web Services accounts for which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and Amazon Web Services Regions. You can specify Accounts or DeploymentTargets, but not both.
+        /// [Self-managed permissions] The account IDs of one or more Amazon Web Services accounts for which you want to update parameter values for stack instances. The overridden parameter values will be applied to all stack instances in the specified accounts and Amazon Web Services Regions. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var accounts: [String]?
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
@@ -7417,13 +7828,13 @@ extension CloudFormation {
         /// [Self-managed permissions] The accounts in which to update associated stack instances. If you specify accounts, you must also specify the Amazon Web Services Regions in which to update stack set instances. To update all the stack instances associated with this stack set, don't specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the stack set update does not include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Amazon Web Services Regions, while leaving all other stack instances with their existing stack instance status.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var accounts: [String]?
-        /// The Amazon Resource Name (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Granting Permissions for Stack Set Operations in the CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
+        /// The Amazon Resource Name (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites for using CloudFormation StackSets in the CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
         public let administrationRoleARN: String?
         /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). If you specify AutoDeployment, don't specify DeploymentTargets or Regions.
         public let autoDeployment: AutoDeployment?
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
         public let callAs: CallAs?
-        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to update the stack set and its associated stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.    AWS::IAM::AccessKey     AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::Policy     AWS::IAM::Role     AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some templates reference macros. If your stack set template references one or more macros, you must update the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To update the stack set directly, you must acknowledge this capability. For more information, see Using CloudFormation Macros to Perform Custom Processing on Templates.  Stack sets with service-managed permissions do not currently support the use of macros in templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
+        /// In some cases, you must explicitly acknowledge that your stack template contains certain capabilities in order for CloudFormation to update the stack set and its associated stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account, for example, by creating new IAM users. For those stacks sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.    AWS::IAM::AccessKey     AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::Policy     AWS::IAM::Role     AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some templates reference macros. If your stack set template references one or more macros, you must update the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To update the stack set directly, you must acknowledge this capability. For more information, see Perform custom processing on CloudFormation templates with template macros.  Stack sets with service-managed permissions do not currently support the use of macros in templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
         @OptionalCustomCoding<StandardArrayCoder<Capability>>
         public var capabilities: [Capability]?
         /// [Service-managed permissions] The Organizations accounts in which to update associated stack instances. To update all the stack instances associated with this stack set, do not specify DeploymentTargets or Regions. If the stack set update includes changes to the template (that is, if TemplateBody or TemplateURL is specified), or the Parameters, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the stack set update doesn't include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Regions, while leaving all other stack instances with their existing stack instance status.
@@ -7441,7 +7852,7 @@ extension CloudFormation {
         /// A list of input parameters for the stack set template.
         @OptionalCustomCoding<StandardArrayCoder<Parameter>>
         public var parameters: [Parameter]?
-        /// Describes how the IAM roles required for stack set operations are created. You cannot modify PermissionModel if there are stack instances associated with your stack set.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant Self-Managed Stack Set Permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Grant Service-Managed Stack Set Permissions.
+        /// Describes how the IAM roles required for stack set operations are created. You cannot modify PermissionModel if there are stack instances associated with your stack set.   With self-managed permissions, you must create the administrator and execution roles required to deploy to target accounts. For more information, see Grant self-managed permissions.   With service-managed permissions, StackSets automatically creates the IAM roles required to deploy to accounts managed by Organizations. For more information, see Activate trusted access for stack sets with Organizations.
         public let permissionModel: PermissionModels?
         /// The Amazon Web Services Regions in which to update associated stack instances. If you specify Regions, you must also specify accounts in which to update stack set instances. To update all the stack instances associated with this stack set, do not specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Regions. If the stack set update does not include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Regions, while leaving all other stack instances with their existing stack instance status.
         @OptionalCustomCoding<StandardArrayCoder<String>>
@@ -7453,7 +7864,7 @@ extension CloudFormation {
         public var tags: [Tag]?
         /// The structure that contains the template body, with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let templateBody: String?
-        /// The location of the file that contains the template body. The URL must point to a template (maximum size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
+        /// The URL of a file that contains the template body. The URL must point to a template (maximum size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let templateURL: String?
         /// Use the existing template that's associated with the stack set that you're updating. Conditional: You must specify only one of the following parameters: TemplateBody or TemplateURL—or set UsePreviousTemplate to true.
         public let usePreviousTemplate: Bool?
@@ -7586,7 +7997,7 @@ extension CloudFormation {
     public struct ValidateTemplateInput: AWSEncodableShape {
         /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateBody: String?
-        /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+        /// The URL of a file containing the template body. The URL must point to a template (max size: 1 MB) that is located in an Amazon S3 bucket or a Systems Manager document. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
         public let templateURL: String?
 
         @inlinable
@@ -7724,6 +8135,7 @@ public struct CloudFormationErrorType: AWSErrorType {
         case resourceScanNotFoundException = "ResourceScanNotFound"
         case stackInstanceNotFoundException = "StackInstanceNotFoundException"
         case stackNotFoundException = "StackNotFoundException"
+        case stackRefactorNotFoundException = "StackRefactorNotFoundException"
         case stackSetNotEmptyException = "StackSetNotEmptyException"
         case stackSetNotFoundException = "StackSetNotFoundException"
         case staleRequestException = "StaleRequestException"
@@ -7794,6 +8206,8 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var stackInstanceNotFoundException: Self { .init(.stackInstanceNotFoundException) }
     /// The specified stack ARN doesn't exist or stack doesn't exist corresponding to the ARN in input.
     public static var stackNotFoundException: Self { .init(.stackNotFoundException) }
+    /// The specified stack refactor can't be found.
+    public static var stackRefactorNotFoundException: Self { .init(.stackRefactorNotFoundException) }
     /// You can't yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
     public static var stackSetNotEmptyException: Self { .init(.stackSetNotEmptyException) }
     /// The specified stack set doesn't exist.

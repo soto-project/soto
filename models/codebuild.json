@@ -560,6 +560,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>An array of strings that specify the compute types that are allowed for the batch\n            build. See <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html\">Build environment\n                compute types</a> in the <i>CodeBuild User Guide</i> for these values.\n        </p>"
                     }
+                },
+                "fleetsAllowed": {
+                    "target": "com.amazonaws.codebuild#FleetsAllowed",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of strings that specify the fleets that are allowed\n            for the batch build. See <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/fleets.html\">Run builds on reserved capacity fleets</a> in the <i>CodeBuild User Guide</i> \n                for more information. </p>"
+                    }
                 }
             },
             "traits": {
@@ -1028,6 +1034,12 @@
                     "target": "com.amazonaws.codebuild#WrapperBoolean",
                     "traits": {
                         "smithy.api#documentation": "<p>Specifies if session debugging is enabled for this batch build. For more information, see\n  <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html\">Viewing a running build in Session Manager</a>. Batch session debugging is not supported for matrix batch builds.</p>"
+                    }
+                },
+                "reportArns": {
+                    "target": "com.amazonaws.codebuild#BuildReportArns",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array that contains the ARNs of reports created by merging reports from builds associated with this batch build.</p>"
                     }
                 }
             },
@@ -3332,7 +3344,7 @@
                 "buildType": {
                     "target": "com.amazonaws.codebuild#WebhookBuildType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the type of build this webhook will trigger.</p>"
+                        "smithy.api#documentation": "<p>Specifies the type of build this webhook will trigger.</p>\n         <note>\n            <p>\n               <code>RUNNER_BUILDKITE_BUILD</code> is only available for <code>NO_SOURCE</code> source type projects \n        configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/sample-runner-buildkite.html\">Tutorial: Configure a CodeBuild-hosted Buildkite runner</a> in the <i>CodeBuild\n        user guide</i>.</p>\n         </note>"
                     }
                 },
                 "manualCreation": {
@@ -4624,6 +4636,12 @@
                     "min": 1,
                     "max": 100
                 }
+            }
+        },
+        "com.amazonaws.codebuild#FleetsAllowed": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.codebuild#NonEmptyString"
             }
         },
         "com.amazonaws.codebuild#GetReportGroupTrend": {
@@ -6736,7 +6754,7 @@
                 "reportBuildStatus": {
                     "target": "com.amazonaws.codebuild#WrapperBoolean",
                     "traits": {
-                        "smithy.api#documentation": "<p> Set to true to report the status of a build's start and finish to your source\n            provider. This option is valid only when your source provider is GitHub, GitHub\n            Enterprise, GitLab, GitLab Self Managed, or Bitbucket. If this is set and you use a different source provider, an\n            <code>invalidInputException</code> is thrown. </p>\n         <p>To be able to report the build status to the source provider, the user associated with the source provider must\nhave write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html\">Source provider access</a> in the <i>CodeBuild User Guide</i>.</p>\n         <p>The status of a build triggered by a webhook is always reported to your source\n                provider. </p>\n         <p>If your project's builds are triggered by a webhook, you must push a\n              new commit to the repo for a change to this property to take\n              effect.</p>"
+                        "smithy.api#documentation": "<p> Set to true to report the status of a build's start and finish to your source\n            provider. This option is valid only when your source provider is GitHub, GitHub\n            Enterprise, GitLab, GitLab Self Managed, GitLab, GitLab Self Managed, or Bitbucket. If this is set and you use a different source provider, an\n            <code>invalidInputException</code> is thrown. </p>\n         <p>To be able to report the build status to the source provider, the user associated with the source provider must\nhave write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html\">Source provider access</a> in the <i>CodeBuild User Guide</i>.</p>\n         <p>The status of a build triggered by a webhook is always reported to your source\n                provider. </p>\n         <p>If your project's builds are triggered by a webhook, you must push a\n              new commit to the repo for a change to this property to take\n              effect.</p>"
                     }
                 },
                 "buildStatusConfig": {
@@ -8334,7 +8352,7 @@
                 "reportBuildStatusOverride": {
                     "target": "com.amazonaws.codebuild#WrapperBoolean",
                     "traits": {
-                        "smithy.api#documentation": "<p> Set to true to report to your source provider the status of a build's start and\n            completion. If you use this option with a source provider other than GitHub, GitHub\n            Enterprise, or Bitbucket, an <code>invalidInputException</code> is thrown. </p>\n         <p>To be able to report the build status to the source provider, the user associated with the source provider must\nhave write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html\">Source provider access</a> in the <i>CodeBuild User Guide</i>.</p>\n         <note>\n            <p> The status of a build triggered by a webhook is always reported to your source\n                provider. </p>\n         </note>"
+                        "smithy.api#documentation": "<p> Set to true to report to your source provider the status of a build's start and\n            completion. If you use this option with a source provider other than GitHub, GitHub\n            Enterprise, GitLab, GitLab Self Managed, or Bitbucket, an <code>invalidInputException</code> is thrown. </p>\n         <p>To be able to report the build status to the source provider, the user associated with the source provider must\nhave write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html\">Source provider access</a> in the <i>CodeBuild User Guide</i>.</p>\n         <note>\n            <p> The status of a build triggered by a webhook is always reported to your source\n                provider. </p>\n         </note>"
                     }
                 },
                 "buildStatusConfigOverride": {
@@ -8722,6 +8740,12 @@
                     "target": "com.amazonaws.codebuild#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p> The date and time a test case expires. A test case expires 30 days after it is\n            created. An expired test case is not available to view in CodeBuild. </p>"
+                    }
+                },
+                "testSuiteName": {
+                    "target": "com.amazonaws.codebuild#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the test suite that the test case is a part of.</p>"
                     }
                 }
             },
@@ -9269,7 +9293,7 @@
                 "buildType": {
                     "target": "com.amazonaws.codebuild#WebhookBuildType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the type of build this webhook will trigger.</p>"
+                        "smithy.api#documentation": "<p>Specifies the type of build this webhook will trigger.</p>\n         <note>\n            <p>\n               <code>RUNNER_BUILDKITE_BUILD</code> is only available for <code>NO_SOURCE</code> source type projects \n        configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/sample-runner-buildkite.html\">Tutorial: Configure a CodeBuild-hosted Buildkite runner</a> in the <i>CodeBuild\n        user guide</i>.</p>\n         </note>"
                     }
                 }
             },
@@ -9363,7 +9387,7 @@
                 "buildType": {
                     "target": "com.amazonaws.codebuild#WebhookBuildType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Specifies the type of build this webhook will trigger.</p>"
+                        "smithy.api#documentation": "<p>Specifies the type of build this webhook will trigger.</p>\n         <note>\n            <p>\n               <code>RUNNER_BUILDKITE_BUILD</code> is only available for <code>NO_SOURCE</code> source type projects \n        configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see <a href=\"https://docs.aws.amazon.com/codebuild/latest/userguide/sample-runner-buildkite.html\">Tutorial: Configure a CodeBuild-hosted Buildkite runner</a> in the <i>CodeBuild\n        user guide</i>.</p>\n         </note>"
                     }
                 },
                 "manualCreation": {
@@ -9382,6 +9406,18 @@
                     "target": "com.amazonaws.codebuild#ScopeConfiguration",
                     "traits": {
                         "smithy.api#documentation": "<p>The scope configuration for global or organization webhooks.</p>\n         <note>\n            <p>Global or organization webhooks are only available for GitHub and Github Enterprise webhooks.</p>\n         </note>"
+                    }
+                },
+                "status": {
+                    "target": "com.amazonaws.codebuild#WebhookStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The status of the webhook. Valid values include:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>CREATING</code>: The webhook is being created.</p>\n            </li>\n            <li>\n               <p>\n                  <code>CREATE_FAILED</code>: The webhook has failed to create.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ACTIVE</code>: The webhook has succeeded and is active.</p>\n            </li>\n            <li>\n               <p>\n                  <code>DELETING</code>: The webhook is being deleted.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "statusMessage": {
+                    "target": "com.amazonaws.codebuild#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A message associated with the status of a webhook.</p>"
                     }
                 }
             },
@@ -9403,6 +9439,12 @@
                     "traits": {
                         "smithy.api#enumValue": "BUILD_BATCH"
                     }
+                },
+                "RUNNER_BUILDKITE_BUILD": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RUNNER_BUILDKITE_BUILD"
+                    }
                 }
             }
         },
@@ -9412,7 +9454,7 @@
                 "type": {
                     "target": "com.amazonaws.codebuild#WebhookFilterType",
                     "traits": {
-                        "smithy.api#documentation": "<p> The type of webhook filter. There are nine webhook filter types: <code>EVENT</code>,\n                <code>ACTOR_ACCOUNT_ID</code>, <code>HEAD_REF</code>, <code>BASE_REF</code>,\n            <code>FILE_PATH</code>, <code>COMMIT_MESSAGE</code>, <code>TAG_NAME</code>, <code>RELEASE_NAME</code>, \n            and <code>WORKFLOW_NAME</code>. </p>\n         <ul>\n            <li>\n               <p>\n                    EVENT\n                </p>\n               <ul>\n                  <li>\n                     <p> A webhook event triggers a build when the provided <code>pattern</code>\n                            matches one of nine event types: <code>PUSH</code>,\n                            <code>PULL_REQUEST_CREATED</code>, <code>PULL_REQUEST_UPDATED</code>, \n                            <code>PULL_REQUEST_CLOSED</code>, <code>PULL_REQUEST_REOPENED</code>, \n                            <code>PULL_REQUEST_MERGED</code>, <code>RELEASED</code>, <code>PRERELEASED</code>, \n                            and <code>WORKFLOW_JOB_QUEUED</code>. The <code>EVENT</code> patterns are\n                            specified as a comma-separated string. For example, <code>PUSH,\n                                PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED</code> filters all push, pull\n                            request created, and pull request updated events. </p>\n                     <note>\n                        <p> Types <code>PULL_REQUEST_REOPENED</code> and <code>WORKFLOW_JOB_QUEUED</code> \n                                work with GitHub and GitHub Enterprise only. Types <code>RELEASED</code> and \n                                <code>PRERELEASED</code> work with GitHub only.</p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>ACTOR_ACCOUNT_ID</p>\n               <ul>\n                  <li>\n                     <p> A webhook event triggers a build when a GitHub, GitHub Enterprise, or\n                            Bitbucket account ID matches the regular expression <code>pattern</code>.\n                        </p>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>HEAD_REF</p>\n               <ul>\n                  <li>\n                     <p> A webhook event triggers a build when the head reference matches the\n                            regular expression <code>pattern</code>. For example,\n                            <code>refs/heads/branch-name</code> and <code>refs/tags/tag-name</code>. </p>\n                     <note>\n                        <p> Works with GitHub and GitHub Enterprise push, GitHub and GitHub\n                            Enterprise pull request, Bitbucket push, and Bitbucket pull request events.</p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>BASE_REF</p>\n               <ul>\n                  <li>\n                     <p> A webhook event triggers a build when the base reference matches the\n                            regular expression <code>pattern</code>. For example,\n                            <code>refs/heads/branch-name</code>. </p>\n                     <note>\n                        <p> Works with pull request events only. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>FILE_PATH</p>\n               <ul>\n                  <li>\n                     <p> A webhook triggers a build when the path of a changed file matches the\n                            regular expression <code>pattern</code>. </p>\n                     <note>\n                        <p> Works with GitHub and Bitbucket events push and pull requests events.\n                                Also works with GitHub Enterprise push events, but does not work with\n                                GitHub Enterprise pull request events. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>COMMIT_MESSAGE</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the head commit message matches the\n                            regular expression <code>pattern</code>.</p>\n                     <note>\n                        <p> Works with GitHub and Bitbucket events push and pull requests events.\n                                Also works with GitHub Enterprise push events, but does not work with\n                                GitHub Enterprise pull request events. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>TAG_NAME</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the tag name of the release matches the \n                            regular expression <code>pattern</code>.</p>\n                     <note>\n                        <p> Works with <code>RELEASED</code> and <code>PRERELEASED</code> events only. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>RELEASE_NAME</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the release name matches the \n                            regular expression <code>pattern</code>.</p>\n                     <note>\n                        <p> Works with <code>RELEASED</code> and <code>PRERELEASED</code> events only. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>REPOSITORY_NAME</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the repository name matches the \n                                regular expression pattern.</p>\n                     <note>\n                        <p> Works with GitHub global or organization webhooks only. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>WORKFLOW_NAME</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the workflow name matches the \n                            regular expression <code>pattern</code>.</p>\n                     <note>\n                        <p> Works with <code>WORKFLOW_JOB_QUEUED</code> events only. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p> The type of webhook filter. There are nine webhook filter types: <code>EVENT</code>,\n                <code>ACTOR_ACCOUNT_ID</code>, <code>HEAD_REF</code>, <code>BASE_REF</code>,\n            <code>FILE_PATH</code>, <code>COMMIT_MESSAGE</code>, <code>TAG_NAME</code>, <code>RELEASE_NAME</code>, \n            and <code>WORKFLOW_NAME</code>. </p>\n         <ul>\n            <li>\n               <p>\n                    EVENT\n                </p>\n               <ul>\n                  <li>\n                     <p> A webhook event triggers a build when the provided <code>pattern</code>\n                            matches one of nine event types: <code>PUSH</code>,\n                            <code>PULL_REQUEST_CREATED</code>, <code>PULL_REQUEST_UPDATED</code>, \n                            <code>PULL_REQUEST_CLOSED</code>, <code>PULL_REQUEST_REOPENED</code>, \n                            <code>PULL_REQUEST_MERGED</code>, <code>RELEASED</code>, <code>PRERELEASED</code>, \n                            and <code>WORKFLOW_JOB_QUEUED</code>. The <code>EVENT</code> patterns are\n                            specified as a comma-separated string. For example, <code>PUSH,\n                                PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED</code> filters all push, pull\n                            request created, and pull request updated events. </p>\n                     <note>\n                        <p> Types <code>PULL_REQUEST_REOPENED</code> and <code>WORKFLOW_JOB_QUEUED</code> \n                                work with GitHub and GitHub Enterprise only. Types <code>RELEASED</code> and \n                                <code>PRERELEASED</code> work with GitHub only.</p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>ACTOR_ACCOUNT_ID</p>\n               <ul>\n                  <li>\n                     <p> A webhook event triggers a build when a GitHub, GitHub Enterprise, or\n                            Bitbucket account ID matches the regular expression <code>pattern</code>.\n                        </p>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>HEAD_REF</p>\n               <ul>\n                  <li>\n                     <p> A webhook event triggers a build when the head reference matches the\n                            regular expression <code>pattern</code>. For example,\n                            <code>refs/heads/branch-name</code> and <code>refs/tags/tag-name</code>. </p>\n                     <note>\n                        <p> Works with GitHub and GitHub Enterprise push, GitHub and GitHub\n                            Enterprise pull request, Bitbucket push, and Bitbucket pull request events.</p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>BASE_REF</p>\n               <ul>\n                  <li>\n                     <p> A webhook event triggers a build when the base reference matches the\n                            regular expression <code>pattern</code>. For example,\n                            <code>refs/heads/branch-name</code>. </p>\n                     <note>\n                        <p> Works with pull request events only. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>FILE_PATH</p>\n               <ul>\n                  <li>\n                     <p> A webhook triggers a build when the path of a changed file matches the\n                            regular expression <code>pattern</code>. </p>\n                     <note>\n                        <p> Works with GitHub and Bitbucket events push and pull requests events.\n                                Also works with GitHub Enterprise push events, but does not work with\n                                GitHub Enterprise pull request events. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>COMMIT_MESSAGE</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the head commit message matches the\n                            regular expression <code>pattern</code>.</p>\n                     <note>\n                        <p> Works with GitHub and Bitbucket events push and pull requests events.\n                                Also works with GitHub Enterprise push events, but does not work with\n                                GitHub Enterprise pull request events. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>TAG_NAME</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the tag name of the release matches the \n                            regular expression <code>pattern</code>.</p>\n                     <note>\n                        <p> Works with <code>RELEASED</code> and <code>PRERELEASED</code> events only. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>RELEASE_NAME</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the release name matches the \n                            regular expression <code>pattern</code>.</p>\n                     <note>\n                        <p> Works with <code>RELEASED</code> and <code>PRERELEASED</code> events only. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>REPOSITORY_NAME</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the repository name matches the \n                                regular expression pattern.</p>\n                     <note>\n                        <p> Works with GitHub global or organization webhooks only. </p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n            <li>\n               <p>WORKFLOW_NAME</p>\n               <ul>\n                  <li>\n                     <p>A webhook triggers a build when the workflow name matches the \n                            regular expression <code>pattern</code>.</p>\n                     <note>\n                        <p> Works with <code>WORKFLOW_JOB_QUEUED</code> events only. </p>\n                     </note>\n                     <note>\n                        <p>For CodeBuild-hosted Buildkite runner builds, WORKFLOW_NAME\n                                filters will filter by pipeline name.</p>\n                     </note>\n                  </li>\n               </ul>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -9431,7 +9473,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p> A filter used to determine which webhooks trigger a build. </p>"
+                "smithy.api#documentation": "<p>A filter used to determine which webhooks trigger a build. </p>"
             }
         },
         "com.amazonaws.codebuild#WebhookFilterType": {
@@ -9518,6 +9560,35 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "GITLAB_GROUP"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.codebuild#WebhookStatus": {
+            "type": "enum",
+            "members": {
+                "CREATING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CREATING"
+                    }
+                },
+                "CREATE_FAILED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "CREATE_FAILED"
+                    }
+                },
+                "ACTIVE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ACTIVE"
+                    }
+                },
+                "DELETING": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DELETING"
                     }
                 }
             }

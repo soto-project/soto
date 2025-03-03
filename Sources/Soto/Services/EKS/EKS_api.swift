@@ -92,6 +92,7 @@ public struct EKS: AWSService {
             "ap-southeast-3": "fips.eks.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "fips.eks.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "fips.eks.ap-southeast-5.amazonaws.com",
+            "ap-southeast-7": "fips.eks.ap-southeast-7.amazonaws.com",
             "ca-central-1": "fips.eks.ca-central-1.amazonaws.com",
             "ca-west-1": "fips.eks.ca-west-1.amazonaws.com",
             "eu-central-1": "fips.eks.eu-central-1.amazonaws.com",
@@ -105,6 +106,7 @@ public struct EKS: AWSService {
             "il-central-1": "fips.eks.il-central-1.amazonaws.com",
             "me-central-1": "fips.eks.me-central-1.amazonaws.com",
             "me-south-1": "fips.eks.me-south-1.amazonaws.com",
+            "mx-central-1": "fips.eks.mx-central-1.amazonaws.com",
             "sa-east-1": "fips.eks.sa-east-1.amazonaws.com",
             "us-east-1": "fips.eks.us-east-1.amazonaws.com",
             "us-east-2": "fips.eks.us-east-2.amazonaws.com",
@@ -247,9 +249,9 @@ public struct EKS: AWSService {
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - clusterName: The name of your cluster.
     ///   - kubernetesGroups: The value for name that you've specified for kind: Group as a subject in a Kubernetes RoleBinding or ClusterRoleBinding object. Amazon EKS doesn't confirm that the value for name exists in any bindings on your cluster. You can specify one or more names. Kubernetes authorizes the principalArn of the access entry to access any cluster objects that you've specified in a Kubernetes Role or ClusterRole object that is also specified in a binding's roleRef. For more information about creating Kubernetes RoleBinding, ClusterRoleBinding, Role, or ClusterRole objects, see Using RBAC Authorization in the Kubernetes documentation. If you want Amazon EKS to authorize the principalArn (instead of, or in addition to Kubernetes authorizing the principalArn), you can associate one or more access policies to the access entry using AssociateAccessPolicy. If you associate any access policies, the principalARN has all permissions assigned in the associated access policies and all permissions in any Kubernetes Role or ClusterRole objects that the group names are bound to.
-    ///   - principalArn: The ARN of the IAM principal for the AccessEntry. You can specify one ARN for each access entry. You can't specify the same ARN in more than one access entry. This value can't be changed after access entry creation. The valid principals differ depending on the type of the access entry in the type field. The only valid ARN is IAM roles for the types of access entries for nodes:  . You can use every IAM principal type for STANDARD access entries. You can't use the STS session principal type with access entries because this is a temporary principal for each session and not a permanent identity that can be assigned permissions.  IAM best practices recommend using IAM roles with temporary credentials, rather than IAM users with long-term credentials.
+    ///   - principalArn: The ARN of the IAM principal for the AccessEntry. You can specify one ARN for each access entry. You can't specify the same ARN in more than one access entry. This value can't be changed after access entry creation. The valid principals differ depending on the type of the access entry in the type field. For STANDARD access entries, you can use every IAM principal type. For nodes (EC2 (for EKS Auto Mode), EC2_LINUX, EC2_WINDOWS, FARGATE_LINUX, and HYBRID_LINUX), the only valid ARN is IAM roles.  You can't use the STS session principal type with access entries because this is a temporary principal for each session and not a permanent identity that can be assigned permissions.  IAM best practices recommend using IAM roles with temporary credentials, rather than IAM users with long-term credentials.
     ///   - tags: Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
-    ///   - type: The type of the new access entry. Valid values are Standard, FARGATE_LINUX, EC2_LINUX, and EC2_WINDOWS. If the principalArn is for an IAM role that's used for self-managed Amazon EC2 nodes, specify EC2_LINUX or EC2_WINDOWS. Amazon EKS grants the necessary permissions to the node for you. If the principalArn is for any other purpose, specify STANDARD. If you don't specify a value, Amazon EKS sets the value to STANDARD. It's unnecessary to create access entries for IAM roles used with Fargate profiles or managed Amazon EC2 nodes, because Amazon EKS creates entries in the aws-auth ConfigMap for the roles. You can't change this value once you've created the access entry. If you set the value to EC2_LINUX or EC2_WINDOWS, you can't specify values for kubernetesGroups, or associate an AccessPolicy to the access entry.
+    ///   - type: The type of the new access entry. Valid values are STANDARD, FARGATE_LINUX, EC2_LINUX, EC2_WINDOWS, EC2 (for EKS Auto Mode), HYBRID_LINUX, and HYPERPOD_LINUX.  If the principalArn is for an IAM role that's used for self-managed Amazon EC2 nodes, specify EC2_LINUX or EC2_WINDOWS. Amazon EKS grants the necessary permissions to the node for you. If the principalArn is for any other purpose, specify STANDARD. If you don't specify a value, Amazon EKS sets the value to STANDARD. If you have the access mode of the cluster set to API_AND_CONFIG_MAP, it's unnecessary to create access entries for IAM roles used with Fargate profiles or managed Amazon EC2 nodes, because Amazon EKS creates entries in the aws-auth ConfigMap for the roles. You can't change this value once you've created the access entry. If you set the value to EC2_LINUX or EC2_WINDOWS, you can't specify values for kubernetesGroups, or associate an AccessPolicy to the access entry.
     ///   - username: The username to authenticate to Kubernetes with. We recommend not specifying a username and letting Amazon EKS specify it for you. For more information about the value Amazon EKS specifies for you, or constraints before specifying your own username, see Creating access entries in the Amazon EKS User Guide.
     ///   - logger: Logger use during operation
     @inlinable
@@ -296,8 +298,8 @@ public struct EKS: AWSService {
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - clusterName: The name of your cluster.
     ///   - configurationValues: The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
-    ///   - podIdentityAssociations: An array of Pod Identity Assocations to be created. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the EKS User Guide.
-    ///   - resolveConflicts: How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see UpdateAddon.   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
+    ///   - podIdentityAssociations: An array of Pod Identity Assocations to be created. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the Amazon EKS User Guide.
+    ///   - resolveConflicts: How to resolve field value conflicts for an Amazon EKS add-on. Conflicts are handled based on the value you choose:    None – If the self-managed version of the add-on is installed on your cluster, Amazon EKS doesn't change the value. Creation of the add-on might fail.    Overwrite – If the self-managed version of the add-on is installed on your cluster and the Amazon EKS default value is different than the existing value, Amazon EKS changes the value to the Amazon EKS default value.    Preserve – This is similar to the NONE option. If the self-managed version of the add-on is installed on your cluster Amazon EKS doesn't change the add-on resource properties. Creation of the add-on might fail if conflicts are detected. This option works differently during the update operation. For more information, see  UpdateAddon .   If you don't currently have the self-managed version of the add-on installed on your cluster, the Amazon EKS add-on is installed. Amazon EKS sets all values to default values, regardless of the option that you specify.
     ///   - serviceAccountRoleArn: The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
     ///   - tags: Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
     ///   - logger: Logger use during operation
@@ -350,7 +352,7 @@ public struct EKS: AWSService {
     ///   - computeConfig: Enable or disable the compute capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the compute capability is enabled, EKS Auto Mode will create and delete EC2 Managed Instances in your Amazon Web Services account
     ///   - encryptionConfig: The encryption configuration for the cluster.
     ///   - kubernetesNetworkConfig: The Kubernetes network configuration for the cluster.
-    ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
+    ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive),
     ///   - outpostConfig: An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Local clusters for Amazon EKS on Amazon Web Services Outposts in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
     ///   - remoteNetworkConfig: The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
@@ -360,7 +362,7 @@ public struct EKS: AWSService {
     ///   - tags: Metadata that assists with categorization and organization. Each tag consists of a key and an optional value. You define both. Tags don't propagate to any other cluster or Amazon Web Services resources.
     ///   - upgradePolicy: New clusters, by default, have extended support enabled. You can disable extended support when creating a cluster by setting this value to STANDARD.
     ///   - version: The desired Kubernetes version for your cluster. If you don't specify a value here, the default version available in Amazon EKS is used.  The default version might not be the latest version available.
-    ///   - zonalShiftConfig: Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS in the  Amazon EKS User Guide .
+    ///   - zonalShiftConfig: Enable or disable ARC zonal shift for the cluster. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Zonal shift is a feature of Amazon Application Recovery Controller (ARC). ARC zonal shift is designed to be a temporary measure that allows you to move traffic for a resource away from an impaired AZ until the zonal shift expires or you cancel it. You can extend the zonal shift if necessary. You can start a zonal shift for an Amazon EKS cluster, or you can allow Amazon Web Services to do it for you by enabling zonal autoshift. This shift updates the flow of east-to-west network traffic in your cluster to only consider network endpoints for Pods running on worker nodes in healthy AZs. Additionally, any ALB or NLB handling ingress traffic for applications in your Amazon EKS cluster will automatically route traffic to targets in the healthy AZs. For more information about zonal shift in EKS, see Learn about Amazon Application Recovery Controller (ARC) Zonal Shift in Amazon EKS in the  Amazon EKS User Guide .
     ///   - logger: Logger use during operation
     @inlinable
     public func createCluster(
@@ -452,7 +454,7 @@ public struct EKS: AWSService {
         return try await self.createEksAnywhereSubscription(input, logger: logger)
     }
 
-    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes Role Based Access Control (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see Pod Execution Role in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see Fargate profile in the Amazon EKS User Guide.
+    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile's selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes Role Based Access Control (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see Pod Execution Role in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see Fargate profile in the Amazon EKS User Guide.
     @Sendable
     @inlinable
     public func createFargateProfile(_ input: CreateFargateProfileRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFargateProfileResponse {
@@ -465,7 +467,7 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile’s selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes Role Based Access Control (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see Pod Execution Role in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see Fargate profile in the Amazon EKS User Guide.
+    /// Creates an Fargate profile for your Amazon EKS cluster. You must have at least one Fargate profile in a cluster to be able to run pods on Fargate. The Fargate profile allows an administrator to declare which pods run on Fargate and specify which pods run on which Fargate profile. This declaration is done through the profile's selectors. Each profile can have up to five selectors that contain a namespace and labels. A namespace is required for every selector. The label field consists of multiple optional key-value pairs. Pods that match the selectors are scheduled on Fargate. If a to-be-scheduled pod matches any of the selectors in the Fargate profile, then that pod is run on Fargate. When you create a Fargate profile, you must specify a pod execution role to use with the pods that are scheduled with the profile. This role is added to the cluster's Kubernetes Role Based Access Control (RBAC) for authorization so that the kubelet that is running on the Fargate infrastructure can register with your Amazon EKS cluster so that it can appear in your cluster as a node. The pod execution role also provides IAM permissions to the Fargate infrastructure to allow read access to Amazon ECR image repositories. For more information, see Pod Execution Role in the Amazon EKS User Guide. Fargate profiles are immutable. However, you can create a new updated profile to replace an existing profile and then delete the original after the updated profile has finished creating. If any Fargate profiles in a cluster are in the DELETING status, you must wait for that Fargate profile to finish deleting before you can create any other profiles in that cluster. For more information, see Fargate profile in the Amazon EKS User Guide.
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
@@ -499,7 +501,7 @@ public struct EKS: AWSService {
         return try await self.createFargateProfile(input, logger: logger)
     }
 
-    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see Customizing managed nodes with launch templates. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
+    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For later updates, you will only be able to update a node group using a launch template only if it was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. For more information about using launch templates, see Customizing managed nodes with launch templates. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
     @Sendable
     @inlinable
     public func createNodegroup(_ input: CreateNodegroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNodegroupResponse {
@@ -512,7 +514,7 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For more information about using launch templates, see Customizing managed nodes with launch templates. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
+    /// Creates a managed node group for an Amazon EKS cluster. You can only create a node group for your cluster that is equal to the current Kubernetes version for the cluster. All node groups are created with the latest AMI release version for the respective minor Kubernetes version of the cluster, unless you deploy a custom AMI using a launch template. For later updates, you will only be able to update a node group using a launch template only if it was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. For more information about using launch templates, see Customizing managed nodes with launch templates. An Amazon EKS managed node group is an Amazon EC2 Auto Scaling group and associated Amazon EC2 instances that are managed by Amazon Web Services for an Amazon EKS cluster. For more information, see Managed node groups in the Amazon EKS User Guide.  Windows AMI types are only supported for commercial Amazon Web Services Regions that support Windows on Amazon EKS.
     ///
     /// Parameters:
     ///   - amiType: The AMI type for your node group. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify amiType, or the node group  deployment will fail. If your launch template uses a Windows custom AMI, then add eks:kube-proxy-windows to your Windows nodes rolearn in the aws-auth ConfigMap. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
@@ -522,7 +524,7 @@ public struct EKS: AWSService {
     ///   - diskSize: The root device disk size (in GiB) for your node group instances. The default disk size is 20 GiB for Linux and Bottlerocket. The default disk size is 50 GiB for Windows. If you specify launchTemplate, then don't specify  diskSize, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
     ///   - instanceTypes: Specify the instance types for a node group. If you specify a GPU instance type, make sure to also specify an applicable GPU AMI type with the amiType parameter. If you specify launchTemplate, then you can specify zero or one instance type in your launch template or you can specify 0-20 instance types for instanceTypes. If however, you specify an instance type in your launch template and specify any instanceTypes, the node group deployment will fail. If you don't specify an instance type in a launch template or for instanceTypes, then t3.medium is used, by default. If you specify Spot for capacityType, then we recommend specifying multiple values for instanceTypes. For more information, see Managed node group capacity types and Customizing managed nodes with launch templates in the Amazon EKS User Guide.
     ///   - labels: The Kubernetes labels to apply to the nodes in the node group when they are created.
-    ///   - launchTemplate: An object representing a node group's launch template specification. When using this object, don't directly specify instanceTypes, diskSize, or remoteAccess. Make sure that the launch template meets the requirements in launchTemplateSpecification. Also refer to Customizing managed nodes with launch templates in the Amazon EKS User Guide.
+    ///   - launchTemplate: An object representing a node group's launch template specification. When using this object, don't directly specify instanceTypes, diskSize, or remoteAccess. You cannot later specify a different launch template ID or name than what was used to create the node group. Make sure that the launch template meets the requirements in launchTemplateSpecification. Also refer to Customizing managed nodes with launch templates in the Amazon EKS User Guide.
     ///   - nodegroupName: The unique name to give your node group.
     ///   - nodeRepairConfig: The node auto repair configuration for the node group.
     ///   - nodeRole: The Amazon Resource Name (ARN) of the IAM role to associate with your node group. The Amazon EKS worker node kubelet daemon makes calls to Amazon Web Services APIs on your behalf. Nodes receive permissions for these API calls through an IAM instance profile and associated policies. Before you can launch nodes and register them into a cluster, you must create an IAM role for those nodes to use when they are launched. For more information, see Amazon EKS node IAM role in the  Amazon EKS User Guide . If you specify launchTemplate, then don't specify   IamInstanceProfile in your launch template, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
@@ -1048,6 +1050,53 @@ public struct EKS: AWSService {
         return try await self.describeCluster(input, logger: logger)
     }
 
+    /// Lists available Kubernetes versions for Amazon EKS clusters.
+    @Sendable
+    @inlinable
+    public func describeClusterVersions(_ input: DescribeClusterVersionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeClusterVersionsResponse {
+        try await self.client.execute(
+            operation: "DescribeClusterVersions", 
+            path: "/cluster-versions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists available Kubernetes versions for Amazon EKS clusters.
+    ///
+    /// Parameters:
+    ///   - clusterType: The type of cluster to filter versions by.
+    ///   - clusterVersions: List of specific cluster versions to describe.
+    ///   - defaultOnly: Filter to show only default versions.
+    ///   - includeAll: Include all available versions in the response.
+    ///   - maxResults: Maximum number of results to return.
+    ///   - nextToken: Pagination token for the next set of results.
+    ///   - versionStatus: Filter versions by their current status.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeClusterVersions(
+        clusterType: String? = nil,
+        clusterVersions: [String]? = nil,
+        defaultOnly: Bool? = nil,
+        includeAll: Bool? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        versionStatus: VersionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeClusterVersionsResponse {
+        let input = DescribeClusterVersionsRequest(
+            clusterType: clusterType, 
+            clusterVersions: clusterVersions, 
+            defaultOnly: defaultOnly, 
+            includeAll: includeAll, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            versionStatus: versionStatus
+        )
+        return try await self.describeClusterVersions(input, logger: logger)
+    }
+
     /// Returns descriptive information about a subscription.
     @Sendable
     @inlinable
@@ -1237,7 +1286,7 @@ public struct EKS: AWSService {
         return try await self.describePodIdentityAssociation(input, logger: logger)
     }
 
-    /// Describes an update to an Amazon EKS resource. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
+    /// Describes an update to an Amazon EKS resource. When the status of the update is Successful, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
     @Sendable
     @inlinable
     public func describeUpdate(_ input: DescribeUpdateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeUpdateResponse {
@@ -1250,7 +1299,7 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Describes an update to an Amazon EKS resource. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
+    /// Describes an update to an Amazon EKS resource. When the status of the update is Successful, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
     ///
     /// Parameters:
     ///   - addonName: The name of the add-on. The name must match one of the names returned by  ListAddons . This parameter is required if the update is an add-on update.
@@ -1976,7 +2025,7 @@ public struct EKS: AWSService {
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - clusterName: The name of your cluster.
     ///   - configurationValues: The set of configuration values for the add-on that's created. The values that you provide are validated against the schema returned by DescribeAddonConfiguration.
-    ///   - podIdentityAssociations: An array of Pod Identity Assocations to be updated. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. If this value is left blank, no change. If an empty array is provided, existing Pod Identity Assocations owned by the Addon are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the EKS User Guide.
+    ///   - podIdentityAssociations: An array of Pod Identity Assocations to be updated. Each EKS Pod Identity association maps a Kubernetes service account to an IAM Role. If this value is left blank, no change. If an empty array is provided, existing Pod Identity Assocations owned by the Addon are deleted. For more information, see Attach an IAM Role to an Amazon EKS add-on using Pod Identity in the Amazon EKS User Guide.
     ///   - resolveConflicts: How to resolve field value conflicts for an Amazon EKS add-on if you've changed a value from the Amazon EKS default value. Conflicts are handled based on the option you choose:    None – Amazon EKS doesn't change the value. The update might fail.    Overwrite – Amazon EKS overwrites the changed value back to the Amazon EKS default value.    Preserve – Amazon EKS preserves the value. If you choose this option, we recommend that you test any field and value changes on a non-production cluster before updating the add-on on your production cluster.
     ///   - serviceAccountRoleArn: The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
     ///   - logger: Logger use during operation
@@ -2025,7 +2074,7 @@ public struct EKS: AWSService {
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - computeConfig: Update the configuration of the compute capability of your EKS Auto Mode cluster. For example, enable the capability.
     ///   - kubernetesNetworkConfig: 
-    ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
+    ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The name of the Amazon EKS cluster to update.
     ///   - resourcesVpcConfig: 
     ///   - storageConfig: Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
@@ -2061,7 +2110,7 @@ public struct EKS: AWSService {
         return try await self.updateClusterConfig(input, logger: logger)
     }
 
-    /// Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the DescribeUpdate API operation. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active. If your cluster has managed node groups attached to it, all of your node groups’ Kubernetes versions must match the cluster’s Kubernetes version in order to update the cluster to a new Kubernetes version.
+    /// Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the  DescribeUpdate API operation. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active. If your cluster has managed node groups attached to it, all of your node groups' Kubernetes versions must match the cluster's Kubernetes version in order to update the cluster to a new Kubernetes version.
     @Sendable
     @inlinable
     public func updateClusterVersion(_ input: UpdateClusterVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterVersionResponse {
@@ -2074,7 +2123,7 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the DescribeUpdate API operation. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active. If your cluster has managed node groups attached to it, all of your node groups’ Kubernetes versions must match the cluster’s Kubernetes version in order to update the cluster to a new Kubernetes version.
+    /// Updates an Amazon EKS cluster to the specified Kubernetes version. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with the  DescribeUpdate API operation. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active. If your cluster has managed node groups attached to it, all of your node groups' Kubernetes versions must match the cluster's Kubernetes version in order to update the cluster to a new Kubernetes version.
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
@@ -2131,7 +2180,7 @@ public struct EKS: AWSService {
         return try await self.updateEksAnywhereSubscription(input, logger: logger)
     }
 
-    /// Updates an Amazon EKS managed node group configuration. Your node group continues to function during the update. The response output includes an update ID that you can use to track the status of your node group update with the DescribeUpdate API operation. Currently you can update the Kubernetes labels for a node group or the scaling configuration.
+    /// Updates an Amazon EKS managed node group configuration. Your node group continues to function during the update. The response output includes an update ID that you can use to track the status of your node group update with the  DescribeUpdate API operation. You can update the Kubernetes labels and taints for a node group and the scaling and version update configuration.
     @Sendable
     @inlinable
     public func updateNodegroupConfig(_ input: UpdateNodegroupConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNodegroupConfigResponse {
@@ -2144,7 +2193,7 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Updates an Amazon EKS managed node group configuration. Your node group continues to function during the update. The response output includes an update ID that you can use to track the status of your node group update with the DescribeUpdate API operation. Currently you can update the Kubernetes labels for a node group or the scaling configuration.
+    /// Updates an Amazon EKS managed node group configuration. Your node group continues to function during the update. The response output includes an update ID that you can use to track the status of your node group update with the  DescribeUpdate API operation. You can update the Kubernetes labels and taints for a node group and the scaling and version update configuration.
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
@@ -2181,7 +2230,7 @@ public struct EKS: AWSService {
         return try await self.updateNodegroupConfig(input, logger: logger)
     }
 
-    /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide.  You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, every Pod on that node is drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a Pod disruption budget issue.
+    /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide.  You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, every Pod on that node is drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a Pod disruption budget issue.
     @Sendable
     @inlinable
     public func updateNodegroupVersion(_ input: UpdateNodegroupVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateNodegroupVersionResponse {
@@ -2194,13 +2243,13 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide.  You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, every Pod on that node is drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a Pod disruption budget issue.
+    /// Updates the Kubernetes version or AMI version of an Amazon EKS managed node group. You can update a node group using a launch template only if the node group was originally deployed with a launch template. Additionally, the launch template ID or name must match what was used when the node group was created. You can update the launch template version with necessary changes. If you need to update a custom AMI in a node group that was deployed with a launch template, then update your custom AMI, specify the new ID in a new version of the launch template, and then update the node group to the new version of the launch template. If you update without a launch template, then you can update to the latest available AMI version of a node group's current Kubernetes version by not specifying a Kubernetes version in the request. You can update to the latest AMI version of your cluster's current Kubernetes version by specifying your cluster's Kubernetes version in the request. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide.  You cannot roll back a node group to an earlier Kubernetes version or AMI version. When a node in a managed node group is terminated due to a scaling action or update, every Pod on that node is drained first. Amazon EKS attempts to drain the nodes gracefully and will fail if it is unable to do so. You can force the update if Amazon EKS is unable to drain the nodes as a result of a Pod disruption budget issue.
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
     ///   - clusterName: The name of your cluster.
     ///   - force: Force the update if any Pod on the existing node group can't be drained due to a Pod disruption budget issue. If an update fails because all Pods can't be drained, you can force the update after it fails to terminate the old node whether or not any Pod is running on the node.
-    ///   - launchTemplate: An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template.
+    ///   - launchTemplate: An object representing a node group's launch template specification. You can only update a node group using a launch template if the node group was originally deployed with a launch template. When updating, you must specify the same launch template ID or name that was used to create the node group.
     ///   - nodegroupName: The name of the managed node group to update.
     ///   - releaseVersion: The AMI version of the Amazon EKS optimized AMI to use for the update. By default, the latest available AMI version for the node group's Kubernetes version is used. For information about Linux versions, see Amazon EKS optimized Amazon Linux AMI versions in the Amazon EKS User Guide. Amazon EKS managed node groups support the November 2022 and later releases of the Windows AMIs. For information about Windows versions, see Amazon EKS optimized Windows AMI versions in the Amazon EKS User Guide. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  releaseVersion, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
     ///   - version: The Kubernetes version to update to. If no version is specified, then the Kubernetes version of the node group does not change. You can specify the Kubernetes version of the cluster to update the node group to the latest AMI version of the cluster's Kubernetes version. If you specify launchTemplate, and your launch template uses a custom AMI, then don't specify  version, or the node group  update will fail. For more information about using launch templates with Amazon EKS, see Customizing managed nodes with launch templates in the Amazon EKS User Guide.
@@ -2327,6 +2376,55 @@ extension EKS {
             types: types
         )
         return self.describeAddonVersionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeClusterVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeClusterVersionsPaginator(
+        _ input: DescribeClusterVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeClusterVersionsRequest, DescribeClusterVersionsResponse> {
+        return .init(
+            input: input,
+            command: self.describeClusterVersions,
+            inputKey: \DescribeClusterVersionsRequest.nextToken,
+            outputKey: \DescribeClusterVersionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeClusterVersions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterType: The type of cluster to filter versions by.
+    ///   - clusterVersions: List of specific cluster versions to describe.
+    ///   - defaultOnly: Filter to show only default versions.
+    ///   - includeAll: Include all available versions in the response.
+    ///   - maxResults: Maximum number of results to return.
+    ///   - versionStatus: Filter versions by their current status.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeClusterVersionsPaginator(
+        clusterType: String? = nil,
+        clusterVersions: [String]? = nil,
+        defaultOnly: Bool? = nil,
+        includeAll: Bool? = nil,
+        maxResults: Int? = nil,
+        versionStatus: VersionStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeClusterVersionsRequest, DescribeClusterVersionsResponse> {
+        let input = DescribeClusterVersionsRequest(
+            clusterType: clusterType, 
+            clusterVersions: clusterVersions, 
+            defaultOnly: defaultOnly, 
+            includeAll: includeAll, 
+            maxResults: maxResults, 
+            versionStatus: versionStatus
+        )
+        return self.describeClusterVersionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listAccessEntries(_:logger:)``.
@@ -2803,6 +2901,21 @@ extension EKS.DescribeAddonVersionsRequest: AWSPaginateToken {
             owners: self.owners,
             publishers: self.publishers,
             types: self.types
+        )
+    }
+}
+
+extension EKS.DescribeClusterVersionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EKS.DescribeClusterVersionsRequest {
+        return .init(
+            clusterType: self.clusterType,
+            clusterVersions: self.clusterVersions,
+            defaultOnly: self.defaultOnly,
+            includeAll: self.includeAll,
+            maxResults: self.maxResults,
+            nextToken: token,
+            versionStatus: self.versionStatus
         )
     }
 }

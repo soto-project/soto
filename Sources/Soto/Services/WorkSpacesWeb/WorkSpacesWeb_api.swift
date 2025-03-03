@@ -679,6 +679,7 @@ public struct WorkSpacesWeb: AWSService {
     ///   - pasteAllowed: Specifies whether the user can paste text from the local device to the streaming session.
     ///   - printAllowed: Specifies whether the user can print to the local device.
     ///   - tags: The tags to add to the user settings resource. A tag is a key-value pair.
+    ///   - toolbarConfiguration: The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
     ///   - uploadAllowed: Specifies whether the user can upload files from the local device to the streaming session.
     ///   - logger: Logger use during operation
     @inlinable
@@ -695,6 +696,7 @@ public struct WorkSpacesWeb: AWSService {
         pasteAllowed: EnabledType,
         printAllowed: EnabledType,
         tags: [Tag]? = nil,
+        toolbarConfiguration: ToolbarConfiguration? = nil,
         uploadAllowed: EnabledType,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateUserSettingsResponse {
@@ -711,6 +713,7 @@ public struct WorkSpacesWeb: AWSService {
             pasteAllowed: pasteAllowed, 
             printAllowed: printAllowed, 
             tags: tags, 
+            toolbarConfiguration: toolbarConfiguration, 
             uploadAllowed: uploadAllowed
         )
         return try await self.createUserSettings(input, logger: logger)
@@ -2373,6 +2376,7 @@ public struct WorkSpacesWeb: AWSService {
     ///   - idleDisconnectTimeoutInMinutes: The amount of time that users can be idle (inactive) before they are disconnected from their streaming session and the disconnect timeout interval begins.
     ///   - pasteAllowed: Specifies whether the user can paste text from the local device to the streaming session.
     ///   - printAllowed: Specifies whether the user can print to the local device.
+    ///   - toolbarConfiguration: The configuration of the toolbar. This allows administrators to select the toolbar type and visual mode, set maximum display resolution for sessions, and choose which items are visible to end users during their sessions. If administrators do not modify these settings, end users retain control over their toolbar preferences.
     ///   - uploadAllowed: Specifies whether the user can upload files from the local device to the streaming session.
     ///   - userSettingsArn: The ARN of the user settings.
     ///   - logger: Logger use during operation
@@ -2387,6 +2391,7 @@ public struct WorkSpacesWeb: AWSService {
         idleDisconnectTimeoutInMinutes: Int? = nil,
         pasteAllowed: EnabledType? = nil,
         printAllowed: EnabledType? = nil,
+        toolbarConfiguration: ToolbarConfiguration? = nil,
         uploadAllowed: EnabledType? = nil,
         userSettingsArn: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2401,6 +2406,7 @@ public struct WorkSpacesWeb: AWSService {
             idleDisconnectTimeoutInMinutes: idleDisconnectTimeoutInMinutes, 
             pasteAllowed: pasteAllowed, 
             printAllowed: printAllowed, 
+            toolbarConfiguration: toolbarConfiguration, 
             uploadAllowed: uploadAllowed, 
             userSettingsArn: userSettingsArn
         )

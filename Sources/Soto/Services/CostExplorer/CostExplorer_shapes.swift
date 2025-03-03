@@ -2152,6 +2152,8 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public let billingViewArn: String?
         /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
         public let filter: Expression?
         /// Sets the Amazon Web Services cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
@@ -2166,7 +2168,8 @@ extension CostExplorer {
         public let timePeriod: DateInterval
 
         @inlinable
-        public init(filter: Expression? = nil, granularity: Granularity, groupBy: [GroupDefinition]? = nil, metrics: [String], nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(billingViewArn: String? = nil, filter: Expression? = nil, granularity: Granularity, groupBy: [GroupDefinition]? = nil, metrics: [String], nextPageToken: String? = nil, timePeriod: DateInterval) {
+            self.billingViewArn = billingViewArn
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
@@ -2176,6 +2179,9 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
             try self.filter?.validate(name: "\(name).filter")
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
@@ -2190,6 +2196,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingViewArn = "BillingViewArn"
             case filter = "Filter"
             case granularity = "Granularity"
             case groupBy = "GroupBy"
@@ -2226,6 +2233,8 @@ extension CostExplorer {
     }
 
     public struct GetCostAndUsageWithResourcesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public let billingViewArn: String?
         /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
         public let filter: Expression
         /// Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
@@ -2240,7 +2249,8 @@ extension CostExplorer {
         public let timePeriod: DateInterval
 
         @inlinable
-        public init(filter: Expression, granularity: Granularity, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(billingViewArn: String? = nil, filter: Expression, granularity: Granularity, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+            self.billingViewArn = billingViewArn
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
@@ -2250,6 +2260,9 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
             try self.filter.validate(name: "\(name).filter")
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
@@ -2264,6 +2277,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingViewArn = "BillingViewArn"
             case filter = "Filter"
             case granularity = "Granularity"
             case groupBy = "GroupBy"
@@ -2300,6 +2314,8 @@ extension CostExplorer {
     }
 
     public struct GetCostCategoriesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public let billingViewArn: String?
         public let costCategoryName: String?
         public let filter: Expression?
         /// This field is only used when the SortBy value is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with the SortBy value, the request returns 1000 results as the default value for this parameter. For GetCostCategories, MaxResults has an upper quota of 1000.
@@ -2313,7 +2329,8 @@ extension CostExplorer {
         public let timePeriod: DateInterval
 
         @inlinable
-        public init(costCategoryName: String? = nil, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
+        public init(billingViewArn: String? = nil, costCategoryName: String? = nil, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
+            self.billingViewArn = billingViewArn
             self.costCategoryName = costCategoryName
             self.filter = filter
             self.maxResults = maxResults
@@ -2324,6 +2341,9 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
             try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, max: 50)
             try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, min: 1)
             try self.validate(self.costCategoryName, name: "costCategoryName", parent: name, pattern: "^(?! )[\\p{L}\\p{N}\\p{Z}-_]*(?<! )$")
@@ -2340,6 +2360,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingViewArn = "BillingViewArn"
             case costCategoryName = "CostCategoryName"
             case filter = "Filter"
             case maxResults = "MaxResults"
@@ -2381,6 +2402,8 @@ extension CostExplorer {
     }
 
     public struct GetCostForecastRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public let billingViewArn: String?
         /// The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
         public let filter: Expression?
         /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
@@ -2393,7 +2416,8 @@ extension CostExplorer {
         public let timePeriod: DateInterval
 
         @inlinable
-        public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
+        public init(billingViewArn: String? = nil, filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
+            self.billingViewArn = billingViewArn
             self.filter = filter
             self.granularity = granularity
             self.metric = metric
@@ -2402,6 +2426,9 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.predictionIntervalLevel, name: "predictionIntervalLevel", parent: name, max: 99)
             try self.validate(self.predictionIntervalLevel, name: "predictionIntervalLevel", parent: name, min: 51)
@@ -2409,6 +2436,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingViewArn = "BillingViewArn"
             case filter = "Filter"
             case granularity = "Granularity"
             case metric = "Metric"
@@ -2436,6 +2464,8 @@ extension CostExplorer {
     }
 
     public struct GetDimensionValuesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public let billingViewArn: String?
         /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
         public let context: Context?
         /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.
@@ -2453,7 +2483,8 @@ extension CostExplorer {
         public let timePeriod: DateInterval
 
         @inlinable
-        public init(context: Context? = nil, dimension: Dimension, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
+        public init(billingViewArn: String? = nil, context: Context? = nil, dimension: Dimension, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, timePeriod: DateInterval) {
+            self.billingViewArn = billingViewArn
             self.context = context
             self.dimension = dimension
             self.filter = filter
@@ -2465,6 +2496,9 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
@@ -2478,6 +2512,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingViewArn = "BillingViewArn"
             case context = "Context"
             case dimension = "Dimension"
             case filter = "Filter"
@@ -3121,6 +3156,8 @@ extension CostExplorer {
     }
 
     public struct GetTagsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public let billingViewArn: String?
         public let filter: Expression?
         /// This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetTags, MaxResults has an upper quota of 1000.
         public let maxResults: Int?
@@ -3136,7 +3173,8 @@ extension CostExplorer {
         public let timePeriod: DateInterval
 
         @inlinable
-        public init(filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
+        public init(billingViewArn: String? = nil, filter: Expression? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, searchString: String? = nil, sortBy: [SortDefinition]? = nil, tagKey: String? = nil, timePeriod: DateInterval) {
+            self.billingViewArn = billingViewArn
             self.filter = filter
             self.maxResults = maxResults
             self.nextPageToken = nextPageToken
@@ -3147,6 +3185,9 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextPageToken, name: "nextPageToken", parent: name, max: 8192)
@@ -3162,6 +3203,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingViewArn = "BillingViewArn"
             case filter = "Filter"
             case maxResults = "MaxResults"
             case nextPageToken = "NextPageToken"
@@ -3199,6 +3241,8 @@ extension CostExplorer {
     }
 
     public struct GetUsageForecastRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public let billingViewArn: String?
         /// The filters that you want to use to filter your forecast. The GetUsageForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
         public let filter: Expression?
         /// How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
@@ -3211,7 +3255,8 @@ extension CostExplorer {
         public let timePeriod: DateInterval
 
         @inlinable
-        public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
+        public init(billingViewArn: String? = nil, filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
+            self.billingViewArn = billingViewArn
             self.filter = filter
             self.granularity = granularity
             self.metric = metric
@@ -3220,6 +3265,9 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, max: 2048)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, min: 20)
+            try self.validate(self.billingViewArn, name: "billingViewArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[-a-zA-Z0-9/:_+=.-@]{1,43}$")
             try self.filter?.validate(name: "\(name).filter")
             try self.validate(self.predictionIntervalLevel, name: "predictionIntervalLevel", parent: name, max: 99)
             try self.validate(self.predictionIntervalLevel, name: "predictionIntervalLevel", parent: name, min: 51)
@@ -3227,6 +3275,7 @@ extension CostExplorer {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case billingViewArn = "BillingViewArn"
             case filter = "Filter"
             case granularity = "Granularity"
             case metric = "Metric"

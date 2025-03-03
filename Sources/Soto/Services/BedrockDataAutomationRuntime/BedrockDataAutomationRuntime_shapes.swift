@@ -80,25 +80,25 @@ extension BedrockDataAutomationRuntime {
     }
 
     public struct DataAutomationConfiguration: AWSEncodableShape {
-        /// Data automation arn.
-        public let dataAutomationArn: String
+        /// Data automation project arn.
+        public let dataAutomationProjectArn: String
         /// Data automation stage.
         public let stage: DataAutomationStage?
 
         @inlinable
-        public init(dataAutomationArn: String, stage: DataAutomationStage? = nil) {
-            self.dataAutomationArn = dataAutomationArn
+        public init(dataAutomationProjectArn: String, stage: DataAutomationStage? = nil) {
+            self.dataAutomationProjectArn = dataAutomationProjectArn
             self.stage = stage
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.dataAutomationArn, name: "dataAutomationArn", parent: name, max: 128)
-            try self.validate(self.dataAutomationArn, name: "dataAutomationArn", parent: name, min: 1)
-            try self.validate(self.dataAutomationArn, name: "dataAutomationArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-project/[a-zA-Z0-9-_]+$")
+            try self.validate(self.dataAutomationProjectArn, name: "dataAutomationProjectArn", parent: name, max: 128)
+            try self.validate(self.dataAutomationProjectArn, name: "dataAutomationProjectArn", parent: name, min: 1)
+            try self.validate(self.dataAutomationProjectArn, name: "dataAutomationProjectArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-project/[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataAutomationArn = "dataAutomationArn"
+            case dataAutomationProjectArn = "dataAutomationProjectArn"
             case stage = "stage"
         }
     }
@@ -106,7 +106,7 @@ extension BedrockDataAutomationRuntime {
     public struct EncryptionConfiguration: AWSEncodableShape {
         /// KMS encryption context.
         public let kmsEncryptionContext: [String: String]?
-        /// KMS key id.
+        /// Customer KMS key used for encryption
         public let kmsKeyId: String
 
         @inlinable
@@ -126,7 +126,9 @@ extension BedrockDataAutomationRuntime {
             }
             try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, max: 10)
             try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, min: 1)
-            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^.*\\S.*$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -211,7 +213,7 @@ extension BedrockDataAutomationRuntime {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]([^\\x00-\\x1F\\x7F\\{^}%`\\]\">\\[~<#|]*)?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/[^\\x00-\\x1F\\x7F\\{^}%`\\]\">\\[~<#|]*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -226,6 +228,8 @@ extension BedrockDataAutomationRuntime {
         public let clientToken: String?
         /// Data automation configuration.
         public let dataAutomationConfiguration: DataAutomationConfiguration?
+        /// Data automation profile ARN
+        public let dataAutomationProfileArn: String
         /// Encryption configuration.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// Input configuration.
@@ -234,40 +238,54 @@ extension BedrockDataAutomationRuntime {
         public let notificationConfiguration: NotificationConfiguration?
         /// Output configuration.
         public let outputConfiguration: OutputConfiguration
+        /// List of tags.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(blueprints: [Blueprint]? = nil, clientToken: String? = InvokeDataAutomationAsyncRequest.idempotencyToken(), dataAutomationConfiguration: DataAutomationConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, inputConfiguration: InputConfiguration, notificationConfiguration: NotificationConfiguration? = nil, outputConfiguration: OutputConfiguration) {
+        public init(blueprints: [Blueprint]? = nil, clientToken: String? = InvokeDataAutomationAsyncRequest.idempotencyToken(), dataAutomationConfiguration: DataAutomationConfiguration? = nil, dataAutomationProfileArn: String, encryptionConfiguration: EncryptionConfiguration? = nil, inputConfiguration: InputConfiguration, notificationConfiguration: NotificationConfiguration? = nil, outputConfiguration: OutputConfiguration, tags: [Tag]? = nil) {
             self.blueprints = blueprints
             self.clientToken = clientToken
             self.dataAutomationConfiguration = dataAutomationConfiguration
+            self.dataAutomationProfileArn = dataAutomationProfileArn
             self.encryptionConfiguration = encryptionConfiguration
             self.inputConfiguration = inputConfiguration
             self.notificationConfiguration = notificationConfiguration
             self.outputConfiguration = outputConfiguration
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.blueprints?.forEach {
                 try $0.validate(name: "\(name).blueprints[]")
             }
+            try self.validate(self.blueprints, name: "blueprints", parent: name, max: 40)
             try self.validate(self.blueprints, name: "blueprints", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.dataAutomationConfiguration?.validate(name: "\(name).dataAutomationConfiguration")
+            try self.validate(self.dataAutomationProfileArn, name: "dataAutomationProfileArn", parent: name, max: 128)
+            try self.validate(self.dataAutomationProfileArn, name: "dataAutomationProfileArn", parent: name, min: 1)
+            try self.validate(self.dataAutomationProfileArn, name: "dataAutomationProfileArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-profile/[a-zA-Z0-9-_.]+$")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.inputConfiguration.validate(name: "\(name).inputConfiguration")
             try self.outputConfiguration.validate(name: "\(name).outputConfiguration")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
             case blueprints = "blueprints"
             case clientToken = "clientToken"
             case dataAutomationConfiguration = "dataAutomationConfiguration"
+            case dataAutomationProfileArn = "dataAutomationProfileArn"
             case encryptionConfiguration = "encryptionConfiguration"
             case inputConfiguration = "inputConfiguration"
             case notificationConfiguration = "notificationConfiguration"
             case outputConfiguration = "outputConfiguration"
+            case tags = "tags"
         }
     }
 
@@ -282,6 +300,38 @@ extension BedrockDataAutomationRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case invocationArn = "invocationArn"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public let resourceARN: String
+
+        @inlinable
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-invocation/[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "resourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
         }
     }
 
@@ -311,12 +361,98 @@ extension BedrockDataAutomationRuntime {
         public func validate(name: String) throws {
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
-            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]([^\\x00-\\x1F\\x7F\\{^}%`\\]\">\\[~<#|]*)?$")
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/[^\\x00-\\x1F\\x7F\\{^}%`\\]\">\\[~<#|]*)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3Uri = "s3Uri"
         }
+    }
+
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        public let key: String
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public let resourceARN: String
+        public let tags: [Tag]
+
+        @inlinable
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-invocation/[a-zA-Z0-9-_]+$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "resourceARN"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public let resourceARN: String
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:[0-9]{12}:data-automation-invocation/[a-zA-Z0-9-_]+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "resourceARN"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 }
 

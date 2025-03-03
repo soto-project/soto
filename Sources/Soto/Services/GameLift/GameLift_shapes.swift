@@ -607,7 +607,9 @@ extension GameLift {
     }
 
     public enum GameSessionStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case forceTerminated = "FORCE_TERMINATED"
         case interrupted = "INTERRUPTED"
+        case triggeredOnProcessTerminate = "TRIGGERED_ON_PROCESS_TERMINATE"
         public var description: String { return self.rawValue }
     }
 
@@ -690,6 +692,12 @@ extension GameLift {
         public var description: String { return self.rawValue }
     }
 
+    public enum PlacementFallbackStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case defaultAfterSinglePass = "DEFAULT_AFTER_SINGLE_PASS"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PlayerSessionCreationPolicy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case acceptAll = "ACCEPT_ALL"
         case denyAll = "DENY_ALL"
@@ -751,6 +759,12 @@ extension GameLift {
     public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TerminationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case forceTerminate = "FORCE_TERMINATE"
+        case triggerOnProcessTerminate = "TRIGGER_ON_PROCESS_TERMINATE"
         public var description: String { return self.rawValue }
     }
 
@@ -957,7 +971,7 @@ extension GameLift {
     }
 
     public struct CertificateConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether a TLS/SSL certificate is generated for a fleet.  Valid values include:     GENERATED -- Generate a TLS/SSL certificate for this fleet.    DISABLED -- (default) Do not generate a TLS/SSL certificate for this fleet.
+        /// Indicates whether a TLS/SSL certificate is generated for a fleet.  Valid values include:     GENERATED - Generate a TLS/SSL certificate for this fleet.    DISABLED - (default) Do not generate a TLS/SSL certificate for this fleet.
         public let certificateType: CertificateType?
 
         @inlinable
@@ -1584,7 +1598,7 @@ extension GameLift {
     public struct CreateBuildInput: AWSEncodableShape {
         /// A descriptive label that is associated with a build. Build names do not need to be unique. You can change this value later.
         public let name: String?
-        /// The environment that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. This parameter is required, and there's no default value. You can't change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// A server SDK version you used when integrating your game server build with Amazon GameLift. For more information see Integrate games with custom game servers. By default Amazon GameLift sets this value to 4.0.2.
         public let serverSdkVersion: String?
@@ -1658,7 +1672,7 @@ extension GameLift {
         public let description: String?
         /// The unique identifier for an Identity and Access Management (IAM) role with permissions to run your containers on resources that are managed by Amazon GameLift. Use an IAM service role with the GameLiftContainerFleetPolicy managed policy attached. For more information, see Set up an IAM service role. You can't change this fleet property after the fleet is created. IAM role ARN values use the following pattern: arn:aws:iam::[Amazon Web Services account]:role/[role name].
         public let fleetRoleArn: String?
-        /// A container group definition resource that describes how to deploy containers with your game server build and support software onto each fleet instance. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling CreateContainerGroupDefinition. This operation creates a ContainerGroupDefinition resource.
+        /// A container group definition resource that describes how to deploy containers with your game server build and support software onto each fleet instance. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number. Create a container group definition by calling  CreateContainerGroupDefinition.  This operation creates a  ContainerGroupDefinition resource.
         public let gameServerContainerGroupDefinitionName: String?
         /// The number of times to replicate the game server container group on each fleet instance.  By default, Amazon GameLift calculates the maximum number of game server container groups that can fit on each instance. This calculation is based on the CPU and memory resources of the fleet's instance type). To use the calculated maximum, don't set this parameter. If you set this number manually, Amazon GameLift uses your value as long as it's less than the calculated maximum.
         public let gameServerContainerGroupsPerInstance: Int?
@@ -1678,7 +1692,7 @@ extension GameLift {
         public let metricGroups: [String]?
         /// Determines whether Amazon GameLift can shut down game sessions on the fleet that are actively running and hosting players. Amazon GameLift might prompt an instance shutdown when scaling down fleet capacity or when retiring unhealthy instances. You can also set game session protection for individual game sessions using UpdateGameSession.    NoProtection -- Game sessions can be shut down during active gameplay.     FullProtection -- Game sessions in ACTIVE status can't be shut down.   By default, this property is set to NoProtection.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// The name of a container group definition resource that describes a set of axillary software. A fleet instance has one process for executables in this container group. A per-instance container group is optional. You can update the fleet to add or remove a per-instance container group at any time. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number.  Create a container group definition by calling CreateContainerGroupDefinition.  This operation creates a ContainerGroupDefinition resource.
+        /// The name of a container group definition resource that describes a set of axillary software. A fleet instance has one process for executables in this container group. A per-instance container group is optional. You can update the fleet to add or remove a per-instance container group at any time. You can specify the container group definition's name to use the latest version. Alternatively, provide an ARN value with a specific version number.  Create a container group definition by calling  https://docs.aws.amazon.com/gamelift/latest/apireference/API_CreateContainerGroupDefinition.html.  This operation creates a  https://docs.aws.amazon.com/gamelift/latest/apireference/API_ContainerGroupDefinition.html resource.
         public let perInstanceContainerGroupDefinitionName: String?
         /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
@@ -1705,9 +1719,9 @@ extension GameLift {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.fleetRoleArn, name: "fleetRoleArn", parent: name, max: 512)
+            try self.validate(self.fleetRoleArn, name: "fleetRoleArn", parent: name, max: 256)
             try self.validate(self.fleetRoleArn, name: "fleetRoleArn", parent: name, min: 1)
-            try self.validate(self.fleetRoleArn, name: "fleetRoleArn", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
+            try self.validate(self.fleetRoleArn, name: "fleetRoleArn", parent: name, pattern: "^arn:.*:role\\/[\\w+=,.@-]+$")
             try self.validate(self.gameServerContainerGroupDefinitionName, name: "gameServerContainerGroupDefinitionName", parent: name, max: 512)
             try self.validate(self.gameServerContainerGroupDefinitionName, name: "gameServerContainerGroupDefinitionName", parent: name, min: 1)
             try self.validate(self.gameServerContainerGroupDefinitionName, name: "gameServerContainerGroupDefinitionName", parent: name, pattern: "^[a-zA-Z0-9\\-]+$|^arn:.*:containergroupdefinition\\/[a-zA-Z0-9\\-]+(:[0-9]+)?$")
@@ -1862,11 +1876,11 @@ extension GameLift {
         public let buildId: String?
         /// Prompts Amazon GameLift to generate a TLS/SSL certificate for the fleet. Amazon GameLift uses the certificates to encrypt traffic between game clients and the game servers running on Amazon GameLift. By default, the CertificateConfiguration is DISABLED. You can't change this property after you create the fleet.  Certificate Manager (ACM) certificates expire after 13 months. Certificate expiration can cause fleets to fail, preventing players from connecting to instances in the fleet. We recommend you replace fleets before 13 months, consider using fleet aliases for a smooth transition.  ACM isn't available in all Amazon Web Services regions. A fleet creation request with certificate generation enabled in an unsupported Region, fails with a 4xx error. For more information about the supported Regions, see Supported Regions in the Certificate Manager User Guide.
         public let certificateConfiguration: CertificateConfiguration?
-        /// The type of compute resource used to host your game servers.     EC2 – The game server build is deployed to Amazon EC2 instances for cloud hosting. This is the default setting.    ANYWHERE – Your game server and supporting software is deployed to compute resources that are provided and managed by you. With this compute type, you can also set the AnywhereConfiguration parameter.
+        /// The type of compute resource used to host your game servers.     EC2 – The game server build is deployed to Amazon EC2 instances for cloud hosting. This is the default setting.    ANYWHERE – Game servers  and supporting software are deployed to compute resources that you provide and manage. With this compute type, you can also set the AnywhereConfiguration parameter.
         public let computeType: ComputeType?
         /// A description for the fleet.
         public let description: String?
-        /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2  fleets. You can leave this parameter empty when creating the fleet, but you must call  UpdateFleetPortSettings to set it before players can connect to game sessions.  As a best practice, we recommend  opening ports for remote access only when you need them and closing them when you're finished.  For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
+        /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call  https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings to set it before players can connect to game sessions.  As a best practice, we recommend  opening ports for remote access only when you need them and closing them when you're finished.  For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
         public let ec2InboundPermissions: [IpPermission]?
         /// The Amazon GameLift-supported Amazon EC2 instance type to use with managed EC2 fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions of Amazon EC2 instance types.
         public let ec2InstanceType: EC2InstanceType?
@@ -4876,7 +4890,7 @@ extension GameLift {
     public struct Event: AWSDecodableShape {
         /// The number of times that this event occurred.
         public let count: Int64?
-        /// The type of event being logged.   Fleet state transition events:    FLEET_CREATED -- A fleet resource was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. Amazon GameLift is downloading the compressed build and running install scripts.   FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING. Amazon GameLift has successfully installed build and is now validating the build files.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING. Amazon GameLift has successfully verified the build files and is now launching a fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING. Amazon GameLift is launching a game server process on the fleet instance and is testing its connectivity with the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.   FLEET_STATE_ERROR -- The Fleet's status changed to ERROR. Describe the fleet event message for more details.    Fleet creation events (ordered by fleet creation activity):    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD -- The game server build was successfully downloaded to an instance, and Amazon GameLiftis now extracting the build files from the uploaded build. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER -- The game server build files were successfully extracted, and Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_COMPLETED_INSTALLER -- The game server build files were successfully installed and validation of the installation will begin soon.   FLEET_CREATION_FAILED_INSTALLER -- The installed failed while attempting to install the build files. This event indicates that the failure occurred before Amazon GameLift could start validation.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.   FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the runtime configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_VALIDATION_TIMED_OUT -- Validation of the fleet at the end of creation timed out. Try fleet creation again.   FLEET_ACTIVATION_FAILED -- The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. For more information, see Debug Fleet Creation Issues.   FLEET_ACTIVATION_FAILED_NO_INSTANCES -- Fleet creation was not able to obtain any instances based on the input fleet attributes. Try again at a different time or choose a different combination of fleet attributes such as fleet type, instance type, etc.   FLEET_INITIALIZATION_FAILED -- A generic exception occurred during fleet creation. Describe the fleet event message for more details.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your Amazon Web Services account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your Amazon Web Services account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Container group events:    CONTAINER_GROUP_REGISTRATION_FAILED –  A game server container group started, but  timed out before calling RegisterCompute.    CONTAINER_GROUP_CRASHED A game server container group started and terminated without  calling RegisterCompute.    Spot instance events:    INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.   INSTANCE_RECYCLED -- A spot instance was determined to have a high risk  of interruption and is scheduled to be recycled once it has no active  game sessions.    Server process events:    SERVER_PROCESS_INVALID_PATH -- The game server executable or script could not be found based on the Fleet runtime configuration. Check that the launch path is correct based on the operating system of the Fleet.   SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected (5 minutes). Check your game session log to see why InitSDK() was not called in time.   SERVER_PROCESS_PROCESS_READY_TIMEOUT -- The server process did not call ProcessReady() within the time expected  (5 minutes) after calling InitSDK(). Check your game session log to see why ProcessReady() was not called in time.   SERVER_PROCESS_CRASHED -- The server process exited without calling ProcessEnding(). Check your game session log to see why ProcessEnding() was not called.   SERVER_PROCESS_TERMINATED_UNHEALTHY -- The server process did not report a valid health check for too long and was therefore terminated by GameLift. Check your game session log to see if the thread became stuck processing a synchronous task for too long.   SERVER_PROCESS_FORCE_TERMINATED -- The server process did not exit cleanly within the time expected after OnProcessTerminate() was sent. Check your game session log to see why termination took longer than expected.   SERVER_PROCESS_PROCESS_EXIT_TIMEOUT -- The server process did not exit cleanly within the time expected (30 seconds) after calling ProcessEnding(). Check your game session log to see why termination took longer than expected.    Game session events:    GAME_SESSION_ACTIVATION_TIMEOUT -- GameSession failed to activate within the expected time. Check your game session log to see why ActivateGameSession() took longer to complete than expected.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.   GENERIC_EVENT -- An unspecified event has occurred.
+        /// The type of event being logged.   Fleet state transition events:    FLEET_CREATED -- A fleet resource was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. Amazon GameLift is downloading the compressed build and running install scripts.   FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING. Amazon GameLift has successfully installed build and is now validating the build files.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING. Amazon GameLift has successfully verified the build files and is now launching a fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING. Amazon GameLift is launching a game server process on the fleet instance and is testing its connectivity with the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.   FLEET_STATE_ERROR -- The Fleet's status changed to ERROR. Describe the fleet event message for more details.    Fleet creation events (ordered by fleet creation activity):    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD -- The game server build was successfully downloaded to an instance, and Amazon GameLiftis now extracting the build files from the uploaded build. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER -- The game server build files were successfully extracted, and Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_COMPLETED_INSTALLER -- The game server build files were successfully installed and validation of the installation will begin soon.   FLEET_CREATION_FAILED_INSTALLER -- The installed failed while attempting to install the build files. This event indicates that the failure occurred before Amazon GameLift could start validation.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.   FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the runtime configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_VALIDATION_TIMED_OUT -- Validation of the fleet at the end of creation timed out. Try fleet creation again.   FLEET_ACTIVATION_FAILED -- The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. For more information, see Debug Fleet Creation Issues.   FLEET_ACTIVATION_FAILED_NO_INSTANCES -- Fleet creation was not able to obtain any instances based on the input fleet attributes. Try again at a different time or choose a different combination of fleet attributes such as fleet type, instance type, etc.   FLEET_INITIALIZATION_FAILED -- A generic exception occurred during fleet creation. Describe the fleet event message for more details.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your Amazon Web Services account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your Amazon Web Services account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:    INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.   INSTANCE_RECYCLED -- A spot instance was determined to have a high risk  of interruption and is scheduled to be recycled once it has no active  game sessions.    Server process events:    SERVER_PROCESS_INVALID_PATH -- The game server executable or script could not be found based on the Fleet runtime configuration. Check that the launch path is correct based on the operating system of the Fleet.   SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected (5 minutes). Check your game session log to see why InitSDK() was not called in time.   SERVER_PROCESS_PROCESS_READY_TIMEOUT -- The server process did not call ProcessReady() within the time expected  (5 minutes) after calling InitSDK(). Check your game session log to see why ProcessReady() was not called in time.   SERVER_PROCESS_CRASHED -- The server process exited without calling ProcessEnding(). Check your game session log to see why ProcessEnding() was not called.   SERVER_PROCESS_TERMINATED_UNHEALTHY -- The server process did not report a valid health check for too long and was therefore terminated by GameLift. Check your game session log to see if the thread became stuck processing a synchronous task for too long.   SERVER_PROCESS_FORCE_TERMINATED -- The server process did not exit cleanly within the time expected after OnProcessTerminate() was sent. Check your game session log to see why termination took longer than expected.   SERVER_PROCESS_PROCESS_EXIT_TIMEOUT -- The server process did not exit cleanly within the time expected (30 seconds) after calling ProcessEnding(). Check your game session log to see why termination took longer than expected.    Game session events:    GAME_SESSION_ACTIVATION_TIMEOUT -- GameSession failed to activate within the expected time. Check your game session log to see why ActivateGameSession() took longer to complete than expected.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.   GENERIC_EVENT -- An unspecified event has occurred.
         public let eventCode: EventCode?
         /// A unique identifier for a fleet event.
         public let eventId: String?
@@ -4936,7 +4950,7 @@ extension GameLift {
     }
 
     public struct FleetAttributes: AWSDecodableShape {
-        /// Amazon GameLift Anywhere configuration options.
+        /// A set of attributes that are specific to an Anywhere fleet.
         public let anywhereConfiguration: AnywhereConfiguration?
         ///  The Amazon Resource Name (ARN) associated with the Amazon GameLift build resource that is deployed on instances in this fleet. In a GameLift build ARN, the resource ID matches the BuildId value. This attribute is used with fleets where ComputeType is "EC2".
         public let buildArn: String?
@@ -4956,21 +4970,21 @@ extension GameLift {
         public let fleetId: String?
         /// Indicates whether the fleet uses On-Demand or Spot instances. For more information, see  On-Demand versus Spot Instances. This fleet property can't be changed after the fleet is created.
         public let fleetType: FleetType?
-        /// A unique identifier for an IAM role that manages access to your Amazon Web Services services.  With an instance role ARN set, any application that runs on an instance in this fleet can assume the role,  including install scripts, server processes, and daemons (background processes). Create a role or look up a role's  ARN by using the IAM dashboard in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at   Access external resources from a game server.  This attribute is used with fleets where ComputeType is "EC2".
+        /// A unique identifier for an IAM role that manages access to your Amazon Web Services services.  With an instance role ARN set, any application that runs on an instance in this fleet can assume the role,  including install scripts, server processes, and daemons (background processes). Create a role or look up a role's  ARN by using the IAM dashboard in the Amazon Web Services Management Console. Learn more about using on-box credentials for your game servers at   Access external resources from a game server. This attribute is used with fleets where ComputeType is EC2.
         public let instanceRoleArn: String?
-        /// Indicates that fleet instances maintain a shared credentials file for the IAM role defined in InstanceRoleArn. Shared credentials allow applications that are deployed with the game server executable to communicate with other Amazon Web Services resources. This property is used  only when the game server is integrated with the server SDK version 5.x. For more information about using shared credentials, see  Communicate with other Amazon Web Services resources from your fleets. This attribute is used with fleets where ComputeType is "EC2".
+        /// Indicates that fleet instances maintain a shared credentials file for the IAM role defined in InstanceRoleArn. Shared credentials allow applications that are deployed with the game server executable to communicate with other Amazon Web Services resources. This property is used only when the game server is integrated with the server SDK version 5.x. For more information about using shared credentials, see  Communicate with other Amazon Web Services resources from your fleets. This attribute is used with fleets where ComputeType is EC2.
         public let instanceRoleCredentialsProvider: InstanceRoleCredentialsProvider?
-        /// The Amazon EC2 instance type that the fleet uses. Instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions. This attribute is used with fleets where ComputeType is "EC2".
+        /// The Amazon EC2 instance type that the fleet uses. Instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions. This attribute is used with fleets where ComputeType is EC2.
         public let instanceType: EC2InstanceType?
         ///  This parameter is no longer used. Game session log paths are now defined using the Amazon GameLift server API ProcessReady() logParameters. See more information in the Server API Reference.
         public let logPaths: [String]?
-        /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time.  This attribute is used with fleets where ComputeType is "EC2".
+        /// Name of a metric group that metrics for this fleet are added to. In Amazon CloudWatch, you can view aggregated metrics for fleets that are in a metric group. A fleet can be included in only one metric group at a time. This attribute is used with fleets where ComputeType is EC2.
         public let metricGroups: [String]?
         /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String?
-        /// The type of game session protection to set on all new instances that are started in the fleet.  This attribute is used with fleets where ComputeType is "EC2".    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
+        /// The type of game session protection to set on all new instances that are started in the fleet. This attribute is used with fleets where ComputeType is EC2.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is "EC2".  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
         public let operatingSystem: OperatingSystem?
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         ///  The Amazon Resource Name (ARN) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
@@ -4983,7 +4997,7 @@ extension GameLift {
         public let serverLaunchPath: String?
         /// Current status of the fleet. Possible fleet statuses include the following:   NEW -- A new fleet resource has been defined and Amazon GameLift has started creating the fleet.  Desired instances is set to 1.    DOWNLOADING/VALIDATING/BUILDING -- Amazon GameLift is download the game server build, running install scripts, and then validating the build files. When complete, Amazon GameLift launches a fleet instance.    ACTIVATING -- Amazon GameLift is launching a game server process and testing its connectivity with the Amazon GameLift service.   ACTIVE -- The fleet is now ready to host game sessions.   ERROR -- An error occurred when downloading, validating, building, or activating the fleet.   DELETING -- Hosts are responding to a delete fleet request.   TERMINATED -- The fleet no longer exists.
         public let status: FleetStatus?
-        /// A list of fleet activity that has been suspended using StopFleetActions.  This includes fleet auto-scaling. This attribute is used with fleets where ComputeType is "EC2".
+        /// A list of fleet activity that has been suspended using StopFleetActions. This includes fleet auto-scaling. This attribute is used with fleets where ComputeType is EC2.
         public let stoppedActions: [FleetAction]?
         /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
@@ -5097,9 +5111,9 @@ extension GameLift {
         public let gameServerBinaryArn: String?
         /// The unique identifier for the version of the per-instance container group definition that is being deployed.
         public let perInstanceBinaryArn: String?
-        /// The unique identifier for the version of the game server container group definition to roll back to if deployment fails.
+        /// The unique identifier for the version of the game server container group definition to roll back to if deployment fails. Amazon GameLift sets this property to the container group definition version that the fleet used when it was last active.
         public let rollbackGameServerBinaryArn: String?
-        /// The unique identifier for the version of the per-instance container group definition to roll back to if deployment fails.
+        /// The unique identifier for the version of the per-instance container group definition to roll back to if deployment fails. Amazon GameLift sets this property to the container group definition version that the fleet used when it was last active.
         public let rollbackPerInstanceBinaryArn: String?
 
         @inlinable
@@ -5512,13 +5526,13 @@ extension GameLift {
         public let maximumPlayerSessionCount: Int?
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public let name: String?
-        /// Indicates whether or not the game session is accepting new players.
+        /// Indicates whether the game session is accepting new players.
         public let playerSessionCreationPolicy: PlayerSessionCreationPolicy?
         /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number.
         public let port: Int?
         /// Current status of the game session. A game session must have an ACTIVE status to have player sessions.
         public let status: GameSessionStatus?
-        /// Provides additional information about game session status. INTERRUPTED indicates that the game session was hosted on a spot instance that was reclaimed, causing the active game session to be terminated.
+        /// Provides additional information about game session status.     INTERRUPTED -- The game session was hosted on an EC2 Spot instance that was reclaimed, causing the active game session to be stopped.    TRIGGERED_ON_PROCESS_TERMINATE – The game session was stopped by calling TerminateGameSession with the termination mode TRIGGER_ON_PROCESS_TERMINATE.     FORCE_TERMINATED – The game session was stopped by calling TerminateGameSession with the termination mode FORCE_TERMINATE.
         public let statusReason: GameSessionStatusReason?
         /// A time stamp indicating when this data object was terminated. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let terminationTime: Date?
@@ -5669,17 +5683,19 @@ extension GameLift {
         public let placedPlayerSessions: [PlacedPlayerSession]?
         /// A unique identifier for a game session placement.
         public let placementId: String?
-        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to @aws; Regions.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions.
         public let playerLatencies: [PlayerLatency]?
         /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value isn't final until placement status is FULFILLED.
         public let port: Int?
+        /// A prioritized list of locations to use with a game session placement request and instructions on how to use it. This list overrides a queue's prioritized location list for a single game session placement request only. The list can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). The fallback strategy instructs Amazon GameLift to use the override list for the first placement attempt only or for all placement attempts.
+        public let priorityConfigurationOverride: PriorityConfigurationOverride?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let startTime: Date?
-        /// Current status of the game session placement request.    PENDING -- The placement request is  in the queue waiting to be processed. Game session properties are not yet final.     FULFILLED -- A new game session has been  successfully placed. Game session properties are now final.    CANCELLED -- The placement request was canceled.    TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit as a new placement request as needed.    FAILED -- Amazon GameLift is not able to complete the process of placing the game session. Common reasons are the game session terminated before the placement process was completed, or an unexpected internal error.
+        /// Current status of the game session placement request.    PENDING -- The placement request is  in the queue waiting to be processed. Game session properties are not yet final.     FULFILLED -- A new game session has been  successfully placed. Game session properties are now final.    CANCELLED -- The placement request was canceled.    TIMED_OUT -- A new game session was not successfully created before the time limit expired. You can resubmit the placement request as needed.    FAILED -- Amazon GameLift is not able to complete the process of placing the game session. Common reasons are the game session terminated before the placement process was completed, or an unexpected internal error.
         public let status: GameSessionPlacementState?
 
         @inlinable
-        public init(dnsName: String? = nil, endTime: Date? = nil, gameProperties: [GameProperty]? = nil, gameSessionArn: String? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, gameSessionRegion: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, placedPlayerSessions: [PlacedPlayerSession]? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, port: Int? = nil, startTime: Date? = nil, status: GameSessionPlacementState? = nil) {
+        public init(dnsName: String? = nil, endTime: Date? = nil, gameProperties: [GameProperty]? = nil, gameSessionArn: String? = nil, gameSessionData: String? = nil, gameSessionId: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, gameSessionRegion: String? = nil, ipAddress: String? = nil, matchmakerData: String? = nil, maximumPlayerSessionCount: Int? = nil, placedPlayerSessions: [PlacedPlayerSession]? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, port: Int? = nil, priorityConfigurationOverride: PriorityConfigurationOverride? = nil, startTime: Date? = nil, status: GameSessionPlacementState? = nil) {
             self.dnsName = dnsName
             self.endTime = endTime
             self.gameProperties = gameProperties
@@ -5696,6 +5712,7 @@ extension GameLift {
             self.placementId = placementId
             self.playerLatencies = playerLatencies
             self.port = port
+            self.priorityConfigurationOverride = priorityConfigurationOverride
             self.startTime = startTime
             self.status = status
         }
@@ -5717,6 +5734,7 @@ extension GameLift {
             case placementId = "PlacementId"
             case playerLatencies = "PlayerLatencies"
             case port = "Port"
+            case priorityConfigurationOverride = "PriorityConfigurationOverride"
             case startTime = "StartTime"
             case status = "Status"
         }
@@ -5791,7 +5809,7 @@ extension GameLift {
     }
 
     public struct GetComputeAccessInput: AWSEncodableShape {
-        /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet compute, use the instance ID.  Use ListCompute to retrieve compute identifiers.
+        /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet compute, use the instance ID.  Use https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute.html to retrieve compute identifiers.
         public let computeName: String?
         /// A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value.
         public let fleetId: String?
@@ -7120,7 +7138,7 @@ extension GameLift {
     }
 
     public struct Player: AWSEncodableShape & AWSDecodableShape {
-        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to @aws; Regions. If this property is present, FlexMatch considers placing the match only in Regions for which latency is reported.  If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no latency is reported in this scenario, FlexMatch assumes that no Regions are available to the player and the ticket is not matchable.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions. If this property is present, FlexMatch considers placing the match only in Regions for which latency is reported.  If a matchmaker has a rule that evaluates player latency, players must report latency in order to be matched. If no latency is reported in this scenario, FlexMatch assumes that no Regions are available to the player and the ticket is not matchable.
         public let latencyInMs: [String: Int]?
         /// A collection of key:value pairs containing player information for use in matchmaking. Player attribute keys must match the playerAttributes used in a matchmaking rule set. Example: "PlayerAttributes": {"skill": {"N": "23"}, "gameMode": {"S": "deathmatch"}}. You can provide up to 10 PlayerAttributes.
         public let playerAttributes: [String: AttributeValue]?
@@ -7272,9 +7290,9 @@ extension GameLift {
     }
 
     public struct PriorityConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION. Locations are identified by Amazon Web Services Region codes such as us-west-2. Each location can only be listed once.
+        /// The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION. Locations can include Amazon Web Services Region codes (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see  Amazon GameLift service locations.
         public let locationOrder: [String]?
-        /// The recommended sequence to use when prioritizing where to place new game sessions. Each type can only be listed once.    LATENCY -- FleetIQ prioritizes locations where the average player latency (provided in each game session request) is lowest.     COST -- FleetIQ prioritizes destinations with the lowest current hosting costs. Cost is evaluated based on the location, instance type, and fleet type (Spot or On-Demand) for each destination in the queue.    DESTINATION -- FleetIQ prioritizes based on the order that destinations are listed in the queue configuration.    LOCATION -- FleetIQ prioritizes based on the provided order of locations, as defined in LocationOrder.
+        /// A custom sequence to use when prioritizing where to place new game sessions. Each priority type is listed once.    LATENCY -- Amazon GameLift prioritizes locations where the average player latency is lowest. Player latency data is provided in each game session placement request.    COST -- Amazon GameLift prioritizes destinations with the lowest current hosting costs. Cost is evaluated based on the location, instance type, and fleet type (Spot or On-Demand) of each destination in the queue.    DESTINATION -- Amazon GameLift prioritizes based on the list order of destinations in the queue configuration.    LOCATION -- Amazon GameLift prioritizes based on the provided order of locations, as defined in LocationOrder.
         public let priorityOrder: [PriorityType]?
 
         @inlinable
@@ -7298,6 +7316,34 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case locationOrder = "LocationOrder"
             case priorityOrder = "PriorityOrder"
+        }
+    }
+
+    public struct PriorityConfigurationOverride: AWSEncodableShape & AWSDecodableShape {
+        /// A prioritized list of hosting locations. The list can include Amazon Web Services Regions (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see  Amazon GameLift service locations.
+        public let locationOrder: [String]?
+        /// Instructions for how to use the override list if the first round of placement attempts fails. The first round is a failure if  Amazon GameLift searches all listed locations, in all of the queue's destinations, without finding an available hosting resource for a new game session. Valid strategies include:     DEFAULT_AFTER_SINGLE_PASS -- After the first round of placement attempts, discard the override list and use the queue's default location priority list. Continue to use the queue's default list until the placement request times out.    NONE -- Continue to use the override list for all rounds of placement attempts until the placement request times out.
+        public let placementFallbackStrategy: PlacementFallbackStrategy?
+
+        @inlinable
+        public init(locationOrder: [String]? = nil, placementFallbackStrategy: PlacementFallbackStrategy? = nil) {
+            self.locationOrder = locationOrder
+            self.placementFallbackStrategy = placementFallbackStrategy
+        }
+
+        public func validate(name: String) throws {
+            try self.locationOrder?.forEach {
+                try validate($0, name: "locationOrder[]", parent: name, max: 64)
+                try validate($0, name: "locationOrder[]", parent: name, min: 1)
+                try validate($0, name: "locationOrder[]", parent: name, pattern: "^[A-Za-z0-9\\-]+$")
+            }
+            try self.validate(self.locationOrder, name: "locationOrder", parent: name, max: 10)
+            try self.validate(self.locationOrder, name: "locationOrder", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationOrder = "LocationOrder"
+            case placementFallbackStrategy = "PlacementFallbackStrategy"
         }
     }
 
@@ -7670,7 +7716,7 @@ extension GameLift {
     public struct RuntimeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The maximum amount of time (in seconds) allowed to launch a new game session and have it report ready to host players. During this time, the game session is in status ACTIVATING. If the game session does not become active before the timeout, it is ended and the game session status is changed to TERMINATED.
         public let gameSessionActivationTimeoutSeconds: Int?
-        /// The number of game sessions in status ACTIVATING to allow on an instance. This setting limits the instance resources that can be used for new game activations at any one time.
+        /// The number of game sessions in status ACTIVATING to allow on an instance or compute. This setting limits the instance resources that can be used for new game activations at any one time.
         public let maxConcurrentGameSessionActivations: Int?
         /// A collection of server process configurations that identify what server processes to run on fleet computes.
         public let serverProcesses: [ServerProcess]?
@@ -8009,11 +8055,13 @@ extension GameLift {
         public let maximumPlayerSessionCount: Int?
         /// A unique identifier to assign to the new game session placement. This value is developer-defined. The value must be unique across all Regions and cannot be reused.
         public let placementId: String?
-        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to @aws; Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
+        /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
         public let playerLatencies: [PlayerLatency]?
+        /// A prioritized list of locations to use for the game session placement and instructions on how to use it. This list overrides a queue's prioritized location list for this game session placement request only. You can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). Choose a fallback strategy to instruct Amazon GameLift to use the override list for the first placement attempt only or for all placement attempts.
+        public let priorityConfigurationOverride: PriorityConfigurationOverride?
 
         @inlinable
-        public init(desiredPlayerSessions: [DesiredPlayerSession]? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, maximumPlayerSessionCount: Int? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil) {
+        public init(desiredPlayerSessions: [DesiredPlayerSession]? = nil, gameProperties: [GameProperty]? = nil, gameSessionData: String? = nil, gameSessionName: String? = nil, gameSessionQueueName: String? = nil, maximumPlayerSessionCount: Int? = nil, placementId: String? = nil, playerLatencies: [PlayerLatency]? = nil, priorityConfigurationOverride: PriorityConfigurationOverride? = nil) {
             self.desiredPlayerSessions = desiredPlayerSessions
             self.gameProperties = gameProperties
             self.gameSessionData = gameSessionData
@@ -8022,6 +8070,7 @@ extension GameLift {
             self.maximumPlayerSessionCount = maximumPlayerSessionCount
             self.placementId = placementId
             self.playerLatencies = playerLatencies
+            self.priorityConfigurationOverride = priorityConfigurationOverride
         }
 
         public func validate(name: String) throws {
@@ -8046,6 +8095,7 @@ extension GameLift {
             try self.playerLatencies?.forEach {
                 try $0.validate(name: "\(name).playerLatencies[]")
             }
+            try self.priorityConfigurationOverride?.validate(name: "\(name).priorityConfigurationOverride")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8057,6 +8107,7 @@ extension GameLift {
             case maximumPlayerSessionCount = "MaximumPlayerSessionCount"
             case placementId = "PlacementId"
             case playerLatencies = "PlayerLatencies"
+            case priorityConfigurationOverride = "PriorityConfigurationOverride"
         }
     }
 
@@ -8296,7 +8347,7 @@ extension GameLift {
         public let healthCheck: ContainerHealthCheck?
         /// The URI to the image that Amazon GameLift deploys to a container fleet. For a more specific identifier, see ResolvedImageDigest.
         public let imageUri: String?
-        /// The amount of memory that Amazon GameLift makes available to the container. If memory limits aren't set for an individual container, the container shares the container group's total memory allocation.  Related data type:  ContainerGroupDefinition$TotalMemoryLimitMebibytes
+        /// The amount of memory that Amazon GameLift makes available to the container. If memory limits aren't set for an individual container, the container shares the container group's total memory allocation.  Related data type:  ContainerGroupDefinition TotalMemoryLimitMebibytes
         public let memoryHardLimitMebibytes: Int?
         /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
         public let mountPoints: [ContainerMountPoint]?
@@ -8304,7 +8355,7 @@ extension GameLift {
         public let portConfiguration: ContainerPortConfiguration?
         /// A unique and immutable identifier for the container image. The digest is a SHA 256 hash of the container image manifest.
         public let resolvedImageDigest: String?
-        /// The number of vCPU units that are reserved for the container. If no resources are reserved, the container shares the total vCPU limit for the container group.  Related data type:  ContainerGroupDefinition$TotalVcpuLimit
+        /// The number of vCPU units that are reserved for the container. If no resources are reserved, the container shares the total vCPU limit for the container group.  Related data type:  ContainerGroupDefinition TotalVcpuLimit
         public let vcpu: Double?
 
         @inlinable
@@ -8350,7 +8401,7 @@ extension GameLift {
         public let healthCheck: ContainerHealthCheck?
         /// The location of the container image to deploy to a container fleet. Provide an image in an Amazon Elastic Container Registry public or private repository. The repository must be in the same Amazon Web Services account and Amazon Web Services Region where you're creating the container group definition. For limits on image size, see Amazon GameLift endpoints and quotas. You can use any of the following image URI formats:    Image ID only: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]    Image ID and digest: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]@[digest]    Image ID and tag: [AWS account].dkr.ecr.[AWS region].amazonaws.com/[repository ID]:[tag]
         public let imageUri: String?
-        /// A specified amount of memory (in MiB) to reserve for this container. If you don't specify a container-specific memory limit, the container shares the container group's total memory allocation.   Related data type:  ContainerGroupDefinition  TotalMemoryLimitMebibytes
+        /// A specified amount of memory (in MiB) to reserve for this container. If you don't specify a container-specific memory limit, the container shares the container group's total memory allocation.   Related data type:  ContainerGroupDefinitionTotalMemoryLimitMebibytes
         public let memoryHardLimitMebibytes: Int?
         /// A mount point that binds a path inside the container to a file or directory on the host system and lets it access the file or directory.
         public let mountPoints: [ContainerMountPoint]?
@@ -8544,6 +8595,43 @@ extension GameLift {
         }
     }
 
+    public struct TerminateGameSessionInput: AWSEncodableShape {
+        /// A unique identifier for the game session to be terminated. A game session ARN has the following format:  arn:aws:gamelift:::gamesession//.
+        public let gameSessionId: String?
+        /// The method to use to terminate the game session. Available methods include:     TRIGGER_ON_PROCESS_TERMINATE – Prompts the Amazon GameLift service to send an OnProcessTerminate() callback to the server process and initiate the normal game session shutdown sequence. The OnProcessTerminate method, which is implemented in the game server code, must include a call to the server SDK action ProcessEnding(), which is how the server process signals to Amazon GameLift that a game session is ending. If the server process doesn't call ProcessEnding(), the game session termination won't conclude successfully.    FORCE_TERMINATE – Prompts the Amazon GameLift service to stop the server process immediately. Amazon GameLift takes action (depending on the type of fleet) to shut down the server process without the normal game session shutdown sequence.   This method is not available for game sessions that are running on Anywhere fleets unless the fleet is deployed with the Amazon GameLift Agent. In this scenario, a force terminate request results in an invalid or bad request exception.
+        public let terminationMode: TerminationMode?
+
+        @inlinable
+        public init(gameSessionId: String? = nil, terminationMode: TerminationMode? = nil) {
+            self.gameSessionId = gameSessionId
+            self.terminationMode = terminationMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, max: 512)
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, min: 1)
+            try self.validate(self.gameSessionId, name: "gameSessionId", parent: name, pattern: "^[a-zA-Z0-9:/-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSessionId = "GameSessionId"
+            case terminationMode = "TerminationMode"
+        }
+    }
+
+    public struct TerminateGameSessionOutput: AWSDecodableShape {
+        public let gameSession: GameSession?
+
+        @inlinable
+        public init(gameSession: GameSession? = nil) {
+            self.gameSession = gameSession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gameSession = "GameSession"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that uniquely identifies the Amazon GameLift resource that you want to remove tags from. Amazon GameLift includes resource ARNs in the data object for the resource. You can retrieve the ARN by calling a List or Describe operation for the resource type.
         public let resourceARN: String?
@@ -8677,7 +8765,7 @@ extension GameLift {
         public let description: String?
         /// A unique identifier for the container fleet to update. You can use either the fleet ID or ARN value.
         public let fleetId: String?
-        /// The name or ARN value of a new game server container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. You can't remove a fleet's game server container group definition, you can only update or replace it with another definition. Update a container group definition by calling UpdateContainerGroupDefinition. This operation creates a ContainerGroupDefinition resource with an incremented version.
+        /// The name or ARN value of a new game server container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. You can't remove a fleet's game server container group definition, you can only update or replace it with another definition. Update a container group definition by calling  UpdateContainerGroupDefinition.  This operation creates a  ContainerGroupDefinition  resource with an incremented version.
         public let gameServerContainerGroupDefinitionName: String?
         /// The number of times to replicate the game server container group on each fleet instance. By default, Amazon GameLift calculates the maximum number of game server container groups that can fit on each instance. You can remove this property value to use the calculated value, or set it manually. If you set this number manually, Amazon GameLift uses your value as long as it's less than the calculated maximum.
         public let gameServerContainerGroupsPerInstance: Int?
@@ -8695,7 +8783,7 @@ extension GameLift {
         public let metricGroups: [String]?
         /// The game session protection policy to apply to all new game sessions that are started in this fleet. Game sessions that already exist are not affected.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// The name or ARN value of a new per-instance container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. Update a container group definition by calling UpdateContainerGroupDefinition. This operation creates a ContainerGroupDefinition resource with an incremented version.  To remove a fleet's per-instance container group definition, leave this parameter empty and use the parameter RemoveAttributes.
+        /// The name or ARN value of a new per-instance container group definition to deploy on the fleet. If you're updating the fleet to a specific version of a container group definition, use the ARN value and include the version number. If you're updating the fleet to the latest version of a container group definition, you can use the name value. Update a container group definition by calling  UpdateContainerGroupDefinition.  This operation creates a  ContainerGroupDefinition  resource with an incremented version.  To remove a fleet's per-instance container group definition, leave this parameter empty and use the parameter RemoveAttributes.
         public let perInstanceContainerGroupDefinitionName: String?
         /// If set, this update removes a fleet's per-instance container group definition. You can't remove a fleet's game server container group definition.
         public let removeAttributes: [ContainerFleetRemoveAttribute]?
@@ -8870,7 +8958,7 @@ extension GameLift {
         public let metricGroups: [String]?
         /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
         public let name: String?
-        /// The game session protection policy to apply to all new game sessions created in this fleet. Game sessions that already exist are not affected. You can set protection for individual game sessions using UpdateGameSession.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
+        /// The game session protection policy to apply to all new game sessions created in this fleet. Game sessions that already exist are not affected. You can set protection for individual game sessions using UpdateGameSession .    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
         /// Policy settings that limit the number of game sessions an individual player can create over a span of time.
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?

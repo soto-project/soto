@@ -915,7 +915,7 @@ public struct Detective: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Starts a data source packages for the behavior graph.
+    /// Starts a data source package for the Detective behavior graph.
     @Sendable
     @inlinable
     public func updateDatasourcePackages(_ input: UpdateDatasourcePackagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -928,10 +928,10 @@ public struct Detective: AWSService {
             logger: logger
         )
     }
-    /// Starts a data source packages for the behavior graph.
+    /// Starts a data source package for the Detective behavior graph.
     ///
     /// Parameters:
-    ///   - datasourcePackages: The data source package start for the behavior graph.
+    ///   - datasourcePackages: The data source package to start for the behavior graph.
     ///   - graphArn: The ARN of the behavior graph.
     ///   - logger: Logger use during operation
     @inlinable

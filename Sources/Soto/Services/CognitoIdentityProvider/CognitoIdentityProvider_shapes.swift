@@ -2133,10 +2133,10 @@ extension CognitoIdentityProvider {
         /// A valid access token that Amazon Cognito issued to the user whose passkey registration you want to complete.
         public let accessToken: String
         /// A RegistrationResponseJSON public-key credential response from the user's passkey provider.
-        public let credential: String
+        public let credential: AWSDocument
 
         @inlinable
-        public init(accessToken: String, credential: String) {
+        public init(accessToken: String, credential: AWSDocument) {
             self.accessToken = accessToken
             self.credential = credential
         }
@@ -2576,14 +2576,14 @@ extension CognitoIdentityProvider {
         /// The app client that you want to create the branding style for. Each style is permanently linked to an app client. To change the style for an app client, delete the existing style with DeleteManagedLoginBranding and create a new one.
         public let clientId: String
         /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
-        public let settings: String?
+        public let settings: AWSDocument?
         /// When true, applies the default branding style options. These default options are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
         public let useCognitoProvidedValues: Bool?
         /// The ID of the user pool where you want to create a new branding style.
         public let userPoolId: String
 
         @inlinable
-        public init(assets: [AssetType]? = nil, clientId: String, settings: String? = nil, useCognitoProvidedValues: Bool? = nil, userPoolId: String) {
+        public init(assets: [AssetType]? = nil, clientId: String, settings: AWSDocument? = nil, useCognitoProvidedValues: Bool? = nil, userPoolId: String) {
             self.assets = assets
             self.clientId = clientId
             self.settings = settings
@@ -5674,14 +5674,14 @@ extension CognitoIdentityProvider {
         /// The ID of the managed login branding style.
         public let managedLoginBrandingId: String?
         /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
-        public let settings: String?
+        public let settings: AWSDocument?
         /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
         public let useCognitoProvidedValues: Bool?
         /// The user pool where the branding style is assigned.
         public let userPoolId: String?
 
         @inlinable
-        public init(assets: [AssetType]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, managedLoginBrandingId: String? = nil, settings: String? = nil, useCognitoProvidedValues: Bool? = nil, userPoolId: String? = nil) {
+        public init(assets: [AssetType]? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, managedLoginBrandingId: String? = nil, settings: AWSDocument? = nil, useCognitoProvidedValues: Bool? = nil, userPoolId: String? = nil) {
             self.assets = assets
             self.creationDate = creationDate
             self.lastModifiedDate = lastModifiedDate
@@ -6956,10 +6956,10 @@ extension CognitoIdentityProvider {
 
     public struct StartWebAuthnRegistrationResponse: AWSDecodableShape {
         /// The information that a user can provide in their request to register with their passkey provider.
-        public let credentialCreationOptions: String
+        public let credentialCreationOptions: AWSDocument
 
         @inlinable
-        public init(credentialCreationOptions: String) {
+        public init(credentialCreationOptions: AWSDocument) {
             self.credentialCreationOptions = credentialCreationOptions
         }
 
@@ -7378,14 +7378,14 @@ extension CognitoIdentityProvider {
         /// The ID of the managed login branding style that you want to update.
         public let managedLoginBrandingId: String?
         /// A JSON file, encoded as a Document type, with the the settings that you want to apply to your style.
-        public let settings: String?
+        public let settings: AWSDocument?
         /// When true, applies the default branding style options. This option reverts to default style options that are managed by Amazon Cognito. You can modify them later in the branding designer. When you specify true for this option, you must also omit values for Settings and Assets in the request.
         public let useCognitoProvidedValues: Bool?
         /// The ID of the user pool that contains the managed login branding style that you want to update.
         public let userPoolId: String?
 
         @inlinable
-        public init(assets: [AssetType]? = nil, managedLoginBrandingId: String? = nil, settings: String? = nil, useCognitoProvidedValues: Bool? = nil, userPoolId: String? = nil) {
+        public init(assets: [AssetType]? = nil, managedLoginBrandingId: String? = nil, settings: AWSDocument? = nil, useCognitoProvidedValues: Bool? = nil, userPoolId: String? = nil) {
             self.assets = assets
             self.managedLoginBrandingId = managedLoginBrandingId
             self.settings = settings

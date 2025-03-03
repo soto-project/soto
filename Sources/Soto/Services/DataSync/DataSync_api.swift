@@ -80,6 +80,54 @@ public struct DataSync: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "datasync.af-south-1.api.aws",
+            "ap-east-1": "datasync.ap-east-1.api.aws",
+            "ap-northeast-1": "datasync.ap-northeast-1.api.aws",
+            "ap-northeast-2": "datasync.ap-northeast-2.api.aws",
+            "ap-northeast-3": "datasync.ap-northeast-3.api.aws",
+            "ap-south-1": "datasync.ap-south-1.api.aws",
+            "ap-south-2": "datasync.ap-south-2.api.aws",
+            "ap-southeast-1": "datasync.ap-southeast-1.api.aws",
+            "ap-southeast-2": "datasync.ap-southeast-2.api.aws",
+            "ap-southeast-3": "datasync.ap-southeast-3.api.aws",
+            "ap-southeast-4": "datasync.ap-southeast-4.api.aws",
+            "ap-southeast-5": "datasync.ap-southeast-5.api.aws",
+            "ap-southeast-7": "datasync.ap-southeast-7.api.aws",
+            "ca-central-1": "datasync.ca-central-1.api.aws",
+            "ca-west-1": "datasync.ca-west-1.api.aws",
+            "cn-north-1": "datasync.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "datasync.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "datasync.eu-central-1.api.aws",
+            "eu-central-2": "datasync.eu-central-2.api.aws",
+            "eu-north-1": "datasync.eu-north-1.api.aws",
+            "eu-south-1": "datasync.eu-south-1.api.aws",
+            "eu-south-2": "datasync.eu-south-2.api.aws",
+            "eu-west-1": "datasync.eu-west-1.api.aws",
+            "eu-west-2": "datasync.eu-west-2.api.aws",
+            "eu-west-3": "datasync.eu-west-3.api.aws",
+            "il-central-1": "datasync.il-central-1.api.aws",
+            "me-central-1": "datasync.me-central-1.api.aws",
+            "me-south-1": "datasync.me-south-1.api.aws",
+            "mx-central-1": "datasync.mx-central-1.api.aws",
+            "sa-east-1": "datasync.sa-east-1.api.aws",
+            "us-east-1": "datasync.us-east-1.api.aws",
+            "us-east-2": "datasync.us-east-2.api.aws",
+            "us-gov-east-1": "datasync.us-gov-east-1.api.aws",
+            "us-gov-west-1": "datasync.us-gov-west-1.api.aws",
+            "us-west-1": "datasync.us-west-1.api.aws",
+            "us-west-2": "datasync.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "datasync-fips.ca-central-1.api.aws",
+            "ca-west-1": "datasync-fips.ca-west-1.api.aws",
+            "us-east-1": "datasync-fips.us-east-1.api.aws",
+            "us-east-2": "datasync-fips.us-east-2.api.aws",
+            "us-gov-east-1": "datasync-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "datasync-fips.us-gov-west-1.api.aws",
+            "us-west-1": "datasync-fips.us-west-1.api.aws",
+            "us-west-2": "datasync-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "datasync-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "datasync-fips.ca-west-1.amazonaws.com",
@@ -291,7 +339,7 @@ public struct DataSync: AWSService {
     ///   - efsFilesystemArn: Specifies the ARN for your Amazon EFS file system.
     ///   - fileSystemAccessRoleArn: Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see Creating a DataSync IAM role for file system access.
     ///   - inTransitEncryption: Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
-    ///   - subdirectory: Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data (depending on if this is a source or destination location) on your file system. By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
+    ///   - subdirectory: Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
     ///   - tags: Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
     ///   - logger: Logger use during operation
     @inlinable
@@ -333,10 +381,10 @@ public struct DataSync: AWSService {
     /// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Lustre file systems.
     ///
     /// Parameters:
-    ///   - fsxFilesystemArn: The Amazon Resource Name (ARN) for the FSx for Lustre file system.
-    ///   - securityGroupArns: The Amazon Resource Names (ARNs) of the security groups that are used to configure the FSx for Lustre file system.
-    ///   - subdirectory: A subdirectory in the location's path. This subdirectory in the FSx for Lustre file system is used to read data from the FSx for Lustre source location or write data to the FSx for Lustre destination.
-    ///   - tags: The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
+    ///   - fsxFilesystemArn: Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file system.
+    ///   - securityGroupArns: Specifies the Amazon Resource Names (ARNs) of up to five security groups that provide access to your FSx for Lustre file system. The security groups must be able to access the file system's ports. The file system must also allow access from the security groups. For information about file system access, see the  Amazon FSx for Lustre User Guide .
+    ///   - subdirectory: Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/).
+    ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     ///   - logger: Logger use during operation
     @inlinable
     public func createLocationFsxLustre(
@@ -374,7 +422,7 @@ public struct DataSync: AWSService {
     ///   - protocol: 
     ///   - securityGroupArns: Specifies the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups must allow outbound traffic on the following ports (depending on the protocol you use):    Network File System (NFS): TCP ports 111, 635, and 2049    Server Message Block (SMB): TCP port 445   Your file system's security groups must also allow inbound traffic on the same ports.
     ///   - storageVirtualMachineArn: Specifies the ARN of the storage virtual machine (SVM) in your file system where you want to copy data to or from.
-    ///   - subdirectory: Specifies a path to the file share in the SVM where you'll copy your data. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1.  Don't specify a junction path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
+    ///   - subdirectory: Specifies a path to the file share in the SVM where you want to transfer data to or from. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1.  Don't specify a junction path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
     ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
     ///   - logger: Logger use during operation
     @inlinable
@@ -453,7 +501,7 @@ public struct DataSync: AWSService {
     /// Creates a transfer location for an Amazon FSx for Windows File Server file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses FSx for Windows File Server file systems.
     ///
     /// Parameters:
-    ///   - domain: Specifies the name of the Microsoft Active Directory domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
+    ///   - domain: Specifies the name of the Windows domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
     ///   - fsxFilesystemArn: Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
     ///   - password: Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
     ///   - securityGroupArns: Specifies the ARNs of the Amazon EC2 security groups that provide access to your file system's preferred subnet. The security groups that you specify must be able to communicate with your file system's security groups. For information about configuring security groups for file system access, see the  Amazon FSx for Windows File Server User Guide .  If you choose a security group that doesn't allow connections from within itself, do one of the following:   Configure the security group to allow it to communicate within itself.   Choose a different security group that can communicate with the mount target's security group.
@@ -549,7 +597,7 @@ public struct DataSync: AWSService {
         return try await self.createLocationHdfs(input, logger: logger)
     }
 
-    /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses NFS file servers.  If you're copying data to or from an Snowcone device, you can also use CreateLocationNfs to create your transfer location. For more information, see Configuring transfers with Snowcone.
+    /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses NFS file servers.
     @Sendable
     @inlinable
     public func createLocationNfs(_ input: CreateLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationNfsResponse {
@@ -562,7 +610,7 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses NFS file servers.  If you're copying data to or from an Snowcone device, you can also use CreateLocationNfs to create your transfer location. For more information, see Configuring transfers with Snowcone.
+    /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses NFS file servers.
     ///
     /// Parameters:
     ///   - mountOptions: Specifies the options that DataSync can use to mount your NFS file server.
@@ -690,7 +738,7 @@ public struct DataSync: AWSService {
         return try await self.createLocationS3(input, logger: logger)
     }
 
-    /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers.
+    /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers. For more information, see Providing DataSync access to SMB file servers.
     @Sendable
     @inlinable
     public func createLocationSmb(_ input: CreateLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLocationSmbResponse {
@@ -703,33 +751,48 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers.
+    /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync accesses SMB file servers. For more information, see Providing DataSync access to SMB file servers.
     ///
     /// Parameters:
     ///   - agentArns: Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
-    ///   - domain: Specifies the name of the Active Directory domain that your SMB file server belongs to.  If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
+    ///   - authenticationType: Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+    ///   - dnsIpAddresses: Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
+    ///   - domain: Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
+    ///   - kerberosKeytab: Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+    ///   - kerberosKrb5Conf: Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
+    ///   - kerberosPrincipal: Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
     ///   - mountOptions: Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
-    ///   - password: Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. For more information, see required permissions for SMB locations.
-    ///   - serverHostname: Specifies the Domain Name Service (DNS) name or IP address of the SMB file server that your DataSync agent will mount.  You can't specify an IP version 6 (IPv6) address.
-    ///   - subdirectory: Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see required permissions for SMB locations.
+    ///   - password: Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
+    ///   - serverHostname: Specifies the domain name or IP address of the SMB file server that your DataSync agent will mount. Remember the following when configuring this parameter:   You can't specify an IP version 6 (IPv6) address.   If you're using Kerberos authentication, you must specify a domain name.
+    ///   - subdirectory: Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers.
     ///   - tags: Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
-    ///   - user: Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. For information about choosing a user with the right level of access for your transfer, see required permissions for SMB locations.
+    ///   - user: Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. This parameter applies only if AuthenticationType is set to NTLM. For information about choosing a user with the right level of access for your transfer, see Providing DataSync access to SMB file servers.
     ///   - logger: Logger use during operation
     @inlinable
     public func createLocationSmb(
         agentArns: [String],
+        authenticationType: SmbAuthenticationType? = nil,
+        dnsIpAddresses: [String]? = nil,
         domain: String? = nil,
+        kerberosKeytab: AWSBase64Data? = nil,
+        kerberosKrb5Conf: AWSBase64Data? = nil,
+        kerberosPrincipal: String? = nil,
         mountOptions: SmbMountOptions? = nil,
-        password: String,
+        password: String? = nil,
         serverHostname: String,
         subdirectory: String,
         tags: [TagListEntry]? = nil,
-        user: String,
+        user: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateLocationSmbResponse {
         let input = CreateLocationSmbRequest(
             agentArns: agentArns, 
+            authenticationType: authenticationType, 
+            dnsIpAddresses: dnsIpAddresses, 
             domain: domain, 
+            kerberosKeytab: kerberosKeytab, 
+            kerberosKrb5Conf: kerberosKrb5Conf, 
+            kerberosPrincipal: kerberosPrincipal, 
             mountOptions: mountOptions, 
             password: password, 
             serverHostname: serverHostname, 
@@ -2000,7 +2063,7 @@ public struct DataSync: AWSService {
         return try await self.updateDiscoveryJob(input, logger: logger)
     }
 
-    /// Modifies some configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync.
+    /// Modifies the following configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Azure Blob Storage.
     @Sendable
     @inlinable
     public func updateLocationAzureBlob(_ input: UpdateLocationAzureBlobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationAzureBlobResponse {
@@ -2013,7 +2076,7 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Modifies some configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync.
+    /// Modifies the following configurations of the Microsoft Azure Blob Storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Azure Blob Storage.
     ///
     /// Parameters:
     ///   - accessTier: Specifies the access tier that you want your objects or files transferred into. This only applies when using the location as a transfer destination. For more information, see Access tiers.
@@ -2047,7 +2110,191 @@ public struct DataSync: AWSService {
         return try await self.updateLocationAzureBlob(input, logger: logger)
     }
 
-    /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
+    /// Modifies the following configuration parameters of the Amazon EFS transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Amazon EFS.
+    @Sendable
+    @inlinable
+    public func updateLocationEfs(_ input: UpdateLocationEfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationEfsResponse {
+        try await self.client.execute(
+            operation: "UpdateLocationEfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the following configuration parameters of the Amazon EFS transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with Amazon EFS.
+    ///
+    /// Parameters:
+    ///   - accessPointArn: Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to mount your Amazon EFS file system. For more information, see Accessing restricted Amazon EFS file systems.
+    ///   - fileSystemAccessRoleArn: Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see Creating a DataSync IAM role for Amazon EFS file system access.
+    ///   - inTransitEncryption: Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
+    ///   - locationArn: Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer location that you're updating.
+    ///   - subdirectory: Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLocationEfs(
+        accessPointArn: String? = nil,
+        fileSystemAccessRoleArn: String? = nil,
+        inTransitEncryption: EfsInTransitEncryption? = nil,
+        locationArn: String,
+        subdirectory: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLocationEfsResponse {
+        let input = UpdateLocationEfsRequest(
+            accessPointArn: accessPointArn, 
+            fileSystemAccessRoleArn: fileSystemAccessRoleArn, 
+            inTransitEncryption: inTransitEncryption, 
+            locationArn: locationArn, 
+            subdirectory: subdirectory
+        )
+        return try await self.updateLocationEfs(input, logger: logger)
+    }
+
+    /// Modifies the following configuration parameters of the Amazon FSx for Lustre transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for Lustre.
+    @Sendable
+    @inlinable
+    public func updateLocationFsxLustre(_ input: UpdateLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationFsxLustreResponse {
+        try await self.client.execute(
+            operation: "UpdateLocationFsxLustre", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the following configuration parameters of the Amazon FSx for Lustre transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for Lustre.
+    ///
+    /// Parameters:
+    ///   - locationArn: Specifies the Amazon Resource Name (ARN) of the FSx for Lustre transfer location that you're updating.
+    ///   - subdirectory: Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLocationFsxLustre(
+        locationArn: String,
+        subdirectory: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLocationFsxLustreResponse {
+        let input = UpdateLocationFsxLustreRequest(
+            locationArn: locationArn, 
+            subdirectory: subdirectory
+        )
+        return try await self.updateLocationFsxLustre(input, logger: logger)
+    }
+
+    /// Modifies the following configuration parameters of the Amazon FSx for NetApp ONTAP transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for ONTAP.
+    @Sendable
+    @inlinable
+    public func updateLocationFsxOntap(_ input: UpdateLocationFsxOntapRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationFsxOntapResponse {
+        try await self.client.execute(
+            operation: "UpdateLocationFsxOntap", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the following configuration parameters of the Amazon FSx for NetApp ONTAP transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for ONTAP.
+    ///
+    /// Parameters:
+    ///   - locationArn: Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP transfer location that you're updating.
+    ///   - protocol: Specifies the data transfer protocol that DataSync uses to access your Amazon FSx file system.
+    ///   - subdirectory: Specifies a path to the file share in the storage virtual machine (SVM) where you want to transfer data to or from. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1.  Don't specify a junction path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLocationFsxOntap(
+        locationArn: String,
+        protocol: FsxUpdateProtocol? = nil,
+        subdirectory: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLocationFsxOntapResponse {
+        let input = UpdateLocationFsxOntapRequest(
+            locationArn: locationArn, 
+            protocol: `protocol`, 
+            subdirectory: subdirectory
+        )
+        return try await self.updateLocationFsxOntap(input, logger: logger)
+    }
+
+    /// Modifies the following configuration parameters of the Amazon FSx for OpenZFS transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for OpenZFS.  Request parameters related to SMB aren't supported with the UpdateLocationFsxOpenZfs operation.
+    @Sendable
+    @inlinable
+    public func updateLocationFsxOpenZfs(_ input: UpdateLocationFsxOpenZfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationFsxOpenZfsResponse {
+        try await self.client.execute(
+            operation: "UpdateLocationFsxOpenZfs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the following configuration parameters of the Amazon FSx for OpenZFS transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for OpenZFS.  Request parameters related to SMB aren't supported with the UpdateLocationFsxOpenZfs operation.
+    ///
+    /// Parameters:
+    ///   - locationArn: Specifies the Amazon Resource Name (ARN) of the FSx for OpenZFS transfer location that you're updating.
+    ///   - protocol: 
+    ///   - subdirectory: Specifies a subdirectory in the location's path that must begin with /fsx. DataSync uses this subdirectory to read or write data (depending on whether the file system is a source or destination location).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLocationFsxOpenZfs(
+        locationArn: String,
+        protocol: FsxProtocol? = nil,
+        subdirectory: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLocationFsxOpenZfsResponse {
+        let input = UpdateLocationFsxOpenZfsRequest(
+            locationArn: locationArn, 
+            protocol: `protocol`, 
+            subdirectory: subdirectory
+        )
+        return try await self.updateLocationFsxOpenZfs(input, logger: logger)
+    }
+
+    /// Modifies the following configuration parameters of the Amazon FSx for Windows File Server transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for Windows File Server.
+    @Sendable
+    @inlinable
+    public func updateLocationFsxWindows(_ input: UpdateLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationFsxWindowsResponse {
+        try await self.client.execute(
+            operation: "UpdateLocationFsxWindows", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the following configuration parameters of the Amazon FSx for Windows File Server transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with FSx for Windows File Server.
+    ///
+    /// Parameters:
+    ///   - domain: Specifies the name of the Windows domain that your FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
+    ///   - locationArn: Specifies the ARN of the FSx for Windows File Server transfer location that you're updating.
+    ///   - password: Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
+    ///   - subdirectory: Specifies a mount path for your file system using forward slashes. DataSync uses this subdirectory to read or write data (depending on whether the file system is a source or destination location).
+    ///   - user: Specifies the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. For information about choosing a user with the right level of access for your transfer, see required permissions for FSx for Windows File Server locations.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLocationFsxWindows(
+        domain: String? = nil,
+        locationArn: String,
+        password: String? = nil,
+        subdirectory: String? = nil,
+        user: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLocationFsxWindowsResponse {
+        let input = UpdateLocationFsxWindowsRequest(
+            domain: domain, 
+            locationArn: locationArn, 
+            password: password, 
+            subdirectory: subdirectory, 
+            user: user
+        )
+        return try await self.updateLocationFsxWindows(input, logger: logger)
+    }
+
+    /// Modifies the following configuration parameters of the Hadoop Distributed File System (HDFS) transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an HDFS cluster.
     @Sendable
     @inlinable
     public func updateLocationHdfs(_ input: UpdateLocationHdfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationHdfsResponse {
@@ -2060,7 +2307,7 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Updates some parameters of a previously created location for a Hadoop Distributed File System cluster.
+    /// Modifies the following configuration parameters of the Hadoop Distributed File System (HDFS) transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an HDFS cluster.
     ///
     /// Parameters:
     ///   - agentArns: The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
@@ -2112,7 +2359,7 @@ public struct DataSync: AWSService {
         return try await self.updateLocationHdfs(input, logger: logger)
     }
 
-    /// Modifies some configurations of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see Configuring transfers to or from an NFS file server.
+    /// Modifies the following configuration parameters of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see Configuring transfers with an NFS file server.
     @Sendable
     @inlinable
     public func updateLocationNfs(_ input: UpdateLocationNfsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationNfsResponse {
@@ -2125,7 +2372,7 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Modifies some configurations of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see Configuring transfers to or from an NFS file server.
+    /// Modifies the following configuration parameters of the Network File System (NFS) transfer location that you're using with DataSync. For more information, see Configuring transfers with an NFS file server.
     ///
     /// Parameters:
     ///   - locationArn: Specifies the Amazon Resource Name (ARN) of the NFS transfer location that you want to update.
@@ -2150,7 +2397,7 @@ public struct DataSync: AWSService {
         return try await self.updateLocationNfs(input, logger: logger)
     }
 
-    /// Updates some parameters of an existing DataSync location for an object storage system.
+    /// Modifies the following configuration parameters of the object storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an object storage system.
     @Sendable
     @inlinable
     public func updateLocationObjectStorage(_ input: UpdateLocationObjectStorageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationObjectStorageResponse {
@@ -2163,7 +2410,7 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Updates some parameters of an existing DataSync location for an object storage system.
+    /// Modifies the following configuration parameters of the object storage transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an object storage system.
     ///
     /// Parameters:
     ///   - accessKey: Specifies the access key (for example, a user name) if credentials are required to authenticate with the object storage server.
@@ -2200,7 +2447,45 @@ public struct DataSync: AWSService {
         return try await self.updateLocationObjectStorage(input, logger: logger)
     }
 
-    /// Updates some of the parameters of a Server Message Block (SMB) file server location that you can use for DataSync transfers.
+    /// Modifies the following configuration parameters of the Amazon S3 transfer location that you're using with DataSync.  Before you begin, make sure that you read the following topics:    Storage class considerations with Amazon S3 locations     Evaluating S3 request costs when using DataSync
+    @Sendable
+    @inlinable
+    public func updateLocationS3(_ input: UpdateLocationS3Request, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationS3Response {
+        try await self.client.execute(
+            operation: "UpdateLocationS3", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the following configuration parameters of the Amazon S3 transfer location that you're using with DataSync.  Before you begin, make sure that you read the following topics:    Storage class considerations with Amazon S3 locations     Evaluating S3 request costs when using DataSync
+    ///
+    /// Parameters:
+    ///   - locationArn: Specifies the Amazon Resource Name (ARN) of the Amazon S3 transfer location that you're updating.
+    ///   - s3Config: 
+    ///   - s3StorageClass: Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class defaults to STANDARD. For buckets on Outposts, the storage class defaults to OUTPOSTS. For more information, see Storage class considerations with Amazon S3 transfers.
+    ///   - subdirectory: Specifies a prefix in the S3 bucket that DataSync  reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateLocationS3(
+        locationArn: String,
+        s3Config: S3Config? = nil,
+        s3StorageClass: S3StorageClass? = nil,
+        subdirectory: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateLocationS3Response {
+        let input = UpdateLocationS3Request(
+            locationArn: locationArn, 
+            s3Config: s3Config, 
+            s3StorageClass: s3StorageClass, 
+            subdirectory: subdirectory
+        )
+        return try await self.updateLocationS3(input, logger: logger)
+    }
+
+    /// Modifies the following configuration parameters of the Server Message Block (SMB) transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an SMB file server.
     @Sendable
     @inlinable
     public func updateLocationSmb(_ input: UpdateLocationSmbRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLocationSmbResponse {
@@ -2213,21 +2498,31 @@ public struct DataSync: AWSService {
             logger: logger
         )
     }
-    /// Updates some of the parameters of a Server Message Block (SMB) file server location that you can use for DataSync transfers.
+    /// Modifies the following configuration parameters of the Server Message Block (SMB) transfer location that you're using with DataSync. For more information, see Configuring DataSync transfers with an SMB file server.
     ///
     /// Parameters:
     ///   - agentArns: Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
-    ///   - domain: Specifies the Windows domain name that your SMB file server belongs to.  If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. For more information, see required permissions for SMB locations.
+    ///   - authenticationType: Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+    ///   - dnsIpAddresses: Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
+    ///   - domain: Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
+    ///   - kerberosKeytab: Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+    ///   - kerberosKrb5Conf: Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
+    ///   - kerberosPrincipal: Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
     ///   - locationArn: Specifies the ARN of the SMB location that you want to update.
     ///   - mountOptions: 
-    ///   - password: Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. For more information, see required permissions for SMB locations.
-    ///   - subdirectory: Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see required permissions for SMB locations.
-    ///   - user: Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. For information about choosing a user with the right level of access for your transfer, see required permissions for SMB locations.
+    ///   - password: Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
+    ///   - subdirectory: Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers.
+    ///   - user: Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM. For information about choosing a user with the right level of access for your transfer, see Providing DataSync access to SMB file servers.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateLocationSmb(
         agentArns: [String]? = nil,
+        authenticationType: SmbAuthenticationType? = nil,
+        dnsIpAddresses: [String]? = nil,
         domain: String? = nil,
+        kerberosKeytab: AWSBase64Data? = nil,
+        kerberosKrb5Conf: AWSBase64Data? = nil,
+        kerberosPrincipal: String? = nil,
         locationArn: String,
         mountOptions: SmbMountOptions? = nil,
         password: String? = nil,
@@ -2237,7 +2532,12 @@ public struct DataSync: AWSService {
     ) async throws -> UpdateLocationSmbResponse {
         let input = UpdateLocationSmbRequest(
             agentArns: agentArns, 
+            authenticationType: authenticationType, 
+            dnsIpAddresses: dnsIpAddresses, 
             domain: domain, 
+            kerberosKeytab: kerberosKeytab, 
+            kerberosKrb5Conf: kerberosKrb5Conf, 
+            kerberosPrincipal: kerberosPrincipal, 
             locationArn: locationArn, 
             mountOptions: mountOptions, 
             password: password, 

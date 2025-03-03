@@ -93,6 +93,7 @@ public struct Batch: AWSService {
             "ap-southeast-3": "fips.batch.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "fips.batch.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "fips.batch.ap-southeast-5.amazonaws.com",
+            "ap-southeast-7": "fips.batch.ap-southeast-7.amazonaws.com",
             "ca-central-1": "fips.batch.ca-central-1.amazonaws.com",
             "ca-west-1": "fips.batch.ca-west-1.amazonaws.com",
             "eu-central-1": "fips.batch.eu-central-1.amazonaws.com",
@@ -106,6 +107,7 @@ public struct Batch: AWSService {
             "il-central-1": "fips.batch.il-central-1.amazonaws.com",
             "me-central-1": "fips.batch.me-central-1.amazonaws.com",
             "me-south-1": "fips.batch.me-south-1.amazonaws.com",
+            "mx-central-1": "fips.batch.mx-central-1.amazonaws.com",
             "sa-east-1": "fips.batch.sa-east-1.amazonaws.com",
             "us-east-1": "fips.batch.us-east-1.amazonaws.com",
             "us-east-2": "fips.batch.us-east-2.amazonaws.com",
@@ -201,6 +203,44 @@ public struct Batch: AWSService {
             unmanagedvCpus: unmanagedvCpus
         )
         return try await self.createComputeEnvironment(input, logger: logger)
+    }
+
+    /// Creates an Batch consumable resource.
+    @Sendable
+    @inlinable
+    public func createConsumableResource(_ input: CreateConsumableResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConsumableResourceResponse {
+        try await self.client.execute(
+            operation: "CreateConsumableResource", 
+            path: "/v1/createconsumableresource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an Batch consumable resource.
+    ///
+    /// Parameters:
+    ///   - consumableResourceName: The name of the consumable resource. Must be unique.
+    ///   - resourceType: Indicates whether the resource is available to be re-used after a job completes. Can be  one of:     REPLENISHABLE (default)    NON_REPLENISHABLE
+    ///   - tags: The tags that you apply to the consumable resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources.
+    ///   - totalQuantity: The total amount of the consumable resource that is available. Must be non-negative.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConsumableResource(
+        consumableResourceName: String? = nil,
+        resourceType: String? = nil,
+        tags: [String: String]? = nil,
+        totalQuantity: Int64? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConsumableResourceResponse {
+        let input = CreateConsumableResourceRequest(
+            consumableResourceName: consumableResourceName, 
+            resourceType: resourceType, 
+            tags: tags, 
+            totalQuantity: totalQuantity
+        )
+        return try await self.createConsumableResource(input, logger: logger)
     }
 
     /// Creates an Batch job queue. When you create a job queue, you associate one or more compute environments to the queue and assign an order of preference for the compute environments. You also set a priority to the job queue that determines the order that the Batch scheduler places jobs onto its associated compute environments. For example, if a compute environment is associated with more than one job queue, the job queue with a higher priority is given preference for scheduling jobs to that compute environment.
@@ -312,6 +352,35 @@ public struct Batch: AWSService {
             computeEnvironment: computeEnvironment
         )
         return try await self.deleteComputeEnvironment(input, logger: logger)
+    }
+
+    /// Deletes the specified consumable resource.
+    @Sendable
+    @inlinable
+    public func deleteConsumableResource(_ input: DeleteConsumableResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteConsumableResourceResponse {
+        try await self.client.execute(
+            operation: "DeleteConsumableResource", 
+            path: "/v1/deleteconsumableresource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified consumable resource.
+    ///
+    /// Parameters:
+    ///   - consumableResource: The name or ARN of the consumable resource that will be deleted.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConsumableResource(
+        consumableResource: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteConsumableResourceResponse {
+        let input = DeleteConsumableResourceRequest(
+            consumableResource: consumableResource
+        )
+        return try await self.deleteConsumableResource(input, logger: logger)
     }
 
     /// Deletes the specified job queue. You must first disable submissions for a queue with the UpdateJobQueue operation. All jobs in the queue are eventually terminated when you delete a job queue. The jobs are terminated at a rate of about 16 jobs each second. It's not necessary to disassociate compute environments from a queue before submitting a DeleteJobQueue request.
@@ -434,6 +503,35 @@ public struct Batch: AWSService {
             nextToken: nextToken
         )
         return try await self.describeComputeEnvironments(input, logger: logger)
+    }
+
+    /// Returns a description of the specified consumable resource.
+    @Sendable
+    @inlinable
+    public func describeConsumableResource(_ input: DescribeConsumableResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeConsumableResourceResponse {
+        try await self.client.execute(
+            operation: "DescribeConsumableResource", 
+            path: "/v1/describeconsumableresource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a description of the specified consumable resource.
+    ///
+    /// Parameters:
+    ///   - consumableResource: The name or ARN of the consumable resource whose description will be returned.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeConsumableResource(
+        consumableResource: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeConsumableResourceResponse {
+        let input = DescribeConsumableResourceRequest(
+            consumableResource: consumableResource
+        )
+        return try await self.describeConsumableResource(input, logger: logger)
     }
 
     /// Describes a list of job definitions. You can specify a status (such as ACTIVE) to only return job definitions that match that status.
@@ -599,6 +697,41 @@ public struct Batch: AWSService {
         return try await self.getJobQueueSnapshot(input, logger: logger)
     }
 
+    /// Returns a list of Batch consumable resources.
+    @Sendable
+    @inlinable
+    public func listConsumableResources(_ input: ListConsumableResourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConsumableResourcesResponse {
+        try await self.client.execute(
+            operation: "ListConsumableResources", 
+            path: "/v1/listconsumableresources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of Batch consumable resources.
+    ///
+    /// Parameters:
+    ///   - filters: The filters to apply to the consumable resource list query. If used, only those consumable  resources that match the filter are listed. Filter names and values can be:   name: CONSUMABLE_RESOURCE_NAME   values: case-insensitive matches for the consumable resource name. If a filter  value ends with an asterisk (*), it matches any consumable resource name that begins  with the string before the '*'.
+    ///   - maxResults: The maximum number of results returned by ListConsumableResources in paginated output. When this parameter is used, ListConsumableResources only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListConsumableResources request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListConsumableResources returns up to 100 results and a nextToken value if applicable.
+    ///   - nextToken: The nextToken value returned from a previous paginated  ListConsumableResources request where maxResults was used and the  results exceeded the value of that parameter. Pagination continues from the end of the previous  results that returned the nextToken value. This value is null when  there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConsumableResources(
+        filters: [KeyValuesPair]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConsumableResourcesResponse {
+        let input = ListConsumableResourcesRequest(
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listConsumableResources(input, logger: logger)
+    }
+
     /// Returns a list of Batch jobs. You must specify only one of the following items:   A job queue ID to return a list of jobs in that job queue   A multi-node parallel job ID to return a list of nodes for that job   An array job ID to return a list of the children for that job   You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
     @Sendable
     @inlinable
@@ -644,6 +777,44 @@ public struct Batch: AWSService {
             nextToken: nextToken
         )
         return try await self.listJobs(input, logger: logger)
+    }
+
+    /// Returns a list of Batch jobs that require a specific consumable resource.
+    @Sendable
+    @inlinable
+    public func listJobsByConsumableResource(_ input: ListJobsByConsumableResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListJobsByConsumableResourceResponse {
+        try await self.client.execute(
+            operation: "ListJobsByConsumableResource", 
+            path: "/v1/listjobsbyconsumableresource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of Batch jobs that require a specific consumable resource.
+    ///
+    /// Parameters:
+    ///   - consumableResource: The name or ARN of the consumable resource.
+    ///   - filters: The filters to apply to the job list query. If used, only those jobs requiring the specified  consumable resource (consumableResource) and that match the value of the filters are listed. The filter names and values can be:   name: JOB_STATUS  values: SUBMITTED | PENDING | RUNNABLE | STARTING | RUNNING | SUCCEEDED | FAILED    name: JOB_NAME   The values are case-insensitive matches for the job name. If a filter value ends  with an asterisk (*), it matches any job name that begins with the string before  the '*'.
+    ///   - maxResults: The maximum number of results returned by ListJobsByConsumableResource in paginated output. When this parameter is used, ListJobsByConsumableResource only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobsByConsumableResource request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListJobsByConsumableResource returns up to 100 results  and a nextToken value if applicable.
+    ///   - nextToken: The nextToken value returned from a previous paginated  ListJobsByConsumableResource request where maxResults was used and the  results exceeded the value of that parameter. Pagination continues from the end of the previous  results that returned the nextToken value. This value is null when  there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listJobsByConsumableResource(
+        consumableResource: String? = nil,
+        filters: [KeyValuesPair]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListJobsByConsumableResourceResponse {
+        let input = ListJobsByConsumableResourceRequest(
+            consumableResource: consumableResource, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listJobsByConsumableResource(input, logger: logger)
     }
 
     /// Returns a list of Batch scheduling policies.
@@ -723,6 +894,7 @@ public struct Batch: AWSService {
     /// Registers an Batch job definition.
     ///
     /// Parameters:
+    ///   - consumableResourceProperties: Contains a list of consumable resources required by the job.
     ///   - containerProperties: An object with properties specific to Amazon ECS-based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS-based job definitions.  If the job runs on Fargate resources, then you must not specify nodeProperties; use only containerProperties.
     ///   - ecsProperties: An object with properties that are specific to Amazon ECS-based jobs. This must not be specified for Amazon EKS-based job definitions.
     ///   - eksProperties: An object with properties that are specific to Amazon EKS-based jobs. This must not be specified for Amazon ECS based job definitions.
@@ -739,6 +911,7 @@ public struct Batch: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func registerJobDefinition(
+        consumableResourceProperties: ConsumableResourceProperties? = nil,
         containerProperties: ContainerProperties? = nil,
         ecsProperties: EcsProperties? = nil,
         eksProperties: EksProperties? = nil,
@@ -755,6 +928,7 @@ public struct Batch: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RegisterJobDefinitionResponse {
         let input = RegisterJobDefinitionRequest(
+            consumableResourceProperties: consumableResourceProperties, 
             containerProperties: containerProperties, 
             ecsProperties: ecsProperties, 
             eksProperties: eksProperties, 
@@ -789,6 +963,7 @@ public struct Batch: AWSService {
     ///
     /// Parameters:
     ///   - arrayProperties: The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. For more information, see Array Jobs in the Batch User Guide.
+    ///   - consumableResourcePropertiesOverride: An object that contains overrides for the consumable resources of a job.
     ///   - containerOverrides: An object with properties that override the defaults for the job definition that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container, which is specified in the job definition or the Docker image, with a command override. You can also override existing environment variables on a container or add new environment variables to it with an environment override.
     ///   - dependsOn: A list of dependencies for the job. A job can depend upon a maximum of 20 jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array jobs so that each child array job completes sequentially, starting at index 0. You can also specify an N_TO_N type dependency with a job ID for array jobs. In that case, each index child of this job must wait for the corresponding index child of each dependency to complete before it can begin.
     ///   - ecsPropertiesOverride: An object, with properties that override defaults for the job definition, can only be specified for jobs that are run on Amazon ECS resources.
@@ -808,6 +983,7 @@ public struct Batch: AWSService {
     @inlinable
     public func submitJob(
         arrayProperties: ArrayProperties? = nil,
+        consumableResourcePropertiesOverride: ConsumableResourceProperties? = nil,
         containerOverrides: ContainerOverrides? = nil,
         dependsOn: [JobDependency]? = nil,
         ecsPropertiesOverride: EcsPropertiesOverride? = nil,
@@ -827,6 +1003,7 @@ public struct Batch: AWSService {
     ) async throws -> SubmitJobResponse {
         let input = SubmitJobRequest(
             arrayProperties: arrayProperties, 
+            consumableResourcePropertiesOverride: consumableResourcePropertiesOverride, 
             containerOverrides: containerOverrides, 
             dependsOn: dependsOn, 
             ecsPropertiesOverride: ecsPropertiesOverride, 
@@ -987,6 +1164,44 @@ public struct Batch: AWSService {
             updatePolicy: updatePolicy
         )
         return try await self.updateComputeEnvironment(input, logger: logger)
+    }
+
+    /// Updates a consumable resource.
+    @Sendable
+    @inlinable
+    public func updateConsumableResource(_ input: UpdateConsumableResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConsumableResourceResponse {
+        try await self.client.execute(
+            operation: "UpdateConsumableResource", 
+            path: "/v1/updateconsumableresource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a consumable resource.
+    ///
+    /// Parameters:
+    ///   - clientToken: If this parameter is specified and two update requests with identical payloads and  clientTokens are received, these requests are considered the same request and  the second request is rejected. A clientToken is valid for 8 hours or until one hour after the consumable resource is deleted, whichever is less.
+    ///   - consumableResource: The name or ARN of the consumable resource to be updated.
+    ///   - operation: Indicates how the quantity of the consumable resource will be updated. Must be one of:    SET  Sets the quantity of the resource to the value specified by the quantity parameter.    ADD  Increases the quantity of the resource by the value specified by the quantity parameter.    REMOVE  Reduces the quantity of the resource by the value specified by the quantity parameter.
+    ///   - quantity: The change in the total quantity of the consumable resource. The operation parameter determines whether the value specified here will be the new total quantity, or the amount by which the total quantity will be increased or reduced. Must be a non-negative  value.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConsumableResource(
+        clientToken: String? = UpdateConsumableResourceRequest.idempotencyToken(),
+        consumableResource: String? = nil,
+        operation: String? = nil,
+        quantity: Int64? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConsumableResourceResponse {
+        let input = UpdateConsumableResourceRequest(
+            clientToken: clientToken, 
+            consumableResource: consumableResource, 
+            operation: operation, 
+            quantity: quantity
+        )
+        return try await self.updateConsumableResource(input, logger: logger)
     }
 
     /// Updates a job queue.
@@ -1196,6 +1411,43 @@ extension Batch {
         return self.describeJobQueuesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConsumableResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConsumableResourcesPaginator(
+        _ input: ListConsumableResourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConsumableResourcesRequest, ListConsumableResourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listConsumableResources,
+            inputKey: \ListConsumableResourcesRequest.nextToken,
+            outputKey: \ListConsumableResourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConsumableResources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - filters: The filters to apply to the consumable resource list query. If used, only those consumable  resources that match the filter are listed. Filter names and values can be:   name: CONSUMABLE_RESOURCE_NAME   values: case-insensitive matches for the consumable resource name. If a filter  value ends with an asterisk (*), it matches any consumable resource name that begins  with the string before the '*'.
+    ///   - maxResults: The maximum number of results returned by ListConsumableResources in paginated output. When this parameter is used, ListConsumableResources only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListConsumableResources request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListConsumableResources returns up to 100 results and a nextToken value if applicable.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConsumableResourcesPaginator(
+        filters: [KeyValuesPair]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConsumableResourcesRequest, ListConsumableResourcesResponse> {
+        let input = ListConsumableResourcesRequest(
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listConsumableResourcesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listJobs(_:logger:)``.
     ///
     /// - Parameters:
@@ -1243,6 +1495,46 @@ extension Batch {
             multiNodeJobId: multiNodeJobId
         )
         return self.listJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listJobsByConsumableResource(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobsByConsumableResourcePaginator(
+        _ input: ListJobsByConsumableResourceRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListJobsByConsumableResourceRequest, ListJobsByConsumableResourceResponse> {
+        return .init(
+            input: input,
+            command: self.listJobsByConsumableResource,
+            inputKey: \ListJobsByConsumableResourceRequest.nextToken,
+            outputKey: \ListJobsByConsumableResourceResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listJobsByConsumableResource(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - consumableResource: The name or ARN of the consumable resource.
+    ///   - filters: The filters to apply to the job list query. If used, only those jobs requiring the specified  consumable resource (consumableResource) and that match the value of the filters are listed. The filter names and values can be:   name: JOB_STATUS  values: SUBMITTED | PENDING | RUNNABLE | STARTING | RUNNING | SUCCEEDED | FAILED    name: JOB_NAME   The values are case-insensitive matches for the job name. If a filter value ends  with an asterisk (*), it matches any job name that begins with the string before  the '*'.
+    ///   - maxResults: The maximum number of results returned by ListJobsByConsumableResource in paginated output. When this parameter is used, ListJobsByConsumableResource only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobsByConsumableResource request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListJobsByConsumableResource returns up to 100 results  and a nextToken value if applicable.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listJobsByConsumableResourcePaginator(
+        consumableResource: String? = nil,
+        filters: [KeyValuesPair]? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListJobsByConsumableResourceRequest, ListJobsByConsumableResourceResponse> {
+        let input = ListJobsByConsumableResourceRequest(
+            consumableResource: consumableResource, 
+            filters: filters, 
+            maxResults: maxResults
+        )
+        return self.listJobsByConsumableResourcePaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listSchedulingPolicies(_:logger:)``.
@@ -1309,6 +1601,29 @@ extension Batch.DescribeJobQueuesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Batch.DescribeJobQueuesRequest {
         return .init(
             jobQueues: self.jobQueues,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Batch.ListConsumableResourcesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Batch.ListConsumableResourcesRequest {
+        return .init(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Batch.ListJobsByConsumableResourceRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> Batch.ListJobsByConsumableResourceRequest {
+        return .init(
+            consumableResource: self.consumableResource,
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )

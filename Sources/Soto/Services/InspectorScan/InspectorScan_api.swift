@@ -101,7 +101,7 @@ public struct InspectorScan: AWSService {
     @inlinable
     public func scanSbom(
         outputFormat: OutputFormat? = nil,
-        sbom: String,
+        sbom: AWSDocument,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ScanSbomResponse {
         let input = ScanSbomRequest(

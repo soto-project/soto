@@ -65,7 +65,6 @@ public struct MediaConvert: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-08-29",
             endpoint: endpoint,
-            serviceEndpoints: Self.serviceEndpoints,
             variantEndpoints: Self.variantEndpoints,
             errorType: MediaConvertErrorType.self,
             middleware: middleware,
@@ -76,14 +75,42 @@ public struct MediaConvert: AWSService {
     }
 
 
-    /// custom endpoints for regions
-    static var serviceEndpoints: [String: String] {[
-        "cn-northwest-1": "mediaconvert.cn-northwest-1.amazonaws.com.cn"
-    ]}
 
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "mediaconvert.af-south-1.api.aws",
+            "ap-northeast-1": "mediaconvert.ap-northeast-1.api.aws",
+            "ap-northeast-2": "mediaconvert.ap-northeast-2.api.aws",
+            "ap-northeast-3": "mediaconvert.ap-northeast-3.api.aws",
+            "ap-south-1": "mediaconvert.ap-south-1.api.aws",
+            "ap-southeast-1": "mediaconvert.ap-southeast-1.api.aws",
+            "ap-southeast-2": "mediaconvert.ap-southeast-2.api.aws",
+            "ap-southeast-4": "mediaconvert.ap-southeast-4.api.aws",
+            "ca-central-1": "mediaconvert.ca-central-1.api.aws",
+            "cn-northwest-1": "mediaconvert.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "mediaconvert.eu-central-1.api.aws",
+            "eu-north-1": "mediaconvert.eu-north-1.api.aws",
+            "eu-west-1": "mediaconvert.eu-west-1.api.aws",
+            "eu-west-2": "mediaconvert.eu-west-2.api.aws",
+            "eu-west-3": "mediaconvert.eu-west-3.api.aws",
+            "me-central-1": "mediaconvert.me-central-1.api.aws",
+            "sa-east-1": "mediaconvert.sa-east-1.api.aws",
+            "us-east-1": "mediaconvert.us-east-1.api.aws",
+            "us-east-2": "mediaconvert.us-east-2.api.aws",
+            "us-gov-west-1": "mediaconvert.us-gov-west-1.api.aws",
+            "us-west-1": "mediaconvert.us-west-1.api.aws",
+            "us-west-2": "mediaconvert.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "mediaconvert-fips.ca-central-1.api.aws",
+            "us-east-1": "mediaconvert-fips.us-east-1.api.aws",
+            "us-east-2": "mediaconvert-fips.us-east-2.api.aws",
+            "us-gov-west-1": "mediaconvert.us-gov-west-1.api.aws",
+            "us-west-1": "mediaconvert-fips.us-west-1.api.aws",
+            "us-west-2": "mediaconvert-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "mediaconvert-fips.ca-central-1.amazonaws.com",
             "us-east-1": "mediaconvert-fips.us-east-1.amazonaws.com",
@@ -907,6 +934,35 @@ public struct MediaConvert: AWSService {
             nextToken: nextToken
         )
         return try await self.listVersions(input, logger: logger)
+    }
+
+    /// The Probe operation analyzes the provided media file and returns comprehensive metadata about its container format, tracks, and any encountered errors.
+    @Sendable
+    @inlinable
+    public func probe(_ input: ProbeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProbeResponse {
+        try await self.client.execute(
+            operation: "Probe", 
+            path: "/2017-08-29/probe", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// The Probe operation analyzes the provided media file and returns comprehensive metadata about its container format, tracks, and any encountered errors.
+    ///
+    /// Parameters:
+    ///   - inputFiles: The list of input media files to be probed.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func probe(
+        inputFiles: [ProbeInputFile]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ProbeResponse {
+        let input = ProbeRequest(
+            inputFiles: inputFiles
+        )
+        return try await self.probe(input, logger: logger)
     }
 
     /// Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html

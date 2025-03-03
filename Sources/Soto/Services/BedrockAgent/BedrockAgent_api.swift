@@ -944,7 +944,7 @@ public struct BedrockAgent: AWSService {
         return try await self.deleteKnowledgeBase(input, logger: logger)
     }
 
-    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func deleteKnowledgeBaseDocuments(_ input: DeleteKnowledgeBaseDocumentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteKnowledgeBaseDocumentsResponse {
@@ -957,7 +957,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    /// Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
@@ -1471,7 +1471,7 @@ public struct BedrockAgent: AWSService {
         return try await self.getKnowledgeBase(input, logger: logger)
     }
 
-    /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func getKnowledgeBaseDocuments(_ input: GetKnowledgeBaseDocumentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetKnowledgeBaseDocumentsResponse {
@@ -1484,7 +1484,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    /// Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - dataSourceId: The unique identifier of the data source that contains the documents.
@@ -1538,7 +1538,7 @@ public struct BedrockAgent: AWSService {
         return try await self.getPrompt(input, logger: logger)
     }
 
-    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func ingestKnowledgeBaseDocuments(_ input: IngestKnowledgeBaseDocumentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> IngestKnowledgeBaseDocumentsResponse {
@@ -1551,7 +1551,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    /// Ingests documents directly into the knowledge base that is connected to the data source. The dataSourceType specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
@@ -1973,7 +1973,7 @@ public struct BedrockAgent: AWSService {
         return try await self.listIngestionJobs(input, logger: logger)
     }
 
-    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func listKnowledgeBaseDocuments(_ input: ListKnowledgeBaseDocumentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListKnowledgeBaseDocumentsResponse {
@@ -1986,7 +1986,7 @@ public struct BedrockAgent: AWSService {
             logger: logger
         )
     }
-    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest documents into a knowledge base in real-time in the Amazon Bedrock User Guide.
+    /// Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - dataSourceId: The unique identifier of the data source that contains the documents.

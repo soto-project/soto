@@ -200,10 +200,14 @@ extension TaxSettings {
     public struct AdditionalInfoRequest: AWSEncodableShape {
         ///  Additional tax information associated with your TRN in Canada.
         public let canadaAdditionalInfo: CanadaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Egypt.
+        public let egyptAdditionalInfo: EgyptAdditionalInfo?
         ///  Additional tax information to specify for a TRN in Estonia.
         public let estoniaAdditionalInfo: EstoniaAdditionalInfo?
         ///  Additional tax information to specify for a TRN in Georgia.
         public let georgiaAdditionalInfo: GeorgiaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Greece.
+        public let greeceAdditionalInfo: GreeceAdditionalInfo?
         ///  Additional tax information to specify for a TRN in Israel.
         public let israelAdditionalInfo: IsraelAdditionalInfo?
         ///  Additional tax information to specify for a TRN in Italy.
@@ -226,12 +230,16 @@ extension TaxSettings {
         public let turkeyAdditionalInfo: TurkeyAdditionalInfo?
         ///  Additional tax information associated with your TRN in Ukraine.
         public let ukraineAdditionalInfo: UkraineAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Vietnam.
+        public let vietnamAdditionalInfo: VietnamAdditionalInfo?
 
         @inlinable
-        public init(canadaAdditionalInfo: CanadaAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil) {
+        public init(canadaAdditionalInfo: CanadaAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
             self.canadaAdditionalInfo = canadaAdditionalInfo
+            self.egyptAdditionalInfo = egyptAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
+            self.greeceAdditionalInfo = greeceAdditionalInfo
             self.israelAdditionalInfo = israelAdditionalInfo
             self.italyAdditionalInfo = italyAdditionalInfo
             self.kenyaAdditionalInfo = kenyaAdditionalInfo
@@ -243,22 +251,28 @@ extension TaxSettings {
             self.spainAdditionalInfo = spainAdditionalInfo
             self.turkeyAdditionalInfo = turkeyAdditionalInfo
             self.ukraineAdditionalInfo = ukraineAdditionalInfo
+            self.vietnamAdditionalInfo = vietnamAdditionalInfo
         }
 
         public func validate(name: String) throws {
             try self.canadaAdditionalInfo?.validate(name: "\(name).canadaAdditionalInfo")
+            try self.egyptAdditionalInfo?.validate(name: "\(name).egyptAdditionalInfo")
             try self.estoniaAdditionalInfo?.validate(name: "\(name).estoniaAdditionalInfo")
+            try self.greeceAdditionalInfo?.validate(name: "\(name).greeceAdditionalInfo")
             try self.italyAdditionalInfo?.validate(name: "\(name).italyAdditionalInfo")
             try self.malaysiaAdditionalInfo?.validate(name: "\(name).malaysiaAdditionalInfo")
             try self.polandAdditionalInfo?.validate(name: "\(name).polandAdditionalInfo")
             try self.southKoreaAdditionalInfo?.validate(name: "\(name).southKoreaAdditionalInfo")
             try self.turkeyAdditionalInfo?.validate(name: "\(name).turkeyAdditionalInfo")
+            try self.vietnamAdditionalInfo?.validate(name: "\(name).vietnamAdditionalInfo")
         }
 
         private enum CodingKeys: String, CodingKey {
             case canadaAdditionalInfo = "canadaAdditionalInfo"
+            case egyptAdditionalInfo = "egyptAdditionalInfo"
             case estoniaAdditionalInfo = "estoniaAdditionalInfo"
             case georgiaAdditionalInfo = "georgiaAdditionalInfo"
+            case greeceAdditionalInfo = "greeceAdditionalInfo"
             case israelAdditionalInfo = "israelAdditionalInfo"
             case italyAdditionalInfo = "italyAdditionalInfo"
             case kenyaAdditionalInfo = "kenyaAdditionalInfo"
@@ -270,6 +284,7 @@ extension TaxSettings {
             case spainAdditionalInfo = "spainAdditionalInfo"
             case turkeyAdditionalInfo = "turkeyAdditionalInfo"
             case ukraineAdditionalInfo = "ukraineAdditionalInfo"
+            case vietnamAdditionalInfo = "vietnamAdditionalInfo"
         }
     }
 
@@ -278,10 +293,14 @@ extension TaxSettings {
         public let brazilAdditionalInfo: BrazilAdditionalInfo?
         /// Additional tax information associated with your TRN in Canada.
         public let canadaAdditionalInfo: CanadaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Egypt.
+        public let egyptAdditionalInfo: EgyptAdditionalInfo?
         ///  Additional tax information associated with your  TRN in Estonia.
         public let estoniaAdditionalInfo: EstoniaAdditionalInfo?
         ///  Additional tax information associated with your TRN in Georgia.
         public let georgiaAdditionalInfo: GeorgiaAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Greece.
+        public let greeceAdditionalInfo: GreeceAdditionalInfo?
         ///  Additional tax information in India.
         public let indiaAdditionalInfo: IndiaAdditionalInfo?
         ///  Additional tax information associated with your TRN in Israel.
@@ -306,13 +325,17 @@ extension TaxSettings {
         public let turkeyAdditionalInfo: TurkeyAdditionalInfo?
         ///  Additional tax information associated with your TRN in Ukraine.
         public let ukraineAdditionalInfo: UkraineAdditionalInfo?
+        /// Additional tax information to specify for a TRN in Vietnam.
+        public let vietnamAdditionalInfo: VietnamAdditionalInfo?
 
         @inlinable
-        public init(brazilAdditionalInfo: BrazilAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, indiaAdditionalInfo: IndiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil) {
+        public init(brazilAdditionalInfo: BrazilAdditionalInfo? = nil, canadaAdditionalInfo: CanadaAdditionalInfo? = nil, egyptAdditionalInfo: EgyptAdditionalInfo? = nil, estoniaAdditionalInfo: EstoniaAdditionalInfo? = nil, georgiaAdditionalInfo: GeorgiaAdditionalInfo? = nil, greeceAdditionalInfo: GreeceAdditionalInfo? = nil, indiaAdditionalInfo: IndiaAdditionalInfo? = nil, israelAdditionalInfo: IsraelAdditionalInfo? = nil, italyAdditionalInfo: ItalyAdditionalInfo? = nil, kenyaAdditionalInfo: KenyaAdditionalInfo? = nil, malaysiaAdditionalInfo: MalaysiaAdditionalInfo? = nil, polandAdditionalInfo: PolandAdditionalInfo? = nil, romaniaAdditionalInfo: RomaniaAdditionalInfo? = nil, saudiArabiaAdditionalInfo: SaudiArabiaAdditionalInfo? = nil, southKoreaAdditionalInfo: SouthKoreaAdditionalInfo? = nil, spainAdditionalInfo: SpainAdditionalInfo? = nil, turkeyAdditionalInfo: TurkeyAdditionalInfo? = nil, ukraineAdditionalInfo: UkraineAdditionalInfo? = nil, vietnamAdditionalInfo: VietnamAdditionalInfo? = nil) {
             self.brazilAdditionalInfo = brazilAdditionalInfo
             self.canadaAdditionalInfo = canadaAdditionalInfo
+            self.egyptAdditionalInfo = egyptAdditionalInfo
             self.estoniaAdditionalInfo = estoniaAdditionalInfo
             self.georgiaAdditionalInfo = georgiaAdditionalInfo
+            self.greeceAdditionalInfo = greeceAdditionalInfo
             self.indiaAdditionalInfo = indiaAdditionalInfo
             self.israelAdditionalInfo = israelAdditionalInfo
             self.italyAdditionalInfo = italyAdditionalInfo
@@ -325,13 +348,16 @@ extension TaxSettings {
             self.spainAdditionalInfo = spainAdditionalInfo
             self.turkeyAdditionalInfo = turkeyAdditionalInfo
             self.ukraineAdditionalInfo = ukraineAdditionalInfo
+            self.vietnamAdditionalInfo = vietnamAdditionalInfo
         }
 
         private enum CodingKeys: String, CodingKey {
             case brazilAdditionalInfo = "brazilAdditionalInfo"
             case canadaAdditionalInfo = "canadaAdditionalInfo"
+            case egyptAdditionalInfo = "egyptAdditionalInfo"
             case estoniaAdditionalInfo = "estoniaAdditionalInfo"
             case georgiaAdditionalInfo = "georgiaAdditionalInfo"
+            case greeceAdditionalInfo = "greeceAdditionalInfo"
             case indiaAdditionalInfo = "indiaAdditionalInfo"
             case israelAdditionalInfo = "israelAdditionalInfo"
             case italyAdditionalInfo = "italyAdditionalInfo"
@@ -344,6 +370,7 @@ extension TaxSettings {
             case spainAdditionalInfo = "spainAdditionalInfo"
             case turkeyAdditionalInfo = "turkeyAdditionalInfo"
             case ukraineAdditionalInfo = "ukraineAdditionalInfo"
+            case vietnamAdditionalInfo = "vietnamAdditionalInfo"
         }
     }
 
@@ -740,6 +767,29 @@ extension TaxSettings {
         }
     }
 
+    public struct EgyptAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identification number provided by the Egypt Tax Authority.
+        public let uniqueIdentificationNumber: String?
+        /// The expiration date of the unique identification number provided by the Egypt Tax Authority.
+        public let uniqueIdentificationNumberExpirationDate: String?
+
+        @inlinable
+        public init(uniqueIdentificationNumber: String? = nil, uniqueIdentificationNumberExpirationDate: String? = nil) {
+            self.uniqueIdentificationNumber = uniqueIdentificationNumber
+            self.uniqueIdentificationNumberExpirationDate = uniqueIdentificationNumberExpirationDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uniqueIdentificationNumber, name: "uniqueIdentificationNumber", parent: name, pattern: "^[a-zA-Z0-9]{39}$")
+            try self.validate(self.uniqueIdentificationNumberExpirationDate, name: "uniqueIdentificationNumberExpirationDate", parent: name, pattern: "^(\\d{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[0-1]))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uniqueIdentificationNumber = "uniqueIdentificationNumber"
+            case uniqueIdentificationNumberExpirationDate = "uniqueIdentificationNumberExpirationDate"
+        }
+    }
+
     public struct EstoniaAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
         ///  Registry commercial code (RCC) for your TRN in Estonia. This value is an eight-numeric string, such as 12345678.
         public let registryCommercialCode: String
@@ -907,6 +957,24 @@ extension TaxSettings {
 
         private enum CodingKeys: String, CodingKey {
             case taxRegistration = "taxRegistration"
+        }
+    }
+
+    public struct GreeceAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The code of contracting authority for e-invoicing.
+        public let contractingAuthorityCode: String?
+
+        @inlinable
+        public init(contractingAuthorityCode: String? = nil) {
+            self.contractingAuthorityCode = contractingAuthorityCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contractingAuthorityCode, name: "contractingAuthorityCode", parent: name, pattern: "^\\d{4}\\.[A-Z]\\d{5}\\.\\d{4}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contractingAuthorityCode = "contractingAuthorityCode"
         }
     }
 
@@ -1897,6 +1965,39 @@ extension TaxSettings {
             case taxRegistrationDocuments = "taxRegistrationDocuments"
         }
     }
+
+    public struct VietnamAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The electronic transaction code number on the tax return document.
+        public let electronicTransactionCodeNumber: String?
+        /// The enterprise identification number for tax registration.
+        public let enterpriseIdentificationNumber: String?
+        /// The payment voucher number on the tax return payment document.
+        public let paymentVoucherNumber: String?
+        /// The date on the tax return payment document.
+        public let paymentVoucherNumberDate: String?
+
+        @inlinable
+        public init(electronicTransactionCodeNumber: String? = nil, enterpriseIdentificationNumber: String? = nil, paymentVoucherNumber: String? = nil, paymentVoucherNumberDate: String? = nil) {
+            self.electronicTransactionCodeNumber = electronicTransactionCodeNumber
+            self.enterpriseIdentificationNumber = enterpriseIdentificationNumber
+            self.paymentVoucherNumber = paymentVoucherNumber
+            self.paymentVoucherNumberDate = paymentVoucherNumberDate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.electronicTransactionCodeNumber, name: "electronicTransactionCodeNumber", parent: name, pattern: "^\\d{17}$")
+            try self.validate(self.enterpriseIdentificationNumber, name: "enterpriseIdentificationNumber", parent: name, pattern: "^(\\d{10}|(\\d{10}-\\d{3}))$")
+            try self.validate(self.paymentVoucherNumber, name: "paymentVoucherNumber", parent: name, pattern: "^\\d{17}$")
+            try self.validate(self.paymentVoucherNumberDate, name: "paymentVoucherNumberDate", parent: name, pattern: "^(\\d{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[0-1]))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case electronicTransactionCodeNumber = "electronicTransactionCodeNumber"
+            case enterpriseIdentificationNumber = "enterpriseIdentificationNumber"
+            case paymentVoucherNumber = "paymentVoucherNumber"
+            case paymentVoucherNumberDate = "paymentVoucherNumberDate"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1931,11 +2032,11 @@ public struct TaxSettingsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The access is denied for the Amazon Web Services Support API.
+    /// The access is denied for the Amazon Web ServicesSupport API.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Failed to upload the tax exemption document to Amazon Web Services Support case.
+    /// Failed to upload the tax exemption document to Amazon Web ServicesSupport case.
     public static var attachmentUploadException: Self { .init(.attachmentUploadException) }
-    /// You've exceeded the Amazon Web Services Support case creation limit for your account.
+    /// You've exceeded the Amazon Web ServicesSupport case creation limit for your account.
     public static var caseCreationLimitExceededException: Self { .init(.caseCreationLimitExceededException) }
     /// The exception when the input is creating conflict with the given state.
     public static var conflictException: Self { .init(.conflictException) }

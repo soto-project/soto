@@ -657,6 +657,68 @@ extension Batch {
         }
     }
 
+    public struct ConsumableResourceProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The list of consumable resources required by a job.
+        public let consumableResourceList: [ConsumableResourceRequirement]?
+
+        @inlinable
+        public init(consumableResourceList: [ConsumableResourceRequirement]? = nil) {
+            self.consumableResourceList = consumableResourceList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResourceList = "consumableResourceList"
+        }
+    }
+
+    public struct ConsumableResourceRequirement: AWSEncodableShape & AWSDecodableShape {
+        /// The name or ARN of the consumable resource.
+        public let consumableResource: String?
+        /// The quantity of the consumable resource that is needed.
+        public let quantity: Int64?
+
+        @inlinable
+        public init(consumableResource: String? = nil, quantity: Int64? = nil) {
+            self.consumableResource = consumableResource
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResource = "consumableResource"
+            case quantity = "quantity"
+        }
+    }
+
+    public struct ConsumableResourceSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the consumable resource.
+        public let consumableResourceArn: String?
+        /// The name of the consumable resource.
+        public let consumableResourceName: String?
+        /// The amount of the consumable resource that is currently in use.
+        public let inUseQuantity: Int64?
+        /// Indicates whether the resource is available to be re-used after a job completes. Can be  one of:     REPLENISHABLE     NON_REPLENISHABLE
+        public let resourceType: String?
+        /// The total amount of the consumable resource that is available.
+        public let totalQuantity: Int64?
+
+        @inlinable
+        public init(consumableResourceArn: String? = nil, consumableResourceName: String? = nil, inUseQuantity: Int64? = nil, resourceType: String? = nil, totalQuantity: Int64? = nil) {
+            self.consumableResourceArn = consumableResourceArn
+            self.consumableResourceName = consumableResourceName
+            self.inUseQuantity = inUseQuantity
+            self.resourceType = resourceType
+            self.totalQuantity = totalQuantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResourceArn = "consumableResourceArn"
+            case consumableResourceName = "consumableResourceName"
+            case inUseQuantity = "inUseQuantity"
+            case resourceType = "resourceType"
+            case totalQuantity = "totalQuantity"
+        }
+    }
+
     public struct ContainerDetail: AWSDecodableShape {
         /// The command that's passed to the container.
         public let command: [String]?
@@ -1051,6 +1113,60 @@ extension Batch {
         }
     }
 
+    public struct CreateConsumableResourceRequest: AWSEncodableShape {
+        /// The name of the consumable resource. Must be unique.
+        public let consumableResourceName: String?
+        /// Indicates whether the resource is available to be re-used after a job completes. Can be  one of:     REPLENISHABLE (default)    NON_REPLENISHABLE
+        public let resourceType: String?
+        /// The tags that you apply to the consumable resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources.
+        public let tags: [String: String]?
+        /// The total amount of the consumable resource that is available. Must be non-negative.
+        public let totalQuantity: Int64?
+
+        @inlinable
+        public init(consumableResourceName: String? = nil, resourceType: String? = nil, tags: [String: String]? = nil, totalQuantity: Int64? = nil) {
+            self.consumableResourceName = consumableResourceName
+            self.resourceType = resourceType
+            self.tags = tags
+            self.totalQuantity = totalQuantity
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResourceName = "consumableResourceName"
+            case resourceType = "resourceType"
+            case tags = "tags"
+            case totalQuantity = "totalQuantity"
+        }
+    }
+
+    public struct CreateConsumableResourceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the consumable resource.
+        public let consumableResourceArn: String?
+        /// The name of the consumable resource.
+        public let consumableResourceName: String?
+
+        @inlinable
+        public init(consumableResourceArn: String? = nil, consumableResourceName: String? = nil) {
+            self.consumableResourceArn = consumableResourceArn
+            self.consumableResourceName = consumableResourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResourceArn = "consumableResourceArn"
+            case consumableResourceName = "consumableResourceName"
+        }
+    }
+
     public struct CreateJobQueueRequest: AWSEncodableShape {
         /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment runs a specific job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.  All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
         public let computeEnvironmentOrder: [ComputeEnvironmentOrder]?
@@ -1185,6 +1301,24 @@ extension Batch {
         public init() {}
     }
 
+    public struct DeleteConsumableResourceRequest: AWSEncodableShape {
+        /// The name or ARN of the consumable resource that will be deleted.
+        public let consumableResource: String?
+
+        @inlinable
+        public init(consumableResource: String? = nil) {
+            self.consumableResource = consumableResource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResource = "consumableResource"
+        }
+    }
+
+    public struct DeleteConsumableResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteJobQueueRequest: AWSEncodableShape {
         /// The short name or full Amazon Resource Name (ARN) of the queue to delete.
         public let jobQueue: String?
@@ -1276,6 +1410,62 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case computeEnvironments = "computeEnvironments"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct DescribeConsumableResourceRequest: AWSEncodableShape {
+        /// The name or ARN of the consumable resource whose description will be returned.
+        public let consumableResource: String?
+
+        @inlinable
+        public init(consumableResource: String? = nil) {
+            self.consumableResource = consumableResource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResource = "consumableResource"
+        }
+    }
+
+    public struct DescribeConsumableResourceResponse: AWSDecodableShape {
+        /// The amount of the consumable resource that is currently available to use.
+        public let availableQuantity: Int64?
+        /// The Amazon Resource Name (ARN) of the consumable resource.
+        public let consumableResourceArn: String?
+        /// The name of the consumable resource.
+        public let consumableResourceName: String?
+        /// The Unix timestamp (in milliseconds) for when the consumable resource was created.
+        public let createdAt: Int64?
+        /// The amount of the consumable resource that is currently in use.
+        public let inUseQuantity: Int64?
+        /// Indicates whether the resource is available to be re-used after a job completes. Can be  one of:     REPLENISHABLE     NON_REPLENISHABLE
+        public let resourceType: String?
+        /// The tags that you apply to the consumable resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging your Batch resources.
+        public let tags: [String: String]?
+        /// The total amount of the consumable resource that is available.
+        public let totalQuantity: Int64?
+
+        @inlinable
+        public init(availableQuantity: Int64? = nil, consumableResourceArn: String? = nil, consumableResourceName: String? = nil, createdAt: Int64? = nil, inUseQuantity: Int64? = nil, resourceType: String? = nil, tags: [String: String]? = nil, totalQuantity: Int64? = nil) {
+            self.availableQuantity = availableQuantity
+            self.consumableResourceArn = consumableResourceArn
+            self.consumableResourceName = consumableResourceName
+            self.createdAt = createdAt
+            self.inUseQuantity = inUseQuantity
+            self.resourceType = resourceType
+            self.tags = tags
+            self.totalQuantity = totalQuantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availableQuantity = "availableQuantity"
+            case consumableResourceArn = "consumableResourceArn"
+            case consumableResourceName = "consumableResourceName"
+            case createdAt = "createdAt"
+            case inUseQuantity = "inUseQuantity"
+            case resourceType = "resourceType"
+            case tags = "tags"
+            case totalQuantity = "totalQuantity"
         }
     }
 
@@ -2378,7 +2568,7 @@ extension Batch {
     public struct FairsharePolicy: AWSEncodableShape & AWSDecodableShape {
         /// A value used to reserve some of the available maximum vCPU for fair share identifiers that aren't already used. The reserved ratio is (computeReservation/100)^ActiveFairShares  where  ActiveFairShares is the number of active fair share identifiers. For example, a computeReservation value of 50 indicates that Batch reserves 50% of the maximum available vCPU if there's only one fair share identifier. It reserves 25% if there are two fair share identifiers. It reserves 12.5% if there are three fair share identifiers. A computeReservation value of 25 indicates that Batch should reserve 25% of the maximum available vCPU if there's only one fair share identifier, 6.25% if there are two fair share identifiers, and 1.56% if there are three fair share identifiers. The minimum value is 0 and the maximum value is 99.
         public let computeReservation: Int?
-        /// The amount of time (in seconds) to use to calculate a fair share percentage for each fair share identifier in use. A value of zero (0) indicates that only current usage is measured. The decay allows for more recently run jobs to have more weight than jobs that ran earlier. The maximum supported value is 604800 (1 week).
+        /// The amount of time (in seconds) to use to calculate a fair share percentage for each fair share identifier in use. A value of zero (0) indicates the default minimum time window (600 seconds). The maximum supported value is 604800 (1 week). The decay allows for more recently run jobs to have more weight than jobs that ran earlier.  Consider adjusting this number if you have jobs that (on average) run longer than ten minutes,  or a large difference in job count or job run times between share identifiers, and the allocation of resources doesn’t meet your needs.
         public let shareDecaySeconds: Int?
         /// An array of SharedIdentifier objects that contain the weights for the fair share identifiers for the fair share policy. Fair share identifiers that aren't included have a default weight of 1.0.
         public let shareDistribution: [ShareAttributes]?
@@ -2504,6 +2694,8 @@ extension Batch {
     }
 
     public struct JobDefinition: AWSDecodableShape {
+        /// Contains a list of consumable resources required by the job.
+        public let consumableResourceProperties: ConsumableResourceProperties?
         /// The orchestration type of the compute environment. The valid values are ECS (default) or EKS.
         public let containerOrchestrationType: OrchestrationType?
         /// An object with properties specific to Amazon ECS-based jobs. When containerProperties is used in the job definition, it can't be used in addition to eksProperties, ecsProperties, or nodeProperties.
@@ -2540,7 +2732,8 @@ extension Batch {
         public let type: String?
 
         @inlinable
-        public init(containerOrchestrationType: OrchestrationType? = nil, containerProperties: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, revision: Int? = nil, schedulingPriority: Int? = nil, status: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: String? = nil) {
+        public init(consumableResourceProperties: ConsumableResourceProperties? = nil, containerOrchestrationType: OrchestrationType? = nil, containerProperties: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionArn: String? = nil, jobDefinitionName: String? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, revision: Int? = nil, schedulingPriority: Int? = nil, status: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: String? = nil) {
+            self.consumableResourceProperties = consumableResourceProperties
             self.containerOrchestrationType = containerOrchestrationType
             self.containerProperties = containerProperties
             self.ecsProperties = ecsProperties
@@ -2561,6 +2754,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumableResourceProperties = "consumableResourceProperties"
             case containerOrchestrationType = "containerOrchestrationType"
             case containerProperties = "containerProperties"
             case ecsProperties = "ecsProperties"
@@ -2604,6 +2798,8 @@ extension Batch {
         public let arrayProperties: ArrayPropertiesDetail?
         /// A list of job attempts that are associated with this job.
         public let attempts: [AttemptDetail]?
+        /// Contains a list of consumable resources required by the job.
+        public let consumableResourceProperties: ConsumableResourceProperties?
         /// An object that represents the details for the container that's associated with the job. If the details are for a multiple-container job, this object will be empty.
         public let container: ContainerDetail?
         /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state. This is specifically at the time SubmitJob was called. For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
@@ -2660,9 +2856,10 @@ extension Batch {
         public let timeout: JobTimeout?
 
         @inlinable
-        public init(arrayProperties: ArrayPropertiesDetail? = nil, attempts: [AttemptDetail]? = nil, container: ContainerDetail? = nil, createdAt: Int64? = nil, dependsOn: [JobDependency]? = nil, ecsProperties: EcsPropertiesDetail? = nil, eksAttempts: [EksAttemptDetail]? = nil, eksProperties: EksPropertiesDetail? = nil, isCancelled: Bool? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobDefinition: String? = nil, jobId: String? = nil, jobName: String? = nil, jobQueue: String? = nil, nodeDetails: NodeDetails? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
+        public init(arrayProperties: ArrayPropertiesDetail? = nil, attempts: [AttemptDetail]? = nil, consumableResourceProperties: ConsumableResourceProperties? = nil, container: ContainerDetail? = nil, createdAt: Int64? = nil, dependsOn: [JobDependency]? = nil, ecsProperties: EcsPropertiesDetail? = nil, eksAttempts: [EksAttemptDetail]? = nil, eksProperties: EksPropertiesDetail? = nil, isCancelled: Bool? = nil, isTerminated: Bool? = nil, jobArn: String? = nil, jobDefinition: String? = nil, jobId: String? = nil, jobName: String? = nil, jobQueue: String? = nil, nodeDetails: NodeDetails? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
             self.arrayProperties = arrayProperties
             self.attempts = attempts
+            self.consumableResourceProperties = consumableResourceProperties
             self.container = container
             self.createdAt = createdAt
             self.dependsOn = dependsOn
@@ -2695,6 +2892,7 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case arrayProperties = "arrayProperties"
             case attempts = "attempts"
+            case consumableResourceProperties = "consumableResourceProperties"
             case container = "container"
             case createdAt = "createdAt"
             case dependsOn = "dependsOn"
@@ -2734,7 +2932,7 @@ extension Batch {
         public let jobQueueName: String?
         /// The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed.
         public let jobStateTimeLimitActions: [JobStateTimeLimitAction]?
-        /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either Amazon EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). Amazon EC2 and Fargate compute environments can't be mixed.
+        /// The priority of the job queue. Job queue priority determines the order  that job queues are evaluated when multiple queues dispatch jobs within a  shared compute environment. A higher value for priority indicates a higher priority. Queues are evaluated in cycles, in descending order by priority. For example, a job queue with a priority value of 10 is  evaluated before a queue with a priority value of 1. All of the  compute environments must be either Amazon EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). Amazon EC2 and  Fargate compute environments can't be mixed.  Job queue priority doesn't guarantee that a particular job executes before  a job in a lower priority queue. Jobs added to higher priority queues during the  queue evaluation cycle might not be evaluated until the next cycle. A job is  dispatched from a queue only if resources are available when the queue is evaluated.  If there are insufficient resources available at that time, the cycle proceeds to the  next queue. This means that jobs added to higher priority queues might have to wait  for jobs in multiple lower priority queues to complete before they are dispatched.  You can use job dependencies to control the order for jobs from queues with different  priorities. For more information, see Job Dependencies in the Batch User Guide.
         public let priority: Int?
         /// The Amazon Resource Name (ARN) of the scheduling policy. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
         public let schedulingPolicyArn: String?
@@ -2940,7 +3138,7 @@ extension Batch {
         public let launchTemplateId: String?
         /// The name of the launch template.  Note: If you specify the launchTemplateName you can't specify the launchTemplateId as well.
         public let launchTemplateName: String?
-        /// The instance type or family that this this override launch template should be applied to. This parameter is required when defining a launch template override. Information included in this parameter must meet the following requirements:   Must be a valid Amazon EC2 instance type or family.    optimal isn't allowed.    targetInstanceTypes can target only instance types and families that are included within the  ComputeResource.instanceTypes set. targetInstanceTypes doesn't need to include all of the instances from the instanceType set, but at least a subset. For example, if ComputeResource.instanceTypes includes [m5, g5], targetInstanceTypes can include [m5.2xlarge] and [m5.large] but not [c5.large].    targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
+        /// The instance type or family that this override launch template should be applied to. This parameter is required when defining a launch template override. Information included in this parameter must meet the following requirements:   Must be a valid Amazon EC2 instance type or family.    optimal isn't allowed.    targetInstanceTypes can target only instance types and families that are included within the  ComputeResource.instanceTypes set. targetInstanceTypes doesn't need to include all of the instances from the instanceType set, but at least a subset. For example, if ComputeResource.instanceTypes includes [m5, g5], targetInstanceTypes can include [m5.2xlarge] and [m5.large] but not [c5.large].    targetInstanceTypes included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.
         public let targetInstanceTypes: [String]?
         /// The version number of the launch template,  $Default, or $Latest. If the value is $Default, the default version of the launch template is used. If the value is $Latest, the latest version of the launch template is used.   If the AMI ID that's used in a compute environment is from the launch template, the AMI isn't changed when the compute environment is updated. It's only changed if the updateToLatestImageVersion parameter for the compute environment is set to true. During an infrastructure update, if either $Default or $Latest is specified, Batch re-evaluates the launch template version, and it might use a different version of the launch template. This is the case even if the launch template isn't specified in the update. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see Updating compute environments in the Batch User Guide.  Default: $Default  Latest: $Latest
         public let version: String?
@@ -2992,6 +3190,144 @@ extension Batch {
             case sharedMemorySize = "sharedMemorySize"
             case swappiness = "swappiness"
             case tmpfs = "tmpfs"
+        }
+    }
+
+    public struct ListConsumableResourcesRequest: AWSEncodableShape {
+        /// The filters to apply to the consumable resource list query. If used, only those consumable  resources that match the filter are listed. Filter names and values can be:   name: CONSUMABLE_RESOURCE_NAME   values: case-insensitive matches for the consumable resource name. If a filter  value ends with an asterisk (*), it matches any consumable resource name that begins  with the string before the '*'.
+        public let filters: [KeyValuesPair]?
+        /// The maximum number of results returned by ListConsumableResources in paginated output. When this parameter is used, ListConsumableResources only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListConsumableResources request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListConsumableResources returns up to 100 results and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated  ListConsumableResources request where maxResults was used and the  results exceeded the value of that parameter. Pagination continues from the end of the previous  results that returned the nextToken value. This value is null when  there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(filters: [KeyValuesPair]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListConsumableResourcesResponse: AWSDecodableShape {
+        /// A list of consumable resources that match the request.
+        public let consumableResources: [ConsumableResourceSummary]?
+        /// The nextToken value to include in a future ListConsumableResources  request. When the results of a ListConsumableResources request exceed maxResults,  this value can be used to retrieve the next page of results. This value is null  when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(consumableResources: [ConsumableResourceSummary]? = nil, nextToken: String? = nil) {
+            self.consumableResources = consumableResources
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResources = "consumableResources"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListJobsByConsumableResourceRequest: AWSEncodableShape {
+        /// The name or ARN of the consumable resource.
+        public let consumableResource: String?
+        /// The filters to apply to the job list query. If used, only those jobs requiring the specified  consumable resource (consumableResource) and that match the value of the filters are listed. The filter names and values can be:   name: JOB_STATUS  values: SUBMITTED | PENDING | RUNNABLE | STARTING | RUNNING | SUCCEEDED | FAILED    name: JOB_NAME   The values are case-insensitive matches for the job name. If a filter value ends  with an asterisk (*), it matches any job name that begins with the string before  the '*'.
+        public let filters: [KeyValuesPair]?
+        /// The maximum number of results returned by ListJobsByConsumableResource in paginated output. When this parameter is used, ListJobsByConsumableResource only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListJobsByConsumableResource request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListJobsByConsumableResource returns up to 100 results  and a nextToken value if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated  ListJobsByConsumableResource request where maxResults was used and the  results exceeded the value of that parameter. Pagination continues from the end of the previous  results that returned the nextToken value. This value is null when  there are no more results to return.  Treat this token as an opaque identifier that's only used to retrieve the next items in a list and not for other programmatic purposes.
+        public let nextToken: String?
+
+        @inlinable
+        public init(consumableResource: String? = nil, filters: [KeyValuesPair]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.consumableResource = consumableResource
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResource = "consumableResource"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListJobsByConsumableResourceResponse: AWSDecodableShape {
+        /// The list of jobs that require the specified consumable resources.
+        public let jobs: [ListJobsByConsumableResourceSummary]?
+        /// The nextToken value to include in a future ListJobsByConsumableResource  request. When the results of a ListJobsByConsumableResource request exceed  maxResults, this value can be used to retrieve the next page of results. This  value is null when there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(jobs: [ListJobsByConsumableResourceSummary]? = nil, nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "jobs"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListJobsByConsumableResourceSummary: AWSDecodableShape {
+        /// Contains a list of consumable resources required by the job.
+        public let consumableResourceProperties: ConsumableResourceProperties?
+        /// The Unix timestamp (in milliseconds) for when the consumable resource was created.
+        public let createdAt: Int64?
+        /// The Amazon Resource Name (ARN) of the job.
+        public let jobArn: String?
+        /// The Amazon Resource Name (ARN) of the job definition.
+        public let jobDefinitionArn: String?
+        /// The name of the job.
+        public let jobName: String?
+        /// The Amazon Resource Name (ARN) of the job queue.
+        public let jobQueueArn: String?
+        /// The status of the job. Can be one of:    SUBMITTED     PENDING     RUNNABLE     STARTING     RUNNING     SUCCEEDED     FAILED
+        public let jobStatus: String?
+        /// The total amount of the consumable resource that is available.
+        public let quantity: Int64?
+        /// The fair-share scheduling policy identifier for the job.
+        public let shareIdentifier: String?
+        /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned  from the STARTING state to the RUNNING state.
+        public let startedAt: Int64?
+        /// A short, human-readable string to provide more details for the current status of the job.
+        public let statusReason: String?
+
+        @inlinable
+        public init(consumableResourceProperties: ConsumableResourceProperties? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobDefinitionArn: String? = nil, jobName: String? = nil, jobQueueArn: String? = nil, jobStatus: String? = nil, quantity: Int64? = nil, shareIdentifier: String? = nil, startedAt: Int64? = nil, statusReason: String? = nil) {
+            self.consumableResourceProperties = consumableResourceProperties
+            self.createdAt = createdAt
+            self.jobArn = jobArn
+            self.jobDefinitionArn = jobDefinitionArn
+            self.jobName = jobName
+            self.jobQueueArn = jobQueueArn
+            self.jobStatus = jobStatus
+            self.quantity = quantity
+            self.shareIdentifier = shareIdentifier
+            self.startedAt = startedAt
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResourceProperties = "consumableResourceProperties"
+            case createdAt = "createdAt"
+            case jobArn = "jobArn"
+            case jobDefinitionArn = "jobDefinitionArn"
+            case jobName = "jobName"
+            case jobQueueArn = "jobQueueArn"
+            case jobStatus = "jobStatus"
+            case quantity = "quantity"
+            case shareIdentifier = "shareIdentifier"
+            case startedAt = "startedAt"
+            case statusReason = "statusReason"
         }
     }
 
@@ -3292,6 +3628,8 @@ extension Batch {
     }
 
     public struct NodePropertyOverride: AWSEncodableShape {
+        /// An object that contains overrides for the consumable resources of a job.
+        public let consumableResourcePropertiesOverride: ConsumableResourceProperties?
         /// The overrides that are sent to a node range.
         public let containerOverrides: ContainerOverrides?
         /// An object that contains the properties that you want to replace for the existing Amazon ECS resources of a job.
@@ -3304,7 +3642,8 @@ extension Batch {
         public let targetNodes: String?
 
         @inlinable
-        public init(containerOverrides: ContainerOverrides? = nil, ecsPropertiesOverride: EcsPropertiesOverride? = nil, eksPropertiesOverride: EksPropertiesOverride? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
+        public init(consumableResourcePropertiesOverride: ConsumableResourceProperties? = nil, containerOverrides: ContainerOverrides? = nil, ecsPropertiesOverride: EcsPropertiesOverride? = nil, eksPropertiesOverride: EksPropertiesOverride? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
+            self.consumableResourcePropertiesOverride = consumableResourcePropertiesOverride
             self.containerOverrides = containerOverrides
             self.ecsPropertiesOverride = ecsPropertiesOverride
             self.eksPropertiesOverride = eksPropertiesOverride
@@ -3317,6 +3656,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumableResourcePropertiesOverride = "consumableResourcePropertiesOverride"
             case containerOverrides = "containerOverrides"
             case ecsPropertiesOverride = "ecsPropertiesOverride"
             case eksPropertiesOverride = "eksPropertiesOverride"
@@ -3326,6 +3666,8 @@ extension Batch {
     }
 
     public struct NodeRangeProperty: AWSEncodableShape & AWSDecodableShape {
+        /// Contains a list of consumable resources required by a job.
+        public let consumableResourceProperties: ConsumableResourceProperties?
         /// The container details for the node range.
         public let container: ContainerProperties?
         /// This is an object that represents the properties of the node range for a multi-node parallel job.
@@ -3338,7 +3680,8 @@ extension Batch {
         public let targetNodes: String?
 
         @inlinable
-        public init(container: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
+        public init(consumableResourceProperties: ConsumableResourceProperties? = nil, container: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, instanceTypes: [String]? = nil, targetNodes: String? = nil) {
+            self.consumableResourceProperties = consumableResourceProperties
             self.container = container
             self.ecsProperties = ecsProperties
             self.eksProperties = eksProperties
@@ -3351,6 +3694,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumableResourceProperties = "consumableResourceProperties"
             case container = "container"
             case ecsProperties = "ecsProperties"
             case eksProperties = "eksProperties"
@@ -3360,6 +3704,8 @@ extension Batch {
     }
 
     public struct RegisterJobDefinitionRequest: AWSEncodableShape {
+        /// Contains a list of consumable resources required by the job.
+        public let consumableResourceProperties: ConsumableResourceProperties?
         /// An object with properties specific to Amazon ECS-based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS-based job definitions.  If the job runs on Fargate resources, then you must not specify nodeProperties; use only containerProperties.
         public let containerProperties: ContainerProperties?
         /// An object with properties that are specific to Amazon ECS-based jobs. This must not be specified for Amazon EKS-based job definitions.
@@ -3388,7 +3734,8 @@ extension Batch {
         public let type: JobDefinitionType?
 
         @inlinable
-        public init(containerProperties: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionName: String? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: JobDefinitionType? = nil) {
+        public init(consumableResourceProperties: ConsumableResourceProperties? = nil, containerProperties: ContainerProperties? = nil, ecsProperties: EcsProperties? = nil, eksProperties: EksProperties? = nil, jobDefinitionName: String? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, platformCapabilities: [PlatformCapability]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriority: Int? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: JobDefinitionType? = nil) {
+            self.consumableResourceProperties = consumableResourceProperties
             self.containerProperties = containerProperties
             self.ecsProperties = ecsProperties
             self.eksProperties = eksProperties
@@ -3417,6 +3764,7 @@ extension Batch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumableResourceProperties = "consumableResourceProperties"
             case containerProperties = "containerProperties"
             case ecsProperties = "ecsProperties"
             case eksProperties = "eksProperties"
@@ -3604,6 +3952,8 @@ extension Batch {
     public struct SubmitJobRequest: AWSEncodableShape {
         /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. For more information, see Array Jobs in the Batch User Guide.
         public let arrayProperties: ArrayProperties?
+        /// An object that contains overrides for the consumable resources of a job.
+        public let consumableResourcePropertiesOverride: ConsumableResourceProperties?
         /// An object with properties that override the defaults for the job definition that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container, which is specified in the job definition or the Docker image, with a command override. You can also override existing environment variables on a container or add new environment variables to it with an environment override.
         public let containerOverrides: ContainerOverrides?
         /// A list of dependencies for the job. A job can depend upon a maximum of 20 jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array jobs so that each child array job completes sequentially, starting at index 0. You can also specify an N_TO_N type dependency with a job ID for array jobs. In that case, each index child of this job must wait for the corresponding index child of each dependency to complete before it can begin.
@@ -3636,8 +3986,9 @@ extension Batch {
         public let timeout: JobTimeout?
 
         @inlinable
-        public init(arrayProperties: ArrayProperties? = nil, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil, ecsPropertiesOverride: EcsPropertiesOverride? = nil, eksPropertiesOverride: EksPropertiesOverride? = nil, jobDefinition: String? = nil, jobName: String? = nil, jobQueue: String? = nil, nodeOverrides: NodeOverrides? = nil, parameters: [String: String]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriorityOverride: Int? = nil, shareIdentifier: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
+        public init(arrayProperties: ArrayProperties? = nil, consumableResourcePropertiesOverride: ConsumableResourceProperties? = nil, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil, ecsPropertiesOverride: EcsPropertiesOverride? = nil, eksPropertiesOverride: EksPropertiesOverride? = nil, jobDefinition: String? = nil, jobName: String? = nil, jobQueue: String? = nil, nodeOverrides: NodeOverrides? = nil, parameters: [String: String]? = nil, propagateTags: Bool? = nil, retryStrategy: RetryStrategy? = nil, schedulingPriorityOverride: Int? = nil, shareIdentifier: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
             self.arrayProperties = arrayProperties
+            self.consumableResourcePropertiesOverride = consumableResourcePropertiesOverride
             self.containerOverrides = containerOverrides
             self.dependsOn = dependsOn
             self.ecsPropertiesOverride = ecsPropertiesOverride
@@ -3669,6 +4020,7 @@ extension Batch {
 
         private enum CodingKeys: String, CodingKey {
             case arrayProperties = "arrayProperties"
+            case consumableResourcePropertiesOverride = "consumableResourcePropertiesOverride"
             case containerOverrides = "containerOverrides"
             case dependsOn = "dependsOn"
             case ecsPropertiesOverride = "ecsPropertiesOverride"
@@ -3886,7 +4238,7 @@ extension Batch {
         public let command: [String]?
         /// A list of containers that this container depends on.
         public let dependsOn: [TaskContainerDependency]?
-        /// The environment variables to pass to a container. This parameter maps to Env inthe Create a container section of the Docker Remote API and the --env parameter to docker run.   We don't recommend using plaintext environment variables for sensitive information, such as credential data.   Environment variables cannot start with AWS_BATCH. This naming convention is reserved for variables that Batch sets.
+        /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env parameter to docker run.   We don't recommend using plaintext environment variables for sensitive information, such as credential data.   Environment variables cannot start with AWS_BATCH. This naming convention is reserved for variables that Batch sets.
         public let environment: [KeyValuePair]?
         /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All jobs must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see Application Architecture in the Amazon Elastic Container Service Developer Guide.
         public let essential: Bool?
@@ -4128,6 +4480,59 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case computeEnvironmentArn = "computeEnvironmentArn"
             case computeEnvironmentName = "computeEnvironmentName"
+        }
+    }
+
+    public struct UpdateConsumableResourceRequest: AWSEncodableShape {
+        /// If this parameter is specified and two update requests with identical payloads and  clientTokens are received, these requests are considered the same request and  the second request is rejected. A clientToken is valid for 8 hours or until one hour after the consumable resource is deleted, whichever is less.
+        public let clientToken: String?
+        /// The name or ARN of the consumable resource to be updated.
+        public let consumableResource: String?
+        /// Indicates how the quantity of the consumable resource will be updated. Must be one of:    SET  Sets the quantity of the resource to the value specified by the quantity parameter.    ADD  Increases the quantity of the resource by the value specified by the quantity parameter.    REMOVE  Reduces the quantity of the resource by the value specified by the quantity parameter.
+        public let operation: String?
+        /// The change in the total quantity of the consumable resource. The operation parameter determines whether the value specified here will be the new total quantity, or the amount by which the total quantity will be increased or reduced. Must be a non-negative  value.
+        public let quantity: Int64?
+
+        @inlinable
+        public init(clientToken: String? = UpdateConsumableResourceRequest.idempotencyToken(), consumableResource: String? = nil, operation: String? = nil, quantity: Int64? = nil) {
+            self.clientToken = clientToken
+            self.consumableResource = consumableResource
+            self.operation = operation
+            self.quantity = quantity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case consumableResource = "consumableResource"
+            case operation = "operation"
+            case quantity = "quantity"
+        }
+    }
+
+    public struct UpdateConsumableResourceResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the consumable resource.
+        public let consumableResourceArn: String?
+        /// The name of the consumable resource to be updated.
+        public let consumableResourceName: String?
+        /// The total amount of the consumable resource that is available.
+        public let totalQuantity: Int64?
+
+        @inlinable
+        public init(consumableResourceArn: String? = nil, consumableResourceName: String? = nil, totalQuantity: Int64? = nil) {
+            self.consumableResourceArn = consumableResourceArn
+            self.consumableResourceName = consumableResourceName
+            self.totalQuantity = totalQuantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case consumableResourceArn = "consumableResourceArn"
+            case consumableResourceName = "consumableResourceName"
+            case totalQuantity = "totalQuantity"
         }
     }
 

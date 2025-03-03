@@ -451,6 +451,33 @@ extension SsmSap {
         }
     }
 
+    public struct ComponentInfo: AWSEncodableShape {
+        /// This string is the type of the component. Accepted value is WD.
+        public let componentType: ComponentType
+        /// This is the Amazon EC2 instance on which your SAP component is running. Accepted values are alphanumeric.
+        public let ec2InstanceId: String
+        /// This string is the SAP System ID of the component. Accepted values are alphanumeric.
+        public let sid: String
+
+        @inlinable
+        public init(componentType: ComponentType, ec2InstanceId: String, sid: String) {
+            self.componentType = componentType
+            self.ec2InstanceId = ec2InstanceId
+            self.sid = sid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ec2InstanceId, name: "ec2InstanceId", parent: name, pattern: "^i-[\\w\\d]{8}$|^i-[\\w\\d]{17}$")
+            try self.validate(self.sid, name: "sid", parent: name, pattern: "^[A-Z][A-Z0-9]{2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentType = "ComponentType"
+            case ec2InstanceId = "Ec2InstanceId"
+            case sid = "Sid"
+        }
+    }
+
     public struct ComponentSummary: AWSDecodableShape {
         /// The ID of the application.
         public let applicationId: String?
@@ -1392,6 +1419,8 @@ extension SsmSap {
         public let applicationId: String
         /// The type of the application.
         public let applicationType: ApplicationType
+        /// This is an optional parameter for component details  to which the SAP ABAP application is attached,  such as Web Dispatcher. This is an array of ApplicationComponent objects.  You may input 0 to 5 items.
+        public let componentsInfo: [ComponentInfo]?
         /// The credentials of the SAP application.
         public let credentials: [ApplicationCredential]?
         /// The Amazon Resource Name of the SAP HANA database.
@@ -1406,9 +1435,10 @@ extension SsmSap {
         public let tags: [String: String]?
 
         @inlinable
-        public init(applicationId: String, applicationType: ApplicationType, credentials: [ApplicationCredential]? = nil, databaseArn: String? = nil, instances: [String], sapInstanceNumber: String? = nil, sid: String? = nil, tags: [String: String]? = nil) {
+        public init(applicationId: String, applicationType: ApplicationType, componentsInfo: [ComponentInfo]? = nil, credentials: [ApplicationCredential]? = nil, databaseArn: String? = nil, instances: [String], sapInstanceNumber: String? = nil, sid: String? = nil, tags: [String: String]? = nil) {
             self.applicationId = applicationId
             self.applicationType = applicationType
+            self.componentsInfo = componentsInfo
             self.credentials = credentials
             self.databaseArn = databaseArn
             self.instances = instances
@@ -1421,6 +1451,10 @@ extension SsmSap {
             try self.validate(self.applicationId, name: "applicationId", parent: name, max: 60)
             try self.validate(self.applicationId, name: "applicationId", parent: name, min: 1)
             try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[\\w\\d\\.-]+$")
+            try self.componentsInfo?.forEach {
+                try $0.validate(name: "\(name).componentsInfo[]")
+            }
+            try self.validate(self.componentsInfo, name: "componentsInfo", parent: name, max: 5)
             try self.credentials?.forEach {
                 try $0.validate(name: "\(name).credentials[]")
             }
@@ -1443,6 +1477,7 @@ extension SsmSap {
         private enum CodingKeys: String, CodingKey {
             case applicationId = "ApplicationId"
             case applicationType = "ApplicationType"
+            case componentsInfo = "ComponentsInfo"
             case credentials = "Credentials"
             case databaseArn = "DatabaseArn"
             case instances = "Instances"

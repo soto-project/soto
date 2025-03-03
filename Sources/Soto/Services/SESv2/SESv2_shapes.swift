@@ -283,6 +283,7 @@ extension SESv2 {
 
     public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bimi = "BIMI"
+        case complaint = "COMPLAINT"
         case dkim = "DKIM"
         case dmarc = "DMARC"
         case spf = "SPF"
@@ -397,6 +398,26 @@ extension SESv2 {
             case reviewDetails = "ReviewDetails"
             case useCaseDescription = "UseCaseDescription"
             case websiteURL = "WebsiteURL"
+        }
+    }
+
+    public struct ArchivingOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the MailManager archive where the Amazon SES API v2 will archive sent emails.
+        public let archiveArn: String?
+
+        @inlinable
+        public init(archiveArn: String? = nil) {
+            self.archiveArn = archiveArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.archiveArn, name: "archiveArn", parent: name, max: 1011)
+            try self.validate(self.archiveArn, name: "archiveArn", parent: name, min: 20)
+            try self.validate(self.archiveArn, name: "archiveArn", parent: name, pattern: "^arn:(aws|aws-[a-z-]+):ses:[a-z]{2}-[a-z-]+-[0-9]:[0-9]{1,20}:mailmanager-archive/a-[a-z0-9]{24,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveArn = "ArchiveArn"
         }
     }
 
@@ -815,6 +836,8 @@ extension SESv2 {
     }
 
     public struct CreateConfigurationSetRequest: AWSEncodableShape {
+        /// An object that defines the MailManager archiving options for emails that you send using the configuration set.
+        public let archivingOptions: ArchivingOptions?
         /// The name of the configuration set. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
         public let configurationSetName: String
         /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
@@ -832,7 +855,8 @@ extension SESv2 {
         public let vdmOptions: VdmOptions?
 
         @inlinable
-        public init(configurationSetName: String, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
+        public init(archivingOptions: ArchivingOptions? = nil, configurationSetName: String, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
+            self.archivingOptions = archivingOptions
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
             self.reputationOptions = reputationOptions
@@ -844,10 +868,12 @@ extension SESv2 {
         }
 
         public func validate(name: String) throws {
+            try self.archivingOptions?.validate(name: "\(name).archivingOptions")
             try self.deliveryOptions?.validate(name: "\(name).deliveryOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case archivingOptions = "ArchivingOptions"
             case configurationSetName = "ConfigurationSetName"
             case deliveryOptions = "DeliveryOptions"
             case reputationOptions = "ReputationOptions"
@@ -2444,6 +2470,8 @@ extension SESv2 {
     }
 
     public struct GetConfigurationSetResponse: AWSDecodableShape {
+        /// An object that defines the MailManager archive where sent emails are archived that you send using the configuration set.
+        public let archivingOptions: ArchivingOptions?
         /// The name of the configuration set.
         public let configurationSetName: String?
         /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
@@ -2462,7 +2490,8 @@ extension SESv2 {
         public let vdmOptions: VdmOptions?
 
         @inlinable
-        public init(configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
+        public init(archivingOptions: ArchivingOptions? = nil, configurationSetName: String? = nil, deliveryOptions: DeliveryOptions? = nil, reputationOptions: ReputationOptions? = nil, sendingOptions: SendingOptions? = nil, suppressionOptions: SuppressionOptions? = nil, tags: [Tag]? = nil, trackingOptions: TrackingOptions? = nil, vdmOptions: VdmOptions? = nil) {
+            self.archivingOptions = archivingOptions
             self.configurationSetName = configurationSetName
             self.deliveryOptions = deliveryOptions
             self.reputationOptions = reputationOptions
@@ -2474,6 +2503,7 @@ extension SESv2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case archivingOptions = "ArchivingOptions"
             case configurationSetName = "ConfigurationSetName"
             case deliveryOptions = "DeliveryOptions"
             case reputationOptions = "ReputationOptions"
@@ -4732,6 +4762,40 @@ extension SESv2 {
         public init() {}
     }
 
+    public struct PutConfigurationSetArchivingOptionsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the MailManager archive that the Amazon SES API v2 sends email to.
+        public let archiveArn: String?
+        /// The name of the configuration set to associate with a MailManager archive.
+        public let configurationSetName: String
+
+        @inlinable
+        public init(archiveArn: String? = nil, configurationSetName: String) {
+            self.archiveArn = archiveArn
+            self.configurationSetName = configurationSetName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.archiveArn, forKey: .archiveArn)
+            request.encodePath(self.configurationSetName, key: "ConfigurationSetName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.archiveArn, name: "archiveArn", parent: name, max: 1011)
+            try self.validate(self.archiveArn, name: "archiveArn", parent: name, min: 20)
+            try self.validate(self.archiveArn, name: "archiveArn", parent: name, pattern: "^arn:(aws|aws-[a-z-]+):ses:[a-z]{2}-[a-z-]+-[0-9]:[0-9]{1,20}:mailmanager-archive/a-[a-z0-9]{24,62}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case archiveArn = "ArchiveArn"
+        }
+    }
+
+    public struct PutConfigurationSetArchivingOptionsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct PutConfigurationSetDeliveryOptionsRequest: AWSEncodableShape {
         /// The name of the configuration set to associate with a dedicated IP pool.
         public let configurationSetName: String
@@ -5259,7 +5323,7 @@ extension SESv2 {
         public let resourceArn: String?
         /// The recommendation status, with values like OPEN or FIXED.
         public let status: RecommendationStatus?
-        /// The recommendation type, with values like DKIM, SPF, DMARC or BIMI.
+        /// The recommendation type, with values like DKIM, SPF, DMARC, BIMI, or COMPLAINT.
         public let type: RecommendationType?
 
         @inlinable
@@ -6246,7 +6310,7 @@ extension SESv2 {
     }
 
     public struct VerificationInfo: AWSDecodableShape {
-        /// Provides the reason for the failure describing why Amazon SES was not able to successfully verify the identity. Below are the possible values:     INVALID_VALUE – Amazon SES was able to find the record, but the value contained within the record was invalid. Ensure you have published the correct values for the record.    TYPE_NOT_FOUND – The queried hostname exists but does not have the requested type of DNS record. Ensure that you have published the correct type of DNS record.    HOST_NOT_FOUND – The queried hostname does not exist or was not reachable at the time of the request. Ensure that you have published the required DNS record(s).     SERVICE_ERROR – A temporary issue is preventing Amazon SES from determining the verification status of the domain.    DNS_SERVER_ERROR – The DNS server encountered an issue and was unable to complete the request.    REPLICATION_ACCESS_DENIED – The verification failed because the user does not have the required permissions to replicate the DKIM key from the primary region. Ensure you have the necessary permissions in both primary and replica regions.     REPLICATION_PRIMARY_NOT_FOUND – The verification failed because no corresponding identity was found in the specified primary region. Ensure the identity exists in the primary region before attempting replication.     REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED – The verification failed because the identity in the primary region is configured with Bring Your Own DKIM (BYODKIM). DKIM key replication is only supported for identities using Easy DKIM.     REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED – The verification failed because the specified primary identity is a replica of another identity, and multi-level replication is not supported; the primary identity must be a non-replica identity.     REPLICATION_PRIMARY_INVALID_REGION – The verification failed due to an invalid primary region specified. Ensure you provide a valid AWS region where Amazon SES is available and different from the replica region.
+        /// Provides the reason for the failure describing why Amazon SES was not able to successfully verify the identity. Below are the possible values:     INVALID_VALUE – Amazon SES was able to find the record, but the value contained within the record was invalid. Ensure you have published the correct values for the record.    TYPE_NOT_FOUND – The queried hostname exists but does not have the requested type of DNS record. Ensure that you have published the correct type of DNS record.    HOST_NOT_FOUND – The queried hostname does not exist or was not reachable at the time of the request. Ensure that you have published the required DNS record(s).     SERVICE_ERROR – A temporary issue is preventing Amazon SES from determining the verification status of the domain.    DNS_SERVER_ERROR – The DNS server encountered an issue and was unable to complete the request.    REPLICATION_ACCESS_DENIED – The verification failed because the user does not have the required permissions to replicate the DKIM key from the primary region. Ensure you have the necessary permissions in both primary and replica regions.     REPLICATION_PRIMARY_NOT_FOUND – The verification failed because no corresponding identity was found in the specified primary region. Ensure the identity exists in the primary region before attempting replication.     REPLICATION_PRIMARY_BYO_DKIM_NOT_SUPPORTED – The verification failed because the identity in the primary region is configured with Bring Your Own DKIM (BYODKIM). DKIM key replication is only supported for identities using Easy DKIM.     REPLICATION_REPLICA_AS_PRIMARY_NOT_SUPPORTED – The verification failed because the specified primary identity is a replica of another identity, and multi-level replication is not supported; the primary identity must be a non-replica identity.     REPLICATION_PRIMARY_INVALID_REGION – The verification failed due to an invalid primary region specified. Ensure you provide a valid Amazon Web Services region where Amazon SES is available and different from the replica region.
         public let errorType: VerificationError?
         /// The last time a verification attempt was made for this identity.
         public let lastCheckedTimestamp: Date?

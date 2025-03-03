@@ -2709,9 +2709,9 @@ extension BCMPricingCalculator {
     }
 
     public struct ListBillEstimatesRequest: AWSEncodableShape {
-        ///  Filter bill estimates based on their creation date.
+        ///  Filter bill estimates based on the creation date.
         public let createdAtFilter: FilterTimestamp?
-        ///  Filter bill estimates based on their expiration date.
+        ///  Filter bill estimates based on the expiration date.
         public let expiresAtFilter: FilterTimestamp?
         ///  Filters to apply to the list of bill estimates.
         public let filters: [ListBillEstimatesFilter]?
@@ -2887,9 +2887,9 @@ extension BCMPricingCalculator {
     }
 
     public struct ListBillScenariosRequest: AWSEncodableShape {
-        ///  Filter bill scenarios based on their creation date.
+        ///  Filter bill scenarios based on the creation date.
         public let createdAtFilter: FilterTimestamp?
-        ///  Filter bill scenarios based on their expiration date.
+        ///  Filter bill scenarios based on the expiration date.
         public let expiresAtFilter: FilterTimestamp?
         ///  Filters to apply to the list of bill scenarios.
         public let filters: [ListBillScenariosFilter]?
@@ -3072,9 +3072,9 @@ extension BCMPricingCalculator {
     }
 
     public struct ListWorkloadEstimatesRequest: AWSEncodableShape {
-        ///  Filter workload estimates based on their creation date.
+        ///  Filter workload estimates based on the creation date.
         public let createdAtFilter: FilterTimestamp?
-        ///  Filter workload estimates based on their expiration date.
+        ///  Filter workload estimates based on the expiration date.
         public let expiresAtFilter: FilterTimestamp?
         ///  Filters to apply to the list of workload estimates.
         public let filters: [ListWorkloadEstimatesFilter]?

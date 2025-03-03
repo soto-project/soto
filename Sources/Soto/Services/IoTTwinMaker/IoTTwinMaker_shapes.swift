@@ -4455,10 +4455,10 @@ extension IoTTwinMaker {
 
     public struct Row: AWSDecodableShape {
         /// The data in a row of query results.
-        public let rowData: [String]?
+        public let rowData: [AWSDocument]?
 
         @inlinable
-        public init(rowData: [String]? = nil) {
+        public init(rowData: [AWSDocument]? = nil) {
             self.rowData = rowData
         }
 

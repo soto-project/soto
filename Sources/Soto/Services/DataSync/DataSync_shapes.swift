@@ -276,6 +276,12 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum SmbAuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kerberos = "KERBEROS"
+        case ntlm = "NTLM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SmbSecurityDescriptorCopyFlags: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case none = "NONE"
         case ownerDacl = "OWNER_DACL"
@@ -690,7 +696,7 @@ extension DataSync {
         public let fileSystemAccessRoleArn: String?
         /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
         public let inTransitEncryption: EfsInTransitEncryption?
-        /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data (depending on if this is a source or destination location) on your file system. By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
+        /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
         public let subdirectory: String?
         /// Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
@@ -748,13 +754,13 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxLustreRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) for the FSx for Lustre file system.
+        /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre file system.
         public let fsxFilesystemArn: String
-        /// The Amazon Resource Names (ARNs) of the security groups that are used to configure the FSx for Lustre file system.
+        /// Specifies the Amazon Resource Names (ARNs) of up to five security groups that provide access to your FSx for Lustre file system. The security groups must be able to access the file system's ports. The file system must also allow access from the security groups. For information about file system access, see the  Amazon FSx for Lustre User Guide .
         public let securityGroupArns: [String]
-        /// A subdirectory in the location's path. This subdirectory in the FSx for Lustre file system is used to read data from the FSx for Lustre source location or write data to the FSx for Lustre destination.
+        /// Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/).
         public let subdirectory: String?
-        /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
+        /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
 
         @inlinable
@@ -791,7 +797,7 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxLustreResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location that's created.
+        /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location that you created.
         public let locationArn: String?
 
         @inlinable
@@ -810,7 +816,7 @@ extension DataSync {
         public let securityGroupArns: [String]
         /// Specifies the ARN of the storage virtual machine (SVM) in your file system where you want to copy data to or from.
         public let storageVirtualMachineArn: String
-        /// Specifies a path to the file share in the SVM where you'll copy your data. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1.  Don't specify a junction path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
+        /// Specifies a path to the file share in the SVM where you want to transfer data to or from. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1.  Don't specify a junction path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
         public let subdirectory: String?
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
@@ -928,7 +934,7 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsRequest: AWSEncodableShape {
-        /// Specifies the name of the Microsoft Active Directory domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
+        /// Specifies the name of the Windows domain that the FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
         public let domain: String?
         /// Specifies the Amazon Resource Name (ARN) for the FSx for Windows File Server file system.
         public let fsxFilesystemArn: String
@@ -974,7 +980,7 @@ extension DataSync {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.user, name: "user", parent: name, max: 104)
-            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
+            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x22\\x5B\\x5D/\\\\:;|=,+*?\\x3C\\x3E]{1,104}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1215,7 +1221,7 @@ extension DataSync {
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
             try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
             try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
-            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\.\\(\\)\\$\\p{Zs}]+$")
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
             try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.*$")
             try self.validate(self.serverCertificate, name: "serverCertificate", parent: name, max: 32768)
@@ -1327,25 +1333,40 @@ extension DataSync {
     public struct CreateLocationSmbRequest: AWSEncodableShape {
         /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
         public let agentArns: [String]
-        /// Specifies the name of the Active Directory domain that your SMB file server belongs to.  If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
+        /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+        public let authenticationType: SmbAuthenticationType?
+        /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
+        public let dnsIpAddresses: [String]?
+        /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
         public let domain: String?
+        /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+        public let kerberosKeytab: AWSBase64Data?
+        /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
+        public let kerberosKrb5Conf: AWSBase64Data?
+        /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
+        public let kerberosPrincipal: String?
         /// Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
         public let mountOptions: SmbMountOptions?
-        /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. For more information, see required permissions for SMB locations.
-        public let password: String
-        /// Specifies the Domain Name Service (DNS) name or IP address of the SMB file server that your DataSync agent will mount.  You can't specify an IP version 6 (IPv6) address.
+        /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
+        public let password: String?
+        /// Specifies the domain name or IP address of the SMB file server that your DataSync agent will mount. Remember the following when configuring this parameter:   You can't specify an IP version 6 (IPv6) address.   If you're using Kerberos authentication, you must specify a domain name.
         public let serverHostname: String
-        /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see required permissions for SMB locations.
+        /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers.
         public let subdirectory: String
         /// Specifies labels that help you categorize, filter, and search for your Amazon Web Services resources. We recommend creating at least a name tag for your location.
         public let tags: [TagListEntry]?
-        /// Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. For information about choosing a user with the right level of access for your transfer, see required permissions for SMB locations.
-        public let user: String
+        /// Specifies the user that can mount and access the files, folders, and file metadata in your SMB file server. This parameter applies only if AuthenticationType is set to NTLM. For information about choosing a user with the right level of access for your transfer, see Providing DataSync access to SMB file servers.
+        public let user: String?
 
         @inlinable
-        public init(agentArns: [String], domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String) {
+        public init(agentArns: [String], authenticationType: SmbAuthenticationType? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, mountOptions: SmbMountOptions? = nil, password: String? = nil, serverHostname: String, subdirectory: String, tags: [TagListEntry]? = nil, user: String? = nil) {
             self.agentArns = agentArns
+            self.authenticationType = authenticationType
+            self.dnsIpAddresses = dnsIpAddresses
             self.domain = domain
+            self.kerberosKeytab = kerberosKeytab
+            self.kerberosKrb5Conf = kerberosKrb5Conf
+            self.kerberosPrincipal = kerberosPrincipal
             self.mountOptions = mountOptions
             self.password = password
             self.serverHostname = serverHostname
@@ -1361,8 +1382,19 @@ extension DataSync {
             }
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.dnsIpAddresses?.forEach {
+                try validate($0, name: "dnsIpAddresses[]", parent: name, max: 15)
+                try validate($0, name: "dnsIpAddresses[]", parent: name, min: 7)
+                try validate($0, name: "dnsIpAddresses[]", parent: name, pattern: "^\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z$")
+            }
+            try self.validate(self.dnsIpAddresses, name: "dnsIpAddresses", parent: name, max: 2)
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}$")
+            try self.validate(self.kerberosKeytab, name: "kerberosKeytab", parent: name, max: 65536)
+            try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131072)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, max: 256)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, min: 1)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, pattern: "^.+$")
             try self.validate(self.password, name: "password", parent: name, max: 104)
             try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
             try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
@@ -1374,12 +1406,17 @@ extension DataSync {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.user, name: "user", parent: name, max: 104)
-            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
+            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x22\\x5B\\x5D/\\\\:;|=,+*?\\x3C\\x3E]{1,104}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case agentArns = "AgentArns"
+            case authenticationType = "AuthenticationType"
+            case dnsIpAddresses = "DnsIpAddresses"
             case domain = "Domain"
+            case kerberosKeytab = "KerberosKeytab"
+            case kerberosKrb5Conf = "KerberosKrb5Conf"
+            case kerberosPrincipal = "KerberosPrincipal"
             case mountOptions = "MountOptions"
             case password = "Password"
             case serverHostname = "ServerHostname"
@@ -2286,24 +2323,33 @@ extension DataSync {
     public struct DescribeLocationSmbResponse: AWSDecodableShape {
         /// The ARNs of the DataSync agents that can connect with your SMB file server.
         public let agentArns: [String]?
+        /// The authentication protocol that DataSync uses to connect to your SMB file server.
+        public let authenticationType: SmbAuthenticationType?
         /// The time that the SMB location was created.
         public let creationTime: Date?
-        /// The name of the Microsoft Active Directory domain that the SMB file server belongs to.
+        /// The IPv4 addresses for the DNS servers that your SMB file server belongs to. This element applies only if AuthenticationType is set to KERBEROS.
+        public let dnsIpAddresses: [String]?
+        /// The name of the Windows domain that the SMB file server belongs to. This element applies only if AuthenticationType is set to NTLM.
         public let domain: String?
+        /// The Kerberos principal that has permission to access the files, folders, and file metadata in your SMB file server.
+        public let kerberosPrincipal: String?
         /// The ARN of the SMB location.
         public let locationArn: String?
         /// The URI of the SMB location.
         public let locationUri: String?
-        /// The protocol that DataSync use to access your SMB file.
+        /// The SMB protocol version that DataSync uses to access your SMB file server.
         public let mountOptions: SmbMountOptions?
-        /// The user that can mount and access the files, folders, and file metadata in your SMB file server.
+        /// The user that can mount and access the files, folders, and file metadata in your SMB file server. This element applies only if AuthenticationType is set to NTLM.
         public let user: String?
 
         @inlinable
-        public init(agentArns: [String]? = nil, creationTime: Date? = nil, domain: String? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: SmbMountOptions? = nil, user: String? = nil) {
+        public init(agentArns: [String]? = nil, authenticationType: SmbAuthenticationType? = nil, creationTime: Date? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosPrincipal: String? = nil, locationArn: String? = nil, locationUri: String? = nil, mountOptions: SmbMountOptions? = nil, user: String? = nil) {
             self.agentArns = agentArns
+            self.authenticationType = authenticationType
             self.creationTime = creationTime
+            self.dnsIpAddresses = dnsIpAddresses
             self.domain = domain
+            self.kerberosPrincipal = kerberosPrincipal
             self.locationArn = locationArn
             self.locationUri = locationUri
             self.mountOptions = mountOptions
@@ -2312,8 +2358,11 @@ extension DataSync {
 
         private enum CodingKeys: String, CodingKey {
             case agentArns = "AgentArns"
+            case authenticationType = "AuthenticationType"
             case creationTime = "CreationTime"
+            case dnsIpAddresses = "DnsIpAddresses"
             case domain = "Domain"
+            case kerberosPrincipal = "KerberosPrincipal"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
             case mountOptions = "MountOptions"
@@ -2886,7 +2935,7 @@ extension DataSync {
     }
 
     public struct FsxProtocolSmb: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the fully qualified domain name (FQDN) of the Microsoft Active Directory that your storage virtual machine (SVM) belongs to. If you have multiple domains in your environment, configuring this setting makes sure that DataSync connects to the right SVM.
+        /// Specifies the name of the Windows domain that your storage virtual machine (SVM) belongs to. If you have multiple domains in your environment, configuring this setting makes sure that DataSync connects to the right SVM. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right SVM.
         public let domain: String?
         public let mountOptions: SmbMountOptions?
         /// Specifies the password of a user who has permission to access your SVM.
@@ -2908,7 +2957,62 @@ extension DataSync {
             try self.validate(self.password, name: "password", parent: name, max: 104)
             try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
             try self.validate(self.user, name: "user", parent: name, max: 104)
-            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
+            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x22\\x5B\\x5D/\\\\:;|=,+*?\\x3C\\x3E]{1,104}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case mountOptions = "MountOptions"
+            case password = "Password"
+            case user = "User"
+        }
+    }
+
+    public struct FsxUpdateProtocol: AWSEncodableShape {
+        public let nfs: FsxProtocolNfs?
+        /// Specifies the Server Message Block (SMB) protocol configuration that DataSync uses to access your FSx for ONTAP file system's storage virtual machine (SVM).
+        public let smb: FsxUpdateProtocolSmb?
+
+        @inlinable
+        public init(nfs: FsxProtocolNfs? = nil, smb: FsxUpdateProtocolSmb? = nil) {
+            self.nfs = nfs
+            self.smb = smb
+        }
+
+        public func validate(name: String) throws {
+            try self.smb?.validate(name: "\(name).smb")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nfs = "NFS"
+            case smb = "SMB"
+        }
+    }
+
+    public struct FsxUpdateProtocolSmb: AWSEncodableShape {
+        /// Specifies the name of the Windows domain that your storage virtual machine (SVM) belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right SVM.
+        public let domain: String?
+        public let mountOptions: SmbMountOptions?
+        /// Specifies the password of a user who has permission to access your SVM.
+        public let password: String?
+        /// Specifies a user that can mount and access the files, folders, and metadata in your SVM. For information about choosing a user with the right level of access for your transfer, see Using the SMB protocol.
+        public let user: String?
+
+        @inlinable
+        public init(domain: String? = nil, mountOptions: SmbMountOptions? = nil, password: String? = nil, user: String? = nil) {
+            self.domain = domain
+            self.mountOptions = mountOptions
+            self.password = password
+            self.user = user
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domain, name: "domain", parent: name, max: 253)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252})?$")
+            try self.validate(self.password, name: "password", parent: name, max: 104)
+            try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
+            try self.validate(self.user, name: "user", parent: name, max: 104)
+            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x22\\x5B\\x5D/\\\\:;|=,+*?\\x3C\\x3E]{1,104}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4814,6 +4918,194 @@ extension DataSync {
         public init() {}
     }
 
+    public struct UpdateLocationEfsRequest: AWSEncodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to mount your Amazon EFS file system. For more information, see Accessing restricted Amazon EFS file systems.
+        public let accessPointArn: String?
+        /// Specifies an Identity and Access Management (IAM) role that allows DataSync to access your Amazon EFS file system. For information on creating this role, see Creating a DataSync IAM role for Amazon EFS file system access.
+        public let fileSystemAccessRoleArn: String?
+        /// Specifies whether you want DataSync to use Transport Layer Security (TLS) 1.2 encryption when it transfers data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
+        public let inTransitEncryption: EfsInTransitEncryption?
+        /// Specifies the Amazon Resource Name (ARN) of the Amazon EFS transfer location that you're updating.
+        public let locationArn: String
+        /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data on your file system (depending on if this is a source or destination location). By default, DataSync uses the root directory (or access point if you provide one by using AccessPointArn). You can also include subdirectories using forward slashes (for example, /path/to/folder).
+        public let subdirectory: String?
+
+        @inlinable
+        public init(accessPointArn: String? = nil, fileSystemAccessRoleArn: String? = nil, inTransitEncryption: EfsInTransitEncryption? = nil, locationArn: String, subdirectory: String? = nil) {
+            self.accessPointArn = accessPointArn
+            self.fileSystemAccessRoleArn = fileSystemAccessRoleArn
+            self.inTransitEncryption = inTransitEncryption
+            self.locationArn = locationArn
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessPointArn, name: "accessPointArn", parent: name, max: 128)
+            try self.validate(self.accessPointArn, name: "accessPointArn", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):elasticfilesystem:[a-z\\-0-9]+:[0-9]{12}:access-point/fsap-[0-9a-f]{8,40}$)|(^$)$")
+            try self.validate(self.fileSystemAccessRoleArn, name: "fileSystemAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.fileSystemAccessRoleArn, name: "fileSystemAccessRoleArn", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$)|(^$)$")
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "AccessPointArn"
+            case fileSystemAccessRoleArn = "FileSystemAccessRoleArn"
+            case inTransitEncryption = "InTransitEncryption"
+            case locationArn = "LocationArn"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationEfsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLocationFsxLustreRequest: AWSEncodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the FSx for Lustre transfer location that you're updating.
+        public let locationArn: String
+        /// Specifies a mount path for your FSx for Lustre file system. The path can include subdirectories. When the location is used as a source, DataSync reads data from the mount path. When the location is used as a destination, DataSync writes data to the mount path. If you don't include this parameter, DataSync uses the file system's root directory (/).
+        public let subdirectory: String?
+
+        @inlinable
+        public init(locationArn: String, subdirectory: String? = nil) {
+            self.locationArn = locationArn
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationFsxLustreResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLocationFsxOntapRequest: AWSEncodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the FSx for ONTAP transfer location that you're updating.
+        public let locationArn: String
+        /// Specifies the data transfer protocol that DataSync uses to access your Amazon FSx file system.
+        public let `protocol`: FsxUpdateProtocol?
+        /// Specifies a path to the file share in the storage virtual machine (SVM) where you want to transfer data to or from. You can specify a junction path (also known as a mount point), qtree path (for NFS file shares), or share name (for SMB file shares). For example, your mount path might be /vol1, /vol1/tree1, or /share1.  Don't specify a junction path in the SVM's root volume. For more information, see Managing FSx for ONTAP storage virtual machines in the Amazon FSx for NetApp ONTAP User Guide.
+        public let subdirectory: String?
+
+        @inlinable
+        public init(locationArn: String, protocol: FsxUpdateProtocol? = nil, subdirectory: String? = nil) {
+            self.locationArn = locationArn
+            self.`protocol` = `protocol`
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.`protocol`?.validate(name: "\(name).`protocol`")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 255)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,255}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+            case `protocol` = "Protocol"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationFsxOntapResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLocationFsxOpenZfsRequest: AWSEncodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the FSx for OpenZFS transfer location that you're updating.
+        public let locationArn: String
+        public let `protocol`: FsxProtocol?
+        /// Specifies a subdirectory in the location's path that must begin with /fsx. DataSync uses this subdirectory to read or write data (depending on whether the file system is a source or destination location).
+        public let subdirectory: String?
+
+        @inlinable
+        public init(locationArn: String, protocol: FsxProtocol? = nil, subdirectory: String? = nil) {
+            self.locationArn = locationArn
+            self.`protocol` = `protocol`
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.`protocol`?.validate(name: "\(name).`protocol`")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+            case `protocol` = "Protocol"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationFsxOpenZfsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLocationFsxWindowsRequest: AWSEncodableShape {
+        /// Specifies the name of the Windows domain that your FSx for Windows File Server file system belongs to. If you have multiple Active Directory domains in your environment, configuring this parameter makes sure that DataSync connects to the right file system.
+        public let domain: String?
+        /// Specifies the ARN of the FSx for Windows File Server transfer location that you're updating.
+        public let locationArn: String
+        /// Specifies the password of the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system.
+        public let password: String?
+        /// Specifies a mount path for your file system using forward slashes. DataSync uses this subdirectory to read or write data (depending on whether the file system is a source or destination location).
+        public let subdirectory: String?
+        /// Specifies the user with the permissions to mount and access the files, folders, and file metadata in your FSx for Windows File Server file system. For information about choosing a user with the right level of access for your transfer, see required permissions for FSx for Windows File Server locations.
+        public let user: String?
+
+        @inlinable
+        public init(domain: String? = nil, locationArn: String, password: String? = nil, subdirectory: String? = nil, user: String? = nil) {
+            self.domain = domain
+            self.locationArn = locationArn
+            self.password = password
+            self.subdirectory = subdirectory
+            self.user = user
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domain, name: "domain", parent: name, max: 253)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^([A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252})?$")
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.validate(self.password, name: "password", parent: name, max: 104)
+            try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+            try self.validate(self.user, name: "user", parent: name, max: 104)
+            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x22\\x5B\\x5D/\\\\:;|=,+*?\\x3C\\x3E]{1,104}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case locationArn = "LocationArn"
+            case password = "Password"
+            case subdirectory = "Subdirectory"
+            case user = "User"
+        }
+    }
+
+    public struct UpdateLocationFsxWindowsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateLocationHdfsRequest: AWSEncodableShape {
         /// The Amazon Resource Names (ARNs) of the DataSync agents that can connect to your HDFS cluster.
         public let agentArns: [String]?
@@ -5014,25 +5306,77 @@ extension DataSync {
         public init() {}
     }
 
+    public struct UpdateLocationS3Request: AWSEncodableShape {
+        /// Specifies the Amazon Resource Name (ARN) of the Amazon S3 transfer location that you're updating.
+        public let locationArn: String
+        public let s3Config: S3Config?
+        /// Specifies the storage class that you want your objects to use when Amazon S3 is a transfer destination. For buckets in Amazon Web Services Regions, the storage class defaults to STANDARD. For buckets on Outposts, the storage class defaults to OUTPOSTS. For more information, see Storage class considerations with Amazon S3 transfers.
+        public let s3StorageClass: S3StorageClass?
+        /// Specifies a prefix in the S3 bucket that DataSync  reads from or writes to (depending on whether the bucket is a source or destination location).  DataSync can't transfer objects with a prefix that begins with a slash (/) or includes //, /./, or /../ patterns. For example:    /photos     photos//2006/January     photos/./2006/February     photos/../2006/March
+        public let subdirectory: String?
+
+        @inlinable
+        public init(locationArn: String, s3Config: S3Config? = nil, s3StorageClass: S3StorageClass? = nil, subdirectory: String? = nil) {
+            self.locationArn = locationArn
+            self.s3Config = s3Config
+            self.s3StorageClass = s3StorageClass
+            self.subdirectory = subdirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+            try self.s3Config?.validate(name: "\(name).s3Config")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+            case s3Config = "S3Config"
+            case s3StorageClass = "S3StorageClass"
+            case subdirectory = "Subdirectory"
+        }
+    }
+
+    public struct UpdateLocationS3Response: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateLocationSmbRequest: AWSEncodableShape {
         /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
         public let agentArns: [String]?
-        /// Specifies the Windows domain name that your SMB file server belongs to.  If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server. For more information, see required permissions for SMB locations.
+        /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+        public let authenticationType: SmbAuthenticationType?
+        /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
+        public let dnsIpAddresses: [String]?
+        /// Specifies the Windows domain name that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to NTLM. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right file server.
         public let domain: String?
+        /// Specifies your Kerberos key table (keytab) file, which includes mappings between your Kerberos principal and encryption keys. The file must be base64 encoded. If you're using the CLI, the encoding is done for you. To avoid task execution errors, make sure that the Kerberos principal that you use to create the keytab file matches exactly what you specify for KerberosPrincipal.
+        public let kerberosKeytab: AWSBase64Data?
+        /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
+        public let kerberosKrb5Conf: AWSBase64Data?
+        /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
+        public let kerberosPrincipal: String?
         /// Specifies the ARN of the SMB location that you want to update.
         public let locationArn: String
         public let mountOptions: SmbMountOptions?
-        /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. For more information, see required permissions for SMB locations.
+        /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
         public let password: String?
-        /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see required permissions for SMB locations.
+        /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers.
         public let subdirectory: String?
-        /// Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. For information about choosing a user with the right level of access for your transfer, see required permissions for SMB locations.
+        /// Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM. For information about choosing a user with the right level of access for your transfer, see Providing DataSync access to SMB file servers.
         public let user: String?
 
         @inlinable
-        public init(agentArns: [String]? = nil, domain: String? = nil, locationArn: String, mountOptions: SmbMountOptions? = nil, password: String? = nil, subdirectory: String? = nil, user: String? = nil) {
+        public init(agentArns: [String]? = nil, authenticationType: SmbAuthenticationType? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, locationArn: String, mountOptions: SmbMountOptions? = nil, password: String? = nil, subdirectory: String? = nil, user: String? = nil) {
             self.agentArns = agentArns
+            self.authenticationType = authenticationType
+            self.dnsIpAddresses = dnsIpAddresses
             self.domain = domain
+            self.kerberosKeytab = kerberosKeytab
+            self.kerberosKrb5Conf = kerberosKrb5Conf
+            self.kerberosPrincipal = kerberosPrincipal
             self.locationArn = locationArn
             self.mountOptions = mountOptions
             self.password = password
@@ -5047,8 +5391,19 @@ extension DataSync {
             }
             try self.validate(self.agentArns, name: "agentArns", parent: name, max: 4)
             try self.validate(self.agentArns, name: "agentArns", parent: name, min: 1)
+            try self.dnsIpAddresses?.forEach {
+                try validate($0, name: "dnsIpAddresses[]", parent: name, max: 15)
+                try validate($0, name: "dnsIpAddresses[]", parent: name, min: 7)
+                try validate($0, name: "dnsIpAddresses[]", parent: name, pattern: "^\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z$")
+            }
+            try self.validate(self.dnsIpAddresses, name: "dnsIpAddresses", parent: name, max: 2)
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, pattern: "^[A-Za-z0-9]((\\.|-+)?[A-Za-z0-9]){0,252}$")
+            try self.validate(self.kerberosKeytab, name: "kerberosKeytab", parent: name, max: 65536)
+            try self.validate(self.kerberosKrb5Conf, name: "kerberosKrb5Conf", parent: name, max: 131072)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, max: 256)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, min: 1)
+            try self.validate(self.kerberosPrincipal, name: "kerberosPrincipal", parent: name, pattern: "^.+$")
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.validate(self.password, name: "password", parent: name, max: 104)
@@ -5056,12 +5411,17 @@ extension DataSync {
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
             try self.validate(self.user, name: "user", parent: name, max: 104)
-            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x5B\\x5D\\\\/:;|=,+*?]{1,104}$")
+            try self.validate(self.user, name: "user", parent: name, pattern: "^[^\\x22\\x5B\\x5D/\\\\:;|=,+*?\\x3C\\x3E]{1,104}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case agentArns = "AgentArns"
+            case authenticationType = "AuthenticationType"
+            case dnsIpAddresses = "DnsIpAddresses"
             case domain = "Domain"
+            case kerberosKeytab = "KerberosKeytab"
+            case kerberosKrb5Conf = "KerberosKrb5Conf"
+            case kerberosPrincipal = "KerberosPrincipal"
             case locationArn = "LocationArn"
             case mountOptions = "MountOptions"
             case password = "Password"

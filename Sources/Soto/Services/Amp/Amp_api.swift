@@ -229,6 +229,7 @@ public struct Amp: AWSService {
     ///   - alias: (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique.
     ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
     ///   - destination: The Amazon Managed Service for Prometheus workspace to send metrics to.
+    ///   - roleConfiguration: The scraper role configuration for the workspace.
     ///   - scrapeConfiguration: The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User  Guide.
     ///   - source: The Amazon EKS cluster from which the scraper will collect metrics.
     ///   - tags: (Optional) The list of tag keys and values to associate with the scraper.
@@ -238,6 +239,7 @@ public struct Amp: AWSService {
         alias: String? = nil,
         clientToken: String? = CreateScraperRequest.idempotencyToken(),
         destination: Destination,
+        roleConfiguration: RoleConfiguration? = nil,
         scrapeConfiguration: ScrapeConfiguration,
         source: Source,
         tags: [String: String]? = nil,
@@ -247,6 +249,7 @@ public struct Amp: AWSService {
             alias: alias, 
             clientToken: clientToken, 
             destination: destination, 
+            roleConfiguration: roleConfiguration, 
             scrapeConfiguration: scrapeConfiguration, 
             source: source, 
             tags: tags
@@ -957,6 +960,7 @@ public struct Amp: AWSService {
     ///   - alias: The new alias of the scraper.
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     ///   - destination: The new Amazon Managed Service for Prometheus workspace to send metrics to.
+    ///   - roleConfiguration: The scraper role configuration for the workspace.
     ///   - scrapeConfiguration: Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus  User Guide.
     ///   - scraperId: The ID of the scraper to update.
     ///   - logger: Logger use during operation
@@ -965,6 +969,7 @@ public struct Amp: AWSService {
         alias: String? = nil,
         clientToken: String? = UpdateScraperRequest.idempotencyToken(),
         destination: Destination? = nil,
+        roleConfiguration: RoleConfiguration? = nil,
         scrapeConfiguration: ScrapeConfiguration? = nil,
         scraperId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -973,6 +978,7 @@ public struct Amp: AWSService {
             alias: alias, 
             clientToken: clientToken, 
             destination: destination, 
+            roleConfiguration: roleConfiguration, 
             scrapeConfiguration: scrapeConfiguration, 
             scraperId: scraperId
         )

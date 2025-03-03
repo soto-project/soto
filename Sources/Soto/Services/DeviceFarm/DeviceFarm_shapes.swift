@@ -687,16 +687,20 @@ extension DeviceFarm {
     public struct CreateRemoteAccessSessionConfiguration: AWSEncodableShape {
         /// The billing method for the remote access session.
         public let billingMethod: BillingMethod?
+        /// The device proxy to be configured on the device for the remote access session.
+        public let deviceProxy: DeviceProxy?
         /// An array of ARNs included in the VPC endpoint configuration.
         public let vpceConfigurationArns: [String]?
 
         @inlinable
-        public init(billingMethod: BillingMethod? = nil, vpceConfigurationArns: [String]? = nil) {
+        public init(billingMethod: BillingMethod? = nil, deviceProxy: DeviceProxy? = nil, vpceConfigurationArns: [String]? = nil) {
             self.billingMethod = billingMethod
+            self.deviceProxy = deviceProxy
             self.vpceConfigurationArns = vpceConfigurationArns
         }
 
         public func validate(name: String) throws {
+            try self.deviceProxy?.validate(name: "\(name).deviceProxy")
             try self.vpceConfigurationArns?.forEach {
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, max: 1011)
                 try validate($0, name: "vpceConfigurationArns[]", parent: name, min: 32)
@@ -706,6 +710,7 @@ extension DeviceFarm {
 
         private enum CodingKeys: String, CodingKey {
             case billingMethod = "billingMethod"
+            case deviceProxy = "deviceProxy"
             case vpceConfigurationArns = "vpceConfigurationArns"
         }
     }
@@ -1449,6 +1454,32 @@ extension DeviceFarm {
             case compatible = "compatible"
             case device = "device"
             case incompatibilityMessages = "incompatibilityMessages"
+        }
+    }
+
+    public struct DeviceProxy: AWSEncodableShape & AWSDecodableShape {
+        /// Hostname or IPv4 address of the proxy.
+        public let host: String
+        /// The port number on which the http/s proxy is listening.
+        public let port: Int
+
+        @inlinable
+        public init(host: String, port: Int) {
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.host, name: "host", parent: name, max: 255)
+            try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.validate(self.host, name: "host", parent: name, pattern: "^([a-zA-Z0-9])([a-zA-Z0-9-.]+)([a-zA-Z0-9])$")
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case host = "host"
+            case port = "port"
         }
     }
 
@@ -3786,6 +3817,8 @@ extension DeviceFarm {
         public let device: Device?
         /// The number of minutes a device is used in a remote access session (including setup and teardown minutes).
         public let deviceMinutes: DeviceMinutes?
+        /// The device proxy configured for the remote access session.
+        public let deviceProxy: DeviceProxy?
         /// Unique device identifier for the remote device. Only returned if remote debugging is enabled for the remote access session. Remote debugging is no longer supported.
         public let deviceUdid: String?
         /// The endpoint for the remote access sesssion.
@@ -3820,13 +3853,14 @@ extension DeviceFarm {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String? = nil, billingMethod: BillingMethod? = nil, clientId: String? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceUdid: String? = nil, endpoint: String? = nil, hostAddress: String? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, billingMethod: BillingMethod? = nil, clientId: String? = nil, created: Date? = nil, device: Device? = nil, deviceMinutes: DeviceMinutes? = nil, deviceProxy: DeviceProxy? = nil, deviceUdid: String? = nil, endpoint: String? = nil, hostAddress: String? = nil, instanceArn: String? = nil, interactionMode: InteractionMode? = nil, message: String? = nil, name: String? = nil, remoteDebugEnabled: Bool? = nil, remoteRecordAppArn: String? = nil, remoteRecordEnabled: Bool? = nil, result: ExecutionResult? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.billingMethod = billingMethod
             self.clientId = clientId
             self.created = created
             self.device = device
             self.deviceMinutes = deviceMinutes
+            self.deviceProxy = deviceProxy
             self.deviceUdid = deviceUdid
             self.endpoint = endpoint
             self.hostAddress = hostAddress
@@ -3852,6 +3886,7 @@ extension DeviceFarm {
             case created = "created"
             case device = "device"
             case deviceMinutes = "deviceMinutes"
+            case deviceProxy = "deviceProxy"
             case deviceUdid = "deviceUdid"
             case endpoint = "endpoint"
             case hostAddress = "hostAddress"
@@ -3966,6 +4001,8 @@ extension DeviceFarm {
         public let deviceMinutes: DeviceMinutes?
         /// The ARN of the device pool for the run.
         public let devicePoolArn: String?
+        /// The device proxy configured for the devices in the run.
+        public let deviceProxy: DeviceProxy?
         /// The results of a device filter used to select the devices for a test run.
         public let deviceSelectionResult: DeviceSelectionResult?
         /// For fuzz tests, this is the number of events, between 1 and 10000, that the UI fuzz test should perform.
@@ -4014,7 +4051,7 @@ extension DeviceFarm {
         public let webUrl: String?
 
         @inlinable
-        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, vpcConfig: VpcConfig? = nil, webUrl: String? = nil) {
+        public init(appUpload: String? = nil, arn: String? = nil, billingMethod: BillingMethod? = nil, completedJobs: Int? = nil, counters: Counters? = nil, created: Date? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceMinutes: DeviceMinutes? = nil, devicePoolArn: String? = nil, deviceProxy: DeviceProxy? = nil, deviceSelectionResult: DeviceSelectionResult? = nil, eventCount: Int? = nil, jobTimeoutMinutes: Int? = nil, locale: String? = nil, location: Location? = nil, message: String? = nil, name: String? = nil, networkProfile: NetworkProfile? = nil, parsingResultUrl: String? = nil, platform: DevicePlatform? = nil, radios: Radios? = nil, result: ExecutionResult? = nil, resultCode: ExecutionResultCode? = nil, seed: Int? = nil, skipAppResign: Bool? = nil, started: Date? = nil, status: ExecutionStatus? = nil, stopped: Date? = nil, testSpecArn: String? = nil, totalJobs: Int? = nil, type: TestType? = nil, vpcConfig: VpcConfig? = nil, webUrl: String? = nil) {
             self.appUpload = appUpload
             self.arn = arn
             self.billingMethod = billingMethod
@@ -4024,6 +4061,7 @@ extension DeviceFarm {
             self.customerArtifactPaths = customerArtifactPaths
             self.deviceMinutes = deviceMinutes
             self.devicePoolArn = devicePoolArn
+            self.deviceProxy = deviceProxy
             self.deviceSelectionResult = deviceSelectionResult
             self.eventCount = eventCount
             self.jobTimeoutMinutes = jobTimeoutMinutes
@@ -4059,6 +4097,7 @@ extension DeviceFarm {
             case customerArtifactPaths = "customerArtifactPaths"
             case deviceMinutes = "deviceMinutes"
             case devicePoolArn = "devicePoolArn"
+            case deviceProxy = "deviceProxy"
             case deviceSelectionResult = "deviceSelectionResult"
             case eventCount = "eventCount"
             case jobTimeoutMinutes = "jobTimeoutMinutes"
@@ -4114,6 +4153,8 @@ extension DeviceFarm {
         public let billingMethod: BillingMethod?
         /// Input CustomerArtifactPaths object for the scheduled run configuration.
         public let customerArtifactPaths: CustomerArtifactPaths?
+        /// The device proxy to be configured on the device for the run.
+        public let deviceProxy: DeviceProxy?
         /// The ARN of the extra data for the run. The extra data is a .zip file that AWS Device Farm extracts to external data for Android or the app's sandbox for iOS.
         public let extraDataPackageArn: String?
         /// Information about the locale that is used for the run.
@@ -4128,10 +4169,11 @@ extension DeviceFarm {
         public let vpceConfigurationArns: [String]?
 
         @inlinable
-        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
+        public init(auxiliaryApps: [String]? = nil, billingMethod: BillingMethod? = nil, customerArtifactPaths: CustomerArtifactPaths? = nil, deviceProxy: DeviceProxy? = nil, extraDataPackageArn: String? = nil, locale: String? = nil, location: Location? = nil, networkProfileArn: String? = nil, radios: Radios? = nil, vpceConfigurationArns: [String]? = nil) {
             self.auxiliaryApps = auxiliaryApps
             self.billingMethod = billingMethod
             self.customerArtifactPaths = customerArtifactPaths
+            self.deviceProxy = deviceProxy
             self.extraDataPackageArn = extraDataPackageArn
             self.locale = locale
             self.location = location
@@ -4146,6 +4188,7 @@ extension DeviceFarm {
                 try validate($0, name: "auxiliaryApps[]", parent: name, min: 32)
                 try validate($0, name: "auxiliaryApps[]", parent: name, pattern: "^arn:aws:devicefarm:.+$")
             }
+            try self.deviceProxy?.validate(name: "\(name).deviceProxy")
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, max: 1011)
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, min: 32)
             try self.validate(self.extraDataPackageArn, name: "extraDataPackageArn", parent: name, pattern: "^arn:aws:devicefarm:.+$")
@@ -4163,6 +4206,7 @@ extension DeviceFarm {
             case auxiliaryApps = "auxiliaryApps"
             case billingMethod = "billingMethod"
             case customerArtifactPaths = "customerArtifactPaths"
+            case deviceProxy = "deviceProxy"
             case extraDataPackageArn = "extraDataPackageArn"
             case locale = "locale"
             case location = "location"

@@ -92,6 +92,7 @@ public struct EFS: AWSService {
             "ap-southeast-3": "elasticfilesystem-fips.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "elasticfilesystem-fips.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "elasticfilesystem-fips.ap-southeast-5.amazonaws.com",
+            "ap-southeast-7": "elasticfilesystem-fips.ap-southeast-7.amazonaws.com",
             "ca-central-1": "elasticfilesystem-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "elasticfilesystem-fips.ca-west-1.amazonaws.com",
             "cn-north-1": "elasticfilesystem-fips.cn-north-1.amazonaws.com.cn",
@@ -107,6 +108,7 @@ public struct EFS: AWSService {
             "il-central-1": "elasticfilesystem-fips.il-central-1.amazonaws.com",
             "me-central-1": "elasticfilesystem-fips.me-central-1.amazonaws.com",
             "me-south-1": "elasticfilesystem-fips.me-south-1.amazonaws.com",
+            "mx-central-1": "elasticfilesystem-fips.mx-central-1.amazonaws.com",
             "sa-east-1": "elasticfilesystem-fips.sa-east-1.amazonaws.com",
             "us-east-1": "elasticfilesystem-fips.us-east-1.amazonaws.com",
             "us-east-2": "elasticfilesystem-fips.us-east-2.amazonaws.com",
@@ -115,6 +117,8 @@ public struct EFS: AWSService {
             "us-iso-east-1": "elasticfilesystem-fips.us-iso-east-1.c2s.ic.gov",
             "us-iso-west-1": "elasticfilesystem-fips.us-iso-west-1.c2s.ic.gov",
             "us-isob-east-1": "elasticfilesystem-fips.us-isob-east-1.sc2s.sgov.gov",
+            "us-isof-east-1": "elasticfilesystem-fips.us-isof-east-1.csp.hci.ic.gov",
+            "us-isof-south-1": "elasticfilesystem-fips.us-isof-south-1.csp.hci.ic.gov",
             "us-west-1": "elasticfilesystem-fips.us-west-1.amazonaws.com",
             "us-west-2": "elasticfilesystem-fips.us-west-2.amazonaws.com"
         ])

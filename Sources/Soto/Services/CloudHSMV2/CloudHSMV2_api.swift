@@ -582,16 +582,19 @@ public struct CloudHSMV2: AWSService {
     /// Parameters:
     ///   - backupRetentionPolicy: A policy that defines how the service retains backups.
     ///   - clusterId: The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters.
+    ///   - hsmType: The desired HSM type of the cluster.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyCluster(
-        backupRetentionPolicy: BackupRetentionPolicy,
+        backupRetentionPolicy: BackupRetentionPolicy? = nil,
         clusterId: String,
+        hsmType: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ModifyClusterResponse {
         let input = ModifyClusterRequest(
             backupRetentionPolicy: backupRetentionPolicy, 
-            clusterId: clusterId
+            clusterId: clusterId, 
+            hsmType: hsmType
         )
         return try await self.modifyCluster(input, logger: logger)
     }

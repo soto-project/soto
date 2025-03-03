@@ -582,14 +582,14 @@ extension MarketplaceCatalog {
         /// This object contains details specific to the change type of the requested change. For more information about change types available for single-AMI products, see Working with single-AMI products. Also, for more information about change types available for container-based products, see Working with container products.
         public let details: String?
         /// Alternative field that accepts a JSON value instead of a string for ChangeType details. You can use either Details or DetailsDocument, but not both.
-        public let detailsDocument: String?
+        public let detailsDocument: AWSDocument?
         /// The entity to be changed.
         public let entity: Entity
         /// The tags associated with the change.
         public let entityTags: [Tag]?
 
         @inlinable
-        public init(changeName: String? = nil, changeType: String, details: String? = nil, detailsDocument: String? = nil, entity: Entity, entityTags: [Tag]? = nil) {
+        public init(changeName: String? = nil, changeType: String, details: String? = nil, detailsDocument: AWSDocument? = nil, entity: Entity, entityTags: [Tag]? = nil) {
             self.changeName = changeName
             self.changeType = changeType
             self.details = details
@@ -676,14 +676,14 @@ extension MarketplaceCatalog {
         /// This object contains details specific to the change type of the requested change.
         public let details: String?
         /// The JSON value of the details specific to the change type of the requested change.
-        public let detailsDocument: String?
+        public let detailsDocument: AWSDocument?
         /// The entity to be changed.
         public let entity: Entity?
         /// An array of ErrorDetail objects associated with the change.
         public let errorDetailList: [ErrorDetail]?
 
         @inlinable
-        public init(changeName: String? = nil, changeType: String? = nil, details: String? = nil, detailsDocument: String? = nil, entity: Entity? = nil, errorDetailList: [ErrorDetail]? = nil) {
+        public init(changeName: String? = nil, changeType: String? = nil, details: String? = nil, detailsDocument: AWSDocument? = nil, entity: Entity? = nil, errorDetailList: [ErrorDetail]? = nil) {
             self.changeName = changeName
             self.changeType = changeType
             self.details = details
@@ -1222,7 +1222,7 @@ extension MarketplaceCatalog {
         /// This stringified JSON object includes the details of the entity.
         public let details: String?
         /// The JSON value of the details specific to the entity.
-        public let detailsDocument: String?
+        public let detailsDocument: AWSDocument?
         /// The ARN associated to the unique identifier for the entity referenced in this request.
         public let entityArn: String?
         /// The identifier of the entity, in the format of EntityId@RevisionId.
@@ -1233,7 +1233,7 @@ extension MarketplaceCatalog {
         public let lastModifiedDate: String?
 
         @inlinable
-        public init(details: String? = nil, detailsDocument: String? = nil, entityArn: String? = nil, entityIdentifier: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil) {
+        public init(details: String? = nil, detailsDocument: AWSDocument? = nil, entityArn: String? = nil, entityIdentifier: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil) {
             self.details = details
             self.detailsDocument = detailsDocument
             self.entityArn = entityArn
@@ -1281,7 +1281,7 @@ extension MarketplaceCatalog {
 
     public struct EntityDetail: AWSDecodableShape {
         /// An object that contains all the details of the entity.
-        public let detailsDocument: String?
+        public let detailsDocument: AWSDocument?
         /// The Amazon Resource Name (ARN) of the entity.
         public let entityArn: String?
         /// The ID of the entity, in the format of EntityId@RevisionId.
@@ -1292,7 +1292,7 @@ extension MarketplaceCatalog {
         public let lastModifiedDate: String?
 
         @inlinable
-        public init(detailsDocument: String? = nil, entityArn: String? = nil, entityIdentifier: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil) {
+        public init(detailsDocument: AWSDocument? = nil, entityArn: String? = nil, entityIdentifier: String? = nil, entityType: String? = nil, lastModifiedDate: String? = nil) {
             self.detailsDocument = detailsDocument
             self.entityArn = entityArn
             self.entityIdentifier = entityIdentifier

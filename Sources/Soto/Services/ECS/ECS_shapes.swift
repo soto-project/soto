@@ -648,16 +648,17 @@ extension ECS {
     }
 
     public struct AwsVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Whether the task's elastic network interface receives a public IP address. The default
-        /// 			value is ENABLED.
+        /// Whether the task's elastic network interface receives a public IP address.  Consider the following when you set this value:   When you use create-service or update-service, the default is
+        /// 						DISABLED.    When the service deploymentController is ECS, the value must be
+        /// 						DISABLED.    When you use create-service or update-service, the
+        /// 					default is ENABLED.
         public let assignPublicIp: AssignPublicIp?
         /// The IDs of the security groups associated with the task or service. If you don't
         /// 			specify a security group, the default security group for the VPC is used. There's a
-        /// 			limit of 5 security groups that can be specified per
-        /// 			awsvpcConfiguration.  All specified security groups must be from the same VPC.
+        /// 			limit of 5 security groups that can be specified.  All specified security groups must be from the same VPC.
         public let securityGroups: [String]?
         /// The IDs of the subnets associated with the task or service. There's a limit of 16
-        /// 			subnets that can be specified per awsvpcConfiguration.  All specified subnets must be from the same VPC.
+        /// 			subnets that can be specified.  All specified subnets must be from the same VPC.
         public let subnets: [String]
 
         @inlinable
@@ -1215,7 +1216,7 @@ extension ECS {
         /// 				isolation is achieved on the container instance using security groups and VPC
         /// 				settings.
         public let links: [String]?
-        /// Linux-specific modifications that are applied to the container, such as Linux kernel
+        /// Linux-specific modifications that are applied to the default Docker container configuration, such as Linux kernel
         /// 			capabilities. For more information see KernelCapabilities.  This parameter is not supported for Windows containers.
         public let linuxParameters: LinuxParameters?
         /// The log configuration specification for the container. This parameter maps to LogConfig in the docker container create command
@@ -1953,7 +1954,7 @@ extension ECS {
 
     public struct CreateServiceRequest: AWSEncodableShape {
         /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see Balancing an Amazon ECS service across Availability Zones in
-        /// 			the Amazon Elastic Container Service Developer Guide.
+        /// 			the  Amazon Elastic Container Service Developer Guide .
         public let availabilityZoneRebalancing: AvailabilityZoneRebalancing?
         /// The capacity provider strategy to use for the service. If a capacityProviderStrategy is specified, the launchType
         /// 			parameter must be omitted. If no capacityProviderStrategy or
@@ -3923,21 +3924,24 @@ extension ECS {
         /// 			more information, see HealthCheck in the docker container create
         /// 			command.
         public let command: [String]
-        /// The time period in seconds between each health check execution. You may specify
-        /// 			between 5 and 300 seconds. The default value is 30 seconds.
+        /// The time period in seconds between each health check execution. You may specify between 5
+        /// 			and 300 seconds. The default value is 30 seconds. This value applies only when you
+        /// 			specify a command.
         public let interval: Int?
         /// The number of times to retry a failed health check before the container is considered
-        /// 			unhealthy. You may specify between 1 and 10 retries. The default value is 3.
+        /// 			unhealthy. You may specify between 1 and 10 retries. The default value is 3. This value
+        /// 			applies only when you specify a command.
         public let retries: Int?
         /// The optional grace period to provide containers time to bootstrap before failed health
         /// 			checks count towards the maximum number of retries. You can specify between 0 and 300
-        /// 			seconds. By default, the startPeriod is off.  If a health check succeeds within the startPeriod, then the container
+        /// 			seconds. By default, the startPeriod is off. This value applies only when
+        /// 			you specify a command.   If a health check succeeds within the startPeriod, then the container
         /// 				is considered healthy and any subsequent failures count toward the maximum number of
         /// 				retries.
         public let startPeriod: Int?
-        /// The time period in seconds to wait for a health check to succeed before it is
-        /// 			considered a failure. You may specify between 2 and 60 seconds. The default value is
-        /// 			5.
+        /// The time period in seconds to wait for a health check to succeed before it is considered a
+        /// 			failure. You may specify between 2 and 60 seconds. The default value is 5. This value
+        /// 			applies only when you specify a command.
         public let timeout: Int?
 
         @inlinable
@@ -5194,9 +5198,9 @@ extension ECS {
     }
 
     public struct ManagedStorageConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the Key Management Service key ID for the Fargate ephemeral storage.
+        /// Specify the Key Management Service key ID for the Fargate ephemeral storage. The key must be a single Region key.
         public let fargateEphemeralStorageKmsKeyId: String?
-        /// Specify a Key Management Service key ID to encrypt the managed storage.
+        /// Specify a Key Management Service key ID to encrypt the managed storage. The key must be a single Region key.
         public let kmsKeyId: String?
 
         @inlinable
@@ -5913,10 +5917,10 @@ extension ECS {
         /// 				vCPU or 1 vcpu) in a task definition. String values are
         /// 			converted to an integer indicating the CPU units when the task definition is
         /// 			registered.  Task-level CPU and memory parameters are ignored for Windows containers. We
-        /// 				recommend specifying container-level resources for Windows containers.  If you're using the EC2 launch type, this field is optional. Supported
-        /// 			values are between 128 CPU units (0.125 vCPUs) and
-        /// 				10240 CPU units (10 vCPUs). If you do not specify a value,
-        /// 			the parameter is ignored. If you're using the Fargate launch type, this field is required and you
+        /// 				recommend specifying container-level resources for Windows containers.  If you're using the EC2 launch type or external launch type, this field is
+        /// 			optional. Supported values are between 128 CPU units (0.125
+        /// 			vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify
+        /// 			a value, the parameter is ignored. If you're using the Fargate launch type, this field is required and you
         /// 			must use one of the following values, which determines your range of supported values
         /// 			for the memory parameter: The CPU units cannot be less than 1 vCPU when you use Windows containers on
         /// 			Fargate.   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
@@ -6405,7 +6409,7 @@ extension ECS {
 
     public struct Service: AWSDecodableShape {
         /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see Balancing an Amazon ECS service across Availability Zones in
-        /// 			the Amazon Elastic Container Service Developer Guide.
+        /// 			the  Amazon Elastic Container Service Developer Guide .
         public let availabilityZoneRebalancing: AvailabilityZoneRebalancing?
         /// The capacity provider strategy the service uses. When using the DescribeServices API,
         /// 			this field is omitted if the service was created using a launch type.
@@ -7420,7 +7424,7 @@ extension ECS {
         /// 			here, and the message appears in subsequent DescribeTasks>
         /// 			API operations on this task.
         public let reason: String?
-        /// The task ID of the task to stop.
+        /// Thefull Amazon Resource Name (ARN) of the task.
         public let task: String
 
         @inlinable
@@ -7657,7 +7661,9 @@ extension ECS {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to add tags to. Currently, the supported resources are
         /// 			Amazon ECS capacity providers, tasks, services, task definitions, clusters, and container
-        /// 			instances.
+        /// 			instances. In order to tag a service that has the following ARN format, you need to migrate the
+        /// 			service to the long ARN. For more information, see Migrate an Amazon ECS short service ARN to a long ARN in the Amazon Elastic Container Service
+        /// 				Developer Guide.  arn:aws:ecs:region:aws_account_id:service/service-name  After the migration is complete, the service has the long ARN format, as shown below. Use this ARN to tag the service.  arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name  If you try to tag a service with a short ARN, you receive an InvalidParameterException error.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8   Maximum value length - 256 Unicode characters in UTF-8   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case-sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for either keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag keys or values with this prefix. Tags with this prefix do not count against your tags per resource limit.
         public let tags: [Tag]
@@ -7710,9 +7716,10 @@ extension ECS {
         /// 			expressed as an integer using CPU units (for example, 1024). It can also be
         /// 			expressed as a string using vCPUs (for example, 1 vCPU or 1
         /// 				vcpu). String values are converted to an integer that indicates the CPU units
-        /// 			when the task definition is registered. If you use the EC2 launch type, this field is optional. Supported values
-        /// 			are between 128 CPU units (0.125 vCPUs) and 10240
-        /// 			CPU units (10 vCPUs). If you use the Fargate launch type, this field is required. You must use
+        /// 			when the task definition is registered. If you're using the EC2 launch type or the external launch type, this field is
+        /// 			optional. Supported values are between 128 CPU units (0.125
+        /// 			vCPUs) and 196608 CPU units (192 vCPUs). If you do not specify
+        /// 			a value, the parameter is ignored. If you're using the Fargate launch type, this field is required. You must use
         /// 			one of the following values. These values determine the range of supported values for
         /// 			the memory parameter: The CPU units cannot be less than 1 vCPU when you use Windows containers on
         /// 			Fargate.   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
@@ -7909,10 +7916,13 @@ extension ECS {
         /// The number of cpu units used by the task. If you use the EC2 launch type,
         /// 			this field is optional. Any value can be used. If you use the Fargate launch type, this
         /// 			field is required. You must use one of the following values. The value that you choose
-        /// 			determines your range of valid values for the memory parameter. If you use the EC2 launch type, this field is optional. Supported values
-        /// 			are between 128 CPU units (0.125 vCPUs) and 10240
-        /// 			CPU units (10 vCPUs). The CPU units cannot be less than 1 vCPU when you use Windows containers on
-        /// 			Fargate.   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
+        /// 			determines your range of valid values for the memory parameter. If you're using the EC2 launch type or the external launch type, this
+        /// 			field is optional. Supported values are between 128 CPU units
+        /// 				(0.125 vCPUs) and 196608 CPU units (192
+        /// 			vCPUs).  If you're using the Fargate launch type, this field is required and you
+        /// 				must use one of the following values, which determines your range of supported values
+        /// 				for the memory parameter. The CPU units cannot be less than 1 vCPU when you use Windows containers on
+        /// 				Fargate.   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
         public let cpu: String?
         /// The Unix timestamp for the time when the task definition was deregistered.
         public let deregisteredAt: Date?
@@ -8777,7 +8787,7 @@ extension ECS {
 
     public struct UpdateServiceRequest: AWSEncodableShape {
         /// Indicates whether to use Availability Zone rebalancing for the service. For more information, see Balancing an Amazon ECS service across Availability Zones in
-        /// 			the Amazon Elastic Container Service Developer Guide.
+        /// 			the  Amazon Elastic Container Service Developer Guide .
         public let availabilityZoneRebalancing: AvailabilityZoneRebalancing?
         /// The capacity provider strategy to update the service to use. if the service uses the default capacity provider strategy for the cluster, the
         /// 			service can be updated to use one or more capacity providers as opposed to the default
@@ -9260,7 +9270,7 @@ public struct ECSErrorType: AWSErrorType {
     /// 			You can remove existing attributes on a resource with DeleteAttributes.
     public static var attributeLimitExceededException: Self { .init(.attributeLimitExceededException) }
     /// Your Amazon Web Services account was blocked. For more information, contact
-    /// 				Amazon Web Services Support.
+    /// 				Amazon Web ServicesSupport.
     public static var blockedException: Self { .init(.blockedException) }
     /// These errors are usually caused by a client action. This client action might be using
     /// 			an action or resource on behalf of a user that doesn't have permissions to use the

@@ -3272,7 +3272,7 @@ extension CloudFront {
     public struct DeleteVpcOriginRequest: AWSEncodableShape {
         /// The VPC origin ID.
         public let id: String
-        /// The VPC origin to delete, if a match occurs.
+        /// The version identifier of the VPC origin to delete. This is the ETag value returned in the response to GetVpcOrigin.
         public let ifMatch: String
 
         @inlinable
@@ -10813,7 +10813,7 @@ extension CloudFront {
         /// 					additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution
         /// 					has been enabled for this feature by the CloudFront team. If you have a use case
         /// 					that requires static IP addresses for a distribution, contact CloudFront through
-        /// 					the Amazon Web Services Support Center.   If the distribution uses the CloudFront domain name such as
+        /// 					the Amazon Web ServicesSupport Center.   If the distribution uses the CloudFront domain name such as
         /// 				d111111abcdef8.cloudfront.net, don't set a value for this field.
         public let sslSupportMethod: SSLSupportMethod?
 
@@ -10917,9 +10917,9 @@ extension CloudFront {
     public struct VpcOriginEndpointConfig: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the CloudFront VPC origin endpoint configuration.
         public let arn: String
-        /// The HTTP port for the CloudFront VPC origin endpoint configuration.
+        /// The HTTP port for the CloudFront VPC origin endpoint configuration. The default value is 80.
         public let httpPort: Int
-        /// The HTTPS port of the CloudFront VPC origin endpoint configuration.
+        /// The HTTPS port of the CloudFront VPC origin endpoint configuration. The default value is 443.
         public let httpsPort: Int
         /// The name of the CloudFront VPC origin endpoint configuration.
         public let name: String

@@ -890,7 +890,7 @@ public struct IoT: AWSService {
     ///   - mandatoryParameters: A list of parameters that are required by the StartCommandExecution API. These parameters need to be specified only when using the AWS-IoT-FleetWise namespace. You can either specify them here or when running the command using the StartCommandExecution API.
     ///   - namespace: The namespace of the command. The MQTT reserved topics and validations will be used for command executions according to the namespace setting.
     ///   - payload: The payload object for the command. You must specify this information when using the AWS-IoT namespace. You can upload a static payload file from your local storage that contains the  instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
-    ///   - roleArn: The IAM role that allows access to create the command.
+    ///   - roleArn: The IAM role that you must provide when using the AWS-IoT-FleetWise namespace. The role grants IoT Device Management the permission to access IoT FleetWise resources  for generating the payload for the command. This field is not required when you use the AWS-IoT namespace.
     ///   - tags: Name-value pairs that are used as metadata to manage a command.
     ///   - logger: Logger use during operation
     @inlinable
@@ -5024,6 +5024,35 @@ public struct IoT: AWSService {
         return try await self.getStatistics(input, logger: logger)
     }
 
+    /// Retrieves the live connectivity status per device.
+    @Sendable
+    @inlinable
+    public func getThingConnectivityData(_ input: GetThingConnectivityDataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetThingConnectivityDataResponse {
+        try await self.client.execute(
+            operation: "GetThingConnectivityData", 
+            path: "/things/{thingName}/connectivity-data", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the live connectivity status per device.
+    ///
+    /// Parameters:
+    ///   - thingName: The name of your IoT thing.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getThingConnectivityData(
+        thingName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetThingConnectivityDataResponse {
+        let input = GetThingConnectivityDataRequest(
+            thingName: thingName
+        )
+        return try await self.getThingConnectivityData(input, logger: logger)
+    }
+
     /// Gets information about the rule. Requires permission to access the GetTopicRule action.
     @Sendable
     @inlinable
@@ -5632,7 +5661,7 @@ public struct IoT: AWSService {
         return try await self.listCertificatesByCA(input, logger: logger)
     }
 
-    /// List all command executions.  You must provide only the startedTimeFilter or the completedTimeFilter information. If you  provide both time filters, the API will generate an error. You can use this information to find command executions that started within a specific timeframe.
+    /// List all command executions.    You must provide only the startedTimeFilter or  the completedTimeFilter information. If you provide  both time filters, the API will generate an error. You can use  this information to retrieve a list of command executions  within a specific timeframe.   You must provide only the commandArn or  the thingArn information depending on whether you want to list executions for a specific command or an IoT thing. If you provide  both fields, the API will generate an error.   For more information about considerations for using this API, see List command executions in your account (CLI).
     @Sendable
     @inlinable
     public func listCommandExecutions(_ input: ListCommandExecutionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCommandExecutionsResponse {
@@ -5645,7 +5674,7 @@ public struct IoT: AWSService {
             logger: logger
         )
     }
-    /// List all command executions.  You must provide only the startedTimeFilter or the completedTimeFilter information. If you  provide both time filters, the API will generate an error. You can use this information to find command executions that started within a specific timeframe.
+    /// List all command executions.    You must provide only the startedTimeFilter or  the completedTimeFilter information. If you provide  both time filters, the API will generate an error. You can use  this information to retrieve a list of command executions  within a specific timeframe.   You must provide only the commandArn or  the thingArn information depending on whether you want to list executions for a specific command or an IoT thing. If you provide  both fields, the API will generate an error.   For more information about considerations for using this API, see List command executions in your account (CLI).
     ///
     /// Parameters:
     ///   - commandArn: The Amazon Resource Number (ARN) of the command. You can use this information to list all command executions for a particular command.

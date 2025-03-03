@@ -431,7 +431,7 @@ public struct HealthLake: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func startFHIRExportJob(
-        clientToken: String = StartFHIRExportJobRequest.idempotencyToken(),
+        clientToken: String? = StartFHIRExportJobRequest.idempotencyToken(),
         dataAccessRoleArn: String,
         datastoreId: String,
         jobName: String? = nil,
@@ -473,7 +473,7 @@ public struct HealthLake: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func startFHIRImportJob(
-        clientToken: String = StartFHIRImportJobRequest.idempotencyToken(),
+        clientToken: String? = StartFHIRImportJobRequest.idempotencyToken(),
         dataAccessRoleArn: String,
         datastoreId: String,
         inputDataConfig: InputDataConfig,

@@ -167,6 +167,7 @@ public struct SESv2: AWSService {
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// Parameters:
+    ///   - archivingOptions: An object that defines the MailManager archiving options for emails that you send using the configuration set.
     ///   - configurationSetName: The name of the configuration set. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
     ///   - deliveryOptions: An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
     ///   - reputationOptions: An object that defines whether or not Amazon SES collects reputation metrics for the emails that you send that use the configuration set.
@@ -178,6 +179,7 @@ public struct SESv2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createConfigurationSet(
+        archivingOptions: ArchivingOptions? = nil,
         configurationSetName: String,
         deliveryOptions: DeliveryOptions? = nil,
         reputationOptions: ReputationOptions? = nil,
@@ -189,6 +191,7 @@ public struct SESv2: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateConfigurationSetResponse {
         let input = CreateConfigurationSetRequest(
+            archivingOptions: archivingOptions, 
             configurationSetName: configurationSetName, 
             deliveryOptions: deliveryOptions, 
             reputationOptions: reputationOptions, 
@@ -2282,6 +2285,38 @@ public struct SESv2: AWSService {
             vdmAttributes: vdmAttributes
         )
         return try await self.putAccountVdmAttributes(input, logger: logger)
+    }
+
+    /// Associate the configuration set with a MailManager archive. When you send email using the SendEmail or SendBulkEmail operations the message as it will be given to the receiving SMTP server will be archived, along with the recipient information.
+    @Sendable
+    @inlinable
+    public func putConfigurationSetArchivingOptions(_ input: PutConfigurationSetArchivingOptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutConfigurationSetArchivingOptionsResponse {
+        try await self.client.execute(
+            operation: "PutConfigurationSetArchivingOptions", 
+            path: "/v2/email/configuration-sets/{ConfigurationSetName}/archiving-options", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associate the configuration set with a MailManager archive. When you send email using the SendEmail or SendBulkEmail operations the message as it will be given to the receiving SMTP server will be archived, along with the recipient information.
+    ///
+    /// Parameters:
+    ///   - archiveArn: The Amazon Resource Name (ARN) of the MailManager archive that the Amazon SES API v2 sends email to.
+    ///   - configurationSetName: The name of the configuration set to associate with a MailManager archive.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putConfigurationSetArchivingOptions(
+        archiveArn: String? = nil,
+        configurationSetName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutConfigurationSetArchivingOptionsResponse {
+        let input = PutConfigurationSetArchivingOptionsRequest(
+            archiveArn: archiveArn, 
+            configurationSetName: configurationSetName
+        )
+        return try await self.putConfigurationSetArchivingOptions(input, logger: logger)
     }
 
     /// Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools to create groups of dedicated IP addresses for sending specific types of email.

@@ -111,7 +111,7 @@ public struct ApplicationSignals: AWSService {
         return try await self.batchGetServiceLevelObjectiveBudgetReport(input, logger: logger)
     }
 
-    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are  meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to  calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability.  You can also set SLOs against any CloudWatch metric or math expression that produces a time series. When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating  your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within  a specified total time interval. For each period of time, Application Signals determines whether the  application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the  time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead,  the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of  good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it.  An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold,  while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month  translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on  the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role,  if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
+    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are  meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to  calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability.  You can also set SLOs against any CloudWatch metric or math expression that produces a time series.  You can't create an SLO for a service operation that was discovered by Application Signals until after that operation has reported standard metrics to Application Signals.  When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating  your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within  a specified total time interval. For each period of time, Application Signals determines whether the  application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the  time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead,  the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of  good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it.  An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold,  while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month  translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on  the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role,  if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
     @Sendable
     @inlinable
     public func createServiceLevelObjective(_ input: CreateServiceLevelObjectiveInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateServiceLevelObjectiveOutput {
@@ -124,7 +124,7 @@ public struct ApplicationSignals: AWSService {
             logger: logger
         )
     }
-    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are  meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to  calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability.  You can also set SLOs against any CloudWatch metric or math expression that produces a time series. When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating  your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within  a specified total time interval. For each period of time, Application Signals determines whether the  application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the  time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead,  the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of  good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it.  An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold,  while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month  translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on  the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role,  if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
+    /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are  meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to  calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability.  You can also set SLOs against any CloudWatch metric or math expression that produces a time series.  You can't create an SLO for a service operation that was discovered by Application Signals until after that operation has reported standard metrics to Application Signals.  When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating  your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within  a specified total time interval. For each period of time, Application Signals determines whether the  application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the  time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead,  the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of  good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it.  An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold,  while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month  translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on  the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role,  if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
     ///
     /// Parameters:
     ///   - burnRateConfigurations: Use this array to create burn rates for this SLO. Each  burn rate is a metric that indicates how fast the service is consuming the error budget, relative to the attainment goal of the SLO.
@@ -349,24 +349,30 @@ public struct ApplicationSignals: AWSService {
     /// Returns a list of SLOs created in this account.
     ///
     /// Parameters:
+    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.   When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
     ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
     ///   - operationName: The name of the operation that this SLO is associated with.
+    ///   - sloOwnerAwsAccountId: SLO's Amazon Web Services account ID.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServiceLevelObjectives(
+        includeLinkedAccounts: Bool? = nil,
         keyAttributes: [String: String]? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         operationName: String? = nil,
+        sloOwnerAwsAccountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListServiceLevelObjectivesOutput {
         let input = ListServiceLevelObjectivesInput(
+            includeLinkedAccounts: includeLinkedAccounts, 
             keyAttributes: keyAttributes, 
             maxResults: maxResults, 
             nextToken: nextToken, 
-            operationName: operationName
+            operationName: operationName, 
+            sloOwnerAwsAccountId: sloOwnerAwsAccountId
         )
         return try await self.listServiceLevelObjectives(input, logger: logger)
     }
@@ -428,21 +434,27 @@ public struct ApplicationSignals: AWSService {
     /// Returns a list of services that have been discovered by Application Signals.  A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
     ///
     /// Parameters:
+    ///   - awsAccountId: Amazon Web Services Account ID.
     ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include services from source accounts in the returned data.
     ///   - maxResults:  The maximum number  of results  to return  in one operation.  If you omit this parameter,  the default of 50 is used.
     ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of services.
     ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServices(
+        awsAccountId: String? = nil,
         endTime: Date,
+        includeLinkedAccounts: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         startTime: Date,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListServicesOutput {
         let input = ListServicesInput(
+            awsAccountId: awsAccountId, 
             endTime: endTime, 
+            includeLinkedAccounts: includeLinkedAccounts, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             startTime: startTime
@@ -734,21 +746,27 @@ extension ApplicationSignals {
     /// Return PaginatorSequence for operation ``listServiceLevelObjectives(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.   When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
     ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
     ///   - operationName: The name of the operation that this SLO is associated with.
+    ///   - sloOwnerAwsAccountId: SLO's Amazon Web Services account ID.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServiceLevelObjectivesPaginator(
+        includeLinkedAccounts: Bool? = nil,
         keyAttributes: [String: String]? = nil,
         maxResults: Int? = nil,
         operationName: String? = nil,
+        sloOwnerAwsAccountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListServiceLevelObjectivesInput, ListServiceLevelObjectivesOutput> {
         let input = ListServiceLevelObjectivesInput(
+            includeLinkedAccounts: includeLinkedAccounts, 
             keyAttributes: keyAttributes, 
             maxResults: maxResults, 
-            operationName: operationName
+            operationName: operationName, 
+            sloOwnerAwsAccountId: sloOwnerAwsAccountId
         )
         return self.listServiceLevelObjectivesPaginator(input, logger: logger)
     }
@@ -817,19 +835,25 @@ extension ApplicationSignals {
     /// Return PaginatorSequence for operation ``listServices(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - awsAccountId: Amazon Web Services Account ID.
     ///   - endTime: The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
+    ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include services from source accounts in the returned data.
     ///   - maxResults:  The maximum number  of results  to return  in one operation.  If you omit this parameter,  the default of 50 is used.
     ///   - startTime: The start of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServicesPaginator(
+        awsAccountId: String? = nil,
         endTime: Date,
+        includeLinkedAccounts: Bool? = nil,
         maxResults: Int? = nil,
         startTime: Date,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListServicesInput, ListServicesOutput> {
         let input = ListServicesInput(
+            awsAccountId: awsAccountId, 
             endTime: endTime, 
+            includeLinkedAccounts: includeLinkedAccounts, 
             maxResults: maxResults, 
             startTime: startTime
         )
@@ -867,10 +891,12 @@ extension ApplicationSignals.ListServiceLevelObjectivesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> ApplicationSignals.ListServiceLevelObjectivesInput {
         return .init(
+            includeLinkedAccounts: self.includeLinkedAccounts,
             keyAttributes: self.keyAttributes,
             maxResults: self.maxResults,
             nextToken: token,
-            operationName: self.operationName
+            operationName: self.operationName,
+            sloOwnerAwsAccountId: self.sloOwnerAwsAccountId
         )
     }
 }
@@ -892,7 +918,9 @@ extension ApplicationSignals.ListServicesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> ApplicationSignals.ListServicesInput {
         return .init(
+            awsAccountId: self.awsAccountId,
             endTime: self.endTime,
+            includeLinkedAccounts: self.includeLinkedAccounts,
             maxResults: self.maxResults,
             nextToken: token,
             startTime: self.startTime

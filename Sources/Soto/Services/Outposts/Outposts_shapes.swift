@@ -176,6 +176,7 @@ extension Outposts {
     public enum PowerConnector: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ah530p7w = "AH530P7W"
         case ah532p6w = "AH532P6W"
+        case cs8365c = "CS8365C"
         case iec309 = "IEC309"
         case l630P = "L6_30P"
         public var description: String { return self.rawValue }
@@ -2794,7 +2795,7 @@ extension Outposts {
         public let maximumSupportedWeightLbs: MaximumSupportedWeightLbs?
         /// The type of optical standard that you will use to attach the Outpost to your network. This field is dependent on uplink speed, fiber type, and distance to the upstream device. For more information about networking requirements for racks, see Network  in the Amazon Web Services Outposts User Guide.     OPTIC_10GBASE_SR: 10GBASE-SR    OPTIC_10GBASE_IR: 10GBASE-IR    OPTIC_10GBASE_LR: 10GBASE-LR    OPTIC_40GBASE_SR: 40GBASE-SR    OPTIC_40GBASE_ESR: 40GBASE-ESR    OPTIC_40GBASE_IR4_LR4L: 40GBASE-IR (LR4L)    OPTIC_40GBASE_LR4: 40GBASE-LR4    OPTIC_100GBASE_SR4: 100GBASE-SR4    OPTIC_100GBASE_CWDM4: 100GBASE-CWDM4    OPTIC_100GBASE_LR4: 100GBASE-LR4    OPTIC_100G_PSM4_MSA: 100G PSM4 MSA    OPTIC_1000BASE_LX: 1000Base-LX    OPTIC_1000BASE_SX : 1000Base-SX
         public let opticalStandard: OpticalStandard?
-        /// The power connector that Amazon Web Services should plan to provide for connections to the hardware. Note the correlation between PowerPhase and PowerConnector.    Single-phase AC feed    L6-30P – (common in US); 30A; single phase    IEC309 (blue) – P+N+E, 6hr; 32 A; single phase     Three-phase AC feed    AH530P7W (red) – 3P+N+E, 7hr; 30A; three phase    AH532P6W (red) – 3P+N+E, 6hr; 32A; three phase
+        /// The power connector that Amazon Web Services should plan to provide for connections to the hardware. Note the correlation between PowerPhase and PowerConnector.    Single-phase AC feed    L6-30P – (common in US); 30A; single phase    IEC309 (blue) – P+N+E, 6hr; 32 A; single phase     Three-phase AC feed    AH530P7W (red) – 3P+N+E, 7hr; 30A; three phase    AH532P6W (red) – 3P+N+E, 6hr; 32A; three phase    CS8365C – (common in US); 3P+E, 50A; three phase
         public let powerConnector: PowerConnector?
         /// The power draw, in kVA, available at the hardware placement position for the rack.
         public let powerDrawKva: PowerDrawKva?

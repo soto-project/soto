@@ -877,7 +877,7 @@ public struct Lightsail: AWSService {
         return try await self.createDomainEntry(input, logger: logger)
     }
 
-    /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based NICE DCV session to the virtual computer's application. The secondary URL initiates a web-based NICE DCV session to the virtual computer's operating session.  Use StartGUISession to open the session.
+    /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based Amazon DCV session to the virtual computer's application. The secondary URL initiates a web-based Amazon DCV session to the virtual computer's operating session.  Use StartGUISession to open the session.
     @Sendable
     @inlinable
     public func createGUISessionAccessDetails(_ input: CreateGUISessionAccessDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGUISessionAccessDetailsResult {
@@ -890,7 +890,7 @@ public struct Lightsail: AWSService {
             logger: logger
         )
     }
-    /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based NICE DCV session to the virtual computer's application. The secondary URL initiates a web-based NICE DCV session to the virtual computer's operating session.  Use StartGUISession to open the session.
+    /// Creates two URLs that are used to access a virtual computer’s graphical user interface (GUI) session. The primary URL initiates a web-based Amazon DCV session to the virtual computer's application. The secondary URL initiates a web-based Amazon DCV session to the virtual computer's operating session.  Use StartGUISession to open the session.
     ///
     /// Parameters:
     ///   - resourceName: The resource name.
@@ -4883,7 +4883,7 @@ public struct Lightsail: AWSService {
         return try await self.startRelationalDatabase(input, logger: logger)
     }
 
-    /// Terminates a web-based NICE DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
+    /// Terminates a web-based Amazon DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
     @Sendable
     @inlinable
     public func stopGUISession(_ input: StopGUISessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopGUISessionResult {
@@ -4896,7 +4896,7 @@ public struct Lightsail: AWSService {
             logger: logger
         )
     }
-    /// Terminates a web-based NICE DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
+    /// Terminates a web-based Amazon DCV session that’s used to access a virtual computer’s operating system or application. The session will close and any unsaved data will be lost.
     ///
     /// Parameters:
     ///   - resourceName: The resource name.
@@ -4944,7 +4944,7 @@ public struct Lightsail: AWSService {
         return try await self.stopInstance(input, logger: logger)
     }
 
-    /// Stops a specific database that is currently running in Amazon Lightsail. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
+    /// Stops a specific database that is currently running in Amazon Lightsail.  If you don't manually start your database instance after it has been stopped for seven consecutive days, Amazon Lightsail automatically starts it for you. This action helps ensure that your database instance doesn't fall behind on any required maintenance updates.  The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
     @Sendable
     @inlinable
     public func stopRelationalDatabase(_ input: StopRelationalDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopRelationalDatabaseResult {
@@ -4957,7 +4957,7 @@ public struct Lightsail: AWSService {
             logger: logger
         )
     }
-    /// Stops a specific database that is currently running in Amazon Lightsail. The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
+    /// Stops a specific database that is currently running in Amazon Lightsail.  If you don't manually start your database instance after it has been stopped for seven consecutive days, Amazon Lightsail automatically starts it for you. This action helps ensure that your database instance doesn't fall behind on any required maintenance updates.  The stop relational database operation supports tag-based access control via resource tags applied to the resource identified by relationalDatabaseName. For more information, see the Amazon Lightsail Developer Guide.
     ///
     /// Parameters:
     ///   - relationalDatabaseName: The name of your database to stop.

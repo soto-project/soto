@@ -1209,12 +1209,12 @@ extension Tnb {
 
     public struct InstantiateMetadata: AWSDecodableShape {
         /// The configurable properties used during instantiation.
-        public let additionalParamsForNs: String?
+        public let additionalParamsForNs: AWSDocument?
         /// The network service descriptor used for instantiating the network instance.
         public let nsdInfoId: String
 
         @inlinable
-        public init(additionalParamsForNs: String? = nil, nsdInfoId: String) {
+        public init(additionalParamsForNs: AWSDocument? = nil, nsdInfoId: String) {
             self.additionalParamsForNs = additionalParamsForNs
             self.nsdInfoId = nsdInfoId
         }
@@ -1227,7 +1227,7 @@ extension Tnb {
 
     public struct InstantiateSolNetworkInstanceInput: AWSEncodableShape {
         /// Provides values for the configurable properties.
-        public let additionalParamsForNs: String?
+        public let additionalParamsForNs: AWSDocument?
         /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// ID of the network instance.
@@ -1236,7 +1236,7 @@ extension Tnb {
         public let tags: [String: String]?
 
         @inlinable
-        public init(additionalParamsForNs: String? = nil, dryRun: Bool? = nil, nsInstanceId: String, tags: [String: String]? = nil) {
+        public init(additionalParamsForNs: AWSDocument? = nil, dryRun: Bool? = nil, nsInstanceId: String, tags: [String: String]? = nil) {
             self.additionalParamsForNs = additionalParamsForNs
             self.dryRun = dryRun
             self.nsInstanceId = nsInstanceId
@@ -1876,12 +1876,12 @@ extension Tnb {
 
     public struct ModifyVnfInfoMetadata: AWSDecodableShape {
         /// The configurable properties used during update of the network function instance.
-        public let vnfConfigurableProperties: String
+        public let vnfConfigurableProperties: AWSDocument
         /// The network function instance that was updated in the network instance.
         public let vnfInstanceId: String
 
         @inlinable
-        public init(vnfConfigurableProperties: String, vnfInstanceId: String) {
+        public init(vnfConfigurableProperties: AWSDocument, vnfInstanceId: String) {
             self.vnfConfigurableProperties = vnfConfigurableProperties
             self.vnfInstanceId = vnfInstanceId
         }
@@ -2224,12 +2224,12 @@ extension Tnb {
 
     public struct UpdateNsMetadata: AWSDecodableShape {
         /// The configurable properties used during update.
-        public let additionalParamsForNs: String?
+        public let additionalParamsForNs: AWSDocument?
         /// The network service descriptor used for updating the network instance.
         public let nsdInfoId: String
 
         @inlinable
-        public init(additionalParamsForNs: String? = nil, nsdInfoId: String) {
+        public init(additionalParamsForNs: AWSDocument? = nil, nsdInfoId: String) {
             self.additionalParamsForNs = additionalParamsForNs
             self.nsdInfoId = nsdInfoId
         }
@@ -2352,12 +2352,12 @@ extension Tnb {
 
     public struct UpdateSolNetworkModify: AWSEncodableShape {
         /// Provides values for the configurable properties declared in the function package descriptor.
-        public let vnfConfigurableProperties: String
+        public let vnfConfigurableProperties: AWSDocument
         /// ID of the network function instance. A network function instance is a function in a function package .
         public let vnfInstanceId: String
 
         @inlinable
-        public init(vnfConfigurableProperties: String, vnfInstanceId: String) {
+        public init(vnfConfigurableProperties: AWSDocument, vnfInstanceId: String) {
             self.vnfConfigurableProperties = vnfConfigurableProperties
             self.vnfInstanceId = vnfInstanceId
         }
@@ -2416,12 +2416,12 @@ extension Tnb {
 
     public struct UpdateSolNetworkServiceData: AWSEncodableShape {
         /// Values for the configurable properties declared in the network service descriptor.
-        public let additionalParamsForNs: String?
+        public let additionalParamsForNs: AWSDocument?
         /// ID of the network service descriptor.
         public let nsdInfoId: String
 
         @inlinable
-        public init(additionalParamsForNs: String? = nil, nsdInfoId: String) {
+        public init(additionalParamsForNs: AWSDocument? = nil, nsdInfoId: String) {
             self.additionalParamsForNs = additionalParamsForNs
             self.nsdInfoId = nsdInfoId
         }

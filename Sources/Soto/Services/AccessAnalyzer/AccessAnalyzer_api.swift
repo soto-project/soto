@@ -714,6 +714,35 @@ public struct AccessAnalyzer: AWSService {
         return try await self.getFindingV2(input, logger: logger)
     }
 
+    /// Retrieves a list of aggregated finding statistics for an external access or unused access analyzer.
+    @Sendable
+    @inlinable
+    public func getFindingsStatistics(_ input: GetFindingsStatisticsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetFindingsStatisticsResponse {
+        try await self.client.execute(
+            operation: "GetFindingsStatistics", 
+            path: "/analyzer/findings/statistics", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves a list of aggregated finding statistics for an external access or unused access analyzer.
+    ///
+    /// Parameters:
+    ///   - analyzerArn: The ARN of the analyzer used to generate the statistics.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getFindingsStatistics(
+        analyzerArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetFindingsStatisticsResponse {
+        let input = GetFindingsStatisticsRequest(
+            analyzerArn: analyzerArn
+        )
+        return try await self.getFindingsStatistics(input, logger: logger)
+    }
+
     /// Retrieves the policy that was generated using StartPolicyGeneration.
     @Sendable
     @inlinable

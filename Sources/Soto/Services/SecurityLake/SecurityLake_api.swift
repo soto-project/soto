@@ -137,7 +137,7 @@ public struct SecurityLake: AWSService {
     ///
     /// Parameters:
     ///   - configuration: The configuration used for the third-party custom source.
-    ///   - eventClasses: The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:    ACCESS_ACTIVITY     FILE_ACTIVITY     KERNEL_ACTIVITY     KERNEL_EXTENSION     MEMORY_ACTIVITY     MODULE_ACTIVITY     PROCESS_ACTIVITY     REGISTRY_KEY_ACTIVITY     REGISTRY_VALUE_ACTIVITY     RESOURCE_ACTIVITY     SCHEDULED_JOB_ACTIVITY     SECURITY_FINDING     ACCOUNT_CHANGE     AUTHENTICATION     AUTHORIZATION     ENTITY_MANAGEMENT_AUDIT     DHCP_ACTIVITY     NETWORK_ACTIVITY     DNS_ACTIVITY     FTP_ACTIVITY     HTTP_ACTIVITY     RDP_ACTIVITY     SMB_ACTIVITY     SSH_ACTIVITY     CONFIG_STATE     INVENTORY_INFO     EMAIL_ACTIVITY     API_ACTIVITY     CLOUD_API
+    ///   - eventClasses: The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. For the list of supported event classes, see the Amazon Security Lake User Guide.
     ///   - sourceName: Specify the name for a third-party custom source. This must be a Regionally unique value. The sourceName you enter here, is used in the LogProviderRole name which follows the convention AmazonSecurityLake-Provider-{name of the custom source}-{region}. You must use a CustomLogSource name that is shorter than or equal to 20 characters. This ensures that the LogProviderRole name is below the 64 character limit.
     ///   - sourceVersion: Specify the source version for the third-party custom source, to limit log collection to a specific version of custom data source.
     ///   - logger: Logger use during operation
@@ -228,7 +228,7 @@ public struct SecurityLake: AWSService {
         return try await self.createDataLakeExceptionSubscription(input, logger: logger)
     }
 
-    /// Automatically enables Amazon Security Lake for new member accounts in your organization. Security Lake is not automatically enabled for any existing member accounts in your organization.
+    /// Automatically enables Amazon Security Lake for new member accounts in your organization. Security Lake is not automatically enabled for any existing member accounts in your organization. This operation merges the new data lake organization configuration with the existing configuration for Security Lake in your organization. If you want to create a new data lake organization configuration, you must delete the existing one using DeleteDataLakeOrganizationConfiguration.
     @Sendable
     @inlinable
     public func createDataLakeOrganizationConfiguration(_ input: CreateDataLakeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataLakeOrganizationConfigurationResponse {
@@ -241,7 +241,7 @@ public struct SecurityLake: AWSService {
             logger: logger
         )
     }
-    /// Automatically enables Amazon Security Lake for new member accounts in your organization. Security Lake is not automatically enabled for any existing member accounts in your organization.
+    /// Automatically enables Amazon Security Lake for new member accounts in your organization. Security Lake is not automatically enabled for any existing member accounts in your organization. This operation merges the new data lake organization configuration with the existing configuration for Security Lake in your organization. If you want to create a new data lake organization configuration, you must delete the existing one using DeleteDataLakeOrganizationConfiguration.
     ///
     /// Parameters:
     ///   - autoEnableNewAccount: Enable Security Lake with the specified configuration settings, to begin collecting security data for new accounts in your organization.

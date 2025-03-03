@@ -157,7 +157,7 @@ extension MWAA {
     public struct CreateEnvironmentInput: AWSEncodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
+        /// The Apache Airflow version for your environment. If no value is specified, it defaults to the latest version. For more information, see Apache Airflow versions on Amazon Managed Workflows for Apache Airflow (Amazon MWAA). Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
         public let airflowVersion: String?
         /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
         public let dagS3Path: String
@@ -471,7 +471,7 @@ extension MWAA {
     public struct Environment: AWSDecodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options attached to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
+        /// The Apache Airflow version on your environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
         public let airflowVersion: String?
         /// The Amazon Resource Name (ARN) of the Amazon MWAA environment.
         public let arn: String?
@@ -654,7 +654,7 @@ extension MWAA {
 
     public struct InvokeRestApiRequest: AWSEncodableShape {
         /// The request body for the Apache Airflow REST API call, provided as a JSON object.
-        public let body: String?
+        public let body: AWSDocument?
         /// The HTTP method used for making Airflow REST API calls. For example, POST.
         public let method: RestApiMethod
         /// The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
@@ -662,10 +662,10 @@ extension MWAA {
         /// The Apache Airflow REST API endpoint path to be called. For example, /dags/123456/clearTaskInstances. For more information, see Apache Airflow API
         public let path: String
         /// Query parameters to be included in the Apache Airflow REST API call, provided as a JSON object.
-        public let queryParameters: String?
+        public let queryParameters: AWSDocument?
 
         @inlinable
-        public init(body: String? = nil, method: RestApiMethod, name: String, path: String, queryParameters: String? = nil) {
+        public init(body: AWSDocument? = nil, method: RestApiMethod, name: String, path: String, queryParameters: AWSDocument? = nil) {
             self.body = body
             self.method = method
             self.name = name
@@ -701,12 +701,12 @@ extension MWAA {
 
     public struct InvokeRestApiResponse: AWSDecodableShape {
         /// The response data from the Apache Airflow REST API call, provided as a JSON object.
-        public let restApiResponse: String?
+        public let restApiResponse: AWSDocument?
         /// The HTTP status code returned by the Apache Airflow REST API call.
         public let restApiStatusCode: Int?
 
         @inlinable
-        public init(restApiResponse: String? = nil, restApiStatusCode: Int? = nil) {
+        public init(restApiResponse: AWSDocument? = nil, restApiStatusCode: Int? = nil) {
             self.restApiResponse = restApiResponse
             self.restApiStatusCode = restApiStatusCode
         }
@@ -1139,7 +1139,7 @@ extension MWAA {
     public struct UpdateEnvironmentInput: AWSEncodableShape {
         /// A list of key-value pairs containing the Apache Airflow configuration options you want to attach to your environment. For more information, see Apache Airflow configuration options.
         public let airflowConfigurationOptions: [String: String]?
-        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, and 2.10.1.
+        /// The Apache Airflow version for your environment. To upgrade your environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you upgrade an environment, make sure your requirements, DAGs, plugins, and other resources used in your workflows are compatible with the new Apache Airflow version. For more information about updating your resources, see Upgrading an Amazon MWAA environment. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1, 2.9.2, 2.10.1, and 2.10.3.
         public let airflowVersion: String?
         /// The relative path to the DAGs folder on your Amazon S3 bucket. For example, dags. For more information, see Adding or updating DAGs.
         public let dagS3Path: String?

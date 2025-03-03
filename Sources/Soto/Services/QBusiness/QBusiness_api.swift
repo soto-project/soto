@@ -90,6 +90,7 @@ public struct QBusiness: AWSService {
         "ap-southeast-3": "qbusiness.ap-southeast-3.api.aws",
         "ap-southeast-4": "qbusiness.ap-southeast-4.api.aws",
         "ap-southeast-5": "qbusiness.ap-southeast-5.api.aws",
+        "ap-southeast-7": "qbusiness.ap-southeast-7.api.aws",
         "ca-central-1": "qbusiness.ca-central-1.api.aws",
         "ca-west-1": "qbusiness.ca-west-1.api.aws",
         "cn-north-1": "qbusiness.cn-north-1.api.amazonwebservices.com.cn",
@@ -105,6 +106,7 @@ public struct QBusiness: AWSService {
         "il-central-1": "qbusiness.il-central-1.api.aws",
         "me-central-1": "qbusiness.me-central-1.api.aws",
         "me-south-1": "qbusiness.me-south-1.api.aws",
+        "mx-central-1": "qbusiness.mx-central-1.api.aws",
         "sa-east-1": "qbusiness.sa-east-1.api.aws",
         "us-east-1": "qbusiness.us-east-1.api.aws",
         "us-east-2": "qbusiness.us-east-2.api.aws",
@@ -130,6 +132,7 @@ public struct QBusiness: AWSService {
             "ap-southeast-3": "qbusiness-fips.ap-southeast-3.api.aws",
             "ap-southeast-4": "qbusiness-fips.ap-southeast-4.api.aws",
             "ap-southeast-5": "qbusiness-fips.ap-southeast-5.api.aws",
+            "ap-southeast-7": "qbusiness-fips.ap-southeast-7.api.aws",
             "ca-central-1": "qbusiness-fips.ca-central-1.api.aws",
             "ca-west-1": "qbusiness-fips.ca-west-1.api.aws",
             "cn-north-1": "qbusiness-fips.cn-north-1.api.amazonwebservices.com.cn",
@@ -145,6 +148,7 @@ public struct QBusiness: AWSService {
             "il-central-1": "qbusiness-fips.il-central-1.api.aws",
             "me-central-1": "qbusiness-fips.me-central-1.api.aws",
             "me-south-1": "qbusiness-fips.me-south-1.api.aws",
+            "mx-central-1": "qbusiness-fips.mx-central-1.api.aws",
             "sa-east-1": "qbusiness-fips.sa-east-1.api.aws",
             "us-east-1": "qbusiness-fips.us-east-1.api.aws",
             "us-east-2": "qbusiness-fips.us-east-2.api.aws",
@@ -157,7 +161,7 @@ public struct QBusiness: AWSService {
 
     // MARK: API Calls
 
-    /// Adds or updates a permission policy for a Q Business application, allowing cross-account access for an ISV.  This operation creates a new policy statement for the specified Q Business application.  The policy statement defines the IAM actions that the ISV is allowed to perform on the Q Business application's resources.
+    /// Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV.  This operation creates a new policy statement for the specified Amazon Q Business application.  The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources.
     @Sendable
     @inlinable
     public func associatePermission(_ input: AssociatePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociatePermissionResponse {
@@ -170,12 +174,12 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Adds or updates a permission policy for a Q Business application, allowing cross-account access for an ISV.  This operation creates a new policy statement for the specified Q Business application.  The policy statement defines the IAM actions that the ISV is allowed to perform on the Q Business application's resources.
+    /// Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV.  This operation creates a new policy statement for the specified Amazon Q Business application.  The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources.
     ///
     /// Parameters:
-    ///   - actions: The list of Q Business actions that the ISV is allowed to perform.
-    ///   - applicationId: The unique identifier of the Q Business application.
-    ///   - principal: The Amazon Resource Name (ARN) of the IAM role for the ISV that is being granted permission.
+    ///   - actions: The list of Amazon Q Business actions that the ISV is allowed to perform.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application.
+    ///   - principal: The Amazon Resource Name of the IAM role for the ISV that is being granted permission.
     ///   - statementId: A unique identifier for the policy statement.
     ///   - logger: Logger use during operation
     @inlinable
@@ -272,6 +276,38 @@ public struct QBusiness: AWSService {
             roleArn: roleArn
         )
         return try await self.batchPutDocument(input, logger: logger)
+    }
+
+    /// Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application. An unsubscribed user or group loses all Amazon Q Business feature access at the start of next month.
+    @Sendable
+    @inlinable
+    public func cancelSubscription(_ input: CancelSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CancelSubscriptionResponse {
+        try await self.client.execute(
+            operation: "CancelSubscription", 
+            path: "/applications/{applicationId}/subscriptions/{subscriptionId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application. An unsubscribed user or group loses all Amazon Q Business feature access at the start of next month.
+    ///
+    /// Parameters:
+    ///   - applicationId: The identifier of the Amazon Q Business application for which the subscription is being cancelled.
+    ///   - subscriptionId: The identifier of the Amazon Q Business subscription being cancelled.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func cancelSubscription(
+        applicationId: String,
+        subscriptionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CancelSubscriptionResponse {
+        let input = CancelSubscriptionRequest(
+            applicationId: applicationId, 
+            subscriptionId: subscriptionId
+        )
+        return try await self.cancelSubscription(input, logger: logger)
     }
 
     /// Starts or continues a streaming Amazon Q Business conversation.
@@ -454,7 +490,7 @@ public struct QBusiness: AWSService {
         return try await self.createApplication(input, logger: logger)
     }
 
-    /// Creates a new data accessor for an ISV to access data from a Q Business application.  The data accessor is an entity that represents the ISV's access to the Q Business application's data.  It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the  specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created,  an AWS IAM Identity Center application is also created to manage the ISV's identity and authentication for  accessing the Q Business application.
+    /// Creates a new data accessor for an ISV to access data from a Amazon Q Business application.  The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data.  It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the  specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created,  an IAM Identity Center application is also created to manage the ISV's identity and authentication for  accessing the Amazon Q Business application.
     @Sendable
     @inlinable
     public func createDataAccessor(_ input: CreateDataAccessorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataAccessorResponse {
@@ -467,11 +503,11 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Creates a new data accessor for an ISV to access data from a Q Business application.  The data accessor is an entity that represents the ISV's access to the Q Business application's data.  It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the  specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created,  an AWS IAM Identity Center application is also created to manage the ISV's identity and authentication for  accessing the Q Business application.
+    /// Creates a new data accessor for an ISV to access data from a Amazon Q Business application.  The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data.  It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the  specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created,  an IAM Identity Center application is also created to manage the ISV's identity and authentication for  accessing the Amazon Q Business application.
     ///
     /// Parameters:
     ///   - actionConfigurations: A list of action configurations specifying the allowed actions and any associated filters.
-    ///   - applicationId: The unique identifier of the Q Business application.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application.
     ///   - clientToken: A unique, case-sensitive identifier you provide to ensure idempotency of the request.
     ///   - displayName: A friendly name for the data accessor.
     ///   - principal: The Amazon Resource Name (ARN) of the IAM role for the ISV that will be accessing the data.
@@ -531,7 +567,7 @@ public struct QBusiness: AWSService {
     public func createDataSource(
         applicationId: String,
         clientToken: String? = CreateDataSourceRequest.idempotencyToken(),
-        configuration: String,
+        configuration: AWSDocument,
         description: String? = nil,
         displayName: String,
         documentEnrichmentConfiguration: DocumentEnrichmentConfiguration? = nil,
@@ -704,6 +740,44 @@ public struct QBusiness: AWSService {
         return try await self.createRetriever(input, logger: logger)
     }
 
+    /// Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business application. Amazon Q Business offers two subscription tiers: Q_LITE and Q_BUSINESS. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
+    @Sendable
+    @inlinable
+    public func createSubscription(_ input: CreateSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSubscriptionResponse {
+        try await self.client.execute(
+            operation: "CreateSubscription", 
+            path: "/applications/{applicationId}/subscriptions", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Subscribes an IAM Identity Center user or a group to a pricing tier for an Amazon Q Business application. Amazon Q Business offers two subscription tiers: Q_LITE and Q_BUSINESS. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
+    ///
+    /// Parameters:
+    ///   - applicationId: The identifier of the Amazon Q Business application the subscription should be added to.
+    ///   - clientToken: A token that you provide to identify the request to create a subscription for your Amazon Q Business application.
+    ///   - principal: The IAM Identity Center UserId or GroupId of a user or group in the IAM Identity Center instance connected to the Amazon Q Business application.
+    ///   - type: The type of Amazon Q Business subscription you want to create.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSubscription(
+        applicationId: String,
+        clientToken: String? = CreateSubscriptionRequest.idempotencyToken(),
+        principal: SubscriptionPrincipal,
+        type: SubscriptionType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSubscriptionResponse {
+        let input = CreateSubscriptionRequest(
+            applicationId: applicationId, 
+            clientToken: clientToken, 
+            principal: principal, 
+            type: type
+        )
+        return try await self.createSubscription(input, logger: logger)
+    }
+
     /// Creates a universally unique identifier (UUID) mapped to a list of local user ids within an application.
     @Sendable
     @inlinable
@@ -833,6 +907,44 @@ public struct QBusiness: AWSService {
         return try await self.deleteApplication(input, logger: logger)
     }
 
+    /// Deletes an attachment associated with a specific Amazon Q Business conversation.
+    @Sendable
+    @inlinable
+    public func deleteAttachment(_ input: DeleteAttachmentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAttachmentResponse {
+        try await self.client.execute(
+            operation: "DeleteAttachment", 
+            path: "/applications/{applicationId}/conversations/{conversationId}/attachments/{attachmentId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an attachment associated with a specific Amazon Q Business conversation.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier for the Amazon Q Business application environment.
+    ///   - attachmentId: The unique identifier for the attachment.
+    ///   - conversationId: The unique identifier of the conversation.
+    ///   - userId: The unique identifier of the user involved in the conversation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAttachment(
+        applicationId: String,
+        attachmentId: String,
+        conversationId: String,
+        userId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAttachmentResponse {
+        let input = DeleteAttachmentRequest(
+            applicationId: applicationId, 
+            attachmentId: attachmentId, 
+            conversationId: conversationId, 
+            userId: userId
+        )
+        return try await self.deleteAttachment(input, logger: logger)
+    }
+
     /// Deletes chat controls configured for an existing Amazon Q Business application.
     @Sendable
     @inlinable
@@ -897,7 +1009,7 @@ public struct QBusiness: AWSService {
         return try await self.deleteConversation(input, logger: logger)
     }
 
-    /// Deletes a specified data accessor. This operation permanently removes the data accessor  and its associated AWS IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked
+    /// Deletes a specified data accessor. This operation permanently removes the data accessor  and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked.
     @Sendable
     @inlinable
     public func deleteDataAccessor(_ input: DeleteDataAccessorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataAccessorResponse {
@@ -910,10 +1022,10 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Deletes a specified data accessor. This operation permanently removes the data accessor  and its associated AWS IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked
+    /// Deletes a specified data accessor. This operation permanently removes the data accessor  and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked.
     ///
     /// Parameters:
-    ///   - applicationId: The unique identifier of the Q Business application.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application.
     ///   - dataAccessorId: The unique identifier of the data accessor to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1162,7 +1274,7 @@ public struct QBusiness: AWSService {
         return try await self.deleteWebExperience(input, logger: logger)
     }
 
-    /// Removes a permission policy from a Q Business application, revoking the cross-account access that was  previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
+    /// Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was  previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
     @Sendable
     @inlinable
     public func disassociatePermission(_ input: DisassociatePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociatePermissionResponse {
@@ -1175,10 +1287,10 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Removes a permission policy from a Q Business application, revoking the cross-account access that was  previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
+    /// Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was  previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
     ///
     /// Parameters:
-    ///   - applicationId: The unique identifier of the Q Business application.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application.
     ///   - statementId: The statement ID of the permission to remove.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1223,7 +1335,7 @@ public struct QBusiness: AWSService {
         return try await self.getApplication(input, logger: logger)
     }
 
-    /// Gets information about an chat controls configured for an existing Amazon Q Business application.
+    /// Gets information about chat controls configured for an existing Amazon Q Business application.
     @Sendable
     @inlinable
     public func getChatControlsConfiguration(_ input: GetChatControlsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetChatControlsConfigurationResponse {
@@ -1236,7 +1348,7 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Gets information about an chat controls configured for an existing Amazon Q Business application.
+    /// Gets information about chat controls configured for an existing Amazon Q Business application.
     ///
     /// Parameters:
     ///   - applicationId: The identifier of the application for which the chat controls are configured.
@@ -1258,7 +1370,7 @@ public struct QBusiness: AWSService {
         return try await self.getChatControlsConfiguration(input, logger: logger)
     }
 
-    /// Retrieves information about a specified data accessor. This operation returns details about the  data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated  Q Business application and AWS IAM Identity Center application, the IAM role for the ISV, the  action configurations, and the timestamps for when the data accessor was created and last updated.
+    /// Retrieves information about a specified data accessor. This operation returns details about the  data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated  Amazon Q Business application and IAM Identity Center application, the IAM role for the ISV, the  action configurations, and the timestamps for when the data accessor was created and last updated.
     @Sendable
     @inlinable
     public func getDataAccessor(_ input: GetDataAccessorRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataAccessorResponse {
@@ -1271,10 +1383,10 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Retrieves information about a specified data accessor. This operation returns details about the  data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated  Q Business application and AWS IAM Identity Center application, the IAM role for the ISV, the  action configurations, and the timestamps for when the data accessor was created and last updated.
+    /// Retrieves information about a specified data accessor. This operation returns details about the  data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated  Amazon Q Business application and IAM Identity Center application, the IAM role for the ISV, the  action configurations, and the timestamps for when the data accessor was created and last updated.
     ///
     /// Parameters:
-    ///   - applicationId: The unique identifier of the Q Business application.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application.
     ///   - dataAccessorId: The unique identifier of the data accessor to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1465,7 +1577,7 @@ public struct QBusiness: AWSService {
         return try await self.getPlugin(input, logger: logger)
     }
 
-    /// Retrieves the current permission policy for a Q Business application. The policy is  returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
+    /// Retrieves the current permission policy for a Amazon Q Business application. The policy is  returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
     @Sendable
     @inlinable
     public func getPolicy(_ input: GetPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPolicyResponse {
@@ -1478,10 +1590,10 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the current permission policy for a Q Business application. The policy is  returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
+    /// Retrieves the current permission policy for a Amazon Q Business application. The policy is  returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
     ///
     /// Parameters:
-    ///   - applicationId: The unique identifier of the Q Business application.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application.
     ///   - logger: Logger use during operation
     @inlinable
     public func getPolicy(
@@ -1701,7 +1813,7 @@ public struct QBusiness: AWSService {
         return try await self.listConversations(input, logger: logger)
     }
 
-    /// Lists the data accessors for a Q Business application. This operation returns a paginated  list of data accessor summaries, including the friendly name, unique identifier, ARN,  associated IAM role, and creation/update timestamps for each data accessor.
+    /// Lists the data accessors for a Amazon Q Business application. This operation returns a paginated  list of data accessor summaries, including the friendly name, unique identifier, ARN,  associated IAM role, and creation/update timestamps for each data accessor.
     @Sendable
     @inlinable
     public func listDataAccessors(_ input: ListDataAccessorsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataAccessorsResponse {
@@ -1714,10 +1826,10 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Lists the data accessors for a Q Business application. This operation returns a paginated  list of data accessor summaries, including the friendly name, unique identifier, ARN,  associated IAM role, and creation/update timestamps for each data accessor.
+    /// Lists the data accessors for a Amazon Q Business application. This operation returns a paginated  list of data accessor summaries, including the friendly name, unique identifier, ARN,  associated IAM role, and creation/update timestamps for each data accessor.
     ///
     /// Parameters:
-    ///   - applicationId: The unique identifier of the Q Business application.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application.
     ///   - maxResults: The maximum number of results to return in a single call.
     ///   - nextToken: The token for the next set of results. (You received this token from a previous call.)
     ///   - logger: Logger use during operation
@@ -2160,6 +2272,41 @@ public struct QBusiness: AWSService {
         return try await self.listRetrievers(input, logger: logger)
     }
 
+    ///  Lists all subscriptions created in an Amazon Q Business application.
+    @Sendable
+    @inlinable
+    public func listSubscriptions(_ input: ListSubscriptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSubscriptionsResponse {
+        try await self.client.execute(
+            operation: "ListSubscriptions", 
+            path: "/applications/{applicationId}/subscriptions", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Lists all subscriptions created in an Amazon Q Business application.
+    ///
+    /// Parameters:
+    ///   - applicationId: The identifier of the Amazon Q Business application linked to the subscription.
+    ///   - maxResults: The maximum number of Amazon Q Business subscriptions to return.
+    ///   - nextToken: If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business subscriptions.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSubscriptions(
+        applicationId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSubscriptionsResponse {
+        let input = ListSubscriptionsRequest(
+            applicationId: applicationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSubscriptions(input, logger: logger)
+    }
+
     /// Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
     @Sendable
     @inlinable
@@ -2268,7 +2415,7 @@ public struct QBusiness: AWSService {
         return try await self.putFeedback(input, logger: logger)
     }
 
-    /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results.
+    /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results. There are two options for creating groups, either passing group members inline or using an S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000 members per group and for provided S3 files there is a limit of 100 thousand members. When creating a group using an S3 file, you provide both an S3 file and a RoleArn for Amazon Q Buisness to access the file.
     @Sendable
     @inlinable
     public func putGroup(_ input: PutGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutGroupResponse {
@@ -2281,7 +2428,7 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results.
+    /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results. There are two options for creating groups, either passing group members inline or using an S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000 members per group and for provided S3 files there is a limit of 100 thousand members. When creating a group using an S3 file, you provide both an S3 file and a RoleArn for Amazon Q Buisness to access the file.
     ///
     /// Parameters:
     ///   - applicationId: The identifier of the application in which the user and group mapping belongs.
@@ -2289,7 +2436,7 @@ public struct QBusiness: AWSService {
     ///   - groupMembers: 
     ///   - groupName: The list that contains your users or sub groups that belong the same group. For example, the group "Company" includes the user "CEO" and the sub groups "Research", "Engineering", and "Sales and Marketing".
     ///   - indexId: The identifier of the index in which you want to map users to their groups.
-    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains  your list of users that belong to a group.The Amazon Resource Name (ARN) of an IAM role that  has access to the S3 file that contains your list of users that belong to a group.
+    ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains  your list of users that belong to a group.
     ///   - type: The type of the group.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2315,7 +2462,7 @@ public struct QBusiness: AWSService {
         return try await self.putGroup(input, logger: logger)
     }
 
-    /// Searches for relevant content in a Q Business application based on a query. This operation takes a  search query text, the Q Business application identifier, and optional filters  (such as content source and maximum results) as input. It returns a list of  relevant content items, where each item includes the content text, the unique document identifier,  the document title, the document URI, any relevant document attributes, and score attributes  indicating the confidence level of the relevance.
+    /// Searches for relevant content in a Amazon Q Business application based on a query. This operation takes a  search query text, the Amazon Q Business application identifier, and optional filters  (such as content source and maximum results) as input. It returns a list of  relevant content items, where each item includes the content text, the unique document identifier,  the document title, the document URI, any relevant document attributes, and score attributes  indicating the confidence level of the relevance.
     @Sendable
     @inlinable
     public func searchRelevantContent(_ input: SearchRelevantContentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchRelevantContentResponse {
@@ -2328,10 +2475,10 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Searches for relevant content in a Q Business application based on a query. This operation takes a  search query text, the Q Business application identifier, and optional filters  (such as content source and maximum results) as input. It returns a list of  relevant content items, where each item includes the content text, the unique document identifier,  the document title, the document URI, any relevant document attributes, and score attributes  indicating the confidence level of the relevance.
+    /// Searches for relevant content in a Amazon Q Business application based on a query. This operation takes a  search query text, the Amazon Q Business application identifier, and optional filters  (such as content source and maximum results) as input. It returns a list of  relevant content items, where each item includes the content text, the unique document identifier,  the document title, the document URI, any relevant document attributes, and score attributes  indicating the confidence level of the relevance.
     ///
     /// Parameters:
-    ///   - applicationId: The unique identifier of the Q Business application to search.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application to search.
     ///   - attributeFilter: 
     ///   - contentSource: The source of content to search in.
     ///   - maxResults: The maximum number of results to return.
@@ -2546,7 +2693,7 @@ public struct QBusiness: AWSService {
         return try await self.updateApplication(input, logger: logger)
     }
 
-    /// Updates an set of chat controls configured for an existing Amazon Q Business application.
+    /// Updates a set of chat controls configured for an existing Amazon Q Business application.
     @Sendable
     @inlinable
     public func updateChatControlsConfiguration(_ input: UpdateChatControlsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateChatControlsConfigurationResponse {
@@ -2559,13 +2706,14 @@ public struct QBusiness: AWSService {
             logger: logger
         )
     }
-    /// Updates an set of chat controls configured for an existing Amazon Q Business application.
+    /// Updates a set of chat controls configured for an existing Amazon Q Business application.
     ///
     /// Parameters:
     ///   - applicationId: The identifier of the application for which the chat controls are configured.
     ///   - blockedPhrasesConfigurationUpdate: The phrases blocked from chat by your chat control configuration.
     ///   - clientToken: A token that you provide to identify the request to update a Amazon Q Business application chat configuration.
     ///   - creatorModeConfiguration: The configuration details for CREATOR_MODE.
+    ///   - orchestrationConfiguration:  The chat response orchestration settings for your application.
     ///   - responseScope: The response scope configured for your application. This determines whether your application uses its retrieval augmented generation (RAG) system to generate answers only from your enterprise data, or also uses the large language models (LLM) knowledge to respons to end user questions in chat.
     ///   - topicConfigurationsToCreateOrUpdate: The configured topic specific chat controls you want to update.
     ///   - topicConfigurationsToDelete: The configured topic specific chat controls you want to delete.
@@ -2576,6 +2724,7 @@ public struct QBusiness: AWSService {
         blockedPhrasesConfigurationUpdate: BlockedPhrasesConfigurationUpdate? = nil,
         clientToken: String? = UpdateChatControlsConfigurationRequest.idempotencyToken(),
         creatorModeConfiguration: CreatorModeConfiguration? = nil,
+        orchestrationConfiguration: OrchestrationConfiguration? = nil,
         responseScope: ResponseScope? = nil,
         topicConfigurationsToCreateOrUpdate: [TopicConfiguration]? = nil,
         topicConfigurationsToDelete: [TopicConfiguration]? = nil,
@@ -2586,6 +2735,7 @@ public struct QBusiness: AWSService {
             blockedPhrasesConfigurationUpdate: blockedPhrasesConfigurationUpdate, 
             clientToken: clientToken, 
             creatorModeConfiguration: creatorModeConfiguration, 
+            orchestrationConfiguration: orchestrationConfiguration, 
             responseScope: responseScope, 
             topicConfigurationsToCreateOrUpdate: topicConfigurationsToCreateOrUpdate, 
             topicConfigurationsToDelete: topicConfigurationsToDelete
@@ -2610,7 +2760,7 @@ public struct QBusiness: AWSService {
     ///
     /// Parameters:
     ///   - actionConfigurations: The updated list of action configurations specifying the allowed actions and any associated filters.
-    ///   - applicationId: The unique identifier of the Q Business application.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application.
     ///   - dataAccessorId: The unique identifier of the data accessor to update.
     ///   - displayName: The updated friendly name for the data accessor.
     ///   - logger: Logger use during operation
@@ -2662,7 +2812,7 @@ public struct QBusiness: AWSService {
     @inlinable
     public func updateDataSource(
         applicationId: String,
-        configuration: String? = nil,
+        configuration: AWSDocument? = nil,
         dataSourceId: String,
         description: String? = nil,
         displayName: String? = nil,
@@ -2820,6 +2970,41 @@ public struct QBusiness: AWSService {
             roleArn: roleArn
         )
         return try await self.updateRetriever(input, logger: logger)
+    }
+
+    /// Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
+    @Sendable
+    @inlinable
+    public func updateSubscription(_ input: UpdateSubscriptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSubscriptionResponse {
+        try await self.client.execute(
+            operation: "UpdateSubscription", 
+            path: "/applications/{applicationId}/subscriptions/{subscriptionId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
+    ///
+    /// Parameters:
+    ///   - applicationId: The identifier of the Amazon Q Business application where the subscription update should take effect.
+    ///   - subscriptionId: The identifier of the Amazon Q Business subscription to be updated.
+    ///   - type: The type of the Amazon Q Business subscription to be updated.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSubscription(
+        applicationId: String,
+        subscriptionId: String,
+        type: SubscriptionType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSubscriptionResponse {
+        let input = UpdateSubscriptionRequest(
+            applicationId: applicationId, 
+            subscriptionId: subscriptionId, 
+            type: type
+        )
+        return try await self.updateSubscription(input, logger: logger)
     }
 
     /// Updates a information associated with a user id.
@@ -3108,7 +3293,7 @@ extension QBusiness {
     /// Return PaginatorSequence for operation ``listDataAccessors(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - applicationId: The unique identifier of the Q Business application.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application.
     ///   - maxResults: The maximum number of results to return in a single call.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3570,6 +3755,43 @@ extension QBusiness {
         return self.listRetrieversPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listSubscriptions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSubscriptionsPaginator(
+        _ input: ListSubscriptionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSubscriptionsRequest, ListSubscriptionsResponse> {
+        return .init(
+            input: input,
+            command: self.listSubscriptions,
+            inputKey: \ListSubscriptionsRequest.nextToken,
+            outputKey: \ListSubscriptionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSubscriptions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - applicationId: The identifier of the Amazon Q Business application linked to the subscription.
+    ///   - maxResults: The maximum number of Amazon Q Business subscriptions to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSubscriptionsPaginator(
+        applicationId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSubscriptionsRequest, ListSubscriptionsResponse> {
+        let input = ListSubscriptionsRequest(
+            applicationId: applicationId, 
+            maxResults: maxResults
+        )
+        return self.listSubscriptionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listWebExperiences(_:logger:)``.
     ///
     /// - Parameters:
@@ -3628,7 +3850,7 @@ extension QBusiness {
     /// Return PaginatorSequence for operation ``searchRelevantContent(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - applicationId: The unique identifier of the Q Business application to search.
+    ///   - applicationId: The unique identifier of the Amazon Q Business application to search.
     ///   - attributeFilter: 
     ///   - contentSource: The source of content to search in.
     ///   - maxResults: The maximum number of results to return.
@@ -3837,6 +4059,17 @@ extension QBusiness.ListPluginsRequest: AWSPaginateToken {
 extension QBusiness.ListRetrieversRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> QBusiness.ListRetrieversRequest {
+        return .init(
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension QBusiness.ListSubscriptionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> QBusiness.ListSubscriptionsRequest {
         return .init(
             applicationId: self.applicationId,
             maxResults: self.maxResults,

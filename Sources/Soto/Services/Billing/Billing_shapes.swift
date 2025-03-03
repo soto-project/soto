@@ -28,7 +28,13 @@ extension Billing {
 
     public enum BillingViewType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case billingGroup = "BILLING_GROUP"
+        case custom = "CUSTOM"
         case primary = "PRIMARY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Dimension: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case linkedAccount = "LINKED_ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
@@ -52,20 +58,65 @@ extension Billing {
         }
     }
 
+    public struct BillingViewElement: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+        public let arn: String?
+        /// The type of billing group.
+        public let billingViewType: BillingViewType?
+        /// The time when the billing view was created.
+        public let createdAt: Date?
+        ///  See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+        public let dataFilterExpression: Expression?
+        ///  The description of the billing view.
+        public let description: String?
+        ///  A list of names of the billing view.
+        public let name: String?
+        ///  The list of owners of the billing view.
+        public let ownerAccountId: String?
+        /// The time when the billing view was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(arn: String? = nil, billingViewType: BillingViewType? = nil, createdAt: Date? = nil, dataFilterExpression: Expression? = nil, description: String? = nil, name: String? = nil, ownerAccountId: String? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.billingViewType = billingViewType
+            self.createdAt = createdAt
+            self.dataFilterExpression = dataFilterExpression
+            self.description = description
+            self.name = name
+            self.ownerAccountId = ownerAccountId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case billingViewType = "billingViewType"
+            case createdAt = "createdAt"
+            case dataFilterExpression = "dataFilterExpression"
+            case description = "description"
+            case name = "name"
+            case ownerAccountId = "ownerAccountId"
+            case updatedAt = "updatedAt"
+        }
+    }
+
     public struct BillingViewListElement: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
         public let arn: String?
         /// The type of billing view.
         public let billingViewType: BillingViewType?
+        ///  The description of the billing view.
+        public let description: String?
         ///  A list of names of the Billing view.
         public let name: String?
         ///  The list of owners of the Billing view.
         public let ownerAccountId: String?
 
         @inlinable
-        public init(arn: String? = nil, billingViewType: BillingViewType? = nil, name: String? = nil, ownerAccountId: String? = nil) {
+        public init(arn: String? = nil, billingViewType: BillingViewType? = nil, description: String? = nil, name: String? = nil, ownerAccountId: String? = nil) {
             self.arn = arn
             self.billingViewType = billingViewType
+            self.description = description
             self.name = name
             self.ownerAccountId = ownerAccountId
         }
@@ -73,37 +124,286 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case billingViewType = "billingViewType"
+            case description = "description"
             case name = "name"
             case ownerAccountId = "ownerAccountId"
         }
     }
 
+    public struct CreateBillingViewRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier you specify to ensure idempotency of the request. Idempotency ensures that an API request completes no more than one time. If the original request completes successfully, any subsequent retries complete successfully without performing any further actions with an idempotent request.
+        public let clientToken: String?
+        ///  See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+        public let dataFilterExpression: Expression?
+        ///  The description of the billing view.
+        public let description: String?
+        ///  The name of the billing view.
+        public let name: String
+        /// A list of key value map specifying tags associated to the billing view being created.
+        public let resourceTags: [ResourceTag]?
+        /// A list of billing views used as the data source for the custom billing view.
+        public let sourceViews: [String]
+
+        @inlinable
+        public init(clientToken: String? = CreateBillingViewRequest.idempotencyToken(), dataFilterExpression: Expression? = nil, description: String? = nil, name: String, resourceTags: [ResourceTag]? = nil, sourceViews: [String]) {
+            self.clientToken = clientToken
+            self.dataFilterExpression = dataFilterExpression
+            self.description = description
+            self.name = name
+            self.resourceTags = resourceTags
+            self.sourceViews = sourceViews
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.clientToken, key: "X-Amzn-Client-Token")
+            try container.encodeIfPresent(self.dataFilterExpression, forKey: .dataFilterExpression)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.resourceTags, forKey: .resourceTags)
+            try container.encode(self.sourceViews, forKey: .sourceViews)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.dataFilterExpression?.validate(name: "\(name).dataFilterExpression")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([ a-zA-Z0-9_\\+=\\.\\-@]+)?$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_\\+=\\.\\-@]+$")
+            try self.resourceTags?.forEach {
+                try $0.validate(name: "\(name).resourceTags[]")
+            }
+            try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 200)
+            try self.sourceViews.forEach {
+                try validate($0, name: "sourceViews[]", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+            }
+            try self.validate(self.sourceViews, name: "sourceViews", parent: name, max: 1)
+            try self.validate(self.sourceViews, name: "sourceViews", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataFilterExpression = "dataFilterExpression"
+            case description = "description"
+            case name = "name"
+            case resourceTags = "resourceTags"
+            case sourceViews = "sourceViews"
+        }
+    }
+
+    public struct CreateBillingViewResponse: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+        public let arn: String
+        ///  The time when the billing view was created.
+        public let createdAt: Date?
+
+        @inlinable
+        public init(arn: String, createdAt: Date? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case createdAt = "createdAt"
+        }
+    }
+
+    public struct DeleteBillingViewRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DeleteBillingViewResponse: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct DimensionValues: AWSEncodableShape & AWSDecodableShape {
+        ///  The names of the metadata types that you can use to filter and group your results.
+        public let key: Dimension
+        ///  The metadata values that you can use to filter and group your results.
+        public let values: [String]
+
+        @inlinable
+        public init(key: Dimension, values: [String]) {
+            self.key = key
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case values = "values"
+        }
+    }
+
+    public struct Expression: AWSEncodableShape & AWSDecodableShape {
+        ///  The specific Dimension to use for Expression.
+        public let dimensions: DimensionValues?
+        ///  The specific Tag to use for Expression.
+        public let tags: TagValues?
+
+        @inlinable
+        public init(dimensions: DimensionValues? = nil, tags: TagValues? = nil) {
+            self.dimensions = dimensions
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions?.validate(name: "\(name).dimensions")
+            try self.tags?.validate(name: "\(name).tags")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "dimensions"
+            case tags = "tags"
+        }
+    }
+
+    public struct GetBillingViewRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
+    public struct GetBillingViewResponse: AWSDecodableShape {
+        /// The billing view element associated with the specified ARN.
+        public let billingView: BillingViewElement
+
+        @inlinable
+        public init(billingView: BillingViewElement) {
+            self.billingView = billingView
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billingView = "billingView"
+        }
+    }
+
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the billing view resource to which the policy is attached to.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The resource-based policy document attached to the resource in JSON format.
+        public let policy: String?
+        /// The Amazon Resource Name (ARN) of the billing view resource to which the policy is attached to.
+        public let resourceArn: String
+
+        @inlinable
+        public init(policy: String? = nil, resourceArn: String) {
+            self.policy = policy
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policy = "policy"
+            case resourceArn = "resourceArn"
+        }
+    }
+
     public struct ListBillingViewsRequest: AWSEncodableShape {
         ///  The time range for the billing views listed. PRIMARY billing view is always listed. BILLING_GROUP billing views are listed for time ranges when the associated billing group resource in Billing Conductor is active. The time range must be within one calendar month.
-        public let activeTimeRange: ActiveTimeRange
+        public let activeTimeRange: ActiveTimeRange?
+        /// The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+        public let arns: [String]?
+        /// The type of billing view.
+        public let billingViewTypes: [BillingViewType]?
         /// The maximum number of billing views to retrieve. Default is 100.
         public let maxResults: Int?
         /// The pagination token that is used on subsequent calls to list billing views.
         public let nextToken: String?
+        ///  The list of owners of the billing view.
+        public let ownerAccountId: String?
 
         @inlinable
-        public init(activeTimeRange: ActiveTimeRange, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(activeTimeRange: ActiveTimeRange? = nil, arns: [String]? = nil, billingViewTypes: [BillingViewType]? = nil, maxResults: Int? = nil, nextToken: String? = nil, ownerAccountId: String? = nil) {
             self.activeTimeRange = activeTimeRange
+            self.arns = arns
+            self.billingViewTypes = billingViewTypes
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.ownerAccountId = ownerAccountId
         }
 
         public func validate(name: String) throws {
+            try self.arns?.forEach {
+                try validate($0, name: "arns[]", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+            }
+            try self.validate(self.arns, name: "arns", parent: name, max: 10)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2047)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case activeTimeRange = "activeTimeRange"
+            case arns = "arns"
+            case billingViewTypes = "billingViewTypes"
             case maxResults = "maxResults"
             case nextToken = "nextToken"
+            case ownerAccountId = "ownerAccountId"
         }
     }
 
@@ -124,6 +424,254 @@ extension Billing {
             case nextToken = "nextToken"
         }
     }
+
+    public struct ListSourceViewsForBillingViewRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+        public let arn: String
+        ///  The number of entries a paginated response contains.
+        public let maxResults: Int?
+        ///  The pagination token that is used on subsequent calls to list billing views.
+        public let nextToken: String?
+
+        @inlinable
+        public init(arn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.arn = arn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2047)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSourceViewsForBillingViewResponse: AWSDecodableShape {
+        ///  The pagination token that is used on subsequent calls to list billing views.
+        public let nextToken: String?
+        /// A list of billing views used as the data source for the custom billing view.
+        public let sourceViews: [String]
+
+        @inlinable
+        public init(nextToken: String? = nil, sourceViews: [String]) {
+            self.nextToken = nextToken
+            self.sourceViews = sourceViews
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sourceViews = "sourceViews"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        ///  A list of tag key value pairs that are associated with the resource.
+        public let resourceTags: [ResourceTag]?
+
+        @inlinable
+        public init(resourceTags: [ResourceTag]? = nil) {
+            self.resourceTags = resourceTags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceTags = "resourceTags"
+        }
+    }
+
+    public struct ResourceTag: AWSEncodableShape & AWSDecodableShape {
+        ///  The key that's associated with the tag.
+        public let key: String
+        ///  The value that's associated with the tag.
+        public let value: String?
+
+        @inlinable
+        public init(key: String, value: String? = nil) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        ///  A list of tag key value pairs that are associated with the resource.
+        public let resourceTags: [ResourceTag]
+
+        @inlinable
+        public init(resourceArn: String, resourceTags: [ResourceTag]) {
+            self.resourceArn = resourceArn
+            self.resourceTags = resourceTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+            try self.resourceTags.forEach {
+                try $0.validate(name: "\(name).resourceTags[]")
+            }
+            try self.validate(self.resourceTags, name: "resourceTags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case resourceTags = "resourceTags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct TagValues: AWSEncodableShape & AWSDecodableShape {
+        ///  The key for the tag.
+        public let key: String
+        ///  The specific value of the tag.
+        public let values: [String]
+
+        @inlinable
+        public init(key: String, values: [String]) {
+            self.key = key
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^[\\S\\s]*$")
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 200)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case values = "values"
+        }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the resource.
+        public let resourceArn: String
+        ///  A list of tag key value pairs that are associated with the resource.
+        public let resourceTagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, resourceTagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.resourceTagKeys = resourceTagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:[a-zA-Z0-9/:_\\+=\\.\\@-]{0,70}[a-zA-Z0-9]$")
+            try self.resourceTagKeys.forEach {
+                try validate($0, name: "resourceTagKeys[]", parent: name, max: 128)
+                try validate($0, name: "resourceTagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.resourceTagKeys, name: "resourceTagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case resourceTagKeys = "resourceTagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateBillingViewRequest: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+        public let arn: String
+        /// See Expression. Billing view only supports LINKED_ACCOUNT and Tags.
+        public let dataFilterExpression: Expression?
+        ///  The description of the billing view.
+        public let description: String?
+        ///  The name of the billing view.
+        public let name: String?
+
+        @inlinable
+        public init(arn: String, dataFilterExpression: Expression? = nil, description: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.dataFilterExpression = dataFilterExpression
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws[a-z-]*:(billing)::[0-9]{12}:billingview/[a-zA-Z0-9/:_\\+=\\.\\-@]{0,59}[a-zA-Z0-9]$")
+            try self.dataFilterExpression?.validate(name: "\(name).dataFilterExpression")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([ a-zA-Z0-9_\\+=\\.\\-@]+)?$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_\\+=\\.\\-@]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case dataFilterExpression = "dataFilterExpression"
+            case description = "description"
+            case name = "name"
+        }
+    }
+
+    public struct UpdateBillingViewResponse: AWSDecodableShape {
+        ///  The Amazon Resource Name (ARN) that can be used to uniquely identify the billing view.
+        public let arn: String
+        ///  The time when the billing view was last updated.
+        public let updatedAt: Date?
+
+        @inlinable
+        public init(arn: String, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case updatedAt = "updatedAt"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -132,7 +680,10 @@ extension Billing {
 public struct BillingErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -157,8 +708,14 @@ public struct BillingErrorType: AWSErrorType {
 
     /// You don't have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    ///  The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
+    public static var conflictException: Self { .init(.conflictException) }
     /// The request processing failed because of an unknown error, exception, or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
+    ///  The specified ARN in the request doesn't exist.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///  You've reached the limit of resources you can create, or exceeded the size of an individual resource.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an Amazon Web Services service.

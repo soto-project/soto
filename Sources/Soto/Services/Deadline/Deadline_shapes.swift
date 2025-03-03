@@ -249,6 +249,14 @@ extension Deadline {
         public var description: String { return self.rawValue }
     }
 
+    public enum QueueLimitAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case stopLimitUsageAndCancelTasks = "STOP_LIMIT_USAGE_AND_CANCEL_TASKS"
+        case stopLimitUsageAndCompleteTasks = "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
+        case stopped = "STOPPED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QueueStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case idle = "IDLE"
         case scheduling = "SCHEDULING"
@@ -379,6 +387,13 @@ extension Deadline {
         case active = "ACTIVE"
         case stopSchedulingAndCancelTasks = "STOP_SCHEDULING_AND_CANCEL_TASKS"
         case stopSchedulingAndCompleteTasks = "STOP_SCHEDULING_AND_COMPLETE_TASKS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateQueueLimitAssociationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case stopLimitUsageAndCancelTasks = "STOP_LIMIT_USAGE_AND_CANCEL_TASKS"
+        case stopLimitUsageAndCompleteTasks = "STOP_LIMIT_USAGE_AND_COMPLETE_TASKS"
         public var description: String { return self.rawValue }
     }
 
@@ -972,9 +987,9 @@ extension Deadline {
     // MARK: Shapes
 
     public struct AcceleratorCapabilities: AWSEncodableShape & AWSDecodableShape {
-        /// The number of GPUs on each worker. The default is 1.
+        /// The number of GPU accelerators specified for worker hosts in this fleet.
         public let count: AcceleratorCountRange?
-        /// A list of objects that contain the GPU name of the accelerator and driver for the instance types that support the accelerator.
+        /// A list of accelerator capabilities requested for this fleet. Only Amazon Elastic Compute Cloud instances that provide these capabilities will be used. For example, if you specify both L4 and T4 chips, Deadline Cloud will use Amazon EC2 instances that have either the L4 or the T4 chip installed.
         public let selections: [AcceleratorSelection]
 
         @inlinable
@@ -997,9 +1012,9 @@ extension Deadline {
     }
 
     public struct AcceleratorCountRange: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum number of GPUs for the accelerator.
+        /// The maximum number of GPU accelerators in the worker host.
         public let max: Int?
-        /// The minimum number of GPUs for the accelerator. If you set the value to 0, a worker will still have 1 GPU.
+        /// The minimum number of GPU accelerators in the worker host.
         public let min: Int
 
         @inlinable
@@ -1022,9 +1037,9 @@ extension Deadline {
     }
 
     public struct AcceleratorSelection: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the GPU accelerator.
+        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r550 as the runtime. The available GPU accelerators are:    t4 - NVIDIA T4 Tensor Core GPU    a10g - NVIDIA A10G Tensor Core GPU    l4 - NVIDIA L4 Tensor Core GPU    l40s - NVIDIA L40S Tensor Core GPU
         public let name: AcceleratorName
-        /// The driver version that the GPU accelerator uses.
+        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs.  You can choose from the following runtimes:    latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.    grid:r550 - NVIDIA vGPU software 17     grid:r535 - NVIDIA vGPU software 16    If you don't specify a runtime, Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Deadline Cloud raises an exception.
         public let runtime: String?
 
         @inlinable
@@ -1066,6 +1081,24 @@ extension Deadline {
         private enum CodingKeys: String, CodingKey {
             case max = "max"
             case min = "min"
+        }
+    }
+
+    public struct AcquiredLimit: AWSDecodableShape {
+        /// The number of limit resources used.
+        public let count: Int
+        /// The unique identifier of the limit.
+        public let limitId: String
+
+        @inlinable
+        public init(count: Int, limitId: String) {
+            self.count = count
+            self.limitId = limitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "count"
+            case limitId = "limitId"
         }
     }
 
@@ -2171,6 +2204,8 @@ extension Deadline {
         public let maxFailedTasksCount: Int?
         /// The maximum number of retries for each task.
         public let maxRetriesPerTask: Int?
+        /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
+        public let maxWorkerCount: Int?
         /// The parameters for the job.
         public let parameters: [String: JobParameter]?
         /// The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
@@ -2189,12 +2224,13 @@ extension Deadline {
         public let templateType: JobTemplateType?
 
         @inlinable
-        public init(attachments: Attachments? = nil, clientToken: String? = CreateJobRequest.idempotencyToken(), farmId: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, parameters: [String: JobParameter]? = nil, priority: Int, queueId: String, sourceJobId: String? = nil, storageProfileId: String? = nil, targetTaskRunStatus: CreateJobTargetTaskRunStatus? = nil, template: String? = nil, templateType: JobTemplateType? = nil) {
+        public init(attachments: Attachments? = nil, clientToken: String? = CreateJobRequest.idempotencyToken(), farmId: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, parameters: [String: JobParameter]? = nil, priority: Int, queueId: String, sourceJobId: String? = nil, storageProfileId: String? = nil, targetTaskRunStatus: CreateJobTargetTaskRunStatus? = nil, template: String? = nil, templateType: JobTemplateType? = nil) {
             self.attachments = attachments
             self.clientToken = clientToken
             self.farmId = farmId
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
             self.parameters = parameters
             self.priority = priority
             self.queueId = queueId
@@ -2213,6 +2249,7 @@ extension Deadline {
             request.encodePath(self.farmId, key: "farmId")
             try container.encodeIfPresent(self.maxFailedTasksCount, forKey: .maxFailedTasksCount)
             try container.encodeIfPresent(self.maxRetriesPerTask, forKey: .maxRetriesPerTask)
+            try container.encodeIfPresent(self.maxWorkerCount, forKey: .maxWorkerCount)
             try container.encodeIfPresent(self.parameters, forKey: .parameters)
             try container.encode(self.priority, forKey: .priority)
             request.encodePath(self.queueId, key: "queueId")
@@ -2232,6 +2269,8 @@ extension Deadline {
             try self.validate(self.maxFailedTasksCount, name: "maxFailedTasksCount", parent: name, min: 0)
             try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, max: 2147483647)
             try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, min: 0)
+            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
+            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: -1)
             try self.parameters?.forEach {
                 try $0.value.validate(name: "\(name).parameters[\"\($0.key)\"]")
             }
@@ -2248,6 +2287,7 @@ extension Deadline {
             case attachments = "attachments"
             case maxFailedTasksCount = "maxFailedTasksCount"
             case maxRetriesPerTask = "maxRetriesPerTask"
+            case maxWorkerCount = "maxWorkerCount"
             case parameters = "parameters"
             case priority = "priority"
             case sourceJobId = "sourceJobId"
@@ -2342,6 +2382,75 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case licenseEndpointId = "licenseEndpointId"
+        }
+    }
+
+    public struct CreateLimitRequest: AWSEncodableShape {
+        /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+        public let amountRequirementName: String
+        /// The unique token which the server uses to recognize retries of the same request.
+        public let clientToken: String?
+        /// A description of the limit. A description helps you identify the purpose of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        public let description: String?
+        /// The display name of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        public let displayName: String
+        /// The farm ID of the farm that contains the limit.
+        public let farmId: String
+        /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+        public let maxCount: Int
+
+        @inlinable
+        public init(amountRequirementName: String, clientToken: String? = CreateLimitRequest.idempotencyToken(), description: String? = nil, displayName: String, farmId: String, maxCount: Int) {
+            self.amountRequirementName = amountRequirementName
+            self.clientToken = clientToken
+            self.description = description
+            self.displayName = displayName
+            self.farmId = farmId
+            self.maxCount = maxCount
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.amountRequirementName, forKey: .amountRequirementName)
+            request.encodeHeader(self.clientToken, key: "X-Amz-Client-Token")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encode(self.displayName, forKey: .displayName)
+            request.encodePath(self.farmId, key: "farmId")
+            try container.encode(self.maxCount, forKey: .maxCount)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.amountRequirementName, name: "amountRequirementName", parent: name, max: 1024)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.maxCount, name: "maxCount", parent: name, max: 2147483647)
+            try self.validate(self.maxCount, name: "maxCount", parent: name, min: -1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amountRequirementName = "amountRequirementName"
+            case description = "description"
+            case displayName = "displayName"
+            case maxCount = "maxCount"
+        }
+    }
+
+    public struct CreateLimitResponse: AWSDecodableShape {
+        /// A unique identifier for the limit. Use this identifier in other operations, such as CreateQueueLimitAssociation and DeleteLimit.
+        public let limitId: String
+
+        @inlinable
+        public init(limitId: String) {
+            self.limitId = limitId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitId = "limitId"
         }
     }
 
@@ -2515,6 +2624,45 @@ extension Deadline {
     }
 
     public struct CreateQueueFleetAssociationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct CreateQueueLimitAssociationRequest: AWSEncodableShape {
+        /// The unique identifier of the farm that contains the queue and limit to associate.
+        public let farmId: String
+        /// The unique identifier of the limit to associate with the queue.
+        public let limitId: String
+        /// The unique identifier of the queue to associate with the limit.
+        public let queueId: String
+
+        @inlinable
+        public init(farmId: String, limitId: String, queueId: String) {
+            self.farmId = farmId
+            self.limitId = limitId
+            self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            try container.encode(self.limitId, forKey: .limitId)
+            try container.encode(self.queueId, forKey: .queueId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.limitId, name: "limitId", parent: name, pattern: "^limit-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitId = "limitId"
+            case queueId = "queueId"
+        }
+    }
+
+    public struct CreateQueueLimitAssociationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -2972,6 +3120,37 @@ extension Deadline {
         public init() {}
     }
 
+    public struct DeleteLimitRequest: AWSEncodableShape {
+        /// The unique identifier of the farm that contains the limit to delete.
+        public let farmId: String
+        /// The unique identifier of the limit to delete.
+        public let limitId: String
+
+        @inlinable
+        public init(farmId: String, limitId: String) {
+            self.farmId = farmId
+            self.limitId = limitId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.limitId, key: "limitId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.limitId, name: "limitId", parent: name, pattern: "^limit-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteLimitResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteMeteredProductRequest: AWSEncodableShape {
         /// The ID of the license endpoint from which to remove the metered product.
         public let licenseEndpointId: String
@@ -3098,6 +3277,42 @@ extension Deadline {
     }
 
     public struct DeleteQueueFleetAssociationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteQueueLimitAssociationRequest: AWSEncodableShape {
+        /// The unique identifier of the farm that contains the queue and limit to disassociate.
+        public let farmId: String
+        /// The unique identifier of the limit to disassociate.
+        public let limitId: String
+        /// The unique identifier of the queue to disassociate.
+        public let queueId: String
+
+        @inlinable
+        public init(farmId: String, limitId: String, queueId: String) {
+            self.farmId = farmId
+            self.limitId = limitId
+            self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.limitId, key: "limitId")
+            request.encodePath(self.queueId, key: "queueId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.limitId, name: "limitId", parent: name, pattern: "^limit-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteQueueLimitAssociationResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -3414,10 +3629,10 @@ extension Deadline {
         /// The schema version in the environment.
         public let schemaVersion: String
         /// The template used for the environment.
-        public let template: String
+        public let template: AWSDocument
 
         @inlinable
-        public init(environmentId: String, jobId: String, schemaVersion: String, template: String) {
+        public init(environmentId: String, jobId: String, schemaVersion: String, template: AWSDocument) {
             self.environmentId = environmentId
             self.jobId = jobId
             self.schemaVersion = schemaVersion
@@ -4179,6 +4394,8 @@ extension Deadline {
         public let maxFailedTasksCount: Int?
         /// The maximum number of retries per failed tasks.
         public let maxRetriesPerTask: Int?
+        /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. If you don't set the maxWorkerCount when you create a job, this value is not returned in the response.
+        public let maxWorkerCount: Int?
         /// The name of the job.
         public let name: String
         /// The parameters for the job.
@@ -4205,7 +4422,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(attachments: Attachments? = nil, createdAt: Date, createdBy: String, description: String? = nil, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String, parameters: [String: JobParameter]? = nil, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, storageProfileId: String? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(attachments: Attachments? = nil, createdAt: Date, createdBy: String, description: String? = nil, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String, parameters: [String: JobParameter]? = nil, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, storageProfileId: String? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.attachments = attachments
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -4216,6 +4433,7 @@ extension Deadline {
             self.lifecycleStatusMessage = lifecycleStatusMessage
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
             self.name = name
             self.parameters = parameters
             self.priority = priority
@@ -4240,6 +4458,7 @@ extension Deadline {
             case lifecycleStatusMessage = "lifecycleStatusMessage"
             case maxFailedTasksCount = "maxFailedTasksCount"
             case maxRetriesPerTask = "maxRetriesPerTask"
+            case maxWorkerCount = "maxWorkerCount"
             case name = "name"
             case parameters = "parameters"
             case priority = "priority"
@@ -4311,6 +4530,89 @@ extension Deadline {
             case statusMessage = "statusMessage"
             case subnetIds = "subnetIds"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct GetLimitRequest: AWSEncodableShape {
+        /// The unique identifier of the farm that contains the limit.
+        public let farmId: String
+        /// The unique identifier of the limit to return.
+        public let limitId: String
+
+        @inlinable
+        public init(farmId: String, limitId: String) {
+            self.farmId = farmId
+            self.limitId = limitId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.limitId, key: "limitId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.limitId, name: "limitId", parent: name, pattern: "^limit-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetLimitResponse: AWSDecodableShape {
+        /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+        public let amountRequirementName: String
+        /// The Unix timestamp of the date and time that the limit was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The user identifier of the person that created the limit.
+        public let createdBy: String
+        /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
+        public let currentCount: Int
+        /// The description of the limit that helps identify what the limit is used for.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        public let description: String?
+        /// The display name of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        public let displayName: String
+        /// The unique identifier of the farm that contains the limit.
+        public let farmId: String
+        /// The unique identifier of the limit.
+        public let limitId: String
+        /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+        public let maxCount: Int
+        /// The Unix timestamp of the date and time that the limit was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user identifier of the person that last updated the limit.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(amountRequirementName: String, createdAt: Date, createdBy: String, currentCount: Int, description: String? = nil, displayName: String, farmId: String, limitId: String, maxCount: Int, updatedAt: Date? = nil, updatedBy: String? = nil) {
+            self.amountRequirementName = amountRequirementName
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.currentCount = currentCount
+            self.description = description
+            self.displayName = displayName
+            self.farmId = farmId
+            self.limitId = limitId
+            self.maxCount = maxCount
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amountRequirementName = "amountRequirementName"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case currentCount = "currentCount"
+            case description = "description"
+            case displayName = "displayName"
+            case farmId = "farmId"
+            case limitId = "limitId"
+            case maxCount = "maxCount"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
         }
     }
 
@@ -4544,6 +4846,78 @@ extension Deadline {
         }
     }
 
+    public struct GetQueueLimitAssociationRequest: AWSEncodableShape {
+        /// The unique identifier of the farm that contains the associated queue and limit.
+        public let farmId: String
+        /// The unique identifier of the limit associated with the queue.
+        public let limitId: String
+        /// The unique identifier of the queue associated with the limit.
+        public let queueId: String
+
+        @inlinable
+        public init(farmId: String, limitId: String, queueId: String) {
+            self.farmId = farmId
+            self.limitId = limitId
+            self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.limitId, key: "limitId")
+            request.encodePath(self.queueId, key: "queueId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.limitId, name: "limitId", parent: name, pattern: "^limit-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetQueueLimitAssociationResponse: AWSDecodableShape {
+        /// The Unix timestamp of the date and time that the association was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The user identifier of the person that created the association.
+        public let createdBy: String
+        /// The unique identifier of the limit associated with the queue.
+        public let limitId: String
+        /// The unique identifier of the queue associated with the limit.
+        public let queueId: String
+        /// The current status of the limit.
+        public let status: QueueLimitAssociationStatus
+        /// The Unix timestamp of the date and time that the association was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user identifier of the person that last updated the association.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, limitId: String, queueId: String, status: QueueLimitAssociationStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.limitId = limitId
+            self.queueId = queueId
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case limitId = "limitId"
+            case queueId = "queueId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+        }
+    }
+
     public struct GetQueueRequest: AWSEncodableShape {
         /// The farm ID of the farm in the queue.
         public let farmId: String
@@ -4685,6 +5059,8 @@ extension Deadline {
     }
 
     public struct GetSessionActionResponse: AWSDecodableShape {
+        /// The limits and their amounts acquired during a session action. If no limits were acquired during the session, this field isn't returned.
+        public let acquiredLimits: [AcquiredLimit]?
         /// The session action definition.
         public let definition: SessionActionDefinition
         /// The date and time the resource ended running.
@@ -4710,7 +5086,8 @@ extension Deadline {
         public var workerUpdatedAt: Date?
 
         @inlinable
-        public init(definition: SessionActionDefinition, endedAt: Date? = nil, processExitCode: Int? = nil, progressMessage: String? = nil, progressPercent: Float? = nil, sessionActionId: String, sessionId: String, startedAt: Date? = nil, status: SessionActionStatus, workerUpdatedAt: Date? = nil) {
+        public init(acquiredLimits: [AcquiredLimit]? = nil, definition: SessionActionDefinition, endedAt: Date? = nil, processExitCode: Int? = nil, progressMessage: String? = nil, progressPercent: Float? = nil, sessionActionId: String, sessionId: String, startedAt: Date? = nil, status: SessionActionStatus, workerUpdatedAt: Date? = nil) {
+            self.acquiredLimits = acquiredLimits
             self.definition = definition
             self.endedAt = endedAt
             self.processExitCode = processExitCode
@@ -4724,6 +5101,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case acquiredLimits = "acquiredLimits"
             case definition = "definition"
             case endedAt = "endedAt"
             case processExitCode = "processExitCode"
@@ -5657,6 +6035,8 @@ extension Deadline {
         public let maxFailedTasksCount: Int?
         /// The maximum number of retries for a job.
         public let maxRetriesPerTask: Int?
+        /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1.
+        public let maxWorkerCount: Int?
         /// The job name.
         public let name: String?
         /// The job priority.
@@ -5676,7 +6056,7 @@ extension Deadline {
         public let taskRunStatusCounts: [TaskRunStatus: Int]?
 
         @inlinable
-        public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, jobParameters: [String: JobParameter]? = nil, lifecycleStatus: JobLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String? = nil, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, endedAt: Date? = nil, jobId: String? = nil, jobParameters: [String: JobParameter]? = nil, lifecycleStatus: JobLifecycleStatus? = nil, lifecycleStatusMessage: String? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String? = nil, priority: Int? = nil, queueId: String? = nil, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -5686,6 +6066,7 @@ extension Deadline {
             self.lifecycleStatusMessage = lifecycleStatusMessage
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
             self.name = name
             self.priority = priority
             self.queueId = queueId
@@ -5706,6 +6087,7 @@ extension Deadline {
             case lifecycleStatusMessage = "lifecycleStatusMessage"
             case maxFailedTasksCount = "maxFailedTasksCount"
             case maxRetriesPerTask = "maxRetriesPerTask"
+            case maxWorkerCount = "maxWorkerCount"
             case name = "name"
             case priority = "priority"
             case queueId = "queueId"
@@ -5736,6 +6118,8 @@ extension Deadline {
         public let maxFailedTasksCount: Int?
         /// The maximum number of retries for a job.
         public let maxRetriesPerTask: Int?
+        /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1.
+        public let maxWorkerCount: Int?
         /// The job name.
         public let name: String
         /// The job priority.
@@ -5758,7 +6142,7 @@ extension Deadline {
         public let updatedBy: String?
 
         @inlinable
-        public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, name: String, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(createdAt: Date, createdBy: String, endedAt: Date? = nil, jobId: String, lifecycleStatus: JobLifecycleStatus, lifecycleStatusMessage: String, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, name: String, priority: Int, sourceJobId: String? = nil, startedAt: Date? = nil, targetTaskRunStatus: JobTargetTaskRunStatus? = nil, taskRunStatus: TaskRunStatus? = nil, taskRunStatusCounts: [TaskRunStatus: Int]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.endedAt = endedAt
@@ -5767,6 +6151,7 @@ extension Deadline {
             self.lifecycleStatusMessage = lifecycleStatusMessage
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
             self.name = name
             self.priority = priority
             self.sourceJobId = sourceJobId
@@ -5787,6 +6172,7 @@ extension Deadline {
             case lifecycleStatusMessage = "lifecycleStatusMessage"
             case maxFailedTasksCount = "maxFailedTasksCount"
             case maxRetriesPerTask = "maxRetriesPerTask"
+            case maxWorkerCount = "maxWorkerCount"
             case name = "name"
             case priority = "priority"
             case sourceJobId = "sourceJobId"
@@ -5822,6 +6208,58 @@ extension Deadline {
             case status = "status"
             case statusMessage = "statusMessage"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct LimitSummary: AWSDecodableShape {
+        /// The value that you specify as the name in the amounts field of the hostRequirements in a step of a job template to declare the limit requirement.
+        public let amountRequirementName: String
+        /// The Unix timestamp of the date and time that the limit was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The user identifier of the person that created the limit.
+        public let createdBy: String
+        /// The number of resources from the limit that are being used by jobs. The result is delayed and may not be the count at the time that you called the operation.
+        public let currentCount: Int
+        /// The name of the limit used in lists to identify the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        public let displayName: String
+        /// The unique identifier of the farm that contains the limit.
+        public let farmId: String
+        /// The unique identifier of the limit.
+        public let limitId: String
+        /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. The maxValue must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+        public let maxCount: Int
+        /// The Unix timestamp of the date and time that the limit was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user identifier of the person that last updated the limit.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(amountRequirementName: String, createdAt: Date, createdBy: String, currentCount: Int, displayName: String, farmId: String, limitId: String, maxCount: Int, updatedAt: Date? = nil, updatedBy: String? = nil) {
+            self.amountRequirementName = amountRequirementName
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.currentCount = currentCount
+            self.displayName = displayName
+            self.farmId = farmId
+            self.limitId = limitId
+            self.maxCount = maxCount
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amountRequirementName = "amountRequirementName"
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case currentCount = "currentCount"
+            case displayName = "displayName"
+            case farmId = "farmId"
+            case limitId = "limitId"
+            case maxCount = "maxCount"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
         }
     }
 
@@ -6252,12 +6690,12 @@ extension Deadline {
 
     public struct ListJobParameterDefinitionsResponse: AWSDecodableShape {
         /// Lists parameter definitions of a job.
-        public let jobParameterDefinitions: [String]
+        public let jobParameterDefinitions: [AWSDocument]
         /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
         public let nextToken: String?
 
         @inlinable
-        public init(jobParameterDefinitions: [String], nextToken: String? = nil) {
+        public init(jobParameterDefinitions: [AWSDocument], nextToken: String? = nil) {
             self.jobParameterDefinitions = jobParameterDefinitions
             self.nextToken = nextToken
         }
@@ -6371,6 +6809,56 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case licenseEndpoints = "licenseEndpoints"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListLimitsRequest: AWSEncodableShape {
+        /// The unique identifier of the farm that contains the limits.
+        public let farmId: String
+        /// The maximum number of limits to return in each page of results.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null to start from the beginning.
+        public let nextToken: String?
+
+        @inlinable
+        public init(farmId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.farmId = farmId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListLimitsResponse: AWSDecodableShape {
+        /// A list of limits that the farm contains.
+        public let limits: [LimitSummary]
+        /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+        public let nextToken: String?
+
+        @inlinable
+        public init(limits: [LimitSummary], nextToken: String? = nil) {
+            self.limits = limits
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limits = "limits"
             case nextToken = "nextToken"
         }
     }
@@ -6582,6 +7070,66 @@ extension Deadline {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case queueFleetAssociations = "queueFleetAssociations"
+        }
+    }
+
+    public struct ListQueueLimitAssociationsRequest: AWSEncodableShape {
+        /// The unique identifier of the farm that contains the limits and associations.
+        public let farmId: String
+        /// Specifies that the operation should return only the queue limit associations for the specified limit. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+        public let limitId: String?
+        /// The maximum number of associations to return in each page of results.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null to start from the beginning.
+        public let nextToken: String?
+        /// Specifies that the operation should return only the queue limit associations for the specified queue. If you specify both the queueId and the limitId, only the specified limit is returned if it exists.
+        public let queueId: String?
+
+        @inlinable
+        public init(farmId: String, limitId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queueId: String? = nil) {
+            self.farmId = farmId
+            self.limitId = limitId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queueId = queueId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodeQuery(self.limitId, key: "limitId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.queueId, key: "queueId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.limitId, name: "limitId", parent: name, pattern: "^limit-[0-9a-f]{32}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListQueueLimitAssociationsResponse: AWSDecodableShape {
+        /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
+        public let nextToken: String?
+        /// A list of associations between limits and queues in the farm specified in the request.
+        public let queueLimitAssociations: [QueueLimitAssociationSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, queueLimitAssociations: [QueueLimitAssociationSummary]) {
+            self.nextToken = nextToken
+            self.queueLimitAssociations = queueLimitAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case queueLimitAssociations = "queueLimitAssociations"
         }
     }
 
@@ -7363,7 +7911,7 @@ extension Deadline {
     public struct ManifestProperties: AWSEncodableShape & AWSDecodableShape {
         /// The file system location name.
         public let fileSystemLocationName: String?
-        /// The has value of the file.
+        /// The hash value of the file.
         public let inputManifestHash: String?
         /// The file path.
         public let inputManifestPath: String?
@@ -7697,6 +8245,46 @@ extension Deadline {
             case createdAt = "createdAt"
             case createdBy = "createdBy"
             case fleetId = "fleetId"
+            case queueId = "queueId"
+            case status = "status"
+            case updatedAt = "updatedAt"
+            case updatedBy = "updatedBy"
+        }
+    }
+
+    public struct QueueLimitAssociationSummary: AWSDecodableShape {
+        /// The Unix timestamp of the date and time that the association was created.
+        @CustomCoding<ISO8601DateCoder>
+        public var createdAt: Date
+        /// The user identifier of the person that created the association.
+        public let createdBy: String
+        /// The unique identifier of the limit in the association.
+        public let limitId: String
+        /// The unique identifier of the queue in the association.
+        public let queueId: String
+        /// The status of task scheduling in the queue-limit association.    ACTIVE - Association is active.    STOP_LIMIT_USAGE_AND_COMPLETE_TASKS - Association has stopped scheduling new tasks and is completing current tasks.    STOP_LIMIT_USAGE_AND_CANCEL_TASKS - Association has stopped scheduling new tasks and is canceling current tasks.    STOPPED - Association has been stopped.
+        public let status: QueueLimitAssociationStatus
+        /// The Unix timestamp of the date and time that the association was last updated.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+        /// The user identifier of the person that updated the association.
+        public let updatedBy: String?
+
+        @inlinable
+        public init(createdAt: Date, createdBy: String, limitId: String, queueId: String, status: QueueLimitAssociationStatus, updatedAt: Date? = nil, updatedBy: String? = nil) {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.limitId = limitId
+            self.queueId = queueId
+            self.status = status
+            self.updatedAt = updatedAt
+            self.updatedBy = updatedBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "createdAt"
+            case createdBy = "createdBy"
+            case limitId = "limitId"
             case queueId = "queueId"
             case status = "status"
             case updatedAt = "updatedAt"
@@ -8233,7 +8821,7 @@ extension Deadline {
     }
 
     public struct ServiceManagedEc2InstanceCapabilities: AWSEncodableShape & AWSDecodableShape {
-        /// The GPU accelerator capabilities required for the Amazon EC2 instances. If you include the acceleratorCapabilities property in the ServiceManagedEc2InstanceCapabilities object, all of the Amazon EC2 instances will have at least one accelerator.
+        /// Describes the GPU accelerator capabilities required for worker host instances in this fleet.
         public let acceleratorCapabilities: AcceleratorCapabilities?
         /// The allowable Amazon EC2 instance types.
         public let allowedInstanceTypes: [String]?
@@ -8679,10 +9267,10 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
         /// The template for a step.
-        public let template: String
+        public let template: AWSDocument
 
         @inlinable
-        public init(dependencies: [String], jobId: String, schemaVersion: String, stepId: String, template: String) {
+        public init(dependencies: [String], jobId: String, schemaVersion: String, stepId: String, template: AWSDocument) {
             self.dependencies = dependencies
             self.jobId = jobId
             self.schemaVersion = schemaVersion
@@ -9419,6 +10007,8 @@ extension Deadline {
         public let maxFailedTasksCount: Int?
         /// The maximum number of retries for a job.
         public let maxRetriesPerTask: Int?
+        /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1. The maximum number of workers that can process tasks in the job.
+        public let maxWorkerCount: Int?
         /// The job priority to update.
         public let priority: Int?
         /// The queue ID of the job to update.
@@ -9427,13 +10017,14 @@ extension Deadline {
         public let targetTaskRunStatus: JobTargetTaskRunStatus?
 
         @inlinable
-        public init(clientToken: String? = UpdateJobRequest.idempotencyToken(), farmId: String, jobId: String, lifecycleStatus: UpdateJobLifecycleStatus? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, priority: Int? = nil, queueId: String, targetTaskRunStatus: JobTargetTaskRunStatus? = nil) {
+        public init(clientToken: String? = UpdateJobRequest.idempotencyToken(), farmId: String, jobId: String, lifecycleStatus: UpdateJobLifecycleStatus? = nil, maxFailedTasksCount: Int? = nil, maxRetriesPerTask: Int? = nil, maxWorkerCount: Int? = nil, priority: Int? = nil, queueId: String, targetTaskRunStatus: JobTargetTaskRunStatus? = nil) {
             self.clientToken = clientToken
             self.farmId = farmId
             self.jobId = jobId
             self.lifecycleStatus = lifecycleStatus
             self.maxFailedTasksCount = maxFailedTasksCount
             self.maxRetriesPerTask = maxRetriesPerTask
+            self.maxWorkerCount = maxWorkerCount
             self.priority = priority
             self.queueId = queueId
             self.targetTaskRunStatus = targetTaskRunStatus
@@ -9448,6 +10039,7 @@ extension Deadline {
             try container.encodeIfPresent(self.lifecycleStatus, forKey: .lifecycleStatus)
             try container.encodeIfPresent(self.maxFailedTasksCount, forKey: .maxFailedTasksCount)
             try container.encodeIfPresent(self.maxRetriesPerTask, forKey: .maxRetriesPerTask)
+            try container.encodeIfPresent(self.maxWorkerCount, forKey: .maxWorkerCount)
             try container.encodeIfPresent(self.priority, forKey: .priority)
             request.encodePath(self.queueId, key: "queueId")
             try container.encodeIfPresent(self.targetTaskRunStatus, forKey: .targetTaskRunStatus)
@@ -9462,6 +10054,8 @@ extension Deadline {
             try self.validate(self.maxFailedTasksCount, name: "maxFailedTasksCount", parent: name, min: 0)
             try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, max: 2147483647)
             try self.validate(self.maxRetriesPerTask, name: "maxRetriesPerTask", parent: name, min: 0)
+            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 2147483647)
+            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: -1)
             try self.validate(self.priority, name: "priority", parent: name, max: 100)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
@@ -9471,12 +10065,65 @@ extension Deadline {
             case lifecycleStatus = "lifecycleStatus"
             case maxFailedTasksCount = "maxFailedTasksCount"
             case maxRetriesPerTask = "maxRetriesPerTask"
+            case maxWorkerCount = "maxWorkerCount"
             case priority = "priority"
             case targetTaskRunStatus = "targetTaskRunStatus"
         }
     }
 
     public struct UpdateJobResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateLimitRequest: AWSEncodableShape {
+        /// The new description of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        public let description: String?
+        /// The new display name of the limit.  This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
+        public let displayName: String?
+        /// The unique identifier of the farm that contains the limit.
+        public let farmId: String
+        /// The unique identifier of the limit to update.
+        public let limitId: String
+        /// The maximum number of resources constrained by this limit. When all of the resources are in use, steps that require the limit won't be scheduled until the resource is available. If more than the new maximum number is currently in use, running jobs finish but no new jobs are started until the number of resources in use is below the new maximum number. The maxCount must not be 0. If the value is -1, there is no restriction on the number of resources that can be acquired for this limit.
+        public let maxCount: Int?
+
+        @inlinable
+        public init(description: String? = nil, displayName: String? = nil, farmId: String, limitId: String, maxCount: Int? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.farmId = farmId
+            self.limitId = limitId
+            self.maxCount = maxCount
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.displayName, forKey: .displayName)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.limitId, key: "limitId")
+            try container.encodeIfPresent(self.maxCount, forKey: .maxCount)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
+            try self.validate(self.displayName, name: "displayName", parent: name, min: 1)
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.limitId, name: "limitId", parent: name, pattern: "^limit-[0-9a-f]{32}$")
+            try self.validate(self.maxCount, name: "maxCount", parent: name, max: 2147483647)
+            try self.validate(self.maxCount, name: "maxCount", parent: name, min: -1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case displayName = "displayName"
+            case maxCount = "maxCount"
+        }
+    }
+
+    public struct UpdateLimitResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -9627,6 +10274,48 @@ extension Deadline {
     }
 
     public struct UpdateQueueFleetAssociationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateQueueLimitAssociationRequest: AWSEncodableShape {
+        /// The unique identifier of the farm that contains the associated queues and limits.
+        public let farmId: String
+        /// The unique identifier of the limit associated to the queue.
+        public let limitId: String
+        /// The unique identifier of the queue associated to the limit.
+        public let queueId: String
+        /// Sets the status of the limit. You can mark the limit active, or you can stop usage of the limit and either complete existing tasks or cancel any existing tasks immediately.
+        public let status: UpdateQueueLimitAssociationStatus
+
+        @inlinable
+        public init(farmId: String, limitId: String, queueId: String, status: UpdateQueueLimitAssociationStatus) {
+            self.farmId = farmId
+            self.limitId = limitId
+            self.queueId = queueId
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.farmId, key: "farmId")
+            request.encodePath(self.limitId, key: "limitId")
+            request.encodePath(self.queueId, key: "queueId")
+            try container.encode(self.status, forKey: .status)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.farmId, name: "farmId", parent: name, pattern: "^farm-[0-9a-f]{32}$")
+            try self.validate(self.limitId, name: "limitId", parent: name, pattern: "^limit-[0-9a-f]{32}$")
+            try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct UpdateQueueLimitAssociationResponse: AWSDecodableShape {
         public init() {}
     }
 

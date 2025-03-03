@@ -250,6 +250,12 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum PerformanceConfigLatency: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case optimized = "optimized"
+        case standard = "standard"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PromptRouterStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "AVAILABLE"
         public var description: String { return self.rawValue }
@@ -1976,11 +1982,14 @@ extension Bedrock {
         public let inferenceParams: String?
         /// The ARN of the Amazon Bedrock model or inference profile specified.
         public let modelIdentifier: String
+        /// Specifies performance settings for the model or inference profile.
+        public let performanceConfig: PerformanceConfiguration?
 
         @inlinable
-        public init(inferenceParams: String? = nil, modelIdentifier: String) {
+        public init(inferenceParams: String? = nil, modelIdentifier: String, performanceConfig: PerformanceConfiguration? = nil) {
             self.inferenceParams = inferenceParams
             self.modelIdentifier = modelIdentifier
+            self.performanceConfig = performanceConfig
         }
 
         public func validate(name: String) throws {
@@ -1994,6 +2003,7 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case inferenceParams = "inferenceParams"
             case modelIdentifier = "modelIdentifier"
+            case performanceConfig = "performanceConfig"
         }
     }
 
@@ -2155,7 +2165,7 @@ extension Bedrock {
 
     public struct ExternalSourcesGenerationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Additional model parameters and their corresponding values not included in the  text inference configuration for an external source. Takes in custom model parameters  specific to the language model being used.
-        public let additionalModelRequestFields: [String: String]?
+        public let additionalModelRequestFields: [String: AWSDocument]?
         /// Configuration details for the guardrail.
         public let guardrailConfiguration: GuardrailConfiguration?
         /// Configuration details for inference when using RetrieveAndGenerate to generate  responses while using an external source.
@@ -2164,7 +2174,7 @@ extension Bedrock {
         public let promptTemplate: PromptTemplate?
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, kbInferenceConfig: KbInferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, kbInferenceConfig: KbInferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.kbInferenceConfig = kbInferenceConfig
@@ -2226,10 +2236,10 @@ extension Bedrock {
         /// The name of metadata attribute/field, which must match the name in your  data source/document metadata.
         public let key: String
         /// The value of the metadata attribute/field.
-        public let value: String
+        public let value: AWSDocument
 
         @inlinable
-        public init(key: String, value: String) {
+        public init(key: String, value: AWSDocument) {
             self.key = key
             self.value = value
         }
@@ -2361,7 +2371,7 @@ extension Bedrock {
 
     public struct GenerationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Additional model parameters and corresponding values not included in the  textInferenceConfig structure for a knowledge base. This allows  you to provide custom model parameters specific to the language model being  used.
-        public let additionalModelRequestFields: [String: String]?
+        public let additionalModelRequestFields: [String: AWSDocument]?
         /// Contains configuration details for the guardrail.
         public let guardrailConfiguration: GuardrailConfiguration?
         /// Contains configuration details for inference for knowledge base retrieval and response generation.
@@ -2370,7 +2380,7 @@ extension Bedrock {
         public let promptTemplate: PromptTemplate?
 
         @inlinable
-        public init(additionalModelRequestFields: [String: String]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, kbInferenceConfig: KbInferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
+        public init(additionalModelRequestFields: [String: AWSDocument]? = nil, guardrailConfiguration: GuardrailConfiguration? = nil, kbInferenceConfig: KbInferenceConfig? = nil, promptTemplate: PromptTemplate? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.guardrailConfiguration = guardrailConfiguration
             self.kbInferenceConfig = kbInferenceConfig
@@ -5735,6 +5745,20 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case s3Uri = "s3Uri"
+        }
+    }
+
+    public struct PerformanceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether to use the latency-optimized or standard version of a model or inference profile.
+        public let latency: PerformanceConfigLatency?
+
+        @inlinable
+        public init(latency: PerformanceConfigLatency? = nil) {
+            self.latency = latency
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latency = "latency"
         }
     }
 

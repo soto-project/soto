@@ -136,6 +136,7 @@ extension Connect {
         case agentHold = "AGENT_HOLD"
         case agentTransfer = "AGENT_TRANSFER"
         case agentWhisper = "AGENT_WHISPER"
+        case campaign = "CAMPAIGN"
         case contactFlow = "CONTACT_FLOW"
         case customerHold = "CUSTOMER_HOLD"
         case customerQueue = "CUSTOMER_QUEUE"
@@ -406,6 +407,7 @@ extension Connect {
         case enhancedContactMonitoring = "ENHANCED_CONTACT_MONITORING"
         case highVolumeOutbound = "HIGH_VOLUME_OUTBOUND"
         case inboundCalls = "INBOUND_CALLS"
+        case multiPartyChatConference = "MULTI_PARTY_CHAT_CONFERENCE"
         case multiPartyConference = "MULTI_PARTY_CONFERENCE"
         case outboundCalls = "OUTBOUND_CALLS"
         case useCustomTtsVoices = "USE_CUSTOM_TTS_VOICES"
@@ -451,6 +453,7 @@ extension Connect {
         case application = "APPLICATION"
         case callTransferConnector = "CALL_TRANSFER_CONNECTOR"
         case casesDomain = "CASES_DOMAIN"
+        case cognitoUserPool = "COGNITO_USER_POOL"
         case event = "EVENT"
         case fileScanner = "FILE_SCANNER"
         case pinpointApp = "PINPOINT_APP"
@@ -1938,14 +1941,17 @@ extension Connect {
         public let resourceShareArn: String?
         /// The Resource Access Manager share ID.
         public let resourceShareId: String?
+        /// The Amazon Web Services Resource Access Manager status of association.
+        public let resourceShareStatus: String?
         /// The identifier of the target account.
         public let targetAccountId: String?
 
         @inlinable
-        public init(dataSetId: String? = nil, resourceShareArn: String? = nil, resourceShareId: String? = nil, targetAccountId: String? = nil) {
+        public init(dataSetId: String? = nil, resourceShareArn: String? = nil, resourceShareId: String? = nil, resourceShareStatus: String? = nil, targetAccountId: String? = nil) {
             self.dataSetId = dataSetId
             self.resourceShareArn = resourceShareArn
             self.resourceShareId = resourceShareId
+            self.resourceShareStatus = resourceShareStatus
             self.targetAccountId = targetAccountId
         }
 
@@ -1953,7 +1959,26 @@ extension Connect {
             case dataSetId = "DataSetId"
             case resourceShareArn = "ResourceShareArn"
             case resourceShareId = "ResourceShareId"
+            case resourceShareStatus = "ResourceShareStatus"
             case targetAccountId = "TargetAccountId"
+        }
+    }
+
+    public struct AnalyticsDataSetsResult: AWSDecodableShape {
+        /// The identifier of the dataset.
+        public let dataSetId: String?
+        /// The name of the dataset.
+        public let dataSetName: String?
+
+        @inlinable
+        public init(dataSetId: String? = nil, dataSetName: String? = nil) {
+            self.dataSetId = dataSetId
+            self.dataSetName = dataSetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetId = "DataSetId"
+            case dataSetName = "DataSetName"
         }
     }
 
@@ -2071,13 +2096,16 @@ extension Connect {
     }
 
     public struct AssociateApprovedOriginRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The domain to add to your allow list.
         public let origin: String
 
         @inlinable
-        public init(instanceId: String, origin: String) {
+        public init(clientToken: String? = AssociateApprovedOriginRequest.idempotencyToken(), instanceId: String, origin: String) {
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.origin = origin
         }
@@ -2085,22 +2113,27 @@ extension Connect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encode(self.origin, forKey: .origin)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.origin, name: "origin", parent: name, max: 267)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case origin = "Origin"
         }
     }
 
     public struct AssociateBotRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         public let lexBot: LexBot?
@@ -2108,7 +2141,8 @@ extension Connect {
         public let lexV2Bot: LexV2Bot?
 
         @inlinable
-        public init(instanceId: String, lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
+        public init(clientToken: String? = AssociateBotRequest.idempotencyToken(), instanceId: String, lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.lexBot = lexBot
             self.lexV2Bot = lexV2Bot
@@ -2117,12 +2151,14 @@ extension Connect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encodeIfPresent(self.lexBot, forKey: .lexBot)
             try container.encodeIfPresent(self.lexV2Bot, forKey: .lexV2Bot)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.lexBot?.validate(name: "\(name).lexBot")
@@ -2130,6 +2166,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case lexBot = "LexBot"
             case lexV2Bot = "LexV2Bot"
         }
@@ -2219,6 +2256,8 @@ extension Connect {
     }
 
     public struct AssociateInstanceStorageConfigRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid resource type. To enable streaming for real-time analysis of contacts, use the following types:   For chat contacts, use REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS.   For voice contacts, use REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS.     REAL_TIME_CONTACT_ANALYSIS_SEGMENTS is deprecated, but it is still supported and will apply only to VOICE channel contacts. Use REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS for voice contacts moving forward. If you have previously associated a stream with REAL_TIME_CONTACT_ANALYSIS_SEGMENTS, no action is needed to update the stream to REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS.
@@ -2227,7 +2266,8 @@ extension Connect {
         public let storageConfig: InstanceStorageConfig
 
         @inlinable
-        public init(instanceId: String, resourceType: InstanceStorageResourceType, storageConfig: InstanceStorageConfig) {
+        public init(clientToken: String? = AssociateInstanceStorageConfigRequest.idempotencyToken(), instanceId: String, resourceType: InstanceStorageResourceType, storageConfig: InstanceStorageConfig) {
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.resourceType = resourceType
             self.storageConfig = storageConfig
@@ -2236,18 +2276,21 @@ extension Connect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encode(self.resourceType, forKey: .resourceType)
             try container.encode(self.storageConfig, forKey: .storageConfig)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.storageConfig.validate(name: "\(name).storageConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case resourceType = "ResourceType"
             case storageConfig = "StorageConfig"
         }
@@ -2268,13 +2311,16 @@ extension Connect {
     }
 
     public struct AssociateLambdaFunctionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The Amazon Resource Name (ARN) for the Lambda function being associated. Maximum number of characters allowed is 140.
         public let functionArn: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
-        public init(functionArn: String, instanceId: String) {
+        public init(clientToken: String? = AssociateLambdaFunctionRequest.idempotencyToken(), functionArn: String, instanceId: String) {
+            self.clientToken = clientToken
             self.functionArn = functionArn
             self.instanceId = instanceId
         }
@@ -2282,11 +2328,13 @@ extension Connect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encode(self.functionArn, forKey: .functionArn)
             request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.functionArn, name: "functionArn", parent: name, max: 140)
             try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
@@ -2294,18 +2342,22 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case functionArn = "FunctionArn"
         }
     }
 
     public struct AssociateLexBotRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The Amazon Lex bot to associate with the instance.
         public let lexBot: LexBot
 
         @inlinable
-        public init(instanceId: String, lexBot: LexBot) {
+        public init(clientToken: String? = AssociateLexBotRequest.idempotencyToken(), instanceId: String, lexBot: LexBot) {
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.lexBot = lexBot
         }
@@ -2313,17 +2365,20 @@ extension Connect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encode(self.lexBot, forKey: .lexBot)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.lexBot.validate(name: "\(name).lexBot")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case lexBot = "LexBot"
         }
     }
@@ -2437,13 +2492,16 @@ extension Connect {
     }
 
     public struct AssociateSecurityKeyRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid security key in PEM format as a String.
         public let key: String
 
         @inlinable
-        public init(instanceId: String, key: String) {
+        public init(clientToken: String? = AssociateSecurityKeyRequest.idempotencyToken(), instanceId: String, key: String) {
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.key = key
         }
@@ -2451,11 +2509,13 @@ extension Connect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encode(self.key, forKey: .key)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, max: 1024)
@@ -2463,6 +2523,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case key = "Key"
         }
     }
@@ -2763,15 +2824,18 @@ extension Connect {
         public let name: String?
         /// The proficiency level of the condition.
         public let proficiencyLevel: Float?
+        /// An Object to define the minimum and maximum proficiency levels.
+        public let range: Range?
         /// The value of predefined attribute.
         public let value: String?
 
         @inlinable
-        public init(comparisonOperator: String? = nil, matchCriteria: MatchCriteria? = nil, name: String? = nil, proficiencyLevel: Float? = nil, value: String? = nil) {
+        public init(comparisonOperator: String? = nil, matchCriteria: MatchCriteria? = nil, name: String? = nil, proficiencyLevel: Float? = nil, range: Range? = nil, value: String? = nil) {
             self.comparisonOperator = comparisonOperator
             self.matchCriteria = matchCriteria
             self.name = name
             self.proficiencyLevel = proficiencyLevel
+            self.range = range
             self.value = value
         }
 
@@ -2783,6 +2847,7 @@ extension Connect {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.proficiencyLevel, name: "proficiencyLevel", parent: name, max: 5.0)
             try self.validate(self.proficiencyLevel, name: "proficiencyLevel", parent: name, min: 1.0)
+            try self.range?.validate(name: "\(name).range")
             try self.validate(self.value, name: "value", parent: name, max: 128)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
@@ -2792,6 +2857,7 @@ extension Connect {
             case matchCriteria = "MatchCriteria"
             case name = "Name"
             case proficiencyLevel = "ProficiencyLevel"
+            case range = "Range"
             case value = "Value"
         }
     }
@@ -3563,6 +3629,8 @@ extension Connect {
         public let customer: Customer?
         /// The customer or external third party participant endpoint.
         public let customerEndpoint: EndpointInfo?
+        /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM. You can create a Lambda function to pull the unique customer ID of the caller from your CRM system. If you enable Amazon Connect Voice ID capability, this attribute is populated with the CustomerSpeakerId of the caller.
+        public let customerId: String?
         /// Information about customer’s voice activity.
         public let customerVoiceActivity: CustomerVoiceActivity?
         /// The description of the contact.
@@ -3617,7 +3685,7 @@ extension Connect {
         public let wisdomInfo: WisdomInfo?
 
         @inlinable
-        public init(additionalEmailRecipients: AdditionalEmailRecipients? = nil, agentInfo: AgentInfo? = nil, answeringMachineDetectionStatus: AnsweringMachineDetectionStatus? = nil, arn: String? = nil, campaign: Campaign? = nil, channel: Channel? = nil, connectedToSystemTimestamp: Date? = nil, contactAssociationId: String? = nil, customer: Customer? = nil, customerEndpoint: EndpointInfo? = nil, customerVoiceActivity: CustomerVoiceActivity? = nil, description: String? = nil, disconnectDetails: DisconnectDetails? = nil, disconnectTimestamp: Date? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, lastPausedTimestamp: Date? = nil, lastResumedTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, previousContactId: String? = nil, qualityMetrics: QualityMetrics? = nil, queueInfo: QueueInfo? = nil, queuePriority: Int64? = nil, queueTimeAdjustmentSeconds: Int? = nil, relatedContactId: String? = nil, routingCriteria: RoutingCriteria? = nil, scheduledTimestamp: Date? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, systemEndpoint: EndpointInfo? = nil, tags: [String: String]? = nil, totalPauseCount: Int? = nil, totalPauseDurationInSeconds: Int? = nil, wisdomInfo: WisdomInfo? = nil) {
+        public init(additionalEmailRecipients: AdditionalEmailRecipients? = nil, agentInfo: AgentInfo? = nil, answeringMachineDetectionStatus: AnsweringMachineDetectionStatus? = nil, arn: String? = nil, campaign: Campaign? = nil, channel: Channel? = nil, connectedToSystemTimestamp: Date? = nil, contactAssociationId: String? = nil, customer: Customer? = nil, customerEndpoint: EndpointInfo? = nil, customerId: String? = nil, customerVoiceActivity: CustomerVoiceActivity? = nil, description: String? = nil, disconnectDetails: DisconnectDetails? = nil, disconnectTimestamp: Date? = nil, id: String? = nil, initialContactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, initiationTimestamp: Date? = nil, lastPausedTimestamp: Date? = nil, lastResumedTimestamp: Date? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, previousContactId: String? = nil, qualityMetrics: QualityMetrics? = nil, queueInfo: QueueInfo? = nil, queuePriority: Int64? = nil, queueTimeAdjustmentSeconds: Int? = nil, relatedContactId: String? = nil, routingCriteria: RoutingCriteria? = nil, scheduledTimestamp: Date? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, systemEndpoint: EndpointInfo? = nil, tags: [String: String]? = nil, totalPauseCount: Int? = nil, totalPauseDurationInSeconds: Int? = nil, wisdomInfo: WisdomInfo? = nil) {
             self.additionalEmailRecipients = additionalEmailRecipients
             self.agentInfo = agentInfo
             self.answeringMachineDetectionStatus = answeringMachineDetectionStatus
@@ -3628,6 +3696,7 @@ extension Connect {
             self.contactAssociationId = contactAssociationId
             self.customer = customer
             self.customerEndpoint = customerEndpoint
+            self.customerId = customerId
             self.customerVoiceActivity = customerVoiceActivity
             self.description = description
             self.disconnectDetails = disconnectDetails
@@ -3667,6 +3736,7 @@ extension Connect {
             case contactAssociationId = "ContactAssociationId"
             case customer = "Customer"
             case customerEndpoint = "CustomerEndpoint"
+            case customerId = "CustomerId"
             case customerVoiceActivity = "CustomerVoiceActivity"
             case description = "Description"
             case disconnectDetails = "DisconnectDetails"
@@ -4516,7 +4586,7 @@ extension Connect {
         public let contactFlowArn: String?
         /// The identifier of the flow.
         public let contactFlowId: String?
-        /// Indicates the checksum value of the flow content.
+        /// Indicates the checksum value of the latest published flow content.
         public let flowContentSha256: String?
 
         @inlinable
@@ -4536,6 +4606,8 @@ extension Connect {
     public struct CreateContactFlowVersionRequest: AWSEncodableShape {
         /// The identifier of the flow.
         public let contactFlowId: String
+        /// The identifier of the flow version.
+        public let contactFlowVersion: Int64?
         /// The description of the flow version.
         public let description: String?
         /// Indicates the checksum value of the flow content.
@@ -4548,8 +4620,9 @@ extension Connect {
         public let lastModifiedTime: Date?
 
         @inlinable
-        public init(contactFlowId: String, description: String? = nil, flowContentSha256: String? = nil, instanceId: String, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil) {
+        public init(contactFlowId: String, contactFlowVersion: Int64? = nil, description: String? = nil, flowContentSha256: String? = nil, instanceId: String, lastModifiedRegion: String? = nil, lastModifiedTime: Date? = nil) {
             self.contactFlowId = contactFlowId
+            self.contactFlowVersion = contactFlowVersion
             self.description = description
             self.flowContentSha256 = flowContentSha256
             self.instanceId = instanceId
@@ -4561,6 +4634,7 @@ extension Connect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.contactFlowId, key: "ContactFlowId")
+            try container.encodeIfPresent(self.contactFlowVersion, forKey: .contactFlowVersion)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.flowContentSha256, forKey: .flowContentSha256)
             request.encodePath(self.instanceId, key: "InstanceId")
@@ -4569,6 +4643,7 @@ extension Connect {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.contactFlowVersion, name: "contactFlowVersion", parent: name, min: 1)
             try self.validate(self.flowContentSha256, name: "flowContentSha256", parent: name, max: 64)
             try self.validate(self.flowContentSha256, name: "flowContentSha256", parent: name, min: 1)
             try self.validate(self.flowContentSha256, name: "flowContentSha256", parent: name, pattern: "^[a-zA-Z0-9]{64}$")
@@ -4578,6 +4653,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contactFlowVersion = "ContactFlowVersion"
             case description = "Description"
             case flowContentSha256 = "FlowContentSha256"
             case lastModifiedRegion = "LastModifiedRegion"
@@ -4606,7 +4682,7 @@ extension Connect {
     public struct CreateContactRequest: AWSEncodableShape {
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
-        /// The channel for the contact
+        /// The channel for the contact  CreateContact only supports the EMAIL channel. The following information that states other channels are supported is incorrect. We are working to update this topic.
         public let channel: Channel
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -4616,7 +4692,7 @@ extension Connect {
         public let expiryDurationInMinutes: Int?
         /// Initial state of the contact when it's created
         public let initiateAs: InitiateAs?
-        /// Indicates how the contact was initiated.
+        /// Indicates how the contact was initiated.   CreateContact only supports the following initiation methods: OUTBOUND, AGENT_REPLY, and FLOW. The following information that states other initiation methods are supported is incorrect. We are working to update this topic.
         public let initiationMethod: ContactInitiationMethod
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
@@ -5041,7 +5117,7 @@ extension Connect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = nil, directoryId: String? = nil, identityManagementType: DirectoryType, inboundCallsEnabled: Bool, instanceAlias: String? = nil, outboundCallsEnabled: Bool, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateInstanceRequest.idempotencyToken(), directoryId: String? = nil, identityManagementType: DirectoryType, inboundCallsEnabled: Bool, instanceAlias: String? = nil, outboundCallsEnabled: Bool, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.directoryId = directoryId
             self.identityManagementType = identityManagementType
@@ -5848,7 +5924,7 @@ extension Connect {
         public let permissions: [String]?
         /// The name of the security profile.
         public let securityProfileName: String
-        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. Following are acceptable ResourceNames: User | SecurityProfile | Queue | RoutingProfile
+        /// The list of resources that a security profile applies tag restrictions to in Amazon Connect. For a list of Amazon Connect resources that you can tag, see Add tags to resources in Amazon Connect in the Amazon Connect Administrator Guide.
         public let tagRestrictedResources: [String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public let tags: [String: String]?
@@ -7012,6 +7088,42 @@ extension Connect {
         public init() {}
     }
 
+    public struct DeleteContactFlowVersionRequest: AWSEncodableShape {
+        /// The identifier of the flow.
+        public let contactFlowId: String
+        /// The identifier of the flow version.
+        public let contactFlowVersion: Int64
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+
+        @inlinable
+        public init(contactFlowId: String, contactFlowVersion: Int64, instanceId: String) {
+            self.contactFlowId = contactFlowId
+            self.contactFlowVersion = contactFlowVersion
+            self.instanceId = instanceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.contactFlowId, key: "ContactFlowId")
+            request.encodePath(self.contactFlowVersion, key: "ContactFlowVersion")
+            request.encodePath(self.instanceId, key: "InstanceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactFlowVersion, name: "contactFlowVersion", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteContactFlowVersionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteEmailAddressRequest: AWSEncodableShape {
         /// The identifier of the email address.
         public let emailAddressId: String
@@ -7140,21 +7252,26 @@ extension Connect {
     }
 
     public struct DeleteInstanceRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
-        public init(instanceId: String) {
+        public init(clientToken: String? = DeleteInstanceRequest.idempotencyToken(), instanceId: String) {
+            self.clientToken = clientToken
             self.instanceId = instanceId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
             request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -8948,13 +9065,16 @@ extension Connect {
     }
 
     public struct DisassociateApprovedOriginRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The domain URL of the integrated application.
         public let origin: String
 
         @inlinable
-        public init(instanceId: String, origin: String) {
+        public init(clientToken: String? = DisassociateApprovedOriginRequest.idempotencyToken(), instanceId: String, origin: String) {
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.origin = origin
         }
@@ -8962,11 +9082,13 @@ extension Connect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
             request.encodePath(self.instanceId, key: "InstanceId")
             request.encodeQuery(self.origin, key: "origin")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.origin, name: "origin", parent: name, max: 267)
@@ -8976,6 +9098,8 @@ extension Connect {
     }
 
     public struct DisassociateBotRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         public let lexBot: LexBot?
@@ -8983,7 +9107,8 @@ extension Connect {
         public let lexV2Bot: LexV2Bot?
 
         @inlinable
-        public init(instanceId: String, lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
+        public init(clientToken: String? = DisassociateBotRequest.idempotencyToken(), instanceId: String, lexBot: LexBot? = nil, lexV2Bot: LexV2Bot? = nil) {
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.lexBot = lexBot
             self.lexV2Bot = lexV2Bot
@@ -8992,12 +9117,14 @@ extension Connect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encodeIfPresent(self.lexBot, forKey: .lexBot)
             try container.encodeIfPresent(self.lexV2Bot, forKey: .lexV2Bot)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.lexBot?.validate(name: "\(name).lexBot")
@@ -9005,6 +9132,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case lexBot = "LexBot"
             case lexV2Bot = "LexV2Bot"
         }
@@ -9048,14 +9176,17 @@ extension Connect {
     public struct DisassociateInstanceStorageConfigRequest: AWSEncodableShape {
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid resource type.
         public let resourceType: InstanceStorageResourceType
 
         @inlinable
-        public init(associationId: String, instanceId: String, resourceType: InstanceStorageResourceType) {
+        public init(associationId: String, clientToken: String? = DisassociateInstanceStorageConfigRequest.idempotencyToken(), instanceId: String, resourceType: InstanceStorageResourceType) {
             self.associationId = associationId
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.resourceType = resourceType
         }
@@ -9064,6 +9195,7 @@ extension Connect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.associationId, key: "AssociationId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
             request.encodePath(self.instanceId, key: "InstanceId")
             request.encodeQuery(self.resourceType, key: "resourceType")
         }
@@ -9071,6 +9203,7 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -9079,13 +9212,16 @@ extension Connect {
     }
 
     public struct DisassociateLambdaFunctionRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
         public let functionArn: String
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance..
         public let instanceId: String
 
         @inlinable
-        public init(functionArn: String, instanceId: String) {
+        public init(clientToken: String? = DisassociateLambdaFunctionRequest.idempotencyToken(), functionArn: String, instanceId: String) {
+            self.clientToken = clientToken
             self.functionArn = functionArn
             self.instanceId = instanceId
         }
@@ -9093,11 +9229,13 @@ extension Connect {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.clientToken, key: "clientToken")
             request.encodeQuery(self.functionArn, key: "functionArn")
             request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.functionArn, name: "functionArn", parent: name, max: 140)
             try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
@@ -9110,14 +9248,17 @@ extension Connect {
     public struct DisassociateLexBotRequest: AWSEncodableShape {
         /// The name of the Amazon Lex bot. Maximum character limit of 50.
         public let botName: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The Amazon Web Services Region in which the Amazon Lex bot has been created.
         public let lexRegion: String
 
         @inlinable
-        public init(botName: String, instanceId: String, lexRegion: String) {
+        public init(botName: String, clientToken: String? = DisassociateLexBotRequest.idempotencyToken(), instanceId: String, lexRegion: String) {
             self.botName = botName
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.lexRegion = lexRegion
         }
@@ -9126,12 +9267,14 @@ extension Connect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.botName, key: "botName")
+            request.encodeQuery(self.clientToken, key: "clientToken")
             request.encodePath(self.instanceId, key: "InstanceId")
             request.encodeQuery(self.lexRegion, key: "lexRegion")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.botName, name: "botName", parent: name, max: 50)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.lexRegion, name: "lexRegion", parent: name, max: 60)
@@ -9238,12 +9381,15 @@ extension Connect {
     public struct DisassociateSecurityKeyRequest: AWSEncodableShape {
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
 
         @inlinable
-        public init(associationId: String, instanceId: String) {
+        public init(associationId: String, clientToken: String? = DisassociateSecurityKeyRequest.idempotencyToken(), instanceId: String) {
             self.associationId = associationId
+            self.clientToken = clientToken
             self.instanceId = instanceId
         }
 
@@ -9251,12 +9397,14 @@ extension Connect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.associationId, key: "AssociationId")
+            request.encodeQuery(self.clientToken, key: "clientToken")
             request.encodePath(self.instanceId, key: "InstanceId")
         }
 
         public func validate(name: String) throws {
             try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
         }
@@ -10440,13 +10588,15 @@ extension Connect {
         public let andExpression: [Expression]?
         /// An object to specify the predefined attribute condition.
         public let attributeCondition: AttributeCondition?
+        public let notAttributeCondition: AttributeCondition?
         /// List of routing expressions which will be OR-ed together.
         public let orExpression: [Expression]?
 
         @inlinable
-        public init(andExpression: [Expression]? = nil, attributeCondition: AttributeCondition? = nil, orExpression: [Expression]? = nil) {
+        public init(andExpression: [Expression]? = nil, attributeCondition: AttributeCondition? = nil, notAttributeCondition: AttributeCondition? = nil, orExpression: [Expression]? = nil) {
             self.andExpression = andExpression
             self.attributeCondition = attributeCondition
+            self.notAttributeCondition = notAttributeCondition
             self.orExpression = orExpression
         }
 
@@ -10455,6 +10605,7 @@ extension Connect {
                 try $0.validate(name: "\(name).andExpression[]")
             }
             try self.attributeCondition?.validate(name: "\(name).attributeCondition")
+            try self.notAttributeCondition?.validate(name: "\(name).notAttributeCondition")
             try self.orExpression?.forEach {
                 try $0.validate(name: "\(name).orExpression[]")
             }
@@ -10463,6 +10614,7 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case andExpression = "AndExpression"
             case attributeCondition = "AttributeCondition"
+            case notAttributeCondition = "NotAttributeCondition"
             case orExpression = "OrExpression"
         }
     }
@@ -11162,15 +11314,15 @@ extension Connect {
     public struct GetMetricDataV2Request: AWSEncodableShape {
         /// The timestamp, in UNIX Epoch time format, at which to end the reporting interval for the retrieval of historical metrics data. The time must be later than the start time timestamp. It cannot be later than the current timestamp.
         public let endTime: Date
-        /// The filters to apply to returned metrics. You can filter on the following resources:   Agents   Campaigns   Channels   Feature   Queues   Routing profiles   Routing step expression   User hierarchy groups   At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns analytics, you can also use campaigns to satisfy at least one filter requirement. To filter by phone number, see Create a historical metrics report in the Amazon Connect Administrator Guide. Note the following limits:    Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE |CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE | Q_CONNECT_ENABLED |     Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters.   contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics.  connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.  ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This filter is case and order sensitive. JSON string fields must be sorted in ascending order and JSON array order should be kept as is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that had Amazon Q in Connect enabled as part of the flow.   FALSE includes all contacts that did not have Amazon Q in Connect enabled as part of the flow   This filter is available only for contact record-driven metrics.   Campaign ARNs are valid filterValues for the CAMPAIGN filter key.
+        /// The filters to apply to returned metrics. You can filter on the following resources:   Agents   Campaigns   Channels   Feature   Queues   Routing profiles   Routing step expression   User hierarchy groups   At least one filter must be passed from queues, routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns analytics, you can also use campaigns to satisfy at least one filter requirement. To filter by phone number, see Create a historical metrics report in the Amazon Connect Administrator Guide. Note the following limits:    Filter keys: A maximum of 5 filter keys are supported in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE |CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | FEATURE | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_MODULE_RESOURCE_ID | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE | Q_CONNECT_ENABLED |     Filter values: A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100 filter values, along with 3 channel filters.   contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by Contact Lens conversational analytics.  connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.  ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This filter is case and order sensitive. JSON string fields must be sorted in ascending order and JSON array order should be kept as is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that had Amazon Q in Connect enabled as part of the flow.   FALSE includes all contacts that did not have Amazon Q in Connect enabled as part of the flow   This filter is available only for contact record-driven metrics.   Campaign ARNs are valid filterValues for the CAMPAIGN filter key.
         public let filters: [FilterV2]
-        /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION
+        /// The grouping applied to the metrics that are returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values that are returned apply to the metrics for each queue. They are not aggregated for all queues. If no grouping is specified, a summary of all metrics is returned. Valid grouping keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | BOT_ID | BOT_ALIAS | BOT_VERSION | BOT_LOCALE | BOT_INTENT_NAME | CAMPAIGN | CAMPAIGN_DELIVERY_EVENT_TYPE | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | EVALUATION_FORM | EVALUATION_SECTION | EVALUATION_QUESTION | EVALUATION_SOURCE | FLOWS_RESOURCE_ID | FLOWS_MODULE_RESOURCE_ID | FLOW_ACTION_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | FORM_VERSION | INITIATION_METHOD | INVOKING_RESOURCE_PUBLISHED_TIMESTAMP | INVOKING_RESOURCE_TYPE | PARENT_FLOWS_RESOURCE_ID | Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION  Type: Array of strings Array Members: Maximum number of 4 items Required: No
         public let groupings: [String]?
         /// The interval period and timezone to apply to returned metrics.    IntervalPeriod: An aggregated grouping applied to request metrics. Valid IntervalPeriod values are: FIFTEEN_MIN | THIRTY_MIN | HOUR | DAY | WEEK | TOTAL.  For example, if IntervalPeriod is selected THIRTY_MIN, StartTime and EndTime differs by 1 day, then Amazon Connect returns 48 results in the response. Each result is aggregated by the THIRTY_MIN period. By default Amazon Connect aggregates results based on the TOTAL interval period.  The following list describes restrictions on StartTime and EndTime based on which IntervalPeriod is requested.     FIFTEEN_MIN: The difference between StartTime and EndTime must be less than 3 days.    THIRTY_MIN: The difference between StartTime and EndTime must be less than 3 days.    HOUR: The difference between StartTime and EndTime must be less than 3 days.    DAY: The difference between StartTime and EndTime must be less than 35 days.    WEEK: The difference between StartTime and EndTime must be less than 35 days.    TOTAL: The difference between StartTime and EndTime must be less than 35 days.      TimeZone: The timezone applied to requested metrics.
         public let interval: IntervalDetails?
         /// The maximum number of results to return per page.
         public let maxResults: Int?
-        /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Historical metrics definitions in the Amazon Connect Administrator Guide.  ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time   Feature is a valid filter but not a valid grouping.   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email delivery mode.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: Campaign interactions   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: API contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| Incoming | Outbound | Transfer | Callback | Queue_Transfer| Disconnect    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Non-Productive Time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
+        /// The metrics to retrieve. Specify the name, groupings, and filters for each metric. The following historical metrics are available. For a description of each metric, see Historical metrics definitions in the Amazon Connect Administrator Guide.  ABANDONMENT_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Abandonment rate   AGENT_ADHERENT_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Adherent time   AGENT_ANSWER_RATE  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent answer rate   AGENT_NON_ADHERENT_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Non-adherent time   AGENT_NON_RESPONSE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy  UI name: Agent non-response   AGENT_NON_RESPONSE_WITHOUT_CUSTOMER_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy Data for this metric is available starting from October 1, 2023 0:00:00 GMT. UI name: Agent non-response without customer abandons   AGENT_OCCUPANCY  Unit: Percentage Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy  UI name: Occupancy   AGENT_SCHEDULE_ADHERENCE  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Adherence   AGENT_SCHEDULED_TIME  This metric is available only in Amazon Web Services Regions where Forecasting, capacity planning, and scheduling is available. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Scheduled time   AVG_ABANDON_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue abandon time   AVG_ACTIVE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average active time   AVG_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average after contact work time   Feature is a valid filter but not a valid grouping.   AVG_AGENT_CONNECTING_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD. For now, this metric only supports the following as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Average agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   AVG_AGENT_PAUSE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Average agent pause time   AVG_BOT_CONVERSATION_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation time   AVG_BOT_CONVERSATION_TURNS  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Average bot conversation turns   AVG_CASE_RELATED_CONTACTS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average contacts per case   AVG_CASE_RESOLUTION_TIME  Unit: Seconds Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Average case resolution time   AVG_CONTACT_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average contact duration   Feature is a valid filter but not a valid grouping.   AVG_CONVERSATION_DURATION  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign, Queue, Routing Profile UI name: Average dials per minute   AVG_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average agent evaluation score   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Average flow time   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent greeting time   AVG_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression UI name: Average handle time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time   Feature is a valid filter but not a valid grouping.   AVG_HOLD_TIME_ALL_CONTACTS  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer hold time all contacts   AVG_HOLDS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average holds   Feature is a valid filter but not a valid grouping.   AVG_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction and customer hold time   AVG_INTERACTION_TIME  Unit: Seconds Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interaction time   Feature is a valid filter but not a valid grouping.   AVG_INTERRUPTIONS_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruptions   AVG_INTERRUPTION_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent interruption time   AVG_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average non-talk time   AVG_QUEUE_ANSWER_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average queue answer time   Feature is a valid filter but not a valid grouping.   AVG_RESOLUTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average resolution time   AVG_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average talk time   AVG_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average agent talk time   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This metric is available only for outbound campaigns that use the agent assisted voice and automated voice delivery modes. Unit: Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer connection   AVG_WEIGHTED_EVALUATION_SCORE  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form Id, Evaluation Section ID, Evaluation Question ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Average weighted agent evaluation score   BOT_CONVERSATIONS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot conversations   BOT_INTENTS_COMPLETED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Bot intents completed   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Count Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric is available only for outbound campaigns using the agent assisted voice and automated voice delivery modes. Unit: Percent Valid groupings and filters: Agent, Campaign Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name: Campaign contacts abandoned after X rate   CAMPAIGN_INTERACTIONS  This metric is available only for outbound campaigns using the email delivery mode.  Unit: Count Valid metric filter key: CAMPAIGN_INTERACTION_EVENT_TYPE Valid groupings and filters: Campaign UI name: Campaign interactions   CAMPAIGN_SEND_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid groupings and filters: Campaign, Channel, contact/segmentAttributes/connect:Subtype  UI name: Campaign send attempts   CASES_CREATED  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: API contacts handled   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts handled (connected to agent timestamp)   CONTACTS_HOLD_ABANDONS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts hold disconnect   CONTACTS_ON_HOLD_AGENT_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold agent disconnect   CONTACTS_ON_HOLD_CUSTOMER_DISCONNECT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts hold customer disconnect   CONTACTS_PUT_ON_HOLD  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts put on hold   CONTACTS_TRANSFERRED_OUT_EXTERNAL  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out external   CONTACTS_TRANSFERRED_OUT_INTERNAL  Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contacts transferred out internal   CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts removed from queue in X seconds   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts resolved in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   DELIVERY_ATTEMPTS  This metric is available only for outbound campaigns. Unit: Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Campaign Delivery EventType, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempts   Campaign Delivery EventType filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    DELIVERY_ATTEMPT_DISPOSITION_RATE  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled. Unit: Percent Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, CAMPAIGN_DELIVERY_EVENT_TYPE, DISCONNECT_REASON  Valid groupings and filters: Agent, Answering Machine Detection Status, Campaign, Channel, contact/segmentAttributes/connect:Subtype, Disconnect Reason, Queue, Routing Profile UI name: Delivery attempt disposition rate   Campaign Delivery Event Type filter and grouping are only available for SMS and Email campaign delivery modes. Agent, Queue, Routing Profile, Answering Machine Detection Status and Disconnect Reason are only available for agent assisted voice and automated voice delivery modes.    EVALUATIONS_PERFORMED  Unit: Count Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Evaluations performed   FLOWS_OUTCOME  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows started   HUMAN_ANSWERED_CALLS  This metric is available only for outbound campaigns. Dispositions for the agent assisted voice and automated voice delivery modes are only available with answering machine detection enabled.  Unit: Count Valid groupings and filters: Agent, Campaign UI name: Human answered   MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Minimum flow time   PERCENT_AUTOMATIC_FAILS  Unit: Percent Valid groupings and filters: Agent, Agent Hierarchy, Channel, Evaluation Form ID, Evaluation Source, Form Version, Queue, Routing Profile UI name: Automatic fails percent   PERCENT_BOT_CONVERSATIONS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot conversations outcome   PERCENT_BOT_INTENTS_OUTCOME  Unit: Percent Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Bot ID, Bot alias, Bot version, Bot locale, Bot intent name, Flows resource ID, Flows module resource ID, Flow type, Flow action ID, Invoking resource published timestamp, Initiation method, Invoking resource type, Parent flows resource ID UI name: Percent bot intents outcome   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Agent talk time percent   PERCENT_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Customer talk time percent   REOPENED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases reopened   RESOLVED_CASE_ACTIONS  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved   SERVICE_LEVEL  You can include up to 20 SERVICE_LEVEL metrics in a request. Unit: Percent Valid groupings and filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API connecting time   The Negate key in metric-level filters is not applicable for this metric.   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| Incoming | Outbound | Transfer | Callback | Queue_Transfer| Disconnect    Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you can use LT (for "Less than") or LTE (for "Less than equal"). UI name: Contacts answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected   SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent interaction time   SUM_NON_PRODUCTIVE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Non-Productive Time   SUM_ONLINE_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile, Agent, Agent Hierarchy UI name: Online time   SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Callback attempts
         public let metrics: [MetricV2]
         /// The token for the next set of results. Use the value returned in the previous
         /// response in the next request to retrieve the next set of results.
@@ -12697,6 +12849,58 @@ extension Connect {
 
         @inlinable
         public init(nextToken: String? = nil, results: [AnalyticsDataAssociationResult]? = nil) {
+            self.nextToken = nextToken
+            self.results = results
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case results = "Results"
+        }
+    }
+
+    public struct ListAnalyticsDataLakeDataSetsRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.instanceId, key: "InstanceId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAnalyticsDataLakeDataSetsResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// An array of successful results: DataSetId, DataSetName. This is a paginated API, so nextToken is given if there are more results to be returned.
+        public let results: [AnalyticsDataSetsResult]?
+
+        @inlinable
+        public init(nextToken: String? = nil, results: [AnalyticsDataSetsResult]? = nil) {
             self.nextToken = nextToken
             self.results = results
         }
@@ -15714,7 +15918,7 @@ extension Connect {
     }
 
     public struct NotificationRecipientType: AWSEncodableShape & AWSDecodableShape {
-        /// A list of user IDs.
+        /// A list of user IDs. Supports variable injection of $.ContactLens.ContactEvaluation.Agent.AgentId for OnContactEvaluationSubmit event source.
         public let userIds: [String]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }. Amazon Connect users with the specified tags will be notified.
         public let userTags: [String: String]?
@@ -16756,6 +16960,31 @@ extension Connect {
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case quickConnectType = "QuickConnectType"
+        }
+    }
+
+    public struct Range: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum proficiency level of the range.
+        public let maxProficiencyLevel: Float?
+        /// The minimum proficiency level of the range.
+        public let minProficiencyLevel: Float?
+
+        @inlinable
+        public init(maxProficiencyLevel: Float? = nil, minProficiencyLevel: Float? = nil) {
+            self.maxProficiencyLevel = maxProficiencyLevel
+            self.minProficiencyLevel = minProficiencyLevel
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxProficiencyLevel, name: "maxProficiencyLevel", parent: name, max: 5.0)
+            try self.validate(self.maxProficiencyLevel, name: "maxProficiencyLevel", parent: name, min: 1.0)
+            try self.validate(self.minProficiencyLevel, name: "minProficiencyLevel", parent: name, max: 5.0)
+            try self.validate(self.minProficiencyLevel, name: "minProficiencyLevel", parent: name, min: 1.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxProficiencyLevel = "MaxProficiencyLevel"
+            case minProficiencyLevel = "MinProficiencyLevel"
         }
     }
 
@@ -18706,7 +18935,7 @@ extension Connect {
         public let maxResults: Int?
         /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
         public let nextToken: String?
-        /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types.  Supported resource types    AGENT   ROUTING_PROFILE   STANDARD_QUEUE   SECURITY_PROFILE   OPERATING_HOURS   PROMPT   CONTACT_FLOW   FLOW_MODULE
+        /// The list of resource types to be used to search tags from. If not provided or if any empty list is provided, this API will search from all supported resource types. Note that lowercase and - are required.  Supported resource types    agent   agent-state   routing-profile   standard-queue   security-profile   operating-hours   prompt   contact-flow   flow- module   transfer-destination (also known as quick connect)
         public let resourceTypes: [String]?
         /// The search criteria to be used to return tags.
         public let searchCriteria: ResourceTagsSearchCriteria?
@@ -18944,7 +19173,7 @@ extension Connect {
     }
 
     public struct SearchUsersRequest: AWSEncodableShape {
-        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.  InstanceID is a required field. The "Required: No" below is incorrect.
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -19770,7 +19999,7 @@ extension Connect {
         public let fileId: String?
         /// The current status of the attached file.
         public let fileStatus: FileStatusType?
-        /// Information to be used while uploading the attached file.
+        /// The headers to be provided while uploading the file to the URL.
         public let uploadUrlMetadata: UploadUrlMetadata?
 
         @inlinable
@@ -19802,6 +20031,8 @@ extension Connect {
         public let clientToken: String?
         /// The identifier of the flow for initiating the chat. To see the ContactFlowId in the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the flow. On the flow page, under the name of the flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
         public let contactFlowId: String
+        /// The customer's identification number. For example, the CustomerId may be a customer number from your CRM.
+        public let customerId: String?
         /// The initial message to be sent to the newly created chat. If you have a Lex bot in your flow, the initial message is not delivered to the Lex bot.
         public let initialMessage: ChatMessage?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
@@ -19818,11 +20049,12 @@ extension Connect {
         public let supportedMessagingContentTypes: [String]?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, initialMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails, persistentChat: PersistentChat? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, supportedMessagingContentTypes: [String]? = nil) {
+        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, customerId: String? = nil, initialMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails, persistentChat: PersistentChat? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, supportedMessagingContentTypes: [String]? = nil) {
             self.attributes = attributes
             self.chatDurationInMinutes = chatDurationInMinutes
             self.clientToken = clientToken
             self.contactFlowId = contactFlowId
+            self.customerId = customerId
             self.initialMessage = initialMessage
             self.instanceId = instanceId
             self.participantDetails = participantDetails
@@ -19842,6 +20074,8 @@ extension Connect {
             try self.validate(self.chatDurationInMinutes, name: "chatDurationInMinutes", parent: name, min: 60)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.validate(self.customerId, name: "customerId", parent: name, max: 128)
+            try self.validate(self.customerId, name: "customerId", parent: name, min: 1)
             try self.initialMessage?.validate(name: "\(name).initialMessage")
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
@@ -19865,6 +20099,7 @@ extension Connect {
             case chatDurationInMinutes = "ChatDurationInMinutes"
             case clientToken = "ClientToken"
             case contactFlowId = "ContactFlowId"
+            case customerId = "CustomerId"
             case initialMessage = "InitialMessage"
             case instanceId = "InstanceId"
             case participantDetails = "ParticipantDetails"
@@ -21894,7 +22129,7 @@ extension Connect {
     }
 
     public struct UpdateContactAttributesRequest: AWSEncodableShape {
-        /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. When the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:   Remove unnecessary attributes by setting their values to empty.   If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see Flow block: Set contact attributes in the Amazon Connect Administrator Guide.
+        /// The Amazon Connect attributes. These attributes can be accessed in flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters. In the Set contact attributes block, when the attributes for a contact exceed 32 KB, the contact is routed down the Error branch of the flow. As a mitigation, consider the following options:   Remove unnecessary attributes by setting their values to empty.   If the attributes are only used in one flow and don't need to be referred to outside of that flow (for example, by a Lambda or another flow), then use flow attributes. This way you aren't needlessly persisting the 32 KB of information from one flow to another. For more information, see Flow block: Set contact attributes in the Amazon Connect Administrator Guide.
         public let attributes: [String: String]
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
         public let initialContactId: String
@@ -22687,16 +22922,19 @@ extension Connect {
     }
 
     public struct UpdateInstanceAttributeRequest: AWSEncodableShape {
-        /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
+        /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web ServicesSupport for allowlisting.
         public let attributeType: InstanceAttributeType
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// The value for the attribute. Maximum character limit is 100.
         public let value: String
 
         @inlinable
-        public init(attributeType: InstanceAttributeType, instanceId: String, value: String) {
+        public init(attributeType: InstanceAttributeType, clientToken: String? = UpdateInstanceAttributeRequest.idempotencyToken(), instanceId: String, value: String) {
             self.attributeType = attributeType
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.value = value
         }
@@ -22705,11 +22943,13 @@ extension Connect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.attributeType, key: "AttributeType")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.instanceId, key: "InstanceId")
             try container.encode(self.value, forKey: .value)
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.value, name: "value", parent: name, max: 100)
@@ -22717,6 +22957,7 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case value = "Value"
         }
     }
@@ -22724,6 +22965,8 @@ extension Connect {
     public struct UpdateInstanceStorageConfigRequest: AWSEncodableShape {
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
+        public let clientToken: String?
         /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
         public let instanceId: String
         /// A valid resource type.
@@ -22731,8 +22974,9 @@ extension Connect {
         public let storageConfig: InstanceStorageConfig
 
         @inlinable
-        public init(associationId: String, instanceId: String, resourceType: InstanceStorageResourceType, storageConfig: InstanceStorageConfig) {
+        public init(associationId: String, clientToken: String? = UpdateInstanceStorageConfigRequest.idempotencyToken(), instanceId: String, resourceType: InstanceStorageResourceType, storageConfig: InstanceStorageConfig) {
             self.associationId = associationId
+            self.clientToken = clientToken
             self.instanceId = instanceId
             self.resourceType = resourceType
             self.storageConfig = storageConfig
@@ -22742,6 +22986,7 @@ extension Connect {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.associationId, key: "AssociationId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             request.encodePath(self.instanceId, key: "InstanceId")
             request.encodeQuery(self.resourceType, key: "resourceType")
             try container.encode(self.storageConfig, forKey: .storageConfig)
@@ -22750,14 +22995,65 @@ extension Connect {
         public func validate(name: String) throws {
             try self.validate(self.associationId, name: "associationId", parent: name, max: 100)
             try self.validate(self.associationId, name: "associationId", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.storageConfig.validate(name: "\(name).storageConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case storageConfig = "StorageConfig"
         }
+    }
+
+    public struct UpdateParticipantAuthenticationRequest: AWSEncodableShape {
+        /// The code query parameter provided by Cognito in the redirectUri.
+        public let code: String?
+        /// The error query parameter provided by Cognito in the redirectUri.
+        public let error: String?
+        /// The error_description parameter provided by Cognito in the redirectUri.
+        public let errorDescription: String?
+        /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+        public let instanceId: String
+        /// The state query parameter that was provided by Cognito in the redirectUri. This will also match the state parameter provided in the AuthenticationUrl from the GetAuthenticationUrl response.
+        public let state: String
+
+        @inlinable
+        public init(code: String? = nil, error: String? = nil, errorDescription: String? = nil, instanceId: String, state: String) {
+            self.code = code
+            self.error = error
+            self.errorDescription = errorDescription
+            self.instanceId = instanceId
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 2048)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
+            try self.validate(self.error, name: "error", parent: name, max: 2048)
+            try self.validate(self.error, name: "error", parent: name, min: 1)
+            try self.validate(self.error, name: "error", parent: name, pattern: "^[\\x20-\\x21\\x23-\\x5B\\x5D-\\x7E]*$")
+            try self.validate(self.errorDescription, name: "errorDescription", parent: name, max: 2048)
+            try self.validate(self.errorDescription, name: "errorDescription", parent: name, min: 1)
+            try self.validate(self.errorDescription, name: "errorDescription", parent: name, pattern: "^[\\x20-\\x21\\x23-\\x5B\\x5D-\\x7E]*$")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.state, name: "state", parent: name, max: 1000)
+            try self.validate(self.state, name: "state", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case error = "Error"
+            case errorDescription = "ErrorDescription"
+            case instanceId = "InstanceId"
+            case state = "State"
+        }
+    }
+
+    public struct UpdateParticipantAuthenticationResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateParticipantRoleConfigRequest: AWSEncodableShape {
@@ -25020,7 +25316,7 @@ extension Connect {
     }
 
     public struct VoiceRecordingConfiguration: AWSEncodableShape {
-        /// Identifies which IVR track is being recorded.
+        /// Identifies which IVR track is being recorded. One and only one of the track configurations should be presented in the request.
         public let ivrRecordingTrack: IvrRecordingTrack?
         /// Identifies which track is being recorded.
         public let voiceRecordingTrack: VoiceRecordingTrack?
