@@ -80,6 +80,76 @@ public struct BedrockAgentRuntime: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a new invocation within a session. An invocation groups the related invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions. Related APIs    ListInvocations     ListSessions     GetSession
+    @Sendable
+    @inlinable
+    public func createInvocation(_ input: CreateInvocationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInvocationResponse {
+        try await self.client.execute(
+            operation: "CreateInvocation", 
+            path: "/sessions/{sessionIdentifier}/invocations/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new invocation within a session. An invocation groups the related invocation steps that store the content from a conversation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions. Related APIs    ListInvocations     ListSessions     GetSession
+    ///
+    /// Parameters:
+    ///   - description: A description for the interactions in the invocation. For example, "User asking about weather in Seattle".
+    ///   - invocationId: A unique identifier for the invocation in UUID format.
+    ///   - sessionIdentifier: The unique identifier for the associated session for the invocation. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createInvocation(
+        description: String? = nil,
+        invocationId: String? = nil,
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateInvocationResponse {
+        let input = CreateInvocationRequest(
+            description: description, 
+            invocationId: invocationId, 
+            sessionIdentifier: sessionIdentifier
+        )
+        return try await self.createInvocation(input, logger: logger)
+    }
+
+    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks.  For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the  InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
+    @Sendable
+    @inlinable
+    public func createSession(_ input: CreateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSessionResponse {
+        try await self.client.execute(
+            operation: "CreateSession", 
+            path: "/sessions/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks.  For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the  InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
+    ///
+    /// Parameters:
+    ///   - encryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key to use to encrypt the session data. The user or role creating the session must have permission to use the key. For more information, see Amazon Bedrock session encryption.
+    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example, the user's ID, their language preference,  and the type of device they are using.
+    ///   - tags: Specify the key-value pairs for the tags that you want to attach to the session.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSession(
+        encryptionKeyArn: String? = nil,
+        sessionMetadata: [String: String]? = nil,
+        tags: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSessionResponse {
+        let input = CreateSessionRequest(
+            encryptionKeyArn: encryptionKeyArn, 
+            sessionMetadata: sessionMetadata, 
+            tags: tags
+        )
+        return try await self.createSession(input, logger: logger)
+    }
+
     /// Deletes memory from the specified memory identifier.
     @Sendable
     @inlinable
@@ -99,20 +169,81 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - agentAliasId: The unique identifier of an alias of an agent.
     ///   - agentId: The unique identifier of the agent to which the alias belongs.
     ///   - memoryId: The unique identifier of the memory.
+    ///   - sessionId: The unique session identifier of the memory.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteAgentMemory(
         agentAliasId: String,
         agentId: String,
         memoryId: String? = nil,
+        sessionId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteAgentMemoryResponse {
         let input = DeleteAgentMemoryRequest(
             agentAliasId: agentAliasId, 
             agentId: agentId, 
-            memoryId: memoryId
+            memoryId: memoryId, 
+            sessionId: sessionId
         )
         return try await self.deleteAgentMemory(input, logger: logger)
+    }
+
+    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the  EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    @Sendable
+    @inlinable
+    public func deleteSession(_ input: DeleteSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSessionResponse {
+        try await self.client.execute(
+            operation: "DeleteSession", 
+            path: "/sessions/{sessionIdentifier}/", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the  EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    ///
+    /// Parameters:
+    ///   - sessionIdentifier: The unique identifier for the session to be deleted. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSession(
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSessionResponse {
+        let input = DeleteSessionRequest(
+            sessionIdentifier: sessionIdentifier
+        )
+        return try await self.deleteSession(input, logger: logger)
+    }
+
+    /// Ends the session.  After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    @Sendable
+    @inlinable
+    public func endSession(_ input: EndSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EndSessionResponse {
+        try await self.client.execute(
+            operation: "EndSession", 
+            path: "/sessions/{sessionIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Ends the session.  After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    ///
+    /// Parameters:
+    ///   - sessionIdentifier: The unique identifier for the session to end. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func endSession(
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EndSessionResponse {
+        let input = EndSessionRequest(
+            sessionIdentifier: sessionIdentifier
+        )
+        return try await self.endSession(input, logger: logger)
     }
 
     /// Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide.
@@ -191,7 +322,71 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.getAgentMemory(input, logger: logger)
     }
 
-    ///  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeAgent.  Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response is returned in the bytes field of the chunk object.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
+    /// Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    @Sendable
+    @inlinable
+    public func getInvocationStep(_ input: GetInvocationStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvocationStepResponse {
+        try await self.client.execute(
+            operation: "GetInvocationStep", 
+            path: "/sessions/{sessionIdentifier}/invocationSteps/{invocationStepId}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    ///
+    /// Parameters:
+    ///   - invocationIdentifier: The unique identifier for the invocation in UUID format.
+    ///   - invocationStepId: The unique identifier (in UUID format) for the specific invocation step to retrieve.
+    ///   - sessionIdentifier: The unique identifier for the invocation step's associated session. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getInvocationStep(
+        invocationIdentifier: String,
+        invocationStepId: String,
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetInvocationStepResponse {
+        let input = GetInvocationStepRequest(
+            invocationIdentifier: invocationIdentifier, 
+            invocationStepId: invocationStepId, 
+            sessionIdentifier: sessionIdentifier
+        )
+        return try await self.getInvocationStep(input, logger: logger)
+    }
+
+    /// Retrieves details about a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    @Sendable
+    @inlinable
+    public func getSession(_ input: GetSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetSessionResponse {
+        try await self.client.execute(
+            operation: "GetSession", 
+            path: "/sessions/{sessionIdentifier}/", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves details about a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    ///
+    /// Parameters:
+    ///   - sessionIdentifier: A unique identifier for the session to retrieve. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getSession(
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetSessionResponse {
+        let input = GetSessionRequest(
+            sessionIdentifier: sessionIdentifier
+        )
+        return try await self.getSession(input, logger: logger)
+    }
+
+    ///   Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   To stream agent responses, make sure that only orchestration prompt is enabled. Agent streaming is not supported for the following steps:     Pre-processing     Post-processing    Agent with 1 Knowledge base and User Input not enabled     End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response contains both chunk and trace attributes. The final response is returned in the bytes field of the chunk object. The InvokeAgent returns one chunk for the entire interaction.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
     @Sendable
     @inlinable
     public func invokeAgent(_ input: InvokeAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeAgentResponse {
@@ -204,11 +399,12 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    ///  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeAgent.  Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response is returned in the bytes field of the chunk object.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
+    ///   Sends a prompt for the agent to process and respond to. Note the following fields for the request:   To continue the same conversation with an agent, use the same sessionId value in the request.   To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see Trace enablement.   To stream agent responses, make sure that only orchestration prompt is enabled. Agent streaming is not supported for the following steps:     Pre-processing     Post-processing    Agent with 1 Knowledge base and User Input not enabled     End a conversation by setting endSession to true.   In the sessionState object, you can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group.   The response contains both chunk and trace attributes. The final response is returned in the bytes field of the chunk object. The InvokeAgent returns one chunk for the entire interaction.   The attribution object contains citations for parts of the response.   If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.   If the action predicted was configured to return control, the response returns parameters for the action, elicited from the user, in the returnControl field.   Errors are also surfaced in the response.
     ///
     /// Parameters:
     ///   - agentAliasId: The alias of the agent to use.
     ///   - agentId: The unique identifier of the agent to use.
+    ///   - bedrockModelConfigurations: Model performance settings for the request.
     ///   - enableTrace: Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Trace enablement.
     ///   - endSession: Specifies whether to end the session with the agent or not.
     ///   - inputText: The prompt text to send the agent.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
@@ -216,12 +412,13 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - sessionId: The unique identifier of the session. Use the same value across requests to continue the same conversation.
     ///   - sessionState: Contains parameters that specify various attributes of the session. For more information, see Control session context.  If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
     ///   - sourceArn: The ARN of the resource making the request.
-    ///   - streamingConfigurations:  Specifies the configurations for streaming.
+    ///   - streamingConfigurations:  Specifies the configurations for streaming.   To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeAgent(
         agentAliasId: String,
         agentId: String,
+        bedrockModelConfigurations: BedrockModelConfigurations? = nil,
         enableTrace: Bool? = nil,
         endSession: Bool? = nil,
         inputText: String? = nil,
@@ -235,6 +432,7 @@ public struct BedrockAgentRuntime: AWSService {
         let input = InvokeAgentRequest(
             agentAliasId: agentAliasId, 
             agentId: agentId, 
+            bedrockModelConfigurations: bedrockModelConfigurations, 
             enableTrace: enableTrace, 
             endSession: endSession, 
             inputText: inputText, 
@@ -264,28 +462,34 @@ public struct BedrockAgentRuntime: AWSService {
     ///
     /// Parameters:
     ///   - enableTrace: Specifies whether to return the trace for the flow or not. Traces track inputs and outputs for nodes in the flow. For more information, see Track each step in your prompt flow by viewing its trace in Amazon Bedrock.
+    ///   - executionId: The unique identifier for the current flow execution. If you don't provide a value, Amazon Bedrock creates the identifier for you.
     ///   - flowAliasIdentifier: The unique identifier of the flow alias.
     ///   - flowIdentifier: The unique identifier of the flow.
     ///   - inputs: A list of objects, each containing information about an input into the flow.
+    ///   - modelPerformanceConfiguration: Model performance settings for the request.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeFlow(
         enableTrace: Bool? = nil,
+        executionId: String? = nil,
         flowAliasIdentifier: String,
         flowIdentifier: String,
         inputs: [FlowInput],
+        modelPerformanceConfiguration: ModelPerformanceConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeFlowResponse {
         let input = InvokeFlowRequest(
             enableTrace: enableTrace, 
+            executionId: executionId, 
             flowAliasIdentifier: flowAliasIdentifier, 
             flowIdentifier: flowIdentifier, 
-            inputs: inputs
+            inputs: inputs, 
+            modelPerformanceConfiguration: modelPerformanceConfiguration
         )
         return try await self.invokeFlow(input, logger: logger)
     }
 
-    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.    The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeInlineAgent.
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     @Sendable
     @inlinable
     public func invokeInlineAgent(_ input: InvokeInlineAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeInlineAgentResponse {
@@ -298,10 +502,11 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.    The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeInlineAgent.
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     ///
     /// Parameters:
     ///   - actionGroups:  A list of action groups with each action group defining the action the inline agent needs to carry out.
+    ///   - bedrockModelConfigurations: Model settings for the request.
     ///   - customerEncryptionKeyArn:  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
     ///   - enableTrace:  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
     ///   - endSession:  Specifies whether to end the session with the inline agent or not.
@@ -314,10 +519,12 @@ public struct BedrockAgentRuntime: AWSService {
     ///   - knowledgeBases:  Contains information of the knowledge bases to associate with.
     ///   - promptOverrideConfiguration:  Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
     ///   - sessionId:  The unique identifier of the session. Use the same value across requests to continue the same conversation.
+    ///   - streamingConfigurations:  Specifies the configurations for streaming.   To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeInlineAgent(
         actionGroups: [AgentActionGroup]? = nil,
+        bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil,
         customerEncryptionKeyArn: String? = nil,
         enableTrace: Bool? = nil,
         endSession: Bool? = nil,
@@ -330,10 +537,12 @@ public struct BedrockAgentRuntime: AWSService {
         knowledgeBases: [KnowledgeBase]? = nil,
         promptOverrideConfiguration: PromptOverrideConfiguration? = nil,
         sessionId: String,
+        streamingConfigurations: StreamingConfigurations? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeInlineAgentResponse {
         let input = InvokeInlineAgentRequest(
             actionGroups: actionGroups, 
+            bedrockModelConfigurations: bedrockModelConfigurations, 
             customerEncryptionKeyArn: customerEncryptionKeyArn, 
             enableTrace: enableTrace, 
             endSession: endSession, 
@@ -345,9 +554,144 @@ public struct BedrockAgentRuntime: AWSService {
             instruction: instruction, 
             knowledgeBases: knowledgeBases, 
             promptOverrideConfiguration: promptOverrideConfiguration, 
-            sessionId: sessionId
+            sessionId: sessionId, 
+            streamingConfigurations: streamingConfigurations
         )
         return try await self.invokeInlineAgent(input, logger: logger)
+    }
+
+    /// Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    @Sendable
+    @inlinable
+    public func listInvocationSteps(_ input: ListInvocationStepsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvocationStepsResponse {
+        try await self.client.execute(
+            operation: "ListInvocationSteps", 
+            path: "/sessions/{sessionIdentifier}/invocationSteps/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    ///
+    /// Parameters:
+    ///   - invocationIdentifier: The unique identifier (in UUID format) for the invocation to list invocation steps for.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - sessionIdentifier: The unique identifier for the session associated with the invocation steps. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInvocationSteps(
+        invocationIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInvocationStepsResponse {
+        let input = ListInvocationStepsRequest(
+            invocationIdentifier: invocationIdentifier, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sessionIdentifier: sessionIdentifier
+        )
+        return try await self.listInvocationSteps(input, logger: logger)
+    }
+
+    /// Lists all invocations associated with a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    @Sendable
+    @inlinable
+    public func listInvocations(_ input: ListInvocationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvocationsResponse {
+        try await self.client.execute(
+            operation: "ListInvocations", 
+            path: "/sessions/{sessionIdentifier}/invocations/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all invocations associated with a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - sessionIdentifier: The unique identifier for the session to list invocations for. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInvocations(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInvocationsResponse {
+        let input = ListInvocationsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sessionIdentifier: sessionIdentifier
+        )
+        return try await self.listInvocations(input, logger: logger)
+    }
+
+    /// Lists all sessions in your Amazon Web Services account. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    @Sendable
+    @inlinable
+    public func listSessions(_ input: ListSessionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSessionsResponse {
+        try await self.client.execute(
+            operation: "ListSessions", 
+            path: "/sessions/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists all sessions in your Amazon Web Services account. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxResults value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSessions(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSessionsResponse {
+        let input = ListSessionsRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSessions(input, logger: logger)
+    }
+
+    /// List all the tags for the resource you specify.
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all the tags for the resource you specify.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which to list tags.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceArn: resourceArn
+        )
+        return try await self.listTagsForResource(input, logger: logger)
     }
 
     /// Optimizes a prompt for the task that you specify. For more information, see Optimize a prompt in the Amazon Bedrock User Guide.
@@ -380,6 +724,47 @@ public struct BedrockAgentRuntime: AWSService {
             targetModelId: targetModelId
         )
         return try await self.optimizePrompt(input, logger: logger)
+    }
+
+    /// Add an invocation step to an invocation in a session. An invocation step stores fine-grained state checkpoints, including text and images, for each interaction. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions. Related APIs:    GetInvocationStep     ListInvocationSteps     ListInvocations     ListSessions
+    @Sendable
+    @inlinable
+    public func putInvocationStep(_ input: PutInvocationStepRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutInvocationStepResponse {
+        try await self.client.execute(
+            operation: "PutInvocationStep", 
+            path: "/sessions/{sessionIdentifier}/invocationSteps/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Add an invocation step to an invocation in a session. An invocation step stores fine-grained state checkpoints, including text and images, for each interaction. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions. Related APIs:    GetInvocationStep     ListInvocationSteps     ListInvocations     ListSessions
+    ///
+    /// Parameters:
+    ///   - invocationIdentifier: The unique identifier (in UUID format) of the invocation to add the invocation step to.
+    ///   - invocationStepId: The unique identifier of the invocation step in UUID format.
+    ///   - invocationStepTime: The timestamp for when the invocation step occurred.
+    ///   - payload: The payload for the invocation step, including text and images for the interaction.
+    ///   - sessionIdentifier: The unique identifier for the session to add the invocation step to. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putInvocationStep(
+        invocationIdentifier: String,
+        invocationStepId: String? = nil,
+        invocationStepTime: Date,
+        payload: InvocationStepPayload,
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutInvocationStepResponse {
+        let input = PutInvocationStepRequest(
+            invocationIdentifier: invocationIdentifier, 
+            invocationStepId: invocationStepId, 
+            invocationStepTime: invocationStepTime, 
+            payload: payload, 
+            sessionIdentifier: sessionIdentifier
+        )
+        return try await self.putInvocationStep(input, logger: logger)
     }
 
     /// Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model.
@@ -499,7 +884,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.retrieveAndGenerate(input, logger: logger)
     }
 
-    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.
+    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  This operation requires permission for the  bedrock:RetrieveAndGenerate action.
     @Sendable
     @inlinable
     public func retrieveAndGenerateStream(_ input: RetrieveAndGenerateStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RetrieveAndGenerateStreamResponse {
@@ -512,7 +897,7 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.
+    /// Queries a knowledge base and generates responses based on the retrieved results, with output in streaming format.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  This operation requires permission for the  bedrock:RetrieveAndGenerate action.
     ///
     /// Parameters:
     ///   - input: Contains the query to be made to the knowledge base.
@@ -535,6 +920,102 @@ public struct BedrockAgentRuntime: AWSService {
             sessionId: sessionId
         )
         return try await self.retrieveAndGenerateStream(input, logger: logger)
+    }
+
+    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to tag.
+    ///   - tags: An object containing key-value pairs that define the tags to attach to the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceArn: String,
+        tags: [String: String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceArn: resourceArn, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Remove tags from a resource.
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/tags/{resourceArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Remove tags from a resource.
+    ///
+    /// Parameters:
+    ///   - resourceArn: The Amazon Resource Name (ARN) of the resource from which to remove tags.
+    ///   - tagKeys: A list of keys of the tags to remove from the resource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceArn: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceArn: resourceArn, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates the metadata or encryption settings of a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    @Sendable
+    @inlinable
+    public func updateSession(_ input: UpdateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSessionResponse {
+        try await self.client.execute(
+            operation: "UpdateSession", 
+            path: "/sessions/{sessionIdentifier}/", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the metadata or encryption settings of a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    ///
+    /// Parameters:
+    ///   - sessionIdentifier: The unique identifier of the session to modify. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language preference,  and the type of device they are using.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSession(
+        sessionIdentifier: String,
+        sessionMetadata: [String: String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSessionResponse {
+        let input = UpdateSessionRequest(
+            sessionIdentifier: sessionIdentifier, 
+            sessionMetadata: sessionMetadata
+        )
+        return try await self.updateSession(input, logger: logger)
     }
 }
 
@@ -595,6 +1076,117 @@ extension BedrockAgentRuntime {
             memoryType: memoryType
         )
         return self.getAgentMemoryPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listInvocationSteps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvocationStepsPaginator(
+        _ input: ListInvocationStepsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInvocationStepsRequest, ListInvocationStepsResponse> {
+        return .init(
+            input: input,
+            command: self.listInvocationSteps,
+            inputKey: \ListInvocationStepsRequest.nextToken,
+            outputKey: \ListInvocationStepsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInvocationSteps(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - invocationIdentifier: The unique identifier (in UUID format) for the invocation to list invocation steps for.
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - sessionIdentifier: The unique identifier for the session associated with the invocation steps. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvocationStepsPaginator(
+        invocationIdentifier: String? = nil,
+        maxResults: Int? = nil,
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInvocationStepsRequest, ListInvocationStepsResponse> {
+        let input = ListInvocationStepsRequest(
+            invocationIdentifier: invocationIdentifier, 
+            maxResults: maxResults, 
+            sessionIdentifier: sessionIdentifier
+        )
+        return self.listInvocationStepsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listInvocations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvocationsPaginator(
+        _ input: ListInvocationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInvocationsRequest, ListInvocationsResponse> {
+        return .init(
+            input: input,
+            command: self.listInvocations,
+            inputKey: \ListInvocationsRequest.nextToken,
+            outputKey: \ListInvocationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInvocations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - sessionIdentifier: The unique identifier for the session to list invocations for. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvocationsPaginator(
+        maxResults: Int? = nil,
+        sessionIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInvocationsRequest, ListInvocationsResponse> {
+        let input = ListInvocationsRequest(
+            maxResults: maxResults, 
+            sessionIdentifier: sessionIdentifier
+        )
+        return self.listInvocationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSessionsPaginator(
+        _ input: ListSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSessionsRequest, ListSessionsResponse> {
+        return .init(
+            input: input,
+            command: self.listSessions,
+            inputKey: \ListSessionsRequest.nextToken,
+            outputKey: \ListSessionsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSessions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSessionsPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSessionsRequest, ListSessionsResponse> {
+        let input = ListSessionsRequest(
+            maxResults: maxResults
+        )
+        return self.listSessionsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``rerank(_:logger:)``.
@@ -690,6 +1282,39 @@ extension BedrockAgentRuntime.GetAgentMemoryRequest: AWSPaginateToken {
             maxItems: self.maxItems,
             memoryId: self.memoryId,
             memoryType: self.memoryType,
+            nextToken: token
+        )
+    }
+}
+
+extension BedrockAgentRuntime.ListInvocationStepsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentRuntime.ListInvocationStepsRequest {
+        return .init(
+            invocationIdentifier: self.invocationIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionIdentifier: self.sessionIdentifier
+        )
+    }
+}
+
+extension BedrockAgentRuntime.ListInvocationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentRuntime.ListInvocationsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sessionIdentifier: self.sessionIdentifier
+        )
+    }
+}
+
+extension BedrockAgentRuntime.ListSessionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> BedrockAgentRuntime.ListSessionsRequest {
+        return .init(
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

@@ -102,6 +102,12 @@ extension Transfer {
         public var description: String { return self.rawValue }
     }
 
+    public enum EnforceMessageSigningType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExecutionErrorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alreadyExists = "ALREADY_EXISTS"
         case badRequest = "BAD_REQUEST"
@@ -161,6 +167,18 @@ extension Transfer {
     public enum OverwriteExisting: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `false` = "FALSE"
         case `true` = "TRUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreserveContentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PreserveFilenameType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -266,11 +284,13 @@ extension Transfer {
         public let messageSubject: String?
         /// A unique identifier for the partner profile for the connector.
         public let partnerProfileId: String?
+        /// Allows you to use the Amazon S3 Content-Type that is associated with objects in S3 instead of having the content type mapped based on the file extension. This parameter is enabled by default when you create an AS2 connector from the console, but disabled by default when you create an AS2 connector by calling the API directly.
+        public let preserveContentType: PreserveContentType?
         /// The algorithm that is used to sign the AS2 messages sent with the connector.
         public let signingAlgorithm: SigningAlg?
 
         @inlinable
-        public init(basicAuthSecretId: String? = nil, compression: CompressionEnum? = nil, encryptionAlgorithm: EncryptionAlg? = nil, localProfileId: String? = nil, mdnResponse: MdnResponse? = nil, mdnSigningAlgorithm: MdnSigningAlg? = nil, messageSubject: String? = nil, partnerProfileId: String? = nil, signingAlgorithm: SigningAlg? = nil) {
+        public init(basicAuthSecretId: String? = nil, compression: CompressionEnum? = nil, encryptionAlgorithm: EncryptionAlg? = nil, localProfileId: String? = nil, mdnResponse: MdnResponse? = nil, mdnSigningAlgorithm: MdnSigningAlg? = nil, messageSubject: String? = nil, partnerProfileId: String? = nil, preserveContentType: PreserveContentType? = nil, signingAlgorithm: SigningAlg? = nil) {
             self.basicAuthSecretId = basicAuthSecretId
             self.compression = compression
             self.encryptionAlgorithm = encryptionAlgorithm
@@ -279,6 +299,7 @@ extension Transfer {
             self.mdnSigningAlgorithm = mdnSigningAlgorithm
             self.messageSubject = messageSubject
             self.partnerProfileId = partnerProfileId
+            self.preserveContentType = preserveContentType
             self.signingAlgorithm = signingAlgorithm
         }
 
@@ -304,6 +325,7 @@ extension Transfer {
             case mdnSigningAlgorithm = "MdnSigningAlgorithm"
             case messageSubject = "MessageSubject"
             case partnerProfileId = "PartnerProfileId"
+            case preserveContentType = "PreserveContentType"
             case signingAlgorithm = "SigningAlgorithm"
         }
     }
@@ -452,13 +474,19 @@ extension Transfer {
         /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public let accessRole: String
         /// The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /amzn-s3-demo-bucket/home/mydirectory.
-        public let baseDirectory: String
+        public let baseDirectory: String?
+        /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.   Failed files   MDN files   Payload files   Status files   Temporary files
+        public let customDirectories: CustomDirectoriesType?
         /// A name or short description to identify the agreement.
         public let description: String?
+        ///  Determines whether or not unsigned messages from your trading partners will be accepted.     ENABLED: Transfer Family rejects unsigned messages from your trading partner.    DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
+        public let enforceMessageSigning: EnforceMessageSigningType?
         /// A unique identifier for the AS2 local profile.
         public let localProfileId: String
         /// A unique identifier for the partner profile used in the agreement.
         public let partnerProfileId: String
+        ///  Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.     ENABLED: the filename provided by your trading parter is preserved when the file is saved.    DISABLED (default value): when Transfer Family  saves the file, the filename is adjusted, as described in File names and locations.
+        public let preserveFilename: PreserveFilenameType?
         /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
         public let serverId: String
         /// The status of the agreement. The agreement can be either ACTIVE or INACTIVE.
@@ -467,12 +495,15 @@ extension Transfer {
         public let tags: [Tag]?
 
         @inlinable
-        public init(accessRole: String, baseDirectory: String, description: String? = nil, localProfileId: String, partnerProfileId: String, serverId: String, status: AgreementStatusType? = nil, tags: [Tag]? = nil) {
+        public init(accessRole: String, baseDirectory: String? = nil, customDirectories: CustomDirectoriesType? = nil, description: String? = nil, enforceMessageSigning: EnforceMessageSigningType? = nil, localProfileId: String, partnerProfileId: String, preserveFilename: PreserveFilenameType? = nil, serverId: String, status: AgreementStatusType? = nil, tags: [Tag]? = nil) {
             self.accessRole = accessRole
             self.baseDirectory = baseDirectory
+            self.customDirectories = customDirectories
             self.description = description
+            self.enforceMessageSigning = enforceMessageSigning
             self.localProfileId = localProfileId
             self.partnerProfileId = partnerProfileId
+            self.preserveFilename = preserveFilename
             self.serverId = serverId
             self.status = status
             self.tags = tags
@@ -484,6 +515,7 @@ extension Transfer {
             try self.validate(self.accessRole, name: "accessRole", parent: name, pattern: "^arn:.*role/\\S+$")
             try self.validate(self.baseDirectory, name: "baseDirectory", parent: name, max: 1024)
             try self.validate(self.baseDirectory, name: "baseDirectory", parent: name, pattern: "^(|/.*)$")
+            try self.customDirectories?.validate(name: "\(name).customDirectories")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
@@ -506,9 +538,12 @@ extension Transfer {
         private enum CodingKeys: String, CodingKey {
             case accessRole = "AccessRole"
             case baseDirectory = "BaseDirectory"
+            case customDirectories = "CustomDirectories"
             case description = "Description"
+            case enforceMessageSigning = "EnforceMessageSigning"
             case localProfileId = "LocalProfileId"
             case partnerProfileId = "PartnerProfileId"
+            case preserveFilename = "PreserveFilename"
             case serverId = "ServerId"
             case status = "Status"
             case tags = "Tags"
@@ -981,6 +1016,49 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case workflowId = "WorkflowId"
+        }
+    }
+
+    public struct CustomDirectoriesType: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies a location to store failed AS2 message files.
+        public let failedFilesDirectory: String
+        /// Specifies a location to store MDN files.
+        public let mdnFilesDirectory: String
+        /// Specifies a location to store the payload for AS2 message files.
+        public let payloadFilesDirectory: String
+        /// Specifies a location to store AS2 status messages.
+        public let statusFilesDirectory: String
+        /// Specifies a location to store temporary AS2 message files.
+        public let temporaryFilesDirectory: String
+
+        @inlinable
+        public init(failedFilesDirectory: String, mdnFilesDirectory: String, payloadFilesDirectory: String, statusFilesDirectory: String, temporaryFilesDirectory: String) {
+            self.failedFilesDirectory = failedFilesDirectory
+            self.mdnFilesDirectory = mdnFilesDirectory
+            self.payloadFilesDirectory = payloadFilesDirectory
+            self.statusFilesDirectory = statusFilesDirectory
+            self.temporaryFilesDirectory = temporaryFilesDirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.failedFilesDirectory, name: "failedFilesDirectory", parent: name, max: 1024)
+            try self.validate(self.failedFilesDirectory, name: "failedFilesDirectory", parent: name, pattern: "^(|/.*)$")
+            try self.validate(self.mdnFilesDirectory, name: "mdnFilesDirectory", parent: name, max: 1024)
+            try self.validate(self.mdnFilesDirectory, name: "mdnFilesDirectory", parent: name, pattern: "^(|/.*)$")
+            try self.validate(self.payloadFilesDirectory, name: "payloadFilesDirectory", parent: name, max: 1024)
+            try self.validate(self.payloadFilesDirectory, name: "payloadFilesDirectory", parent: name, pattern: "^(|/.*)$")
+            try self.validate(self.statusFilesDirectory, name: "statusFilesDirectory", parent: name, max: 1024)
+            try self.validate(self.statusFilesDirectory, name: "statusFilesDirectory", parent: name, pattern: "^(|/.*)$")
+            try self.validate(self.temporaryFilesDirectory, name: "temporaryFilesDirectory", parent: name, max: 1024)
+            try self.validate(self.temporaryFilesDirectory, name: "temporaryFilesDirectory", parent: name, pattern: "^(|/.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedFilesDirectory = "FailedFilesDirectory"
+            case mdnFilesDirectory = "MdnFilesDirectory"
+            case payloadFilesDirectory = "PayloadFilesDirectory"
+            case statusFilesDirectory = "StatusFilesDirectory"
+            case temporaryFilesDirectory = "TemporaryFilesDirectory"
         }
     }
 
@@ -1900,12 +1978,18 @@ extension Transfer {
         public let arn: String
         /// The landing directory (folder) for files that are transferred by using the AS2 protocol.
         public let baseDirectory: String?
+        /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.   Failed files   MDN files   Payload files   Status files   Temporary files
+        public let customDirectories: CustomDirectoriesType?
         /// The name or short description that's used to identify the agreement.
         public let description: String?
+        ///  Determines whether or not unsigned messages from your trading partners will be accepted.     ENABLED: Transfer Family rejects unsigned messages from your trading partner.    DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
+        public let enforceMessageSigning: EnforceMessageSigningType?
         /// A unique identifier for the AS2 local profile.
         public let localProfileId: String?
         /// A unique identifier for the partner profile used in the agreement.
         public let partnerProfileId: String?
+        ///  Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.     ENABLED: the filename provided by your trading parter is preserved when the file is saved.    DISABLED (default value): when Transfer Family  saves the file, the filename is adjusted, as described in File names and locations.
+        public let preserveFilename: PreserveFilenameType?
         /// A system-assigned unique identifier for a server instance. This identifier indicates the specific server that the agreement uses.
         public let serverId: String?
         /// The current status of the agreement, either ACTIVE or INACTIVE.
@@ -1914,14 +1998,17 @@ extension Transfer {
         public let tags: [Tag]?
 
         @inlinable
-        public init(accessRole: String? = nil, agreementId: String? = nil, arn: String, baseDirectory: String? = nil, description: String? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, serverId: String? = nil, status: AgreementStatusType? = nil, tags: [Tag]? = nil) {
+        public init(accessRole: String? = nil, agreementId: String? = nil, arn: String, baseDirectory: String? = nil, customDirectories: CustomDirectoriesType? = nil, description: String? = nil, enforceMessageSigning: EnforceMessageSigningType? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, preserveFilename: PreserveFilenameType? = nil, serverId: String? = nil, status: AgreementStatusType? = nil, tags: [Tag]? = nil) {
             self.accessRole = accessRole
             self.agreementId = agreementId
             self.arn = arn
             self.baseDirectory = baseDirectory
+            self.customDirectories = customDirectories
             self.description = description
+            self.enforceMessageSigning = enforceMessageSigning
             self.localProfileId = localProfileId
             self.partnerProfileId = partnerProfileId
+            self.preserveFilename = preserveFilename
             self.serverId = serverId
             self.status = status
             self.tags = tags
@@ -1932,9 +2019,12 @@ extension Transfer {
             case agreementId = "AgreementId"
             case arn = "Arn"
             case baseDirectory = "BaseDirectory"
+            case customDirectories = "CustomDirectories"
             case description = "Description"
+            case enforceMessageSigning = "EnforceMessageSigning"
             case localProfileId = "LocalProfileId"
             case partnerProfileId = "PartnerProfileId"
+            case preserveFilename = "PreserveFilename"
             case serverId = "ServerId"
             case status = "Status"
             case tags = "Tags"
@@ -1962,7 +2052,7 @@ extension Transfer {
         public let notBeforeDate: Date?
         /// The serial number for the certificate.
         public let serial: String?
-        /// The certificate can be either ACTIVE, PENDING_ROTATION, or INACTIVE. PENDING_ROTATION means that this certificate will replace the current certificate when it expires.
+        /// Currently, the only available status is ACTIVE: all other values are reserved for future use.
         public let status: CertificateStatusType?
         /// Key-value pairs that can be used to group and search for certificates.
         public let tags: [Tag]?
@@ -4725,25 +4815,34 @@ extension Transfer {
         public let agreementId: String
         /// To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /amzn-s3-demo-bucket/home/mydirectory .
         public let baseDirectory: String?
+        /// A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.   Failed files   MDN files   Payload files   Status files   Temporary files
+        public let customDirectories: CustomDirectoriesType?
         /// To replace the existing description, provide a short description for the agreement.
         public let description: String?
+        ///  Determines whether or not unsigned messages from your trading partners will be accepted.     ENABLED: Transfer Family rejects unsigned messages from your trading partner.    DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
+        public let enforceMessageSigning: EnforceMessageSigningType?
         /// A unique identifier for the AS2 local profile. To change the local profile identifier, provide a new value here.
         public let localProfileId: String?
         /// A unique identifier for the partner profile. To change the partner profile identifier, provide a new value here.
         public let partnerProfileId: String?
+        ///  Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.     ENABLED: the filename provided by your trading parter is preserved when the file is saved.    DISABLED (default value): when Transfer Family  saves the file, the filename is adjusted, as described in File names and locations.
+        public let preserveFilename: PreserveFilenameType?
         /// A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
         public let serverId: String
         /// You can update the status for the agreement, either activating an inactive agreement or the reverse.
         public let status: AgreementStatusType?
 
         @inlinable
-        public init(accessRole: String? = nil, agreementId: String, baseDirectory: String? = nil, description: String? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, serverId: String, status: AgreementStatusType? = nil) {
+        public init(accessRole: String? = nil, agreementId: String, baseDirectory: String? = nil, customDirectories: CustomDirectoriesType? = nil, description: String? = nil, enforceMessageSigning: EnforceMessageSigningType? = nil, localProfileId: String? = nil, partnerProfileId: String? = nil, preserveFilename: PreserveFilenameType? = nil, serverId: String, status: AgreementStatusType? = nil) {
             self.accessRole = accessRole
             self.agreementId = agreementId
             self.baseDirectory = baseDirectory
+            self.customDirectories = customDirectories
             self.description = description
+            self.enforceMessageSigning = enforceMessageSigning
             self.localProfileId = localProfileId
             self.partnerProfileId = partnerProfileId
+            self.preserveFilename = preserveFilename
             self.serverId = serverId
             self.status = status
         }
@@ -4757,6 +4856,7 @@ extension Transfer {
             try self.validate(self.agreementId, name: "agreementId", parent: name, pattern: "^a-([0-9a-f]{17})$")
             try self.validate(self.baseDirectory, name: "baseDirectory", parent: name, max: 1024)
             try self.validate(self.baseDirectory, name: "baseDirectory", parent: name, pattern: "^(|/.*)$")
+            try self.customDirectories?.validate(name: "\(name).customDirectories")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{Graph}]+$")
@@ -4775,9 +4875,12 @@ extension Transfer {
             case accessRole = "AccessRole"
             case agreementId = "AgreementId"
             case baseDirectory = "BaseDirectory"
+            case customDirectories = "CustomDirectories"
             case description = "Description"
+            case enforceMessageSigning = "EnforceMessageSigning"
             case localProfileId = "LocalProfileId"
             case partnerProfileId = "PartnerProfileId"
+            case preserveFilename = "PreserveFilename"
             case serverId = "ServerId"
             case status = "Status"
         }

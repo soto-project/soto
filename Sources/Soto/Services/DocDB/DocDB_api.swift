@@ -305,8 +305,10 @@ public struct DocDB: AWSService {
     ///   - engineVersion: The version number of the database engine to use. The --engine-version will default to the latest major engine version. For production workloads, we recommend explicitly declaring this parameter with the intended major engine version.
     ///   - globalClusterIdentifier: The cluster identifier of the new global cluster.
     ///   - kmsKeyId: The KMS key identifier for an encrypted cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon Web Services account that owns the KMS encryption key that is used to encrypt the new cluster, you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:    If the StorageEncrypted parameter is true, Amazon DocumentDB uses your default encryption key.    KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Regions.
+    ///   - manageMasterUserPassword: Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. Constraint: You can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword is specified.
     ///   - masterUsername: The name of the master user for the cluster. Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a letter.   Cannot be a reserved word for the chosen database engine.
     ///   - masterUserPassword: The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
+    ///   - masterUserSecretKmsKeyId: The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret.  If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     ///   - port: The port number on which the instances in the cluster accept connections.
     ///   - preferredBackupWindow: The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.    Must be at least 30 minutes.
     ///   - preferredMaintenanceWindow: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
@@ -329,8 +331,10 @@ public struct DocDB: AWSService {
         engineVersion: String? = nil,
         globalClusterIdentifier: String? = nil,
         kmsKeyId: String? = nil,
+        manageMasterUserPassword: Bool? = nil,
         masterUsername: String? = nil,
         masterUserPassword: String? = nil,
+        masterUserSecretKmsKeyId: String? = nil,
         port: Int? = nil,
         preferredBackupWindow: String? = nil,
         preferredMaintenanceWindow: String? = nil,
@@ -353,8 +357,10 @@ public struct DocDB: AWSService {
             engineVersion: engineVersion, 
             globalClusterIdentifier: globalClusterIdentifier, 
             kmsKeyId: kmsKeyId, 
+            manageMasterUserPassword: manageMasterUserPassword, 
             masterUsername: masterUsername, 
             masterUserPassword: masterUserPassword, 
+            masterUserSecretKmsKeyId: masterUserSecretKmsKeyId, 
             port: port, 
             preferredBackupWindow: preferredBackupWindow, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
@@ -1622,11 +1628,14 @@ public struct DocDB: AWSService {
     ///   - dbClusterParameterGroupName: The name of the cluster parameter group to use for the cluster.
     ///   - deletionProtection: Specifies whether this cluster can be deleted. If DeletionProtection is enabled, the cluster cannot be deleted unless it is modified and DeletionProtection is disabled. DeletionProtection protects clusters from being accidentally deleted.
     ///   - engineVersion: The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for Amazon DocumentDB use the following command:  aws docdb describe-db-engine-versions --engine docdb --query "DBEngineVersions[].EngineVersion"
+    ///   - manageMasterUserPassword: Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the cluster doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management.  In this case, you can't specify MasterUserPassword. If the cluster already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword.  In this case, Amazon DocumentDB deletes the secret and uses the new password for the master user specified by MasterUserPassword.
     ///   - masterUserPassword: The password for the master database user. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
+    ///   - masterUserSecretKmsKeyId: The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The cluster doesn't manage the master user password in Amazon Web Services Secrets Manager.  If the cluster already manages the master user password in Amazon Web Services Secrets Manager, you can't change the KMS key that is used to encrypt the secret.   You are enabling ManageMasterUserPassword to manage the master user password in Amazon Web Services Secrets Manager.  If you are turning on ManageMasterUserPassword and don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager KMS key is used to encrypt the secret.  If the secret is in a different Amazon Web Services account, then you can't use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer managed KMS key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key.  To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account.  Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     ///   - newDBClusterIdentifier: The new cluster identifier for the cluster when renaming a cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Example: my-cluster2
     ///   - port: The port number on which the cluster accepts connections. Constraints: Must be a value from 1150 to 65535.  Default: The same port as the original cluster.
     ///   - preferredBackupWindow: The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
     ///   - preferredMaintenanceWindow: The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
+    ///   - rotateMasterUserPassword: Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the master user password. This setting is valid only if the master user password is managed by Amazon DocumentDB in Amazon Web Services Secrets Manager for the cluster.  The secret value contains the updated password. Constraint: You must apply the change immediately when rotating the master user password.
     ///   - storageType: The storage type to associate with the DB cluster. For information on storage types for Amazon DocumentDB clusters, see  Cluster storage configurations in the Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1  Default value is standard
     ///   - vpcSecurityGroupIds: A list of virtual private cloud (VPC) security groups that the cluster will belong to.
     ///   - logger: Logger use during operation
@@ -1640,11 +1649,14 @@ public struct DocDB: AWSService {
         dbClusterParameterGroupName: String? = nil,
         deletionProtection: Bool? = nil,
         engineVersion: String? = nil,
+        manageMasterUserPassword: Bool? = nil,
         masterUserPassword: String? = nil,
+        masterUserSecretKmsKeyId: String? = nil,
         newDBClusterIdentifier: String? = nil,
         port: Int? = nil,
         preferredBackupWindow: String? = nil,
         preferredMaintenanceWindow: String? = nil,
+        rotateMasterUserPassword: Bool? = nil,
         storageType: String? = nil,
         vpcSecurityGroupIds: [String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1658,11 +1670,14 @@ public struct DocDB: AWSService {
             dbClusterParameterGroupName: dbClusterParameterGroupName, 
             deletionProtection: deletionProtection, 
             engineVersion: engineVersion, 
+            manageMasterUserPassword: manageMasterUserPassword, 
             masterUserPassword: masterUserPassword, 
+            masterUserSecretKmsKeyId: masterUserSecretKmsKeyId, 
             newDBClusterIdentifier: newDBClusterIdentifier, 
             port: port, 
             preferredBackupWindow: preferredBackupWindow, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
+            rotateMasterUserPassword: rotateMasterUserPassword, 
             storageType: storageType, 
             vpcSecurityGroupIds: vpcSecurityGroupIds
         )

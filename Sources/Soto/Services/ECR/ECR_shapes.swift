@@ -119,6 +119,7 @@ extension ECR {
         case failed = "FAILED"
         case findingsUnavailable = "FINDINGS_UNAVAILABLE"
         case inProgress = "IN_PROGRESS"
+        case limitExceeded = "LIMIT_EXCEEDED"
         case pending = "PENDING"
         case scanEligibilityExpired = "SCAN_ELIGIBILITY_EXPIRED"
         case unsupportedImage = "UNSUPPORTED_IMAGE"
@@ -1564,7 +1565,7 @@ extension ECR {
     }
 
     public struct GetAccountSettingRequest: AWSEncodableShape {
-        /// Basic scan type version name.
+        /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
         public let name: String
 
         @inlinable
@@ -1583,9 +1584,9 @@ extension ECR {
     }
 
     public struct GetAccountSettingResponse: AWSDecodableShape {
-        /// Retrieves the basic scan type version name.
+        /// Retrieves the name of the account setting.
         public let name: String?
-        /// Retrieves the value that specifies what basic scan type is being used: AWS_NATIVE or CLAIR.
+        /// The setting value for the setting name. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
         public let value: String?
 
         @inlinable
@@ -2538,9 +2539,9 @@ extension ECR {
     }
 
     public struct PutAccountSettingRequest: AWSEncodableShape {
-        /// Basic scan type version name.
+        /// The name of the account setting, such as BASIC_SCAN_TYPE_VERSION or REGISTRY_POLICY_SCOPE.
         public let name: String
-        /// Setting value that determines what basic scan type is being used: AWS_NATIVE or CLAIR.
+        /// Setting value that is specified. The following are valid values for the basic scan type being used: AWS_NATIVE or CLAIR. The following are valid values for the registry policy scope being used: V1 or V2.
         public let value: String
 
         @inlinable
@@ -2561,9 +2562,9 @@ extension ECR {
     }
 
     public struct PutAccountSettingResponse: AWSDecodableShape {
-        /// Retrieves the the basic scan type version name.
+        /// Retrieves the name of the account setting.
         public let name: String?
-        /// Retrieves the basic scan type value, either AWS_NATIVE or -.
+        /// Retrieves the value of the specified account setting.
         public let value: String?
 
         @inlinable

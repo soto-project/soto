@@ -1616,7 +1616,7 @@ extension EMRServerless {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 256)
+            try self.validate(self.entryPoint, name: "entryPoint", parent: name, max: 4096)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, min: 1)
             try self.validate(self.entryPoint, name: "entryPoint", parent: name, pattern: ".*\\S.*")
             try self.entryPointArguments?.forEach {

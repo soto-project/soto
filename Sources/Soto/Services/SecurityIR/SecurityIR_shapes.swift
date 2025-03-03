@@ -1310,6 +1310,7 @@ extension SecurityIR {
         public func validate(name: String) throws {
             try self.validate(self.ipAddress, name: "ipAddress", parent: name, pattern: "^(?:(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4})|(?:(?:[A-F0-9]{1,4}:){6}(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))$")
             try self.validate(self.userAgent, name: "userAgent", parent: name, max: 500)
+            try self.validate(self.userAgent, name: "userAgent", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {

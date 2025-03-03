@@ -81,12 +81,48 @@ public struct Glue: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.dualstack]: .init(endpoints: [
+            "af-south-1": "glue.af-south-1.api.aws",
+            "ap-east-1": "glue.ap-east-1.api.aws",
+            "ap-northeast-1": "glue.ap-northeast-1.api.aws",
+            "ap-northeast-2": "glue.ap-northeast-2.api.aws",
+            "ap-northeast-3": "glue.ap-northeast-3.api.aws",
+            "ap-south-1": "glue.ap-south-1.api.aws",
+            "ap-south-2": "glue.ap-south-2.api.aws",
+            "ap-southeast-1": "glue.ap-southeast-1.api.aws",
+            "ap-southeast-2": "glue.ap-southeast-2.api.aws",
+            "ap-southeast-3": "glue.ap-southeast-3.api.aws",
+            "ap-southeast-4": "glue.ap-southeast-4.api.aws",
+            "ap-southeast-5": "glue.ap-southeast-5.api.aws",
+            "ca-central-1": "glue.ca-central-1.api.aws",
+            "ca-west-1": "glue.ca-west-1.api.aws",
+            "cn-north-1": "glue.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "glue.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "glue.eu-central-1.api.aws",
+            "eu-central-2": "glue.eu-central-2.api.aws",
+            "eu-north-1": "glue.eu-north-1.api.aws",
+            "eu-south-1": "glue.eu-south-1.api.aws",
+            "eu-south-2": "glue.eu-south-2.api.aws",
+            "eu-west-1": "glue.eu-west-1.api.aws",
+            "eu-west-2": "glue.eu-west-2.api.aws",
+            "eu-west-3": "glue.eu-west-3.api.aws",
+            "il-central-1": "glue.il-central-1.api.aws",
+            "me-central-1": "glue.me-central-1.api.aws",
+            "me-south-1": "glue.me-south-1.api.aws",
+            "sa-east-1": "glue.sa-east-1.api.aws",
+            "us-east-1": "glue.us-east-1.api.aws",
+            "us-east-2": "glue.us-east-2.api.aws",
             "us-gov-east-1": "glue.us-gov-east-1.api.aws",
-            "us-gov-west-1": "glue.us-gov-west-1.api.aws"
+            "us-gov-west-1": "glue.us-gov-west-1.api.aws",
+            "us-west-1": "glue.us-west-1.api.aws",
+            "us-west-2": "glue.us-west-2.api.aws"
         ]),
         [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "glue-fips.us-east-1.api.aws",
+            "us-east-2": "glue-fips.us-east-2.api.aws",
             "us-gov-east-1": "glue-fips.us-gov-east-1.api.aws",
-            "us-gov-west-1": "glue-fips.us-gov-west-1.api.aws"
+            "us-gov-west-1": "glue-fips.us-gov-west-1.api.aws",
+            "us-west-1": "glue-fips.us-west-1.api.aws",
+            "us-west-2": "glue-fips.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "glue-fips.us-east-1.amazonaws.com",
@@ -1473,7 +1509,7 @@ public struct Glue: AWSService {
     ///   - securityConfiguration: The name of the SecurityConfiguration structure to be used with this job.
     ///   - sourceControlDetails: The details for a source control configuration for a job, allowing synchronization of job artifacts to or from a remote repository.
     ///   - tags: The tags to use with this job. You may use tags to limit access to the job. For more information about tags in Glue, see Amazon Web Services Tags in Glue in the developer guide.
-    ///   - timeout: The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
+    ///   - timeout: The job timeout in minutes.  This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
     ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1852,7 +1888,7 @@ public struct Glue: AWSService {
     ///   - role: The IAM Role ARN
     ///   - securityConfiguration: The name of the SecurityConfiguration structure to be used with the session
     ///   - tags: The map of key value pairs (tags) belonging to the session.
-    ///   - timeout:  The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes), the maximum session lifetime for this job type. Consult the documentation for other job types.
+    ///   - timeout:  The number of minutes before session times out. Default for Spark ETL jobs is 48 hours (2880 minutes). Consult the documentation for other job types.
     ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray notebooks.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     ///   - logger: Logger use during operation
     @inlinable
@@ -3463,13 +3499,15 @@ public struct Glue: AWSService {
     /// Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
     ///
     /// Parameters:
+    ///   - includeRoot: Whether to list the default catalog in the account and region in the response. Defaults to false. When true and ParentCatalogId = NULL | Amazon Web Services Account ID, all catalogs and the default catalog are enumerated in the response. When the ParentCatalogId is not equal to null, and this attribute is passed as false or true, an InvalidInputException is thrown.
     ///   - maxResults: The maximum number of catalogs to return in one response.
     ///   - nextToken: A continuation token, if this is a continuation call.
     ///   - parentCatalogId: The ID of the parent catalog in which the catalog resides. If none is provided, the Amazon Web Services Account Number is used by default.
-    ///   - recursive: When specified as true, iterates through the account and returns all catalog resources (including top-level resources and child resources)
+    ///   - recursive: Whether to list all catalogs across the catalog hierarchy, starting from the ParentCatalogId. Defaults to false . When true, all catalog objects in the ParentCatalogID hierarchy are enumerated in the response.
     ///   - logger: Logger use during operation
     @inlinable
     public func getCatalogs(
+        includeRoot: Bool? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         parentCatalogId: String? = nil,
@@ -3477,6 +3515,7 @@ public struct Glue: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetCatalogsResponse {
         let input = GetCatalogsRequest(
+            includeRoot: includeRoot, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             parentCatalogId: parentCatalogId, 
@@ -7777,7 +7816,7 @@ public struct Glue: AWSService {
     ///   - notificationProperty: Specifies configuration properties of a job run notification.
     ///   - numberOfWorkers: The number of workers of a defined workerType that are allocated when a job runs.
     ///   - securityConfiguration: The name of the SecurityConfiguration structure to be used with this job run.
-    ///   - timeout: The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Streaming jobs must have timeout values less than 7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7 days based if you have not setup a maintenance window. If you have setup maintenance window, it will be restarted during the maintenance window after 7 days.
+    ///   - timeout: The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. This value overrides the timeout value set in the parent job.  Jobs must have timeout values less than 7 days or 10080 minutes. Otherwise, the jobs will throw an exception. When the value is left blank, the timeout is defaulted to 2880 minutes. Any existing Glue jobs that had a timeout value greater than 7 days will be defaulted to 7 days. For instance if you have specified a timeout of 20 days for a batch job, it will be stopped on the 7th day. For streaming jobs, if you have set up a maintenance window, it will be restarted during the maintenance window after 7 days.
     ///   - workerType: The type of predefined worker that is allocated when a job runs. Accepts a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with 94GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPUs, 32 GB of memory) with 138GB disk, and provides 1 executor per worker. We recommend this worker type for workloads such as data transforms, joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk, and provides 1 executor per worker. We recommend this worker type for jobs whose workloads contain your most demanding transforms, aggregations, joins, and queries. This worker type is available only for Glue version 3.0 or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB disk, and provides 1 executor per worker. We recommend this worker type for low volume streaming jobs. This worker type is only available for Glue version 3.0 or later streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of memory) with 128 GB disk, and provides up to 8 Ray workers based on the autoscaler.
     ///   - logger: Logger use during operation
     @inlinable

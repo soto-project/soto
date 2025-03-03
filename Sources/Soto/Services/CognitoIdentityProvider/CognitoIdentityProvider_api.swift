@@ -81,6 +81,45 @@ public struct CognitoIdentityProvider: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "cognito-idp.af-south-1.amazonaws.com",
+            "ap-east-1": "cognito-idp.ap-east-1.amazonaws.com",
+            "ap-northeast-1": "cognito-idp.ap-northeast-1.amazonaws.com",
+            "ap-northeast-2": "cognito-idp.ap-northeast-2.amazonaws.com",
+            "ap-northeast-3": "cognito-idp.ap-northeast-3.amazonaws.com",
+            "ap-south-1": "cognito-idp.ap-south-1.amazonaws.com",
+            "ap-south-2": "cognito-idp.ap-south-2.amazonaws.com",
+            "ap-southeast-1": "cognito-idp.ap-southeast-1.amazonaws.com",
+            "ap-southeast-2": "cognito-idp.ap-southeast-2.amazonaws.com",
+            "ap-southeast-3": "cognito-idp.ap-southeast-3.amazonaws.com",
+            "ap-southeast-4": "cognito-idp.ap-southeast-4.amazonaws.com",
+            "ca-central-1": "cognito-idp.ca-central-1.amazonaws.com",
+            "ca-west-1": "cognito-idp.ca-west-1.amazonaws.com",
+            "eu-central-1": "cognito-idp.eu-central-1.amazonaws.com",
+            "eu-central-2": "cognito-idp.eu-central-2.amazonaws.com",
+            "eu-north-1": "cognito-idp.eu-north-1.amazonaws.com",
+            "eu-south-1": "cognito-idp.eu-south-1.amazonaws.com",
+            "eu-south-2": "cognito-idp.eu-south-2.amazonaws.com",
+            "eu-west-1": "cognito-idp.eu-west-1.amazonaws.com",
+            "eu-west-2": "cognito-idp.eu-west-2.amazonaws.com",
+            "eu-west-3": "cognito-idp.eu-west-3.amazonaws.com",
+            "il-central-1": "cognito-idp.il-central-1.amazonaws.com",
+            "me-central-1": "cognito-idp.me-central-1.amazonaws.com",
+            "me-south-1": "cognito-idp.me-south-1.amazonaws.com",
+            "sa-east-1": "cognito-idp.sa-east-1.amazonaws.com",
+            "us-east-1": "cognito-idp.us-east-1.amazonaws.com",
+            "us-east-2": "cognito-idp.us-east-2.amazonaws.com",
+            "us-gov-west-1": "cognito-idp.us-gov-west-1.amazonaws.com",
+            "us-west-1": "cognito-idp.us-west-1.amazonaws.com",
+            "us-west-2": "cognito-idp.us-west-2.amazonaws.com"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "cognito-idp-fips.us-east-1.amazonaws.com",
+            "us-east-2": "cognito-idp-fips.us-east-2.amazonaws.com",
+            "us-gov-west-1": "cognito-idp-fips.us-gov-west-1.amazonaws.com",
+            "us-west-1": "cognito-idp-fips.us-west-1.amazonaws.com",
+            "us-west-2": "cognito-idp-fips.us-west-2.amazonaws.com"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "cognito-idp-fips.us-east-1.amazonaws.com",
             "us-east-2": "cognito-idp-fips.us-east-2.amazonaws.com",
@@ -1180,7 +1219,7 @@ public struct CognitoIdentityProvider: AWSService {
     @inlinable
     public func completeWebAuthnRegistration(
         accessToken: String,
-        credential: String,
+        credential: AWSDocument,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CompleteWebAuthnRegistrationResponse {
         let input = CompleteWebAuthnRegistrationRequest(
@@ -1442,7 +1481,7 @@ public struct CognitoIdentityProvider: AWSService {
     public func createManagedLoginBranding(
         assets: [AssetType]? = nil,
         clientId: String,
-        settings: String? = nil,
+        settings: AWSDocument? = nil,
         useCognitoProvidedValues: Bool? = nil,
         userPoolId: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3979,7 +4018,7 @@ public struct CognitoIdentityProvider: AWSService {
     public func updateManagedLoginBranding(
         assets: [AssetType]? = nil,
         managedLoginBrandingId: String? = nil,
-        settings: String? = nil,
+        settings: AWSDocument? = nil,
         useCognitoProvidedValues: Bool? = nil,
         userPoolId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        

@@ -26,6 +26,18 @@ import Foundation
 extension ComputeOptimizer {
     // MARK: Enums
 
+    public enum AllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lowestPrice = "LowestPrice"
+        case prioritized = "Prioritized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AsgType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mixedInstanceType = "MixedInstanceTypes"
+        case singleInstanceType = "SingleInstanceType"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoScalingConfiguration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case targetTrackingScalingCpu = "TargetTrackingScalingCpu"
         case targetTrackingScalingMemory = "TargetTrackingScalingMemory"
@@ -166,10 +178,13 @@ extension ComputeOptimizer {
         case accountId = "AccountId"
         case autoScalingGroupArn = "AutoScalingGroupArn"
         case autoScalingGroupName = "AutoScalingGroupName"
+        case currentConfigurationAllocationStrategy = "CurrentConfigurationAllocationStrategy"
         case currentConfigurationDesiredCapacity = "CurrentConfigurationDesiredCapacity"
         case currentConfigurationInstanceType = "CurrentConfigurationInstanceType"
         case currentConfigurationMaxSize = "CurrentConfigurationMaxSize"
         case currentConfigurationMinSize = "CurrentConfigurationMinSize"
+        case currentConfigurationMixedInstanceTypes = "CurrentConfigurationMixedInstanceTypes"
+        case currentConfigurationType = "CurrentConfigurationType"
         case currentInstanceGpuInfo = "CurrentInstanceGpuInfo"
         case currentMemory = "CurrentMemory"
         case currentNetwork = "CurrentNetwork"
@@ -189,10 +204,14 @@ extension ComputeOptimizer {
         case inferredWorkloadTypes = "InferredWorkloadTypes"
         case lastRefreshTimestamp = "LastRefreshTimestamp"
         case lookbackPeriodInDays = "LookbackPeriodInDays"
+        case recommendationOptionsConfigurationAllocationStrategy = "RecommendationOptionsConfigurationAllocationStrategy"
         case recommendationOptionsConfigurationDesiredCapacity = "RecommendationOptionsConfigurationDesiredCapacity"
+        case recommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage = "RecommendationOptionsConfigurationEstimatedInstanceHourReductionPercentage"
         case recommendationOptionsConfigurationInstanceType = "RecommendationOptionsConfigurationInstanceType"
         case recommendationOptionsConfigurationMaxSize = "RecommendationOptionsConfigurationMaxSize"
         case recommendationOptionsConfigurationMinSize = "RecommendationOptionsConfigurationMinSize"
+        case recommendationOptionsConfigurationMixedInstanceTypes = "RecommendationOptionsConfigurationMixedInstanceTypes"
+        case recommendationOptionsConfigurationType = "RecommendationOptionsConfigurationType"
         case recommendationOptionsEstimatedMonthlySavingsCurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
         case recommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts = "RecommendationOptionsEstimatedMonthlySavingsCurrencyAfterDiscounts"
         case recommendationOptionsEstimatedMonthlySavingsValue = "RecommendationOptionsEstimatedMonthlySavingsValue"
@@ -1044,28 +1063,44 @@ extension ComputeOptimizer {
     }
 
     public struct AutoScalingGroupConfiguration: AWSDecodableShape {
-        /// The desired capacity, or number of instances, for the Auto Scaling group.
+        ///  Describes the allocation strategy that the EC2 Auto Scaling group uses. This field is only available for EC2 Auto Scaling groups with mixed instance types.
+        public let allocationStrategy: AllocationStrategy?
+        /// The desired capacity, or number of instances, for the EC2 Auto Scaling group.
         public let desiredCapacity: Int?
-        /// The instance type for the Auto Scaling group.
+        ///  Describes the projected percentage reduction in instance hours after adopting the recommended configuration. This field is only available for EC2 Auto Scaling groups with scaling policies.
+        public let estimatedInstanceHourReductionPercentage: Double?
+        /// The instance type for the EC2 Auto Scaling group.
         public let instanceType: String?
-        /// The maximum size, or maximum number of instances, for the Auto Scaling group.
+        /// The maximum size, or maximum number of instances, for the EC2 Auto Scaling group.
         public let maxSize: Int?
-        /// The minimum size, or minimum number of instances, for the Auto Scaling group.
+        /// The minimum size, or minimum number of instances, for the EC2 Auto Scaling group.
         public let minSize: Int?
+        ///  List the instance types within an EC2 Auto Scaling group that has mixed instance types.
+        public let mixedInstanceTypes: [String]?
+        ///  Describes whether the EC2 Auto Scaling group has a single instance type or a mixed instance type configuration.
+        public let type: AsgType?
 
         @inlinable
-        public init(desiredCapacity: Int? = nil, instanceType: String? = nil, maxSize: Int? = nil, minSize: Int? = nil) {
+        public init(allocationStrategy: AllocationStrategy? = nil, desiredCapacity: Int? = nil, estimatedInstanceHourReductionPercentage: Double? = nil, instanceType: String? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstanceTypes: [String]? = nil, type: AsgType? = nil) {
+            self.allocationStrategy = allocationStrategy
             self.desiredCapacity = desiredCapacity
+            self.estimatedInstanceHourReductionPercentage = estimatedInstanceHourReductionPercentage
             self.instanceType = instanceType
             self.maxSize = maxSize
             self.minSize = minSize
+            self.mixedInstanceTypes = mixedInstanceTypes
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "allocationStrategy"
             case desiredCapacity = "desiredCapacity"
+            case estimatedInstanceHourReductionPercentage = "estimatedInstanceHourReductionPercentage"
             case instanceType = "instanceType"
             case maxSize = "maxSize"
             case minSize = "minSize"
+            case mixedInstanceTypes = "mixedInstanceTypes"
+            case type = "type"
         }
     }
 

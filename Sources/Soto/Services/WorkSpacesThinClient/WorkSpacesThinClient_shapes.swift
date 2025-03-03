@@ -116,7 +116,7 @@ extension WorkSpacesThinClient {
         public let clientToken: String?
         /// The ID of the software set to apply.
         public let desiredSoftwareSetId: String?
-        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
         public let desktopArn: String
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public let desktopEndpoint: String?
@@ -172,7 +172,8 @@ extension WorkSpacesThinClient {
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
             try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[\\w+=\\/,.@-]+:kms:[a-zA-Z0-9\\-]*:[0-9]{0,12}:key\\/[a-zA-Z0-9-]+$")
             try self.maintenanceWindow?.validate(name: "\(name).maintenanceWindow")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9\\p{IsAlphabetic}+:,.@'\" -][0-9\\p{IsAlphabetic}+=:,.@'\" -]{0,63}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^$|^[0-9\\p{IsAlphabetic}+:,.@'\" -][0-9\\p{IsAlphabetic}+=:,.@'\" -]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -480,7 +481,7 @@ extension WorkSpacesThinClient {
         public let createdAt: Date?
         /// The ID of the software set to apply.
         public let desiredSoftwareSetId: String?
-        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
         public let desktopArn: String?
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public let desktopEndpoint: String?
@@ -570,7 +571,7 @@ extension WorkSpacesThinClient {
         public let createdAt: Date?
         /// The ID of the software set to apply.
         public let desiredSoftwareSetId: String?
-        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
         public let desktopArn: String?
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public let desktopEndpoint: String?
@@ -922,10 +923,10 @@ extension WorkSpacesThinClient {
         /// The minutes past the hour for the maintenance window start (00-59).
         public let startTimeMinute: Int?
         /// An option to select the default or custom maintenance window.
-        public let type: MaintenanceWindowType?
+        public let type: MaintenanceWindowType
 
         @inlinable
-        public init(applyTimeOf: ApplyTimeOf? = nil, daysOfTheWeek: [DayOfWeek]? = nil, endTimeHour: Int? = nil, endTimeMinute: Int? = nil, startTimeHour: Int? = nil, startTimeMinute: Int? = nil, type: MaintenanceWindowType? = nil) {
+        public init(applyTimeOf: ApplyTimeOf? = nil, daysOfTheWeek: [DayOfWeek]? = nil, endTimeHour: Int? = nil, endTimeMinute: Int? = nil, startTimeHour: Int? = nil, startTimeMinute: Int? = nil, type: MaintenanceWindowType) {
             self.applyTimeOf = applyTimeOf
             self.daysOfTheWeek = daysOfTheWeek
             self.endTimeHour = endTimeHour
@@ -1137,7 +1138,8 @@ extension WorkSpacesThinClient {
         public func validate(name: String) throws {
             try self.validate(self.desiredSoftwareSetId, name: "desiredSoftwareSetId", parent: name, pattern: "^[0-9]{1,9}$")
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9]{24}$")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9\\p{IsAlphabetic}+:,.@'\" -]{1,64}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^$|^[0-9\\p{IsAlphabetic}+:,.@'\" -]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1164,7 +1166,7 @@ extension WorkSpacesThinClient {
     public struct UpdateEnvironmentRequest: AWSEncodableShape {
         /// The ID of the software set to apply.
         public let desiredSoftwareSetId: String?
-        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Web, or AppStream 2.0.
+        /// The Amazon Resource Name (ARN) of the desktop to stream from Amazon WorkSpaces, WorkSpaces Secure Browser, or AppStream 2.0.
         public let desktopArn: String?
         /// The URL for the identity provider login (only for environments that use AppStream 2.0).
         public let desktopEndpoint: String?
@@ -1226,7 +1228,8 @@ extension WorkSpacesThinClient {
             try self.validate(self.deviceCreationTags, name: "deviceCreationTags", parent: name, max: 50)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-z0-9]{9}$")
             try self.maintenanceWindow?.validate(name: "\(name).maintenanceWindow")
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9\\p{IsAlphabetic}+:,.@'\" -][0-9\\p{IsAlphabetic}+=:,.@'\" -]{0,63}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^$|^[0-9\\p{IsAlphabetic}+:,.@'\" -][0-9\\p{IsAlphabetic}+=:,.@'\" -]*$")
         }
 
         private enum CodingKeys: String, CodingKey {

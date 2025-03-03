@@ -79,6 +79,25 @@ public struct GroundStation: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "groundstation.af-south-1.api.aws",
+            "ap-northeast-2": "groundstation.ap-northeast-2.api.aws",
+            "ap-southeast-1": "groundstation.ap-southeast-1.api.aws",
+            "ap-southeast-2": "groundstation.ap-southeast-2.api.aws",
+            "eu-central-1": "groundstation.eu-central-1.api.aws",
+            "eu-north-1": "groundstation.eu-north-1.api.aws",
+            "eu-west-1": "groundstation.eu-west-1.api.aws",
+            "me-south-1": "groundstation.me-south-1.api.aws",
+            "sa-east-1": "groundstation.sa-east-1.api.aws",
+            "us-east-1": "groundstation.us-east-1.api.aws",
+            "us-east-2": "groundstation.us-east-2.api.aws",
+            "us-west-2": "groundstation.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "groundstation-fips.us-east-1.api.aws",
+            "us-east-2": "groundstation-fips.us-east-2.api.aws",
+            "us-west-2": "groundstation-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "groundstation-fips.us-east-1.amazonaws.com",
             "us-east-2": "groundstation-fips.us-east-2.amazonaws.com",

@@ -727,16 +727,16 @@ extension Neptunedata {
 
     public struct ExecuteGremlinQueryOutput: AWSDecodableShape {
         /// Metadata about the Gremlin query.
-        public let meta: String?
+        public let meta: AWSDocument?
         /// The unique identifier of the Gremlin query.
         public let requestId: String?
         /// The Gremlin query output from the server.
-        public let result: String?
+        public let result: AWSDocument?
         /// The status of the Gremlin query.
         public let status: GremlinQueryStatusAttributes?
 
         @inlinable
-        public init(meta: String? = nil, requestId: String? = nil, result: String? = nil, status: GremlinQueryStatusAttributes? = nil) {
+        public init(meta: AWSDocument? = nil, requestId: String? = nil, result: AWSDocument? = nil, status: GremlinQueryStatusAttributes? = nil) {
             self.meta = meta
             self.requestId = requestId
             self.result = result
@@ -811,10 +811,10 @@ extension Neptunedata {
 
     public struct ExecuteOpenCypherQueryOutput: AWSDecodableShape {
         /// The openCypherquery results.
-        public let results: String
+        public let results: AWSDocument
 
         @inlinable
-        public init(results: String) {
+        public init(results: AWSDocument) {
             self.results = results
         }
 
@@ -843,7 +843,7 @@ extension Neptunedata {
         /// Set to enabled if the DFE engine is fully enabled, or to viaQueryHint (the default) if the DFE engine is only used with queries that have the useDFE query hint set to true.
         public let dfeQueryEngine: String?
         /// Contains status information about the features enabled on your DB cluster.
-        public let features: [String: String]?
+        public let features: [String: AWSDocument]?
         /// Contains information about the Gremlin query language available on your cluster. Specifically, it contains a version field that specifies the current TinkerPop version being used by the engine.
         public let gremlin: QueryLanguageVersion?
         /// Contains Lab Mode settings being used by the engine.
@@ -866,7 +866,7 @@ extension Neptunedata {
         public let status: String?
 
         @inlinable
-        public init(dbEngineVersion: String? = nil, dfeQueryEngine: String? = nil, features: [String: String]? = nil, gremlin: QueryLanguageVersion? = nil, labMode: [String: String]? = nil, opencypher: QueryLanguageVersion? = nil, role: String? = nil, rollingBackTrxCount: Int? = nil, rollingBackTrxEarliestStartTime: String? = nil, settings: [String: String]? = nil, sparql: QueryLanguageVersion? = nil, startTime: String? = nil, status: String? = nil) {
+        public init(dbEngineVersion: String? = nil, dfeQueryEngine: String? = nil, features: [String: AWSDocument]? = nil, gremlin: QueryLanguageVersion? = nil, labMode: [String: String]? = nil, opencypher: QueryLanguageVersion? = nil, role: String? = nil, rollingBackTrxCount: Int? = nil, rollingBackTrxEarliestStartTime: String? = nil, settings: [String: String]? = nil, sparql: QueryLanguageVersion? = nil, startTime: String? = nil, status: String? = nil) {
             self.dbEngineVersion = dbEngineVersion
             self.dfeQueryEngine = dfeQueryEngine
             self.features = features
@@ -980,12 +980,12 @@ extension Neptunedata {
 
     public struct GetLoaderJobStatusOutput: AWSDecodableShape {
         /// Status information about the load job, in a layout that could look like this:
-        public let payload: String
+        public let payload: AWSDocument
         /// The HTTP response code for the request.
         public let status: String
 
         @inlinable
-        public init(payload: String, status: String) {
+        public init(payload: AWSDocument, status: String) {
             self.payload = payload
             self.status = status
         }
@@ -1508,14 +1508,14 @@ extension Neptunedata {
 
     public struct GremlinQueryStatusAttributes: AWSDecodableShape {
         /// Attributes of the Gremlin query status.
-        public let attributes: String?
+        public let attributes: AWSDocument?
         /// The HTTP response code returned fro the Gremlin query request..
         public let code: Int?
         /// The status message.
         public let message: String?
 
         @inlinable
-        public init(attributes: String? = nil, code: Int? = nil, message: String? = nil) {
+        public init(attributes: AWSDocument? = nil, code: Int? = nil, message: String? = nil) {
             self.attributes = attributes
             self.code = code
             self.message = message
@@ -1976,10 +1976,10 @@ extension Neptunedata {
         /// The type of this Gremlin or openCypher element. Must be one of:     v1   -   Vertex label for Gremlin, or node label for openCypher.     vp   -   Vertex properties for Gremlin, or node properties for openCypher.     e   -   Edge and edge label for Gremlin, or relationship and relationship type for openCypher.     ep   -   Edge properties for Gremlin, or relationship properties for openCypher.
         public let type: String
         /// This is a JSON object that contains a value field for the value itself, and a datatype field for the JSON data type of that value:
-        public let value: String
+        public let value: AWSDocument
 
         @inlinable
-        public init(from: String? = nil, id: String, key: String, to: String? = nil, type: String, value: String) {
+        public init(from: String? = nil, id: String, key: String, to: String? = nil, type: String, value: AWSDocument) {
             self.from = from
             self.id = id
             self.key = key
@@ -2122,12 +2122,12 @@ extension Neptunedata {
         /// The number of milliseconds the query has been running so far.
         public let elapsed: Int?
         /// The number of subqueries in this query.
-        public let subqueries: String?
+        public let subqueries: AWSDocument?
         /// Indicates how long the query waited, in milliseconds.
         public let waited: Int?
 
         @inlinable
-        public init(cancelled: Bool? = nil, elapsed: Int? = nil, subqueries: String? = nil, waited: Int? = nil) {
+        public init(cancelled: Bool? = nil, elapsed: Int? = nil, subqueries: AWSDocument? = nil, waited: Int? = nil) {
             self.cancelled = cancelled
             self.elapsed = elapsed
             self.subqueries = subqueries

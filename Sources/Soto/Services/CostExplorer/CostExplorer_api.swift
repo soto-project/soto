@@ -517,6 +517,7 @@ public struct CostExplorer: AWSService {
     /// Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric that you want the request to return. For example, you can specify BlendedCosts or UsageQuantity. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. For information about filter limitations, see Quotas and restrictions in the Billing and Cost Management User Guide.
     ///
     /// Parameters:
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     ///   - filter: Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     ///   - granularity: Sets the Amazon Web Services cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY.
     ///   - groupBy: You can group Amazon Web Services costs using up to two different groups, either dimensions, tag keys, cost categories, or any two group by types. Valid values for the DIMENSION type are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, INVOICING_ENTITY, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TENANCY, RECORD_TYPE, and USAGE_TYPE. When you group by the TAG type and include a valid tag key, you get all tag values, including empty strings.
@@ -526,6 +527,7 @@ public struct CostExplorer: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getCostAndUsage(
+        billingViewArn: String? = nil,
         filter: Expression? = nil,
         granularity: Granularity,
         groupBy: [GroupDefinition]? = nil,
@@ -535,6 +537,7 @@ public struct CostExplorer: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetCostAndUsageResponse {
         let input = GetCostAndUsageRequest(
+            billingViewArn: billingViewArn, 
             filter: filter, 
             granularity: granularity, 
             groupBy: groupBy, 
@@ -561,6 +564,7 @@ public struct CostExplorer: AWSService {
     /// Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Management account in an organization in Organizations have access to all member accounts. Hourly granularity is only available for EC2-Instances (Elastic Compute Cloud) resource-level data. All other resource-level data is available at daily granularity.  This is an opt-in only feature. You can enable this feature from the Cost Explorer Settings page. For information about how to access the Settings page, see Controlling Access for Cost Explorer in the Billing and Cost Management User Guide.
     ///
     /// Parameters:
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     ///   - filter: Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     ///   - granularity: Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
     ///   - groupBy: You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
@@ -570,6 +574,7 @@ public struct CostExplorer: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getCostAndUsageWithResources(
+        billingViewArn: String? = nil,
         filter: Expression,
         granularity: Granularity,
         groupBy: [GroupDefinition]? = nil,
@@ -579,6 +584,7 @@ public struct CostExplorer: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetCostAndUsageWithResourcesResponse {
         let input = GetCostAndUsageWithResourcesRequest(
+            billingViewArn: billingViewArn, 
             filter: filter, 
             granularity: granularity, 
             groupBy: groupBy, 
@@ -605,6 +611,7 @@ public struct CostExplorer: AWSService {
     /// Retrieves an array of Cost Category names and values incurred cost.  If some Cost Category names and values are not associated with any cost, they will not be returned by this API.
     ///
     /// Parameters:
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     ///   - costCategoryName: 
     ///   - filter: 
     ///   - maxResults: This field is only used when the SortBy value is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with the SortBy value, the request returns 1000 results as the default value for this parameter. For GetCostCategories, MaxResults has an upper quota of 1000.
@@ -615,6 +622,7 @@ public struct CostExplorer: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getCostCategories(
+        billingViewArn: String? = nil,
         costCategoryName: String? = nil,
         filter: Expression? = nil,
         maxResults: Int? = nil,
@@ -625,6 +633,7 @@ public struct CostExplorer: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetCostCategoriesResponse {
         let input = GetCostCategoriesRequest(
+            billingViewArn: billingViewArn, 
             costCategoryName: costCategoryName, 
             filter: filter, 
             maxResults: maxResults, 
@@ -652,6 +661,7 @@ public struct CostExplorer: AWSService {
     /// Retrieves a forecast for how much Amazon Web Services predicts that you will spend over the forecast time period that you select, based on your past costs.
     ///
     /// Parameters:
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     ///   - filter: The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
     ///   - granularity: How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
     ///   - metric: Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AMORTIZED_COST   BLENDED_COST   NET_AMORTIZED_COST   NET_UNBLENDED_COST   UNBLENDED_COST
@@ -660,6 +670,7 @@ public struct CostExplorer: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getCostForecast(
+        billingViewArn: String? = nil,
         filter: Expression? = nil,
         granularity: Granularity,
         metric: Metric,
@@ -668,6 +679,7 @@ public struct CostExplorer: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetCostForecastResponse {
         let input = GetCostForecastRequest(
+            billingViewArn: billingViewArn, 
             filter: filter, 
             granularity: granularity, 
             metric: metric, 
@@ -693,6 +705,7 @@ public struct CostExplorer: AWSService {
     /// Retrieves all available filter values for a specified filter over a period of time. You can search the dimension values for an arbitrary string.
     ///
     /// Parameters:
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     ///   - context: The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
     ///   - dimension: The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. LINK_ACCOUNT_NAME and SERVICE_CODE can only be used in CostCategoryRule.
     ///   - filter: 
@@ -704,6 +717,7 @@ public struct CostExplorer: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getDimensionValues(
+        billingViewArn: String? = nil,
         context: Context? = nil,
         dimension: Dimension,
         filter: Expression? = nil,
@@ -715,6 +729,7 @@ public struct CostExplorer: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetDimensionValuesResponse {
         let input = GetDimensionValuesRequest(
+            billingViewArn: billingViewArn, 
             context: context, 
             dimension: dimension, 
             filter: filter, 
@@ -1148,6 +1163,7 @@ public struct CostExplorer: AWSService {
     /// Queries for available tag keys and tag values for a specified period. You can search the tag values for an arbitrary string.
     ///
     /// Parameters:
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     ///   - filter: 
     ///   - maxResults: This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetTags, MaxResults has an upper quota of 1000.
     ///   - nextPageToken: The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
@@ -1158,6 +1174,7 @@ public struct CostExplorer: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getTags(
+        billingViewArn: String? = nil,
         filter: Expression? = nil,
         maxResults: Int? = nil,
         nextPageToken: String? = nil,
@@ -1168,6 +1185,7 @@ public struct CostExplorer: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetTagsResponse {
         let input = GetTagsRequest(
+            billingViewArn: billingViewArn, 
             filter: filter, 
             maxResults: maxResults, 
             nextPageToken: nextPageToken, 
@@ -1195,6 +1213,7 @@ public struct CostExplorer: AWSService {
     /// Retrieves a forecast for how much Amazon Web Services predicts that you will use over the forecast time period that you select, based on your past usage.
     ///
     /// Parameters:
+    ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
     ///   - filter: The filters that you want to use to filter your forecast. The GetUsageForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
     ///   - granularity: How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetUsageForecast operation supports only DAILY and MONTHLY granularities.
     ///   - metric: Which metric Cost Explorer uses to create your forecast. Valid values for a GetUsageForecast call are the following:   USAGE_QUANTITY   NORMALIZED_USAGE_AMOUNT
@@ -1203,6 +1222,7 @@ public struct CostExplorer: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getUsageForecast(
+        billingViewArn: String? = nil,
         filter: Expression? = nil,
         granularity: Granularity,
         metric: Metric,
@@ -1211,6 +1231,7 @@ public struct CostExplorer: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetUsageForecastResponse {
         let input = GetUsageForecastRequest(
+            billingViewArn: billingViewArn, 
             filter: filter, 
             granularity: granularity, 
             metric: metric, 

@@ -1124,9 +1124,9 @@ extension Location {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
@@ -1198,9 +1198,9 @@ extension Location {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
@@ -1282,9 +1282,9 @@ extension Location {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
@@ -1364,9 +1364,9 @@ extension Location {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
@@ -1443,9 +1443,9 @@ extension Location {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
@@ -1536,9 +1536,9 @@ extension Location {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.trackerName, name: "trackerName", parent: name, max: 100)
@@ -2349,7 +2349,7 @@ extension Location {
             try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
             try self.validate(self.position, name: "position", parent: name, max: 2)
             try self.validate(self.position, name: "position", parent: name, min: 2)
-            try self.validate(self.positionProperties, name: "positionProperties", parent: name, max: 3)
+            try self.validate(self.positionProperties, name: "positionProperties", parent: name, max: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4926,9 +4926,9 @@ extension Location {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^[a-zA-Z+-=._:/]+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[A-Za-z0-9 _=@:.+-/]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.,:/=+\\-@]*)$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }

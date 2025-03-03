@@ -75,6 +75,11 @@ extension ConnectCases {
         public var description: String { return self.rawValue }
     }
 
+    public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case required = "Required"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TemplateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "Active"
         case inactive = "Inactive"
@@ -126,6 +131,56 @@ extension ConnectCases {
             case emptyValue = "emptyValue"
             case stringValue = "stringValue"
             case userArnValue = "userArnValue"
+        }
+    }
+
+    public enum BooleanCondition: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Tests that operandOne is equal to operandTwo.
+        case equalTo(BooleanOperands)
+        /// Tests that operandOne is not equal to operandTwo.
+        case notEqualTo(BooleanOperands)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .equalTo:
+                let value = try container.decode(BooleanOperands.self, forKey: .equalTo)
+                self = .equalTo(value)
+            case .notEqualTo:
+                let value = try container.decode(BooleanOperands.self, forKey: .notEqualTo)
+                self = .notEqualTo(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .equalTo(let value):
+                try container.encode(value, forKey: .equalTo)
+            case .notEqualTo(let value):
+                try container.encode(value, forKey: .notEqualTo)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .equalTo(let value):
+                try value.validate(name: "\(name).equalTo")
+            case .notEqualTo(let value):
+                try value.validate(name: "\(name).notEqualTo")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case equalTo = "equalTo"
+            case notEqualTo = "notEqualTo"
         }
     }
 
@@ -298,6 +353,63 @@ extension ConnectCases {
             case emptyValue = "emptyValue"
             case stringValue = "stringValue"
             case userArnValue = "userArnValue"
+        }
+    }
+
+    public enum OperandTwo: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Boolean value type.
+        case booleanValue(Bool)
+        /// Double value type.
+        case doubleValue(Double)
+        /// Empty value type.
+        case emptyValue(EmptyOperandValue)
+        /// String value type.
+        case stringValue(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .booleanValue:
+                let value = try container.decode(Bool.self, forKey: .booleanValue)
+                self = .booleanValue(value)
+            case .doubleValue:
+                let value = try container.decode(Double.self, forKey: .doubleValue)
+                self = .doubleValue(value)
+            case .emptyValue:
+                let value = try container.decode(EmptyOperandValue.self, forKey: .emptyValue)
+                self = .emptyValue(value)
+            case .stringValue:
+                let value = try container.decode(String.self, forKey: .stringValue)
+                self = .stringValue(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .booleanValue(let value):
+                try container.encode(value, forKey: .booleanValue)
+            case .doubleValue(let value):
+                try container.encode(value, forKey: .doubleValue)
+            case .emptyValue(let value):
+                try container.encode(value, forKey: .emptyValue)
+            case .stringValue(let value):
+                try container.encode(value, forKey: .stringValue)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case emptyValue = "emptyValue"
+            case stringValue = "stringValue"
         }
     }
 
@@ -513,6 +625,58 @@ extension ConnectCases {
         }
     }
 
+    public struct BatchGetCaseRuleRequest: AWSEncodableShape {
+        /// List of case rule identifiers.
+        public let caseRules: [CaseRuleIdentifier]
+        /// Unique identifier of a Cases domain.
+        public let domainId: String
+
+        @inlinable
+        public init(caseRules: [CaseRuleIdentifier], domainId: String) {
+            self.caseRules = caseRules
+            self.domainId = domainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.caseRules, forKey: .caseRules)
+            request.encodePath(self.domainId, key: "domainId")
+        }
+
+        public func validate(name: String) throws {
+            try self.caseRules.forEach {
+                try $0.validate(name: "\(name).caseRules[]")
+            }
+            try self.validate(self.caseRules, name: "caseRules", parent: name, max: 50)
+            try self.validate(self.caseRules, name: "caseRules", parent: name, min: 1)
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseRules = "caseRules"
+        }
+    }
+
+    public struct BatchGetCaseRuleResponse: AWSDecodableShape {
+        /// List of detailed case rule information.
+        public let caseRules: [GetCaseRuleResponse]
+        /// List of case rule errors.
+        public let errors: [CaseRuleError]
+
+        @inlinable
+        public init(caseRules: [GetCaseRuleResponse], errors: [CaseRuleError]) {
+            self.caseRules = caseRules
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseRules = "caseRules"
+            case errors = "errors"
+        }
+    }
+
     public struct BatchGetFieldRequest: AWSEncodableShape {
         /// The unique identifier of the Cases domain.
         public let domainId: String
@@ -617,6 +781,32 @@ extension ConnectCases {
         }
     }
 
+    public struct BooleanOperands: AWSEncodableShape & AWSDecodableShape {
+        /// Represents the left hand operand in the condition.
+        public let operandOne: OperandOne
+        /// Represents the right hand operand in the condition.
+        public let operandTwo: OperandTwo
+        /// The value of the outer rule if the condition evaluates to true.
+        public let result: Bool
+
+        @inlinable
+        public init(operandOne: OperandOne, operandTwo: OperandTwo, result: Bool) {
+            self.operandOne = operandOne
+            self.operandTwo = operandTwo
+            self.result = result
+        }
+
+        public func validate(name: String) throws {
+            try self.operandOne.validate(name: "\(name).operandOne")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operandOne = "operandOne"
+            case operandTwo = "operandTwo"
+            case result = "result"
+        }
+    }
+
     public struct CaseEventIncludedData: AWSEncodableShape & AWSDecodableShape {
         /// List of field identifiers.
         public let fields: [FieldIdentifier]
@@ -634,6 +824,77 @@ extension ConnectCases {
 
         private enum CodingKeys: String, CodingKey {
             case fields = "fields"
+        }
+    }
+
+    public struct CaseRuleError: AWSDecodableShape {
+        /// Error code from getting a case rule.
+        public let errorCode: String
+        /// The case rule identifier that caused the error.
+        public let id: String
+        /// Error message from getting a case rule.
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String, id: String, message: String? = nil) {
+            self.errorCode = errorCode
+            self.id = id
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case id = "id"
+            case message = "message"
+        }
+    }
+
+    public struct CaseRuleIdentifier: AWSEncodableShape {
+        /// Unique identifier of a case rule.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 500)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct CaseRuleSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the case rule.
+        public let caseRuleArn: String
+        /// Unique identifier of a case rule.
+        public let caseRuleId: String
+        /// Description of a case rule.
+        public let description: String?
+        /// Name of the case rule.
+        public let name: String
+        /// Possible types for a rule.
+        public let ruleType: RuleType
+
+        @inlinable
+        public init(caseRuleArn: String, caseRuleId: String, description: String? = nil, name: String, ruleType: RuleType) {
+            self.caseRuleArn = caseRuleArn
+            self.caseRuleId = caseRuleId
+            self.description = description
+            self.name = name
+            self.ruleType = ruleType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseRuleArn = "caseRuleArn"
+            case caseRuleId = "caseRuleId"
+            case description = "description"
+            case name = "name"
+            case ruleType = "ruleType"
         }
     }
 
@@ -668,7 +929,7 @@ extension ConnectCases {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.body, name: "body", parent: name, max: 3000)
+            try self.validate(self.body, name: "body", parent: name, max: 15000)
             try self.validate(self.body, name: "body", parent: name, min: 1)
         }
 
@@ -815,6 +1076,68 @@ extension ConnectCases {
         private enum CodingKeys: String, CodingKey {
             case caseArn = "caseArn"
             case caseId = "caseId"
+        }
+    }
+
+    public struct CreateCaseRuleRequest: AWSEncodableShape {
+        /// The description of a case rule.
+        public let description: String?
+        /// Unique identifier of a Cases domain.
+        public let domainId: String
+        /// Name of the case rule.
+        public let name: String
+        /// Represents what rule type should take place, under what conditions.
+        public let rule: CaseRuleDetails
+
+        @inlinable
+        public init(description: String? = nil, domainId: String, name: String, rule: CaseRuleDetails) {
+            self.description = description
+            self.domainId = domainId
+            self.name = name
+            self.rule = rule
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encode(self.name, forKey: .name)
+            try container.encode(self.rule, forKey: .rule)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*[\\S]$")
+            try self.rule.validate(name: "\(name).rule")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case rule = "rule"
+        }
+    }
+
+    public struct CreateCaseRuleResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of a case rule.
+        public let caseRuleArn: String
+        /// Unique identifier of a case rule.
+        public let caseRuleId: String
+
+        @inlinable
+        public init(caseRuleArn: String, caseRuleId: String) {
+            self.caseRuleArn = caseRuleArn
+            self.caseRuleId = caseRuleId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseRuleArn = "caseRuleArn"
+            case caseRuleId = "caseRuleId"
         }
     }
 
@@ -1053,16 +1376,19 @@ extension ConnectCases {
         public let name: String
         /// A list of fields that must contain a value for a case to be successfully created with this template.
         public let requiredFields: [RequiredField]?
+        /// A list of case rules (also known as case field conditions) on a template.
+        public let rules: [TemplateRule]?
         /// The status of the template.
         public let status: TemplateStatus?
 
         @inlinable
-        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, status: TemplateStatus? = nil) {
+        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, rules: [TemplateRule]? = nil, status: TemplateStatus? = nil) {
             self.description = description
             self.domainId = domainId
             self.layoutConfiguration = layoutConfiguration
             self.name = name
             self.requiredFields = requiredFields
+            self.rules = rules
             self.status = status
         }
 
@@ -1074,6 +1400,7 @@ extension ConnectCases {
             try container.encodeIfPresent(self.layoutConfiguration, forKey: .layoutConfiguration)
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.requiredFields, forKey: .requiredFields)
+            try container.encodeIfPresent(self.rules, forKey: .rules)
             try container.encodeIfPresent(self.status, forKey: .status)
         }
 
@@ -1089,6 +1416,10 @@ extension ConnectCases {
                 try $0.validate(name: "\(name).requiredFields[]")
             }
             try self.validate(self.requiredFields, name: "requiredFields", parent: name, max: 100)
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1096,6 +1427,7 @@ extension ConnectCases {
             case layoutConfiguration = "layoutConfiguration"
             case name = "name"
             case requiredFields = "requiredFields"
+            case rules = "rules"
             case status = "status"
         }
     }
@@ -1116,6 +1448,39 @@ extension ConnectCases {
             case templateArn = "templateArn"
             case templateId = "templateId"
         }
+    }
+
+    public struct DeleteCaseRuleRequest: AWSEncodableShape {
+        /// Unique identifier of a case rule.
+        public let caseRuleId: String
+        /// Unique identifier of a Cases domain.
+        public let domainId: String
+
+        @inlinable
+        public init(caseRuleId: String, domainId: String) {
+            self.caseRuleId = caseRuleId
+            self.domainId = domainId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseRuleId, key: "caseRuleId")
+            request.encodePath(self.domainId, key: "domainId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseRuleId, name: "caseRuleId", parent: name, max: 500)
+            try self.validate(self.caseRuleId, name: "caseRuleId", parent: name, min: 1)
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCaseRuleResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
@@ -1267,6 +1632,10 @@ extension ConnectCases {
     }
 
     public struct EmptyFieldValue: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct EmptyOperandValue: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
 
@@ -1709,6 +2078,54 @@ extension ConnectCases {
         }
     }
 
+    public struct GetCaseRuleResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the case rule.
+        public let caseRuleArn: String
+        /// Unique identifier of a case rule.
+        public let caseRuleId: String
+        /// Timestamp when the resource was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdTime: Date?
+        /// Indicates whether the resource has been deleted.
+        public let deleted: Bool?
+        /// Description of a case rule.
+        public let description: String?
+        /// Timestamp when the resource was created or last modified.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var lastModifiedTime: Date?
+        /// Name of the case rule.
+        public let name: String
+        /// Represents what rule type should take place, under what conditions.
+        public let rule: CaseRuleDetails
+        /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(caseRuleArn: String, caseRuleId: String, createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, lastModifiedTime: Date? = nil, name: String, rule: CaseRuleDetails, tags: [String: String]? = nil) {
+            self.caseRuleArn = caseRuleArn
+            self.caseRuleId = caseRuleId
+            self.createdTime = createdTime
+            self.deleted = deleted
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.rule = rule
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseRuleArn = "caseRuleArn"
+            case caseRuleId = "caseRuleId"
+            case createdTime = "createdTime"
+            case deleted = "deleted"
+            case description = "description"
+            case lastModifiedTime = "lastModifiedTime"
+            case name = "name"
+            case rule = "rule"
+            case tags = "tags"
+        }
+    }
+
     public struct GetDomainRequest: AWSEncodableShape {
         /// The unique identifier of the Cases domain.
         public let domainId: String
@@ -1938,6 +2355,8 @@ extension ConnectCases {
         public let name: String
         /// A list of fields that must contain a value for a case to be successfully created with this template.
         public let requiredFields: [RequiredField]?
+        /// A list of case rules (also known as case field conditions) on a template.
+        public let rules: [TemplateRule]?
         /// The status of the template.
         public let status: TemplateStatus
         /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
@@ -1948,7 +2367,7 @@ extension ConnectCases {
         public let templateId: String
 
         @inlinable
-        public init(createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, lastModifiedTime: Date? = nil, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, status: TemplateStatus, tags: [String: String]? = nil, templateArn: String, templateId: String) {
+        public init(createdTime: Date? = nil, deleted: Bool? = nil, description: String? = nil, lastModifiedTime: Date? = nil, layoutConfiguration: LayoutConfiguration? = nil, name: String, requiredFields: [RequiredField]? = nil, rules: [TemplateRule]? = nil, status: TemplateStatus, tags: [String: String]? = nil, templateArn: String, templateId: String) {
             self.createdTime = createdTime
             self.deleted = deleted
             self.description = description
@@ -1956,6 +2375,7 @@ extension ConnectCases {
             self.layoutConfiguration = layoutConfiguration
             self.name = name
             self.requiredFields = requiredFields
+            self.rules = rules
             self.status = status
             self.tags = tags
             self.templateArn = templateArn
@@ -1970,6 +2390,7 @@ extension ConnectCases {
             case layoutConfiguration = "layoutConfiguration"
             case name = "name"
             case requiredFields = "requiredFields"
+            case rules = "rules"
             case status = "status"
             case tags = "tags"
             case templateArn = "templateArn"
@@ -2035,6 +2456,59 @@ extension ConnectCases {
             case layoutArn = "layoutArn"
             case layoutId = "layoutId"
             case name = "name"
+        }
+    }
+
+    public struct ListCaseRulesRequest: AWSEncodableShape {
+        /// Unique identifier of a Cases domain.
+        public let domainId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(domainId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainId = domainId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.domainId, key: "domainId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 9000)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCaseRulesResponse: AWSDecodableShape {
+        /// A list of field summary objects.
+        public let caseRules: [CaseRuleSummary]
+        /// The token for the next set of results. This is null if there are no more results to return.
+        public let nextToken: String?
+
+        @inlinable
+        public init(caseRules: [CaseRuleSummary], nextToken: String? = nil) {
+            self.caseRules = caseRules
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseRules = "caseRules"
+            case nextToken = "nextToken"
         }
     }
 
@@ -2463,6 +2937,31 @@ extension ConnectCases {
         }
     }
 
+    public struct RequiredCaseRule: AWSEncodableShape & AWSDecodableShape {
+        /// List of conditions for the required rule; the first condition to evaluate to true dictates the value of the rule.
+        public let conditions: [BooleanCondition]
+        /// The value of the rule (that is, whether the field is required) should none of the conditions evaluate to true.
+        public let defaultValue: Bool
+
+        @inlinable
+        public init(conditions: [BooleanCondition], defaultValue: Bool) {
+            self.conditions = conditions
+            self.defaultValue = defaultValue
+        }
+
+        public func validate(name: String) throws {
+            try self.conditions.forEach {
+                try $0.validate(name: "\(name).conditions[]")
+            }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+            case defaultValue = "defaultValue"
+        }
+    }
+
     public struct RequiredField: AWSEncodableShape & AWSDecodableShape {
         /// Unique identifier of a field.
         public let fieldId: String
@@ -2744,6 +3243,31 @@ extension ConnectCases {
         }
     }
 
+    public struct TemplateRule: AWSEncodableShape & AWSDecodableShape {
+        /// Unique identifier of a case rule.
+        public let caseRuleId: String
+        /// Unique identifier of a field.
+        public let fieldId: String
+
+        @inlinable
+        public init(caseRuleId: String, fieldId: String) {
+            self.caseRuleId = caseRuleId
+            self.fieldId = fieldId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseRuleId, name: "caseRuleId", parent: name, max: 500)
+            try self.validate(self.caseRuleId, name: "caseRuleId", parent: name, min: 1)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 500)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case caseRuleId = "caseRuleId"
+            case fieldId = "fieldId"
+        }
+    }
+
     public struct TemplateSummary: AWSDecodableShape {
         /// The template name.
         public let name: String
@@ -2847,6 +3371,60 @@ extension ConnectCases {
     }
 
     public struct UpdateCaseResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateCaseRuleRequest: AWSEncodableShape {
+        /// Unique identifier of a case rule.
+        public let caseRuleId: String
+        /// Description of a case rule.
+        public let description: String?
+        /// Unique identifier of a Cases domain.
+        public let domainId: String
+        /// Name of the case rule.
+        public let name: String?
+        /// Represents what rule type should take place, under what conditions.
+        public let rule: CaseRuleDetails?
+
+        @inlinable
+        public init(caseRuleId: String, description: String? = nil, domainId: String, name: String? = nil, rule: CaseRuleDetails? = nil) {
+            self.caseRuleId = caseRuleId
+            self.description = description
+            self.domainId = domainId
+            self.name = name
+            self.rule = rule
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.caseRuleId, key: "caseRuleId")
+            try container.encodeIfPresent(self.description, forKey: .description)
+            request.encodePath(self.domainId, key: "domainId")
+            try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.rule, forKey: .rule)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.caseRuleId, name: "caseRuleId", parent: name, max: 500)
+            try self.validate(self.caseRuleId, name: "caseRuleId", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.domainId, name: "domainId", parent: name, max: 500)
+            try self.validate(self.domainId, name: "domainId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*[\\S]$")
+            try self.rule?.validate(name: "\(name).rule")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case name = "name"
+            case rule = "rule"
+        }
+    }
+
+    public struct UpdateCaseRuleResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -2957,18 +3535,21 @@ extension ConnectCases {
         public let name: String?
         /// A list of fields that must contain a value for a case to be successfully created with this template.
         public let requiredFields: [RequiredField]?
+        /// A list of case rules (also known as case field conditions) on a template.
+        public let rules: [TemplateRule]?
         /// The status of the template.
         public let status: TemplateStatus?
         /// A unique identifier for the template.
         public let templateId: String
 
         @inlinable
-        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String? = nil, requiredFields: [RequiredField]? = nil, status: TemplateStatus? = nil, templateId: String) {
+        public init(description: String? = nil, domainId: String, layoutConfiguration: LayoutConfiguration? = nil, name: String? = nil, requiredFields: [RequiredField]? = nil, rules: [TemplateRule]? = nil, status: TemplateStatus? = nil, templateId: String) {
             self.description = description
             self.domainId = domainId
             self.layoutConfiguration = layoutConfiguration
             self.name = name
             self.requiredFields = requiredFields
+            self.rules = rules
             self.status = status
             self.templateId = templateId
         }
@@ -2981,6 +3562,7 @@ extension ConnectCases {
             try container.encodeIfPresent(self.layoutConfiguration, forKey: .layoutConfiguration)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.requiredFields, forKey: .requiredFields)
+            try container.encodeIfPresent(self.rules, forKey: .rules)
             try container.encodeIfPresent(self.status, forKey: .status)
             request.encodePath(self.templateId, key: "templateId")
         }
@@ -2997,6 +3579,10 @@ extension ConnectCases {
                 try $0.validate(name: "\(name).requiredFields[]")
             }
             try self.validate(self.requiredFields, name: "requiredFields", parent: name, max: 100)
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 50)
             try self.validate(self.templateId, name: "templateId", parent: name, max: 500)
             try self.validate(self.templateId, name: "templateId", parent: name, min: 1)
         }
@@ -3006,12 +3592,31 @@ extension ConnectCases {
             case layoutConfiguration = "layoutConfiguration"
             case name = "name"
             case requiredFields = "requiredFields"
+            case rules = "rules"
             case status = "status"
         }
     }
 
     public struct UpdateTemplateResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct CaseRuleDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Required rule type, used to indicate whether a field is required.
+        public let required: RequiredCaseRule?
+
+        @inlinable
+        public init(required: RequiredCaseRule? = nil) {
+            self.required = required
+        }
+
+        public func validate(name: String) throws {
+            try self.required?.validate(name: "\(name).required")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case required = "required"
+        }
     }
 
     public struct LayoutContent: AWSEncodableShape & AWSDecodableShape {
@@ -3029,6 +3634,25 @@ extension ConnectCases {
 
         private enum CodingKeys: String, CodingKey {
             case basic = "basic"
+        }
+    }
+
+    public struct OperandOne: AWSEncodableShape & AWSDecodableShape {
+        /// The field ID that this operand should take the value of.
+        public let fieldId: String?
+
+        @inlinable
+        public init(fieldId: String? = nil) {
+            self.fieldId = fieldId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 500)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "fieldId"
         }
     }
 

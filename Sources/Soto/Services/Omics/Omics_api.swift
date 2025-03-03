@@ -3012,7 +3012,7 @@ public struct Omics: AWSService {
         logLevel: RunLogLevel? = nil,
         name: String? = nil,
         outputUri: String? = nil,
-        parameters: String? = nil,
+        parameters: AWSDocument? = nil,
         priority: Int? = nil,
         requestId: String = StartRunRequest.idempotencyToken(),
         retentionMode: RunRetentionMode? = nil,

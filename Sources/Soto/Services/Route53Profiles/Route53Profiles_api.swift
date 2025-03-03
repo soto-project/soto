@@ -65,6 +65,7 @@ public struct Route53Profiles: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-10",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: Route53ProfilesErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -76,6 +77,42 @@ public struct Route53Profiles: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "route53profiles.af-south-1.api.aws",
+            "ap-east-1": "route53profiles.ap-east-1.api.aws",
+            "ap-northeast-1": "route53profiles.ap-northeast-1.api.aws",
+            "ap-northeast-2": "route53profiles.ap-northeast-2.api.aws",
+            "ap-northeast-3": "route53profiles.ap-northeast-3.api.aws",
+            "ap-south-1": "route53profiles.ap-south-1.api.aws",
+            "ap-south-2": "route53profiles.ap-south-2.api.aws",
+            "ap-southeast-1": "route53profiles.ap-southeast-1.api.aws",
+            "ap-southeast-2": "route53profiles.ap-southeast-2.api.aws",
+            "ap-southeast-3": "route53profiles.ap-southeast-3.api.aws",
+            "ap-southeast-4": "route53profiles.ap-southeast-4.api.aws",
+            "ca-central-1": "route53profiles.ca-central-1.api.aws",
+            "ca-west-1": "route53profiles.ca-west-1.api.aws",
+            "eu-central-1": "route53profiles.eu-central-1.api.aws",
+            "eu-central-2": "route53profiles.eu-central-2.api.aws",
+            "eu-north-1": "route53profiles.eu-north-1.api.aws",
+            "eu-south-1": "route53profiles.eu-south-1.api.aws",
+            "eu-south-2": "route53profiles.eu-south-2.api.aws",
+            "eu-west-1": "route53profiles.eu-west-1.api.aws",
+            "eu-west-2": "route53profiles.eu-west-2.api.aws",
+            "eu-west-3": "route53profiles.eu-west-3.api.aws",
+            "il-central-1": "route53profiles.il-central-1.api.aws",
+            "me-central-1": "route53profiles.me-central-1.api.aws",
+            "me-south-1": "route53profiles.me-south-1.api.aws",
+            "sa-east-1": "route53profiles.sa-east-1.api.aws",
+            "us-east-1": "route53profiles.us-east-1.api.aws",
+            "us-east-2": "route53profiles.us-east-2.api.aws",
+            "us-gov-east-1": "route53profiles.us-gov-east-1.api.aws",
+            "us-gov-west-1": "route53profiles.us-gov-west-1.api.aws",
+            "us-west-1": "route53profiles.us-west-1.api.aws",
+            "us-west-2": "route53profiles.us-west-2.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 

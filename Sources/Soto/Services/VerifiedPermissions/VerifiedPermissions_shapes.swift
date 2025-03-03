@@ -268,6 +268,91 @@ extension VerifiedPermissions {
         }
     }
 
+    public enum ContextDefinition: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A Cedar JSON string representation of the context needed to successfully evaluate an authorization request. Example: {"cedarJson":"{\"&lt;KeyName1&gt;\": true, \"&lt;KeyName2&gt;\": 1234}" }
+        case cedarJson(String)
+        /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "contextMap":{"&lt;KeyName1&gt;":{"boolean":true},"&lt;KeyName2&gt;":{"long":1234}}
+        case contextMap([String: AttributeValue])
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cedarJson:
+                let value = try container.decode(String.self, forKey: .cedarJson)
+                self = .cedarJson(value)
+            case .contextMap:
+                let value = try container.decode([String: AttributeValue].self, forKey: .contextMap)
+                self = .contextMap(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cedarJson(let value):
+                try container.encode(value, forKey: .cedarJson)
+            case .contextMap(let value):
+                try container.encode(value, forKey: .contextMap)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .contextMap(let value):
+                try value.forEach {
+                    try $0.value.validate(name: "\(name).contextMap[\"\($0.key)\"]")
+                }
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cedarJson = "cedarJson"
+            case contextMap = "contextMap"
+        }
+    }
+
+    public enum EntitiesDefinition: AWSEncodableShape, Sendable {
+        /// A Cedar JSON string representation of the entities needed to successfully evaluate an authorization request. Example: {"cedarJson": "[{\"uid\":{\"type\":\"Photo\",\"id\":\"VacationPhoto94.jpg\"},\"attrs\":{\"accessLevel\":\"public\"},\"parents\":[]}]"}
+        case cedarJson(String)
+        /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities.  If you include multiple entities with the same identifier, only the last one is processed in the request.
+        case entityList([EntityItem])
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cedarJson(let value):
+                try container.encode(value, forKey: .cedarJson)
+            case .entityList(let value):
+                try container.encode(value, forKey: .entityList)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .entityList(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).entityList[]")
+                }
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cedarJson = "cedarJson"
+            case entityList = "entityList"
+        }
+    }
+
     public enum EntityReference: AWSEncodableShape, Sendable {
         /// The identifier of the entity. It can consist of either an EntityType and EntityId, a principal, or a resource.
         case identifier(EntityIdentifier)
@@ -981,7 +1066,7 @@ extension VerifiedPermissions {
     public struct CognitoUserPoolConfiguration: AWSEncodableShape {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "ClientIds": ["&amp;ExampleCogClientId;"]
         public let clientIds: [String]?
-        /// The type of entity that a policy store maps to groups from an Amazon Cognito user  pool identity source.
+        /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source.
         public let groupConfiguration: CognitoGroupConfiguration?
         /// The Amazon Resource Name (ARN) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "UserPoolArn": "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"
         public let userPoolArn: String
@@ -1016,7 +1101,7 @@ extension VerifiedPermissions {
     public struct CognitoUserPoolConfigurationDetail: AWSDecodableShape {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&amp;ExampleCogClientId;"]
         public let clientIds: [String]
-        /// The type of entity that a policy store maps to groups from an Amazon Cognito user  pool identity source.
+        /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source.
         public let groupConfiguration: CognitoGroupConfigurationDetail?
         /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
         public let issuer: String
@@ -1042,7 +1127,7 @@ extension VerifiedPermissions {
     public struct CognitoUserPoolConfigurationItem: AWSDecodableShape {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&amp;ExampleCogClientId;"]
         public let clientIds: [String]
-        /// The type of entity that a policy store maps to groups from an Amazon Cognito user  pool identity source.
+        /// The type of entity that a policy store maps to groups from an Amazon Cognito user pool identity source.
         public let groupConfiguration: CognitoGroupConfigurationItem?
         /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
         public let issuer: String
@@ -3465,48 +3550,8 @@ extension VerifiedPermissions {
         }
     }
 
-    public struct ContextDefinition: AWSEncodableShape & AWSDecodableShape {
-        /// An list of attributes that are needed to successfully evaluate an authorization request. Each attribute in this array must include a map of a data type and its value. Example: "contextMap":{"&lt;KeyName1&gt;":{"boolean":true},"&lt;KeyName2&gt;":{"long":1234}}
-        public let contextMap: [String: AttributeValue]?
-
-        @inlinable
-        public init(contextMap: [String: AttributeValue]? = nil) {
-            self.contextMap = contextMap
-        }
-
-        public func validate(name: String) throws {
-            try self.contextMap?.forEach {
-                try $0.value.validate(name: "\(name).contextMap[\"\($0.key)\"]")
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case contextMap = "contextMap"
-        }
-    }
-
-    public struct EntitiesDefinition: AWSEncodableShape {
-        /// An array of entities that are needed to successfully evaluate an authorization request. Each entity in this array must include an identifier for the entity, the attributes of the entity, and a list of any parent entities.
-        public let entityList: [EntityItem]?
-
-        @inlinable
-        public init(entityList: [EntityItem]? = nil) {
-            self.entityList = entityList
-        }
-
-        public func validate(name: String) throws {
-            try self.entityList?.forEach {
-                try $0.validate(name: "\(name).entityList[]")
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case entityList = "entityList"
-        }
-    }
-
     public struct SchemaDefinition: AWSEncodableShape {
-        /// A JSON string representation of the schema supported by applications that use this policy store. To delete the schema, run PutSchema with {} for this parameter.  For more information, see Policy store schema in the Amazon Verified Permissions User Guide.
+        /// A JSON string representation of the schema supported by applications that use this policy store. To delete the schema, run PutSchema with {} for this parameter. For more information, see Policy store schema in the Amazon Verified Permissions User Guide.
         public let cedarJson: String?
 
         @inlinable

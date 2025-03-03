@@ -253,7 +253,7 @@ public struct APIGateway: AWSService {
     /// Parameters:
     ///   - basePath: The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify a base path name after the domain name.
     ///   - domainName: The domain name of the BasePathMapping resource to create.
-    ///   - domainNameId: The identifier for the domain name resource. Supported only for private custom domain names.
+    ///   - domainNameId: The identifier for the domain name resource. Required for private custom domain names.
     ///   - restApiId: The string identifier of the associated RestApi.
     ///   - stage: The name of the API's stage that you want to use for this mapping. Specify '(none)' if you want callers to explicitly specify the stage name after any base path name.
     ///   - logger: Logger use during operation
@@ -2193,7 +2193,7 @@ public struct APIGateway: AWSService {
     ///
     /// Parameters:
     ///   - domainName: The name of the DomainName resource.
-    ///   - domainNameId:  The identifier for the domain name resource. Supported only for private custom domain names.
+    ///   - domainNameId:  The identifier for the domain name resource. Required for private custom domain names.
     ///   - logger: Logger use during operation
     @inlinable
     public func getDomainName(

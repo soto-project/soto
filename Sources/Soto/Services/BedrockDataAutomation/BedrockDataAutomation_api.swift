@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS BedrockDataAutomation service.
 ///
-/// Amazon Bedrock Keystone Build
+/// Amazon Bedrock Data Automation BuildTime
 public struct BedrockDataAutomation: AWSService {
     // MARK: Member variables
 
@@ -80,7 +80,7 @@ public struct BedrockDataAutomation: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an Amazon Bedrock Keystone Blueprint
+    /// Creates an Amazon Bedrock Data Automation Blueprint
     @Sendable
     @inlinable
     public func createBlueprint(_ input: CreateBlueprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBlueprintResponse {
@@ -93,7 +93,7 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Bedrock Keystone Blueprint
+    /// Creates an Amazon Bedrock Data Automation Blueprint
     ///
     /// Parameters:
     ///   - blueprintName: 
@@ -101,6 +101,7 @@ public struct BedrockDataAutomation: AWSService {
     ///   - clientToken: 
     ///   - encryptionConfiguration: 
     ///   - schema: 
+    ///   - tags: 
     ///   - type: 
     ///   - logger: Logger use during operation
     @inlinable
@@ -110,6 +111,7 @@ public struct BedrockDataAutomation: AWSService {
         clientToken: String? = CreateBlueprintRequest.idempotencyToken(),
         encryptionConfiguration: EncryptionConfiguration? = nil,
         schema: String,
+        tags: [Tag]? = nil,
         type: `Type`,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateBlueprintResponse {
@@ -119,12 +121,13 @@ public struct BedrockDataAutomation: AWSService {
             clientToken: clientToken, 
             encryptionConfiguration: encryptionConfiguration, 
             schema: schema, 
+            tags: tags, 
             type: type
         )
         return try await self.createBlueprint(input, logger: logger)
     }
 
-    /// Creates a new version of an existing Amazon Bedrock Keystone Blueprint
+    /// Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
     @Sendable
     @inlinable
     public func createBlueprintVersion(_ input: CreateBlueprintVersionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBlueprintVersionResponse {
@@ -137,7 +140,7 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Creates a new version of an existing Amazon Bedrock Keystone Blueprint
+    /// Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
     ///
     /// Parameters:
     ///   - blueprintArn: ARN generated at the server side when a Blueprint is created
@@ -156,7 +159,7 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.createBlueprintVersion(input, logger: logger)
     }
 
-    /// Creates an Amazon Bedrock Keystone DataAutomationProject
+    /// Creates an Amazon Bedrock Data Automation Project
     @Sendable
     @inlinable
     public func createDataAutomationProject(_ input: CreateDataAutomationProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataAutomationProjectResponse {
@@ -169,7 +172,7 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Creates an Amazon Bedrock Keystone DataAutomationProject
+    /// Creates an Amazon Bedrock Data Automation Project
     ///
     /// Parameters:
     ///   - clientToken: 
@@ -180,6 +183,7 @@ public struct BedrockDataAutomation: AWSService {
     ///   - projectName: 
     ///   - projectStage: 
     ///   - standardOutputConfiguration: 
+    ///   - tags: 
     ///   - logger: Logger use during operation
     @inlinable
     public func createDataAutomationProject(
@@ -191,6 +195,7 @@ public struct BedrockDataAutomation: AWSService {
         projectName: String,
         projectStage: DataAutomationProjectStage? = nil,
         standardOutputConfiguration: StandardOutputConfiguration,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDataAutomationProjectResponse {
         let input = CreateDataAutomationProjectRequest(
@@ -201,12 +206,13 @@ public struct BedrockDataAutomation: AWSService {
             projectDescription: projectDescription, 
             projectName: projectName, 
             projectStage: projectStage, 
-            standardOutputConfiguration: standardOutputConfiguration
+            standardOutputConfiguration: standardOutputConfiguration, 
+            tags: tags
         )
         return try await self.createDataAutomationProject(input, logger: logger)
     }
 
-    /// Deletes an existing Amazon Bedrock Keystone Blueprint
+    /// Deletes an existing Amazon Bedrock Data Automation Blueprint
     @Sendable
     @inlinable
     public func deleteBlueprint(_ input: DeleteBlueprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBlueprintResponse {
@@ -219,7 +225,7 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Deletes an existing Amazon Bedrock Keystone Blueprint
+    /// Deletes an existing Amazon Bedrock Data Automation Blueprint
     ///
     /// Parameters:
     ///   - blueprintArn: ARN generated at the server side when a Blueprint is created
@@ -238,7 +244,7 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.deleteBlueprint(input, logger: logger)
     }
 
-    /// Deletes an existing Amazon Bedrock Keystone DataAutomationProject
+    /// Deletes an existing Amazon Bedrock Data Automation Project
     @Sendable
     @inlinable
     public func deleteDataAutomationProject(_ input: DeleteDataAutomationProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDataAutomationProjectResponse {
@@ -251,7 +257,7 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Deletes an existing Amazon Bedrock Keystone DataAutomationProject
+    /// Deletes an existing Amazon Bedrock Data Automation Project
     ///
     /// Parameters:
     ///   - projectArn: ARN generated at the server side when a DataAutomationProject is created
@@ -267,7 +273,7 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.deleteDataAutomationProject(input, logger: logger)
     }
 
-    /// Gets an existing Amazon Bedrock Keystone Blueprint
+    /// Gets an existing Amazon Bedrock Data Automation Blueprint
     @Sendable
     @inlinable
     public func getBlueprint(_ input: GetBlueprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetBlueprintResponse {
@@ -280,7 +286,7 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Gets an existing Amazon Bedrock Keystone Blueprint
+    /// Gets an existing Amazon Bedrock Data Automation Blueprint
     ///
     /// Parameters:
     ///   - blueprintArn: ARN generated at the server side when a Blueprint is created
@@ -302,7 +308,7 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.getBlueprint(input, logger: logger)
     }
 
-    /// Gets an existing Amazon Bedrock Keystone DataAutomationProject
+    /// Gets an existing Amazon Bedrock Data Automation Project
     @Sendable
     @inlinable
     public func getDataAutomationProject(_ input: GetDataAutomationProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataAutomationProjectResponse {
@@ -315,7 +321,7 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Gets an existing Amazon Bedrock Keystone DataAutomationProject
+    /// Gets an existing Amazon Bedrock Data Automation Project
     ///
     /// Parameters:
     ///   - projectArn: ARN generated at the server side when a DataAutomationProject is created
@@ -334,7 +340,7 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.getDataAutomationProject(input, logger: logger)
     }
 
-    /// Lists all existing Amazon Bedrock Keystone Blueprints
+    /// Lists all existing Amazon Bedrock Data Automation Blueprints
     @Sendable
     @inlinable
     public func listBlueprints(_ input: ListBlueprintsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBlueprintsResponse {
@@ -347,7 +353,7 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Lists all existing Amazon Bedrock Keystone Blueprints
+    /// Lists all existing Amazon Bedrock Data Automation Blueprints
     ///
     /// Parameters:
     ///   - blueprintArn: 
@@ -378,7 +384,7 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.listBlueprints(input, logger: logger)
     }
 
-    /// Lists all existing Amazon Bedrock Keystone DataAutomationProjects
+    /// Lists all existing Amazon Bedrock Data Automation Projects
     @Sendable
     @inlinable
     public func listDataAutomationProjects(_ input: ListDataAutomationProjectsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataAutomationProjectsResponse {
@@ -391,7 +397,7 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Lists all existing Amazon Bedrock Keystone DataAutomationProjects
+    /// Lists all existing Amazon Bedrock Data Automation Projects
     ///
     /// Parameters:
     ///   - blueprintFilter: 
@@ -419,7 +425,100 @@ public struct BedrockDataAutomation: AWSService {
         return try await self.listDataAutomationProjects(input, logger: logger)
     }
 
-    /// Updates an existing Amazon Bedrock Blueprint
+    /// List tags for an Amazon Bedrock Data Automation resource
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/listTagsForResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List tags for an Amazon Bedrock Data Automation resource
+    ///
+    /// Parameters:
+    ///   - resourceARN: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceARN: resourceARN
+        )
+        return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Tag an Amazon Bedrock Data Automation resource
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/tagResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Tag an Amazon Bedrock Data Automation resource
+    ///
+    /// Parameters:
+    ///   - resourceARN: 
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceARN: String,
+        tags: [Tag],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceARN: resourceARN, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Untag an Amazon Bedrock Data Automation resource
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/untagResource", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Untag an Amazon Bedrock Data Automation resource
+    ///
+    /// Parameters:
+    ///   - resourceARN: 
+    ///   - tagKeys: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceARN: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceARN: resourceARN, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates an existing Amazon Bedrock Data Automation Blueprint
     @Sendable
     @inlinable
     public func updateBlueprint(_ input: UpdateBlueprintRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBlueprintResponse {
@@ -432,29 +531,32 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing Amazon Bedrock Blueprint
+    /// Updates an existing Amazon Bedrock Data Automation Blueprint
     ///
     /// Parameters:
     ///   - blueprintArn: ARN generated at the server side when a Blueprint is created
     ///   - blueprintStage: 
+    ///   - encryptionConfiguration: 
     ///   - schema: 
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBlueprint(
         blueprintArn: String,
         blueprintStage: BlueprintStage? = nil,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         schema: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateBlueprintResponse {
         let input = UpdateBlueprintRequest(
             blueprintArn: blueprintArn, 
             blueprintStage: blueprintStage, 
+            encryptionConfiguration: encryptionConfiguration, 
             schema: schema
         )
         return try await self.updateBlueprint(input, logger: logger)
     }
 
-    /// Updates an existing Amazon Bedrock DataAutomationProject
+    /// Updates an existing Amazon Bedrock Data Automation Project
     @Sendable
     @inlinable
     public func updateDataAutomationProject(_ input: UpdateDataAutomationProjectRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDataAutomationProjectResponse {
@@ -467,10 +569,11 @@ public struct BedrockDataAutomation: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing Amazon Bedrock DataAutomationProject
+    /// Updates an existing Amazon Bedrock Data Automation Project
     ///
     /// Parameters:
     ///   - customOutputConfiguration: 
+    ///   - encryptionConfiguration: 
     ///   - overrideConfiguration: 
     ///   - projectArn: ARN generated at the server side when a DataAutomationProject is created
     ///   - projectDescription: 
@@ -480,6 +583,7 @@ public struct BedrockDataAutomation: AWSService {
     @inlinable
     public func updateDataAutomationProject(
         customOutputConfiguration: CustomOutputConfiguration? = nil,
+        encryptionConfiguration: EncryptionConfiguration? = nil,
         overrideConfiguration: OverrideConfiguration? = nil,
         projectArn: String,
         projectDescription: String? = nil,
@@ -489,6 +593,7 @@ public struct BedrockDataAutomation: AWSService {
     ) async throws -> UpdateDataAutomationProjectResponse {
         let input = UpdateDataAutomationProjectRequest(
             customOutputConfiguration: customOutputConfiguration, 
+            encryptionConfiguration: encryptionConfiguration, 
             overrideConfiguration: overrideConfiguration, 
             projectArn: projectArn, 
             projectDescription: projectDescription, 

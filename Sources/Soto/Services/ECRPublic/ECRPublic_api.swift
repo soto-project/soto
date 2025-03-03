@@ -68,6 +68,7 @@ public struct ECRPublic: AWSService {
             apiVersion: "2020-10-30",
             endpoint: endpoint,
             serviceEndpoints: Self.serviceEndpoints,
+            variantEndpoints: Self.variantEndpoints,
             errorType: ECRPublicErrorType.self,
             xmlNamespace: "http://ecr-public.amazonaws.com/doc/2020-12-02/",
             middleware: middleware,
@@ -85,6 +86,12 @@ public struct ECRPublic: AWSService {
     ]}
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "us-east-1": "ecr-public.us-east-1.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 

@@ -584,7 +584,7 @@ public struct Tnb: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func instantiateSolNetworkInstance(
-        additionalParamsForNs: String? = nil,
+        additionalParamsForNs: AWSDocument? = nil,
         dryRun: Bool? = nil,
         nsInstanceId: String,
         tags: [String: String]? = nil,

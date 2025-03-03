@@ -26,6 +26,43 @@ import Foundation
 extension KafkaConnect {
     // MARK: Enums
 
+    public enum ConnectorOperationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pending = "PENDING"
+        case rollbackComplete = "ROLLBACK_COMPLETE"
+        case rollbackFailed = "ROLLBACK_FAILED"
+        case rollbackInProgress = "ROLLBACK_IN_PROGRESS"
+        case updateComplete = "UPDATE_COMPLETE"
+        case updateFailed = "UPDATE_FAILED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorOperationStepState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorOperationStepType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case finalizeUpdate = "FINALIZE_UPDATE"
+        case initializeUpdate = "INITIALIZE_UPDATE"
+        case updateConnectorConfiguration = "UPDATE_CONNECTOR_CONFIGURATION"
+        case updateWorkerSetting = "UPDATE_WORKER_SETTING"
+        case validateUpdate = "VALIDATE_UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectorOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case isolateConnector = "ISOLATE_CONNECTOR"
+        case restoreConnector = "RESTORE_CONNECTOR"
+        case updateConnectorConfiguration = "UPDATE_CONNECTOR_CONFIGURATION"
+        case updateWorkerSetting = "UPDATE_WORKER_SETTING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectorState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
@@ -129,12 +166,8 @@ extension KafkaConnect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 10)
-            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: 1)
             try self.validate(self.mcuCount, name: "mcuCount", parent: name, max: 8)
             try self.validate(self.mcuCount, name: "mcuCount", parent: name, min: 1)
-            try self.validate(self.minWorkerCount, name: "minWorkerCount", parent: name, max: 10)
-            try self.validate(self.minWorkerCount, name: "minWorkerCount", parent: name, min: 1)
             try self.scaleInPolicy?.validate(name: "\(name).scaleInPolicy")
             try self.scaleOutPolicy?.validate(name: "\(name).scaleOutPolicy")
         }
@@ -200,12 +233,8 @@ extension KafkaConnect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, max: 10)
-            try self.validate(self.maxWorkerCount, name: "maxWorkerCount", parent: name, min: 1)
             try self.validate(self.mcuCount, name: "mcuCount", parent: name, max: 8)
             try self.validate(self.mcuCount, name: "mcuCount", parent: name, min: 1)
-            try self.validate(self.minWorkerCount, name: "minWorkerCount", parent: name, max: 10)
-            try self.validate(self.minWorkerCount, name: "minWorkerCount", parent: name, min: 1)
             try self.scaleInPolicy.validate(name: "\(name).scaleInPolicy")
             try self.scaleOutPolicy.validate(name: "\(name).scaleOutPolicy")
         }
@@ -316,6 +345,56 @@ extension KafkaConnect {
         private enum CodingKeys: String, CodingKey {
             case enabled = "enabled"
             case logGroup = "logGroup"
+        }
+    }
+
+    public struct ConnectorOperationStep: AWSDecodableShape {
+        /// The step state of the operation.
+        public let stepState: ConnectorOperationStepState?
+        /// The step type of the operation.
+        public let stepType: ConnectorOperationStepType?
+
+        @inlinable
+        public init(stepState: ConnectorOperationStepState? = nil, stepType: ConnectorOperationStepType? = nil) {
+            self.stepState = stepState
+            self.stepType = stepType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stepState = "stepState"
+            case stepType = "stepType"
+        }
+    }
+
+    public struct ConnectorOperationSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector operation.
+        public let connectorOperationArn: String?
+        /// The state of the connector operation.
+        public let connectorOperationState: ConnectorOperationState?
+        /// The type of connector operation performed.
+        public let connectorOperationType: ConnectorOperationType?
+        /// The time when operation was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The time when operation ended.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+
+        @inlinable
+        public init(connectorOperationArn: String? = nil, connectorOperationState: ConnectorOperationState? = nil, connectorOperationType: ConnectorOperationType? = nil, creationTime: Date? = nil, endTime: Date? = nil) {
+            self.connectorOperationArn = connectorOperationArn
+            self.connectorOperationState = connectorOperationState
+            self.connectorOperationType = connectorOperationType
+            self.creationTime = creationTime
+            self.endTime = endTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorOperationArn = "connectorOperationArn"
+            case connectorOperationState = "connectorOperationState"
+            case connectorOperationType = "connectorOperationType"
+            case creationTime = "creationTime"
+            case endTime = "endTime"
         }
     }
 
@@ -897,6 +976,83 @@ extension KafkaConnect {
         }
     }
 
+    public struct DescribeConnectorOperationRequest: AWSEncodableShape {
+        /// ARN of the connector operation to be described.
+        public let connectorOperationArn: String
+
+        @inlinable
+        public init(connectorOperationArn: String) {
+            self.connectorOperationArn = connectorOperationArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorOperationArn, key: "connectorOperationArn")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeConnectorOperationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the connector.
+        public let connectorArn: String?
+        /// The Amazon Resource Name (ARN) of the connector operation.
+        public let connectorOperationArn: String?
+        /// The state of the connector operation.
+        public let connectorOperationState: ConnectorOperationState?
+        /// The type of connector operation performed.
+        public let connectorOperationType: ConnectorOperationType?
+        /// The time when the operation was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The time when the operation ended.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var endTime: Date?
+        public let errorInfo: StateDescription?
+        /// The array of operation steps taken.
+        public let operationSteps: [ConnectorOperationStep]?
+        /// The origin connector configuration.
+        public let originConnectorConfiguration: [String: String]?
+        /// The origin worker setting.
+        public let originWorkerSetting: WorkerSetting?
+        /// The target connector configuration.
+        public let targetConnectorConfiguration: [String: String]?
+        /// The target worker setting.
+        public let targetWorkerSetting: WorkerSetting?
+
+        @inlinable
+        public init(connectorArn: String? = nil, connectorOperationArn: String? = nil, connectorOperationState: ConnectorOperationState? = nil, connectorOperationType: ConnectorOperationType? = nil, creationTime: Date? = nil, endTime: Date? = nil, errorInfo: StateDescription? = nil, operationSteps: [ConnectorOperationStep]? = nil, originConnectorConfiguration: [String: String]? = nil, originWorkerSetting: WorkerSetting? = nil, targetConnectorConfiguration: [String: String]? = nil, targetWorkerSetting: WorkerSetting? = nil) {
+            self.connectorArn = connectorArn
+            self.connectorOperationArn = connectorOperationArn
+            self.connectorOperationState = connectorOperationState
+            self.connectorOperationType = connectorOperationType
+            self.creationTime = creationTime
+            self.endTime = endTime
+            self.errorInfo = errorInfo
+            self.operationSteps = operationSteps
+            self.originConnectorConfiguration = originConnectorConfiguration
+            self.originWorkerSetting = originWorkerSetting
+            self.targetConnectorConfiguration = targetConnectorConfiguration
+            self.targetWorkerSetting = targetWorkerSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn = "connectorArn"
+            case connectorOperationArn = "connectorOperationArn"
+            case connectorOperationState = "connectorOperationState"
+            case connectorOperationType = "connectorOperationType"
+            case creationTime = "creationTime"
+            case endTime = "endTime"
+            case errorInfo = "errorInfo"
+            case operationSteps = "operationSteps"
+            case originConnectorConfiguration = "originConnectorConfiguration"
+            case originWorkerSetting = "originWorkerSetting"
+            case targetConnectorConfiguration = "targetConnectorConfiguration"
+            case targetWorkerSetting = "targetWorkerSetting"
+        }
+    }
+
     public struct DescribeConnectorRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the connector that you want to describe.
         public let connectorArn: String
@@ -1224,6 +1380,55 @@ extension KafkaConnect {
         }
     }
 
+    public struct ListConnectorOperationsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the connector for which to list operations.
+        public let connectorArn: String
+        /// Maximum number of connector operations to fetch in one get request.
+        public let maxResults: Int?
+        /// If the response is truncated, it includes a NextToken. Send this NextToken in a subsequent request to continue listing from where it left off.
+        public let nextToken: String?
+
+        @inlinable
+        public init(connectorArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.connectorArn = connectorArn
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectorArn, key: "connectorArn")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConnectorOperationsResponse: AWSDecodableShape {
+        /// An array of connector operation descriptions.
+        public let connectorOperations: [ConnectorOperationSummary]?
+        /// If the response is truncated, it includes a NextToken. Send this NextToken in a subsequent request to continue listing from where it left off.
+        public let nextToken: String?
+
+        @inlinable
+        public init(connectorOperations: [ConnectorOperationSummary]? = nil, nextToken: String? = nil) {
+            self.connectorOperations = connectorOperations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorOperations = "connectorOperations"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListConnectorsRequest: AWSEncodableShape {
         /// The name prefix that you want to use to search for and list connectors.
         public let connectorNamePrefix: String?
@@ -1478,8 +1683,6 @@ extension KafkaConnect {
         public func validate(name: String) throws {
             try self.validate(self.mcuCount, name: "mcuCount", parent: name, max: 8)
             try self.validate(self.mcuCount, name: "mcuCount", parent: name, min: 1)
-            try self.validate(self.workerCount, name: "workerCount", parent: name, max: 10)
-            try self.validate(self.workerCount, name: "workerCount", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1521,8 +1724,6 @@ extension KafkaConnect {
         public func validate(name: String) throws {
             try self.validate(self.mcuCount, name: "mcuCount", parent: name, max: 8)
             try self.validate(self.mcuCount, name: "mcuCount", parent: name, min: 1)
-            try self.validate(self.workerCount, name: "workerCount", parent: name, max: 10)
-            try self.validate(self.workerCount, name: "workerCount", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1814,50 +2015,59 @@ extension KafkaConnect {
 
     public struct UpdateConnectorRequest: AWSEncodableShape {
         /// The target capacity.
-        public let capacity: CapacityUpdate
+        public let capacity: CapacityUpdate?
         /// The Amazon Resource Name (ARN) of the connector that you want to update.
         public let connectorArn: String
+        /// A map of keys to values that represent the configuration for the connector.
+        public let connectorConfiguration: [String: String]?
         /// The current version of the connector that you want to update.
         public let currentVersion: String
 
         @inlinable
-        public init(capacity: CapacityUpdate, connectorArn: String, currentVersion: String) {
+        public init(capacity: CapacityUpdate? = nil, connectorArn: String, connectorConfiguration: [String: String]? = nil, currentVersion: String) {
             self.capacity = capacity
             self.connectorArn = connectorArn
+            self.connectorConfiguration = connectorConfiguration
             self.currentVersion = currentVersion
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(self.capacity, forKey: .capacity)
+            try container.encodeIfPresent(self.capacity, forKey: .capacity)
             request.encodePath(self.connectorArn, key: "connectorArn")
+            try container.encodeIfPresent(self.connectorConfiguration, forKey: .connectorConfiguration)
             request.encodeQuery(self.currentVersion, key: "currentVersion")
         }
 
         public func validate(name: String) throws {
-            try self.capacity.validate(name: "\(name).capacity")
+            try self.capacity?.validate(name: "\(name).capacity")
         }
 
         private enum CodingKeys: String, CodingKey {
             case capacity = "capacity"
+            case connectorConfiguration = "connectorConfiguration"
         }
     }
 
     public struct UpdateConnectorResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the connector.
         public let connectorArn: String?
+        /// The Amazon Resource Name (ARN) of the connector operation.
+        public let connectorOperationArn: String?
         /// The state of the connector.
         public let connectorState: ConnectorState?
 
         @inlinable
-        public init(connectorArn: String? = nil, connectorState: ConnectorState? = nil) {
+        public init(connectorArn: String? = nil, connectorOperationArn: String? = nil, connectorState: ConnectorState? = nil) {
             self.connectorArn = connectorArn
+            self.connectorOperationArn = connectorOperationArn
             self.connectorState = connectorState
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectorArn = "connectorArn"
+            case connectorOperationArn = "connectorOperationArn"
             case connectorState = "connectorState"
         }
     }
@@ -2065,6 +2275,19 @@ extension KafkaConnect {
             case cloudWatchLogs = "cloudWatchLogs"
             case firehose = "firehose"
             case s3 = "s3"
+        }
+    }
+
+    public struct WorkerSetting: AWSDecodableShape {
+        public let capacity: CapacityDescription?
+
+        @inlinable
+        public init(capacity: CapacityDescription? = nil) {
+            self.capacity = capacity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "capacity"
         }
     }
 }

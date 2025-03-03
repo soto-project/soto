@@ -439,7 +439,7 @@ extension ApplicationSignals {
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
             }
-            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 4)
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
         }
 
@@ -574,7 +574,7 @@ extension ApplicationSignals {
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
             }
-            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 4)
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -649,7 +649,7 @@ extension ApplicationSignals {
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
             }
-            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 4)
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -687,6 +687,8 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceLevelObjectivesInput: AWSEncodableShape {
+        /// If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.   When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
+        public let includeLinkedAccounts: Bool?
         /// You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
         /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
@@ -695,22 +697,28 @@ extension ApplicationSignals {
         public let nextToken: String?
         /// The name of the operation that this SLO is associated with.
         public let operationName: String?
+        /// SLO's Amazon Web Services account ID.
+        public let sloOwnerAwsAccountId: String?
 
         @inlinable
-        public init(keyAttributes: [String: String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationName: String? = nil) {
+        public init(includeLinkedAccounts: Bool? = nil, keyAttributes: [String: String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationName: String? = nil, sloOwnerAwsAccountId: String? = nil) {
+            self.includeLinkedAccounts = includeLinkedAccounts
             self.keyAttributes = keyAttributes
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.operationName = operationName
+            self.sloOwnerAwsAccountId = sloOwnerAwsAccountId
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.includeLinkedAccounts, key: "IncludeLinkedAccounts")
             try container.encodeIfPresent(self.keyAttributes, forKey: .keyAttributes)
             request.encodeQuery(self.maxResults, key: "MaxResults")
             request.encodeQuery(self.nextToken, key: "NextToken")
             request.encodeQuery(self.operationName, key: "OperationName")
+            request.encodeQuery(self.sloOwnerAwsAccountId, key: "SloOwnerAwsAccountId")
         }
 
         public func validate(name: String) throws {
@@ -720,12 +728,13 @@ extension ApplicationSignals {
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
             }
-            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 4)
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.operationName, name: "operationName", parent: name, max: 255)
             try self.validate(self.operationName, name: "operationName", parent: name, min: 1)
+            try self.validate(self.sloOwnerAwsAccountId, name: "sloOwnerAwsAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -789,7 +798,7 @@ extension ApplicationSignals {
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
             }
-            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 4)
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -827,8 +836,12 @@ extension ApplicationSignals {
     }
 
     public struct ListServicesInput: AWSEncodableShape {
+        /// Amazon Web Services Account ID.
+        public let awsAccountId: String?
         /// The end of the time period to retrieve information about. When used in a raw HTTP Query API, it is formatted as  be epoch time in seconds. For example: 1698778057  Your requested start time will be rounded to the nearest hour.
         public let endTime: Date
+        /// If you are using this operation in a monitoring account, specify true to include services from source accounts in the returned data.
+        public let includeLinkedAccounts: Bool?
         ///  The maximum number  of results  to return  in one operation.  If you omit this parameter,  the default of 50 is used.
         public let maxResults: Int?
         /// Include this value, if it was returned by the previous operation, to get the next set of services.
@@ -837,8 +850,10 @@ extension ApplicationSignals {
         public let startTime: Date
 
         @inlinable
-        public init(endTime: Date, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
+        public init(awsAccountId: String? = nil, endTime: Date, includeLinkedAccounts: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTime: Date) {
+            self.awsAccountId = awsAccountId
             self.endTime = endTime
+            self.includeLinkedAccounts = includeLinkedAccounts
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.startTime = startTime
@@ -847,13 +862,16 @@ extension ApplicationSignals {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.awsAccountId, key: "AwsAccountId")
             request.encodeQuery(self.endTime, key: "EndTime")
+            request.encodeQuery(self.includeLinkedAccounts, key: "IncludeLinkedAccounts")
             request.encodeQuery(self.maxResults, key: "MaxResults")
             request.encodeQuery(self.nextToken, key: "NextToken")
             request.encodeQuery(self.startTime, key: "StartTime")
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1008,6 +1026,8 @@ extension ApplicationSignals {
     }
 
     public struct MetricReference: AWSDecodableShape {
+        /// Amazon Web Services account ID.
+        public let accountId: String?
         /// An array of one or more dimensions that further define the metric.  For more information, see  CloudWatchDimensions.
         public let dimensions: [Dimension]?
         /// The name of the metric.
@@ -1018,7 +1038,8 @@ extension ApplicationSignals {
         public let namespace: String
 
         @inlinable
-        public init(dimensions: [Dimension]? = nil, metricName: String, metricType: String, namespace: String) {
+        public init(accountId: String? = nil, dimensions: [Dimension]? = nil, metricName: String, metricType: String, namespace: String) {
+            self.accountId = accountId
             self.dimensions = dimensions
             self.metricName = metricName
             self.metricType = metricType
@@ -1026,6 +1047,7 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
             case dimensions = "Dimensions"
             case metricName = "MetricName"
             case metricType = "MetricType"
@@ -1170,7 +1192,7 @@ extension ApplicationSignals {
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
             }
-            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 4)
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
             try self.monitoredRequestCountMetric?.validate(name: "\(name).monitoredRequestCountMetric")
             try self.validate(self.operationName, name: "operationName", parent: name, max: 255)
@@ -1394,7 +1416,7 @@ extension ApplicationSignals {
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
             }
-            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 3)
+            try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, max: 4)
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
             try self.metricDataQueries?.forEach {
                 try $0.validate(name: "\(name).metricDataQueries[]")

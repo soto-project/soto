@@ -251,6 +251,12 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case certAgeThresholdInDays = "CERT_AGE_THRESHOLD_IN_DAYS"
+        case certExpirationThresholdInDays = "CERT_EXPIRATION_THRESHOLD_IN_DAYS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CustomMetricType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case ipAddressList = "ip-address-list"
         case number = "number"
@@ -305,6 +311,24 @@ extension IoT {
     public enum DimensionValueOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `in` = "IN"
         case notIn = "NOT_IN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DisconnectReasonValue: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case authError = "AUTH_ERROR"
+        case clientError = "CLIENT_ERROR"
+        case clientInitiatedDisconnect = "CLIENT_INITIATED_DISCONNECT"
+        case connectionLost = "CONNECTION_LOST"
+        case customauthTtlExpiration = "CUSTOMAUTH_TTL_EXPIRATION"
+        case duplicateClientid = "DUPLICATE_CLIENTID"
+        case forbiddenAccess = "FORBIDDEN_ACCESS"
+        case mqttKeepAliveTimeout = "MQTT_KEEP_ALIVE_TIMEOUT"
+        case none = "NONE"
+        case serverError = "SERVER_ERROR"
+        case serverInitiatedDisconnect = "SERVER_INITIATED_DISCONNECT"
+        case throttled = "THROTTLED"
+        case unknown = "UNKNOWN"
+        case websocketTtlExpiration = "WEBSOCKET_TTL_EXPIRATION"
         public var description: String { return self.rawValue }
     }
 
@@ -1480,15 +1504,26 @@ extension IoT {
     }
 
     public struct AuditCheckConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A structure containing the configName and corresponding configValue for configuring audit checks.
+        public let configuration: [ConfigName: String]?
         /// True if this audit check is enabled for this account.
         public let enabled: Bool?
 
         @inlinable
-        public init(enabled: Bool? = nil) {
+        public init(configuration: [ConfigName: String]? = nil, enabled: Bool? = nil) {
+            self.configuration = configuration
             self.enabled = enabled
         }
 
+        public func validate(name: String) throws {
+            try self.configuration?.forEach {
+                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, max: 64)
+                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
             case enabled = "enabled"
         }
     }
@@ -3457,7 +3492,7 @@ extension IoT {
         public let namespace: CommandNamespace?
         /// The payload object for the command. You must specify this information when using the AWS-IoT namespace. You can upload a static payload file from your local storage that contains the  instructions for the device to process. The payload file can use any format. To make sure that the device correctly interprets the payload, we recommend you to specify the payload content type.
         public let payload: CommandPayload?
-        /// The IAM role that allows access to create the command.
+        /// The IAM role that you must provide when using the AWS-IoT-FleetWise namespace. The role grants IoT Device Management the permission to access IoT FleetWise resources  for generating the payload for the command. This field is not required when you use the AWS-IoT namespace.
         public let roleArn: String?
         /// Name-value pairs that are used as metadata to manage a command.
         public let tags: [Tag]?
@@ -4086,7 +4121,7 @@ extension IoT {
                 try validate($0.key, name: "documentParameters.key", parent: name, max: 128)
                 try validate($0.key, name: "documentParameters.key", parent: name, min: 1)
                 try validate($0.key, name: "documentParameters.key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
-                try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, max: 30720)
                 try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]+$")
             }
@@ -9593,7 +9628,7 @@ extension IoT {
         public let statusReason: StatusReason?
         /// The Amazon Resource Number (ARN) of the device on which the command execution is being performed.
         public let targetArn: String?
-        /// The time to live (TTL) parameter for the GetCommandExecution API.
+        /// The time to live (TTL) parameter that indicates the duration for which executions will be retained in your account. The default value is six months.
         public let timeToLive: Date?
 
         @inlinable
@@ -9677,7 +9712,7 @@ extension IoT {
         public let payload: CommandPayload?
         /// Indicates whether the command is being deleted.
         public let pendingDeletion: Bool?
-        /// The IAM role that allows access to retrieve information about the command.
+        /// The IAM role that you provided when creating the command with AWS-IoT-FleetWise as the namespace.
         public let roleArn: String?
 
         @inlinable
@@ -10306,6 +10341,56 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case statistics = "statistics"
+        }
+    }
+
+    public struct GetThingConnectivityDataRequest: AWSEncodableShape {
+        /// The name of your IoT thing.
+        public let thingName: String
+
+        @inlinable
+        public init(thingName: String) {
+            self.thingName = thingName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.thingName, key: "thingName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
+            try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
+            try self.validate(self.thingName, name: "thingName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetThingConnectivityDataResponse: AWSDecodableShape {
+        /// A Boolean that indicates the connectivity status.
+        public let connected: Bool?
+        /// The reason why the client is disconnecting.
+        public let disconnectReason: DisconnectReasonValue?
+        /// The name of your IoT thing.
+        public let thingName: String?
+        /// The timestamp of when the event occurred.
+        public let timestamp: Date?
+
+        @inlinable
+        public init(connected: Bool? = nil, disconnectReason: DisconnectReasonValue? = nil, thingName: String? = nil, timestamp: Date? = nil) {
+            self.connected = connected
+            self.disconnectReason = disconnectReason
+            self.thingName = thingName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connected = "connected"
+            case disconnectReason = "disconnectReason"
+            case thingName = "thingName"
+            case timestamp = "timestamp"
         }
     }
 
@@ -18896,6 +18981,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.auditCheckConfigurations?.forEach {
+                try $0.value.validate(name: "\(name).auditCheckConfigurations[\"\($0.key)\"]")
+            }
             try self.auditNotificationTargetConfigurations?.forEach {
                 try $0.value.validate(name: "\(name).auditNotificationTargetConfigurations[\"\($0.key)\"]")
             }

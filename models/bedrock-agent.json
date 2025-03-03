@@ -482,7 +482,7 @@
                 "agentAliasStatus": {
                     "target": "com.amazonaws.bedrockagent#AgentAliasStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>The status of the alias of the agent and whether it is ready for use. The following statuses are possible:</p>\n         <ul>\n            <li>\n               <p>CREATING – The agent alias is being created.</p>\n            </li>\n            <li>\n               <p>PREPARED – The agent alias is finished being created or updated and is ready to be invoked.</p>\n            </li>\n            <li>\n               <p>FAILED – The agent alias API operation failed.</p>\n            </li>\n            <li>\n               <p>UPDATING – The agent alias is being updated.</p>\n            </li>\n            <li>\n               <p>DELETING – The agent alias is being deleted.</p>\n            </li>\n         </ul>",
+                        "smithy.api#documentation": "<p>The status of the alias of the agent and whether it is ready for use. The following statuses are possible:</p>\n         <ul>\n            <li>\n               <p>CREATING – The agent alias is being created.</p>\n            </li>\n            <li>\n               <p>PREPARED – The agent alias is finished being created or updated and is ready to be invoked.</p>\n            </li>\n            <li>\n               <p>FAILED – The agent alias API operation failed.</p>\n            </li>\n            <li>\n               <p>UPDATING – The agent alias is being updated.</p>\n            </li>\n            <li>\n               <p>DELETING – The agent alias is being deleted.</p>\n            </li>\n            <li>\n               <p>DISSOCIATED - The agent alias has no version associated with it.</p>\n            </li>\n         </ul>",
                         "smithy.api#required": {}
                     }
                 },
@@ -615,6 +615,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "DELETING"
+                    }
+                },
+                "DISSOCIATED": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "DISSOCIATED"
                     }
                 }
             }
@@ -2451,7 +2457,7 @@
                 "modelArn": {
                     "target": "com.amazonaws.bedrockagent#BedrockModelArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The ARN of the foundation model or <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html\">inference profile</a> to use for parsing.</p>",
+                        "smithy.api#documentation": "<p>The ARN of the foundation model to use for parsing.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -2469,7 +2475,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Settings for a foundation model or <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/cross-region-inference.html\">inference profile</a> used to parse documents for a data source.</p>"
+                "smithy.api#documentation": "<p>Settings for a foundation model used to parse documents for a data source.</p>"
             }
         },
         "com.amazonaws.bedrockagent#BedrockModelArn": {
@@ -2523,6 +2529,32 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Contains information about content defined inline in bytes.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagent#CachePointBlock": {
+            "type": "structure",
+            "members": {
+                "type": {
+                    "target": "com.amazonaws.bedrockagent#CachePointType",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates that the CachePointBlock is of the default type</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Indicates where a cache checkpoint is located. All information before this checkpoint is cached to be accessed on subsequent requests.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagent#CachePointType": {
+            "type": "enum",
+            "members": {
+                "DEFAULT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "default"
+                    }
+                }
             }
         },
         "com.amazonaws.bedrockagent#ChatPromptTemplateConfiguration": {
@@ -2791,6 +2823,12 @@
                     "target": "smithy.api#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The text in the message.</p>"
+                    }
+                },
+                "cachePoint": {
+                    "target": "com.amazonaws.bedrockagent#CachePointBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Creates a cache checkpoint within a message.</p>"
                     }
                 }
             },
@@ -5608,7 +5646,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html\">Ingest documents into a knowledge base in real-time</a> in the Amazon Bedrock User Guide.</p>",
+                "smithy.api#documentation": "<p>Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-direct-ingestion.html\">Ingest changes directly into a knowledge base</a> in the Amazon Bedrock User Guide.</p>",
                 "smithy.api#http": {
                     "code": 202,
                     "method": "POST",
@@ -6958,7 +6996,7 @@
             },
             "traits": {
                 "smithy.api#length": {
-                    "max": 5
+                    "max": 20
                 }
             }
         },
@@ -7091,7 +7129,7 @@
             },
             "traits": {
                 "smithy.api#length": {
-                    "max": 20
+                    "max": 40
                 }
             }
         },
@@ -7425,6 +7463,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Details about an unspecified validation.</p>"
                     }
+                },
+                "unknownNodeInput": {
+                    "target": "com.amazonaws.bedrockagent#UnknownNodeInputFlowValidationDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Details about an unknown input for a node.</p>"
+                    }
+                },
+                "unknownNodeOutput": {
+                    "target": "com.amazonaws.bedrockagent#UnknownNodeOutputFlowValidationDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Details about an unknown output for a node.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7599,6 +7649,18 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "Unspecified"
+                    }
+                },
+                "UNKNOWN_NODE_INPUT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "UnknownNodeInput"
+                    }
+                },
+                "UNKNOWN_NODE_OUTPUT": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "UnknownNodeOutput"
                     }
                 }
             }
@@ -8870,7 +8932,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html\">Ingest documents into a knowledge base in real-time</a> in the Amazon Bedrock User Guide.</p>",
+                "smithy.api#documentation": "<p>Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-direct-ingestion.html\">Ingest changes directly into a knowledge base</a> in the Amazon Bedrock User Guide.</p>",
                 "smithy.api#http": {
                     "code": 200,
                     "method": "POST",
@@ -9295,7 +9357,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Ingests documents directly into the knowledge base that is connected to the data source. The <code>dataSourceType</code> specified in the content for each document must match the type of the data source that you specify in the header. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html\">Ingest documents into a knowledge base in real-time</a> in the Amazon Bedrock User Guide.</p>",
+                "smithy.api#documentation": "<p>Ingests documents directly into the knowledge base that is connected to the data source. The <code>dataSourceType</code> specified in the content for each document must match the type of the data source that you specify in the header. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-direct-ingestion.html\">Ingest changes directly into a knowledge base</a> in the Amazon Bedrock User Guide.</p>",
                 "smithy.api#http": {
                     "code": 202,
                     "method": "PUT",
@@ -11497,7 +11559,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-real-time-ingestion.html\">Ingest documents into a knowledge base in real-time</a> in the Amazon Bedrock User Guide.</p>",
+                "smithy.api#documentation": "<p>Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see <a href=\"https://docs.aws.amazon.com/bedrock/latest/userguide/kb-direct-ingestion.html\">Ingest changes directly into a knowledge base</a> in the Amazon Bedrock User Guide.</p>",
                 "smithy.api#http": {
                     "code": 200,
                     "method": "POST",
@@ -11871,6 +11933,14 @@
                 "smithy.api#documentation": "<p>Details about a malformed input expression in a node.</p>"
             }
         },
+        "com.amazonaws.bedrockagent#MaxRecentSessions": {
+            "type": "integer",
+            "traits": {
+                "smithy.api#range": {
+                    "min": 1
+                }
+            }
+        },
         "com.amazonaws.bedrockagent#MaxResults": {
             "type": "integer",
             "traits": {
@@ -11884,8 +11954,7 @@
             "type": "integer",
             "traits": {
                 "smithy.api#range": {
-                    "min": 0,
-                    "max": 4096
+                    "min": 0
                 }
             }
         },
@@ -11904,6 +11973,12 @@
                     "traits": {
                         "smithy.api#default": 30,
                         "smithy.api#documentation": "<p>The number of days the agent is configured to retain the conversational context.</p>"
+                    }
+                },
+                "sessionSummaryConfiguration": {
+                    "target": "com.amazonaws.bedrockagent#SessionSummaryConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains the configuration for SESSION_SUMMARY memory type enabled for the agent. </p>"
                     }
                 }
             },
@@ -13068,6 +13143,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The agent's foundation model.</p>"
                     }
+                },
+                "additionalModelRequestFields": {
+                    "target": "smithy.api#Document",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If the Converse or ConverseStream operations support the model,\n                <code>additionalModelRequestFields</code> contains additional inference parameters,\n            beyond the base set of inference parameters in the <code>inferenceConfiguration</code>\n            field. </p>\n         <p>For more information, see <i>Inference request parameters and\n                response fields for foundation models</i> in the Amazon Bedrock user\n            guide.</p>"
+                    }
                 }
             },
             "traits": {
@@ -13259,7 +13340,7 @@
             },
             "traits": {
                 "smithy.api#length": {
-                    "max": 5
+                    "max": 20
                 },
                 "smithy.api#sensitive": {}
             }
@@ -13570,6 +13651,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "KNOWLEDGE_BASE_RESPONSE_GENERATION"
+                    }
+                },
+                "MEMORY_SUMMARIZATION": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "MEMORY_SUMMARIZATION"
                     }
                 }
             }
@@ -14744,6 +14831,21 @@
                 "smithy.api#httpError": 402
             }
         },
+        "com.amazonaws.bedrockagent#SessionSummaryConfiguration": {
+            "type": "structure",
+            "members": {
+                "maxRecentSessions": {
+                    "target": "com.amazonaws.bedrockagent#MaxRecentSessions",
+                    "traits": {
+                        "smithy.api#default": null,
+                        "smithy.api#documentation": "<p>Maximum number of recent session summaries to include in the agent's prompt context.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Configuration for SESSION_SUMMARY memory type enabled for the agent.</p>"
+            }
+        },
         "com.amazonaws.bedrockagent#SessionTTL": {
             "type": "integer",
             "traits": {
@@ -14760,6 +14862,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "OAUTH2_CLIENT_CREDENTIALS"
+                    }
+                },
+                "OAUTH2_SHAREPOINT_APP_ONLY_CLIENT_CREDENTIALS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "OAUTH2_SHAREPOINT_APP_ONLY_CLIENT_CREDENTIALS"
                     }
                 }
             }
@@ -15200,7 +15308,7 @@
                 "smithy.api#default": 30,
                 "smithy.api#range": {
                     "min": 0,
-                    "max": 30
+                    "max": 365
                 }
             }
         },
@@ -15330,6 +15438,12 @@
                     "target": "com.amazonaws.bedrockagent#NonEmptyString",
                     "traits": {
                         "smithy.api#documentation": "<p>The text in the system prompt.</p>"
+                    }
+                },
+                "cachePoint": {
+                    "target": "com.amazonaws.bedrockagent#CachePointBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Creates a cache checkpoint within a tool designation</p>"
                     }
                 }
             },
@@ -15504,8 +15618,7 @@
             "type": "string",
             "traits": {
                 "smithy.api#length": {
-                    "min": 1,
-                    "max": 200000
+                    "min": 1
                 },
                 "smithy.api#sensitive": {}
             }
@@ -15518,6 +15631,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The message for the prompt.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "cachePoint": {
+                    "target": "com.amazonaws.bedrockagent#CachePointBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A cache checkpoint within a template configuration.</p>"
                     }
                 },
                 "inputVariables": {
@@ -15552,6 +15671,12 @@
                     "target": "com.amazonaws.bedrockagent#ToolSpecification",
                     "traits": {
                         "smithy.api#documentation": "<p>The specification for the tool.</p>"
+                    }
+                },
+                "cachePoint": {
+                    "target": "com.amazonaws.bedrockagent#CachePointBlock",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Creates a cache checkpoint within a tool designation</p>"
                     }
                 }
             },
@@ -15883,6 +16008,50 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Details about an unknown target input for a connection.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagent#UnknownNodeInputFlowValidationDetails": {
+            "type": "structure",
+            "members": {
+                "node": {
+                    "target": "com.amazonaws.bedrockagent#FlowNodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the unknown input.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "input": {
+                    "target": "com.amazonaws.bedrockagent#FlowNodeInputName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the node with the unknown input.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Details about an unknown input for a node.</p>"
+            }
+        },
+        "com.amazonaws.bedrockagent#UnknownNodeOutputFlowValidationDetails": {
+            "type": "structure",
+            "members": {
+                "node": {
+                    "target": "com.amazonaws.bedrockagent#FlowNodeName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the node with the unknown output.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "output": {
+                    "target": "com.amazonaws.bedrockagent#FlowNodeOutputName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the unknown output.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Details about an unknown output for a node.</p>"
             }
         },
         "com.amazonaws.bedrockagent#UnreachableNodeFlowValidationDetails": {
@@ -17332,6 +17501,26 @@
                 "smithy.api#documentation": "<p>The configuration of web URLs that you want to crawl. \n            You should be authorized to crawl the URLs.</p>"
             }
         },
+        "com.amazonaws.bedrockagent#UserAgent": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 15,
+                    "max": 40
+                },
+                "smithy.api#sensitive": {}
+            }
+        },
+        "com.amazonaws.bedrockagent#UserAgentHeader": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 61,
+                    "max": 86
+                },
+                "smithy.api#sensitive": {}
+            }
+        },
         "com.amazonaws.bedrockagent#ValidateFlowDefinition": {
             "type": "operation",
             "input": {
@@ -17476,7 +17665,7 @@
                 "embeddingModelArn": {
                     "target": "com.amazonaws.bedrockagent#BedrockEmbeddingModelArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the model or inference profile used to create vector embeddings for the knowledge base.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -17547,6 +17736,18 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The scope of what is crawled for your URLs.</p>\n         <p>You can choose to crawl only web pages that belong to the same host or primary \n            domain. For example, only web pages that contain the seed URL \n            \"https://docs.aws.amazon.com/bedrock/latest/userguide/\" and no other domains. \n            You can choose to include sub domains in addition to the host or primary domain. \n            For example, web pages that contain \"aws.amazon.com\" can also include sub domain \n            \"docs.aws.amazon.com\".</p>"
                     }
+                },
+                "userAgent": {
+                    "target": "com.amazonaws.bedrockagent#UserAgent",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Returns the user agent suffix for your web crawler.</p>"
+                    }
+                },
+                "userAgentHeader": {
+                    "target": "com.amazonaws.bedrockagent#UserAgentHeader",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A string used for identifying the crawler or bot when it accesses a web server. The user agent header value\n        consists of the <code>bedrockbot</code>, UUID, and a user agent suffix for your crawler (if one is provided).\n        By default, it is set to <code>bedrockbot_UUID</code>. You can optionally append a custom \n        suffix to <code>bedrockbot_UUID</code> to allowlist a specific user agent permitted to access your source URLs. </p>"
+                    }
                 }
             },
             "traits": {
@@ -17563,6 +17764,15 @@
                         "smithy.api#range": {
                             "min": 1,
                             "max": 300
+                        }
+                    }
+                },
+                "maxPages": {
+                    "target": "smithy.api#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n            The max number of web pages crawled from your source URLs, up to 25,000 pages.  If \n            the web pages exceed this limit, the data source sync will fail and no web pages will be ingested.\n        </p>",
+                        "smithy.api#range": {
+                            "min": 1
                         }
                     }
                 }

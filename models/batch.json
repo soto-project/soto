@@ -40,6 +40,9 @@
                     "target": "com.amazonaws.batch#CreateComputeEnvironment"
                 },
                 {
+                    "target": "com.amazonaws.batch#CreateConsumableResource"
+                },
+                {
                     "target": "com.amazonaws.batch#CreateJobQueue"
                 },
                 {
@@ -47,6 +50,9 @@
                 },
                 {
                     "target": "com.amazonaws.batch#DeleteComputeEnvironment"
+                },
+                {
+                    "target": "com.amazonaws.batch#DeleteConsumableResource"
                 },
                 {
                     "target": "com.amazonaws.batch#DeleteJobQueue"
@@ -59,6 +65,9 @@
                 },
                 {
                     "target": "com.amazonaws.batch#DescribeComputeEnvironments"
+                },
+                {
+                    "target": "com.amazonaws.batch#DescribeConsumableResource"
                 },
                 {
                     "target": "com.amazonaws.batch#DescribeJobDefinitions"
@@ -76,7 +85,13 @@
                     "target": "com.amazonaws.batch#GetJobQueueSnapshot"
                 },
                 {
+                    "target": "com.amazonaws.batch#ListConsumableResources"
+                },
+                {
                     "target": "com.amazonaws.batch#ListJobs"
+                },
+                {
+                    "target": "com.amazonaws.batch#ListJobsByConsumableResource"
                 },
                 {
                     "target": "com.amazonaws.batch#ListSchedulingPolicies"
@@ -101,6 +116,9 @@
                 },
                 {
                     "target": "com.amazonaws.batch#UpdateComputeEnvironment"
+                },
+                {
+                    "target": "com.amazonaws.batch#UpdateConsumableResource"
                 },
                 {
                     "target": "com.amazonaws.batch#UpdateJobQueue"
@@ -1652,6 +1670,15 @@
                 "smithy.api#httpError": 400
             }
         },
+        "com.amazonaws.batch#ClientRequestToken": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 64
+                }
+            }
+        },
         "com.amazonaws.batch#ComputeEnvironmentDetail": {
             "type": "structure",
             "members": {
@@ -2023,6 +2050,94 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>An object that represents the attributes of a compute environment that can be updated. For\n   more information, see <a href=\"https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html\">Updating compute environments</a> in the\n    <i>Batch User Guide</i>.</p>"
+            }
+        },
+        "com.amazonaws.batch#ConsumableResourceList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.batch#ConsumableResourceRequirement"
+            }
+        },
+        "com.amazonaws.batch#ConsumableResourceProperties": {
+            "type": "structure",
+            "members": {
+                "consumableResourceList": {
+                    "target": "com.amazonaws.batch#ConsumableResourceList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of consumable resources required by a job.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Contains a list of consumable resources required by a job.</p>"
+            }
+        },
+        "com.amazonaws.batch#ConsumableResourceRequirement": {
+            "type": "structure",
+            "members": {
+                "consumableResource": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name or ARN of the consumable resource.</p>"
+                    }
+                },
+                "quantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The quantity of the consumable resource that is needed.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Information about a consumable resource required to run a job.</p>"
+            }
+        },
+        "com.amazonaws.batch#ConsumableResourceSummary": {
+            "type": "structure",
+            "members": {
+                "consumableResourceArn": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumable resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "consumableResourceName": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the consumable resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "totalQuantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The total amount of the consumable resource that is available.</p>"
+                    }
+                },
+                "inUseQuantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The amount of the consumable resource that is currently in use.</p>"
+                    }
+                },
+                "resourceType": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the resource is available to be re-used after a job completes. Can be \n            one of: </p>\n         <ul>\n            <li>\n               <p>\n                  <code>REPLENISHABLE</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>NON_REPLENISHABLE</code>\n               </p>\n            </li>\n         </ul>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Current information about a consumable resource.</p>"
+            }
+        },
+        "com.amazonaws.batch#ConsumableResourceSummaryList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.batch#ConsumableResourceSummary"
             }
         },
         "com.amazonaws.batch#ContainerDetail": {
@@ -2621,6 +2736,108 @@
                 "smithy.api#output": {}
             }
         },
+        "com.amazonaws.batch#CreateConsumableResource": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.batch#CreateConsumableResourceRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.batch#CreateConsumableResourceResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.batch#ClientException"
+                },
+                {
+                    "target": "com.amazonaws.batch#ServerException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Creates an Batch consumable resource.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To create a consumable resource",
+                        "documentation": "Creates a Batch consumable resource.",
+                        "input": {
+                            "consumableResourceName": "myConsumableResource",
+                            "totalQuantity": 123,
+                            "resourceType": "REPLENISHABLE",
+                            "tags": {
+                                "Department": "Engineering",
+                                "User": "JaneDoe"
+                            }
+                        },
+                        "output": {
+                            "consumableResourceName": "myConsumableResource",
+                            "consumableResourceArn": "arn:aws:batch:us-east-1:012345678910:consumable-resource/myConsumableResource"
+                        }
+                    }
+                ],
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/v1/createconsumableresource",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.batch#CreateConsumableResourceRequest": {
+            "type": "structure",
+            "members": {
+                "consumableResourceName": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the consumable resource. Must be unique.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "totalQuantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The total amount of the consumable resource that is available. Must be non-negative.</p>"
+                    }
+                },
+                "resourceType": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the resource is available to be re-used after a job completes. Can be \n            one of: </p>\n         <ul>\n            <li>\n               <p>\n                  <code>REPLENISHABLE</code> (default)</p>\n            </li>\n            <li>\n               <p>\n                  <code>NON_REPLENISHABLE</code>\n               </p>\n            </li>\n         </ul>"
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.batch#TagrisTagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags that you apply to the consumable resource to help you categorize and organize your\n            resources. Each tag consists of a key and an optional value. For more information, see <a href=\"https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html\">Tagging your Batch resources</a>.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.batch#CreateConsumableResourceResponse": {
+            "type": "structure",
+            "members": {
+                "consumableResourceName": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the consumable resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "consumableResourceArn": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumable resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
         "com.amazonaws.batch#CreateJobQueue": {
             "type": "operation",
             "input": {
@@ -2902,6 +3119,64 @@
             }
         },
         "com.amazonaws.batch#DeleteComputeEnvironmentResponse": {
+            "type": "structure",
+            "members": {},
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.batch#DeleteConsumableResource": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.batch#DeleteConsumableResourceRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.batch#DeleteConsumableResourceResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.batch#ClientException"
+                },
+                {
+                    "target": "com.amazonaws.batch#ServerException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes the specified consumable resource.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To delete a consumable resource",
+                        "documentation": "Deletes the specified consumable resource.",
+                        "input": {
+                            "consumableResource": "myConsumableResource"
+                        },
+                        "output": {}
+                    }
+                ],
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/v1/deleteconsumableresource",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.batch#DeleteConsumableResourceRequest": {
+            "type": "structure",
+            "members": {
+                "consumableResource": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name or ARN of the consumable resource that will be deleted.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.batch#DeleteConsumableResourceResponse": {
             "type": "structure",
             "members": {},
             "traits": {
@@ -3205,6 +3480,129 @@
                     "target": "com.amazonaws.batch#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future\n        <code>DescribeComputeEnvironments</code> request. When the results of a\n        <code>DescribeComputeEnvironments</code> request exceed <code>maxResults</code>, this value\n      can be used to retrieve the next page of results. This value is <code>null</code> when there\n      are no more results to return.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.batch#DescribeConsumableResource": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.batch#DescribeConsumableResourceRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.batch#DescribeConsumableResourceResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.batch#ClientException"
+                },
+                {
+                    "target": "com.amazonaws.batch#ServerException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns a description of the specified consumable resource.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To get a description of a consumable resource",
+                        "documentation": "Returns a description of the specified consumable resource.",
+                        "input": {
+                            "consumableResource": "myConsumableResource"
+                        },
+                        "output": {
+                            "consumableResourceName": "myConsumableResource",
+                            "consumableResourceArn": "arn:aws:batch:us-east-1:012345678910:consumable-resource/myConsumableResource",
+                            "totalQuantity": 123,
+                            "inUseQuantity": 123,
+                            "availableQuantity": 123,
+                            "resourceType": "REPLENISHABLE",
+                            "createdAt": 123,
+                            "tags": {
+                                "Department": "Engineering",
+                                "User": "JaneDoe"
+                            }
+                        }
+                    }
+                ],
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/v1/describeconsumableresource",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.batch#DescribeConsumableResourceRequest": {
+            "type": "structure",
+            "members": {
+                "consumableResource": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name or ARN of the consumable resource whose description will be returned.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.batch#DescribeConsumableResourceResponse": {
+            "type": "structure",
+            "members": {
+                "consumableResourceName": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the consumable resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "consumableResourceArn": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumable resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "totalQuantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The total amount of the consumable resource that is available.</p>"
+                    }
+                },
+                "inUseQuantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The amount of the consumable resource that is currently in use.</p>"
+                    }
+                },
+                "availableQuantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The amount of the consumable resource that is currently available to use.</p>"
+                    }
+                },
+                "resourceType": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates whether the resource is available to be re-used after a job completes. Can be \n            one of: </p>\n         <ul>\n            <li>\n               <p>\n                  <code>REPLENISHABLE</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>NON_REPLENISHABLE</code>\n               </p>\n            </li>\n         </ul>"
+                    }
+                },
+                "createdAt": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Unix timestamp (in milliseconds) for when the consumable resource was created.</p>"
+                    }
+                },
+                "tags": {
+                    "target": "com.amazonaws.batch#TagrisTagsMap",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The tags that you apply to the consumable resource to help you categorize and organize your\n            resources. Each tag consists of a key and an optional value. For more information, see <a href=\"https://docs.aws.amazon.com/batch/latest/userguide/using-tags.html\">Tagging your Batch resources</a>.</p>"
                     }
                 }
             },
@@ -4907,7 +5305,7 @@
                 "shareDecaySeconds": {
                     "target": "com.amazonaws.batch#Integer",
                     "traits": {
-                        "smithy.api#documentation": "<p>The amount of time (in seconds) to use to calculate a fair share percentage for each fair\n   share identifier in use. A value of zero (0) indicates that only current usage is measured. The\n   decay allows for more recently run jobs to have more weight than jobs that ran earlier. The\n   maximum supported value is 604800 (1 week).</p>"
+                        "smithy.api#documentation": "<p>The amount of time (in seconds) to use to calculate a fair share percentage for each fair\n   share identifier in use. A value of zero (0) indicates the default minimum time window (600 seconds).\n   The maximum supported value is 604800 (1 week).</p>\n         <p>The decay allows for more recently run jobs to have more weight than jobs that ran earlier. \n   Consider adjusting this number if you have jobs that (on average) run longer than ten minutes, \n   or a large difference in job count or job run times between share identifiers, and the allocation\n   of resources doesn’t meet your needs.</p>"
                     }
                 },
                 "computeReservation": {
@@ -5272,6 +5670,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The orchestration type of the compute environment. The valid values are <code>ECS</code>\n   (default) or <code>EKS</code>.</p>"
                     }
+                },
+                "consumableResourceProperties": {
+                    "target": "com.amazonaws.batch#ConsumableResourceProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains a list of consumable resources required by the job.</p>"
+                    }
                 }
             },
             "traits": {
@@ -5515,6 +5919,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Indicates whether the job is terminated.</p>"
                     }
+                },
+                "consumableResourceProperties": {
+                    "target": "com.amazonaws.batch#ConsumableResourceProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains a list of consumable resources required by the job.</p>"
+                    }
                 }
             },
             "traits": {
@@ -5585,7 +5995,7 @@
                     "target": "com.amazonaws.batch#Integer",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The priority of the job queue. Job queues with a higher priority (or a higher integer value for the <code>priority</code> parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of <code>10</code> is given scheduling preference over a job queue with a priority value of <code>1</code>. All of the compute environments must be either Amazon EC2 (<code>EC2</code> or <code>SPOT</code>) or Fargate (<code>FARGATE</code> or <code>FARGATE_SPOT</code>). Amazon EC2 and Fargate compute environments can't be mixed.</p>",
+                        "smithy.api#documentation": "<p>The priority of the job queue. Job queue priority determines the order \n   that job queues are evaluated when multiple queues dispatch jobs within a \n   shared compute environment. A higher value for <code>priority</code> indicates\n   a higher priority. Queues are evaluated in cycles, in descending order by\n   priority. For example, a job queue with a priority value of <code>10</code> is \n   evaluated before a queue with a priority value of <code>1</code>. All of the \n   compute environments must be either Amazon EC2 (<code>EC2</code> or <code>SPOT</code>)\n   or Fargate (<code>FARGATE</code> or <code>FARGATE_SPOT</code>). Amazon EC2 and \n   Fargate compute environments can't be mixed.</p>\n         <note>\n            <p>Job queue priority doesn't guarantee that a particular job executes before \n    a job in a lower priority queue. Jobs added to higher priority queues during the \n    queue evaluation cycle might not be evaluated until the next cycle. A job is \n    dispatched from a queue only if resources are available when the queue is evaluated. \n    If there are insufficient resources available at that time, the cycle proceeds to the \n    next queue. This means that jobs added to higher priority queues might have to wait \n    for jobs in multiple lower priority queues to complete before they are dispatched. \n    You can use job dependencies to control the order for jobs from queues with different \n    priorities. For more information, see <a href=\"https://docs.aws.amazon.com/batch/latest/userguide/job_dependencies.html\">Job Dependencies</a>\n    in the <i>Batch User Guide</i>.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
@@ -5876,7 +6286,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A filter name and value pair that's used to return a more specific list of results from a\n    <code>ListJobs</code> API operation.</p>"
+                "smithy.api#documentation": "<p>A filter name and value pair that's used to return a more specific list of results from a\n    <code>ListJobs</code> or <code>ListJobsByConsumableResource</code> API operation.</p>"
             }
         },
         "com.amazonaws.batch#KubernetesVersion": {
@@ -5944,7 +6354,7 @@
                 "targetInstanceTypes": {
                     "target": "com.amazonaws.batch#StringList",
                     "traits": {
-                        "smithy.api#documentation": "<p>The instance type or family that this this override launch template should be applied to.</p>\n         <p>This parameter is required when defining a launch template override.</p>\n         <p>Information included in this parameter must meet the following requirements:</p>\n         <ul>\n            <li>\n               <p>Must be a valid Amazon EC2 instance type or family.</p>\n            </li>\n            <li>\n               <p>\n                  <code>optimal</code> isn't allowed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>targetInstanceTypes</code> can target only instance types and families that are included within the <a href=\"https://docs.aws.amazon.com/batch/latest/APIReference/API_ComputeResource.html#Batch-Type-ComputeResource-instanceTypes\">\n                     <code>ComputeResource.instanceTypes</code>\n                  </a> set. <code>targetInstanceTypes</code> doesn't need to include all of the instances from the <code>instanceType</code> set, but at least a subset. For example, if <code>ComputeResource.instanceTypes</code> includes <code>[m5, g5]</code>, <code>targetInstanceTypes</code> can include <code>[m5.2xlarge]</code> and <code>[m5.large]</code> but not <code>[c5.large]</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>targetInstanceTypes</code> included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.</p>\n            </li>\n         </ul>"
+                        "smithy.api#documentation": "<p>The instance type or family that this override launch template should be applied to.</p>\n         <p>This parameter is required when defining a launch template override.</p>\n         <p>Information included in this parameter must meet the following requirements:</p>\n         <ul>\n            <li>\n               <p>Must be a valid Amazon EC2 instance type or family.</p>\n            </li>\n            <li>\n               <p>\n                  <code>optimal</code> isn't allowed.</p>\n            </li>\n            <li>\n               <p>\n                  <code>targetInstanceTypes</code> can target only instance types and families that are included within the <a href=\"https://docs.aws.amazon.com/batch/latest/APIReference/API_ComputeResource.html#Batch-Type-ComputeResource-instanceTypes\">\n                     <code>ComputeResource.instanceTypes</code>\n                  </a> set. <code>targetInstanceTypes</code> doesn't need to include all of the instances from the <code>instanceType</code> set, but at least a subset. For example, if <code>ComputeResource.instanceTypes</code> includes <code>[m5, g5]</code>, <code>targetInstanceTypes</code> can include <code>[m5.2xlarge]</code> and <code>[m5.large]</code> but not <code>[c5.large]</code>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>targetInstanceTypes</code> included within the same launch template override or across launch template overrides can't overlap for the same compute environment. For example, you can't define one launch template override to target an instance family and another define an instance type within this same family.</p>\n            </li>\n         </ul>"
                     }
                 }
             },
@@ -6012,6 +6422,119 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.batch#AttemptTaskContainerDetails"
+            }
+        },
+        "com.amazonaws.batch#ListConsumableResources": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.batch#ListConsumableResourcesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.batch#ListConsumableResourcesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.batch#ClientException"
+                },
+                {
+                    "target": "com.amazonaws.batch#ServerException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns a list of Batch consumable resources.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To get a list of a consumable resources",
+                        "documentation": "Returns a list of the consumable resources for your account.",
+                        "input": {
+                            "filters": [
+                                {
+                                    "name": "CONSUMABLE_RESOURCE_NAME",
+                                    "values": [
+                                        "my*"
+                                    ]
+                                }
+                            ],
+                            "maxResults": 123
+                        },
+                        "output": {
+                            "consumableResources": [
+                                {
+                                    "consumableResourceArn": "arn:aws:batch:us-east-1:012345678910:consumable-resource/myConsumableResource",
+                                    "consumableResourceName": "myConsumableResource",
+                                    "inUseQuantity": 12,
+                                    "resourceType": "REPLENISHABLE",
+                                    "totalQuantity": 123
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/v1/listconsumableresources",
+                    "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "nextToken",
+                    "outputToken": "nextToken",
+                    "items": "consumableResources",
+                    "pageSize": "maxResults"
+                }
+            }
+        },
+        "com.amazonaws.batch#ListConsumableResourcesFilterList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.batch#KeyValuesPair"
+            }
+        },
+        "com.amazonaws.batch#ListConsumableResourcesRequest": {
+            "type": "structure",
+            "members": {
+                "filters": {
+                    "target": "com.amazonaws.batch#ListConsumableResourcesFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The filters to apply to the consumable resource list query. If used, only those consumable \n            resources that match the filter are listed. Filter names and values can be:</p>\n         <ul>\n            <li>\n               <p>name: <code>CONSUMABLE_RESOURCE_NAME </code>\n               </p>\n               <p>values: case-insensitive matches for the consumable resource name. If a filter \n                    value ends with an asterisk (*), it matches any consumable resource name that begins \n                    with the string before the '*'.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "maxResults": {
+                    "target": "com.amazonaws.batch#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results returned by <code>ListConsumableResources</code> in paginated\n            output. When this parameter is used, <code>ListConsumableResources</code> only returns\n            <code>maxResults</code> results in a single page and a <code>nextToken</code> response\n            element. The remaining results of the initial request can be seen by sending another\n            <code>ListConsumableResources</code> request with the returned <code>nextToken</code> value.\n            This value can be between 1 and 100. If this parameter isn't\n            used, then <code>ListConsumableResources</code> returns up to 100 results and\n            a <code>nextToken</code> value if applicable.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>nextToken</code> value returned from a previous paginated \n            <code>ListConsumableResources</code> request where <code>maxResults</code> was used and the \n            results exceeded the value of that parameter. Pagination continues from the end of the previous \n            results that returned the <code>nextToken</code> value. This value is <code>null</code> when \n            there are no more results to return.</p>\n         <note>\n            <p>Treat this token as an opaque identifier that's only used to\n retrieve the next items in a list and not for other programmatic purposes.</p>\n         </note>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.batch#ListConsumableResourcesResponse": {
+            "type": "structure",
+            "members": {
+                "consumableResources": {
+                    "target": "com.amazonaws.batch#ConsumableResourceSummaryList",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>A list of consumable resources that match the request.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future <code>ListConsumableResources</code> \n            request. When the results of a <code>ListConsumableResources</code> request exceed <code>maxResults</code>, \n            this value can be used to retrieve the next page of results. This value is <code>null</code> \n            when there are no more results to return.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
             }
         },
         "com.amazonaws.batch#ListEcsTaskDetails": {
@@ -6088,6 +6611,232 @@
                     "items": "jobSummaryList",
                     "pageSize": "maxResults"
                 }
+            }
+        },
+        "com.amazonaws.batch#ListJobsByConsumableResource": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.batch#ListJobsByConsumableResourceRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.batch#ListJobsByConsumableResourceResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.batch#ClientException"
+                },
+                {
+                    "target": "com.amazonaws.batch#ServerException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Returns a list of Batch jobs that require a specific consumable resource.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To get a list of Batch jobs by consumable resource",
+                        "documentation": "Returns a list of Batch jobs that require a specific consumable resource.",
+                        "input": {
+                            "consumableResource": "myConsumableResource",
+                            "filters": [
+                                {
+                                    "name": "CONSUMABLE_RESOURCE_NAME",
+                                    "values": [
+                                        "my*"
+                                    ]
+                                }
+                            ],
+                            "maxResults": 123
+                        },
+                        "output": {
+                            "jobs": [
+                                {
+                                    "consumableResourceProperties": {
+                                        "consumableResourceList": [
+                                            {
+                                                "consumableResource": "myConsumableResource",
+                                                "quantity": 123
+                                            }
+                                        ]
+                                    },
+                                    "createdAt": 1480460782010,
+                                    "jobArn": "arn:aws:batch:us-east-1:012345678910:job/myJob",
+                                    "jobDefinitionArn": "arn:aws:batch:us-east-1:012345678910:job-definition/myJobDef",
+                                    "jobName": "myJob",
+                                    "jobQueueArn": "arn:aws:batch:us-east-1:012345678910:job-queue/myJobQueue",
+                                    "jobStatus": "PENDING",
+                                    "quantity": 123
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/v1/listjobsbyconsumableresource",
+                    "code": 200
+                },
+                "smithy.api#paginated": {
+                    "inputToken": "nextToken",
+                    "outputToken": "nextToken",
+                    "items": "jobs",
+                    "pageSize": "maxResults"
+                }
+            }
+        },
+        "com.amazonaws.batch#ListJobsByConsumableResourceFilterList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.batch#KeyValuesPair"
+            }
+        },
+        "com.amazonaws.batch#ListJobsByConsumableResourceRequest": {
+            "type": "structure",
+            "members": {
+                "consumableResource": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name or ARN of the consumable resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "filters": {
+                    "target": "com.amazonaws.batch#ListJobsByConsumableResourceFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The filters to apply to the job list query. If used, only those jobs requiring the specified \n            consumable resource (<code>consumableResource</code>) and that match the value of the filters\n            are listed. The filter names and values can be:</p>\n         <ul>\n            <li>\n               <p>name: <code>JOB_STATUS</code>\n               </p>\n               <p>values: <code>SUBMITTED | PENDING | RUNNABLE | STARTING | RUNNING | SUCCEEDED | FAILED</code>\n               </p>\n            </li>\n            <li>\n               <p>name: <code>JOB_NAME </code>\n               </p>\n               <p>The values are case-insensitive matches for the job name. If a filter value ends \n                    with an asterisk (*), it matches any job name that begins with the string before \n                    the '*'.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "maxResults": {
+                    "target": "com.amazonaws.batch#Integer",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results returned by <code>ListJobsByConsumableResource</code> in paginated\n            output. When this parameter is used, <code>ListJobsByConsumableResource</code> only returns\n            <code>maxResults</code> results in a single page and a <code>nextToken</code> response\n            element. The remaining results of the initial request can be seen by sending another\n            <code>ListJobsByConsumableResource</code> request with the returned <code>nextToken</code> value.\n            This value can be between 1 and 100. If this parameter isn't\n            used, then <code>ListJobsByConsumableResource</code> returns up to 100 results \n            and a <code>nextToken</code> value if applicable.</p>"
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>nextToken</code> value returned from a previous paginated \n            <code>ListJobsByConsumableResource</code> request where <code>maxResults</code> was used and the \n            results exceeded the value of that parameter. Pagination continues from the end of the previous \n            results that returned the <code>nextToken</code> value. This value is <code>null</code> when \n            there are no more results to return.</p>\n         <note>\n            <p>Treat this token as an opaque identifier that's only used to\n retrieve the next items in a list and not for other programmatic purposes.</p>\n         </note>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.batch#ListJobsByConsumableResourceResponse": {
+            "type": "structure",
+            "members": {
+                "jobs": {
+                    "target": "com.amazonaws.batch#ListJobsByConsumableResourceSummaryList",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The list of jobs that require the specified consumable resources.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "nextToken": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The <code>nextToken</code> value to include in a future <code>ListJobsByConsumableResource</code> \n            request. When the results of a <code>ListJobsByConsumableResource</code> request exceed \n            <code>maxResults</code>, this value can be used to retrieve the next page of results. This \n            value is <code>null</code> when there are no more results to return.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.batch#ListJobsByConsumableResourceSummary": {
+            "type": "structure",
+            "members": {
+                "jobArn": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the job.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "jobQueueArn": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the job queue.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "jobName": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the job.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "jobDefinitionArn": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the job definition.</p>"
+                    }
+                },
+                "shareIdentifier": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The fair-share scheduling policy identifier for the job.</p>"
+                    }
+                },
+                "jobStatus": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The status of the job. Can be one of:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>SUBMITTED</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>PENDING</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>RUNNABLE</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>STARTING</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>RUNNING</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>SUCCEEDED</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>FAILED</code>\n               </p>\n            </li>\n         </ul>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "quantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The total amount of the consumable resource that is available.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "statusReason": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A short, human-readable string to provide more details for the current status of the job.</p>"
+                    }
+                },
+                "startedAt": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Unix timestamp for when the job was started. More specifically, it's when the job transitioned \n            from the <code>STARTING</code> state to the <code>RUNNING</code> state.</p>"
+                    }
+                },
+                "createdAt": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Unix timestamp (in milliseconds) for when the consumable resource was created.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "consumableResourceProperties": {
+                    "target": "com.amazonaws.batch#ConsumableResourceProperties",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>Contains a list of consumable resources required by the job.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Current information about a consumable resource required by a job.</p>"
+            }
+        },
+        "com.amazonaws.batch#ListJobsByConsumableResourceSummaryList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.batch#ListJobsByConsumableResourceSummary"
             }
         },
         "com.amazonaws.batch#ListJobsFilterList": {
@@ -6634,6 +7383,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>An object that contains the properties that you want to replace for the existing Amazon EKS resources of a job.</p>"
                     }
+                },
+                "consumableResourcePropertiesOverride": {
+                    "target": "com.amazonaws.batch#ConsumableResourceProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An object that contains overrides for the consumable resources of a job.</p>"
+                    }
                 }
             },
             "traits": {
@@ -6685,6 +7440,12 @@
                     "target": "com.amazonaws.batch#EksProperties",
                     "traits": {
                         "smithy.api#documentation": "<p>This is an object that represents the properties of the node range for a multi-node parallel job.</p>"
+                    }
+                },
+                "consumableResourceProperties": {
+                    "target": "com.amazonaws.batch#ConsumableResourceProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains a list of consumable resources required by a job.</p>"
                     }
                 }
             },
@@ -6924,6 +7685,12 @@
                     "target": "com.amazonaws.batch#EcsProperties",
                     "traits": {
                         "smithy.api#documentation": "<p>An object with properties that are specific to Amazon ECS-based jobs. This must not be\n      specified for Amazon EKS-based job definitions.</p>"
+                    }
+                },
+                "consumableResourceProperties": {
+                    "target": "com.amazonaws.batch#ConsumableResourceProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Contains a list of consumable resources required by the job.</p>"
                     }
                 }
             },
@@ -7378,6 +8145,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>An object, with properties that override defaults for the job definition, can only be specified for jobs that are run on Amazon ECS resources.</p>"
                     }
+                },
+                "consumableResourcePropertiesOverride": {
+                    "target": "com.amazonaws.batch#ConsumableResourceProperties",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An object that contains overrides for the consumable resources of a job.</p>"
+                    }
                 }
             },
             "traits": {
@@ -7743,7 +8516,7 @@
                 "environment": {
                     "target": "com.amazonaws.batch#EnvironmentVariables",
                     "traits": {
-                        "smithy.api#documentation": "<p>The environment variables to pass to a container. This parameter maps to Env inthe <a href=\"https://docs.docker.com/engine/api/v1.23/#create-a-container\">Create a container</a>\n   section of the <a href=\"https://docs.docker.com/engine/api/v1.23/\">Docker Remote API</a>\n   and the <code>--env</code> parameter to <a href=\"https://docs.docker.com/engine/reference/run/\">docker run</a>. </p>\n         <important>\n            <p>We don't recommend using plaintext environment variables for sensitive information, such as\n    credential data.</p>\n         </important>\n         <note>\n            <p>Environment variables cannot start with <code>AWS_BATCH</code>. This naming convention is\n    reserved for variables that Batch sets.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The environment variables to pass to a container. This parameter maps to Env in the <a href=\"https://docs.docker.com/engine/api/v1.23/#create-a-container\">Create a container</a>\n   section of the <a href=\"https://docs.docker.com/engine/api/v1.23/\">Docker Remote API</a>\n   and the <code>--env</code> parameter to <a href=\"https://docs.docker.com/engine/reference/run/\">docker run</a>. </p>\n         <important>\n            <p>We don't recommend using plaintext environment variables for sensitive information, such as\n    credential data.</p>\n         </important>\n         <note>\n            <p>Environment variables cannot start with <code>AWS_BATCH</code>. This naming convention is\n    reserved for variables that Batch sets.</p>\n         </note>"
                     }
                 },
                 "essential": {
@@ -8163,6 +8936,112 @@
                     "target": "com.amazonaws.batch#String",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the compute environment.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#output": {}
+            }
+        },
+        "com.amazonaws.batch#UpdateConsumableResource": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.batch#UpdateConsumableResourceRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.batch#UpdateConsumableResourceResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.batch#ClientException"
+                },
+                {
+                    "target": "com.amazonaws.batch#ServerException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Updates a consumable resource.</p>",
+                "smithy.api#examples": [
+                    {
+                        "title": "To update a consumable resource",
+                        "documentation": "Updates a consumable resource.",
+                        "input": {
+                            "consumableResource": "myConsumableResource",
+                            "operation": "ADD",
+                            "quantity": 12
+                        },
+                        "output": {
+                            "consumableResourceName": "myConsumableResource",
+                            "consumableResourceArn": "arn:aws:batch:us-east-1:012345678910:consumable-resource/myConsumableResource",
+                            "totalQuantity": 135
+                        }
+                    }
+                ],
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/v1/updateconsumableresource",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.batch#UpdateConsumableResourceRequest": {
+            "type": "structure",
+            "members": {
+                "consumableResource": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name or ARN of the consumable resource to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "operation": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates how the quantity of the consumable resource will be updated. Must be one of:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>SET</code>\n               </p>\n               <p>Sets the quantity of the resource to the value specified by the <code>quantity</code>\n                    parameter.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ADD</code>\n               </p>\n               <p>Increases the quantity of the resource by the value specified by the <code>quantity</code>\n                    parameter.</p>\n            </li>\n            <li>\n               <p>\n                  <code>REMOVE</code>\n               </p>\n               <p>Reduces the quantity of the resource by the value specified by the <code>quantity</code>\n                    parameter.</p>\n            </li>\n         </ul>"
+                    }
+                },
+                "quantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The change in the total quantity of the consumable resource. The <code>operation</code>\n            parameter determines whether the value specified here will be the new total quantity, or\n            the amount by which the total quantity will be increased or reduced. Must be a non-negative \n            value.</p>"
+                    }
+                },
+                "clientToken": {
+                    "target": "com.amazonaws.batch#ClientRequestToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>If this parameter is specified and two update requests with identical payloads and \n          <code>clientToken</code>s are received, these requests are considered the same request and \n          the second request is rejected. A <code>clientToken</code> is valid for 8 hours or until\n          one hour after the consumable resource is deleted, whichever is less.</p>",
+                        "smithy.api#idempotencyToken": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#input": {}
+            }
+        },
+        "com.amazonaws.batch#UpdateConsumableResourceResponse": {
+            "type": "structure",
+            "members": {
+                "consumableResourceName": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The name of the consumable resource to be updated.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "consumableResourceArn": {
+                    "target": "com.amazonaws.batch#String",
+                    "traits": {
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the consumable resource.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "totalQuantity": {
+                    "target": "com.amazonaws.batch#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The total amount of the consumable resource that is available.</p>"
                     }
                 }
             },

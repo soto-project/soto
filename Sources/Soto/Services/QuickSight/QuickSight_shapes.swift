@@ -647,6 +647,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum DigitGroupingStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "DEFAULT"
+        case lakhs = "LAKHS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DisplayFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case currency = "CURRENCY"
@@ -1182,6 +1188,8 @@ extension QuickSight {
     public enum NumberScale: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
         case billions = "BILLIONS"
+        case crores = "CRORES"
+        case lakhs = "LAKHS"
         case millions = "MILLIONS"
         case none = "NONE"
         case thousands = "THOUSANDS"
@@ -8636,6 +8644,8 @@ extension QuickSight {
         public let logicalTableMap: [String: LogicalTable]?
         /// The display name for the dataset.
         public let name: String
+        /// The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
+        public let performanceConfiguration: PerformanceConfiguration?
         /// A list of resource permissions on the dataset.
         public let permissions: [ResourcePermission]?
         /// Declares the physical tables that are available in the underlying data sources.
@@ -8648,7 +8658,7 @@ extension QuickSight {
         public let tags: [Tag]?
 
         @inlinable
-        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, folderArns: [String]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, folderArns: [String]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, performanceConfiguration: PerformanceConfiguration? = nil, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil, tags: [Tag]? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -8660,6 +8670,7 @@ extension QuickSight {
             self.importMode = importMode
             self.logicalTableMap = logicalTableMap
             self.name = name
+            self.performanceConfiguration = performanceConfiguration
             self.permissions = permissions
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
@@ -8681,6 +8692,7 @@ extension QuickSight {
             try container.encode(self.importMode, forKey: .importMode)
             try container.encodeIfPresent(self.logicalTableMap, forKey: .logicalTableMap)
             try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.performanceConfiguration, forKey: .performanceConfiguration)
             try container.encodeIfPresent(self.permissions, forKey: .permissions)
             try container.encode(self.physicalTableMap, forKey: .physicalTableMap)
             try container.encodeIfPresent(self.rowLevelPermissionDataSet, forKey: .rowLevelPermissionDataSet)
@@ -8722,6 +8734,7 @@ extension QuickSight {
             try self.validate(self.logicalTableMap, name: "logicalTableMap", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.performanceConfiguration?.validate(name: "\(name).performanceConfiguration")
             try self.permissions?.forEach {
                 try $0.validate(name: "\(name).permissions[]")
             }
@@ -8754,6 +8767,7 @@ extension QuickSight {
             case importMode = "ImportMode"
             case logicalTableMap = "LogicalTableMap"
             case name = "Name"
+            case performanceConfiguration = "PerformanceConfiguration"
             case permissions = "Permissions"
             case physicalTableMap = "PhysicalTableMap"
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
@@ -11878,6 +11892,8 @@ extension QuickSight {
         public let name: String?
         /// The list of columns after all transforms. These columns are available in templates, analyses, and dashboards.
         public let outputColumns: [OutputColumn]?
+        /// The performance optimization configuration of a dataset.
+        public let performanceConfiguration: PerformanceConfiguration?
         /// Declares the physical tables that are available in the underlying data sources.
         public let physicalTableMap: [String: PhysicalTable]?
         /// The row-level security configuration for the dataset.
@@ -11886,7 +11902,7 @@ extension QuickSight {
         public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
 
         @inlinable
-        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil) {
+        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, performanceConfiguration: PerformanceConfiguration? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil) {
             self.arn = arn
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -11901,6 +11917,7 @@ extension QuickSight {
             self.logicalTableMap = logicalTableMap
             self.name = name
             self.outputColumns = outputColumns
+            self.performanceConfiguration = performanceConfiguration
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
             self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
@@ -11921,6 +11938,7 @@ extension QuickSight {
             case logicalTableMap = "LogicalTableMap"
             case name = "Name"
             case outputColumns = "OutputColumns"
+            case performanceConfiguration = "PerformanceConfiguration"
             case physicalTableMap = "PhysicalTableMap"
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
             case rowLevelPermissionTagConfiguration = "RowLevelPermissionTagConfiguration"
@@ -29876,6 +29894,28 @@ extension QuickSight {
         }
     }
 
+    public struct PerformanceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A UniqueKey configuration.
+        public let uniqueKeys: [UniqueKey]?
+
+        @inlinable
+        public init(uniqueKeys: [UniqueKey]? = nil) {
+            self.uniqueKeys = uniqueKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.uniqueKeys?.forEach {
+                try $0.validate(name: "\(name).uniqueKeys[]")
+            }
+            try self.validate(self.uniqueKeys, name: "uniqueKeys", parent: name, max: 1)
+            try self.validate(self.uniqueKeys, name: "uniqueKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uniqueKeys = "UniqueKeys"
+        }
+    }
+
     public struct PeriodOverPeriodComputation: AWSEncodableShape & AWSDecodableShape {
         /// The ID for a computation.
         public let computationId: String
@@ -36676,7 +36716,7 @@ extension QuickSight {
             try self.selectedFieldOptions?.forEach {
                 try $0.validate(name: "\(name).selectedFieldOptions[]")
             }
-            try self.validate(self.selectedFieldOptions, name: "selectedFieldOptions", parent: name, max: 100)
+            try self.validate(self.selectedFieldOptions, name: "selectedFieldOptions", parent: name, max: 201)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -36940,7 +36980,7 @@ extension QuickSight {
             try self.values?.forEach {
                 try $0.validate(name: "\(name).values[]")
             }
-            try self.validate(self.values, name: "values", parent: name, max: 200)
+            try self.validate(self.values, name: "values", parent: name, max: 201)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -37781,18 +37821,22 @@ extension QuickSight {
     }
 
     public struct ThousandSeparatorOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Determines the way numbers are styled to accommodate different readability standards. The DEFAULT value uses the standard international grouping system and groups numbers by the thousands. The LAKHS value uses the Indian numbering system and groups numbers by lakhs and crores.
+        public let groupingStyle: DigitGroupingStyle?
         /// Determines the thousands separator symbol.
         public let symbol: NumericSeparatorSymbol?
         /// Determines the visibility of the thousands separator.
         public let visibility: Visibility?
 
         @inlinable
-        public init(symbol: NumericSeparatorSymbol? = nil, visibility: Visibility? = nil) {
+        public init(groupingStyle: DigitGroupingStyle? = nil, symbol: NumericSeparatorSymbol? = nil, visibility: Visibility? = nil) {
+            self.groupingStyle = groupingStyle
             self.symbol = symbol
             self.visibility = visibility
         }
 
         private enum CodingKeys: String, CodingKey {
+            case groupingStyle = "GroupingStyle"
             case symbol = "Symbol"
             case visibility = "Visibility"
         }
@@ -39909,6 +39953,29 @@ extension QuickSight {
         }
     }
 
+    public struct UniqueKey: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column that is referenced in the UniqueKey configuration.
+        public let columnNames: [String]
+
+        @inlinable
+        public init(columnNames: [String]) {
+            self.columnNames = columnNames
+        }
+
+        public func validate(name: String) throws {
+            try self.columnNames.forEach {
+                try validate($0, name: "columnNames[]", parent: name, max: 128)
+                try validate($0, name: "columnNames[]", parent: name, min: 1)
+            }
+            try self.validate(self.columnNames, name: "columnNames", parent: name, max: 1)
+            try self.validate(self.columnNames, name: "columnNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnNames = "ColumnNames"
+        }
+    }
+
     public struct UniqueValuesComputation: AWSEncodableShape & AWSDecodableShape {
         /// The category field that is used in a computation.
         public let category: DimensionField?
@@ -41173,6 +41240,8 @@ extension QuickSight {
         public let logicalTableMap: [String: LogicalTable]?
         /// The display name for the dataset.
         public let name: String
+        /// The configuration for the performance optimization of the dataset that contains a UniqueKey configuration.
+        public let performanceConfiguration: PerformanceConfiguration?
         /// Declares the physical tables that are available in the underlying data sources.
         public let physicalTableMap: [String: PhysicalTable]
         /// The row-level security configuration for the data you want to create.
@@ -41181,7 +41250,7 @@ extension QuickSight {
         public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
 
         @inlinable
-        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil) {
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, performanceConfiguration: PerformanceConfiguration? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -41192,6 +41261,7 @@ extension QuickSight {
             self.importMode = importMode
             self.logicalTableMap = logicalTableMap
             self.name = name
+            self.performanceConfiguration = performanceConfiguration
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
             self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
@@ -41210,6 +41280,7 @@ extension QuickSight {
             try container.encode(self.importMode, forKey: .importMode)
             try container.encodeIfPresent(self.logicalTableMap, forKey: .logicalTableMap)
             try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.performanceConfiguration, forKey: .performanceConfiguration)
             try container.encode(self.physicalTableMap, forKey: .physicalTableMap)
             try container.encodeIfPresent(self.rowLevelPermissionDataSet, forKey: .rowLevelPermissionDataSet)
             try container.encodeIfPresent(self.rowLevelPermissionTagConfiguration, forKey: .rowLevelPermissionTagConfiguration)
@@ -41248,6 +41319,7 @@ extension QuickSight {
             try self.validate(self.logicalTableMap, name: "logicalTableMap", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.performanceConfiguration?.validate(name: "\(name).performanceConfiguration")
             try self.physicalTableMap.forEach {
                 try validate($0.key, name: "physicalTableMap.key", parent: name, max: 64)
                 try validate($0.key, name: "physicalTableMap.key", parent: name, min: 1)
@@ -41268,6 +41340,7 @@ extension QuickSight {
             case importMode = "ImportMode"
             case logicalTableMap = "LogicalTableMap"
             case name = "Name"
+            case performanceConfiguration = "PerformanceConfiguration"
             case physicalTableMap = "PhysicalTableMap"
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
             case rowLevelPermissionTagConfiguration = "RowLevelPermissionTagConfiguration"

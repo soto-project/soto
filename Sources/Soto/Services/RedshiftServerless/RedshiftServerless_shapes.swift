@@ -697,11 +697,13 @@ extension RedshiftServerless {
         public let subnetIds: [String]?
         /// A array of tag instances.
         public let tags: [Tag]?
+        /// An optional parameter for the name of the track for the workgroup. If you don't provide  a track name, the workgroup is assigned to the current track.
+        public let trackName: String?
         /// The name of the created workgroup.
         public let workgroupName: String
 
         @inlinable
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, trackName: String? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
@@ -714,6 +716,7 @@ extension RedshiftServerless {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
             self.tags = tags
+            self.trackName = trackName
             self.workgroupName = workgroupName
         }
 
@@ -726,6 +729,9 @@ extension RedshiftServerless {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.trackName, name: "trackName", parent: name, max: 256)
+            try self.validate(self.trackName, name: "trackName", parent: name, min: 1)
+            try self.validate(self.trackName, name: "trackName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
@@ -744,6 +750,7 @@ extension RedshiftServerless {
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
             case tags = "tags"
+            case trackName = "trackName"
             case workgroupName = "workgroupName"
         }
     }
@@ -1435,6 +1442,40 @@ extension RedshiftServerless {
         }
     }
 
+    public struct GetTrackRequest: AWSEncodableShape {
+        /// The name of the track of which its version is fetched.
+        public let trackName: String
+
+        @inlinable
+        public init(trackName: String) {
+            self.trackName = trackName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.trackName, name: "trackName", parent: name, max: 256)
+            try self.validate(self.trackName, name: "trackName", parent: name, min: 1)
+            try self.validate(self.trackName, name: "trackName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trackName = "trackName"
+        }
+    }
+
+    public struct GetTrackResponse: AWSDecodableShape {
+        /// The version of the specified track.
+        public let track: ServerlessTrack?
+
+        @inlinable
+        public init(track: ServerlessTrack? = nil) {
+            self.track = track
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case track = "track"
+        }
+    }
+
     public struct GetUsageLimitRequest: AWSEncodableShape {
         /// The unique identifier of the usage limit to return information for.
         public let usageLimitId: String
@@ -2040,6 +2081,51 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct ListTracksRequest: AWSEncodableShape {
+        /// The maximum number of response records to return in each call.  If the number of remaining response records exceeds the specified  MaxRecords value, a value is returned in a marker field of the response.  You can retrieve the next set of records by retrying the command with the  returned marker value.
+        public let maxResults: Int?
+        /// If your initial ListTracksRequest operation returns a  nextToken, you can include the returned nextToken in following ListTracksRequest operations, which returns results in the next page.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTracksResponse: AWSDecodableShape {
+        /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+        public let nextToken: String?
+        /// The returned tracks.
+        public let tracks: [ServerlessTrack]?
+
+        @inlinable
+        public init(nextToken: String? = nil, tracks: [ServerlessTrack]? = nil) {
+            self.nextToken = nextToken
+            self.tracks = tracks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case tracks = "tracks"
         }
     }
 
@@ -2690,6 +2776,28 @@ extension RedshiftServerless {
         }
     }
 
+    public struct ServerlessTrack: AWSDecodableShape {
+        /// The name of the track. Valid values are current and trailing.
+        public let trackName: String?
+        /// An array of UpdateTarget objects to update with the track.
+        public let updateTargets: [UpdateTarget]?
+        /// The workgroup version number for the workgroup release.
+        public let workgroupVersion: String?
+
+        @inlinable
+        public init(trackName: String? = nil, updateTargets: [UpdateTarget]? = nil, workgroupVersion: String? = nil) {
+            self.trackName = trackName
+            self.updateTargets = updateTargets
+            self.workgroupVersion = workgroupVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trackName = "trackName"
+            case updateTargets = "updateTargets"
+            case workgroupVersion = "workgroupVersion"
+        }
+    }
+
     public struct Snapshot: AWSDecodableShape {
         /// All of the Amazon Web Services accounts that have access to restore a snapshot to a provisioned cluster.
         public let accountsWithProvisionedRestoreAccess: [String]?
@@ -3268,6 +3376,24 @@ extension RedshiftServerless {
         }
     }
 
+    public struct UpdateTarget: AWSDecodableShape {
+        /// The name of the new track.
+        public let trackName: String?
+        /// The workgroup version for the new track.
+        public let workgroupVersion: String?
+
+        @inlinable
+        public init(trackName: String? = nil, workgroupVersion: String? = nil) {
+            self.trackName = trackName
+            self.workgroupVersion = workgroupVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trackName = "trackName"
+            case workgroupVersion = "workgroupVersion"
+        }
+    }
+
     public struct UpdateUsageLimitRequest: AWSEncodableShape {
         /// The new limit amount. If time-based, this amount is in Redshift Processing Units (RPU) consumed per hour.  If data-based, this amount is in terabytes (TB) of data transferred between Regions in cross-account sharing.  The value must be a positive number.
         public let amount: Int64?
@@ -3325,11 +3451,13 @@ extension RedshiftServerless {
         public let securityGroupIds: [String]?
         /// An array of VPC subnet IDs to associate with the workgroup.
         public let subnetIds: [String]?
+        /// An optional parameter for the name of the track for the workgroup. If you don't provide  a track name, the workgroup is assigned to the current track.
+        public let trackName: String?
         /// The name of the workgroup to update. You can't update the name of a workgroup once it is created.
         public let workgroupName: String
 
         @inlinable
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, workgroupName: String) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, trackName: String? = nil, workgroupName: String) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.enhancedVpcRouting = enhancedVpcRouting
@@ -3340,11 +3468,15 @@ extension RedshiftServerless {
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+            self.trackName = trackName
             self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.ipAddressType, name: "ipAddressType", parent: name, pattern: "^(ipv4|dualstack)$")
+            try self.validate(self.trackName, name: "trackName", parent: name, max: 256)
+            try self.validate(self.trackName, name: "trackName", parent: name, min: 1)
+            try self.validate(self.trackName, name: "trackName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
@@ -3361,6 +3493,7 @@ extension RedshiftServerless {
             case publiclyAccessible = "publiclyAccessible"
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
+            case trackName = "trackName"
             case workgroupName = "workgroupName"
         }
     }
@@ -3484,6 +3617,8 @@ extension RedshiftServerless {
         public let namespaceName: String?
         /// The patch version of your Amazon Redshift Serverless workgroup. For more information about patch versions, see Cluster versions for Amazon Redshift.
         public let patchVersion: String?
+        /// The name for the track that you want to assign to the workgroup. When the track changes, the  workgroup is switched to the latest workgroup release available for the track. At this point, the  track name is applied.
+        public let pendingTrackName: String?
         /// The custom port to use when connecting to a workgroup. Valid port ranges are 5431-5455 and 8191-8215. The default is 5439.
         public let port: Int?
         /// An object that represents the price performance target settings for the workgroup.
@@ -3496,6 +3631,8 @@ extension RedshiftServerless {
         public let status: WorkgroupStatus?
         /// An array of subnet IDs the workgroup is associated with.
         public let subnetIds: [String]?
+        /// The name of the track for the workgroup.
+        public let trackName: String?
         /// The Amazon Resource Name (ARN) that links to the workgroup.
         public let workgroupArn: String?
         /// The unique identifier of the workgroup.
@@ -3506,7 +3643,7 @@ extension RedshiftServerless {
         public let workgroupVersion: String?
 
         @inlinable
-        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
+        public init(baseCapacity: Int? = nil, configParameters: [ConfigParameter]? = nil, creationDate: Date? = nil, crossAccountVpcs: [String]? = nil, customDomainCertificateArn: String? = nil, customDomainCertificateExpiryTime: Date? = nil, customDomainName: String? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, ipAddressType: String? = nil, maxCapacity: Int? = nil, namespaceName: String? = nil, patchVersion: String? = nil, pendingTrackName: String? = nil, port: Int? = nil, pricePerformanceTarget: PerformanceTarget? = nil, publiclyAccessible: Bool? = nil, securityGroupIds: [String]? = nil, status: WorkgroupStatus? = nil, subnetIds: [String]? = nil, trackName: String? = nil, workgroupArn: String? = nil, workgroupId: String? = nil, workgroupName: String? = nil, workgroupVersion: String? = nil) {
             self.baseCapacity = baseCapacity
             self.configParameters = configParameters
             self.creationDate = creationDate
@@ -3520,12 +3657,14 @@ extension RedshiftServerless {
             self.maxCapacity = maxCapacity
             self.namespaceName = namespaceName
             self.patchVersion = patchVersion
+            self.pendingTrackName = pendingTrackName
             self.port = port
             self.pricePerformanceTarget = pricePerformanceTarget
             self.publiclyAccessible = publiclyAccessible
             self.securityGroupIds = securityGroupIds
             self.status = status
             self.subnetIds = subnetIds
+            self.trackName = trackName
             self.workgroupArn = workgroupArn
             self.workgroupId = workgroupId
             self.workgroupName = workgroupName
@@ -3546,12 +3685,14 @@ extension RedshiftServerless {
             case maxCapacity = "maxCapacity"
             case namespaceName = "namespaceName"
             case patchVersion = "patchVersion"
+            case pendingTrackName = "pendingTrackName"
             case port = "port"
             case pricePerformanceTarget = "pricePerformanceTarget"
             case publiclyAccessible = "publiclyAccessible"
             case securityGroupIds = "securityGroupIds"
             case status = "status"
             case subnetIds = "subnetIds"
+            case trackName = "trackName"
             case workgroupArn = "workgroupArn"
             case workgroupId = "workgroupId"
             case workgroupName = "workgroupName"

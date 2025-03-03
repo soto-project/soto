@@ -94,6 +94,7 @@ public struct PI: AWSService {
             "ap-southeast-3": "pi.ap-southeast-3.api.aws",
             "ap-southeast-4": "pi.ap-southeast-4.api.aws",
             "ap-southeast-5": "pi.ap-southeast-5.api.aws",
+            "ap-southeast-7": "pi.ap-southeast-7.api.aws",
             "ca-central-1": "pi.ca-central-1.api.aws",
             "ca-west-1": "pi.ca-west-1.api.aws",
             "cn-north-1": "pi.cn-north-1.api.amazonwebservices.com.cn",
@@ -109,6 +110,7 @@ public struct PI: AWSService {
             "il-central-1": "pi.il-central-1.api.aws",
             "me-central-1": "pi.me-central-1.api.aws",
             "me-south-1": "pi.me-south-1.api.aws",
+            "mx-central-1": "pi.mx-central-1.api.aws",
             "sa-east-1": "pi.sa-east-1.api.aws",
             "us-east-1": "pi.us-east-1.api.aws",
             "us-east-2": "pi.us-east-2.api.aws",
@@ -233,7 +235,7 @@ public struct PI: AWSService {
     /// For a specific time period, retrieve the top N dimension keys for a metric.   Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,  only the first 500 bytes are returned.
     ///
     /// Parameters:
-    ///   - additionalMetrics: Additional metrics for the top N dimension keys. If the specified dimension group in the GroupBy parameter is db.sql_tokenized, you can specify per-SQL metrics to get the values for the top N SQL digests. The response syntax is as follows: "AdditionalMetrics" : { "string" : "string" }.
+    ///   - additionalMetrics: Additional metrics for the top N dimension keys. If the specified dimension group in the GroupBy parameter is db.sql_tokenized, you can specify per-SQL metrics to get the values for the top N SQL digests. The response syntax is as follows: "AdditionalMetrics" : { "string" : "string" }. The only supported statistic function is .avg.
     ///   - endTime: The date and time specifying the end of the requested time series data. The value specified is exclusive, which means that data points less than (but not equal to) EndTime are returned. The value for EndTime must be later than the value for StartTime.
     ///   - filter: One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy or Partition parameters.   A single filter for any other dimension in this dimension group.    The db.sql.db_id filter isn't available for RDS for SQL Server DB instances.
     ///   - groupBy: A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights returns all dimensions within this group, unless you provide the names of specific dimensions within this group. You can also request that Performance Insights return a limited number of values for a dimension.
@@ -279,7 +281,7 @@ public struct PI: AWSService {
         return try await self.describeDimensionKeys(input, logger: logger)
     }
 
-    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text.
+    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans.
     @Sendable
     @inlinable
     public func getDimensionKeyDetails(_ input: GetDimensionKeyDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDimensionKeyDetailsResponse {
@@ -292,13 +294,13 @@ public struct PI: AWSService {
             logger: logger
         )
     }
-    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text.
+    /// Get the attributes of the specified dimension group for a DB instance or data source. For example, if you specify a SQL ID, GetDimensionKeyDetails retrieves the full text of the dimension db.sql.statement associated with this ID. This operation is useful because GetResourceMetrics and DescribeDimensionKeys don't support retrieval of large SQL statement text, lock snapshots, and execution plans.
     ///
     /// Parameters:
-    ///   - group: The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid:    db.query (Amazon DocumentDB only)    db.sql (Amazon RDS and Aurora only)
-    ///   - groupIdentifier: The ID of the dimension group from which to retrieve dimension details. For dimension group db.sql, the group ID is db.sql.id. The following group ID values are valid:    db.sql.id for dimension group db.sql (Aurora and RDS only)    db.query.id for dimension group db.query (DocumentDB only)
+    ///   - group: The name of the dimension group. Performance Insights searches the specified group for the dimension group ID. The following group name values are valid:    db.execution_plan (Amazon RDS and Aurora only)    db.lock_snapshot (Aurora only)    db.query (Amazon DocumentDB only)    db.sql (Amazon RDS and Aurora only)
+    ///   - groupIdentifier: The ID of the dimension group from which to retrieve dimension details. For dimension group db.sql, the group ID is db.sql.id. The following group ID values are valid:    db.execution_plan.id for dimension group db.execution_plan (Aurora and RDS only)    db.sql.id for dimension group db.sql (Aurora and RDS only)    db.query.id for dimension group db.query (DocumentDB only)   For the dimension group db.lock_snapshot, the GroupIdentifier is the epoch timestamp when Performance Insights captured the snapshot, in seconds.  You can retrieve this value with the GetResourceMetrics operation for a 1 second period.
     ///   - identifier: The ID for a data source from which to gather dimension data. This ID must be immutable and  unique within an Amazon Web Services Region. When a DB instance is the data source, specify its  DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
-    ///   - requestedDimensions: A list of dimensions to retrieve the detail data for within the given dimension group. If you don't specify this parameter, Performance Insights returns all dimension data within the specified dimension group. Specify dimension names for the following dimension groups:    db.sql - Specify either the full dimension name db.sql.statement or the short dimension name statement (Aurora and RDS only).    db.query - Specify either the full dimension name db.query.statement or the short dimension name statement (DocumentDB only).
+    ///   - requestedDimensions: A list of dimensions to retrieve the detail data for within the given dimension group. If you don't specify this parameter, Performance Insights returns all dimension data within the specified dimension group. Specify dimension names for the following dimension groups:    db.execution_plan - Specify the dimension name db.execution_plan.raw_plan or the short dimension name raw_plan (Amazon RDS and Aurora only)    db.lock_snapshot - Specify the dimension name db.lock_snapshot.lock_trees or the short dimension name lock_trees. (Aurora only)    db.sql - Specify either the full dimension name db.sql.statement or the short dimension name statement (Aurora and RDS only).    db.query - Specify either the full dimension name db.query.statement or the short dimension name statement (DocumentDB only).
     ///   - serviceType: The Amazon Web Services service for which Performance Insights returns data. The only valid value is RDS.
     ///   - logger: Logger use during operation
     @inlinable
@@ -411,7 +413,7 @@ public struct PI: AWSService {
     /// Parameters:
     ///   - endTime: The date and time specifying the end of the requested time series query range. The value  specified is exclusive. Thus, the command returns data points less than  (but not equal to) EndTime. The value for EndTime must be later than the value for StartTime.
     ///   - identifier: An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
-    ///   - maxResults: The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved.
+    ///   - maxResults: The maximum number of items to return in the response.
     ///   - metricQueries: An array of one or more queries to perform. Each query must specify a Performance Insights metric and specify an aggregate function, and you can provide filtering criteria. You must append the aggregate function to the metric. For example, to find the average for the metric db.load  you must use db.load.avg. Valid values for aggregate functions include .avg, .min,  .max, and .sum.
     ///   - nextToken: An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the token, up to the value specified by MaxRecords.
     ///   - periodAlignment: The returned timestamp which is the start or end time of the time periods. The default value is END_TIME.
@@ -709,7 +711,7 @@ extension PI {
     /// Return PaginatorSequence for operation ``describeDimensionKeys(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - additionalMetrics: Additional metrics for the top N dimension keys. If the specified dimension group in the GroupBy parameter is db.sql_tokenized, you can specify per-SQL metrics to get the values for the top N SQL digests. The response syntax is as follows: "AdditionalMetrics" : { "string" : "string" }.
+    ///   - additionalMetrics: Additional metrics for the top N dimension keys. If the specified dimension group in the GroupBy parameter is db.sql_tokenized, you can specify per-SQL metrics to get the values for the top N SQL digests. The response syntax is as follows: "AdditionalMetrics" : { "string" : "string" }. The only supported statistic function is .avg.
     ///   - endTime: The date and time specifying the end of the requested time series data. The value specified is exclusive, which means that data points less than (but not equal to) EndTime are returned. The value for EndTime must be later than the value for StartTime.
     ///   - filter: One or more filters to apply in the request. Restrictions:   Any number of filters by the same dimension, as specified in the GroupBy or Partition parameters.   A single filter for any other dimension in this dimension group.    The db.sql.db_id filter isn't available for RDS for SQL Server DB instances.
     ///   - groupBy: A specification for how to aggregate the data points from a query result. You must specify a valid dimension group. Performance Insights returns all dimensions within this group, unless you provide the names of specific dimensions within this group. You can also request that Performance Insights return a limited number of values for a dimension.
@@ -775,7 +777,7 @@ extension PI {
     /// - Parameters:
     ///   - endTime: The date and time specifying the end of the requested time series query range. The value  specified is exclusive. Thus, the command returns data points less than  (but not equal to) EndTime. The value for EndTime must be later than the value for StartTime.
     ///   - identifier: An immutable identifier for a data source that is unique for an Amazon Web Services Region. Performance Insights gathers metrics from this data source. In the console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
-    ///   - maxResults: The maximum number of items to return in the response. If more items exist than the specified MaxRecords value, a pagination token is included in the response so that the remaining results can be retrieved.
+    ///   - maxResults: The maximum number of items to return in the response.
     ///   - metricQueries: An array of one or more queries to perform. Each query must specify a Performance Insights metric and specify an aggregate function, and you can provide filtering criteria. You must append the aggregate function to the metric. For example, to find the average for the metric db.load  you must use db.load.avg. Valid values for aggregate functions include .avg, .min,  .max, and .sum.
     ///   - periodAlignment: The returned timestamp which is the start or end time of the time periods. The default value is END_TIME.
     ///   - periodInSeconds: The granularity, in seconds, of the data points returned from Performance Insights. A period can be as short as one second, or as long as one day (86400 seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)    3600 (one hour)    86400 (twenty-four hours)   If you don't specify PeriodInSeconds, then Performance Insights will choose a value for you, with a goal of returning roughly 100-200 data points in the response.

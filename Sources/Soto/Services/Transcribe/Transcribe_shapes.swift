@@ -205,6 +205,12 @@ extension Transcribe {
         public var description: String { return self.rawValue }
     }
 
+    public enum MedicalScribeNoteTemplate: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case girpp = "GIRPP"
+        case historyAndPhysical = "HISTORY_AND_PHYSICAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MedicalScribeParticipantRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clinician = "CLINICIAN"
         case patient = "PATIENT"
@@ -454,10 +460,12 @@ extension Transcribe {
         public let settings: CallAnalyticsJobSettings?
         /// The date and time the specified Call Analytics job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
+        /// The tags, each in the form of a key:value pair, assigned to the specified call analytics job.
+        public let tags: [Tag]?
         public let transcript: Transcript?
 
         @inlinable
-        public init(callAnalyticsJobDetails: CallAnalyticsJobDetails? = nil, callAnalyticsJobName: String? = nil, callAnalyticsJobStatus: CallAnalyticsJobStatus? = nil, channelDefinitions: [ChannelDefinition]? = nil, completionTime: Date? = nil, creationTime: Date? = nil, dataAccessRoleArn: String? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, settings: CallAnalyticsJobSettings? = nil, startTime: Date? = nil, transcript: Transcript? = nil) {
+        public init(callAnalyticsJobDetails: CallAnalyticsJobDetails? = nil, callAnalyticsJobName: String? = nil, callAnalyticsJobStatus: CallAnalyticsJobStatus? = nil, channelDefinitions: [ChannelDefinition]? = nil, completionTime: Date? = nil, creationTime: Date? = nil, dataAccessRoleArn: String? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, settings: CallAnalyticsJobSettings? = nil, startTime: Date? = nil, tags: [Tag]? = nil, transcript: Transcript? = nil) {
             self.callAnalyticsJobDetails = callAnalyticsJobDetails
             self.callAnalyticsJobName = callAnalyticsJobName
             self.callAnalyticsJobStatus = callAnalyticsJobStatus
@@ -473,6 +481,7 @@ extension Transcribe {
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.settings = settings
             self.startTime = startTime
+            self.tags = tags
             self.transcript = transcript
         }
 
@@ -492,6 +501,7 @@ extension Transcribe {
             case mediaSampleRateHertz = "MediaSampleRateHertz"
             case settings = "Settings"
             case startTime = "StartTime"
+            case tags = "Tags"
             case transcript = "Transcript"
         }
     }
@@ -516,7 +526,7 @@ extension Transcribe {
         public let languageIdSettings: [LanguageCode: LanguageIdSettings]?
         /// The name of the custom language model you want to use when processing your Call Analytics job. Note that custom language model names are case sensitive. The language of the specified custom language model must match the language code that you specify in your transcription request. If the languages do not match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch.
         public let languageModelName: String?
-        /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. For a list of languages supported with Call Analytics, refer to the Supported languages table. To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+        /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. For a list of languages supported with Call Analytics, refer to the Supported languages table. To transcribe speech in Modern Standard Arabic (ar-SA) in Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary) ca-west-1 and Africa (Cape Town) af-south-1, your media file must be encoded at a sample rate of 16,000 Hz or higher.
         public let languageOptions: [LanguageCode]?
         /// Contains GenerateAbstractiveSummary, which is a required parameter if you
         /// 	    want to enable Generative call summarization in your Call Analytics request.
@@ -646,14 +656,17 @@ extension Transcribe {
         public let lastUpdateTime: Date?
         /// The rules used to define a Call Analytics category. Each category can have between 1 and 20 rules.
         public let rules: [Rule]?
+        /// The tags, each in the form of a key:value pair, assigned to the specified call analytics category.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(categoryName: String? = nil, createTime: Date? = nil, inputType: InputType? = nil, lastUpdateTime: Date? = nil, rules: [Rule]? = nil) {
+        public init(categoryName: String? = nil, createTime: Date? = nil, inputType: InputType? = nil, lastUpdateTime: Date? = nil, rules: [Rule]? = nil, tags: [Tag]? = nil) {
             self.categoryName = categoryName
             self.createTime = createTime
             self.inputType = inputType
             self.lastUpdateTime = lastUpdateTime
             self.rules = rules
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -662,6 +675,7 @@ extension Transcribe {
             case inputType = "InputType"
             case lastUpdateTime = "LastUpdateTime"
             case rules = "Rules"
+            case tags = "Tags"
         }
     }
 
@@ -685,6 +699,20 @@ extension Transcribe {
         private enum CodingKeys: String, CodingKey {
             case channelId = "ChannelId"
             case participantRole = "ParticipantRole"
+        }
+    }
+
+    public struct ClinicalNoteGenerationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Specify one of the following templates to use for the clinical note summary. The default is HISTORY_AND_PHYSICAL.   HISTORY_AND_PHYSICAL: Provides summaries for key sections of the clinical documentation. Sections include Chief Complaint,  History of Present Illness, Review of Systems, Past Medical History, Assessment, and Plan.   GIRPP: Provides summaries based on the patients progress toward goals. Sections include Goal, Intervention, Response, Progress, and Plan.
+        public let noteTemplate: MedicalScribeNoteTemplate?
+
+        @inlinable
+        public init(noteTemplate: MedicalScribeNoteTemplate? = nil) {
+            self.noteTemplate = noteTemplate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noteTemplate = "NoteTemplate"
         }
     }
 
@@ -721,12 +749,15 @@ extension Transcribe {
         public let inputType: InputType?
         /// Rules define a Call Analytics category. When creating a new category, you must create  between 1 and 20 rules for that category. For each rule, you specify a filter you want  applied to the attributes of a call. For example, you can choose a sentiment filter that  detects if a customer's sentiment was positive during the last 30 seconds of the call.
         public let rules: [Rule]
+        /// Adds one or more custom tags, each in the form of a key:value pair, to a new call analytics category at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(categoryName: String, inputType: InputType? = nil, rules: [Rule]) {
+        public init(categoryName: String, inputType: InputType? = nil, rules: [Rule], tags: [Tag]? = nil) {
             self.categoryName = categoryName
             self.inputType = inputType
             self.rules = rules
+            self.tags = tags
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -735,6 +766,7 @@ extension Transcribe {
             request.encodePath(self.categoryName, key: "CategoryName")
             try container.encodeIfPresent(self.inputType, forKey: .inputType)
             try container.encode(self.rules, forKey: .rules)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -746,11 +778,17 @@ extension Transcribe {
             }
             try self.validate(self.rules, name: "rules", parent: name, max: 20)
             try self.validate(self.rules, name: "rules", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case inputType = "InputType"
             case rules = "Rules"
+            case tags = "Tags"
         }
     }
 
@@ -2664,6 +2702,8 @@ extension Transcribe {
     public struct MedicalScribeSettings: AWSEncodableShape & AWSDecodableShape {
         /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. For more information, see Transcribing multi-channel audio.
         public let channelIdentification: Bool?
+        /// Specify settings for the clinical note generation.
+        public let clinicalNoteGenerationSettings: ClinicalNoteGenerationSettings?
         /// Specify the maximum number of speakers you want to partition in your media. Note that if your media contains more speakers than the specified number, multiple speakers are treated as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
         public let maxSpeakerLabels: Int?
         /// Enables speaker partitioning (diarization) in your Medical Scribe output. Speaker partitioning labels the speech from individual speakers in your media file. If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels. For more information, see Partitioning speakers (diarization).
@@ -2676,8 +2716,9 @@ extension Transcribe {
         public let vocabularyName: String?
 
         @inlinable
-        public init(channelIdentification: Bool? = nil, maxSpeakerLabels: Int? = nil, showSpeakerLabels: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(channelIdentification: Bool? = nil, clinicalNoteGenerationSettings: ClinicalNoteGenerationSettings? = nil, maxSpeakerLabels: Int? = nil, showSpeakerLabels: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.channelIdentification = channelIdentification
+            self.clinicalNoteGenerationSettings = clinicalNoteGenerationSettings
             self.maxSpeakerLabels = maxSpeakerLabels
             self.showSpeakerLabels = showSpeakerLabels
             self.vocabularyFilterMethod = vocabularyFilterMethod
@@ -2698,6 +2739,7 @@ extension Transcribe {
 
         private enum CodingKeys: String, CodingKey {
             case channelIdentification = "ChannelIdentification"
+            case clinicalNoteGenerationSettings = "ClinicalNoteGenerationSettings"
             case maxSpeakerLabels = "MaxSpeakerLabels"
             case showSpeakerLabels = "ShowSpeakerLabels"
             case vocabularyFilterMethod = "VocabularyFilterMethod"
@@ -3088,9 +3130,11 @@ extension Transcribe {
         public let outputLocation: String?
         /// Specify additional optional settings in your  request, including content redaction; allows you to apply custom language models, vocabulary filters, and custom vocabularies to your Call Analytics job.
         public let settings: CallAnalyticsJobSettings?
+        /// Adds one or more custom tags, each in the form of a key:value pair, to a new call analytics job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(callAnalyticsJobName: String, channelDefinitions: [ChannelDefinition]? = nil, dataAccessRoleArn: String? = nil, media: Media, outputEncryptionKMSKeyId: String? = nil, outputLocation: String? = nil, settings: CallAnalyticsJobSettings? = nil) {
+        public init(callAnalyticsJobName: String, channelDefinitions: [ChannelDefinition]? = nil, dataAccessRoleArn: String? = nil, media: Media, outputEncryptionKMSKeyId: String? = nil, outputLocation: String? = nil, settings: CallAnalyticsJobSettings? = nil, tags: [Tag]? = nil) {
             self.callAnalyticsJobName = callAnalyticsJobName
             self.channelDefinitions = channelDefinitions
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -3098,6 +3142,7 @@ extension Transcribe {
             self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
             self.outputLocation = outputLocation
             self.settings = settings
+            self.tags = tags
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -3110,6 +3155,7 @@ extension Transcribe {
             try container.encodeIfPresent(self.outputEncryptionKMSKeyId, forKey: .outputEncryptionKMSKeyId)
             try container.encodeIfPresent(self.outputLocation, forKey: .outputLocation)
             try container.encodeIfPresent(self.settings, forKey: .settings)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -3132,6 +3178,11 @@ extension Transcribe {
             try self.validate(self.outputLocation, name: "outputLocation", parent: name, min: 1)
             try self.validate(self.outputLocation, name: "outputLocation", parent: name, pattern: "^(s3://|http(s*)://).+$")
             try self.settings?.validate(name: "\(name).settings")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3141,6 +3192,7 @@ extension Transcribe {
             case outputEncryptionKMSKeyId = "OutputEncryptionKMSKeyId"
             case outputLocation = "OutputLocation"
             case settings = "Settings"
+            case tags = "Tags"
         }
     }
 
@@ -3407,11 +3459,11 @@ extension Transcribe {
         public let jobExecutionSettings: JobExecutionSettings?
         /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data. For more information, see KMS encryption context and Asymmetric keys in KMS.
         public let kmsEncryptionContext: [String: String]?
-        /// The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using IdentifyLanguage or IdentifyMultipleLanguages to enable automatic language identification. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. For a list of supported languages and their associated language codes, refer to the Supported languages table.  To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+        /// The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using IdentifyLanguage or IdentifyMultipleLanguages to enable automatic language identification. Note that you must include one of LanguageCode, IdentifyLanguage, or IdentifyMultipleLanguages in your request. If you include more than one of these parameters, your transcription job fails. For a list of supported languages and their associated language codes, refer to the Supported languages table.  To transcribe speech in Modern Standard Arabic (ar-SA) in Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), Canada (Calgary, ca-west-1) and Africa (Cape Town, af-south-1), your media file must be encoded at a sample rate of 16,000 Hz or higher.
         public let languageCode: LanguageCode?
         /// If using automatic language identification in your request and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters (VocabularyName, LanguageModelName, and VocabularyFilterName). Note that multi-language identification (IdentifyMultipleLanguages) doesn't support custom language models.  LanguageIdSettings supports two to five language codes. Each language code you include can have an associated custom language model, custom vocabulary, and custom vocabulary filter. The language codes that you specify must match the languages of the associated custom language models, custom vocabularies, and custom vocabulary filters. It's recommended that you include LanguageOptions when using LanguageIdSettings to ensure that the correct language dialect is identified. For example, if you specify a custom vocabulary that is in en-US but Amazon Transcribe determines that the language spoken in your media is en-AU, your custom vocabulary is not applied to your transcription. If you include LanguageOptions and include en-US as the only English language dialect, your custom vocabulary is applied to your transcription. If you want to include a custom language model with your request but do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic language identification, use instead the  parameter with the VocabularyName or VocabularyFilterName (or both) sub-parameter.
         public let languageIdSettings: [LanguageCode: LanguageIdSettings]?
-        /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to Supported languages. To transcribe speech in Modern Standard Arabic (ar-SA), your media file must be encoded at a sample rate of 16,000 Hz or higher.
+        /// You can specify two or more language codes that represent the languages you think may be present in your media. Including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include IdentifyLanguage. For more information, refer to Supported languages. To transcribe speech in Modern Standard Arabic (ar-SA)in Amazon Web Services GovCloud (US) (US-West, us-gov-west-1), Amazon Web Services GovCloud (US) (US-East, us-gov-east-1), in Canada (Calgary) ca-west-1 and Africa (Cape Town) af-south-1, your media file must be encoded at a sample rate of 16,000 Hz or higher.
         public let languageOptions: [LanguageCode]?
         /// Describes the Amazon S3 location of the media file you want to use in your request.
         public let media: Media

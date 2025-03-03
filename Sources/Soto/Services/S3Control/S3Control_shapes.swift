@@ -704,7 +704,7 @@ extension S3Control {
         public func validate(name: String) throws {
             try self.validate(self.functionArn, name: "functionArn", parent: name, max: 1024)
             try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
-            try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4389,7 +4389,7 @@ extension S3Control {
         public func validate(name: String) throws {
             try self.validate(self.functionArn, name: "functionArn", parent: name, max: 1024)
             try self.validate(self.functionArn, name: "functionArn", parent: name, min: 1)
-            try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.functionArn, name: "functionArn", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}((-gov)|(-iso([a-z]?)))?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.invocationSchemaVersion, name: "invocationSchemaVersion", parent: name, max: 64)
             try self.validate(self.invocationSchemaVersion, name: "invocationSchemaVersion", parent: name, min: 1)
             try self.userArguments?.forEach {
@@ -4436,7 +4436,7 @@ extension S3Control {
         public let date: Date?
         /// Indicates the lifetime, in days, of the objects that are subject to the rule. The value must be a non-zero positive integer.
         public let days: Int?
-        /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired. If set to false, the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy.
+        /// Indicates whether Amazon S3 will remove a delete marker with no noncurrent versions. If set to true, the delete marker will be expired. If set to false, the policy takes no action. This cannot be specified with Days or Date in a Lifecycle Expiration Policy. To learn more about delete markers, see Working with delete markers.
         public let expiredObjectDeleteMarker: Bool?
 
         @inlinable
@@ -6880,7 +6880,7 @@ extension S3Control {
         public let storageClass: S3StorageClass?
         /// Specifies the folder prefix that you want the objects to be copied into. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix property to Folder1.
         public let targetKeyPrefix: String?
-        /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch copy operation.    General purpose buckets - For example, to copy objects to a general purpose bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.    Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone; identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3.
+        /// Specifies the destination bucket Amazon Resource Name (ARN) for the batch copy operation.    General purpose buckets - For example, to copy objects to a general purpose bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.    Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3. A directory bucket as a destination bucket can be in Availability Zone or Local Zone.   Copying objects across different Amazon Web Services Regions isn't supported when the source or destination bucket is in Amazon Web Services Local Zones. The source and destination buckets must have the same parent Amazon Web Services Region. Otherwise,  you get an HTTP 400 Bad Request error with the error code InvalidRequest.
         public let targetResource: String?
         public let unModifiedSinceConstraint: Date?
 

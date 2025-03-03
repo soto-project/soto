@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS TranscribeStreaming service.
 ///
-/// Amazon Transcribe streaming offers three main types of real-time transcription:  Standard, Medical, and  Call Analytics.    Standard transcriptions are the most common option. Refer to  for details.    Medical transcriptions are tailored to medical professionals  and incorporate medical terms. A common use case for this service is transcribing doctor-patient  dialogue in real time, so doctors can focus on their patient instead of taking notes. Refer to for details.    Call Analytics transcriptions are designed for use with call center audio on two different channels; if you're looking for insight into customer service calls, use this  option. Refer to  for details.
+/// Amazon Transcribe streaming offers four main types of real-time transcription: Standard, Medical, Call Analytics, and Health Scribe.    Standard transcriptions are the most common option. Refer to  for details.    Medical transcriptions are tailored to medical professionals  and incorporate medical terms. A common use case for this service is transcribing doctor-patient  dialogue in real time, so doctors can focus on their patient instead of taking notes. Refer to for details.    Call Analytics transcriptions are designed for use with call center audio on two different channels; if you're looking for insight into customer service calls, use this  option. Refer to  for details.    HealthScribe transcriptions are designed to automatically create clinical notes from patient-clinician conversations using generative AI. Refer to [here] for details.
 public struct TranscribeStreaming: AWSService {
     // MARK: Member variables
 
@@ -91,6 +91,35 @@ public struct TranscribeStreaming: AWSService {
     ]}
 
     // MARK: API Calls
+
+    /// Provides details about the specified Amazon Web Services HealthScribe streaming session. To view the status of the streaming session, check the StreamStatus field in the response. To get the details of post-stream analytics, including its status, check the PostStreamAnalyticsResult field in the response.
+    @Sendable
+    @inlinable
+    public func getMedicalScribeStream(_ input: GetMedicalScribeStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMedicalScribeStreamResponse {
+        try await self.client.execute(
+            operation: "GetMedicalScribeStream", 
+            path: "/medical-scribe-stream/{SessionId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Provides details about the specified Amazon Web Services HealthScribe streaming session. To view the status of the streaming session, check the StreamStatus field in the response. To get the details of post-stream analytics, including its status, check the PostStreamAnalyticsResult field in the response.
+    ///
+    /// Parameters:
+    ///   - sessionId: The identifier of the HealthScribe streaming session you want information about.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMedicalScribeStream(
+        sessionId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMedicalScribeStreamResponse {
+        let input = GetMedicalScribeStreamRequest(
+            sessionId: sessionId
+        )
+        return try await self.getMedicalScribeStream(input, logger: logger)
+    }
 
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to  Amazon Transcribe and the transcription results are streamed to your application. Use this operation for Call Analytics transcriptions. The following parameters are required:    language-code     media-encoding     sample-rate    For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
     @Sendable
@@ -158,6 +187,47 @@ public struct TranscribeStreaming: AWSService {
             vocabularyName: vocabularyName
         )
         return try await self.startCallAnalyticsStreamTranscription(input, logger: logger)
+    }
+
+    /// Starts a bidirectional HTTP/2 stream, where audio is streamed to Amazon Web Services HealthScribe and the transcription results are streamed to your application. When you start a stream, you first specify the stream configuration in a MedicalScribeConfigurationEvent.  This event includes channel definitions, encryption settings, and post-stream analytics settings, such as the output configuration for aggregated transcript and clinical note generation. These are additional streaming session configurations beyond those provided in your initial start request headers. Whether you are starting a new session or resuming an existing session,  your first event must be a MedicalScribeConfigurationEvent.   After you send a MedicalScribeConfigurationEvent, you start AudioEvents and Amazon Web Services HealthScribe  responds with real-time transcription results. When you are finished, to start processing the results with the post-stream analytics, send a MedicalScribeSessionControlEvent with a Type of  END_OF_SESSION and Amazon Web Services HealthScribe starts the analytics.  You can pause or resume streaming. To pause streaming, complete the input stream without sending the MedicalScribeSessionControlEvent. To resume streaming, call the StartMedicalScribeStream and specify the same SessionId you used to start the stream.  The following parameters are required:    language-code     media-encoding     media-sample-rate-hertz     For more information on streaming with Amazon Web Services HealthScribe, see Amazon Web Services HealthScribe.
+    @Sendable
+    @inlinable
+    public func startMedicalScribeStream(_ input: StartMedicalScribeStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartMedicalScribeStreamResponse {
+        try await self.client.execute(
+            operation: "StartMedicalScribeStream", 
+            path: "/medical-scribe-stream", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a bidirectional HTTP/2 stream, where audio is streamed to Amazon Web Services HealthScribe and the transcription results are streamed to your application. When you start a stream, you first specify the stream configuration in a MedicalScribeConfigurationEvent.  This event includes channel definitions, encryption settings, and post-stream analytics settings, such as the output configuration for aggregated transcript and clinical note generation. These are additional streaming session configurations beyond those provided in your initial start request headers. Whether you are starting a new session or resuming an existing session,  your first event must be a MedicalScribeConfigurationEvent.   After you send a MedicalScribeConfigurationEvent, you start AudioEvents and Amazon Web Services HealthScribe  responds with real-time transcription results. When you are finished, to start processing the results with the post-stream analytics, send a MedicalScribeSessionControlEvent with a Type of  END_OF_SESSION and Amazon Web Services HealthScribe starts the analytics.  You can pause or resume streaming. To pause streaming, complete the input stream without sending the MedicalScribeSessionControlEvent. To resume streaming, call the StartMedicalScribeStream and specify the same SessionId you used to start the stream.  The following parameters are required:    language-code     media-encoding     media-sample-rate-hertz     For more information on streaming with Amazon Web Services HealthScribe, see Amazon Web Services HealthScribe.
+    ///
+    /// Parameters:
+    ///   - inputStream: Specify the input stream where you will send events in real time. The first element of the input stream must be a MedicalScribeConfigurationEvent.
+    ///   - languageCode: Specify the language code for your HealthScribe streaming session.
+    ///   - mediaEncoding: Specify the encoding used for the input audio. Supported formats are:   FLAC   OPUS-encoded audio in an Ogg container   PCM (only signed 16-bit little-endian audio formats, which does not include WAV)    For more information, see Media formats.
+    ///   - mediaSampleRateHertz: Specify the sample rate of the input audio (in hertz). Amazon Web Services HealthScribe supports a range from 16,000 Hz to 48,000 Hz. The sample rate you specify must match that of your audio.
+    ///   - sessionId: Specify an identifier for your streaming session (in UUID format). If you don't include a SessionId in your request, Amazon Web Services HealthScribe generates an ID and returns it in the response.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startMedicalScribeStream(
+        inputStream: AWSEventStream<MedicalScribeInputStream>,
+        languageCode: MedicalScribeLanguageCode,
+        mediaEncoding: MedicalScribeMediaEncoding,
+        mediaSampleRateHertz: Int,
+        sessionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartMedicalScribeStreamResponse {
+        let input = StartMedicalScribeStreamRequest(
+            inputStream: inputStream, 
+            languageCode: languageCode, 
+            mediaEncoding: mediaEncoding, 
+            mediaSampleRateHertz: mediaSampleRateHertz, 
+            sessionId: sessionId
+        )
+        return try await self.startMedicalScribeStream(input, logger: logger)
     }
 
     /// Starts a bidirectional HTTP/2 or WebSocket stream where audio is streamed to  Amazon Transcribe Medical and the transcription results are streamed to your application. The following parameters are required:    language-code     media-encoding     sample-rate    For more information on streaming with Amazon Transcribe Medical, see  Transcribing streaming audio.

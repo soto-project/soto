@@ -41,6 +41,7 @@ extension BedrockAgent {
     public enum AgentAliasStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case creating = "CREATING"
         case deleting = "DELETING"
+        case dissociated = "DISSOCIATED"
         case failed = "FAILED"
         case prepared = "PREPARED"
         case updating = "UPDATING"
@@ -63,6 +64,11 @@ extension BedrockAgent {
         case preparing = "PREPARING"
         case updating = "UPDATING"
         case versioning = "VERSIONING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CachePointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
         public var description: String { return self.rawValue }
     }
 
@@ -233,6 +239,8 @@ extension BedrockAgent {
         case unknownConnectionSourceOutput = "UnknownConnectionSourceOutput"
         case unknownConnectionTarget = "UnknownConnectionTarget"
         case unknownConnectionTargetInput = "UnknownConnectionTargetInput"
+        case unknownNodeInput = "UnknownNodeInput"
+        case unknownNodeOutput = "UnknownNodeOutput"
         case unreachableNode = "UnreachableNode"
         case unsatisfiedConnectionConditions = "UnsatisfiedConnectionConditions"
         case unspecified = "Unspecified"
@@ -359,6 +367,7 @@ extension BedrockAgent {
 
     public enum PromptType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case knowledgeBaseResponseGeneration = "KNOWLEDGE_BASE_RESPONSE_GENERATION"
+        case memorySummarization = "MEMORY_SUMMARIZATION"
         case orchestration = "ORCHESTRATION"
         case postProcessing = "POST_PROCESSING"
         case preProcessing = "PRE_PROCESSING"
@@ -414,6 +423,7 @@ extension BedrockAgent {
 
     public enum SharePointAuthType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case oauth2ClientCredentials = "OAUTH2_CLIENT_CREDENTIALS"
+        case oauth2SharepointAppOnlyClientCredentials = "OAUTH2_SHAREPOINT_APP_ONLY_CLIENT_CREDENTIALS"
         public var description: String { return self.rawValue }
     }
 
@@ -551,6 +561,47 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case customControl = "customControl"
             case lambda = "lambda"
+        }
+    }
+
+    public enum ContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Creates a cache checkpoint within a message.
+        case cachePoint(CachePointBlock)
+        /// The text in the message.
+        case text(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cachePoint:
+                let value = try container.decode(CachePointBlock.self, forKey: .cachePoint)
+                self = .cachePoint(value)
+            case .text:
+                let value = try container.decode(String.self, forKey: .text)
+                self = .text(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cachePoint(let value):
+                try container.encode(value, forKey: .cachePoint)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePoint = "cachePoint"
+            case text = "text"
         }
     }
 
@@ -793,6 +844,10 @@ extension BedrockAgent {
         case unknownConnectionTarget(UnknownConnectionTargetFlowValidationDetails)
         /// Details about an unknown target input for a connection.
         case unknownConnectionTargetInput(UnknownConnectionTargetInputFlowValidationDetails)
+        /// Details about an unknown input for a node.
+        case unknownNodeInput(UnknownNodeInputFlowValidationDetails)
+        /// Details about an unknown output for a node.
+        case unknownNodeOutput(UnknownNodeOutputFlowValidationDetails)
         /// Details about an unreachable node in the flow.
         case unreachableNode(UnreachableNodeFlowValidationDetails)
         /// Details about unsatisfied conditions for a connection.
@@ -876,6 +931,12 @@ extension BedrockAgent {
             case .unknownConnectionTargetInput:
                 let value = try container.decode(UnknownConnectionTargetInputFlowValidationDetails.self, forKey: .unknownConnectionTargetInput)
                 self = .unknownConnectionTargetInput(value)
+            case .unknownNodeInput:
+                let value = try container.decode(UnknownNodeInputFlowValidationDetails.self, forKey: .unknownNodeInput)
+                self = .unknownNodeInput(value)
+            case .unknownNodeOutput:
+                let value = try container.decode(UnknownNodeOutputFlowValidationDetails.self, forKey: .unknownNodeOutput)
+                self = .unknownNodeOutput(value)
             case .unreachableNode:
                 let value = try container.decode(UnreachableNodeFlowValidationDetails.self, forKey: .unreachableNode)
                 self = .unreachableNode(value)
@@ -911,6 +972,8 @@ extension BedrockAgent {
             case unknownConnectionSourceOutput = "unknownConnectionSourceOutput"
             case unknownConnectionTarget = "unknownConnectionTarget"
             case unknownConnectionTargetInput = "unknownConnectionTargetInput"
+            case unknownNodeInput = "unknownNodeInput"
+            case unknownNodeOutput = "unknownNodeOutput"
             case unreachableNode = "unreachableNode"
             case unsatisfiedConnectionConditions = "unsatisfiedConnectionConditions"
             case unspecified = "unspecified"
@@ -1014,6 +1077,106 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case chat = "chat"
             case text = "text"
+        }
+    }
+
+    public enum SystemContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Creates a cache checkpoint within a tool designation
+        case cachePoint(CachePointBlock)
+        /// The text in the system prompt.
+        case text(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cachePoint:
+                let value = try container.decode(CachePointBlock.self, forKey: .cachePoint)
+                self = .cachePoint(value)
+            case .text:
+                let value = try container.decode(String.self, forKey: .text)
+                self = .text(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cachePoint(let value):
+                try container.encode(value, forKey: .cachePoint)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .text(let value):
+                try self.validate(value, name: "text", parent: name, min: 1)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePoint = "cachePoint"
+            case text = "text"
+        }
+    }
+
+    public enum Tool: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Creates a cache checkpoint within a tool designation
+        case cachePoint(CachePointBlock)
+        /// The specification for the tool.
+        case toolSpec(ToolSpecification)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .cachePoint:
+                let value = try container.decode(CachePointBlock.self, forKey: .cachePoint)
+                self = .cachePoint(value)
+            case .toolSpec:
+                let value = try container.decode(ToolSpecification.self, forKey: .toolSpec)
+                self = .toolSpec(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cachePoint(let value):
+                try container.encode(value, forKey: .cachePoint)
+            case .toolSpec(let value):
+                try container.encode(value, forKey: .toolSpec)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .toolSpec(let value):
+                try value.validate(name: "\(name).toolSpec")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePoint = "cachePoint"
+            case toolSpec = "toolSpec"
         }
     }
 
@@ -1286,7 +1449,7 @@ extension BedrockAgent {
         public let agentAliasId: String
         /// The name of the alias of the agent.
         public let agentAliasName: String
-        /// The status of the alias of the agent and whether it is ready for use. The following statuses are possible:   CREATING – The agent alias is being created.   PREPARED – The agent alias is finished being created or updated and is ready to be invoked.   FAILED – The agent alias API operation failed.   UPDATING – The agent alias is being updated.   DELETING – The agent alias is being deleted.
+        /// The status of the alias of the agent and whether it is ready for use. The following statuses are possible:   CREATING – The agent alias is being created.   PREPARED – The agent alias is finished being created or updated and is ready to be invoked.   FAILED – The agent alias API operation failed.   UPDATING – The agent alias is being updated.   DELETING – The agent alias is being deleted.   DISSOCIATED - The agent alias has no version associated with it.
         public let agentAliasStatus: AgentAliasStatus
         /// The unique identifier of the agent.
         public let agentId: String
@@ -1984,7 +2147,7 @@ extension BedrockAgent {
     }
 
     public struct BedrockFoundationModelConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the foundation model or inference profile to use for parsing.
+        /// The ARN of the foundation model to use for parsing.
         public let modelArn: String
         /// Specifies whether to enable parsing of multimodal data, including both text and/or images.
         public let parsingModality: ParsingModality?
@@ -2035,6 +2198,20 @@ extension BedrockAgent {
         }
     }
 
+    public struct CachePointBlock: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates that the CachePointBlock is of the default type
+        public let type: CachePointType
+
+        @inlinable
+        public init(type: CachePointType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
+    }
+
     public struct ChatPromptTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An array of the variables in the prompt template.
         public let inputVariables: [PromptInputVariable]?
@@ -2057,7 +2234,7 @@ extension BedrockAgent {
             try self.inputVariables?.forEach {
                 try $0.validate(name: "\(name).inputVariables[]")
             }
-            try self.validate(self.inputVariables, name: "inputVariables", parent: name, max: 5)
+            try self.validate(self.inputVariables, name: "inputVariables", parent: name, max: 20)
             try self.system?.forEach {
                 try $0.validate(name: "\(name).system[]")
             }
@@ -4421,7 +4598,7 @@ extension BedrockAgent {
             try self.nodes?.forEach {
                 try $0.validate(name: "\(name).nodes[]")
             }
-            try self.validate(self.nodes, name: "nodes", parent: name, max: 20)
+            try self.validate(self.nodes, name: "nodes", parent: name, max: 40)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4456,7 +4633,7 @@ extension BedrockAgent {
             try self.inputs?.forEach {
                 try $0.validate(name: "\(name).inputs[]")
             }
-            try self.validate(self.inputs, name: "inputs", parent: name, max: 5)
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 20)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z]([_]?[0-9a-zA-Z]){1,50}$")
             try self.outputs?.forEach {
                 try $0.validate(name: "\(name).outputs[]")
@@ -5508,7 +5685,6 @@ extension BedrockAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maximumLength, name: "maximumLength", parent: name, max: 4096)
             try self.validate(self.maximumLength, name: "maximumLength", parent: name, min: 0)
             try self.validate(self.stopSequences, name: "stopSequences", parent: name, max: 4)
             try self.validate(self.temperature, name: "temperature", parent: name, max: 1.0)
@@ -6963,24 +7139,29 @@ extension BedrockAgent {
     public struct MemoryConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The type of memory that is stored.
         public let enabledMemoryTypes: [MemoryType]
+        /// Contains the configuration for SESSION_SUMMARY memory type enabled for the agent.
+        public let sessionSummaryConfiguration: SessionSummaryConfiguration?
         /// The number of days the agent is configured to retain the conversational context.
         public let storageDays: Int?
 
         @inlinable
-        public init(enabledMemoryTypes: [MemoryType], storageDays: Int? = nil) {
+        public init(enabledMemoryTypes: [MemoryType], sessionSummaryConfiguration: SessionSummaryConfiguration? = nil, storageDays: Int? = nil) {
             self.enabledMemoryTypes = enabledMemoryTypes
+            self.sessionSummaryConfiguration = sessionSummaryConfiguration
             self.storageDays = storageDays
         }
 
         public func validate(name: String) throws {
             try self.validate(self.enabledMemoryTypes, name: "enabledMemoryTypes", parent: name, max: 1)
             try self.validate(self.enabledMemoryTypes, name: "enabledMemoryTypes", parent: name, min: 1)
-            try self.validate(self.storageDays, name: "storageDays", parent: name, max: 30)
+            try self.sessionSummaryConfiguration?.validate(name: "\(name).sessionSummaryConfiguration")
+            try self.validate(self.storageDays, name: "storageDays", parent: name, max: 365)
             try self.validate(self.storageDays, name: "storageDays", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabledMemoryTypes = "enabledMemoryTypes"
+            case sessionSummaryConfiguration = "sessionSummaryConfiguration"
             case storageDays = "storageDays"
         }
     }
@@ -7666,6 +7847,8 @@ extension BedrockAgent {
     }
 
     public struct PromptConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// If the Converse or ConverseStream operations support the model, additionalModelRequestFields contains additional inference parameters, beyond the base set of inference parameters in the inferenceConfiguration field.  For more information, see Inference request parameters and response fields for foundation models in the Amazon Bedrock user guide.
+        public let additionalModelRequestFields: AWSDocument?
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
         public let basePromptTemplate: String?
         /// The agent's foundation model.
@@ -7682,7 +7865,8 @@ extension BedrockAgent {
         public let promptType: PromptType?
 
         @inlinable
-        public init(basePromptTemplate: String? = nil, foundationModel: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, basePromptTemplate: String? = nil, foundationModel: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
+            self.additionalModelRequestFields = additionalModelRequestFields
             self.basePromptTemplate = basePromptTemplate
             self.foundationModel = foundationModel
             self.inferenceConfiguration = inferenceConfiguration
@@ -7702,6 +7886,7 @@ extension BedrockAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalModelRequestFields = "additionalModelRequestFields"
             case basePromptTemplate = "basePromptTemplate"
             case foundationModel = "foundationModel"
             case inferenceConfiguration = "inferenceConfiguration"
@@ -7737,7 +7922,7 @@ extension BedrockAgent {
 
     public struct PromptFlowNodeInlineConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Additional fields to be included in the model request for the Prompt node.
-        public let additionalModelRequestFields: String?
+        public let additionalModelRequestFields: AWSDocument?
         /// Contains inference configurations for the prompt.
         public let inferenceConfiguration: PromptInferenceConfiguration?
         /// The unique identifier of the model or inference profile to run inference with.
@@ -7748,7 +7933,7 @@ extension BedrockAgent {
         public let templateType: PromptTemplateType
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, modelId: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.inferenceConfiguration = inferenceConfiguration
             self.modelId = modelId
@@ -7854,7 +8039,6 @@ extension BedrockAgent {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxTokens, name: "maxTokens", parent: name, max: 4096)
             try self.validate(self.maxTokens, name: "maxTokens", parent: name, min: 0)
             try self.validate(self.stopSequences, name: "stopSequences", parent: name, max: 4)
             try self.validate(self.temperature, name: "temperature", parent: name, max: 1.0)
@@ -7940,7 +8124,7 @@ extension BedrockAgent {
 
     public struct PromptVariant: AWSEncodableShape & AWSDecodableShape {
         /// Contains model-specific inference configurations that aren't in the inferenceConfiguration field. To see model-specific inference parameters, see Inference request parameters and response fields for foundation models.
-        public let additionalModelRequestFields: String?
+        public let additionalModelRequestFields: AWSDocument?
         /// Specifies a generative AI resource with which to use the prompt.
         public let genAiResource: PromptGenAiResource?
         /// Contains inference configurations for the prompt variant.
@@ -7957,7 +8141,7 @@ extension BedrockAgent {
         public let templateType: PromptTemplateType
 
         @inlinable
-        public init(additionalModelRequestFields: String? = nil, genAiResource: PromptGenAiResource? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, metadata: [PromptMetadataEntry]? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, genAiResource: PromptGenAiResource? = nil, inferenceConfiguration: PromptInferenceConfiguration? = nil, metadata: [PromptMetadataEntry]? = nil, modelId: String? = nil, name: String, templateConfiguration: PromptTemplateConfiguration, templateType: PromptTemplateType) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.genAiResource = genAiResource
             self.inferenceConfiguration = inferenceConfiguration
@@ -8746,6 +8930,24 @@ extension BedrockAgent {
         }
     }
 
+    public struct SessionSummaryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Maximum number of recent session summaries to include in the agent's prompt context.
+        public let maxRecentSessions: Int?
+
+        @inlinable
+        public init(maxRecentSessions: Int? = nil) {
+            self.maxRecentSessions = maxRecentSessions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxRecentSessions, name: "maxRecentSessions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecentSessions = "maxRecentSessions"
+        }
+    }
+
     public struct SharePointCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The configuration of filtering the SharePoint content. For example,  configuring regular expression patterns to include or exclude certain content.
         public let filterConfiguration: CrawlFilterConfiguration?
@@ -9165,13 +9367,16 @@ extension BedrockAgent {
     }
 
     public struct TextPromptTemplateConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A cache checkpoint within a template configuration.
+        public let cachePoint: CachePointBlock?
         /// An array of the variables in the prompt template.
         public let inputVariables: [PromptInputVariable]?
         /// The message for the prompt.
         public let text: String
 
         @inlinable
-        public init(inputVariables: [PromptInputVariable]? = nil, text: String) {
+        public init(cachePoint: CachePointBlock? = nil, inputVariables: [PromptInputVariable]? = nil, text: String) {
+            self.cachePoint = cachePoint
             self.inputVariables = inputVariables
             self.text = text
         }
@@ -9180,12 +9385,12 @@ extension BedrockAgent {
             try self.inputVariables?.forEach {
                 try $0.validate(name: "\(name).inputVariables[]")
             }
-            try self.validate(self.inputVariables, name: "inputVariables", parent: name, max: 5)
-            try self.validate(self.text, name: "text", parent: name, max: 200000)
+            try self.validate(self.inputVariables, name: "inputVariables", parent: name, max: 20)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cachePoint = "cachePoint"
             case inputVariables = "inputVariables"
             case text = "text"
         }
@@ -9389,6 +9594,42 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case connection = "connection"
+        }
+    }
+
+    public struct UnknownNodeInputFlowValidationDetails: AWSDecodableShape {
+        /// The name of the node with the unknown input.
+        public let input: String
+        /// The name of the unknown input.
+        public let node: String
+
+        @inlinable
+        public init(input: String, node: String) {
+            self.input = input
+            self.node = node
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case input = "input"
+            case node = "node"
+        }
+    }
+
+    public struct UnknownNodeOutputFlowValidationDetails: AWSDecodableShape {
+        /// The name of the node with the unknown output.
+        public let node: String
+        /// The name of the unknown output.
+        public let output: String
+
+        @inlinable
+        public init(node: String, output: String) {
+            self.node = node
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case node = "node"
+            case output = "output"
         }
     }
 
@@ -10422,7 +10663,7 @@ extension BedrockAgent {
     }
 
     public struct VectorKnowledgeBaseConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the model or inference profile used to create vector embeddings for the knowledge base.
+        /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
         public let embeddingModelArn: String
         /// The embeddings model configuration details for the vector model used in Knowledge Base.
         public let embeddingModelConfiguration: EmbeddingModelConfiguration?
@@ -10460,13 +10701,19 @@ extension BedrockAgent {
         public let inclusionFilters: [String]?
         /// The scope of what is crawled for your URLs. You can choose to crawl only web pages that belong to the same host or primary  domain. For example, only web pages that contain the seed URL  "https://docs.aws.amazon.com/bedrock/latest/userguide/" and no other domains.  You can choose to include sub domains in addition to the host or primary domain.  For example, web pages that contain "aws.amazon.com" can also include sub domain  "docs.aws.amazon.com".
         public let scope: WebScopeType?
+        /// Returns the user agent suffix for your web crawler.
+        public let userAgent: String?
+        /// A string used for identifying the crawler or bot when it accesses a web server. The user agent header value consists of the bedrockbot, UUID, and a user agent suffix for your crawler (if one is provided). By default, it is set to bedrockbot_UUID. You can optionally append a custom  suffix to bedrockbot_UUID to allowlist a specific user agent permitted to access your source URLs.
+        public let userAgentHeader: String?
 
         @inlinable
-        public init(crawlerLimits: WebCrawlerLimits? = nil, exclusionFilters: [String]? = nil, inclusionFilters: [String]? = nil, scope: WebScopeType? = nil) {
+        public init(crawlerLimits: WebCrawlerLimits? = nil, exclusionFilters: [String]? = nil, inclusionFilters: [String]? = nil, scope: WebScopeType? = nil, userAgent: String? = nil, userAgentHeader: String? = nil) {
             self.crawlerLimits = crawlerLimits
             self.exclusionFilters = exclusionFilters
             self.inclusionFilters = inclusionFilters
             self.scope = scope
+            self.userAgent = userAgent
+            self.userAgentHeader = userAgentHeader
         }
 
         public func validate(name: String) throws {
@@ -10482,6 +10729,10 @@ extension BedrockAgent {
             }
             try self.validate(self.inclusionFilters, name: "inclusionFilters", parent: name, max: 25)
             try self.validate(self.inclusionFilters, name: "inclusionFilters", parent: name, min: 1)
+            try self.validate(self.userAgent, name: "userAgent", parent: name, max: 40)
+            try self.validate(self.userAgent, name: "userAgent", parent: name, min: 15)
+            try self.validate(self.userAgentHeader, name: "userAgentHeader", parent: name, max: 86)
+            try self.validate(self.userAgentHeader, name: "userAgentHeader", parent: name, min: 61)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10489,19 +10740,25 @@ extension BedrockAgent {
             case exclusionFilters = "exclusionFilters"
             case inclusionFilters = "inclusionFilters"
             case scope = "scope"
+            case userAgent = "userAgent"
+            case userAgentHeader = "userAgentHeader"
         }
     }
 
     public struct WebCrawlerLimits: AWSEncodableShape & AWSDecodableShape {
+        ///  The max number of web pages crawled from your source URLs, up to 25,000 pages.  If  the web pages exceed this limit, the data source sync will fail and no web pages will be ingested.
+        public let maxPages: Int?
         /// The max rate at which pages are crawled, up to 300 per minute per host.
         public let rateLimit: Int?
 
         @inlinable
-        public init(rateLimit: Int? = nil) {
+        public init(maxPages: Int? = nil, rateLimit: Int? = nil) {
+            self.maxPages = maxPages
             self.rateLimit = rateLimit
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxPages = "maxPages"
             case rateLimit = "rateLimit"
         }
     }
@@ -10544,20 +10801,6 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case urlConfiguration = "urlConfiguration"
-        }
-    }
-
-    public struct ContentBlock: AWSEncodableShape & AWSDecodableShape {
-        /// The text in the message.
-        public let text: String?
-
-        @inlinable
-        public init(text: String? = nil) {
-            self.text = text
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case text = "text"
         }
     }
 
@@ -10672,48 +10915,12 @@ extension BedrockAgent {
         }
     }
 
-    public struct SystemContentBlock: AWSEncodableShape & AWSDecodableShape {
-        /// The text in the system prompt.
-        public let text: String?
-
-        @inlinable
-        public init(text: String? = nil) {
-            self.text = text
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.text, name: "text", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case text = "text"
-        }
-    }
-
-    public struct Tool: AWSEncodableShape & AWSDecodableShape {
-        /// The specification for the tool.
-        public let toolSpec: ToolSpecification?
-
-        @inlinable
-        public init(toolSpec: ToolSpecification? = nil) {
-            self.toolSpec = toolSpec
-        }
-
-        public func validate(name: String) throws {
-            try self.toolSpec?.validate(name: "\(name).toolSpec")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case toolSpec = "toolSpec"
-        }
-    }
-
     public struct ToolInputSchema: AWSEncodableShape & AWSDecodableShape {
         /// A JSON object defining the input schema for the tool.
-        public let json: String?
+        public let json: AWSDocument?
 
         @inlinable
-        public init(json: String? = nil) {
+        public init(json: AWSDocument? = nil) {
             self.json = json
         }
 

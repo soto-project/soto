@@ -28,6 +28,7 @@ extension HealthLake {
 
     public enum AuthorizationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsAuth = "AWS_AUTH"
+        case smartOnFhir = "SMART_ON_FHIR"
         case smartv1 = "SMART_ON_FHIR_V1"
         public var description: String { return self.rawValue }
     }
@@ -67,6 +68,7 @@ extension HealthLake {
         case completedWithErrors = "COMPLETED_WITH_ERRORS"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
+        case queued = "QUEUED"
         case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
@@ -900,7 +902,7 @@ extension HealthLake {
 
     public struct StartFHIRExportJobRequest: AWSEncodableShape {
         /// An optional user provided token used for ensuring idempotency.
-        public let clientToken: String
+        public let clientToken: String?
         /// The Amazon Resource Name used during the initiation of the job.
         public let dataAccessRoleArn: String
         /// The AWS generated ID for the data store from which files are being exported for an export job.
@@ -911,7 +913,7 @@ extension HealthLake {
         public let outputDataConfig: OutputDataConfig
 
         @inlinable
-        public init(clientToken: String = StartFHIRExportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, jobName: String? = nil, outputDataConfig: OutputDataConfig) {
+        public init(clientToken: String? = StartFHIRExportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, jobName: String? = nil, outputDataConfig: OutputDataConfig) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId
@@ -968,7 +970,7 @@ extension HealthLake {
 
     public struct StartFHIRImportJobRequest: AWSEncodableShape {
         /// Optional user provided token used for ensuring idempotency.
-        public let clientToken: String
+        public let clientToken: String?
         /// The Amazon Resource Name (ARN) that gives AWS HealthLake access permission.
         public let dataAccessRoleArn: String
         /// The AWS-generated data store ID.
@@ -980,7 +982,7 @@ extension HealthLake {
         public let jobOutputDataConfig: OutputDataConfig
 
         @inlinable
-        public init(clientToken: String = StartFHIRImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputDataConfig: InputDataConfig, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig) {
+        public init(clientToken: String? = StartFHIRImportJobRequest.idempotencyToken(), dataAccessRoleArn: String, datastoreId: String, inputDataConfig: InputDataConfig, jobName: String? = nil, jobOutputDataConfig: OutputDataConfig) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.datastoreId = datastoreId

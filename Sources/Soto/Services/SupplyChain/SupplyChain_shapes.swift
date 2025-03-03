@@ -359,14 +359,17 @@ extension SupplyChain {
         public let kmsKeyArn: String?
         /// The Amazon Web Services tags of an instance to be created.
         public let tags: [String: String]?
+        /// The DNS subdomain of the web app. This would be "example" in the URL "example.scn.global.on.aws". You can set this to a custom value, as long as the domain isn't already being used by someone else. The name may only include alphanumeric characters and hyphens.
+        public let webAppDnsDomain: String?
 
         @inlinable
-        public init(clientToken: String? = CreateInstanceRequest.idempotencyToken(), instanceDescription: String? = nil, instanceName: String? = nil, kmsKeyArn: String? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateInstanceRequest.idempotencyToken(), instanceDescription: String? = nil, instanceName: String? = nil, kmsKeyArn: String? = nil, tags: [String: String]? = nil, webAppDnsDomain: String? = nil) {
             self.clientToken = clientToken
             self.instanceDescription = instanceDescription
             self.instanceName = instanceName
             self.kmsKeyArn = kmsKeyArn
             self.tags = tags
+            self.webAppDnsDomain = webAppDnsDomain
         }
 
         public func validate(name: String) throws {
@@ -384,6 +387,7 @@ extension SupplyChain {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.webAppDnsDomain, name: "webAppDnsDomain", parent: name, pattern: "^(?![-])[a-zA-Z0-9-]{1,62}[a-zA-Z0-9]$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -392,6 +396,7 @@ extension SupplyChain {
             case instanceName = "instanceName"
             case kmsKeyArn = "kmsKeyArn"
             case tags = "tags"
+            case webAppDnsDomain = "webAppDnsDomain"
         }
     }
 
@@ -840,9 +845,9 @@ extension SupplyChain {
     public struct DeleteDataLakeDatasetRequest: AWSEncodableShape {
         /// The AWS Supply Chain instance identifier.
         public let instanceId: String
-        /// The name of the dataset. If the namespace is asc, the name must be one of the supported data entities .
+        /// The name of the dataset. For asc name space, the name must be one of the supported data entities under https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.
         public let name: String
-        /// The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
         public let namespace: String
 
         @inlinable
@@ -880,7 +885,7 @@ extension SupplyChain {
         public let instanceId: String
         /// The name of deleted dataset.
         public let name: String
-        /// The namespace of deleted dataset.
+        /// The name space of deleted dataset.
         public let namespace: String
 
         @inlinable
@@ -1228,7 +1233,7 @@ extension SupplyChain {
         public let instanceId: String
         /// The max number of datasets to fetch in this paginated request.
         public let maxResults: Int?
-        /// The namespace of the dataset. The available values are:   asc: for  AWS Supply Chain supported datasets .   default: for datasets with custom user-defined schemas.
+        /// The name space of the dataset. The available values are:    asc - For information on the  Amazon Web Services Supply Chain supported datasets see https://docs.aws.amazon.com/aws-supply-chain/latest/userguide/data-model-asc.html.    default - For datasets with custom user-defined schemas.
         public let namespace: String
         /// The pagination token to fetch next page of datasets.
         public let nextToken: String?
@@ -1386,7 +1391,7 @@ extension SupplyChain {
     public struct SendDataIntegrationEventRequest: AWSEncodableShape {
         /// The idempotent client token.
         public let clientToken: String?
-        /// The data payload of the event. For more information on the data schema to use, see Data entities supported in AWS Supply Chain .
+        /// The data payload of the event. For more information on the data schema to use, see Data entities supported in AWS Supply Chain.
         public let data: String
         /// Event identifier (for example, orderId for InboundOrder) used for data sharing or partitioning.
         public let eventGroupId: String

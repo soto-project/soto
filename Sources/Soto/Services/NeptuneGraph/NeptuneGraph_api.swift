@@ -278,7 +278,7 @@ public struct NeptuneGraph: AWSService {
     ///   - graphName: A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
     ///   - importOptions: Contains options for controlling the import process. For example, if the failOnError key is set to false, the import skips problem data and attempts to continue (whereas if set to true, the default, or if omitted, the import operation halts immediately when an error is encountered.
     ///   - kmsKeyIdentifier: Specifies a KMS key to use to encrypt data imported into the new graph.
-    ///   - maxProvisionedMemory: The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the max of the min-provisioned-memory and max-provisioned memory is used to create the graph. If neither value is specified 128 m-NCUs are used.
+    ///   - maxProvisionedMemory: The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified,  128 m-NCUs are used.
     ///   - minProvisionedMemory: The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
     ///   - parquetType: The parquet type of the import task.
     ///   - publicConnectivity: Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
@@ -490,7 +490,7 @@ public struct NeptuneGraph: AWSService {
         explainMode: ExplainMode? = nil,
         graphIdentifier: String,
         language: QueryLanguage,
-        parameters: [String: String]? = nil,
+        parameters: [String: AWSDocument]? = nil,
         planCache: PlanCacheType? = nil,
         queryString: String,
         queryTimeoutMilliseconds: Int? = nil,
@@ -738,16 +738,19 @@ public struct NeptuneGraph: AWSService {
     /// Retrieves a list of export tasks.
     ///
     /// Parameters:
+    ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
     ///   - maxResults: The maximum number of export tasks to return.
     ///   - nextToken: Pagination token used to paginate input.
     ///   - logger: Logger use during operation
     @inlinable
     public func listExportTasks(
+        graphIdentifier: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListExportTasksOutput {
         let input = ListExportTasksInput(
+            graphIdentifier: graphIdentifier, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -1269,14 +1272,17 @@ extension NeptuneGraph {
     /// Return PaginatorSequence for operation ``listExportTasks(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
     ///   - maxResults: The maximum number of export tasks to return.
     ///   - logger: Logger used for logging
     @inlinable
     public func listExportTasksPaginator(
+        graphIdentifier: String? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListExportTasksInput, ListExportTasksOutput> {
         let input = ListExportTasksInput(
+            graphIdentifier: graphIdentifier, 
             maxResults: maxResults
         )
         return self.listExportTasksPaginator(input, logger: logger)
@@ -1429,6 +1435,7 @@ extension NeptuneGraph.ListExportTasksInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> NeptuneGraph.ListExportTasksInput {
         return .init(
+            graphIdentifier: self.graphIdentifier,
             maxResults: self.maxResults,
             nextToken: token
         )

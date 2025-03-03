@@ -116,7 +116,7 @@ public struct TaxSettings: AWSService {
         return try await self.batchDeleteTaxRegistration(input, logger: logger)
     }
 
-    /// Get the active tax exemptions for a given list of accounts.
+    /// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions.
     @Sendable
     @inlinable
     public func batchGetTaxExemptions(_ input: BatchGetTaxExemptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetTaxExemptionsResponse {
@@ -129,7 +129,7 @@ public struct TaxSettings: AWSService {
             logger: logger
         )
     }
-    /// Get the active tax exemptions for a given list of accounts.
+    /// Get the active tax exemptions for a given list of accounts. The IAM action is tax:GetExemptions.
     ///
     /// Parameters:
     ///   - accountIds:  List of unique account identifiers.
@@ -235,7 +235,7 @@ public struct TaxSettings: AWSService {
         return try await self.deleteTaxRegistration(input, logger: logger)
     }
 
-    /// Get supported tax exemption types.
+    /// Get supported tax exemption types. The IAM action is tax:GetExemptions.
     @Sendable
     @inlinable
     public func getTaxExemptionTypes(_ input: GetTaxExemptionTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetTaxExemptionTypesResponse {
@@ -248,7 +248,7 @@ public struct TaxSettings: AWSService {
             logger: logger
         )
     }
-    /// Get supported tax exemption types.
+    /// Get supported tax exemption types. The IAM action is tax:GetExemptions.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -380,7 +380,7 @@ public struct TaxSettings: AWSService {
         return try await self.listSupplementalTaxRegistrations(input, logger: logger)
     }
 
-    /// Retrieves the tax exemption of accounts listed in a consolidated billing family.
+    /// Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is tax:GetExemptions.
     @Sendable
     @inlinable
     public func listTaxExemptions(_ input: ListTaxExemptionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTaxExemptionsResponse {
@@ -393,7 +393,7 @@ public struct TaxSettings: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the tax exemption of accounts listed in a consolidated billing family.
+    /// Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is tax:GetExemptions.
     ///
     /// Parameters:
     ///   - maxResults: The number of results you want in one response.
@@ -473,7 +473,7 @@ public struct TaxSettings: AWSService {
         return try await self.putSupplementalTaxRegistration(input, logger: logger)
     }
 
-    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family.
+    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is tax:UpdateExemptions.
     @Sendable
     @inlinable
     public func putTaxExemption(_ input: PutTaxExemptionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutTaxExemptionResponse {
@@ -486,7 +486,7 @@ public struct TaxSettings: AWSService {
             logger: logger
         )
     }
-    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family.
+    /// Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is tax:UpdateExemptions.
     ///
     /// Parameters:
     ///   - accountIds:  The list of unique account identifiers.

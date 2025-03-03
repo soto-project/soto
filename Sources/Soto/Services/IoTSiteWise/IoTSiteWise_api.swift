@@ -362,14 +362,17 @@ public struct IoTSiteWise: AWSService {
     /// Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see Ingesting data using the API in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.    With respect to Unix epoch time, IoT SiteWise accepts only TQVs that have a timestamp of no more than 7 days in the past and no more than 10 minutes in the future. IoT SiteWise rejects timestamps outside of the inclusive range of [-7 days, +10 minutes] and returns a TimestampOutOfRangeException error. For each asset property, IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer TQV has a different quality. For example, if you store a TQV {T1, GOOD, V1}, then storing {T1, GOOD, V2} replaces the existing TQV.  IoT SiteWise authorizes access to each BatchPutAssetPropertyValue entry individually. For more information, see BatchPutAssetPropertyValue authorization in the IoT SiteWise User Guide.
     ///
     /// Parameters:
+    ///   - enablePartialEntryProcessing: This setting enables partial ingestion at entry-level. If set to true, we ingest all TQVs not resulting in an error. If set to  false, an invalid TQV fails ingestion of the entire entry that contains it.
     ///   - entries: The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchPutAssetPropertyValue(
+        enablePartialEntryProcessing: Bool? = nil,
         entries: [PutAssetPropertyValueEntry],
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> BatchPutAssetPropertyValueResponse {
         let input = BatchPutAssetPropertyValueRequest(
+            enablePartialEntryProcessing: enablePartialEntryProcessing, 
             entries: entries
         )
         return try await self.batchPutAssetPropertyValue(input, logger: logger)
@@ -2990,6 +2993,7 @@ public struct IoTSiteWise: AWSService {
     /// Configures storage settings for IoT SiteWise.
     ///
     /// Parameters:
+    ///   - disallowIngestNullNaN: Describes the configuration for ingesting NULL and NaN data.  By default the feature is allowed. The feature is disallowed if the value is true.
     ///   - disassociatedDataStorage: Contains the storage configuration for time series (data streams) that aren't associated with asset properties. The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams in the IoT SiteWise User Guide.
     ///   - multiLayerStorage: Identifies a storage destination. If you specified MULTI_LAYER_STORAGE for the storage type, you must specify a MultiLayerStorage object.
     ///   - retentionPeriod: 
@@ -2999,6 +3003,7 @@ public struct IoTSiteWise: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putStorageConfiguration(
+        disallowIngestNullNaN: Bool? = nil,
         disassociatedDataStorage: DisassociatedDataStorageState? = nil,
         multiLayerStorage: MultiLayerStorage? = nil,
         retentionPeriod: RetentionPeriod? = nil,
@@ -3008,6 +3013,7 @@ public struct IoTSiteWise: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutStorageConfigurationResponse {
         let input = PutStorageConfigurationRequest(
+            disallowIngestNullNaN: disallowIngestNullNaN, 
             disassociatedDataStorage: disassociatedDataStorage, 
             multiLayerStorage: multiLayerStorage, 
             retentionPeriod: retentionPeriod, 

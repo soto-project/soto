@@ -80,10 +80,37 @@ public struct Translate: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-east-1": "translate.ap-east-1.api.aws",
+            "ap-northeast-1": "translate.ap-northeast-1.api.aws",
+            "ap-northeast-2": "translate.ap-northeast-2.api.aws",
+            "ap-south-1": "translate.ap-south-1.api.aws",
+            "ap-southeast-1": "translate.ap-southeast-1.api.aws",
+            "ap-southeast-2": "translate.ap-southeast-2.api.aws",
+            "ca-central-1": "translate.ca-central-1.api.aws",
+            "eu-central-1": "translate.eu-central-1.api.aws",
+            "eu-north-1": "translate.eu-north-1.api.aws",
+            "eu-west-1": "translate.eu-west-1.api.aws",
+            "eu-west-2": "translate.eu-west-2.api.aws",
+            "eu-west-3": "translate.eu-west-3.api.aws",
+            "us-east-1": "translate.us-east-1.api.aws",
+            "us-east-2": "translate.us-east-2.api.aws",
+            "us-gov-west-1": "translate.us-gov-west-1.api.aws",
+            "us-west-1": "translate.us-west-1.api.aws",
+            "us-west-2": "translate.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "translate-fips.us-east-1.api.aws",
+            "us-east-2": "translate-fips.us-east-2.api.aws",
+            "us-gov-west-1": "translate-fips.us-gov-west-1.api.aws",
+            "us-west-1": "translate-fips.us-west-1.api.aws",
+            "us-west-2": "translate-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "translate-fips.us-east-1.amazonaws.com",
             "us-east-2": "translate-fips.us-east-2.amazonaws.com",
             "us-gov-west-1": "translate-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "translate-fips.us-iso-east-1.c2s.ic.gov",
             "us-west-1": "translate-fips.us-west-1.amazonaws.com",
             "us-west-2": "translate-fips.us-west-2.amazonaws.com"
         ])

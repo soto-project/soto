@@ -81,9 +81,11 @@ public struct Comprehend: AWSService {
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
         [.fips]: .init(endpoints: [
+            "ca-central-1": "comprehend-fips.ca-central-1.amazonaws.com",
             "us-east-1": "comprehend-fips.us-east-1.amazonaws.com",
             "us-east-2": "comprehend-fips.us-east-2.amazonaws.com",
             "us-gov-west-1": "comprehend-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "comprehend-fips.us-iso-east-1.c2s.ic.gov",
             "us-west-2": "comprehend-fips.us-west-2.amazonaws.com"
         ])
     ]}

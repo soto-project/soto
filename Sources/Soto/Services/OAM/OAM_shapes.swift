@@ -27,6 +27,8 @@ extension OAM {
     // MARK: Enums
 
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsApplicationSignalsService = "AWS::ApplicationSignals::Service"
+        case awsApplicationSignalsSlo = "AWS::ApplicationSignals::ServiceLevelObjective"
         case awsApplicationinsightsApplication = "AWS::ApplicationInsights::Application"
         case awsCloudwatchMetric = "AWS::CloudWatch::Metric"
         case awsInternetmonitorMonitor = "AWS::InternetMonitor::Monitor"

@@ -78,6 +78,7 @@ public struct SavingsPlans: AWSService {
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
         "aws-global": "savingsplans.amazonaws.com",
+        "aws-iso-f-global": "savingsplans.csp.hci.ic.gov",
         "cn-north-1": "savingsplans.cn-north-1.amazonaws.com.cn",
         "cn-northwest-1": "savingsplans.cn-northwest-1.amazonaws.com.cn"
     ]}

@@ -93,6 +93,7 @@ public struct Firehose: AWSService {
             "ap-southeast-2": "firehose.ap-southeast-2.api.aws",
             "ap-southeast-3": "firehose.ap-southeast-3.api.aws",
             "ap-southeast-4": "firehose.ap-southeast-4.api.aws",
+            "ap-southeast-7": "firehose.ap-southeast-7.api.aws",
             "ca-central-1": "firehose.ca-central-1.api.aws",
             "ca-west-1": "firehose.ca-west-1.api.aws",
             "cn-north-1": "firehose.cn-north-1.api.amazonwebservices.com.cn",
@@ -108,6 +109,7 @@ public struct Firehose: AWSService {
             "il-central-1": "firehose.il-central-1.api.aws",
             "me-central-1": "firehose.me-central-1.api.aws",
             "me-south-1": "firehose.me-south-1.api.aws",
+            "mx-central-1": "firehose.mx-central-1.api.aws",
             "sa-east-1": "firehose.sa-east-1.api.aws",
             "us-east-1": "firehose.us-east-1.api.aws",
             "us-east-2": "firehose.us-east-2.api.aws",
@@ -150,11 +152,12 @@ public struct Firehose: AWSService {
     /// Parameters:
     ///   - amazonOpenSearchServerlessDestinationConfiguration: The destination in the Serverless offering for Amazon OpenSearch Service. You can specify only one destination.
     ///   - amazonopensearchserviceDestinationConfiguration: The destination in Amazon OpenSearch Service. You can specify only one destination.
-    ///   - databaseSourceConfiguration:   Amazon Data Firehose is in preview release and is subject to change.
+    ///   - databaseSourceConfiguration:  The top level object for configuring streams with database as a source.   Amazon Data Firehose is in preview release and is subject to change.
     ///   - deliveryStreamEncryptionConfigurationInput: Used to specify the type and Amazon Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
     ///   - deliveryStreamName: The name of the Firehose stream. This name must be unique per Amazon Web Services account in the same Amazon Web Services Region. If the Firehose streams are in different accounts or different Regions, you can have multiple Firehose streams with the same name.
     ///   - deliveryStreamType: The Firehose stream type. This parameter can be one of the following values:    DirectPut: Provider applications access the Firehose stream directly.    KinesisStreamAsSource: The Firehose stream uses a Kinesis data stream as a source.
-    ///   - elasticsearchDestinationConfiguration: The destination in Amazon ES. You can specify only one destination.
+    ///   - directPutSourceConfiguration: The structure that configures parameters such as ThroughputHintInMBs for a stream configured with Direct PUT as a source.
+    ///   - elasticsearchDestinationConfiguration: The destination in Amazon OpenSearch Service. You can specify only one destination.
     ///   - extendedS3DestinationConfiguration: The destination in Amazon S3. You can specify only one destination.
     ///   - httpEndpointDestinationConfiguration: Enables configuring Kinesis Firehose to deliver data to any HTTP endpoint destination. You can specify only one destination.
     ///   - icebergDestinationConfiguration:  Configure Apache Iceberg Tables destination.
@@ -163,7 +166,7 @@ public struct Firehose: AWSService {
     ///   - redshiftDestinationConfiguration: The destination in Amazon Redshift. You can specify only one destination.
     ///   - snowflakeDestinationConfiguration: Configure Snowflake destination
     ///   - splunkDestinationConfiguration: The destination in Splunk. You can specify only one destination.
-    ///   - tags: A set of tags to assign to the Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a Firehose stream. If you specify tags in the CreateDeliveryStream action, Amazon Data Firehose performs an additional authorization on the firehose:TagDeliveryStream action to verify if users have permissions to create tags. If you do not provide this permission, requests to create new Firehose Firehose streams with IAM resource tags will fail with an AccessDeniedException such as following.  AccessDeniedException  User: arn:aws:sts::x:assumed-role/x/x is not authorized to perform: firehose:TagDeliveryStream on resource: arn:aws:firehose:us-east-1:x:deliverystream/x with an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
+    ///   - tags: A set of tags to assign to the Firehose stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the Firehose stream. For more information about tags, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a Firehose stream. If you specify tags in the CreateDeliveryStream action, Amazon Data Firehose performs an additional authorization on the firehose:TagDeliveryStream action to verify if users have permissions to create tags. If you do not provide this permission, requests to create new Firehose streams with IAM resource tags will fail with an AccessDeniedException such as following.  AccessDeniedException  User: arn:aws:sts::x:assumed-role/x/x is not authorized to perform: firehose:TagDeliveryStream on resource: arn:aws:firehose:us-east-1:x:deliverystream/x with an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDeliveryStream(
@@ -173,6 +176,7 @@ public struct Firehose: AWSService {
         deliveryStreamEncryptionConfigurationInput: DeliveryStreamEncryptionConfigurationInput? = nil,
         deliveryStreamName: String,
         deliveryStreamType: DeliveryStreamType? = nil,
+        directPutSourceConfiguration: DirectPutSourceConfiguration? = nil,
         elasticsearchDestinationConfiguration: ElasticsearchDestinationConfiguration? = nil,
         extendedS3DestinationConfiguration: ExtendedS3DestinationConfiguration? = nil,
         httpEndpointDestinationConfiguration: HttpEndpointDestinationConfiguration? = nil,
@@ -192,6 +196,7 @@ public struct Firehose: AWSService {
             deliveryStreamEncryptionConfigurationInput: deliveryStreamEncryptionConfigurationInput, 
             deliveryStreamName: deliveryStreamName, 
             deliveryStreamType: deliveryStreamType, 
+            directPutSourceConfiguration: directPutSourceConfiguration, 
             elasticsearchDestinationConfiguration: elasticsearchDestinationConfiguration, 
             extendedS3DestinationConfiguration: extendedS3DestinationConfiguration, 
             httpEndpointDestinationConfiguration: httpEndpointDestinationConfiguration, 
@@ -553,7 +558,7 @@ public struct Firehose: AWSService {
     ///   - currentDeliveryStreamVersionId: Obtain this value from the VersionId result of DeliveryStreamDescription. This value is required, and helps the service perform conditional operations. For example, if there is an interleaving update and this value is null, then the update destination fails. After the update is successful, the VersionId value is updated. The service then performs a merge of the old configuration with the new configuration.
     ///   - deliveryStreamName: The name of the Firehose stream.
     ///   - destinationId: The ID of the destination.
-    ///   - elasticsearchDestinationUpdate: Describes an update for a destination in Amazon ES.
+    ///   - elasticsearchDestinationUpdate: Describes an update for a destination in Amazon OpenSearch Service.
     ///   - extendedS3DestinationUpdate: Describes an update for a destination in Amazon S3.
     ///   - httpEndpointDestinationUpdate: Describes an update to the specified HTTP endpoint destination.
     ///   - icebergDestinationUpdate:  Describes an update for a destination in Apache Iceberg Tables.

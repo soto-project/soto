@@ -1412,17 +1412,17 @@ extension EntityResolution {
         /// Input schema for the provider service.
         public let providerComponentSchema: ProviderComponentSchema?
         /// The definition of the provider configuration.
-        public let providerConfigurationDefinition: String?
+        public let providerConfigurationDefinition: AWSDocument?
         /// The required configuration fields to use with the provider service.
         public let providerEndpointConfiguration: ProviderEndpointConfiguration
         /// The definition of the provider entity output.
-        public let providerEntityOutputDefinition: String
+        public let providerEntityOutputDefinition: AWSDocument
         /// The provider configuration required for different ID namespace types.
         public let providerIdNameSpaceConfiguration: ProviderIdNameSpaceConfiguration?
         /// The Amazon Web Services accounts and the S3 permissions that are required by some providers to create an S3 bucket for intermediate data storage.
         public let providerIntermediateDataAccessConfiguration: ProviderIntermediateDataAccessConfiguration?
         /// Provider service job configurations.
-        public let providerJobConfiguration: String?
+        public let providerJobConfiguration: AWSDocument?
         /// The name of the provider. This name is typically the company name.
         public let providerName: String
         /// The ARN (Amazon Resource Name) that Entity Resolution generated for the provider service.
@@ -1435,7 +1435,7 @@ extension EntityResolution {
         public let providerServiceType: ServiceType
 
         @inlinable
-        public init(anonymizedOutput: Bool, providerComponentSchema: ProviderComponentSchema? = nil, providerConfigurationDefinition: String? = nil, providerEndpointConfiguration: ProviderEndpointConfiguration, providerEntityOutputDefinition: String, providerIdNameSpaceConfiguration: ProviderIdNameSpaceConfiguration? = nil, providerIntermediateDataAccessConfiguration: ProviderIntermediateDataAccessConfiguration? = nil, providerJobConfiguration: String? = nil, providerName: String, providerServiceArn: String, providerServiceDisplayName: String, providerServiceName: String, providerServiceType: ServiceType) {
+        public init(anonymizedOutput: Bool, providerComponentSchema: ProviderComponentSchema? = nil, providerConfigurationDefinition: AWSDocument? = nil, providerEndpointConfiguration: ProviderEndpointConfiguration, providerEntityOutputDefinition: AWSDocument, providerIdNameSpaceConfiguration: ProviderIdNameSpaceConfiguration? = nil, providerIntermediateDataAccessConfiguration: ProviderIntermediateDataAccessConfiguration? = nil, providerJobConfiguration: AWSDocument? = nil, providerName: String, providerServiceArn: String, providerServiceDisplayName: String, providerServiceName: String, providerServiceType: ServiceType) {
             self.anonymizedOutput = anonymizedOutput
             self.providerComponentSchema = providerComponentSchema
             self.providerConfigurationDefinition = providerConfigurationDefinition
@@ -2386,12 +2386,12 @@ extension EntityResolution {
 
     public struct NamespaceProviderProperties: AWSEncodableShape & AWSDecodableShape {
         /// An object which defines any additional configurations required by the provider service.
-        public let providerConfiguration: String?
+        public let providerConfiguration: AWSDocument?
         /// The Amazon Resource Name (ARN) of the provider service.
         public let providerServiceArn: String
 
         @inlinable
-        public init(providerConfiguration: String? = nil, providerServiceArn: String) {
+        public init(providerConfiguration: AWSDocument? = nil, providerServiceArn: String) {
             self.providerConfiguration = providerConfiguration
             self.providerServiceArn = providerServiceArn
         }
@@ -2521,12 +2521,12 @@ extension EntityResolution {
         /// The description of the ID namespace.
         public let description: String?
         /// Configurations required for the source ID namespace.
-        public let providerSourceConfigurationDefinition: String?
+        public let providerSourceConfigurationDefinition: AWSDocument?
         /// Configurations required for the target ID namespace.
-        public let providerTargetConfigurationDefinition: String?
+        public let providerTargetConfigurationDefinition: AWSDocument?
 
         @inlinable
-        public init(description: String? = nil, providerSourceConfigurationDefinition: String? = nil, providerTargetConfigurationDefinition: String? = nil) {
+        public init(description: String? = nil, providerSourceConfigurationDefinition: AWSDocument? = nil, providerTargetConfigurationDefinition: AWSDocument? = nil) {
             self.description = description
             self.providerSourceConfigurationDefinition = providerSourceConfigurationDefinition
             self.providerTargetConfigurationDefinition = providerTargetConfigurationDefinition
@@ -2587,12 +2587,12 @@ extension EntityResolution {
         /// The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved permanently.
         public let intermediateSourceConfiguration: IntermediateSourceConfiguration?
         /// The required configuration fields to use with the provider service.
-        public let providerConfiguration: String?
+        public let providerConfiguration: AWSDocument?
         /// The ARN of the provider service.
         public let providerServiceArn: String
 
         @inlinable
-        public init(intermediateSourceConfiguration: IntermediateSourceConfiguration? = nil, providerConfiguration: String? = nil, providerServiceArn: String) {
+        public init(intermediateSourceConfiguration: IntermediateSourceConfiguration? = nil, providerConfiguration: AWSDocument? = nil, providerServiceArn: String) {
             self.intermediateSourceConfiguration = intermediateSourceConfiguration
             self.providerConfiguration = providerConfiguration
             self.providerServiceArn = providerServiceArn

@@ -66,6 +66,7 @@ public struct IoTFleetWise: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2021-06-17",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: IoTFleetWiseErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -77,6 +78,14 @@ public struct IoTFleetWise: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-south-1": "iotfleetwise.ap-south-1.api.aws",
+            "eu-central-1": "iotfleetwise.eu-central-1.api.aws",
+            "us-east-1": "iotfleetwise.us-east-1.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -666,7 +675,7 @@ public struct IoTFleetWise: AWSService {
     /// Deletes a state template.
     ///
     /// Parameters:
-    ///   - identifier: A unique, service-generated identifier.
+    ///   - identifier: The unique ID of the state template.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteStateTemplate(
@@ -979,7 +988,7 @@ public struct IoTFleetWise: AWSService {
     /// Retrieves information about a state template.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// Parameters:
-    ///   - identifier: A unique, service-generated identifier.
+    ///   - identifier: The unique ID of the state template.
     ///   - logger: Logger use during operation
     @inlinable
     public func getStateTemplate(
@@ -1142,18 +1151,21 @@ public struct IoTFleetWise: AWSService {
     ///  Lists information about created campaigns.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: campaign name, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - status: An optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
     ///   - logger: Logger use during operation
     @inlinable
     public func listCampaigns(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         status: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListCampaignsResponse {
         let input = ListCampaignsRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             status: status
@@ -1247,18 +1259,21 @@ public struct IoTFleetWise: AWSService {
     ///  Lists decoder manifests.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: decoder manifest name, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - modelManifestArn:  The Amazon Resource Name (ARN) of a vehicle model (model manifest) associated with the decoder manifest.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listDecoderManifests(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         modelManifestArn: String? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListDecoderManifestsResponse {
         let input = ListDecoderManifestsRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             modelManifestArn: modelManifestArn, 
             nextToken: nextToken
@@ -1282,16 +1297,19 @@ public struct IoTFleetWise: AWSService {
     ///  Retrieves information for each created fleet in an Amazon Web Services account.   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: fleet ID, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFleets(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListFleetsResponse {
         let input = ListFleetsRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -1384,18 +1402,21 @@ public struct IoTFleetWise: AWSService {
     ///  Retrieves a list of vehicle models (model manifests).   This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
     ///
     /// Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: model manifest name, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     ///   - signalCatalogArn:  The ARN of a signal catalog. If you specify a signal catalog, only the vehicle models associated with it are returned.
     ///   - logger: Logger use during operation
     @inlinable
     public func listModelManifests(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         signalCatalogArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListModelManifestsResponse {
         let input = ListModelManifestsRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             signalCatalogArn: signalCatalogArn
@@ -1489,16 +1510,19 @@ public struct IoTFleetWise: AWSService {
     /// Lists information about created state templates.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: state template ID, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - nextToken:  The token to retrieve the next set of results, or null if there are no more results.
     ///   - logger: Logger use during operation
     @inlinable
     public func listStateTemplates(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListStateTemplatesResponse {
         let input = ListStateTemplatesRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             nextToken: nextToken
         )
@@ -1552,6 +1576,7 @@ public struct IoTFleetWise: AWSService {
     /// Parameters:
     ///   - attributeNames: The fully qualified names of the attributes. You can use this optional parameter to list the  vehicles containing all the attributes in the request. For example, attributeNames  could be "Vehicle.Body.Engine.Type, Vehicle.Color" and the corresponding  attributeValues could be "1.3 L R2, Blue" . In this case, the API  will filter vehicles with an attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the attributeNames  filter and the matching number of attributeValues filters to return the subset  of vehicles that match the attributes filter condition.
     ///   - attributeValues: Static information about a vehicle attribute value in string format. You can use this optional  parameter in conjunction with attributeNames to list the vehicles containing all  the attributeValues corresponding to the attributeNames filter. For  example, attributeValues could be "1.3 L R2, Blue" and the corresponding  attributeNames filter could be "Vehicle.Body.Engine.Type, Vehicle.Color".  In this case, the API will filter vehicles with attribute name Vehicle.Body.Engine.Type  that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the  attributeNames filter and the matching number of attributeValues  filter to return the subset of vehicles that match the attributes filter condition.
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: vehicle name, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - modelManifestArn:  The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
     ///   - nextToken: A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -1560,6 +1585,7 @@ public struct IoTFleetWise: AWSService {
     public func listVehicles(
         attributeNames: [String]? = nil,
         attributeValues: [String]? = nil,
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         modelManifestArn: String? = nil,
         nextToken: String? = nil,
@@ -1568,6 +1594,7 @@ public struct IoTFleetWise: AWSService {
         let input = ListVehiclesRequest(
             attributeNames: attributeNames, 
             attributeValues: attributeValues, 
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             modelManifestArn: modelManifestArn, 
             nextToken: nextToken
@@ -1987,7 +2014,7 @@ public struct IoTFleetWise: AWSService {
     /// Parameters:
     ///   - dataExtraDimensions: A list of vehicle attributes to associate with the payload published on the state template's  MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will enrich the protobuf encoded payload with those attributes in the extraDimensions field. Default: An empty array
     ///   - description: A brief description of the state template.
-    ///   - identifier: A unique, service-generated identifier.
+    ///   - identifier: The unique ID of the state template.
     ///   - metadataExtraDimensions: A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will include these attributes as User Properties with the MQTT message.
     ///   - stateTemplatePropertiesToAdd: Add signals from which data is collected as part of the state template.
     ///   - stateTemplatePropertiesToRemove: Remove signals from which data is collected as part of the state template.
@@ -2132,16 +2159,19 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listCampaigns(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: campaign name, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - status: An optional parameter to filter the results by the status of each created campaign in your account. The status can be one of: CREATING, WAITING_FOR_APPROVAL, RUNNING, or SUSPENDED.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCampaignsPaginator(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         status: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListCampaignsRequest, ListCampaignsResponse> {
         let input = ListCampaignsRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             status: status
         )
@@ -2243,16 +2273,19 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listDecoderManifests(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: decoder manifest name, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - modelManifestArn:  The Amazon Resource Name (ARN) of a vehicle model (model manifest) associated with the decoder manifest.
     ///   - logger: Logger used for logging
     @inlinable
     public func listDecoderManifestsPaginator(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         modelManifestArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListDecoderManifestsRequest, ListDecoderManifestsResponse> {
         let input = ListDecoderManifestsRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             modelManifestArn: modelManifestArn
         )
@@ -2280,14 +2313,17 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listFleets(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: fleet ID, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFleetsPaginator(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListFleetsRequest, ListFleetsResponse> {
         let input = ListFleetsRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults
         )
         return self.listFleetsPaginator(input, logger: logger)
@@ -2388,16 +2424,19 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listModelManifests(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: model manifest name, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - signalCatalogArn:  The ARN of a signal catalog. If you specify a signal catalog, only the vehicle models associated with it are returned.
     ///   - logger: Logger used for logging
     @inlinable
     public func listModelManifestsPaginator(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         signalCatalogArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListModelManifestsRequest, ListModelManifestsResponse> {
         let input = ListModelManifestsRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             signalCatalogArn: signalCatalogArn
         )
@@ -2499,14 +2538,17 @@ extension IoTFleetWise {
     /// Return PaginatorSequence for operation ``listStateTemplates(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: state template ID, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - logger: Logger used for logging
     @inlinable
     public func listStateTemplatesPaginator(
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListStateTemplatesRequest, ListStateTemplatesResponse> {
         let input = ListStateTemplatesRequest(
+            listResponseScope: listResponseScope, 
             maxResults: maxResults
         )
         return self.listStateTemplatesPaginator(input, logger: logger)
@@ -2535,6 +2577,7 @@ extension IoTFleetWise {
     /// - Parameters:
     ///   - attributeNames: The fully qualified names of the attributes. You can use this optional parameter to list the  vehicles containing all the attributes in the request. For example, attributeNames  could be "Vehicle.Body.Engine.Type, Vehicle.Color" and the corresponding  attributeValues could be "1.3 L R2, Blue" . In this case, the API  will filter vehicles with an attribute name Vehicle.Body.Engine.Type that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the attributeNames  filter and the matching number of attributeValues filters to return the subset  of vehicles that match the attributes filter condition.
     ///   - attributeValues: Static information about a vehicle attribute value in string format. You can use this optional  parameter in conjunction with attributeNames to list the vehicles containing all  the attributeValues corresponding to the attributeNames filter. For  example, attributeValues could be "1.3 L R2, Blue" and the corresponding  attributeNames filter could be "Vehicle.Body.Engine.Type, Vehicle.Color".  In this case, the API will filter vehicles with attribute name Vehicle.Body.Engine.Type  that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the  attributeNames filter and the matching number of attributeValues  filter to return the subset of vehicles that match the attributes filter condition.
+    ///   - listResponseScope: When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: vehicle name, Amazon Resource Name (ARN), creation time, and last modification time.
     ///   - maxResults: The maximum number of items to return, between 1 and 100, inclusive.
     ///   - modelManifestArn:  The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
     ///   - logger: Logger used for logging
@@ -2542,6 +2585,7 @@ extension IoTFleetWise {
     public func listVehiclesPaginator(
         attributeNames: [String]? = nil,
         attributeValues: [String]? = nil,
+        listResponseScope: ListResponseScope? = nil,
         maxResults: Int? = nil,
         modelManifestArn: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2549,6 +2593,7 @@ extension IoTFleetWise {
         let input = ListVehiclesRequest(
             attributeNames: attributeNames, 
             attributeValues: attributeValues, 
+            listResponseScope: listResponseScope, 
             maxResults: maxResults, 
             modelManifestArn: modelManifestArn
         )
@@ -2608,6 +2653,7 @@ extension IoTFleetWise.ListCampaignsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTFleetWise.ListCampaignsRequest {
         return .init(
+            listResponseScope: self.listResponseScope,
             maxResults: self.maxResults,
             nextToken: token,
             status: self.status
@@ -2641,6 +2687,7 @@ extension IoTFleetWise.ListDecoderManifestsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTFleetWise.ListDecoderManifestsRequest {
         return .init(
+            listResponseScope: self.listResponseScope,
             maxResults: self.maxResults,
             modelManifestArn: self.modelManifestArn,
             nextToken: token
@@ -2663,6 +2710,7 @@ extension IoTFleetWise.ListFleetsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTFleetWise.ListFleetsRequest {
         return .init(
+            listResponseScope: self.listResponseScope,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -2684,6 +2732,7 @@ extension IoTFleetWise.ListModelManifestsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTFleetWise.ListModelManifestsRequest {
         return .init(
+            listResponseScope: self.listResponseScope,
             maxResults: self.maxResults,
             nextToken: token,
             signalCatalogArn: self.signalCatalogArn
@@ -2717,6 +2766,7 @@ extension IoTFleetWise.ListStateTemplatesRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> IoTFleetWise.ListStateTemplatesRequest {
         return .init(
+            listResponseScope: self.listResponseScope,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -2740,6 +2790,7 @@ extension IoTFleetWise.ListVehiclesRequest: AWSPaginateToken {
         return .init(
             attributeNames: self.attributeNames,
             attributeValues: self.attributeValues,
+            listResponseScope: self.listResponseScope,
             maxResults: self.maxResults,
             modelManifestArn: self.modelManifestArn,
             nextToken: token

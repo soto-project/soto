@@ -847,6 +847,7 @@ public struct RDSDataErrorType: AWSErrorType {
         case forbiddenException = "ForbiddenException"
         case httpEndpointNotEnabledException = "HttpEndpointNotEnabledException"
         case internalServerErrorException = "InternalServerErrorException"
+        case invalidResourceStateException = "InvalidResourceStateException"
         case invalidSecretException = "InvalidSecretException"
         case notFoundException = "NotFoundException"
         case secretsErrorException = "SecretsErrorException"
@@ -882,7 +883,7 @@ public struct RDSDataErrorType: AWSErrorType {
     public static var databaseErrorException: Self { .init(.databaseErrorException) }
     /// The DB cluster doesn't have a DB instance.
     public static var databaseNotFoundException: Self { .init(.databaseNotFoundException) }
-    /// A request was canceled because the Aurora Serverless v2 DB instance was in a paused state. The Data API request automatically causes the DB instance to begin resuming. Wait a few seconds and try again.
+    /// A request was cancelled because the Aurora Serverless v2 DB instance was paused. The Data API request automatically resumes the DB instance. Wait a few seconds and try again.
     public static var databaseResumingException: Self { .init(.databaseResumingException) }
     /// The writer instance in the DB cluster isn't available.
     public static var databaseUnavailableException: Self { .init(.databaseUnavailableException) }
@@ -892,6 +893,8 @@ public struct RDSDataErrorType: AWSErrorType {
     public static var httpEndpointNotEnabledException: Self { .init(.httpEndpointNotEnabledException) }
     /// An internal error occurred.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The resource is in an invalid state.
+    public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
     /// The Secrets Manager secret used with the request isn't valid.
     public static var invalidSecretException: Self { .init(.invalidSecretException) }
     /// The resourceArn, secretArn, or transactionId value can't be found.

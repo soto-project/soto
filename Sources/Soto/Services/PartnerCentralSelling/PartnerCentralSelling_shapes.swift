@@ -891,9 +891,9 @@ extension PartnerCentralSelling {
     // MARK: Shapes
 
     public struct AcceptEngagementInvitationRequest: AWSEncodableShape {
-        ///  The CatalogType parameter specifies the catalog associated with the engagement invitation.  Accepted values are AWS and Sandbox,  which determine the environment in which the engagement invitation is managed.
+        /// The CatalogType parameter specifies the catalog associated with the engagement invitation. Accepted values are AWS and Sandbox, which determine the environment in which the engagement invitation is managed.
         public let catalog: String
-        ///  The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique  identifier of the EngagementInvitation to be accepted.  Providing the correct identifier ensures that the intended invitation is accepted.
+        ///  The Identifier parameter in the AcceptEngagementInvitationRequest specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier ensures that the intended invitation is accepted.
         public let identifier: String
 
         @inlinable
@@ -1343,16 +1343,13 @@ extension PartnerCentralSelling {
     }
 
     public struct CreateEngagementInvitationRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the engagement.  Accepted values are AWS and Sandbox,  which determine the environment in which the engagement is managed.
+        ///  Specifies the catalog related to the engagement. Accepted values are AWS and Sandbox, which determine the environment in which the engagement is managed.
         public let catalog: String
-        ///  Specifies a unique, client-generated UUID to ensure that the request is handled exactly once.  This token helps prevent duplicate invitation creations.
+        ///  Specifies a unique, client-generated UUID to ensure that the request is handled exactly once. This token helps prevent duplicate invitation creations.
         public let clientToken: String
-        ///  The unique identifier of the Engagement associated with the invitation.  This parameter ensures the invitation is created within the correct Engagement context.
+        ///  The unique identifier of the Engagement associated with the invitation. This parameter ensures the invitation is created within the correct Engagement context.
         public let engagementIdentifier: String
-        /// The Invitation object all information necessary to initiate an engagement invitation to a partner.
-        /// It contains a personalized message from the sender, the invitation's receiver, and a payload. The Payload can
-        /// be the OpportunityInvitation, which includes detailed structures for sender contacts, partner responsibilities, customer
-        /// information, and project details.
+        ///  The Invitation object all information necessary to initiate an engagement invitation to a partner. It contains a personalized message from the sender, the invitation's receiver, and a payload. The Payload can be the OpportunityInvitation, which includes detailed structures for sender contacts, partner responsibilities, customer information, and project details.
         public let invitation: Invitation
 
         @inlinable
@@ -1397,11 +1394,11 @@ extension PartnerCentralSelling {
     }
 
     public struct CreateEngagementRequest: AWSEncodableShape {
-        ///  The CreateEngagementRequest$Catalog parameter specifies the catalog related to the engagement.  Accepted values are AWS and Sandbox,  which determine the environment in which the engagement is managed.
+        /// The CreateEngagementRequest$Catalog parameter specifies the catalog related to the engagement. Accepted values are AWS and Sandbox, which determine the environment in which the engagement is managed.
         public let catalog: String
-        ///  The CreateEngagementRequest$ClientToken parameter specifies a unique, case-sensitive identifier to ensure that the request is handled exactly once.  The value must not exceed sixty-four alphanumeric characters.
+        /// The CreateEngagementRequest$ClientToken parameter specifies a unique, case-sensitive identifier to ensure that the request is handled exactly once. The value must not exceed sixty-four alphanumeric characters.
         public let clientToken: String
-        ///  The Contexts field is a required array of objects, with a maximum of 5 contexts allowed,  specifying detailed information about customer projects associated with the Engagement.  Each context object contains a Type field indicating the context type,  which must be CustomerProject in this version, and a Payload field containing the CustomerProject details. The CustomerProject object is composed of two main components: Customer and Project. The Customer object includes information such as CompanyName, WebsiteUrl, Industry, and CountryCode, providing essential details about the customer. The Project object contains Title, BusinessProblem, and TargetCompletionDate, offering insights into the specific project associated with the customer. This structure allows comprehensive context to be included within the Engagement,  facilitating effective collaboration between parties by providing relevant customer and project information.
+        /// The Contexts field is a required array of objects, with a maximum of 5 contexts allowed, specifying detailed information about customer projects associated with the Engagement. Each context object contains a Type field indicating the context type, which must be CustomerProject in this version, and a Payload field containing the CustomerProject details. The CustomerProject object is composed of two main components: Customer and Project. The Customer object includes information such as CompanyName, WebsiteUrl, Industry, and CountryCode, providing essential details about the customer. The Project object contains Title, BusinessProblem, and TargetCompletionDate, offering insights into the specific project associated with the customer. This structure allows comprehensive context to be included within the Engagement, facilitating effective collaboration between parties by providing relevant customer and project information.
         public let contexts: [EngagementContextDetails]?
         /// Provides a description of the Engagement.
         public let description: String
@@ -1476,7 +1473,7 @@ extension PartnerCentralSelling {
         public let origin: OpportunityOrigin?
         /// Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload to the partner. This field allows partners to link an opportunity to their CRM, which helps to ensure seamless integration and accurate synchronization between the Partner Central API and the partner's internal systems.
         public let partnerOpportunityIdentifier: String?
-        /// Identifies the type of support the partner needs from Amazon Web Services. Valid values:   Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.   Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.   Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.   Cosell—Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).   Cosell—Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.   Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.   Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).   Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.   Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services sales representative, and the partner solely manages the opportunity. It's possible to request coselling support on these opportunities at any stage during their lifecycles. This is also known as a for-visibility-only (FVO) opportunity.
+        /// Identifies the type of support the partner needs from Amazon Web Services. Valid values:   Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.   Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.   Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.   Cosell—Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).   Cosell—Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.   Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.   Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).   Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.
         public let primaryNeedsFromAws: [PrimaryNeedFromAws]?
         /// An object that contains project details for the Opportunity.
         public let project: Project?
@@ -1553,27 +1550,30 @@ extension PartnerCentralSelling {
     }
 
     public struct CreateResourceSnapshotJobRequest: AWSEncodableShape {
-        ///  Specifies the catalog in which to create the snapshot job. Valid values are AWS and  Sandbox.
+        /// Specifies the catalog in which to create the snapshot job. Valid values are AWS and  Sandbox.
         public let catalog: String
-        ///  Specifies a unique, client-generated UUID to ensure that the request is handled exactly once.  This token helps prevent duplicate snapshot job creations.
+        /// A client-generated UUID used for idempotency check. The token helps prevent duplicate job creations.
         public let clientToken: String
-        ///  Specifies the identifier of the engagement associated with the resource to be snapshotted.
+        /// Specifies the identifier of the engagement associated with the resource to be snapshotted.
         public let engagementIdentifier: String
-        ///  Specifies the identifier of the specific resource to be snapshotted. The format depends on the ResourceType.
+        /// Specifies the identifier of the specific resource to be snapshotted. The format depends on the  ResourceType.
         public let resourceIdentifier: String
-        ///  Specifies the name of the template that defines the schema for the snapshot.
+        /// Specifies the name of the template that defines the schema for the snapshot.
         public let resourceSnapshotTemplateIdentifier: String
-        ///  The type of resource for which the snapshot job is being created. Must be one of the supported resource types  Opportunity.
+        /// The type of resource for which the snapshot job is being created. Must be one of the supported resource types i.e. Opportunity
         public let resourceType: ResourceType
+        /// A list of objects specifying each tag name and value.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(catalog: String, clientToken: String = CreateResourceSnapshotJobRequest.idempotencyToken(), engagementIdentifier: String, resourceIdentifier: String, resourceSnapshotTemplateIdentifier: String, resourceType: ResourceType) {
+        public init(catalog: String, clientToken: String = CreateResourceSnapshotJobRequest.idempotencyToken(), engagementIdentifier: String, resourceIdentifier: String, resourceSnapshotTemplateIdentifier: String, resourceType: ResourceType, tags: [Tag]? = nil) {
             self.catalog = catalog
             self.clientToken = clientToken
             self.engagementIdentifier = engagementIdentifier
             self.resourceIdentifier = resourceIdentifier
             self.resourceSnapshotTemplateIdentifier = resourceSnapshotTemplateIdentifier
             self.resourceType = resourceType
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1582,6 +1582,11 @@ extension PartnerCentralSelling {
             try self.validate(self.engagementIdentifier, name: "engagementIdentifier", parent: name, pattern: "^eng-[0-9a-z]{14}$")
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, pattern: "^O[0-9]{1,19}$")
             try self.validate(self.resourceSnapshotTemplateIdentifier, name: "resourceSnapshotTemplateIdentifier", parent: name, pattern: "^[a-zA-Z0-9]{3,80}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1591,13 +1596,14 @@ extension PartnerCentralSelling {
             case resourceIdentifier = "ResourceIdentifier"
             case resourceSnapshotTemplateIdentifier = "ResourceSnapshotTemplateIdentifier"
             case resourceType = "ResourceType"
+            case tags = "Tags"
         }
     }
 
     public struct CreateResourceSnapshotJobResponse: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the created snapshot job.
+        /// The Amazon Resource Name (ARN) of the created snapshot job.
         public let arn: String?
-        ///  The unique identifier for the created snapshot job.
+        /// The unique identifier for the created snapshot job.
         public let id: String?
 
         @inlinable
@@ -1615,7 +1621,7 @@ extension PartnerCentralSelling {
     public struct CreateResourceSnapshotRequest: AWSEncodableShape {
         ///  Specifies the catalog where the snapshot is created. Valid values are AWS and Sandbox.
         public let catalog: String
-        ///  Specifies a unique, client-generated UUID to ensure that the request is handled exactly once.  This token helps prevent duplicate snapshot creations.
+        ///  Specifies a unique, client-generated UUID to ensure that the request is handled exactly once. This token helps prevent duplicate snapshot creations.
         public let clientToken: String
         ///  The unique identifier of the engagement associated with this snapshot. This field links the snapshot to a specific engagement context.
         public let engagementIdentifier: String
@@ -1699,7 +1705,7 @@ extension PartnerCentralSelling {
 
     public struct CustomerProjectsContext: AWSEncodableShape & AWSDecodableShape {
         public let customer: EngagementCustomer?
-        ///  Information about the customer project associated with the Engagement.
+        /// Information about the customer project associated with the Engagement.
         public let project: EngagementCustomerProjectDetails?
 
         @inlinable
@@ -1788,9 +1794,9 @@ extension PartnerCentralSelling {
     }
 
     public struct EngagementContextDetails: AWSEncodableShape & AWSDecodableShape {
-        ///  Contains the specific details of the Engagement context. The structure of this payload varies depending on the Type field.
+        /// Contains the specific details of the Engagement context. The structure of this payload varies depending on the Type field.
         public let payload: EngagementContextPayload?
-        ///  Specifies the type of Engagement context. Valid values are "CustomerProject" or "Document", indicating whether the context relates to a customer project or a document respectively.
+        /// Specifies the type of Engagement context. Valid values are "CustomerProject" or "Document", indicating whether the context relates to a customer project or a document respectively.
         public let type: EngagementContextType
 
         @inlinable
@@ -1845,11 +1851,11 @@ extension PartnerCentralSelling {
     }
 
     public struct EngagementCustomerProjectDetails: AWSEncodableShape & AWSDecodableShape {
-        ///  A description of the business problem the project aims to solve.
+        /// A description of the business problem the project aims to solve.
         public let businessProblem: String
-        ///  The target completion date for the customer's project.
+        /// The target completion date for the customer's project.
         public let targetCompletionDate: String
-        ///  The title of the project.
+        /// The title of the project.
         public let title: String
 
         @inlinable
@@ -1938,11 +1944,11 @@ extension PartnerCentralSelling {
     }
 
     public struct EngagementMember: AWSDecodableShape {
-        ///  This is the unique identifier for the AWS account associated with the member organization. It's used for AWS-related operations and identity verification.
+        /// This is the unique identifier for the AWS account associated with the member organization. It's used for AWS-related operations and identity verification.
         public let accountId: String?
-        ///  The official name of the member's company or organization.
+        /// The official name of the member's company or organization.
         public let companyName: String?
-        ///  The URL of the member company's website. This offers a way to find more information about the member organization and serves as an additional identifier.
+        /// The URL of the member company's website. This offers a way to find more information about the member organization and serves as an additional identifier.
         public let websiteUrl: String?
 
         @inlinable
@@ -1960,9 +1966,9 @@ extension PartnerCentralSelling {
     }
 
     public struct EngagementMemberSummary: AWSDecodableShape {
-        ///  The official name of the member's company or organization.
+        /// The official name of the member's company or organization.
         public let companyName: String?
-        ///  The URL of the member company's website. This offers a way to find more information about the member organization and serves as an additional identifier.
+        /// The URL of the member company's website. This offers a way to find more information about the member organization and serves as an additional identifier.
         public let websiteUrl: String?
 
         @inlinable
@@ -1980,7 +1986,7 @@ extension PartnerCentralSelling {
     public struct EngagementResourceAssociationSummary: AWSDecodableShape {
         ///  Indicates the environment in which the resource and engagement exist.
         public let catalog: String
-        ///  The AWS account ID of the entity that created the association.
+        /// The AWS account ID of the entity that owns the resource. Identifies the account responsible for or having primary control over the resource.
         public let createdBy: String?
         ///  A unique identifier for the engagement associated with the resource.
         public let engagementId: String?
@@ -2008,9 +2014,9 @@ extension PartnerCentralSelling {
     }
 
     public struct EngagementSort: AWSEncodableShape {
-        ///  The field by which to sort the results.
+        /// The field by which to sort the results.
         public let sortBy: EngagementSortName
-        ///  The order in which to sort the results.
+        /// The order in which to sort the results.
         public let sortOrder: SortOrder
 
         @inlinable
@@ -2026,18 +2032,18 @@ extension PartnerCentralSelling {
     }
 
     public struct EngagementSummary: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the created engagement.
+        /// The Amazon Resource Name (ARN) of the created Engagement.
         public let arn: String?
-        ///  The date and time when the engagement was created.
+        /// The date and time when the Engagement was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        ///  The AWS account ID of the engagement creator.
+        /// The AWS Account ID of the Engagement creator.
         public let createdBy: String?
-        ///  The unique identifier for the engagement.
+        /// The unique identifier for the Engagement.
         public let id: String?
-        ///  The number of members in the engagement.
+        /// The number of members in the Engagement.
         public let memberCount: Int?
-        ///  The title of the engagement.
+        /// The title of the Engagement.
         public let title: String?
 
         @inlinable
@@ -2065,7 +2071,7 @@ extension PartnerCentralSelling {
         public let amount: String
         /// Indicates the currency in which the revenue estimate is provided. This helps in understanding the financial impact across different markets.
         public let currencyCode: CurrencyCode
-        ///  A URL providing additional information or context about the spend estimation.
+        /// A URL providing additional information or context about the spend estimation.
         public let estimationUrl: String?
         /// Indicates how frequently the customer is expected to spend the projected amount. This can include values such as Monthly, Quarterly, or Annually. The default value is Monthly, representing recurring monthly spend.
         public let frequency: PaymentFrequency
@@ -2206,14 +2212,13 @@ extension PartnerCentralSelling {
         public let arn: String?
         /// Indicates the catalog from which the engagement invitation details are retrieved. This field helps in identifying the appropriate catalog (e.g., AWS or Sandbox) used in the request.
         public let catalog: String
-        ///  The description of the engagement associated with this invitation.
+        /// The description of the engagement associated with this invitation.
         public let engagementDescription: String?
-        ///  The identifier of the engagement associated with this invitation.This ID links the invitation to its corresponding engagement.
+        /// The identifier of the engagement associated with this invitation.This ID links the invitation to its corresponding engagement.
         public let engagementId: String?
         /// The title of the engagement invitation, summarizing the purpose or objectives of the opportunity shared by AWS.
         public let engagementTitle: String?
-        ///  A list of active members currently part of the Engagement. This array contains a maximum of 10 members, each represented by an object with the following properties.
-        ///     CompanyName: The name of the member's company.      WebsiteUrl: The website URL of the member's company.
+        /// A list of active members currently part of the Engagement. This array contains a maximum of 10 members, each represented by an object with the following properties.   CompanyName: The name of the member's company.   WebsiteUrl: The website URL of the member's company.
         public let existingMembers: [EngagementMemberSummary]?
         /// Indicates the date on which the engagement invitation will expire if not accepted by the partner.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -2223,7 +2228,7 @@ extension PartnerCentralSelling {
         /// The date when the engagement invitation was sent to the partner.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var invitationDate: Date?
-        ///  The message sent to the invited partner when the invitation was created.
+        /// The message sent to the invited partner when the invitation was created.
         public let invitationMessage: String?
         /// Details of the engagement invitation payload, including specific data relevant to the invitation's contents, such as customer information and opportunity insights.
         public let payload: Payload?
@@ -2283,9 +2288,9 @@ extension PartnerCentralSelling {
     }
 
     public struct GetEngagementRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the engagement request. Valid values are AWS and Sandbox.
+        /// Specifies the catalog related to the engagement request. Valid values are AWS and Sandbox.
         public let catalog: String
-        ///  Specifies the identifier of the Engagement record to retrieve.
+        /// Specifies the identifier of the Engagement record to retrieve.
         public let identifier: String
 
         @inlinable
@@ -2306,22 +2311,22 @@ extension PartnerCentralSelling {
     }
 
     public struct GetEngagementResponse: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the engagement retrieved.
+        /// The Amazon Resource Name (ARN) of the engagement retrieved.
         public let arn: String?
-        ///  A list of context objects associated with the engagement. Each context provides additional information related to the Engagement, such as customer projects or documents.
+        /// A list of context objects associated with the engagement. Each context provides additional information related to the Engagement, such as customer projects or documents.
         public let contexts: [EngagementContextDetails]?
-        ///  The date and time when the Engagement was created, presented in ISO 8601 format (UTC). For example: "2023-05-01T20:37:46Z". This timestamp helps track the lifecycle of the Engagement.
+        /// The date and time when the Engagement was created, presented in ISO 8601 format (UTC). For example: "2023-05-01T20:37:46Z". This timestamp helps track the lifecycle of the Engagement.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        ///  The AWS account ID of the user who originally created the engagement. This field helps in tracking the origin of the engagement.
+        /// The AWS account ID of the user who originally created the engagement. This field helps in tracking the origin of the engagement.
         public let createdBy: String?
-        ///  A more detailed description of the engagement. This provides additional context or information about the engagement's purpose or scope.
+        /// A more detailed description of the engagement. This provides additional context or information about the engagement's purpose or scope.
         public let description: String?
-        ///  The unique resource identifier of the engagement retrieved.
+        /// The unique resource identifier of the engagement retrieved.
         public let id: String?
-        ///  Specifies the current count of members participating in the Engagement. This count includes all active members regardless of their roles or permissions within the Engagement.
+        /// Specifies the current count of members participating in the Engagement. This count includes all active members regardless of their roles or permissions within the Engagement.
         public let memberCount: Int?
-        ///  The title of the engagement. It provides a brief, descriptive name for the engagement that is meaningful and easily recognizable.
+        /// The title of the engagement. It provides a brief, descriptive name for the engagement that is meaningful and easily recognizable.
         public let title: String?
 
         @inlinable
@@ -2398,7 +2403,7 @@ extension PartnerCentralSelling {
         public let opportunityType: OpportunityType?
         /// Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload sent back to the partner.
         public let partnerOpportunityIdentifier: String?
-        /// Identifies the type of support the partner needs from Amazon Web Services. Valid values:   Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.   Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.   Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.   Cosell—Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).   Cosell—Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.   Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.   Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).   Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.   Do Not Need Support from Amazon Web Services Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services sales representative, and the partner solely manages the opportunity. It's possible to request coselling support on these opportunities at any stage during their lifecycle. Also known as, for-visibility-only (FVO) opportunity.
+        /// Identifies the type of support the partner needs from Amazon Web Services. Valid values:   Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.   Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.   Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.   Cosell—Pricing Assistance: Connect with an Amazon Web Services seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).   Cosell—Technical Consultation: Connect with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.   Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.   Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).   Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs Amazon Web Services RFx support.
         public let primaryNeedsFromAws: [PrimaryNeedFromAws]?
         /// An object that contains project details summary for the Opportunity.
         public let project: Project?
@@ -2448,10 +2453,9 @@ extension PartnerCentralSelling {
     }
 
     public struct GetResourceSnapshotJobRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the request. Valid values are:
-        ///    AWS: Retrieves the snapshot job from the production AWS environment.    Sandbox: Retrieves the snapshot job from a sandbox environment used for testing or development purposes.
+        /// Specifies the catalog related to the request. Valid values are:   AWS: Retrieves the snapshot job from the production AWS environment.    Sandbox: Retrieves the snapshot job from a sandbox environment used for testing or development purposes.
         public let catalog: String
-        ///  The unique identifier of the resource snapshot job to be retrieved. This identifier is crucial for pinpointing the specific job you want to query.
+        /// The unique identifier of the resource snapshot job to be retrieved. This identifier is crucial for pinpointing the specific job you want to query.
         public let resourceSnapshotJobIdentifier: String
 
         @inlinable
@@ -2472,32 +2476,31 @@ extension PartnerCentralSelling {
     }
 
     public struct GetResourceSnapshotJobResponse: AWSDecodableShape {
-        ///  he Amazon Resource Name (ARN) of the snapshot job. This globally unique identifier can be used for resource-specific operations across AWS services.
+        /// The Amazon Resource Name (ARN) of the snapshot job. This globally unique identifier can be used for resource-specific operations across AWS services.
         public let arn: String?
-        ///  The catalog in which the snapshot job was created. This will match the catalog specified in the request.
+        /// The catalog in which the snapshot job was created. This will match the Catalog specified in the request.
         public let catalog: String
-        ///  The date and time when the snapshot job was created, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z"
+        /// The date and time when the snapshot job was created in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z"
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        ///  The identifier of the engagement associated with this snapshot job. This links the job to a specific engagement context.
+        /// The identifier of the engagement associated with this snapshot job. This links the job to a specific engagement context.
         public let engagementId: String?
-        ///  The unique identifier of the snapshot job. This matches the ResourceSnapshotJobIdentifier provided in the request.
+        /// The unique identifier of the snapshot job. This matches the ResourceSnapshotJobIdentifier provided in the request.
         public let id: String?
-        ///  If the job has encountered any failures, this field contains the error message from the most recent failure. This can be useful for troubleshooting issues with the job.
+        /// If the job has encountered any failures, this field contains the error message from the most recent failure. This can be useful for troubleshooting issues with the job.
         public let lastFailure: String?
-        ///  The date and time of the last successful execution of the job, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z"
+        /// The date and time of the last successful execution of the job, in ISO 8601 format (UTC). Example: "2023-05-01T20:37:46Z"
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastSuccessfulExecutionDate: Date?
-        ///  The Amazon Resource Name (ARN) of the resource being snapshotted. This provides a globally unique identifier for the resource across AWS.
+        /// The Amazon Resource Name (ARN) of the resource being snapshotted. This provides a globally unique identifier for the resource across AWS.
         public let resourceArn: String?
-        ///  The identifier of the specific resource being snapshotted. The format may vary depending on the ResourceType.
+        /// The identifier of the specific resource being snapshotted. The format might vary depending on the ResourceType.
         public let resourceId: String?
-        ///  The name of the template used for creating the snapshot. This is the same as the template name. It defines the structure and content of the snapshot.
+        /// The name of the template used for creating the snapshot. This is the same as the template name. It defines the structure and content of the snapshot.
         public let resourceSnapshotTemplateName: String?
-        ///  The type of resource being snapshotted. This would have Opportunity as a value as it is dependent on the supported resource type.
+        /// The type of resource being snapshotted. This would have "Opportunity" as a value as it is dependent on the supported resource type.
         public let resourceType: ResourceType?
-        ///  The current status of the snapshot job. Valid values:
-        ///    STOPPED: The job is not currently running.    RUNNING: The job is actively executing.
+        /// The current status of the snapshot job. Valid values:   STOPPED: The job is not currently running.   RUNNING: The job is actively executing.
         public let status: ResourceSnapshotJobStatus?
 
         @inlinable
@@ -2575,7 +2578,7 @@ extension PartnerCentralSelling {
     }
 
     public struct GetResourceSnapshotResponse: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the snapshot. This globally unique identifier can be used for resource-specific operations across AWS services.
+        /// The Amazon Resource Name (ARN) that uniquely identifies the resource snapshot.
         public let arn: String?
         /// The catalog in which the snapshot was created. Matches the Catalog specified in the request.
         public let catalog: String
@@ -2587,13 +2590,13 @@ extension PartnerCentralSelling {
         /// The identifier of the engagement associated with this snapshot. Matches the EngagementIdentifier specified in the request.
         public let engagementId: String?
         public let payload: ResourceSnapshotPayload?
-        ///  The identifier of the specific resource that was snapshotted. Matches the ResourceIdentifier specified in the request.
+        /// The identifier of the specific resource that was snapshotted. Matches the ResourceIdentifier specified in the request.
         public let resourceId: String?
-        ///  The name of the view used for this snapshot. This is the same as the template name.
+        /// The name of the view used for this snapshot. This is the same as the template name.
         public let resourceSnapshotTemplateName: String?
-        ///  The type of the resource that was snapshotted. Matches the ResourceType specified in the request.
+        /// The type of the resource that was snapshotted. Matches the ResourceType specified in the request.
         public let resourceType: ResourceType?
-        ///  The revision number of this snapshot. This is a positive integer that is sequential and unique within the context of a resource view.
+        /// The revision number of this snapshot. This is a positive integer that is sequential and unique within the context of a resource view.
         public let revision: Int?
 
         @inlinable
@@ -2865,8 +2868,7 @@ extension PartnerCentralSelling {
     }
 
     public struct ListEngagementByAcceptingInvitationTasksRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the request. Valid values are:
-        ///    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+        ///  Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
         public let catalog: String
         ///  Filters tasks by the identifiers of the engagement invitations they are processing.
         public let engagementInvitationIdentifier: [String]?
@@ -2951,7 +2953,7 @@ extension PartnerCentralSelling {
     public struct ListEngagementFromOpportunityTaskSummary: AWSDecodableShape {
         ///  The unique identifier of the engagement created as a result of the task. This field is populated when the task is completed successfully.
         public let engagementId: String?
-        ///  The unique identifier of the engagement identifier created as a result of the task. This field is populated when the task is completed successfully.
+        /// The unique identifier of the Engagement Invitation.
         public let engagementInvitationId: String?
         ///  A detailed message providing additional information about the task, especially useful in case of failures. This field may contain error details or other relevant information about the task's execution
         public let message: String?
@@ -3000,8 +3002,7 @@ extension PartnerCentralSelling {
     }
 
     public struct ListEngagementFromOpportunityTasksRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the request. Valid values are:
-        ///    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
+        ///  Specifies the catalog related to the request. Valid values are:    AWS: Retrieves the request from the production AWS environment.    Sandbox: Retrieves the request from a sandbox environment used for testing or development purposes.
         public let catalog: String
         ///  Filters tasks by the identifiers of the engagements they created or are associated with.
         public let engagementIdentifier: [String]?
@@ -3164,13 +3165,13 @@ extension PartnerCentralSelling {
     }
 
     public struct ListEngagementMembersRequest: AWSEncodableShape {
-        ///  The catalog related to the request.
+        /// The catalog related to the request.
         public let catalog: String
-        ///  Identifier of the engagement record to retrieve members from.
+        /// Identifier of the Engagement record to retrieve members from.
         public let identifier: String
-        ///  The maximum number of results to return in a single call.
+        /// The maximum number of results to return in a single call.
         public let maxResults: Int?
-        ///  The token for the next set of results.
+        /// The token for the next set of results.
         public let nextToken: String?
 
         @inlinable
@@ -3197,9 +3198,9 @@ extension PartnerCentralSelling {
     }
 
     public struct ListEngagementMembersResponse: AWSDecodableShape {
-        /// Provides a list of engagement members.
+        ///  Provides a list of engagement members.
         public let engagementMemberList: [EngagementMember]
-        ///  A pagination token used to retrieve the next set of results. If there are more results available than can be returned in a single response, this token will be present. Use this token in a subsequent request to retrieve the next page of results. If there are no more results, this value will be null.
+        /// A pagination token used to retrieve the next set of results. If there are more results available than can be returned in a single response, this token will be present. Use this token in a subsequent request to retrieve the next page of results. If there are no more results, this value will be null.
         public let nextToken: String?
 
         @inlinable
@@ -3215,17 +3216,17 @@ extension PartnerCentralSelling {
     }
 
     public struct ListEngagementResourceAssociationsRequest: AWSEncodableShape {
-        ///  Specifies the catalog in which to search for engagement-resource associations.
+        /// Specifies the catalog in which to search for engagement-resource associations. Valid Values: "AWS" or "Sandbox"    AWS for production environments.    Sandbox for testing and development purposes.
         public let catalog: String
-        ///  Filters the results to include only associations with resources owned by the specified AWS account. Use this when you want to find associations related to resources owned by a particular account.
+        /// Filters the response to include only snapshots of resources owned by the specified AWS account ID. Use this when you want to find associations related to resources owned by a particular account.
         public let createdBy: String?
-        ///  Filters the results to include only associations related to the specified engagement. Use this when you want to find all resources associated with a specific engagement.
+        /// Filters the results to include only associations related to the specified engagement. Use this when you want to find all resources associated with a specific engagement.
         public let engagementIdentifier: String?
-        ///  Limits the number of results returned in a single call. Use this to control the number of results returned, especially useful for pagination.
+        /// Limits the number of results returned in a single call. Use this to control the number of results returned, especially useful for pagination.
         public let maxResults: Int?
-        ///  A token used for pagination of results. Include this token in subsequent requests to retrieve the next set of results.
+        /// A token used for pagination of results. Include this token in subsequent requests to retrieve the next set of results.
         public let nextToken: String?
-        ///  Filters the results to include only associations with the specified resource. Varies depending on the resource type. Use this when you want to find all engagements associated with a specific resource.
+        /// Filters the results to include only associations with the specified resource. Varies depending on the resource type. Use this when you want to find all engagements associated with a specific resource.
         public let resourceIdentifier: String?
         ///  Filters the results to include only associations with resources of the specified type.
         public let resourceType: ResourceType?
@@ -3284,13 +3285,13 @@ extension PartnerCentralSelling {
         public let catalog: String
         ///  A list of AWS account IDs. When specified, the response includes engagements created by these accounts. This filter is useful for finding engagements created by specific team members.
         public let createdBy: [String]?
-        ///  An array of strings representing engagement identifiers to retrieve.
+        /// An array of strings representing engagement identifiers to retrieve.
         public let engagementIdentifier: [String]?
-        ///  An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
+        /// An array of strings representing AWS Account IDs. Use this to exclude engagements created by specific users.
         public let excludeCreatedBy: [String]?
-        ///  The maximum number of results to return in a single call.
+        /// The maximum number of results to return in a single call.
         public let maxResults: Int?
-        ///  The token for the next set of results. This value is returned from a previous call.
+        /// The token for the next set of results. This value is returned from a previous call.
         public let nextToken: String?
         ///  An object that specifies the sort order of the results.
         public let sort: EngagementSort?
@@ -3339,9 +3340,9 @@ extension PartnerCentralSelling {
     }
 
     public struct ListEngagementsResponse: AWSDecodableShape {
-        ///  An array of engagement summary objects.
+        /// An array of engagement summary objects.
         public let engagementSummaryList: [EngagementSummary]
-        ///  The token to retrieve the next set of results. This field will be null if there are no more results.
+        /// The token to retrieve the next set of results. This field will be null if there are no more results.
         public let nextToken: String?
 
         @inlinable
@@ -3491,7 +3492,7 @@ extension PartnerCentralSelling {
     public struct ListResourceSnapshotsRequest: AWSEncodableShape {
         ///  Specifies the catalog related to the request.
         public let catalog: String
-        ///  Filters the response to include only snapshots of resources created by the specified AWS account.
+        /// Filters the response to include only snapshots of resources owned by the specified AWS account.
         public let createdBy: String?
         ///  The unique identifier of the engagement associated with the snapshots.
         public let engagementIdentifier: String
@@ -3501,7 +3502,7 @@ extension PartnerCentralSelling {
         public let nextToken: String?
         ///  Filters the response to include only snapshots of the specified resource.
         public let resourceIdentifier: String?
-        ///  Filters the response to include only snapshots created using the specified template.
+        /// Filters the response to include only snapshots created using the specified template.
         public let resourceSnapshotTemplateIdentifier: String?
         ///  Filters the response to include only snapshots of the specified resource type.
         public let resourceType: ResourceType?
@@ -3620,6 +3621,40 @@ extension PartnerCentralSelling {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case solutionSummaries = "SolutionSummaries"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource for which you want to retrieve tags.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1000)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:partnercentral:[\\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// A map of the key-value pairs for the tag or tags assigned to the specified resource.
+        public let tags: [Tag]
+
+        @inlinable
+        public init(tags: [Tag]) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
         }
     }
 
@@ -4134,11 +4169,11 @@ extension PartnerCentralSelling {
     public struct ResourceSnapshotJobSummary: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) for the resource snapshot job.
         public let arn: String?
-        ///  The unique identifier for the engagement within the AWS Partner Central system. This ID is used for direct references to the engagement within the service.
+        /// The unique identifier of the Engagement.
         public let engagementId: String?
         ///  The unique identifier for the resource snapshot job within the AWS Partner Central system. This ID is used for direct references to the job within the service.
         public let id: String?
-        ///  Represents the current status of the resource snapshot job.
+        /// The current status of the snapshot job. Valid values:   STOPPED: The job is not currently running.    RUNNING: The job is actively executing.
         public let status: ResourceSnapshotJobStatus?
 
         @inlinable
@@ -4160,7 +4195,7 @@ extension PartnerCentralSelling {
     public struct ResourceSnapshotSummary: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) of the snapshot. This globally unique identifier can be used for cross-service references and in IAM policies.
         public let arn: String?
-        /// The AWS account ID of the principal (user or role) who created the snapshot. This helps in tracking the origin of the snapshot.
+        /// The AWS account ID of the entity that owns the resource from which the snapshot was created.
         public let createdBy: String?
         /// The identifier of the specific resource snapshotted. The format might vary depending on the ResourceType.
         public let resourceId: String?
@@ -4168,7 +4203,7 @@ extension PartnerCentralSelling {
         public let resourceSnapshotTemplateName: String?
         /// The type of resource snapshotted.
         public let resourceType: ResourceType?
-        ///  The revision number of the snapshot. This integer value is incremented each time the snapshot is updated, allowing for version tracking of the resource snapshot.
+        /// The revision number of the snapshot. This integer value is incremented each time the snapshot is updated, allowing for version tracking of the resource snapshot.
         public let revision: Int?
 
         @inlinable
@@ -4344,12 +4379,15 @@ extension PartnerCentralSelling {
         public let clientToken: String
         /// Specifies the unique identifier of the EngagementInvitation to be accepted. Providing the correct identifier helps ensure that the correct engagement is processed.
         public let identifier: String
+        /// A list of objects specifying each tag name and value.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(catalog: String, clientToken: String = StartEngagementByAcceptingInvitationTaskRequest.idempotencyToken(), identifier: String) {
+        public init(catalog: String, clientToken: String = StartEngagementByAcceptingInvitationTaskRequest.idempotencyToken(), identifier: String, tags: [Tag]? = nil) {
             self.catalog = catalog
             self.clientToken = clientToken
             self.identifier = identifier
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -4358,12 +4396,18 @@ extension PartnerCentralSelling {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^(arn:.*|engi-[0-9a-z]{13})$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalog = "Catalog"
             case clientToken = "ClientToken"
             case identifier = "Identifier"
+            case tags = "Tags"
         }
     }
 
@@ -4376,7 +4420,7 @@ extension PartnerCentralSelling {
         public let opportunityId: String?
         /// Indicates the reason for task failure using an enumerated code.
         public let reasonCode: ReasonCode?
-        ///  The identifier of the resource snapshot job created as part of this task.
+        /// The identifier of the Resource Snapshot Job created as part of this task.
         public let resourceSnapshotJobId: String?
         /// The timestamp indicating when the task was initiated. The format follows RFC 3339 section 5.6.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -4422,19 +4466,27 @@ extension PartnerCentralSelling {
         public let clientToken: String
         /// The unique identifier of the opportunity from which the engagement task is to be initiated. This helps ensure that the task is applied to the correct opportunity.
         public let identifier: String
+        /// A list of objects specifying each tag name and value.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(awsSubmission: AwsSubmission, catalog: String, clientToken: String = StartEngagementFromOpportunityTaskRequest.idempotencyToken(), identifier: String) {
+        public init(awsSubmission: AwsSubmission, catalog: String, clientToken: String = StartEngagementFromOpportunityTaskRequest.idempotencyToken(), identifier: String, tags: [Tag]? = nil) {
             self.awsSubmission = awsSubmission
             self.catalog = catalog
             self.clientToken = clientToken
             self.identifier = identifier
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.catalog, name: "catalog", parent: name, pattern: "^[a-zA-Z]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^O[0-9]{1,19}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4442,13 +4494,14 @@ extension PartnerCentralSelling {
             case catalog = "Catalog"
             case clientToken = "ClientToken"
             case identifier = "Identifier"
+            case tags = "Tags"
         }
     }
 
     public struct StartEngagementFromOpportunityTaskResponse: AWSDecodableShape {
-        ///  The identifier of the newly created engagement. Only populated if TaskStatus is COMPLETE.
+        /// The identifier of the newly created Engagement. Only populated if TaskStatus is COMPLETE.
         public let engagementId: String?
-        ///  The identifier of the new engagement invitation. Only populated if TaskStatus is COMPLETE.
+        /// The identifier of the new Engagement invitation. Only populated if TaskStatus is COMPLETE.
         public let engagementInvitationId: String?
         /// If the task fails, this field contains a detailed message describing the failure and possible recovery steps.
         public let message: String?
@@ -4456,7 +4509,7 @@ extension PartnerCentralSelling {
         public let opportunityId: String?
         /// Indicates the reason for task failure using an enumerated code.
         public let reasonCode: ReasonCode?
-        ///  The identifier of the resource snapshot job created to add the opportunity resource snapshot to the Engagement. Only populated if TaskStatus is COMPLETE.
+        /// The identifier of the resource snapshot job created to add the opportunity resource snapshot to the Engagement. Only populated if TaskStatus is COMPLETE
         public let resourceSnapshotJobId: String?
         /// The timestamp indicating when the task was initiated. The format follows RFC 3339 section 5.6.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -4497,9 +4550,9 @@ extension PartnerCentralSelling {
     }
 
     public struct StartResourceSnapshotJobRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the request.
+        /// Specifies the catalog related to the request. Valid values are:   AWS: Starts the request from the production AWS environment.   Sandbox: Starts the request from a sandbox environment used for testing or development purposes.
         public let catalog: String
-        ///  The identifier of the resource snapshot job to start.
+        /// The identifier of the resource snapshot job to start.
         public let resourceSnapshotJobIdentifier: String
 
         @inlinable
@@ -4520,9 +4573,9 @@ extension PartnerCentralSelling {
     }
 
     public struct StopResourceSnapshotJobRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the request.
+        /// Specifies the catalog related to the request. Valid values are:   AWS: Stops the request from the production AWS environment.   Sandbox: Stops the request from a sandbox environment used for testing or development purposes.
         public let catalog: String
-        ///  The identifier of the job to stop.
+        /// The identifier of the job to stop.
         public let resourceSnapshotJobIdentifier: String
 
         @inlinable
@@ -4543,13 +4596,13 @@ extension PartnerCentralSelling {
     }
 
     public struct SubmitOpportunityRequest: AWSEncodableShape {
-        ///  Specifies the catalog related to the request.
+        /// Specifies the catalog related to the request. Valid values are:   AWS: Submits the opportunity request from the production AWS environment.   Sandbox: Submits the opportunity request from a sandbox environment used for testing or development purposes.
         public let catalog: String
-        ///  The identifier of the opportunity previously created by partner and needs to be submitted.
+        /// The identifier of the Opportunity previously created by partner and needs to be submitted.
         public let identifier: String
-        ///  Specifies the level of AWS sellers' involvement on the opportunity.
+        /// Specifies the level of AWS sellers' involvement on the opportunity. Valid values:    Co-sell: Indicates the user wants to co-sell with AWS. Share the opportunity with AWS to receive deal assistance and support.    For Visibility Only: Indicates that the user does not need support from AWS Sales Rep. Share this opportunity with AWS for visibility only, you will not receive deal assistance and support.
         public let involvementType: SalesInvolvementType
-        ///  Determines whether to restrict visibility of the opportunity from AWS sales. Default value is Full.
+        /// Determines whether to restrict visibility of the opportunity from AWS sales. Default value is Full. Valid values:    Full: The opportunity is fully visible to AWS sales.    Limited: The opportunity has restricted visibility to AWS sales.
         public let visibility: Visibility?
 
         @inlinable
@@ -4573,6 +4626,100 @@ extension PartnerCentralSelling {
         }
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// The key in the tag.
+        public let key: String
+        /// The value in the tag.
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.key, name: "key", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case value = "Value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you want to tag.
+        public let resourceArn: String
+        /// A map of the key-value pairs of the tag or tags to assign to the resource.
+        public let tags: [Tag]
+
+        @inlinable
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1000)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:partnercentral:[\\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource that you want to untag.
+        public let resourceArn: String
+        /// The keys of the key-value pairs for the tag or tags you want to remove from the specified resource.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1000)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:partnercentral:[\\w+=/,.@-]*:[0-9]{12}:catalog/([a-zA-Z]+)/[\\w+=,.@-]+(/[\\w+=,.@-]+)*$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+            case tagKeys = "TagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateOpportunityRequest: AWSEncodableShape {
         /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunity is updated in. Use AWS to update real opportunities in the production environment, and Sandbox for testing in secure, isolated environments. When you use the Sandbox catalog, it allows you to simulate and validate your interactions with Amazon Web Services services without affecting live data or operations.
         public let catalog: String
@@ -4593,7 +4740,7 @@ extension PartnerCentralSelling {
         public let opportunityType: OpportunityType?
         /// Specifies the opportunity's unique identifier in the partner's CRM system. This value is essential to track and reconcile because it's included in the outbound payload sent back to the partner.
         public let partnerOpportunityIdentifier: String?
-        /// Identifies the type of support the partner needs from Amazon Web Services. Valid values:   Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.   Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.   Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.   Cosell—Pricing Assistance: Connect with an AWS seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).   Cosell—Technical Consultation: Connection with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.   Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.   Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).   Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs RFx support from Amazon Web Services.   Do Not Need Support from AWS Sales Rep: Indicates that a partner doesn't need support from an Amazon Web Services Sales representative. The opportunity is managed solely by the partner. It's possible to request coselling support on these opportunities at any stage during their lifecycle. Also known as, for-visibility-only (FVO) opportunity.
+        /// Identifies the type of support the partner needs from Amazon Web Services. Valid values:   Cosell—Architectural Validation: Confirmation from Amazon Web Services that the partner's proposed solution architecture is aligned with Amazon Web Services best practices and poses minimal architectural risks.   Cosell—Business Presentation: Request Amazon Web Services seller's participation in a joint customer presentation.   Cosell—Competitive Information: Access to Amazon Web Services competitive resources and support for the partner's proposed solution.   Cosell—Pricing Assistance: Connect with an AWS seller for support situations where a partner may be receiving an upfront discount on a service (for example: EDP deals).   Cosell—Technical Consultation: Connection with an Amazon Web Services Solutions Architect to address the partner's questions about the proposed solution.   Cosell—Total Cost of Ownership Evaluation: Assistance with quoting different cost savings of proposed solutions on Amazon Web Services versus on-premises or a traditional hosting environment.   Cosell—Deal Support: Request Amazon Web Services seller's support to progress the opportunity (for example: joint customer call, strategic positioning).   Cosell—Support for Public Tender/RFx: Opportunity related to the public sector where the partner needs RFx support from Amazon Web Services.
         public let primaryNeedsFromAws: [PrimaryNeedFromAws]?
         /// An object that contains project details summary for the Opportunity.
         public let project: Project?
@@ -4661,7 +4808,7 @@ extension PartnerCentralSelling {
     }
 
     public struct EngagementContextPayload: AWSEncodableShape & AWSDecodableShape {
-        ///  Contains detailed information about a customer project when the context type is "CustomerProject". This field is present only when the Type in EngagementContextDetails is set to "CustomerProject".
+        /// Contains detailed information about a customer project when the context type is "CustomerProject". This field is present only when the Type in EngagementContextDetails is set to "CustomerProject".
         public let customerProject: CustomerProjectsContext?
 
         @inlinable

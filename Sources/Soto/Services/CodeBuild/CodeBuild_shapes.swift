@@ -388,6 +388,7 @@ extension CodeBuild {
     public enum WebhookBuildType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case build = "BUILD"
         case buildBatch = "BUILD_BATCH"
+        case runnerBuildkiteBuild = "RUNNER_BUILDKITE_BUILD"
         public var description: String { return self.rawValue }
     }
 
@@ -409,6 +410,14 @@ extension CodeBuild {
         case githubGlobal = "GITHUB_GLOBAL"
         case githubOrganization = "GITHUB_ORGANIZATION"
         case gitlabGroup = "GITLAB_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WebhookStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -722,12 +731,15 @@ extension CodeBuild {
     public struct BatchRestrictions: AWSEncodableShape & AWSDecodableShape {
         /// An array of strings that specify the compute types that are allowed for the batch build. See Build environment compute types in the CodeBuild User Guide for these values.
         public let computeTypesAllowed: [String]?
+        /// An array of strings that specify the fleets that are allowed for the batch build. See Run builds on reserved capacity fleets in the CodeBuild User Guide  for more information.
+        public let fleetsAllowed: [String]?
         /// Specifies the maximum number of builds allowed.
         public let maximumBuildsAllowed: Int?
 
         @inlinable
-        public init(computeTypesAllowed: [String]? = nil, maximumBuildsAllowed: Int? = nil) {
+        public init(computeTypesAllowed: [String]? = nil, fleetsAllowed: [String]? = nil, maximumBuildsAllowed: Int? = nil) {
             self.computeTypesAllowed = computeTypesAllowed
+            self.fleetsAllowed = fleetsAllowed
             self.maximumBuildsAllowed = maximumBuildsAllowed
         }
 
@@ -735,10 +747,14 @@ extension CodeBuild {
             try self.computeTypesAllowed?.forEach {
                 try validate($0, name: "computeTypesAllowed[]", parent: name, min: 1)
             }
+            try self.fleetsAllowed?.forEach {
+                try validate($0, name: "fleetsAllowed[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case computeTypesAllowed = "computeTypesAllowed"
+            case fleetsAllowed = "fleetsAllowed"
             case maximumBuildsAllowed = "maximumBuildsAllowed"
         }
     }
@@ -961,6 +977,8 @@ extension CodeBuild {
         public let projectName: String?
         /// Specifies the amount of time, in minutes, that the batch build is allowed to be queued before it times out.
         public let queuedTimeoutInMinutes: Int?
+        /// An array that contains the ARNs of reports created by merging reports from builds associated with this batch build.
+        public let reportArns: [String]?
         /// The identifier of the resolved version of this batch build's source code.   For CodeCommit, GitHub, GitHub Enterprise, and BitBucket, the commit ID.   For CodePipeline, the source revision provided by CodePipeline.   For Amazon S3, this does not apply.
         public let resolvedSourceVersion: String?
         /// An array of BuildArtifacts objects the define the build artifacts for this batch build.
@@ -979,7 +997,7 @@ extension CodeBuild {
         public let vpcConfig: VpcConfig?
 
         @inlinable
-        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, buildBatchNumber: Int64? = nil, buildBatchStatus: StatusType? = nil, buildGroups: [BuildGroup]? = nil, buildTimeoutInMinutes: Int? = nil, cache: ProjectCache? = nil, complete: Bool? = nil, currentPhase: String? = nil, debugSessionEnabled: Bool? = nil, encryptionKey: String? = nil, endTime: Date? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logConfig: LogsConfig? = nil, phases: [BuildBatchPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: Date? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String? = nil, artifacts: BuildArtifacts? = nil, buildBatchConfig: ProjectBuildBatchConfig? = nil, buildBatchNumber: Int64? = nil, buildBatchStatus: StatusType? = nil, buildGroups: [BuildGroup]? = nil, buildTimeoutInMinutes: Int? = nil, cache: ProjectCache? = nil, complete: Bool? = nil, currentPhase: String? = nil, debugSessionEnabled: Bool? = nil, encryptionKey: String? = nil, endTime: Date? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, initiator: String? = nil, logConfig: LogsConfig? = nil, phases: [BuildBatchPhase]? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, reportArns: [String]? = nil, resolvedSourceVersion: String? = nil, secondaryArtifacts: [BuildArtifacts]? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: Date? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.artifacts = artifacts
             self.buildBatchConfig = buildBatchConfig
@@ -1001,6 +1019,7 @@ extension CodeBuild {
             self.phases = phases
             self.projectName = projectName
             self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
+            self.reportArns = reportArns
             self.resolvedSourceVersion = resolvedSourceVersion
             self.secondaryArtifacts = secondaryArtifacts
             self.secondarySources = secondarySources
@@ -1034,6 +1053,7 @@ extension CodeBuild {
             case phases = "phases"
             case projectName = "projectName"
             case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case reportArns = "reportArns"
             case resolvedSourceVersion = "resolvedSourceVersion"
             case secondaryArtifacts = "secondaryArtifacts"
             case secondarySources = "secondarySources"
@@ -1635,7 +1655,7 @@ extension CodeBuild {
     public struct CreateWebhookInput: AWSEncodableShape {
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.  It is recommended that you use filterGroups instead of branchFilter.
         public let branchFilter: String?
-        /// Specifies the type of build this webhook will trigger.
+        /// Specifies the type of build this webhook will trigger.   RUNNER_BUILDKITE_BUILD is only available for NO_SOURCE source type projects  configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see Tutorial: Configure a CodeBuild-hosted Buildkite runner in the CodeBuild user guide.
         public let buildType: WebhookBuildType?
         /// An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type.  For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass.
         public let filterGroups: [[WebhookFilter]]?
@@ -3444,7 +3464,7 @@ extension CodeBuild {
         public let insecureSsl: Bool?
         /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in CodePipeline, location should not be specified. If it is specified, CodePipeline ignores it. This is because CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the buildspec file (for example, https://git-codecommit..amazonaws.com/v1/repos/).   For source code in an Amazon S3 input bucket, one of the following.    The path to the ZIP file that contains the source code (for example, //.zip).    The path to the folder that contains the source code (for example, ///).      For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account  to your GitHub account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.   For source code in an GitLab or self-managed GitLab repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account  to your GitLab account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitLab, on the Connections Authorize application page, choose Authorize. Then on the CodeConnections Create GitLab connection page,  choose Connect to GitLab. (After you have connected to your GitLab account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to override the default connection and use this connection instead, set the auth object's type value to CODECONNECTIONS in the source object.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your Bitbucket account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page, choose Grant access. (After you have connected to your Bitbucket account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.    If you specify CODEPIPELINE for the Type property, don't specify this  property. For all of the other types, you must specify Location.
         public let location: String?
-        ///  Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown.  To be able to report the build status to the source provider, the user associated with the source provider must
+        ///  Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, GitLab, GitLab Self Managed, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown.  To be able to report the build status to the source provider, the user associated with the source provider must
         /// have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see Source provider access in the CodeBuild User Guide. The status of a build triggered by a webhook is always reported to your source provider.  If your project's builds are triggered by a webhook, you must push a new commit to the repo for a change to this property to take effect.
         public let reportBuildStatus: Bool?
         /// An identifier for this project source. The identifier can only contain alphanumeric characters and underscores, and must be less than 128 characters in length.
@@ -4258,7 +4278,7 @@ extension CodeBuild {
         public let queuedTimeoutInMinutesOverride: Int?
         ///  The credentials for access to a private registry.
         public let registryCredentialOverride: RegistryCredential?
-        ///  Set to true to report to your source provider the status of a build's start and completion. If you use this option with a source provider other than GitHub, GitHub Enterprise, or Bitbucket, an invalidInputException is thrown.  To be able to report the build status to the source provider, the user associated with the source provider must
+        ///  Set to true to report to your source provider the status of a build's start and completion. If you use this option with a source provider other than GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket, an invalidInputException is thrown.  To be able to report the build status to the source provider, the user associated with the source provider must
         /// have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see Source provider access in the CodeBuild User Guide.  The status of a build triggered by a webhook is always reported to your source provider.
         public let reportBuildStatusOverride: Bool?
         ///  An array of ProjectArtifacts objects.
@@ -4514,9 +4534,11 @@ extension CodeBuild {
         public let status: String?
         ///  The path to the raw data file that contains the test result.
         public let testRawDataPath: String?
+        /// The name of the test suite that the test case is a part of.
+        public let testSuiteName: String?
 
         @inlinable
-        public init(durationInNanoSeconds: Int64? = nil, expired: Date? = nil, message: String? = nil, name: String? = nil, prefix: String? = nil, reportArn: String? = nil, status: String? = nil, testRawDataPath: String? = nil) {
+        public init(durationInNanoSeconds: Int64? = nil, expired: Date? = nil, message: String? = nil, name: String? = nil, prefix: String? = nil, reportArn: String? = nil, status: String? = nil, testRawDataPath: String? = nil, testSuiteName: String? = nil) {
             self.durationInNanoSeconds = durationInNanoSeconds
             self.expired = expired
             self.message = message
@@ -4525,6 +4547,7 @@ extension CodeBuild {
             self.reportArn = reportArn
             self.status = status
             self.testRawDataPath = testRawDataPath
+            self.testSuiteName = testSuiteName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4536,6 +4559,7 @@ extension CodeBuild {
             case reportArn = "reportArn"
             case status = "status"
             case testRawDataPath = "testRawDataPath"
+            case testSuiteName = "testSuiteName"
         }
     }
 
@@ -4895,7 +4919,7 @@ extension CodeBuild {
     public struct UpdateWebhookInput: AWSEncodableShape {
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.  It is recommended that you use filterGroups instead of branchFilter.
         public let branchFilter: String?
-        /// Specifies the type of build this webhook will trigger.
+        /// Specifies the type of build this webhook will trigger.   RUNNER_BUILDKITE_BUILD is only available for NO_SOURCE source type projects  configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see Tutorial: Configure a CodeBuild-hosted Buildkite runner in the CodeBuild user guide.
         public let buildType: WebhookBuildType?
         ///  An array of arrays of WebhookFilter objects used to determine if a webhook event can trigger a build. A filter group must contain at least one EVENT WebhookFilter.
         public let filterGroups: [[WebhookFilter]]?
@@ -4979,7 +5003,7 @@ extension CodeBuild {
     public struct Webhook: AWSDecodableShape {
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built.  It is recommended that you use filterGroups instead of branchFilter.
         public let branchFilter: String?
-        /// Specifies the type of build this webhook will trigger.
+        /// Specifies the type of build this webhook will trigger.   RUNNER_BUILDKITE_BUILD is only available for NO_SOURCE source type projects  configured for Buildkite runner builds. For more information about CodeBuild-hosted Buildkite runner builds, see Tutorial: Configure a CodeBuild-hosted Buildkite runner in the CodeBuild user guide.
         public let buildType: WebhookBuildType?
         /// An array of arrays of WebhookFilter objects used to determine which webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its type.  For a build to be triggered, at least one filter group in the filterGroups array must pass. For a filter group to pass, each of its filters must pass.
         public let filterGroups: [[WebhookFilter]]?
@@ -4993,11 +5017,15 @@ extension CodeBuild {
         public let scopeConfiguration: ScopeConfiguration?
         /// The secret token of the associated repository.   A Bitbucket webhook does not support secret.
         public let secret: String?
+        /// The status of the webhook. Valid values include:    CREATING: The webhook is being created.    CREATE_FAILED: The webhook has failed to create.    ACTIVE: The webhook has succeeded and is active.    DELETING: The webhook is being deleted.
+        public let status: WebhookStatus?
+        /// A message associated with the status of a webhook.
+        public let statusMessage: String?
         /// The URL to the webhook.
         public let url: String?
 
         @inlinable
-        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: Date? = nil, manualCreation: Bool? = nil, payloadUrl: String? = nil, scopeConfiguration: ScopeConfiguration? = nil, secret: String? = nil, url: String? = nil) {
+        public init(branchFilter: String? = nil, buildType: WebhookBuildType? = nil, filterGroups: [[WebhookFilter]]? = nil, lastModifiedSecret: Date? = nil, manualCreation: Bool? = nil, payloadUrl: String? = nil, scopeConfiguration: ScopeConfiguration? = nil, secret: String? = nil, status: WebhookStatus? = nil, statusMessage: String? = nil, url: String? = nil) {
             self.branchFilter = branchFilter
             self.buildType = buildType
             self.filterGroups = filterGroups
@@ -5006,6 +5034,8 @@ extension CodeBuild {
             self.payloadUrl = payloadUrl
             self.scopeConfiguration = scopeConfiguration
             self.secret = secret
+            self.status = status
+            self.statusMessage = statusMessage
             self.url = url
         }
 
@@ -5018,6 +5048,8 @@ extension CodeBuild {
             case payloadUrl = "payloadUrl"
             case scopeConfiguration = "scopeConfiguration"
             case secret = "secret"
+            case status = "status"
+            case statusMessage = "statusMessage"
             case url = "url"
         }
     }
@@ -5027,7 +5059,7 @@ extension CodeBuild {
         public let excludeMatchedPattern: Bool?
         ///  For a WebHookFilter that uses EVENT type, a comma-separated string that specifies one or more events. For example, the webhook filter PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED allows all push, pull request created, and pull request updated events to trigger a build.  For a WebHookFilter that uses any of the other filter types, a regular expression pattern. For example, a WebHookFilter that uses HEAD_REF for its type and the pattern ^refs/heads/ triggers a build when the head reference is a branch with a reference name refs/heads/branch-name.
         public let pattern: String
-        ///  The type of webhook filter. There are nine webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, COMMIT_MESSAGE, TAG_NAME, RELEASE_NAME,  and WORKFLOW_NAME.     EVENT    A webhook event triggers a build when the provided pattern matches one of nine event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED,  PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED,  PULL_REQUEST_MERGED, RELEASED, PRERELEASED,  and WORKFLOW_JOB_QUEUED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events.   Types PULL_REQUEST_REOPENED and WORKFLOW_JOB_QUEUED  work with GitHub and GitHub Enterprise only. Types RELEASED and  PRERELEASED work with GitHub only.      ACTOR_ACCOUNT_ID   A webhook event triggers a build when a GitHub, GitHub Enterprise, or Bitbucket account ID matches the regular expression pattern.      HEAD_REF   A webhook event triggers a build when the head reference matches the regular expression pattern. For example, refs/heads/branch-name and refs/tags/tag-name.   Works with GitHub and GitHub Enterprise push, GitHub and GitHub Enterprise pull request, Bitbucket push, and Bitbucket pull request events.      BASE_REF   A webhook event triggers a build when the base reference matches the regular expression pattern. For example, refs/heads/branch-name.   Works with pull request events only.       FILE_PATH   A webhook triggers a build when the path of a changed file matches the regular expression pattern.   Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       COMMIT_MESSAGE   A webhook triggers a build when the head commit message matches the regular expression pattern.  Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       TAG_NAME   A webhook triggers a build when the tag name of the release matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       RELEASE_NAME   A webhook triggers a build when the release name matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       REPOSITORY_NAME   A webhook triggers a build when the repository name matches the  regular expression pattern.  Works with GitHub global or organization webhooks only.       WORKFLOW_NAME   A webhook triggers a build when the workflow name matches the  regular expression pattern.  Works with WORKFLOW_JOB_QUEUED events only.
+        ///  The type of webhook filter. There are nine webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, COMMIT_MESSAGE, TAG_NAME, RELEASE_NAME,  and WORKFLOW_NAME.     EVENT    A webhook event triggers a build when the provided pattern matches one of nine event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED,  PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED,  PULL_REQUEST_MERGED, RELEASED, PRERELEASED,  and WORKFLOW_JOB_QUEUED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events.   Types PULL_REQUEST_REOPENED and WORKFLOW_JOB_QUEUED  work with GitHub and GitHub Enterprise only. Types RELEASED and  PRERELEASED work with GitHub only.      ACTOR_ACCOUNT_ID   A webhook event triggers a build when a GitHub, GitHub Enterprise, or Bitbucket account ID matches the regular expression pattern.      HEAD_REF   A webhook event triggers a build when the head reference matches the regular expression pattern. For example, refs/heads/branch-name and refs/tags/tag-name.   Works with GitHub and GitHub Enterprise push, GitHub and GitHub Enterprise pull request, Bitbucket push, and Bitbucket pull request events.      BASE_REF   A webhook event triggers a build when the base reference matches the regular expression pattern. For example, refs/heads/branch-name.   Works with pull request events only.       FILE_PATH   A webhook triggers a build when the path of a changed file matches the regular expression pattern.   Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       COMMIT_MESSAGE   A webhook triggers a build when the head commit message matches the regular expression pattern.  Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.       TAG_NAME   A webhook triggers a build when the tag name of the release matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       RELEASE_NAME   A webhook triggers a build when the release name matches the  regular expression pattern.  Works with RELEASED and PRERELEASED events only.       REPOSITORY_NAME   A webhook triggers a build when the repository name matches the  regular expression pattern.  Works with GitHub global or organization webhooks only.       WORKFLOW_NAME   A webhook triggers a build when the workflow name matches the  regular expression pattern.  Works with WORKFLOW_JOB_QUEUED events only.    For CodeBuild-hosted Buildkite runner builds, WORKFLOW_NAME filters will filter by pipeline name.
         public let type: WebhookFilterType
 
         @inlinable

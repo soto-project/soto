@@ -144,7 +144,7 @@ public struct Transfer: AWSService {
         return try await self.createAccess(input, logger: logger)
     }
 
-    /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId, and the AS2 process is identified with the LocalProfileId.
+    /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId, and the AS2 process is identified with the LocalProfileId.  Specify either BaseDirectory or CustomDirectories, but not both. Specifying both causes the command to fail.
     @Sendable
     @inlinable
     public func createAgreement(_ input: CreateAgreementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAgreementResponse {
@@ -157,14 +157,17 @@ public struct Transfer: AWSService {
             logger: logger
         )
     }
-    /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId, and the AS2 process is identified with the LocalProfileId.
+    /// Creates an agreement. An agreement is a bilateral trading partner agreement, or partnership, between an Transfer Family server and an AS2 process. The agreement defines the file and message transfer relationship between the server and the AS2 process. To define an agreement, Transfer Family combines a server, local profile, partner profile, certificate, and other attributes. The partner is identified with the PartnerProfileId, and the AS2 process is identified with the LocalProfileId.  Specify either BaseDirectory or CustomDirectories, but not both. Specifying both causes the command to fail.
     ///
     /// Parameters:
     ///   - accessRole: Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     ///   - baseDirectory: The landing directory (folder) for files transferred by using the AS2 protocol. A BaseDirectory example is /amzn-s3-demo-bucket/home/mydirectory.
+    ///   - customDirectories: A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.   Failed files   MDN files   Payload files   Status files   Temporary files
     ///   - description: A name or short description to identify the agreement.
+    ///   - enforceMessageSigning:  Determines whether or not unsigned messages from your trading partners will be accepted.     ENABLED: Transfer Family rejects unsigned messages from your trading partner.    DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
     ///   - localProfileId: A unique identifier for the AS2 local profile.
     ///   - partnerProfileId: A unique identifier for the partner profile used in the agreement.
+    ///   - preserveFilename:  Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.     ENABLED: the filename provided by your trading parter is preserved when the file is saved.    DISABLED (default value): when Transfer Family  saves the file, the filename is adjusted, as described in File names and locations.
     ///   - serverId: A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
     ///   - status: The status of the agreement. The agreement can be either ACTIVE or INACTIVE.
     ///   - tags: Key-value pairs that can be used to group and search for agreements.
@@ -172,10 +175,13 @@ public struct Transfer: AWSService {
     @inlinable
     public func createAgreement(
         accessRole: String,
-        baseDirectory: String,
+        baseDirectory: String? = nil,
+        customDirectories: CustomDirectoriesType? = nil,
         description: String? = nil,
+        enforceMessageSigning: EnforceMessageSigningType? = nil,
         localProfileId: String,
         partnerProfileId: String,
+        preserveFilename: PreserveFilenameType? = nil,
         serverId: String,
         status: AgreementStatusType? = nil,
         tags: [Tag]? = nil,
@@ -184,9 +190,12 @@ public struct Transfer: AWSService {
         let input = CreateAgreementRequest(
             accessRole: accessRole, 
             baseDirectory: baseDirectory, 
+            customDirectories: customDirectories, 
             description: description, 
+            enforceMessageSigning: enforceMessageSigning, 
             localProfileId: localProfileId, 
             partnerProfileId: partnerProfileId, 
+            preserveFilename: preserveFilename, 
             serverId: serverId, 
             status: status, 
             tags: tags
@@ -2203,7 +2212,7 @@ public struct Transfer: AWSService {
         return try await self.updateAccess(input, logger: logger)
     }
 
-    /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update.
+    /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update.  Specify either BaseDirectory or CustomDirectories, but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, the custom directories are no longer used.
     @Sendable
     @inlinable
     public func updateAgreement(_ input: UpdateAgreementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAgreementResponse {
@@ -2216,15 +2225,18 @@ public struct Transfer: AWSService {
             logger: logger
         )
     }
-    /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update.
+    /// Updates some of the parameters for an existing agreement. Provide the AgreementId and the ServerId for the agreement that you want to update, along with the new values for the parameters to update.  Specify either BaseDirectory or CustomDirectories, but not both. Specifying both causes the command to fail. If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, the custom directories are no longer used.
     ///
     /// Parameters:
     ///   - accessRole: Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use.  For AS2 connectors  With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally,  make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     ///   - agreementId: A unique identifier for the agreement. This identifier is returned when you create an agreement.
     ///   - baseDirectory: To change the landing directory (folder) for files that are transferred, provide the bucket folder that you want to use; for example, /amzn-s3-demo-bucket/home/mydirectory .
+    ///   - customDirectories: A CustomDirectoriesType structure. This structure specifies custom directories for storing various AS2 message files. You can specify directories for the following types of files.   Failed files   MDN files   Payload files   Status files   Temporary files
     ///   - description: To replace the existing description, provide a short description for the agreement.
+    ///   - enforceMessageSigning:  Determines whether or not unsigned messages from your trading partners will be accepted.     ENABLED: Transfer Family rejects unsigned messages from your trading partner.    DISABLED (default value): Transfer Family accepts unsigned messages from your trading partner.
     ///   - localProfileId: A unique identifier for the AS2 local profile. To change the local profile identifier, provide a new value here.
     ///   - partnerProfileId: A unique identifier for the partner profile. To change the partner profile identifier, provide a new value here.
+    ///   - preserveFilename:  Determines whether or not Transfer Family appends a unique string of characters to the end of the AS2 message payload filename when saving it.     ENABLED: the filename provided by your trading parter is preserved when the file is saved.    DISABLED (default value): when Transfer Family  saves the file, the filename is adjusted, as described in File names and locations.
     ///   - serverId: A system-assigned unique identifier for a server instance. This is the specific server that the agreement uses.
     ///   - status: You can update the status for the agreement, either activating an inactive agreement or the reverse.
     ///   - logger: Logger use during operation
@@ -2233,9 +2245,12 @@ public struct Transfer: AWSService {
         accessRole: String? = nil,
         agreementId: String,
         baseDirectory: String? = nil,
+        customDirectories: CustomDirectoriesType? = nil,
         description: String? = nil,
+        enforceMessageSigning: EnforceMessageSigningType? = nil,
         localProfileId: String? = nil,
         partnerProfileId: String? = nil,
+        preserveFilename: PreserveFilenameType? = nil,
         serverId: String,
         status: AgreementStatusType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -2244,9 +2259,12 @@ public struct Transfer: AWSService {
             accessRole: accessRole, 
             agreementId: agreementId, 
             baseDirectory: baseDirectory, 
+            customDirectories: customDirectories, 
             description: description, 
+            enforceMessageSigning: enforceMessageSigning, 
             localProfileId: localProfileId, 
             partnerProfileId: partnerProfileId, 
+            preserveFilename: preserveFilename, 
             serverId: serverId, 
             status: status
         )

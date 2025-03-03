@@ -976,7 +976,7 @@ public struct Outposts: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Starts the specified capacity task. You can have one active capacity task per order or Outpost.
+    /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost.
     @Sendable
     @inlinable
     public func startCapacityTask(_ input: StartCapacityTaskInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCapacityTaskOutput {
@@ -989,7 +989,7 @@ public struct Outposts: AWSService {
             logger: logger
         )
     }
-    /// Starts the specified capacity task. You can have one active capacity task per order or Outpost.
+    /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost.
     ///
     /// Parameters:
     ///   - dryRun: You can request a dry run to determine if the instance type and instance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
@@ -1252,7 +1252,7 @@ public struct Outposts: AWSService {
     ///   - fiberOpticCableType: The type of fiber that you will use to attach the Outpost to your network.
     ///   - maximumSupportedWeightLbs: The maximum rack weight that this site can support. NO_LIMIT is over 2000lbs.
     ///   - opticalStandard: The type of optical standard that you will use to attach the Outpost to your network. This field is dependent on uplink speed, fiber type, and distance to the upstream device. For more information about networking requirements for racks, see Network  in the Amazon Web Services Outposts User Guide.     OPTIC_10GBASE_SR: 10GBASE-SR    OPTIC_10GBASE_IR: 10GBASE-IR    OPTIC_10GBASE_LR: 10GBASE-LR    OPTIC_40GBASE_SR: 40GBASE-SR    OPTIC_40GBASE_ESR: 40GBASE-ESR    OPTIC_40GBASE_IR4_LR4L: 40GBASE-IR (LR4L)    OPTIC_40GBASE_LR4: 40GBASE-LR4    OPTIC_100GBASE_SR4: 100GBASE-SR4    OPTIC_100GBASE_CWDM4: 100GBASE-CWDM4    OPTIC_100GBASE_LR4: 100GBASE-LR4    OPTIC_100G_PSM4_MSA: 100G PSM4 MSA    OPTIC_1000BASE_LX: 1000Base-LX    OPTIC_1000BASE_SX : 1000Base-SX
-    ///   - powerConnector: The power connector that Amazon Web Services should plan to provide for connections to the hardware. Note the correlation between PowerPhase and PowerConnector.    Single-phase AC feed    L6-30P – (common in US); 30A; single phase    IEC309 (blue) – P+N+E, 6hr; 32 A; single phase     Three-phase AC feed    AH530P7W (red) – 3P+N+E, 7hr; 30A; three phase    AH532P6W (red) – 3P+N+E, 6hr; 32A; three phase
+    ///   - powerConnector: The power connector that Amazon Web Services should plan to provide for connections to the hardware. Note the correlation between PowerPhase and PowerConnector.    Single-phase AC feed    L6-30P – (common in US); 30A; single phase    IEC309 (blue) – P+N+E, 6hr; 32 A; single phase     Three-phase AC feed    AH530P7W (red) – 3P+N+E, 7hr; 30A; three phase    AH532P6W (red) – 3P+N+E, 6hr; 32A; three phase    CS8365C – (common in US); 3P+E, 50A; three phase
     ///   - powerDrawKva: The power draw, in kVA, available at the hardware placement position for the rack.
     ///   - powerFeedDrop: Indicates whether the power feed comes above or below the rack.
     ///   - powerPhase: The power option that you can provide for hardware.    Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz   Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz

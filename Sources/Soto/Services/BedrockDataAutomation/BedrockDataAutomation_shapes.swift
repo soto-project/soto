@@ -28,15 +28,15 @@ extension BedrockDataAutomation {
 
     public enum AudioExtractionCategoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audioContentModeration = "AUDIO_CONTENT_MODERATION"
-        case chapterContentModeration = "CHAPTER_CONTENT_MODERATION"
+        case topicContentModeration = "TOPIC_CONTENT_MODERATION"
         case transcript = "TRANSCRIPT"
         public var description: String { return self.rawValue }
     }
 
     public enum AudioStandardGenerativeFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case audioSummary = "AUDIO_SUMMARY"
-        case chapterSummary = "CHAPTER_SUMMARY"
         case iab = "IAB"
+        case topicSummary = "TOPIC_SUMMARY"
         public var description: String { return self.rawValue }
     }
 
@@ -92,6 +92,7 @@ extension BedrockDataAutomation {
 
     public enum ImageExtractionCategoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contentModeration = "CONTENT_MODERATION"
+        case logos = "LOGOS"
         case textDetection = "TEXT_DETECTION"
         public var description: String { return self.rawValue }
     }
@@ -116,14 +117,15 @@ extension BedrockDataAutomation {
 
     public enum VideoExtractionCategoryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case contentModeration = "CONTENT_MODERATION"
+        case logos = "LOGOS"
         case textDetection = "TEXT_DETECTION"
         case transcript = "TRANSCRIPT"
         public var description: String { return self.rawValue }
     }
 
     public enum VideoStandardGenerativeFieldType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case chapterSummary = "CHAPTER_SUMMARY"
         case iab = "IAB"
-        case sceneSummary = "SCENE_SUMMARY"
         case videoSummary = "VIDEO_SUMMARY"
         public var description: String { return self.rawValue }
     }
@@ -329,15 +331,17 @@ extension BedrockDataAutomation {
         public let clientToken: String?
         public let encryptionConfiguration: EncryptionConfiguration?
         public let schema: String
+        public let tags: [Tag]?
         public let type: `Type`
 
         @inlinable
-        public init(blueprintName: String, blueprintStage: BlueprintStage? = nil, clientToken: String? = CreateBlueprintRequest.idempotencyToken(), encryptionConfiguration: EncryptionConfiguration? = nil, schema: String, type: `Type`) {
+        public init(blueprintName: String, blueprintStage: BlueprintStage? = nil, clientToken: String? = CreateBlueprintRequest.idempotencyToken(), encryptionConfiguration: EncryptionConfiguration? = nil, schema: String, tags: [Tag]? = nil, type: `Type`) {
             self.blueprintName = blueprintName
             self.blueprintStage = blueprintStage
             self.clientToken = clientToken
             self.encryptionConfiguration = encryptionConfiguration
             self.schema = schema
+            self.tags = tags
             self.type = type
         }
 
@@ -351,7 +355,10 @@ extension BedrockDataAutomation {
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.schema, name: "schema", parent: name, max: 100000)
             try self.validate(self.schema, name: "schema", parent: name, min: 1)
-            try self.validate(self.schema, name: "schema", parent: name, pattern: "^[a-zA-Z0-9\\s!\"\\#\\$%'&\\(\\)\\*\\+\\,\\-\\./:;=\\?@\\[\\\\\\]\\^_`\\{\\|\\}~><]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -360,6 +367,7 @@ extension BedrockDataAutomation {
             case clientToken = "clientToken"
             case encryptionConfiguration = "encryptionConfiguration"
             case schema = "schema"
+            case tags = "tags"
             case type = "type"
         }
     }
@@ -430,9 +438,10 @@ extension BedrockDataAutomation {
         public let projectName: String
         public let projectStage: DataAutomationProjectStage?
         public let standardOutputConfiguration: StandardOutputConfiguration
+        public let tags: [Tag]?
 
         @inlinable
-        public init(clientToken: String? = CreateDataAutomationProjectRequest.idempotencyToken(), customOutputConfiguration: CustomOutputConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, standardOutputConfiguration: StandardOutputConfiguration) {
+        public init(clientToken: String? = CreateDataAutomationProjectRequest.idempotencyToken(), customOutputConfiguration: CustomOutputConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectDescription: String? = nil, projectName: String, projectStage: DataAutomationProjectStage? = nil, standardOutputConfiguration: StandardOutputConfiguration, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.customOutputConfiguration = customOutputConfiguration
             self.encryptionConfiguration = encryptionConfiguration
@@ -441,6 +450,7 @@ extension BedrockDataAutomation {
             self.projectName = projectName
             self.projectStage = projectStage
             self.standardOutputConfiguration = standardOutputConfiguration
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -449,9 +459,14 @@ extension BedrockDataAutomation {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,256}$")
             try self.customOutputConfiguration?.validate(name: "\(name).customOutputConfiguration")
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 300)
             try self.validate(self.projectName, name: "projectName", parent: name, max: 128)
             try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
             try self.validate(self.projectName, name: "projectName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -463,6 +478,7 @@ extension BedrockDataAutomation {
             case projectName = "projectName"
             case projectStage = "projectStage"
             case standardOutputConfiguration = "standardOutputConfiguration"
+            case tags = "tags"
         }
     }
 
@@ -809,9 +825,18 @@ extension BedrockDataAutomation {
         }
 
         public func validate(name: String) throws {
+            try self.kmsEncryptionContext?.forEach {
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, max: 2000)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, min: 1)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "^.*\\S.*$")
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "^.*\\S.*$")
+            }
             try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, min: 1)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1094,6 +1119,38 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public let resourceARN: String
+
+        @inlinable
+        public init(resourceARN: String) {
+            self.resourceARN = resourceARN
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project)/[a-zA-Z0-9-]{12,36}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "resourceARN"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
     public struct OverrideConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let document: DocumentOverrideConfiguration?
 
@@ -1142,16 +1199,101 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        public let key: String
+        public let value: String
+
+        @inlinable
+        public init(key: String, value: String) {
+            self.key = key
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "key"
+            case value = "value"
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public let resourceARN: String
+        public let tags: [Tag]
+
+        @inlinable
+        public init(resourceARN: String, tags: [Tag]) {
+            self.resourceARN = resourceARN
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project)/[a-zA-Z0-9-]{12,36}$")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "resourceARN"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public let resourceARN: String
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceARN: String, tagKeys: [String]) {
+            self.resourceARN = resourceARN
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-z0-9-]*:[0-9]{12}:(blueprint|data-automation-project)/[a-zA-Z0-9-]{12,36}$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceARN = "resourceARN"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateBlueprintRequest: AWSEncodableShape {
         /// ARN generated at the server side when a Blueprint is created
         public let blueprintArn: String
         public let blueprintStage: BlueprintStage?
+        public let encryptionConfiguration: EncryptionConfiguration?
         public let schema: String
 
         @inlinable
-        public init(blueprintArn: String, blueprintStage: BlueprintStage? = nil, schema: String) {
+        public init(blueprintArn: String, blueprintStage: BlueprintStage? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, schema: String) {
             self.blueprintArn = blueprintArn
             self.blueprintStage = blueprintStage
+            self.encryptionConfiguration = encryptionConfiguration
             self.schema = schema
         }
 
@@ -1160,19 +1302,21 @@ extension BedrockDataAutomation {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.blueprintArn, key: "blueprintArn")
             try container.encodeIfPresent(self.blueprintStage, forKey: .blueprintStage)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             try container.encode(self.schema, forKey: .schema)
         }
 
         public func validate(name: String) throws {
             try self.validate(self.blueprintArn, name: "blueprintArn", parent: name, max: 128)
             try self.validate(self.blueprintArn, name: "blueprintArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):blueprint/(bedrock-data-automation-public-[a-zA-Z0-9-_]{1,30}|[a-zA-Z0-9-]{12,36})$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.schema, name: "schema", parent: name, max: 100000)
             try self.validate(self.schema, name: "schema", parent: name, min: 1)
-            try self.validate(self.schema, name: "schema", parent: name, pattern: "^[a-zA-Z0-9\\s!\"\\#\\$%'&\\(\\)\\*\\+\\,\\-\\./:;=\\?@\\[\\\\\\]\\^_`\\{\\|\\}~><]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case blueprintStage = "blueprintStage"
+            case encryptionConfiguration = "encryptionConfiguration"
             case schema = "schema"
         }
     }
@@ -1192,6 +1336,7 @@ extension BedrockDataAutomation {
 
     public struct UpdateDataAutomationProjectRequest: AWSEncodableShape {
         public let customOutputConfiguration: CustomOutputConfiguration?
+        public let encryptionConfiguration: EncryptionConfiguration?
         public let overrideConfiguration: OverrideConfiguration?
         /// ARN generated at the server side when a DataAutomationProject is created
         public let projectArn: String
@@ -1200,8 +1345,9 @@ extension BedrockDataAutomation {
         public let standardOutputConfiguration: StandardOutputConfiguration
 
         @inlinable
-        public init(customOutputConfiguration: CustomOutputConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectArn: String, projectDescription: String? = nil, projectStage: DataAutomationProjectStage? = nil, standardOutputConfiguration: StandardOutputConfiguration) {
+        public init(customOutputConfiguration: CustomOutputConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, overrideConfiguration: OverrideConfiguration? = nil, projectArn: String, projectDescription: String? = nil, projectStage: DataAutomationProjectStage? = nil, standardOutputConfiguration: StandardOutputConfiguration) {
             self.customOutputConfiguration = customOutputConfiguration
+            self.encryptionConfiguration = encryptionConfiguration
             self.overrideConfiguration = overrideConfiguration
             self.projectArn = projectArn
             self.projectDescription = projectDescription
@@ -1213,6 +1359,7 @@ extension BedrockDataAutomation {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.customOutputConfiguration, forKey: .customOutputConfiguration)
+            try container.encodeIfPresent(self.encryptionConfiguration, forKey: .encryptionConfiguration)
             try container.encodeIfPresent(self.overrideConfiguration, forKey: .overrideConfiguration)
             request.encodePath(self.projectArn, key: "projectArn")
             try container.encodeIfPresent(self.projectDescription, forKey: .projectDescription)
@@ -1222,12 +1369,15 @@ extension BedrockDataAutomation {
 
         public func validate(name: String) throws {
             try self.customOutputConfiguration?.validate(name: "\(name).customOutputConfiguration")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.projectArn, name: "projectArn", parent: name, max: 128)
             try self.validate(self.projectArn, name: "projectArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):bedrock:[a-zA-Z0-9-]*:(aws|[0-9]{12}):data-automation-project/[a-zA-Z0-9-]{12,36}$")
+            try self.validate(self.projectDescription, name: "projectDescription", parent: name, max: 300)
         }
 
         private enum CodingKeys: String, CodingKey {
             case customOutputConfiguration = "customOutputConfiguration"
+            case encryptionConfiguration = "encryptionConfiguration"
             case overrideConfiguration = "overrideConfiguration"
             case projectDescription = "projectDescription"
             case projectStage = "projectStage"

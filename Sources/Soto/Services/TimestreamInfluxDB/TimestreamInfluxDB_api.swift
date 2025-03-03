@@ -80,6 +80,86 @@ public struct TimestreamInfluxDB: AWSService {
 
     // MARK: API Calls
 
+    /// Creates a new Timestream for InfluxDB cluster.
+    @Sendable
+    @inlinable
+    public func createDbCluster(_ input: CreateDbClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDbClusterOutput {
+        try await self.client.execute(
+            operation: "CreateDbCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new Timestream for InfluxDB cluster.
+    ///
+    /// Parameters:
+    ///   - allocatedStorage: The amount of storage to allocate for your DB storage type in GiB (gibibytes).
+    ///   - bucket: The name of the initial InfluxDB bucket. All InfluxDB data is stored in a bucket. A bucket combines the concept of a database and a retention period (the duration of time that each data point persists). A bucket belongs to an organization.
+    ///   - dbInstanceType: The Timestream for InfluxDB DB instance type to run InfluxDB on.
+    ///   - dbParameterGroupIdentifier: The ID of the DB parameter group to assign to your DB cluster. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
+    ///   - dbStorageType: The Timestream for InfluxDB DB storage type to read and write InfluxDB data. You can choose between three different types of provisioned Influx IOPS Included storage according to your workload requirements:   Influx I/O Included 3000 IOPS   Influx I/O Included 12000 IOPS   Influx I/O Included 16000 IOPS
+    ///   - deploymentType: Specifies the type of cluster to create.
+    ///   - failoverMode: Specifies the behavior of failure recovery when the primary node of the cluster fails.
+    ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to a specified S3 bucket.
+    ///   - name: The name that uniquely identifies the DB cluster when interacting with the Amazon Timestream for InfluxDB API and CLI commands. This name will also be a prefix included in the endpoint. DB cluster names must be unique per customer and per region.
+    ///   - networkType: Specifies whether the network type of the Timestream for InfluxDB cluster is IPv4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
+    ///   - organization: The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
+    ///   - password: The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Amazon Web Services Secrets Manager in your account.
+    ///   - port: The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
+    ///   - publiclyAccessible: Configures the Timestream for InfluxDB cluster with a public IP to facilitate access from outside the VPC.
+    ///   - tags: A list of key-value pairs to associate with the DB instance.
+    ///   - username: The username of the initial admin user created in InfluxDB. Must start with a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-user1. This username will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Amazon Web Services Secrets Manager in your account.
+    ///   - vpcSecurityGroupIds: A list of VPC security group IDs to associate with the Timestream for InfluxDB cluster.
+    ///   - vpcSubnetIds: A list of VPC subnet IDs to associate with the DB cluster. Provide at least two VPC subnet IDs in different Availability Zones when deploying with a Multi-AZ standby.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDbCluster(
+        allocatedStorage: Int,
+        bucket: String? = nil,
+        dbInstanceType: DbInstanceType,
+        dbParameterGroupIdentifier: String? = nil,
+        dbStorageType: DbStorageType? = nil,
+        deploymentType: ClusterDeploymentType,
+        failoverMode: FailoverMode? = nil,
+        logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
+        name: String,
+        networkType: NetworkType? = nil,
+        organization: String? = nil,
+        password: String,
+        port: Int? = nil,
+        publiclyAccessible: Bool? = nil,
+        tags: [String: String]? = nil,
+        username: String? = nil,
+        vpcSecurityGroupIds: [String],
+        vpcSubnetIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDbClusterOutput {
+        let input = CreateDbClusterInput(
+            allocatedStorage: allocatedStorage, 
+            bucket: bucket, 
+            dbInstanceType: dbInstanceType, 
+            dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
+            dbStorageType: dbStorageType, 
+            deploymentType: deploymentType, 
+            failoverMode: failoverMode, 
+            logDeliveryConfiguration: logDeliveryConfiguration, 
+            name: name, 
+            networkType: networkType, 
+            organization: organization, 
+            password: password, 
+            port: port, 
+            publiclyAccessible: publiclyAccessible, 
+            tags: tags, 
+            username: username, 
+            vpcSecurityGroupIds: vpcSecurityGroupIds, 
+            vpcSubnetIds: vpcSubnetIds
+        )
+        return try await self.createDbCluster(input, logger: logger)
+    }
+
     /// Creates a new Timestream for InfluxDB DB instance.
     @Sendable
     @inlinable
@@ -195,6 +275,35 @@ public struct TimestreamInfluxDB: AWSService {
         return try await self.createDbParameterGroup(input, logger: logger)
     }
 
+    /// Deletes a Timestream for InfluxDB cluster.
+    @Sendable
+    @inlinable
+    public func deleteDbCluster(_ input: DeleteDbClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDbClusterOutput {
+        try await self.client.execute(
+            operation: "DeleteDbCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a Timestream for InfluxDB cluster.
+    ///
+    /// Parameters:
+    ///   - dbClusterId: Service-generated unique identifier of the DB cluster.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDbCluster(
+        dbClusterId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteDbClusterOutput {
+        let input = DeleteDbClusterInput(
+            dbClusterId: dbClusterId
+        )
+        return try await self.deleteDbCluster(input, logger: logger)
+    }
+
     /// Deletes a Timestream for InfluxDB DB instance.
     @Sendable
     @inlinable
@@ -222,6 +331,35 @@ public struct TimestreamInfluxDB: AWSService {
             identifier: identifier
         )
         return try await self.deleteDbInstance(input, logger: logger)
+    }
+
+    /// Retrieves information about a Timestream for InfluxDB cluster.
+    @Sendable
+    @inlinable
+    public func getDbCluster(_ input: GetDbClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDbClusterOutput {
+        try await self.client.execute(
+            operation: "GetDbCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about a Timestream for InfluxDB cluster.
+    ///
+    /// Parameters:
+    ///   - dbClusterId: Service-generated unique identifier of the DB cluster to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDbCluster(
+        dbClusterId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDbClusterOutput {
+        let input = GetDbClusterInput(
+            dbClusterId: dbClusterId
+        )
+        return try await self.getDbCluster(input, logger: logger)
     }
 
     /// Returns a Timestream for InfluxDB DB instance.
@@ -282,6 +420,38 @@ public struct TimestreamInfluxDB: AWSService {
         return try await self.getDbParameterGroup(input, logger: logger)
     }
 
+    /// Returns a list of Timestream for InfluxDB DB clusters.
+    @Sendable
+    @inlinable
+    public func listDbClusters(_ input: ListDbClustersInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDbClustersOutput {
+        try await self.client.execute(
+            operation: "ListDbClusters", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of Timestream for InfluxDB DB clusters.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    ///   - nextToken: The pagination token. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDbClusters(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDbClustersOutput {
+        let input = ListDbClustersInput(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDbClusters(input, logger: logger)
+    }
+
     /// Returns a list of Timestream for InfluxDB DB instances.
     @Sendable
     @inlinable
@@ -312,6 +482,41 @@ public struct TimestreamInfluxDB: AWSService {
             nextToken: nextToken
         )
         return try await self.listDbInstances(input, logger: logger)
+    }
+
+    /// Returns a list of Timestream for InfluxDB clusters.
+    @Sendable
+    @inlinable
+    public func listDbInstancesForCluster(_ input: ListDbInstancesForClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDbInstancesForClusterOutput {
+        try await self.client.execute(
+            operation: "ListDbInstancesForCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of Timestream for InfluxDB clusters.
+    ///
+    /// Parameters:
+    ///   - dbClusterId: Service-generated unique identifier of the DB cluster.
+    ///   - maxResults: The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    ///   - nextToken: The pagination token. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDbInstancesForCluster(
+        dbClusterId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDbInstancesForClusterOutput {
+        let input = ListDbInstancesForClusterInput(
+            dbClusterId: dbClusterId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDbInstancesForCluster(input, logger: logger)
     }
 
     /// Returns a list of Timestream for InfluxDB DB parameter groups.
@@ -439,6 +644,50 @@ public struct TimestreamInfluxDB: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
+    /// Updates a Timestream for InfluxDB cluster.
+    @Sendable
+    @inlinable
+    public func updateDbCluster(_ input: UpdateDbClusterInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDbClusterOutput {
+        try await self.client.execute(
+            operation: "UpdateDbCluster", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a Timestream for InfluxDB cluster.
+    ///
+    /// Parameters:
+    ///   - dbClusterId: Service-generated unique identifier of the DB cluster to update.
+    ///   - dbInstanceType: Update the DB cluster to use the specified DB instance Type.
+    ///   - dbParameterGroupIdentifier: Update the DB cluster to use the specified DB parameter group.
+    ///   - failoverMode: Update the DB cluster's failover behavior.
+    ///   - logDeliveryConfiguration: The log delivery configuration to apply to the DB cluster.
+    ///   - port: Update the DB cluster to use the specified port.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDbCluster(
+        dbClusterId: String,
+        dbInstanceType: DbInstanceType? = nil,
+        dbParameterGroupIdentifier: String? = nil,
+        failoverMode: FailoverMode? = nil,
+        logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
+        port: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDbClusterOutput {
+        let input = UpdateDbClusterInput(
+            dbClusterId: dbClusterId, 
+            dbInstanceType: dbInstanceType, 
+            dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
+            failoverMode: failoverMode, 
+            logDeliveryConfiguration: logDeliveryConfiguration, 
+            port: port
+        )
+        return try await self.updateDbCluster(input, logger: logger)
+    }
+
     /// Updates a Timestream for InfluxDB DB instance.
     @Sendable
     @inlinable
@@ -455,8 +704,10 @@ public struct TimestreamInfluxDB: AWSService {
     /// Updates a Timestream for InfluxDB DB instance.
     ///
     /// Parameters:
+    ///   - allocatedStorage: The amount of storage to allocate for your DB storage type (in gibibytes).
     ///   - dbInstanceType: The Timestream for InfluxDB DB instance type to run InfluxDB on.
     ///   - dbParameterGroupIdentifier: The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
+    ///   - dbStorageType: The Timestream for InfluxDB DB storage type that InfluxDB stores data on.
     ///   - deploymentType: Specifies whether the DB instance will be deployed as a standalone instance or with a Multi-AZ standby for high availability.
     ///   - identifier: The id of the DB instance.
     ///   - logDeliveryConfiguration: Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
@@ -464,8 +715,10 @@ public struct TimestreamInfluxDB: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func updateDbInstance(
+        allocatedStorage: Int? = nil,
         dbInstanceType: DbInstanceType? = nil,
         dbParameterGroupIdentifier: String? = nil,
+        dbStorageType: DbStorageType? = nil,
         deploymentType: DeploymentType? = nil,
         identifier: String,
         logDeliveryConfiguration: LogDeliveryConfiguration? = nil,
@@ -473,8 +726,10 @@ public struct TimestreamInfluxDB: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateDbInstanceOutput {
         let input = UpdateDbInstanceInput(
+            allocatedStorage: allocatedStorage, 
             dbInstanceType: dbInstanceType, 
             dbParameterGroupIdentifier: dbParameterGroupIdentifier, 
+            dbStorageType: dbStorageType, 
             deploymentType: deploymentType, 
             identifier: identifier, 
             logDeliveryConfiguration: logDeliveryConfiguration, 
@@ -497,6 +752,40 @@ extension TimestreamInfluxDB {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension TimestreamInfluxDB {
+    /// Return PaginatorSequence for operation ``listDbClusters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDbClustersPaginator(
+        _ input: ListDbClustersInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDbClustersInput, ListDbClustersOutput> {
+        return .init(
+            input: input,
+            command: self.listDbClusters,
+            inputKey: \ListDbClustersInput.nextToken,
+            outputKey: \ListDbClustersOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDbClusters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDbClustersPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDbClustersInput, ListDbClustersOutput> {
+        let input = ListDbClustersInput(
+            maxResults: maxResults
+        )
+        return self.listDbClustersPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDbInstances(_:logger:)``.
     ///
     /// - Parameters:
@@ -531,6 +820,43 @@ extension TimestreamInfluxDB {
         return self.listDbInstancesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDbInstancesForCluster(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDbInstancesForClusterPaginator(
+        _ input: ListDbInstancesForClusterInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDbInstancesForClusterInput, ListDbInstancesForClusterOutput> {
+        return .init(
+            input: input,
+            command: self.listDbInstancesForCluster,
+            inputKey: \ListDbInstancesForClusterInput.nextToken,
+            outputKey: \ListDbInstancesForClusterOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDbInstancesForCluster(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dbClusterId: Service-generated unique identifier of the DB cluster.
+    ///   - maxResults: The maximum number of items to return in the output. If the total number of items available is more than the value specified, a nextToken is provided in the output. To resume pagination, provide the nextToken value as an argument of a subsequent API invocation.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDbInstancesForClusterPaginator(
+        dbClusterId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDbInstancesForClusterInput, ListDbInstancesForClusterOutput> {
+        let input = ListDbInstancesForClusterInput(
+            dbClusterId: dbClusterId, 
+            maxResults: maxResults
+        )
+        return self.listDbInstancesForClusterPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDbParameterGroups(_:logger:)``.
     ///
     /// - Parameters:
@@ -563,6 +889,27 @@ extension TimestreamInfluxDB {
             maxResults: maxResults
         )
         return self.listDbParameterGroupsPaginator(input, logger: logger)
+    }
+}
+
+extension TimestreamInfluxDB.ListDbClustersInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> TimestreamInfluxDB.ListDbClustersInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension TimestreamInfluxDB.ListDbInstancesForClusterInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> TimestreamInfluxDB.ListDbInstancesForClusterInput {
+        return .init(
+            dbClusterId: self.dbClusterId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
     }
 }
 

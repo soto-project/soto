@@ -102,6 +102,7 @@ public struct Amplify: AWSService {
     ///   - basicAuthCredentials: The credentials for basic authorization for an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
     ///   - buildSpec: The build specification (build spec) for an Amplify app.
     ///   - cacheConfig: The cache configuration for the Amplify app.
+    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
     ///   - customHeaders: The custom HTTP headers for an Amplify app.
     ///   - customRules: The custom rewrite and redirect rules for an Amplify app.
     ///   - description: The description of the Amplify app.
@@ -110,7 +111,7 @@ public struct Amplify: AWSService {
     ///   - enableBranchAutoBuild: Enables the auto building of branches for an Amplify app.
     ///   - enableBranchAutoDeletion: Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
     ///   - environmentVariables: The environment variables map for an Amplify app.  For a list of the environment variables that are accessible to Amplify by default, see Amplify Environment variables in the Amplify Hosting User Guide.
-    ///   - iamServiceRoleArn: The AWS Identity and Access Management (IAM) service role for an Amplify app.
+    ///   - iamServiceRoleArn: The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
     ///   - name: The name of the Amplify app.
     ///   - oauthToken: The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
     ///   - platform: The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC. If you are deploying an SSG only app with Next.js version 14 or later, you must set the platform type to WEB_COMPUTE and set the artifacts baseDirectory to .next in the application's build settings. For an example of the build specification settings, see Amplify build settings for a Next.js 14 SSG application in the Amplify Hosting User Guide.
@@ -125,6 +126,7 @@ public struct Amplify: AWSService {
         basicAuthCredentials: String? = nil,
         buildSpec: String? = nil,
         cacheConfig: CacheConfig? = nil,
+        computeRoleArn: String? = nil,
         customHeaders: String? = nil,
         customRules: [CustomRule]? = nil,
         description: String? = nil,
@@ -148,6 +150,7 @@ public struct Amplify: AWSService {
             basicAuthCredentials: basicAuthCredentials, 
             buildSpec: buildSpec, 
             cacheConfig: cacheConfig, 
+            computeRoleArn: computeRoleArn, 
             customHeaders: customHeaders, 
             customRules: customRules, 
             description: description, 
@@ -226,6 +229,7 @@ public struct Amplify: AWSService {
     ///   - basicAuthCredentials:  The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
     ///   - branchName: The name for the branch.
     ///   - buildSpec:  The build specification (build spec) for the branch.
+    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
     ///   - description: The description for the branch.
     ///   - displayName:  The display name for a branch. This is used as the default domain prefix.
     ///   - enableAutoBuild:  Enables auto building for the branch.
@@ -248,6 +252,7 @@ public struct Amplify: AWSService {
         basicAuthCredentials: String? = nil,
         branchName: String,
         buildSpec: String? = nil,
+        computeRoleArn: String? = nil,
         description: String? = nil,
         displayName: String? = nil,
         enableAutoBuild: Bool? = nil,
@@ -270,6 +275,7 @@ public struct Amplify: AWSService {
             basicAuthCredentials: basicAuthCredentials, 
             branchName: branchName, 
             buildSpec: buildSpec, 
+            computeRoleArn: computeRoleArn, 
             description: description, 
             displayName: displayName, 
             enableAutoBuild: enableAutoBuild, 
@@ -1345,6 +1351,7 @@ public struct Amplify: AWSService {
     ///   - basicAuthCredentials: The basic authorization credentials for an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
     ///   - buildSpec: The build specification (build spec) for an Amplify app.
     ///   - cacheConfig: The cache configuration for the Amplify app.
+    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
     ///   - customHeaders: The custom HTTP headers for an Amplify app.
     ///   - customRules: The custom redirect and rewrite rules for an Amplify app.
     ///   - description: The description for an Amplify app.
@@ -1353,7 +1360,7 @@ public struct Amplify: AWSService {
     ///   - enableBranchAutoBuild: Enables branch auto-building for an Amplify app.
     ///   - enableBranchAutoDeletion: Automatically disconnects a branch in the Amplify console when you delete a branch from your Git repository.
     ///   - environmentVariables: The environment variables for an Amplify app.
-    ///   - iamServiceRoleArn: The AWS Identity and Access Management (IAM) service role for an Amplify app.
+    ///   - iamServiceRoleArn: The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
     ///   - name: The name for an Amplify app.
     ///   - oauthToken: The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
     ///   - platform: The platform for the Amplify app. For a static app, set the platform type to WEB. For a dynamic server-side rendered (SSR) app, set the platform type to WEB_COMPUTE. For an app requiring Amplify Hosting's original SSR support only, set the platform type to WEB_DYNAMIC. If you are deploying an SSG only app with Next.js version 14 or later, you must set the platform type to WEB_COMPUTE.
@@ -1368,6 +1375,7 @@ public struct Amplify: AWSService {
         basicAuthCredentials: String? = nil,
         buildSpec: String? = nil,
         cacheConfig: CacheConfig? = nil,
+        computeRoleArn: String? = nil,
         customHeaders: String? = nil,
         customRules: [CustomRule]? = nil,
         description: String? = nil,
@@ -1391,6 +1399,7 @@ public struct Amplify: AWSService {
             basicAuthCredentials: basicAuthCredentials, 
             buildSpec: buildSpec, 
             cacheConfig: cacheConfig, 
+            computeRoleArn: computeRoleArn, 
             customHeaders: customHeaders, 
             customRules: customRules, 
             description: description, 
@@ -1430,6 +1439,7 @@ public struct Amplify: AWSService {
     ///   - basicAuthCredentials:  The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
     ///   - branchName: The name of the branch.
     ///   - buildSpec:  The build specification (build spec) for the branch.
+    ///   - computeRoleArn: The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
     ///   - description:  The description for the branch.
     ///   - displayName:  The display name for a branch. This is used as the default domain prefix.
     ///   - enableAutoBuild:  Enables auto building for the branch.
@@ -1451,6 +1461,7 @@ public struct Amplify: AWSService {
         basicAuthCredentials: String? = nil,
         branchName: String,
         buildSpec: String? = nil,
+        computeRoleArn: String? = nil,
         description: String? = nil,
         displayName: String? = nil,
         enableAutoBuild: Bool? = nil,
@@ -1472,6 +1483,7 @@ public struct Amplify: AWSService {
             basicAuthCredentials: basicAuthCredentials, 
             branchName: branchName, 
             buildSpec: buildSpec, 
+            computeRoleArn: computeRoleArn, 
             description: description, 
             displayName: displayName, 
             enableAutoBuild: enableAutoBuild, 

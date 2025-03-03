@@ -636,7 +636,7 @@ public struct EC2: AWSService {
         return try await self.applySecurityGroupsToClientVpnTargetNetwork(input, logger: logger)
     }
 
-    /// Assigns one or more IPv6 addresses to the specified network interface. You can specify one or more specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from within the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies per instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request.  You can optionally use Prefix Delegation on the network interface. You must specify either the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
+    /// Assigns the specified IPv6 addresses to the specified network interface. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request.  You can optionally use Prefix Delegation on the network interface. You must specify either the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func assignIpv6Addresses(_ input: AssignIpv6AddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssignIpv6AddressesResult {
@@ -649,13 +649,13 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Assigns one or more IPv6 addresses to the specified network interface. You can specify one or more specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from within the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies per instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request.  You can optionally use Prefix Delegation on the network interface. You must specify either the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
+    /// Assigns the specified IPv6 addresses to the specified network interface. You can specify specific IPv6 addresses, or you can specify the number of IPv6 addresses to be automatically assigned from the subnet's IPv6 CIDR block range. You can assign as many IPv6 addresses to a network interface as you can assign private IPv4 addresses, and the limit varies by instance type. You must specify either the IPv6 addresses or the IPv6 address count in the request.  You can optionally use Prefix Delegation on the network interface. You must specify either the IPV6 Prefix Delegation prefixes, or the IPv6 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - ipv6AddressCount: The number of additional IPv6 addresses to assign to the network interface.  		The specified number of IPv6 addresses are assigned in addition to the  		existing IPv6 addresses that are already assigned to the network interface.  		Amazon EC2 automatically selects the IPv6 addresses from the subnet range. You  		can't use this option if specifying specific IPv6 addresses.
     ///   - ipv6Addresses: The IPv6 addresses to be assigned to the network interface. You can't use this option if you're specifying a number of IPv6 addresses.
     ///   - ipv6PrefixCount: The number of IPv6 prefixes that Amazon Web Services automatically assigns to the network interface. You cannot use this option if you use the Ipv6Prefixes option.
-    ///   - ipv6Prefixes: One or more IPv6 prefixes assigned to the network interface. You cannot use this option if you use the Ipv6PrefixCount option.
+    ///   - ipv6Prefixes: One or more IPv6 prefixes assigned to the network interface. You can't use this option if you use the Ipv6PrefixCount option.
     ///   - networkInterfaceId: The ID of the network interface.
     ///   - logger: Logger use during operation
     @inlinable
@@ -677,7 +677,7 @@ public struct EC2: AWSService {
         return try await self.assignIpv6Addresses(input, logger: logger)
     }
 
-    /// Assigns one or more secondary private IP addresses to the specified network interface. You can specify one or more specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned within the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
+    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned from the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func assignPrivateIpAddresses(_ input: AssignPrivateIpAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssignPrivateIpAddressesResult {
@@ -690,12 +690,12 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Assigns one or more secondary private IP addresses to the specified network interface. You can specify one or more specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned within the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
+    /// Assigns the specified secondary private IP addresses to the specified network interface. You can specify specific secondary IP addresses, or you can specify the number  of secondary IP addresses to be automatically assigned from the subnet's CIDR block range.  The number of secondary IP addresses that you can assign to an instance varies by instance type. For more information about Elastic IP addresses, see Elastic IP Addresses in the Amazon EC2 User Guide. When you move a secondary private IP address to another network interface, any Elastic IP address  that is associated with the IP address is also moved. Remapping an IP address is an asynchronous operation. When you move an IP address from one network interface to another, check network/interfaces/macs/mac/local-ipv4s in the instance metadata to confirm that the remapping is complete. You must specify either the IP addresses or the IP address count in the request. You can optionally use Prefix Delegation on the network interface. You must specify either the IPv4 Prefix Delegation prefixes, or the IPv4 Prefix Delegation count. For information, see  Assigning prefixes to network interfaces in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - allowReassignment: Indicates whether to allow an IP address that is already assigned to another network interface or instance to be reassigned to the specified network interface.
-    ///   - ipv4PrefixCount: The number of IPv4 prefixes that Amazon Web Services automatically assigns to the network interface. You cannot use this option if you use the Ipv4 Prefixes option.
-    ///   - ipv4Prefixes: One or more IPv4 prefixes assigned to the network interface. You cannot use this option if you use the Ipv4PrefixCount option.
+    ///   - ipv4PrefixCount: The number of IPv4 prefixes that Amazon Web Services automatically assigns to the network interface. You can't use this option if you use the Ipv4 Prefixes option.
+    ///   - ipv4Prefixes: One or more IPv4 prefixes assigned to the network interface. You can't use this option if you use the Ipv4PrefixCount option.
     ///   - networkInterfaceId: The ID of the network interface.
     ///   - privateIpAddresses: The IP addresses to be assigned as a secondary private IP address to the network interface. You can't specify this parameter when also specifying a number of secondary IP addresses. If you don't specify an IP address, Amazon EC2 automatically selects an IP address within the subnet range.
     ///   - secondaryPrivateIpAddressCount: The number of secondary IP addresses to assign to the network interface. You can't specify this parameter when also specifying private IP addresses.
@@ -1838,7 +1838,7 @@ public struct EC2: AWSService {
     /// Adds the specified inbound (ingress) rules to a security group. An inbound rule permits instances to receive traffic from the specified IPv4 or IPv6  address range, the IP address ranges that are specified by a prefix list, or the instances  that are associated with a destination security group. For more information, see Security group rules. You must specify exactly one of the following sources: an IPv4 or IPv6 address range, a prefix list, or a security group. You must specify a protocol for each rule (for example, TCP).  If the protocol is TCP or UDP, you must also specify a port or port range. If the protocol is  ICMP or ICMPv6, you must also specify the ICMP/ICMPv6 type and code. Rule changes are propagated to instances associated with the security group as quickly  as possible. However, a small delay might occur. For examples of rules that you can add to security groups for specific access scenarios,  see Security group rules for different use cases in the Amazon EC2 User Guide. For more information about security group quotas, see Amazon VPC quotas in the Amazon VPC User Guide.
     ///
     /// Parameters:
-    ///   - cidrIp: The IPv4 address range, in CIDR format. To specify an IPv6 address range, use IP permissions instead. To specify multiple rules and descriptions for the rules, use IP permissions instead.
+    ///   - cidrIp: The IPv4 address range, in CIDR format.   Amazon Web Services canonicalizes IPv4 and IPv6 CIDRs. For example, if you specify 100.68.0.18/18 for the CIDR block,  Amazon Web Services canonicalizes the CIDR block to 100.68.0.0/18. Any subsequent DescribeSecurityGroups and DescribeSecurityGroupRules calls will  return the canonicalized form of the CIDR block. Additionally, if you attempt to add another rule with the  non-canonical form of the CIDR (such as 100.68.0.18/18) and there is already a rule for the canonicalized  form of the CIDR block (such as 100.68.0.0/18), the API throws an duplicate rule error.  To specify an IPv6 address range, use IP permissions instead. To specify multiple rules and descriptions for the rules, use IP permissions instead.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - fromPort: If the protocol is TCP or UDP, this is the start of the port range. If the protocol is ICMP, this is the ICMP type or -1 (all ICMP types). To specify multiple rules and descriptions for the rules, use IP permissions instead.
     ///   - groupId: The ID of the security group.
@@ -1950,7 +1950,7 @@ public struct EC2: AWSService {
 
     /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes
     /// 			the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     active and there is no commitment duration or the commitment
-    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation during the commitment duration.   If a future-dated Capacity Reservation enters the delayed state, the commitment
+    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation during the commitment duration.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  If a future-dated Capacity Reservation enters the delayed state, the commitment
     /// 			duration is waived, and you can cancel it as soon as it enters the active state. Instances running in the reserved capacity continue running until you stop them. Stopped
     /// 			instances that target the Capacity Reservation can no longer launch. Modify these instances to either
     /// 			target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation
@@ -1969,7 +1969,7 @@ public struct EC2: AWSService {
     }
     /// Cancels the specified Capacity Reservation, releases the reserved capacity, and changes
     /// 			the Capacity Reservation's state to cancelled. You can cancel a Capacity Reservation that is in the following states:    assessing     active and there is no commitment duration or the commitment
-    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation during the commitment duration.   If a future-dated Capacity Reservation enters the delayed state, the commitment
+    /// 					duration has elapsed. You can't cancel a future-dated Capacity Reservation during the commitment duration.    You can't modify or cancel a Capacity Block. For more information, see Capacity Blocks for ML.  If a future-dated Capacity Reservation enters the delayed state, the commitment
     /// 			duration is waived, and you can cancel it as soon as it enters the active state. Instances running in the reserved capacity continue running until you stop them. Stopped
     /// 			instances that target the Capacity Reservation can no longer launch. Modify these instances to either
     /// 			target a different Capacity Reservation, launch On-Demand Instance capacity, or run in any open Capacity Reservation
@@ -2394,6 +2394,7 @@ public struct EC2: AWSService {
     ///   - encrypted: Specifies whether the destination snapshots of the copied image should be encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used unless you specify a non-default Key Management Service (KMS) KMS key using KmsKeyId. For more information, see Use encryption with EBS-backed AMIs in the Amazon EC2 User Guide.
     ///   - kmsKeyId: The identifier of the symmetric Key Management Service (KMS) KMS key to use when creating encrypted volumes. If this parameter is not specified, your Amazon Web Services managed KMS key for Amazon EBS is used. If you specify a KMS key, you must also set the encrypted state to true. You can specify a KMS key using any of the following:   Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias. For example, alias/ExampleAlias.   Key ARN. For example, arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Alias ARN. For example, arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.   Amazon Web Services authenticates the KMS key asynchronously. Therefore, if you specify an identifier that is not valid, the action can appear to complete, but eventually fails. The specified KMS key must exist in the destination Region. Amazon EBS does not support asymmetric KMS keys.
     ///   - name: The name of the new AMI in the destination Region.
+    ///   - snapshotCopyCompletionDurationMinutes: Specify a completion duration, in 15 minute increments, to initiate a time-based  AMI copy. The specified completion duration applies to each of the snapshots associated  with the AMI. Each snapshot associated with the AMI will be completed within the  specified completion duration, regardless of their size. If you do not specify a value, the AMI copy operation is completed on a best-effort  basis. For more information, see  Time-based copies.
     ///   - sourceImageId: The ID of the AMI to copy.
     ///   - sourceRegion: The name of the Region that contains the AMI to copy.
     ///   - tagSpecifications: The tags to apply to the new AMI and new snapshots. You can tag the AMI, the snapshots, or both.   To tag the new AMI, the value for ResourceType must be image.   To tag the new snapshots, the value for ResourceType must be snapshot. The same tag is applied to all the new snapshots.   If you specify other values for ResourceType, the request fails. To tag an AMI or snapshot after it has been created, see CreateTags.
@@ -2408,6 +2409,7 @@ public struct EC2: AWSService {
         encrypted: Bool? = nil,
         kmsKeyId: String? = nil,
         name: String? = nil,
+        snapshotCopyCompletionDurationMinutes: Int64? = nil,
         sourceImageId: String? = nil,
         sourceRegion: String? = nil,
         tagSpecifications: [TagSpecification]? = nil,
@@ -2422,6 +2424,7 @@ public struct EC2: AWSService {
             encrypted: encrypted, 
             kmsKeyId: kmsKeyId, 
             name: name, 
+            snapshotCopyCompletionDurationMinutes: snapshotCopyCompletionDurationMinutes, 
             sourceImageId: sourceImageId, 
             sourceRegion: sourceRegion, 
             tagSpecifications: tagSpecifications
@@ -2429,7 +2432,7 @@ public struct EC2: AWSService {
         return try await self.copyImage(input, logger: logger)
     }
 
-    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default KMS key;  	however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  	  snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon EBS User Guide.
+    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default KMS key;  	however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region, or a different key that you specify in the request using KmsKeyId. Outposts do not support unencrypted snapshots. For more information, see Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon EBS User Guide.
     @Sendable
     @inlinable
     public func copySnapshot(_ input: CopySnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopySnapshotResult {
@@ -2442,7 +2445,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default KMS key;  	however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default 		encryption key for the Region, or a different key that you specify in the request using  		KmsKeyId. Outposts do not support unencrypted  	  snapshots. For more information,  			Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon EBS User Guide.
+    /// Copies a point-in-time snapshot of an EBS volume and stores it in Amazon S3. You can copy a snapshot within the same Region, from one Region to another, or from a Region to an Outpost.  You can't copy a snapshot from an Outpost to a Region, from one Outpost to another, or within  the same Outpost. You can use the snapshot to create EBS volumes or Amazon Machine Images (AMIs). When copying snapshots to a Region, copies of encrypted EBS snapshots remain encrypted.  	Copies of unencrypted snapshots remain unencrypted, unless you enable encryption for the  	snapshot copy operation. By default, encrypted snapshot copies use the default KMS key;  	however, you can specify a different KMS key. To copy an encrypted  	snapshot that has been shared from another account, you must have permissions for the KMS key  	used to encrypt the snapshot. Snapshots copied to an Outpost are encrypted by default using the default encryption key for the Region, or a different key that you specify in the request using KmsKeyId. Outposts do not support unencrypted snapshots. For more information, see Amazon EBS local snapshots on Outposts in the Amazon EBS User Guide. Snapshots created by copying another snapshot have an arbitrary volume ID that should not be used for any purpose. For more information, see Copy an Amazon EBS snapshot in the Amazon EBS User Guide.
     ///
     /// Parameters:
     ///   - completionDurationMinutes: Specify a completion duration, in 15 minute increments, to initiate a time-based snapshot  copy. Time-based snapshot copy operations complete within the specified duration. For more  information, see  Time-based copies. If you do not specify a value, the snapshot copy operation is completed on a  best-effort basis.
@@ -2760,6 +2763,7 @@ public struct EC2: AWSService {
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - connectionLogOptions: Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a
     ///   - description: A brief description of the Client VPN endpoint.
+    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically.  The default value is false.
     ///   - dnsServers: Information about the DNS servers to be used for DNS resolution. A Client VPN endpoint can
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - securityGroupIds: The IDs of one or more security groups to apply to the target network. You must also specify the ID of the VPC that contains the security groups.
@@ -2781,6 +2785,7 @@ public struct EC2: AWSService {
         clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(),
         connectionLogOptions: ConnectionLogOptions? = nil,
         description: String? = nil,
+        disconnectOnSessionTimeout: Bool? = nil,
         dnsServers: [String]? = nil,
         dryRun: Bool? = nil,
         securityGroupIds: [String]? = nil,
@@ -2802,6 +2807,7 @@ public struct EC2: AWSService {
             clientToken: clientToken, 
             connectionLogOptions: connectionLogOptions, 
             description: description, 
+            disconnectOnSessionTimeout: disconnectOnSessionTimeout, 
             dnsServers: dnsServers, 
             dryRun: dryRun, 
             securityGroupIds: securityGroupIds, 
@@ -3159,7 +3165,7 @@ public struct EC2: AWSService {
     /// Creates an EC2 Fleet that contains the configuration information for On-Demand Instances and Spot Instances. Instances are launched immediately if there is available capacity. A single EC2 Fleet can include multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. For more information, see EC2 Fleet in the Amazon EC2 User Guide.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency.
+    ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If you do not specify a client token, a randomly generated token is used for the request to ensure idempotency. For more information, see Ensuring idempotency.
     ///   - context: Reserved.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - excessCapacityTerminationPolicy: Indicates whether running instances should be terminated if the total target capacity of the EC2 Fleet is decreased below the current size of the EC2 Fleet. Supported only for fleets of type maintain.
@@ -3176,7 +3182,7 @@ public struct EC2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createFleet(
-        clientToken: String? = nil,
+        clientToken: String? = CreateFleetRequest.idempotencyToken(),
         context: String? = nil,
         dryRun: Bool? = nil,
         excessCapacityTerminationPolicy: FleetExcessCapacityTerminationPolicy? = nil,
@@ -3818,7 +3824,7 @@ public struct EC2: AWSService {
         return try await self.createKeyPair(input, logger: logger)
     }
 
-    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Launch an instance from a launch template in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
+    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func createLaunchTemplate(_ input: CreateLaunchTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateLaunchTemplateResult {
@@ -3831,7 +3837,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Launch an instance from a launch template in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
+    /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
@@ -3886,7 +3892,7 @@ public struct EC2: AWSService {
     ///   - launchTemplateData: The information for the launch template.
     ///   - launchTemplateId: The ID of the launch template. You must specify either the launch template ID or the launch template name, but not both.
     ///   - launchTemplateName: The name of the launch template. You must specify either the launch template ID or the launch template name, but not both.
-    ///   - resolveAlias: If true, and if a Systems Manager parameter is specified for ImageId, the AMI ID is displayed in the response for imageID. For more information, see Use a Systems  Manager parameter instead of an AMI ID in the Amazon EC2 User Guide. Default: false
+    ///   - resolveAlias: If true, and if a Systems Manager parameter is specified for ImageId, the AMI ID is displayed in the response for imageID. For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide. Default: false
     ///   - sourceVersion: The version of the launch template on which to base the new version.  Snapshots applied to the block device mapping are ignored when creating a new version  unless they are explicitly included. If you specify this parameter, the new version inherits the launch parameters from the source version. If you specify additional launch parameters for the new version, they  overwrite any corresponding launch parameters inherited from the source version. If you omit this parameter, the new version contains only the launch parameters that you specify for the new version.
     ///   - versionDescription: A description for the version of the launch template.
     ///   - logger: Logger use during operation
@@ -4073,7 +4079,7 @@ public struct EC2: AWSService {
         return try await self.createLocalGatewayRouteTableVpcAssociation(input, logger: logger)
     }
 
-    /// Creates a managed prefix list. You can specify one or more entries for the prefix list.  Each entry consists of a CIDR block and an optional description.
+    /// Creates a managed prefix list. You can specify entries for the prefix list.  Each entry consists of a CIDR block and an optional description.
     @Sendable
     @inlinable
     public func createManagedPrefixList(_ input: CreateManagedPrefixListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateManagedPrefixListResult {
@@ -4086,7 +4092,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a managed prefix list. You can specify one or more entries for the prefix list.  Each entry consists of a CIDR block and an optional description.
+    /// Creates a managed prefix list. You can specify entries for the prefix list.  Each entry consists of a CIDR block and an optional description.
     ///
     /// Parameters:
     ///   - addressFamily: The IP address type. Valid Values: IPv4 | IPv6
@@ -4401,7 +4407,7 @@ public struct EC2: AWSService {
     ///   - description: A description for the network interface.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - enablePrimaryIpv6: If you’re creating a network interface in a dual-stack or IPv6-only subnet, you have the option to assign a primary IPv6 IP address. A primary IPv6 address is an IPv6 GUA address associated with an ENI that you have enabled to use a primary IPv6 address. Use this option if the instance that this ENI will be attached to relies on its IPv6 address not changing. Amazon Web Services will automatically assign an IPv6 address associated with the ENI attached to your instance to be the primary IPv6 address. Once you enable an IPv6 GUA address to be a primary IPv6, you cannot disable it. When you enable an IPv6 GUA address to be a primary IPv6, the first IPv6 GUA will be made the primary IPv6 address until the instance is terminated or the network interface is detached. If you have multiple IPv6 addresses associated with an ENI attached to your instance and you enable a primary IPv6 address, the first IPv6 GUA address associated with the ENI becomes the primary IPv6 address.
-    ///   - groups: The IDs of one or more security groups.
+    ///   - groups: The IDs of the security groups.
     ///   - interfaceType: The type of network interface. The default is interface. If you specify efa-only, do not assign any IP addresses to the network  interface. EFA-only network interfaces do not support IP addresses. The only supported values are interface, efa, efa-only, and trunk.
     ///   - ipv4PrefixCount: The number of IPv4 prefixes that Amazon Web Services automatically assigns to the network interface. You can't specify a count of IPv4 prefixes if you've specified one of the following: specific IPv4 prefixes, specific private IPv4 addresses, or a count of private IPv4 addresses.
     ///   - ipv4Prefixes: The IPv4 prefixes assigned to the network interface. You can't specify IPv4 prefixes if you've specified one of the following: a count of IPv4 prefixes, specific private IPv4 addresses, or a count of private IPv4 addresses.
@@ -4888,7 +4894,7 @@ public struct EC2: AWSService {
         return try await self.createSecurityGroup(input, logger: logger)
     }
 
-    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance. The location of the source EBS volume determines where you can create the snapshot.   If the source volume is in a Region, you must create the snapshot in the same  Region as the volume.   If the source volume is in a Local Zone, you can create the snapshot in the same  Local Zone or in parent Amazon Web Services Region.   If the source volume is on an Outpost, you can create the snapshot on the same  Outpost or in its parent Amazon Web Services Region.   When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. When you create a snapshot for an EBS volume that serves as a root device, we recommend  that you stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. For more information,  Amazon EBS encryption  in the Amazon EBS User Guide.
+    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance. The location of the source EBS volume determines where you can create the snapshot.   If the source volume is in a Region, you must create the snapshot in the same  Region as the volume.   If the source volume is in a Local Zone, you can create the snapshot in the same Local Zone or in its parent Amazon Web Services Region.   If the source volume is on an Outpost, you can create the snapshot on the same  Outpost or in its parent Amazon Web Services Region.   When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. When you create a snapshot for an EBS volume that serves as a root device, we recommend  that you stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. For more information, see Amazon EBS encryption in the Amazon EBS User Guide.
     @Sendable
     @inlinable
     public func createSnapshot(_ input: CreateSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> Snapshot {
@@ -4901,7 +4907,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance. The location of the source EBS volume determines where you can create the snapshot.   If the source volume is in a Region, you must create the snapshot in the same  Region as the volume.   If the source volume is in a Local Zone, you can create the snapshot in the same  Local Zone or in parent Amazon Web Services Region.   If the source volume is on an Outpost, you can create the snapshot on the same  Outpost or in its parent Amazon Web Services Region.   When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. When you create a snapshot for an EBS volume that serves as a root device, we recommend  that you stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. For more information,  Amazon EBS encryption  in the Amazon EBS User Guide.
+    /// Creates a snapshot of an EBS volume and stores it in Amazon S3. You can use snapshots for 	backups, to make copies of EBS volumes, and to save data before shutting down an 	instance. The location of the source EBS volume determines where you can create the snapshot.   If the source volume is in a Region, you must create the snapshot in the same  Region as the volume.   If the source volume is in a Local Zone, you can create the snapshot in the same Local Zone or in its parent Amazon Web Services Region.   If the source volume is on an Outpost, you can create the snapshot on the same  Outpost or in its parent Amazon Web Services Region.   When a snapshot is created, any Amazon Web Services Marketplace product codes that are associated with the source volume are propagated to the snapshot. You can take a snapshot of an attached volume that is in use. However, snapshots only capture data that has been written to your Amazon EBS volume at the time the snapshot command is issued; this might exclude any data that has been cached by any applications or the operating system. If you can pause any file systems on the volume long enough to take a snapshot, your snapshot should be complete. However, if you cannot pause all file writes to the volume, you should unmount the volume from within the instance, issue the snapshot command, and then remount the volume to ensure a consistent and complete snapshot. You may remount and use your volume while the snapshot status is pending. When you create a snapshot for an EBS volume that serves as a root device, we recommend  that you stop the instance before taking the snapshot. Snapshots that are taken from encrypted volumes are automatically encrypted. Volumes that are created from encrypted snapshots are also automatically encrypted. Your encrypted volumes and any associated snapshots always remain protected. For more information, see Amazon EBS encryption in the Amazon EBS User Guide.
     ///
     /// Parameters:
     ///   - description: A description for the snapshot.
@@ -4932,7 +4938,7 @@ public struct EC2: AWSService {
         return try await self.createSnapshot(input, logger: logger)
     }
 
-    /// Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance  will produce one snapshot that is crash-consistent across the instance. You can include all of  the volumes currently attached to the instance, or you can exclude the root volume or specific  data (non-root) volumes from the multi-volume snapshot set. The location of the source instance determines where you can create the snapshots.   If the source instance is in a Region, you must create the snapshots in the same  Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same  Local Zone or in parent Amazon Web Services Region.   If the source instance is on an Outpost, you can create the snapshots on the same  Outpost or in its parent Amazon Web Services Region.
+    /// Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance  will produce one snapshot that is crash-consistent across the instance. You can include all of  the volumes currently attached to the instance, or you can exclude the root volume or specific  data (non-root) volumes from the multi-volume snapshot set. The location of the source instance determines where you can create the snapshots.   If the source instance is in a Region, you must create the snapshots in the same  Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same Local Zone or in its parent Amazon Web Services Region.   If the source instance is on an Outpost, you can create the snapshots on the same  Outpost or in its parent Amazon Web Services Region.
     @Sendable
     @inlinable
     public func createSnapshots(_ input: CreateSnapshotsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSnapshotsResult {
@@ -4945,7 +4951,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance  will produce one snapshot that is crash-consistent across the instance. You can include all of  the volumes currently attached to the instance, or you can exclude the root volume or specific  data (non-root) volumes from the multi-volume snapshot set. The location of the source instance determines where you can create the snapshots.   If the source instance is in a Region, you must create the snapshots in the same  Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same  Local Zone or in parent Amazon Web Services Region.   If the source instance is on an Outpost, you can create the snapshots on the same  Outpost or in its parent Amazon Web Services Region.
+    /// Creates crash-consistent snapshots of multiple EBS volumes attached to an Amazon EC2 instance. Volumes are chosen by specifying an instance. Each volume attached to the specified instance  will produce one snapshot that is crash-consistent across the instance. You can include all of  the volumes currently attached to the instance, or you can exclude the root volume or specific  data (non-root) volumes from the multi-volume snapshot set. The location of the source instance determines where you can create the snapshots.   If the source instance is in a Region, you must create the snapshots in the same  Region as the instance.   If the source instance is in a Local Zone, you can create the snapshots in the same Local Zone or in its parent Amazon Web Services Region.   If the source instance is on an Outpost, you can create the snapshots on the same  Outpost or in its parent Amazon Web Services Region.
     ///
     /// Parameters:
     ///   - copyTagsFromSource: Copies the tags from the specified volume to corresponding snapshot.
@@ -6866,7 +6872,7 @@ public struct EC2: AWSService {
         return try await self.deleteEgressOnlyInternetGateway(input, logger: logger)
     }
 
-    /// Deletes the specified EC2 Fleets. After you delete an EC2 Fleet, it launches no new instances. You must also specify whether a deleted EC2 Fleet should terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. Up to 1000 instances can be terminated in a single request to delete instant fleets. A deleted instant fleet with running instances is not supported.  Restrictions    You can delete up to 25 fleets of type instant in a single request.   You can delete up to 100 fleets of type maintain or request in a single request.   You can delete up to 125 fleets in a single request, provided you do not exceed the quota for each fleet type, as specified above.   If you exceed the specified number of fleets to delete, no fleets are deleted.   For more information, see Delete an EC2 Fleet in the Amazon EC2 User Guide.
+    /// Deletes the specified EC2 Fleet request. After you delete an EC2 Fleet request, it launches no new instances. You must also specify whether a deleted EC2 Fleet request should terminate its instances. If you choose to terminate the instances, the EC2 Fleet request enters the deleted_terminating state. Otherwise, it enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. A deleted instant fleet with running instances is not supported. When you delete an instant fleet, Amazon EC2 automatically terminates all its instances. For fleets with more than 1000 instances, the deletion request might fail. If your fleet has more than 1000 instances, first terminate most of the instances manually, leaving 1000 or fewer. Then delete the fleet, and the remaining instances will be terminated automatically.  Restrictions    You can delete up to 25 fleets of type instant in a single request.   You can delete up to 100 fleets of type maintain or request in a single request.   You can delete up to 125 fleets in a single request, provided you do not exceed the quota for each fleet type, as specified above.   If you exceed the specified number of fleets to delete, no fleets are deleted.   For more information, see Delete an EC2 Fleet request and the instances in the fleet in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func deleteFleets(_ input: DeleteFleetsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFleetsResult {
@@ -6879,7 +6885,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified EC2 Fleets. After you delete an EC2 Fleet, it launches no new instances. You must also specify whether a deleted EC2 Fleet should terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. Up to 1000 instances can be terminated in a single request to delete instant fleets. A deleted instant fleet with running instances is not supported.  Restrictions    You can delete up to 25 fleets of type instant in a single request.   You can delete up to 100 fleets of type maintain or request in a single request.   You can delete up to 125 fleets in a single request, provided you do not exceed the quota for each fleet type, as specified above.   If you exceed the specified number of fleets to delete, no fleets are deleted.   For more information, see Delete an EC2 Fleet in the Amazon EC2 User Guide.
+    /// Deletes the specified EC2 Fleet request. After you delete an EC2 Fleet request, it launches no new instances. You must also specify whether a deleted EC2 Fleet request should terminate its instances. If you choose to terminate the instances, the EC2 Fleet request enters the deleted_terminating state. Otherwise, it enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. A deleted instant fleet with running instances is not supported. When you delete an instant fleet, Amazon EC2 automatically terminates all its instances. For fleets with more than 1000 instances, the deletion request might fail. If your fleet has more than 1000 instances, first terminate most of the instances manually, leaving 1000 or fewer. Then delete the fleet, and the remaining instances will be terminated automatically.  Restrictions    You can delete up to 25 fleets of type instant in a single request.   You can delete up to 100 fleets of type maintain or request in a single request.   You can delete up to 125 fleets in a single request, provided you do not exceed the quota for each fleet type, as specified above.   If you exceed the specified number of fleets to delete, no fleets are deleted.   For more information, see Delete an EC2 Fleet request and the instances in the fleet in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -8020,7 +8026,7 @@ public struct EC2: AWSService {
         return try await self.deleteSecurityGroup(input, logger: logger)
     }
 
-    /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first de-register the AMI before you can delete the snapshot. For more information, see Delete an Amazon EBS snapshot in the Amazon EBS User Guide.
+    /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first deregister the AMI before you can delete the snapshot. For more information, see Delete an Amazon EBS snapshot in the Amazon EBS User Guide.
     @Sendable
     @inlinable
     public func deleteSnapshot(_ input: DeleteSnapshotRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -8033,7 +8039,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first de-register the AMI before you can delete the snapshot. For more information, see Delete an Amazon EBS snapshot in the Amazon EBS User Guide.
+    /// Deletes the specified snapshot. When you make periodic snapshots of a volume, the snapshots are incremental, and only the blocks on the device that have changed since your last snapshot are saved in the new snapshot. When you delete a snapshot, only the data not needed for any other snapshot is removed. So regardless of which prior snapshots have been deleted, all active snapshots will have access to all the information needed to restore the volume. You cannot delete a snapshot of the root device of an EBS volume used by a registered AMI. You must first deregister the AMI before you can delete the snapshot. For more information, see Delete an Amazon EBS snapshot in the Amazon EBS User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -9274,7 +9280,7 @@ public struct EC2: AWSService {
     /// Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch new instances. If you deregister an AMI that matches a Recycle Bin retention rule, the AMI is retained in the Recycle Bin for the specified retention period. For more information, see Recycle Bin in the Amazon EC2 User Guide. When you deregister an AMI, it doesn't affect any instances that you've already launched from the AMI. You'll continue to incur usage costs for those instances until you terminate them. When you deregister an Amazon EBS-backed AMI, it doesn't affect the snapshot that was created for the root volume of the instance during the AMI creation process. When you deregister an instance store-backed AMI, it doesn't affect the files that you uploaded to Amazon S3 when you created the AMI.
     @Sendable
     @inlinable
-    public func deregisterImage(_ input: DeregisterImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+    public func deregisterImage(_ input: DeregisterImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterImageResult {
         try await self.client.execute(
             operation: "DeregisterImage", 
             path: "/", 
@@ -9295,7 +9301,7 @@ public struct EC2: AWSService {
         dryRun: Bool? = nil,
         imageId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
-    ) async throws {
+    ) async throws -> DeregisterImageResult {
         let input = DeregisterImageRequest(
             dryRun: dryRun, 
             imageId: imageId
@@ -9609,7 +9615,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - allAvailabilityZones: Include all Availability Zones, Local Zones, and Wavelength Zones regardless of your opt-in status. If you do not use this parameter, the results include only the zones for the Regions where you have chosen the option to opt in.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    group-name - For Availability Zones, use the Region name. For Local Zones, use the name of the group associated with the Local Zone (for example, us-west-2-lax-1) For Wavelength Zones, use the name of the group associated with the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
+    ///   - filters: The filters.    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
     ///   - zoneIds: The IDs of the Availability Zones, Local Zones, and Wavelength Zones.
     ///   - zoneNames: The names of the Availability Zones, Local Zones, and Wavelength Zones.
     ///   - logger: Logger use during operation
@@ -9827,7 +9833,7 @@ public struct EC2: AWSService {
     }
 
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time.
+    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count. You must select one of the following options.   For reservation durations 1-day increments up 14 days and 7-day increments up to 182 days total    For instance count 1, 2, 4, 8, 16, 32, or 64 instances
     @Sendable
     @inlinable
     public func describeCapacityBlockOfferings(_ input: DescribeCapacityBlockOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlockOfferingsResult {
@@ -9841,7 +9847,7 @@ public struct EC2: AWSService {
         )
     }
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time.
+    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count. You must select one of the following options.   For reservation durations 1-day increments up 14 days and 7-day increments up to 182 days total    For instance count 1, 2, 4, 8, 16, 32, or 64 instances
     ///
     /// Parameters:
     ///   - capacityDurationHours: The number of hours for which to reserve Capacity Block.
@@ -11374,7 +11380,7 @@ public struct EC2: AWSService {
         return try await self.describeImportSnapshotTasks(input, logger: logger)
     }
 
-    /// Describes the specified attribute of the specified instance. You can specify only one attribute at a time. Valid attribute values are: instanceType | kernel | ramdisk | userData | disableApiTermination | instanceInitiatedShutdownBehavior | rootDeviceName | blockDeviceMapping | productCodes | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport
+    /// Describes the specified attribute of the specified instance. You can specify only one attribute at a time.
     @Sendable
     @inlinable
     public func describeInstanceAttribute(_ input: DescribeInstanceAttributeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InstanceAttribute {
@@ -11387,10 +11393,10 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the specified attribute of the specified instance. You can specify only one attribute at a time. Valid attribute values are: instanceType | kernel | ramdisk | userData | disableApiTermination | instanceInitiatedShutdownBehavior | rootDeviceName | blockDeviceMapping | productCodes | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport
+    /// Describes the specified attribute of the specified instance. You can specify only one attribute at a time.
     ///
     /// Parameters:
-    ///   - attribute: The instance attribute. Note: The enaSupport attribute is not supported at this time.
+    ///   - attribute: The instance attribute. Note that the enaSupport attribute is not supported.
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - instanceId: The ID of the instance.
     ///   - logger: Logger use during operation
@@ -11646,7 +11652,7 @@ public struct EC2: AWSService {
         return try await self.describeInstanceStatus(input, logger: logger)
     }
 
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func describeInstanceTopology(_ input: DescribeInstanceTopologyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceTopologyResult {
@@ -11659,7 +11665,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
+    /// Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone. You can use this information to determine the relative proximity of your EC2 instances within the Amazon Web Services network to support your tightly coupled workloads.  Limitations    Supported zones   Availability Zone   Local Zone     Supported instance types    hpc6a.48xlarge | hpc6id.32xlarge | hpc7a.12xlarge | hpc7a.24xlarge | hpc7a.48xlarge | hpc7a.96xlarge | hpc7g.4xlarge | hpc7g.8xlarge | hpc7g.16xlarge     p3dn.24xlarge | p4d.24xlarge | p4de.24xlarge | p5.48xlarge | p5e.48xlarge | p5en.48xlarge     trn1.2xlarge | trn1.32xlarge | trn1n.32xlarge | trn2.48xlarge | trn2u.48xlarge      For more information, see Amazon EC2 instance topology in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -12243,7 +12249,7 @@ public struct EC2: AWSService {
     ///   - maxVersion: The version number up to which to describe launch template versions.
     ///   - minVersion: The version number after which to describe launch template versions.
     ///   - nextToken: The token to request the next page of results.
-    ///   - resolveAlias: If true, and if a Systems Manager parameter is specified for ImageId, the AMI ID is displayed in the response for imageId. If false, and if a Systems Manager parameter is specified for ImageId, the parameter is displayed in the response for imageId. For more information, see Use a Systems  Manager parameter instead of an AMI ID in the Amazon EC2 User Guide. Default: false
+    ///   - resolveAlias: If true, and if a Systems Manager parameter is specified for ImageId, the AMI ID is displayed in the response for imageId. If false, and if a Systems Manager parameter is specified for ImageId, the parameter is displayed in the response for imageId. For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide. Default: false
     ///   - versions: One or more versions of the launch template. Valid values depend on whether you are describing a specified launch template (by ID or name) or all launch templates in your account. To describe one or more versions of a specified launch template, valid values are $Latest, $Default, and numbers. To describe all launch templates in your account that are defined as the latest version, the valid value is $Latest. To describe all launch templates in your account that are defined as the default version, the valid value is $Default. You can specify $Latest and $Default in the same request. You cannot specify numbers.
     ///   - logger: Logger use during operation
     @inlinable
@@ -13065,7 +13071,7 @@ public struct EC2: AWSService {
         return try await self.describeNetworkInterfacePermissions(input, logger: logger)
     }
 
-    /// Describes one or more of your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  private-dns-name, subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
+    /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     @Sendable
     @inlinable
     public func describeNetworkInterfaces(_ input: DescribeNetworkInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeNetworkInterfacesResult {
@@ -13078,7 +13084,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes one or more of your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  private-dns-name, subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
+    /// Describes the specified network interfaces or all your network interfaces. If you have a large number of network interfaces, the operation fails unless  you use pagination or one of the following filters: group-id,  mac-address, private-dns-name, private-ip-address,  subnet-id, or vpc-id.  We strongly recommend using only paginated requests. Unpaginated requests are susceptible to throttling and timeouts.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -15767,7 +15773,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    ip-address-type - The IP address type (ipv4 | ipv6).    service-name - The name of the service.    service-region - The Region of the service.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC in which the endpoint resides.    vpc-endpoint-id - The ID of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer).
+    ///   - filters: The filters.    ip-address-type - The IP address type (ipv4 | ipv6).    service-name - The name of the service.    service-region - The Region of the service.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC in which the endpoint resides.    vpc-endpoint-id - The ID of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer | Resource |  ServiceNetwork).
     ///   - maxResults: The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1,000, we return only 1,000 items.
     ///   - nextToken: The token for the next set of items to return. (You received this token from a prior call.)
     ///   - vpcEndpointIds: The IDs of the VPC endpoints.
@@ -20760,6 +20766,7 @@ public struct EC2: AWSService {
     ///   - clientVpnEndpointId: The ID of the Client VPN endpoint to modify.
     ///   - connectionLogOptions: Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a
     ///   - description: A brief description of the Client VPN endpoint.
+    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is false.
     ///   - dnsServers: Information about the DNS servers to be used by Client VPN connections. A Client VPN endpoint can have
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - securityGroupIds: The IDs of one or more security groups to apply to the target network.
@@ -20777,6 +20784,7 @@ public struct EC2: AWSService {
         clientVpnEndpointId: String? = nil,
         connectionLogOptions: ConnectionLogOptions? = nil,
         description: String? = nil,
+        disconnectOnSessionTimeout: Bool? = nil,
         dnsServers: DnsServersOptionsModifyStructure? = nil,
         dryRun: Bool? = nil,
         securityGroupIds: [String]? = nil,
@@ -20794,6 +20802,7 @@ public struct EC2: AWSService {
             clientVpnEndpointId: clientVpnEndpointId, 
             connectionLogOptions: connectionLogOptions, 
             description: description, 
+            disconnectOnSessionTimeout: disconnectOnSessionTimeout, 
             dnsServers: dnsServers, 
             dryRun: dryRun, 
             securityGroupIds: securityGroupIds, 
@@ -21169,7 +21178,7 @@ public struct EC2: AWSService {
     ///   - attribute: The name of the attribute to modify.  You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions
     ///   - blockDeviceMappings: Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination  attribute for volumes that are attached to Fargate tasks. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
     ///   - disableApiStop: Indicates whether an instance is enabled for stop protection. For more information, see Enable stop protection for your instance.
-    ///   - disableApiTermination: If the value is true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. You cannot use this parameter for Spot Instances.
+    ///   - disableApiTermination: Enable or disable termination protection for the instance. If the value is true,  you can't terminate the instance using the Amazon EC2 console, command line interface, or API.  You can't enable termination protection for Spot Instances.
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - ebsOptimized: Specifies whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS Optimized instance.
     ///   - enaSupport: Set to true to enable enhanced networking with ENA for the instance. This option is supported only for HVM instances. Specifying this option with a PV instance can make it unreachable.
@@ -21805,12 +21814,12 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - addOperatingRegions: Add operating Regions to the resource discovery. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions.
-    ///   - addOrganizationalUnitExclusions: Add an Organizational Unit (OU) exclusion to your IPAM. If your IPAM is integrated with Amazon Web Services Organizations and you add an organizational unit (OU) exclusion, IPAM will not manage the IP addresses in accounts in that OU exclusion. There is a limit on the number of exclusions you can create. For more information, see Quotas for your IPAM in the Amazon VPC IPAM User Guide.
+    ///   - addOrganizationalUnitExclusions: Add an Organizational Unit (OU) exclusion to your IPAM. If your IPAM is integrated with Amazon Web Services Organizations and you add an organizational unit (OU) exclusion, IPAM will not manage the IP addresses in accounts in that OU exclusion. There is a limit on the number of exclusions you can create. For more information, see Quotas for your IPAM in the Amazon VPC IPAM User Guide.  The resulting set of exclusions must not result in "overlap", meaning two or more OU exclusions must not exclude the same OU. For more information and examples, see the Amazon Web Services CLI request process in Add or remove OU exclusions in the Amazon VPC User Guide.
     ///   - description: A resource discovery description.
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - ipamResourceDiscoveryId: A resource discovery ID.
     ///   - removeOperatingRegions: Remove operating Regions.
-    ///   - removeOrganizationalUnitExclusions: Remove an Organizational Unit (OU) exclusion to your IPAM. If your IPAM is integrated with Amazon Web Services Organizations and you add an organizational unit (OU) exclusion, IPAM will not manage the IP addresses in accounts in that OU exclusion. There is a limit on the number of exclusions you can create. For more information, see Quotas for your IPAM in the Amazon VPC IPAM User Guide.
+    ///   - removeOrganizationalUnitExclusions: Remove an Organizational Unit (OU) exclusion to your IPAM. If your IPAM is integrated with Amazon Web Services Organizations and you add an organizational unit (OU) exclusion, IPAM will not manage the IP addresses in accounts in that OU exclusion. There is a limit on the number of exclusions you can create. For more information, see Quotas for your IPAM in the Amazon VPC IPAM User Guide.  The resulting set of exclusions must not result in "overlap", meaning two or more OU exclusions must not exclude the same OU. For more information and examples, see the Amazon Web Services CLI request process in Add or remove OU exclusions in the Amazon VPC User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyIpamResourceDiscovery(
@@ -21886,7 +21895,7 @@ public struct EC2: AWSService {
     /// Modifies a launch template. You can specify which version of the launch template to set as the default version. When launching an instance, the default version applies when a launch template version is not specified.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
+    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests. Constraint: Maximum 128 ASCII characters.
     ///   - defaultVersion: The version number of the launch template to set as the default version.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - launchTemplateId: The ID of the launch template. You must specify either the launch template ID or the launch template name, but not both.
@@ -25767,7 +25776,7 @@ public struct EC2: AWSService {
     ///   - cpuOptions: The CPU options for the instance. For more information, see Optimize CPU options in the Amazon EC2 User Guide.
     ///   - creditSpecification: The credit option for CPU usage of the burstable performance instance. Valid values are standard and unlimited. To change this attribute after launch, use  ModifyInstanceCreditSpecification. For more information, see Burstable performance instances in the Amazon EC2 User Guide. Default: standard (T2 instances) or unlimited (T3/T3a/T4g instances) For T3 instances with host tenancy, only standard is supported.
     ///   - disableApiStop: Indicates whether an instance is enabled for stop protection. For more information, see Stop protection.
-    ///   - disableApiTermination: If you set this parameter to true, you can't terminate the instance using the Amazon EC2 console, CLI, or API; otherwise, you can. To change this attribute after launch, use ModifyInstanceAttribute. Alternatively, if you set InstanceInitiatedShutdownBehavior to terminate, you can terminate the instance by running the shutdown command from the instance. Default: false
+    ///   - disableApiTermination: Indicates whether termination protection is enabled for the instance. The default is false, which means that you can terminate the instance using the Amazon EC2 console, command line tools, or API. You can enable termination protection when you launch an instance, while the instance is running, or while the instance is stopped.
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - ebsOptimized: Indicates whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal Amazon EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance. Default: false
     ///   - elasticGpuSpecification: An elastic GPU to associate with the instance.  Amazon Elastic Graphics reached end of life on January 8, 2024.
@@ -26390,7 +26399,7 @@ public struct EC2: AWSService {
         return try await self.terminateInstances(input, logger: logger)
     }
 
-    /// Unassigns one or more IPv6 addresses IPv4 Prefix Delegation prefixes from a network interface.
+    /// Unassigns the specified IPv6 addresses or Prefix Delegation prefixes from a network interface.
     @Sendable
     @inlinable
     public func unassignIpv6Addresses(_ input: UnassignIpv6AddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UnassignIpv6AddressesResult {
@@ -26403,7 +26412,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Unassigns one or more IPv6 addresses IPv4 Prefix Delegation prefixes from a network interface.
+    /// Unassigns the specified IPv6 addresses or Prefix Delegation prefixes from a network interface.
     ///
     /// Parameters:
     ///   - ipv6Addresses: The IPv6 addresses to unassign from the network interface.
@@ -26425,7 +26434,7 @@ public struct EC2: AWSService {
         return try await self.unassignIpv6Addresses(input, logger: logger)
     }
 
-    /// Unassigns one or more secondary private IP addresses, or IPv4 Prefix Delegation prefixes from a  	network interface.
+    /// Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation prefixes from a  	network interface.
     @Sendable
     @inlinable
     public func unassignPrivateIpAddresses(_ input: UnassignPrivateIpAddressesRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -26438,7 +26447,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Unassigns one or more secondary private IP addresses, or IPv4 Prefix Delegation prefixes from a  	network interface.
+    /// Unassigns the specified secondary private IP addresses or IPv4 Prefix Delegation prefixes from a  	network interface.
     ///
     /// Parameters:
     ///   - ipv4Prefixes: The IPv4 prefixes to unassign from  the network interface.
@@ -28852,7 +28861,7 @@ extension EC2 {
     ///   - maxResults: The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned NextToken value. This value can be between 1 and 200.
     ///   - maxVersion: The version number up to which to describe launch template versions.
     ///   - minVersion: The version number after which to describe launch template versions.
-    ///   - resolveAlias: If true, and if a Systems Manager parameter is specified for ImageId, the AMI ID is displayed in the response for imageId. If false, and if a Systems Manager parameter is specified for ImageId, the parameter is displayed in the response for imageId. For more information, see Use a Systems  Manager parameter instead of an AMI ID in the Amazon EC2 User Guide. Default: false
+    ///   - resolveAlias: If true, and if a Systems Manager parameter is specified for ImageId, the AMI ID is displayed in the response for imageId. If false, and if a Systems Manager parameter is specified for ImageId, the parameter is displayed in the response for imageId. For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide. Default: false
     ///   - versions: One or more versions of the launch template. Valid values depend on whether you are describing a specified launch template (by ID or name) or all launch templates in your account. To describe one or more versions of a specified launch template, valid values are $Latest, $Default, and numbers. To describe all launch templates in your account that are defined as the latest version, the valid value is $Latest. To describe all launch templates in your account that are defined as the default version, the valid value is $Default. You can specify $Latest and $Default in the same request. You cannot specify numbers.
     ///   - logger: Logger used for logging
     @inlinable
@@ -31793,7 +31802,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    ip-address-type - The IP address type (ipv4 | ipv6).    service-name - The name of the service.    service-region - The Region of the service.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC in which the endpoint resides.    vpc-endpoint-id - The ID of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer).
+    ///   - filters: The filters.    ip-address-type - The IP address type (ipv4 | ipv6).    service-name - The name of the service.    service-region - The Region of the service.    tag: - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC in which the endpoint resides.    vpc-endpoint-id - The ID of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer | Resource |  ServiceNetwork).
     ///   - maxResults: The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1,000, we return only 1,000 items.
     ///   - vpcEndpointIds: The IDs of the VPC endpoints.
     ///   - logger: Logger used for logging

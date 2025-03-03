@@ -4994,12 +4994,12 @@ extension CleanRooms {
 
     public struct IdNamespaceAssociationInputReferenceProperties: AWSDecodableShape {
         /// Defines how ID mapping workflows are supported for this ID namespace association.
-        public let idMappingWorkflowsSupported: [String]
+        public let idMappingWorkflowsSupported: [AWSDocument]
         /// The ID namespace type for this ID namespace association.
         public let idNamespaceType: IdNamespaceType
 
         @inlinable
-        public init(idMappingWorkflowsSupported: [String], idNamespaceType: IdNamespaceType) {
+        public init(idMappingWorkflowsSupported: [AWSDocument], idNamespaceType: IdNamespaceType) {
             self.idMappingWorkflowsSupported = idMappingWorkflowsSupported
             self.idNamespaceType = idNamespaceType
         }

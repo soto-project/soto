@@ -80,7 +80,7 @@ public struct BCMPricingCalculator: AWSService {
 
     // MARK: API Calls
 
-    ///  Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario.
+    ///  Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario.   The BatchCreateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:CreateBillScenarioCommitmentModification in your policies.
     @Sendable
     @inlinable
     public func batchCreateBillScenarioCommitmentModification(_ input: BatchCreateBillScenarioCommitmentModificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateBillScenarioCommitmentModificationResponse {
@@ -93,7 +93,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario.
+    ///  Create Compute Savings Plans, EC2 Instance Savings Plans, or EC2 Reserved Instances commitments that you want to model in a Bill Scenario.   The BatchCreateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:CreateBillScenarioCommitmentModification in your policies.
     ///
     /// Parameters:
     ///   - billScenarioId:  The ID of the Bill Scenario for which you want to create the modeled commitment.
@@ -115,7 +115,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.batchCreateBillScenarioCommitmentModification(input, logger: logger)
     }
 
-    ///  Create Amazon Web Services service usage that you want to model in a Bill Scenario.
+    ///  Create Amazon Web Services service usage that you want to model in a Bill Scenario.   The BatchCreateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:CreateBillScenarioUsageModification in your policies.
     @Sendable
     @inlinable
     public func batchCreateBillScenarioUsageModification(_ input: BatchCreateBillScenarioUsageModificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateBillScenarioUsageModificationResponse {
@@ -128,7 +128,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Create Amazon Web Services service usage that you want to model in a Bill Scenario.
+    ///  Create Amazon Web Services service usage that you want to model in a Bill Scenario.   The BatchCreateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:CreateBillScenarioUsageModification in your policies.
     ///
     /// Parameters:
     ///   - billScenarioId:  The ID of the Bill Scenario for which you want to create the modeled usage.
@@ -150,7 +150,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.batchCreateBillScenarioUsageModification(input, logger: logger)
     }
 
-    ///  Create Amazon Web Services service usage that you want to model in a Workload Estimate.
+    ///  Create Amazon Web Services service usage that you want to model in a Workload Estimate.   The BatchCreateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:CreateWorkloadEstimateUsage in your policies.
     @Sendable
     @inlinable
     public func batchCreateWorkloadEstimateUsage(_ input: BatchCreateWorkloadEstimateUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchCreateWorkloadEstimateUsageResponse {
@@ -163,7 +163,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Create Amazon Web Services service usage that you want to model in a Workload Estimate.
+    ///  Create Amazon Web Services service usage that you want to model in a Workload Estimate.   The BatchCreateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:CreateWorkloadEstimateUsage in your policies.
     ///
     /// Parameters:
     ///   - clientToken:  A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -185,7 +185,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.batchCreateWorkloadEstimateUsage(input, logger: logger)
     }
 
-    ///  Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had  added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing  commitment, see the negate  BillScenarioCommitmentModificationAction of   BatchCreateBillScenarioCommitmentModification operation.
+    ///  Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had  added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing  commitment, see the negate  BillScenarioCommitmentModificationAction of   BatchCreateBillScenarioCommitmentModification operation.   The BatchDeleteBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:DeleteBillScenarioCommitmentModification in your policies.
     @Sendable
     @inlinable
     public func batchDeleteBillScenarioCommitmentModification(_ input: BatchDeleteBillScenarioCommitmentModificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteBillScenarioCommitmentModificationResponse {
@@ -198,7 +198,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had  added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing  commitment, see the negate  BillScenarioCommitmentModificationAction of   BatchCreateBillScenarioCommitmentModification operation.
+    ///  Delete commitment that you have created in a Bill Scenario. You can only delete a commitment that you had  added and cannot model deletion (or removal) of a existing commitment. If you want model deletion of an existing  commitment, see the negate  BillScenarioCommitmentModificationAction of   BatchCreateBillScenarioCommitmentModification operation.   The BatchDeleteBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:DeleteBillScenarioCommitmentModification in your policies.
     ///
     /// Parameters:
     ///   - billScenarioId:  The ID of the Bill Scenario for which you want to delete the modeled commitment.
@@ -217,7 +217,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.batchDeleteBillScenarioCommitmentModification(input, logger: logger)
     }
 
-    ///  Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model  deletion (or removal) of a existing usage. If you want model removal of an existing usage, see   BatchUpdateBillScenarioUsageModification.
+    ///  Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model  deletion (or removal) of a existing usage. If you want model removal of an existing usage, see   BatchUpdateBillScenarioUsageModification.   The BatchDeleteBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:DeleteBillScenarioUsageModification in your policies.
     @Sendable
     @inlinable
     public func batchDeleteBillScenarioUsageModification(_ input: BatchDeleteBillScenarioUsageModificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteBillScenarioUsageModificationResponse {
@@ -230,7 +230,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model  deletion (or removal) of a existing usage. If you want model removal of an existing usage, see   BatchUpdateBillScenarioUsageModification.
+    ///  Delete usage that you have created in a Bill Scenario. You can only delete usage that you had added and cannot model  deletion (or removal) of a existing usage. If you want model removal of an existing usage, see   BatchUpdateBillScenarioUsageModification.   The BatchDeleteBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:DeleteBillScenarioUsageModification in your policies.
     ///
     /// Parameters:
     ///   - billScenarioId:  The ID of the Bill Scenario for which you want to delete the modeled usage.
@@ -249,7 +249,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.batchDeleteBillScenarioUsageModification(input, logger: logger)
     }
 
-    ///  Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion  (or removal) of a existing usage. If you want model removal of an existing usage, see   BatchUpdateWorkloadEstimateUsage.
+    ///  Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion  (or removal) of a existing usage. If you want model removal of an existing usage, see   BatchUpdateWorkloadEstimateUsage.   The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:DeleteWorkloadEstimateUsage in your policies.
     @Sendable
     @inlinable
     public func batchDeleteWorkloadEstimateUsage(_ input: BatchDeleteWorkloadEstimateUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchDeleteWorkloadEstimateUsageResponse {
@@ -262,7 +262,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion  (or removal) of a existing usage. If you want model removal of an existing usage, see   BatchUpdateWorkloadEstimateUsage.
+    ///  Delete usage that you have created in a Workload estimate. You can only delete usage that you had added and cannot model deletion  (or removal) of a existing usage. If you want model removal of an existing usage, see   BatchUpdateWorkloadEstimateUsage.   The BatchDeleteWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:DeleteWorkloadEstimateUsage in your policies.
     ///
     /// Parameters:
     ///   - ids:  List of usage that you want to delete from the Workload estimate.
@@ -281,7 +281,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.batchDeleteWorkloadEstimateUsage(input, logger: logger)
     }
 
-    ///  Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID.
+    ///  Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID.   The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:UpdateBillScenarioCommitmentModification in your policies.
     @Sendable
     @inlinable
     public func batchUpdateBillScenarioCommitmentModification(_ input: BatchUpdateBillScenarioCommitmentModificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateBillScenarioCommitmentModificationResponse {
@@ -294,7 +294,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID.
+    ///  Update a newly added or existing commitment. You can update the commitment group based on a commitment ID and a Bill scenario ID.   The BatchUpdateBillScenarioCommitmentModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:UpdateBillScenarioCommitmentModification in your policies.
     ///
     /// Parameters:
     ///   - billScenarioId:  The ID of the Bill Scenario for which you want to modify the commitment group of a modeled commitment.
@@ -313,7 +313,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.batchUpdateBillScenarioCommitmentModification(input, logger: logger)
     }
 
-    ///  Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID.
+    ///  Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID.   The BatchUpdateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:UpdateBillScenarioUsageModification in your policies.
     @Sendable
     @inlinable
     public func batchUpdateBillScenarioUsageModification(_ input: BatchUpdateBillScenarioUsageModificationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateBillScenarioUsageModificationResponse {
@@ -326,7 +326,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID.
+    ///  Update a newly added or existing usage lines. You can update the usage amounts, usage hour, and usage group based on a usage ID and a Bill scenario ID.   The BatchUpdateBillScenarioUsageModification operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:UpdateBillScenarioUsageModification in your policies.
     ///
     /// Parameters:
     ///   - billScenarioId:  The ID of the Bill Scenario for which you want to modify the usage lines.
@@ -345,7 +345,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.batchUpdateBillScenarioUsageModification(input, logger: logger)
     }
 
-    ///  Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID.
+    ///  Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID.   The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:UpdateWorkloadEstimateUsage in your policies.
     @Sendable
     @inlinable
     public func batchUpdateWorkloadEstimateUsage(_ input: BatchUpdateWorkloadEstimateUsageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateWorkloadEstimateUsageResponse {
@@ -358,7 +358,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID.
+    ///  Update a newly added or existing usage lines. You can update the usage amounts and usage group based on a usage ID and a Workload estimate ID.   The BatchUpdateWorkloadEstimateUsage operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals,  include the permission bcm-pricing-calculator:UpdateWorkloadEstimateUsage in your policies.
     ///
     /// Parameters:
     ///   - usage:  List of usage line amounts and usage group that you want to update in a Workload estimate identified by the usage ID.
@@ -850,8 +850,8 @@ public struct BCMPricingCalculator: AWSService {
     ///  Lists all bill estimates for the account.
     ///
     /// Parameters:
-    ///   - createdAtFilter:  Filter bill estimates based on their creation date.
-    ///   - expiresAtFilter:  Filter bill estimates based on their expiration date.
+    ///   - createdAtFilter:  Filter bill estimates based on the creation date.
+    ///   - expiresAtFilter:  Filter bill estimates based on the expiration date.
     ///   - filters:  Filters to apply to the list of bill estimates.
     ///   - maxResults:  The maximum number of results to return per page.
     ///   - nextToken:  A token to retrieve the next page of results.
@@ -964,8 +964,8 @@ public struct BCMPricingCalculator: AWSService {
     ///  Lists all bill scenarios for the account.
     ///
     /// Parameters:
-    ///   - createdAtFilter:  Filter bill scenarios based on their creation date.
-    ///   - expiresAtFilter:  Filter bill scenarios based on their expiration date.
+    ///   - createdAtFilter:  Filter bill scenarios based on the creation date.
+    ///   - expiresAtFilter:  Filter bill scenarios based on the expiration date.
     ///   - filters:  Filters to apply to the list of bill scenarios.
     ///   - maxResults:  The maximum number of results to return per page.
     ///   - nextToken:  A token to retrieve the next page of results.
@@ -1072,8 +1072,8 @@ public struct BCMPricingCalculator: AWSService {
     ///  Lists all workload estimates for the account.
     ///
     /// Parameters:
-    ///   - createdAtFilter:  Filter workload estimates based on their creation date.
-    ///   - expiresAtFilter:  Filter workload estimates based on their expiration date.
+    ///   - createdAtFilter:  Filter workload estimates based on the creation date.
+    ///   - expiresAtFilter:  Filter workload estimates based on the expiration date.
     ///   - filters:  Filters to apply to the list of workload estimates.
     ///   - maxResults:  The maximum number of results to return per page.
     ///   - nextToken:  A token to retrieve the next page of results.
@@ -1487,8 +1487,8 @@ extension BCMPricingCalculator {
     /// Return PaginatorSequence for operation ``listBillEstimates(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - createdAtFilter:  Filter bill estimates based on their creation date.
-    ///   - expiresAtFilter:  Filter bill estimates based on their expiration date.
+    ///   - createdAtFilter:  Filter bill estimates based on the creation date.
+    ///   - expiresAtFilter:  Filter bill estimates based on the expiration date.
     ///   - filters:  Filters to apply to the list of bill estimates.
     ///   - maxResults:  The maximum number of results to return per page.
     ///   - logger: Logger used for logging
@@ -1607,8 +1607,8 @@ extension BCMPricingCalculator {
     /// Return PaginatorSequence for operation ``listBillScenarios(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - createdAtFilter:  Filter bill scenarios based on their creation date.
-    ///   - expiresAtFilter:  Filter bill scenarios based on their expiration date.
+    ///   - createdAtFilter:  Filter bill scenarios based on the creation date.
+    ///   - expiresAtFilter:  Filter bill scenarios based on the expiration date.
     ///   - filters:  Filters to apply to the list of bill scenarios.
     ///   - maxResults:  The maximum number of results to return per page.
     ///   - logger: Logger used for logging
@@ -1690,8 +1690,8 @@ extension BCMPricingCalculator {
     /// Return PaginatorSequence for operation ``listWorkloadEstimates(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - createdAtFilter:  Filter workload estimates based on their creation date.
-    ///   - expiresAtFilter:  Filter workload estimates based on their expiration date.
+    ///   - createdAtFilter:  Filter workload estimates based on the creation date.
+    ///   - expiresAtFilter:  Filter workload estimates based on the expiration date.
     ///   - filters:  Filters to apply to the list of workload estimates.
     ///   - maxResults:  The maximum number of results to return per page.
     ///   - logger: Logger used for logging

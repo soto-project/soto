@@ -66,6 +66,8 @@ extension Pricing {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.formatVersion, name: "formatVersion", parent: name, max: 32)
+            try self.validate(self.formatVersion, name: "formatVersion", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -113,6 +115,13 @@ extension Pricing {
             self.field = field
             self.type = type
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.field, name: "field", parent: name, max: 1024)
+            try self.validate(self.field, name: "field", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 1024)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -233,6 +242,12 @@ extension Pricing {
         }
 
         public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 50)
+            try self.validate(self.formatVersion, name: "formatVersion", parent: name, max: 32)
+            try self.validate(self.formatVersion, name: "formatVersion", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }

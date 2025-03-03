@@ -70,6 +70,11 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum ListResponseScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case metadataOnly = "METADATA_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case off = "OFF"
@@ -1289,7 +1294,7 @@ extension IoTFleetWise {
             try self.dataDestinationConfigs?.forEach {
                 try $0.validate(name: "\(name).dataDestinationConfigs[]")
             }
-            try self.validate(self.dataDestinationConfigs, name: "dataDestinationConfigs", parent: name, max: 1)
+            try self.validate(self.dataDestinationConfigs, name: "dataDestinationConfigs", parent: name, max: 3)
             try self.validate(self.dataDestinationConfigs, name: "dataDestinationConfigs", parent: name, min: 1)
             try self.dataExtraDimensions?.forEach {
                 try validate($0, name: "dataExtraDimensions[]", parent: name, max: 150)
@@ -2423,7 +2428,7 @@ extension IoTFleetWise {
     }
 
     public struct DeleteStateTemplateRequest: AWSEncodableShape {
-        /// A unique, service-generated identifier.
+        /// The unique ID of the state template.
         public let identifier: String
 
         @inlinable
@@ -3038,7 +3043,7 @@ extension IoTFleetWise {
     }
 
     public struct GetStateTemplateRequest: AWSEncodableShape {
-        /// A unique, service-generated identifier.
+        /// The unique ID of the state template.
         public let identifier: String
 
         @inlinable
@@ -3390,6 +3395,8 @@ extension IoTFleetWise {
     }
 
     public struct ListCampaignsRequest: AWSEncodableShape {
+        /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: campaign name, Amazon Resource Name (ARN), creation time, and last modification time.
+        public let listResponseScope: ListResponseScope?
         /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -3398,7 +3405,8 @@ extension IoTFleetWise {
         public let status: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, status: String? = nil) {
+        public init(listResponseScope: ListResponseScope? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: String? = nil) {
+            self.listResponseScope = listResponseScope
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.status = status
@@ -3407,6 +3415,7 @@ extension IoTFleetWise {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.listResponseScope, key: "listResponseScope")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.status, key: "status")
@@ -3552,6 +3561,8 @@ extension IoTFleetWise {
     }
 
     public struct ListDecoderManifestsRequest: AWSEncodableShape {
+        /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: decoder manifest name, Amazon Resource Name (ARN), creation time, and last modification time.
+        public let listResponseScope: ListResponseScope?
         /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The Amazon Resource Name (ARN) of a vehicle model (model manifest) associated with the decoder manifest.
@@ -3560,7 +3571,8 @@ extension IoTFleetWise {
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, modelManifestArn: String? = nil, nextToken: String? = nil) {
+        public init(listResponseScope: ListResponseScope? = nil, maxResults: Int? = nil, modelManifestArn: String? = nil, nextToken: String? = nil) {
+            self.listResponseScope = listResponseScope
             self.maxResults = maxResults
             self.modelManifestArn = modelManifestArn
             self.nextToken = nextToken
@@ -3569,6 +3581,7 @@ extension IoTFleetWise {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.listResponseScope, key: "listResponseScope")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.modelManifestArn, key: "modelManifestArn")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -3657,13 +3670,16 @@ extension IoTFleetWise {
     }
 
     public struct ListFleetsRequest: AWSEncodableShape {
+        /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: fleet ID, Amazon Resource Name (ARN), creation time, and last modification time.
+        public let listResponseScope: ListResponseScope?
         /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(listResponseScope: ListResponseScope? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.listResponseScope = listResponseScope
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3671,6 +3687,7 @@ extension IoTFleetWise {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.listResponseScope, key: "listResponseScope")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -3758,6 +3775,8 @@ extension IoTFleetWise {
     }
 
     public struct ListModelManifestsRequest: AWSEncodableShape {
+        /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: model manifest name, Amazon Resource Name (ARN), creation time, and last modification time.
+        public let listResponseScope: ListResponseScope?
         /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         /// A pagination token for the next set of results. If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next set of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -3766,7 +3785,8 @@ extension IoTFleetWise {
         public let signalCatalogArn: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, signalCatalogArn: String? = nil) {
+        public init(listResponseScope: ListResponseScope? = nil, maxResults: Int? = nil, nextToken: String? = nil, signalCatalogArn: String? = nil) {
+            self.listResponseScope = listResponseScope
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.signalCatalogArn = signalCatalogArn
@@ -3775,6 +3795,7 @@ extension IoTFleetWise {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.listResponseScope, key: "listResponseScope")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
             request.encodeQuery(self.signalCatalogArn, key: "signalCatalogArn")
@@ -3914,13 +3935,16 @@ extension IoTFleetWise {
     }
 
     public struct ListStateTemplatesRequest: AWSEncodableShape {
+        /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: state template ID, Amazon Resource Name (ARN), creation time, and last modification time.
+        public let listResponseScope: ListResponseScope?
         /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The token to retrieve the next set of results, or null if there are no more results.
         public let nextToken: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(listResponseScope: ListResponseScope? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.listResponseScope = listResponseScope
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -3928,6 +3952,7 @@ extension IoTFleetWise {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.listResponseScope, key: "listResponseScope")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
         }
@@ -4057,6 +4082,8 @@ extension IoTFleetWise {
         public let attributeNames: [String]?
         /// Static information about a vehicle attribute value in string format. You can use this optional  parameter in conjunction with attributeNames to list the vehicles containing all  the attributeValues corresponding to the attributeNames filter. For  example, attributeValues could be "1.3 L R2, Blue" and the corresponding  attributeNames filter could be "Vehicle.Body.Engine.Type, Vehicle.Color".  In this case, the API will filter vehicles with attribute name Vehicle.Body.Engine.Type  that contains a value of 1.3 L R2 AND an attribute name Vehicle.Color that contains a value of "Blue". A request must contain unique values for the  attributeNames filter and the matching number of attributeValues  filter to return the subset of vehicles that match the attributes filter condition.
         public let attributeValues: [String]?
+        /// When you set the listResponseScope parameter to METADATA_ONLY, the list response includes: vehicle name, Amazon Resource Name (ARN), creation time, and last modification time.
+        public let listResponseScope: ListResponseScope?
         /// The maximum number of items to return, between 1 and 100, inclusive.
         public let maxResults: Int?
         ///  The Amazon Resource Name (ARN) of a vehicle model (model manifest). You can use this optional parameter to list only the vehicles created from a certain vehicle model.
@@ -4065,9 +4092,10 @@ extension IoTFleetWise {
         public let nextToken: String?
 
         @inlinable
-        public init(attributeNames: [String]? = nil, attributeValues: [String]? = nil, maxResults: Int? = nil, modelManifestArn: String? = nil, nextToken: String? = nil) {
+        public init(attributeNames: [String]? = nil, attributeValues: [String]? = nil, listResponseScope: ListResponseScope? = nil, maxResults: Int? = nil, modelManifestArn: String? = nil, nextToken: String? = nil) {
             self.attributeNames = attributeNames
             self.attributeValues = attributeValues
+            self.listResponseScope = listResponseScope
             self.maxResults = maxResults
             self.modelManifestArn = modelManifestArn
             self.nextToken = nextToken
@@ -4078,6 +4106,7 @@ extension IoTFleetWise {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.attributeNames, key: "attributeNames")
             request.encodeQuery(self.attributeValues, key: "attributeValues")
+            request.encodeQuery(self.listResponseScope, key: "listResponseScope")
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.modelManifestArn, key: "modelManifestArn")
             request.encodeQuery(self.nextToken, key: "nextToken")
@@ -4825,7 +4854,7 @@ extension IoTFleetWise {
     }
 
     public struct StateTemplateAssociation: AWSEncodableShape & AWSDecodableShape {
-        /// A unique, service-generated identifier.
+        /// The unique ID of the state template.
         public let identifier: String
         public let stateTemplateUpdateStrategy: StateTemplateUpdateStrategy
 
@@ -5646,7 +5675,7 @@ extension IoTFleetWise {
         public let dataExtraDimensions: [String]?
         /// A brief description of the state template.
         public let description: String?
-        /// A unique, service-generated identifier.
+        /// The unique ID of the state template.
         public let identifier: String
         /// A list of vehicle attributes to associate with user properties of the messages published on the state template's MQTT topic. (See  Processing last known state vehicle data using MQTT messaging). For example, if you add  Vehicle.Attributes.Make and Vehicle.Attributes.Model attributes, Amazon Web Services IoT FleetWise  will include these attributes as User Properties with the MQTT message.
         public let metadataExtraDimensions: [String]?

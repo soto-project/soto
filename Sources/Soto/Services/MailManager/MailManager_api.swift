@@ -152,6 +152,79 @@ public struct MailManager: AWSService {
         return try await self.createAddonSubscription(input, logger: logger)
     }
 
+    /// Creates a new address list.
+    @Sendable
+    @inlinable
+    public func createAddressList(_ input: CreateAddressListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAddressListResponse {
+        try await self.client.execute(
+            operation: "CreateAddressList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new address list.
+    ///
+    /// Parameters:
+    ///   - addressListName: A user-friendly name for the address list.
+    ///   - clientToken: A unique token that Amazon SES uses to recognize subsequent retries of the same request.
+    ///   - tags: The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAddressList(
+        addressListName: String,
+        clientToken: String? = CreateAddressListRequest.idempotencyToken(),
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAddressListResponse {
+        let input = CreateAddressListRequest(
+            addressListName: addressListName, 
+            clientToken: clientToken, 
+            tags: tags
+        )
+        return try await self.createAddressList(input, logger: logger)
+    }
+
+    /// Creates an import job for an address list.
+    @Sendable
+    @inlinable
+    public func createAddressListImportJob(_ input: CreateAddressListImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAddressListImportJobResponse {
+        try await self.client.execute(
+            operation: "CreateAddressListImportJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an import job for an address list.
+    ///
+    /// Parameters:
+    ///   - addressListId: The unique identifier of the address list for importing addresses to.
+    ///   - clientToken: A unique token that Amazon SES uses to recognize subsequent retries of the same request.
+    ///   - importDataFormat: The format of the input for an import job.
+    ///   - name: A user-friendly name for the import job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createAddressListImportJob(
+        addressListId: String,
+        clientToken: String? = CreateAddressListImportJobRequest.idempotencyToken(),
+        importDataFormat: ImportDataFormat,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateAddressListImportJobResponse {
+        let input = CreateAddressListImportJobRequest(
+            addressListId: addressListId, 
+            clientToken: clientToken, 
+            importDataFormat: importDataFormat, 
+            name: name
+        )
+        return try await self.createAddressListImportJob(input, logger: logger)
+    }
+
     /// Creates a new email archive resource for storing and retaining emails.
     @Sendable
     @inlinable
@@ -424,6 +497,35 @@ public struct MailManager: AWSService {
         return try await self.deleteAddonSubscription(input, logger: logger)
     }
 
+    /// Deletes an address list.
+    @Sendable
+    @inlinable
+    public func deleteAddressList(_ input: DeleteAddressListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteAddressListResponse {
+        try await self.client.execute(
+            operation: "DeleteAddressList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes an address list.
+    ///
+    /// Parameters:
+    ///   - addressListId: The identifier of an existing address list resource to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAddressList(
+        addressListId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteAddressListResponse {
+        let input = DeleteAddressListRequest(
+            addressListId: addressListId
+        )
+        return try await self.deleteAddressList(input, logger: logger)
+    }
+
     /// Initiates deletion of an email archive. This changes the archive state to pending deletion. In this state, no new emails can be added, and existing archived emails become inaccessible (search, export, download). The archive and all of its contents will be permanently deleted 30 days after entering the pending deletion state, regardless of the configured retention period.
     @Sendable
     @inlinable
@@ -569,6 +671,38 @@ public struct MailManager: AWSService {
         return try await self.deleteTrafficPolicy(input, logger: logger)
     }
 
+    /// Removes a member from an address list.
+    @Sendable
+    @inlinable
+    public func deregisterMemberFromAddressList(_ input: DeregisterMemberFromAddressListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterMemberFromAddressListResponse {
+        try await self.client.execute(
+            operation: "DeregisterMemberFromAddressList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes a member from an address list.
+    ///
+    /// Parameters:
+    ///   - address: The address to be removed from the address list.
+    ///   - addressListId: The unique identifier of the address list to remove the address from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deregisterMemberFromAddressList(
+        address: String,
+        addressListId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeregisterMemberFromAddressListResponse {
+        let input = DeregisterMemberFromAddressListRequest(
+            address: address, 
+            addressListId: addressListId
+        )
+        return try await self.deregisterMemberFromAddressList(input, logger: logger)
+    }
+
     /// Gets detailed information about an Add On instance.
     @Sendable
     @inlinable
@@ -625,6 +759,64 @@ public struct MailManager: AWSService {
             addonSubscriptionId: addonSubscriptionId
         )
         return try await self.getAddonSubscription(input, logger: logger)
+    }
+
+    /// Fetch attributes of an address list.
+    @Sendable
+    @inlinable
+    public func getAddressList(_ input: GetAddressListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAddressListResponse {
+        try await self.client.execute(
+            operation: "GetAddressList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Fetch attributes of an address list.
+    ///
+    /// Parameters:
+    ///   - addressListId: The identifier of an existing address list resource to be retrieved.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAddressList(
+        addressListId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAddressListResponse {
+        let input = GetAddressListRequest(
+            addressListId: addressListId
+        )
+        return try await self.getAddressList(input, logger: logger)
+    }
+
+    /// Fetch attributes of an import job.
+    @Sendable
+    @inlinable
+    public func getAddressListImportJob(_ input: GetAddressListImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAddressListImportJobResponse {
+        try await self.client.execute(
+            operation: "GetAddressListImportJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Fetch attributes of an import job.
+    ///
+    /// Parameters:
+    ///   - jobId: The identifier of the import job that needs to be retrieved.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAddressListImportJob(
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAddressListImportJobResponse {
+        let input = GetAddressListImportJobRequest(
+            jobId: jobId
+        )
+        return try await self.getAddressListImportJob(input, logger: logger)
     }
 
     /// Retrieves the full details and current state of a specified email archive.
@@ -830,6 +1022,38 @@ public struct MailManager: AWSService {
         return try await self.getIngressPoint(input, logger: logger)
     }
 
+    /// Fetch attributes of a member in an address list.
+    @Sendable
+    @inlinable
+    public func getMemberOfAddressList(_ input: GetMemberOfAddressListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMemberOfAddressListResponse {
+        try await self.client.execute(
+            operation: "GetMemberOfAddressList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Fetch attributes of a member in an address list.
+    ///
+    /// Parameters:
+    ///   - address: The address to be retrieved from the address list.
+    ///   - addressListId: The unique identifier of the address list to retrieve the address from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getMemberOfAddressList(
+        address: String,
+        addressListId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetMemberOfAddressListResponse {
+        let input = GetMemberOfAddressListRequest(
+            address: address, 
+            addressListId: addressListId
+        )
+        return try await self.getMemberOfAddressList(input, logger: logger)
+    }
+
     /// Fetch the relay resource and it's attributes.
     @Sendable
     @inlinable
@@ -981,6 +1205,73 @@ public struct MailManager: AWSService {
         return try await self.listAddonSubscriptions(input, logger: logger)
     }
 
+    /// Lists jobs for an address list.
+    @Sendable
+    @inlinable
+    public func listAddressListImportJobs(_ input: ListAddressListImportJobsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAddressListImportJobsResponse {
+        try await self.client.execute(
+            operation: "ListAddressListImportJobs", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists jobs for an address list.
+    ///
+    /// Parameters:
+    ///   - addressListId: The unique identifier of the address list for listing import jobs.
+    ///   - nextToken: If you received a pagination token from a previous call to this API, you can provide it here to continue paginating through the next page of results.
+    ///   - pageSize: The maximum number of import jobs that are returned per call. You can use NextToken to retrieve the next page of jobs.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAddressListImportJobs(
+        addressListId: String,
+        nextToken: String? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAddressListImportJobsResponse {
+        let input = ListAddressListImportJobsRequest(
+            addressListId: addressListId, 
+            nextToken: nextToken, 
+            pageSize: pageSize
+        )
+        return try await self.listAddressListImportJobs(input, logger: logger)
+    }
+
+    /// Lists address lists for this account.
+    @Sendable
+    @inlinable
+    public func listAddressLists(_ input: ListAddressListsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAddressListsResponse {
+        try await self.client.execute(
+            operation: "ListAddressLists", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists address lists for this account.
+    ///
+    /// Parameters:
+    ///   - nextToken: If you received a pagination token from a previous call to this API, you can provide it here to continue paginating through the next page of results.
+    ///   - pageSize: The maximum number of address list resources that are returned per call. You can use NextToken to retrieve the next page of address lists.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAddressLists(
+        nextToken: String? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAddressListsResponse {
+        let input = ListAddressListsRequest(
+            nextToken: nextToken, 
+            pageSize: pageSize
+        )
+        return try await self.listAddressLists(input, logger: logger)
+    }
+
     /// Returns a list of email archive export jobs.
     @Sendable
     @inlinable
@@ -1115,6 +1406,44 @@ public struct MailManager: AWSService {
         return try await self.listIngressPoints(input, logger: logger)
     }
 
+    /// Lists members of an address list.
+    @Sendable
+    @inlinable
+    public func listMembersOfAddressList(_ input: ListMembersOfAddressListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMembersOfAddressListResponse {
+        try await self.client.execute(
+            operation: "ListMembersOfAddressList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists members of an address list.
+    ///
+    /// Parameters:
+    ///   - addressListId: The unique identifier of the address list to list the addresses from.
+    ///   - filter: Filter to be used to limit the results.
+    ///   - nextToken: If you received a pagination token from a previous call to this API, you can provide it here to continue paginating through the next page of results.
+    ///   - pageSize: The maximum number of address list members that are returned per call. You can use NextToken to retrieve the next page of members.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listMembersOfAddressList(
+        addressListId: String,
+        filter: AddressFilter? = nil,
+        nextToken: String? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListMembersOfAddressListResponse {
+        let input = ListMembersOfAddressListRequest(
+            addressListId: addressListId, 
+            filter: filter, 
+            nextToken: nextToken, 
+            pageSize: pageSize
+        )
+        return try await self.listMembersOfAddressList(input, logger: logger)
+    }
+
     /// Lists all the existing relay resources.
     @Sendable
     @inlinable
@@ -1240,6 +1569,67 @@ public struct MailManager: AWSService {
         return try await self.listTrafficPolicies(input, logger: logger)
     }
 
+    /// Adds a member to an address list.
+    @Sendable
+    @inlinable
+    public func registerMemberToAddressList(_ input: RegisterMemberToAddressListRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterMemberToAddressListResponse {
+        try await self.client.execute(
+            operation: "RegisterMemberToAddressList", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Adds a member to an address list.
+    ///
+    /// Parameters:
+    ///   - address: The address to be added to the address list.
+    ///   - addressListId: The unique identifier of the address list where the address should be added.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func registerMemberToAddressList(
+        address: String,
+        addressListId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> RegisterMemberToAddressListResponse {
+        let input = RegisterMemberToAddressListRequest(
+            address: address, 
+            addressListId: addressListId
+        )
+        return try await self.registerMemberToAddressList(input, logger: logger)
+    }
+
+    /// Starts an import job for an address list.
+    @Sendable
+    @inlinable
+    public func startAddressListImportJob(_ input: StartAddressListImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAddressListImportJobResponse {
+        try await self.client.execute(
+            operation: "StartAddressListImportJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts an import job for an address list.
+    ///
+    /// Parameters:
+    ///   - jobId: The identifier of the import job that needs to be started.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAddressListImportJob(
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAddressListImportJobResponse {
+        let input = StartAddressListImportJobRequest(
+            jobId: jobId
+        )
+        return try await self.startAddressListImportJob(input, logger: logger)
+    }
+
     /// Initiates an export of emails from the specified archive.
     @Sendable
     @inlinable
@@ -1326,6 +1716,35 @@ public struct MailManager: AWSService {
             toTimestamp: toTimestamp
         )
         return try await self.startArchiveSearch(input, logger: logger)
+    }
+
+    /// Stops an ongoing import job for an address list.
+    @Sendable
+    @inlinable
+    public func stopAddressListImportJob(_ input: StopAddressListImportJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopAddressListImportJobResponse {
+        try await self.client.execute(
+            operation: "StopAddressListImportJob", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops an ongoing import job for an address list.
+    ///
+    /// Parameters:
+    ///   - jobId: The identifier of the import job that needs to be stopped.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopAddressListImportJob(
+        jobId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopAddressListImportJobResponse {
+        let input = StopAddressListImportJobRequest(
+            jobId: jobId
+        )
+        return try await self.stopAddressListImportJob(input, logger: logger)
     }
 
     /// Stops an in-progress export of emails from an archive.
@@ -1728,6 +2147,77 @@ extension MailManager {
         return self.listAddonSubscriptionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listAddressListImportJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAddressListImportJobsPaginator(
+        _ input: ListAddressListImportJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAddressListImportJobsRequest, ListAddressListImportJobsResponse> {
+        return .init(
+            input: input,
+            command: self.listAddressListImportJobs,
+            inputKey: \ListAddressListImportJobsRequest.nextToken,
+            outputKey: \ListAddressListImportJobsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAddressListImportJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - addressListId: The unique identifier of the address list for listing import jobs.
+    ///   - pageSize: The maximum number of import jobs that are returned per call. You can use NextToken to retrieve the next page of jobs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAddressListImportJobsPaginator(
+        addressListId: String,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAddressListImportJobsRequest, ListAddressListImportJobsResponse> {
+        let input = ListAddressListImportJobsRequest(
+            addressListId: addressListId, 
+            pageSize: pageSize
+        )
+        return self.listAddressListImportJobsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listAddressLists(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAddressListsPaginator(
+        _ input: ListAddressListsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAddressListsRequest, ListAddressListsResponse> {
+        return .init(
+            input: input,
+            command: self.listAddressLists,
+            inputKey: \ListAddressListsRequest.nextToken,
+            outputKey: \ListAddressListsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAddressLists(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - pageSize: The maximum number of address list resources that are returned per call. You can use NextToken to retrieve the next page of address lists.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAddressListsPaginator(
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAddressListsRequest, ListAddressListsResponse> {
+        let input = ListAddressListsRequest(
+            pageSize: pageSize
+        )
+        return self.listAddressListsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listArchiveExports(_:logger:)``.
     ///
     /// - Parameters:
@@ -1870,6 +2360,46 @@ extension MailManager {
         return self.listIngressPointsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listMembersOfAddressList(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMembersOfAddressListPaginator(
+        _ input: ListMembersOfAddressListRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListMembersOfAddressListRequest, ListMembersOfAddressListResponse> {
+        return .init(
+            input: input,
+            command: self.listMembersOfAddressList,
+            inputKey: \ListMembersOfAddressListRequest.nextToken,
+            outputKey: \ListMembersOfAddressListResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listMembersOfAddressList(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - addressListId: The unique identifier of the address list to list the addresses from.
+    ///   - filter: Filter to be used to limit the results.
+    ///   - pageSize: The maximum number of address list members that are returned per call. You can use NextToken to retrieve the next page of members.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listMembersOfAddressListPaginator(
+        addressListId: String,
+        filter: AddressFilter? = nil,
+        pageSize: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListMembersOfAddressListRequest, ListMembersOfAddressListResponse> {
+        let input = ListMembersOfAddressListRequest(
+            addressListId: addressListId, 
+            filter: filter, 
+            pageSize: pageSize
+        )
+        return self.listMembersOfAddressListPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRelays(_:logger:)``.
     ///
     /// - Parameters:
@@ -1993,6 +2523,27 @@ extension MailManager.ListAddonSubscriptionsRequest: AWSPaginateToken {
     }
 }
 
+extension MailManager.ListAddressListImportJobsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MailManager.ListAddressListImportJobsRequest {
+        return .init(
+            addressListId: self.addressListId,
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
+extension MailManager.ListAddressListsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MailManager.ListAddressListsRequest {
+        return .init(
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
 extension MailManager.ListArchiveExportsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> MailManager.ListArchiveExportsRequest {
@@ -2029,6 +2580,18 @@ extension MailManager.ListIngressPointsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> MailManager.ListIngressPointsRequest {
         return .init(
+            nextToken: token,
+            pageSize: self.pageSize
+        )
+    }
+}
+
+extension MailManager.ListMembersOfAddressListRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MailManager.ListMembersOfAddressListRequest {
+        return .init(
+            addressListId: self.addressListId,
+            filter: self.filter,
             nextToken: token,
             pageSize: self.pageSize
         )

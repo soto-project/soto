@@ -239,6 +239,7 @@ extension AppStream {
     public enum PlatformType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonLinux2 = "AMAZON_LINUX2"
         case rhel8 = "RHEL8"
+        case rockyLinux8 = "ROCKY_LINUX8"
         case windows = "WINDOWS"
         case windowsServer2016 = "WINDOWS_SERVER_2016"
         case windowsServer2019 = "WINDOWS_SERVER_2019"
@@ -4497,13 +4498,16 @@ extension AppStream {
         public let connectorType: StorageConnectorType?
         /// The names of the domains for the account.
         public let domains: [String]?
+        /// The OneDrive for Business domains where you require admin consent when users try to link their OneDrive account to AppStream 2.0. The attribute can only be specified when ConnectorType=ONE_DRIVE.
+        public let domainsRequireAdminConsent: [String]?
         /// The ARN of the storage connector.
         public let resourceIdentifier: String?
 
         @inlinable
-        public init(connectorType: StorageConnectorType? = nil, domains: [String]? = nil, resourceIdentifier: String? = nil) {
+        public init(connectorType: StorageConnectorType? = nil, domains: [String]? = nil, domainsRequireAdminConsent: [String]? = nil, resourceIdentifier: String? = nil) {
             self.connectorType = connectorType
             self.domains = domains
+            self.domainsRequireAdminConsent = domainsRequireAdminConsent
             self.resourceIdentifier = resourceIdentifier
         }
 
@@ -4513,6 +4517,11 @@ extension AppStream {
                 try validate($0, name: "domains[]", parent: name, min: 1)
             }
             try self.validate(self.domains, name: "domains", parent: name, max: 50)
+            try self.domainsRequireAdminConsent?.forEach {
+                try validate($0, name: "domainsRequireAdminConsent[]", parent: name, max: 64)
+                try validate($0, name: "domainsRequireAdminConsent[]", parent: name, min: 1)
+            }
+            try self.validate(self.domainsRequireAdminConsent, name: "domainsRequireAdminConsent", parent: name, max: 50)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, max: 2048)
             try self.validate(self.resourceIdentifier, name: "resourceIdentifier", parent: name, min: 1)
         }
@@ -4520,6 +4529,7 @@ extension AppStream {
         private enum CodingKeys: String, CodingKey {
             case connectorType = "ConnectorType"
             case domains = "Domains"
+            case domainsRequireAdminConsent = "DomainsRequireAdminConsent"
             case resourceIdentifier = "ResourceIdentifier"
         }
     }

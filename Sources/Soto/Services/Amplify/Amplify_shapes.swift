@@ -55,6 +55,7 @@ extension Amplify {
     public enum JobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
+        case created = "CREATED"
         case failed = "FAILED"
         case pending = "PENDING"
         case provisioning = "PROVISIONING"
@@ -111,6 +112,15 @@ extension Amplify {
         public var description: String { return self.rawValue }
     }
 
+    public enum WafStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associating = "ASSOCIATING"
+        case associationFailed = "ASSOCIATION_FAILED"
+        case associationSuccess = "ASSOCIATION_SUCCESS"
+        case disassociating = "DISASSOCIATING"
+        case disassociationFailed = "DISASSOCIATION_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct App: AWSDecodableShape {
@@ -128,7 +138,9 @@ extension Amplify {
         public let buildSpec: String?
         /// The cache configuration for the Amplify app. If you don't specify the cache configuration type, Amplify uses the default AMPLIFY_MANAGED setting.
         public let cacheConfig: CacheConfig?
-        /// Creates a date and time for the Amplify app.
+        /// The Amazon Resource Name (ARN) of the IAM role for an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        public let computeRoleArn: String?
+        /// A timestamp of when Amplify created the application.
         public let createTime: Date
         /// Describes the custom HTTP headers for the Amplify app.
         public let customHeaders: String?
@@ -148,7 +160,7 @@ extension Amplify {
         public let enableBranchAutoDeletion: Bool?
         /// The environment variables for the Amplify app.  For a list of the environment variables that are accessible to Amplify by default, see Amplify Environment variables in the Amplify Hosting User Guide.
         public let environmentVariables: [String: String]?
-        /// The AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) of the Amplify app.
+        /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
         public let iamServiceRoleArn: String?
         /// The name for the Amplify app.
         public let name: String
@@ -162,11 +174,15 @@ extension Amplify {
         public let repositoryCloneMethod: RepositoryCloneMethod?
         /// The tag for the Amplify app.
         public let tags: [String: String]?
-        /// Updates the date and time for the Amplify app.
+        /// A timestamp of when Amplify updated the application.
         public let updateTime: Date
+        /// Describes the Firewall configuration for the Amplify app. Firewall support enables you to protect your hosted applications with a direct integration with WAF.
+        public let wafConfiguration: WafConfiguration?
+        /// A timestamp of when Amplify created the webhook in your Git repository.
+        public let webhookCreateTime: Date?
 
         @inlinable
-        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, repositoryCloneMethod: RepositoryCloneMethod? = nil, tags: [String: String]? = nil, updateTime: Date) {
+        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, computeRoleArn: String? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, repositoryCloneMethod: RepositoryCloneMethod? = nil, tags: [String: String]? = nil, updateTime: Date, wafConfiguration: WafConfiguration? = nil, webhookCreateTime: Date? = nil) {
             self.appArn = appArn
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -174,6 +190,7 @@ extension Amplify {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
             self.cacheConfig = cacheConfig
+            self.computeRoleArn = computeRoleArn
             self.createTime = createTime
             self.customHeaders = customHeaders
             self.customRules = customRules
@@ -192,6 +209,8 @@ extension Amplify {
             self.repositoryCloneMethod = repositoryCloneMethod
             self.tags = tags
             self.updateTime = updateTime
+            self.wafConfiguration = wafConfiguration
+            self.webhookCreateTime = webhookCreateTime
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -202,6 +221,7 @@ extension Amplify {
             case basicAuthCredentials = "basicAuthCredentials"
             case buildSpec = "buildSpec"
             case cacheConfig = "cacheConfig"
+            case computeRoleArn = "computeRoleArn"
             case createTime = "createTime"
             case customHeaders = "customHeaders"
             case customRules = "customRules"
@@ -220,6 +240,8 @@ extension Amplify {
             case repositoryCloneMethod = "repositoryCloneMethod"
             case tags = "tags"
             case updateTime = "updateTime"
+            case wafConfiguration = "wafConfiguration"
+            case webhookCreateTime = "webhookCreateTime"
         }
     }
 
@@ -379,7 +401,9 @@ extension Amplify {
         public let branchName: String
         ///  The build specification (build spec) content for the branch of an Amplify app.
         public let buildSpec: String?
-        ///  The creation date and time for a branch that is part of an Amplify app.
+        /// The Amazon Resource Name (ARN) of the IAM role for a branch of an SSR app. The Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        public let computeRoleArn: String?
+        /// A timestamp of when Amplify created the branch.
         public let createTime: Date
         ///  The custom domains for a branch of an Amplify app.
         public let customDomains: [String]
@@ -417,11 +441,11 @@ extension Amplify {
         public let totalNumberOfJobs: String
         ///  The content Time to Live (TTL) for the website in seconds.
         public let ttl: String
-        ///  The last updated date and time for a branch that is part of an Amplify app.
+        /// A timestamp for the last updated time for a branch.
         public let updateTime: Date
 
         @inlinable
-        public init(activeJobId: String, associatedResources: [String]? = nil, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: Date, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: Date) {
+        public init(activeJobId: String, associatedResources: [String]? = nil, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, computeRoleArn: String? = nil, createTime: Date, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: Date) {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
             self.backend = backend
@@ -430,6 +454,7 @@ extension Amplify {
             self.branchArn = branchArn
             self.branchName = branchName
             self.buildSpec = buildSpec
+            self.computeRoleArn = computeRoleArn
             self.createTime = createTime
             self.customDomains = customDomains
             self.description = description
@@ -461,6 +486,7 @@ extension Amplify {
             case branchArn = "branchArn"
             case branchName = "branchName"
             case buildSpec = "buildSpec"
+            case computeRoleArn = "computeRoleArn"
             case createTime = "createTime"
             case customDomains = "customDomains"
             case description = "description"
@@ -556,6 +582,8 @@ extension Amplify {
         public let buildSpec: String?
         /// The cache configuration for the Amplify app.
         public let cacheConfig: CacheConfig?
+        /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        public let computeRoleArn: String?
         /// The custom HTTP headers for an Amplify app.
         public let customHeaders: String?
         /// The custom rewrite and redirect rules for an Amplify app.
@@ -572,7 +600,7 @@ extension Amplify {
         public let enableBranchAutoDeletion: Bool?
         /// The environment variables map for an Amplify app.  For a list of the environment variables that are accessible to Amplify by default, see Amplify Environment variables in the Amplify Hosting User Guide.
         public let environmentVariables: [String: String]?
-        /// The AWS Identity and Access Management (IAM) service role for an Amplify app.
+        /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
         public let iamServiceRoleArn: String?
         /// The name of the Amplify app.
         public let name: String
@@ -586,13 +614,14 @@ extension Amplify {
         public let tags: [String: String]?
 
         @inlinable
-        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
+        public init(accessToken: String? = nil, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, computeRoleArn: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil, tags: [String: String]? = nil) {
             self.accessToken = accessToken
             self.autoBranchCreationConfig = autoBranchCreationConfig
             self.autoBranchCreationPatterns = autoBranchCreationPatterns
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
             self.cacheConfig = cacheConfig
+            self.computeRoleArn = computeRoleArn
             self.customHeaders = customHeaders
             self.customRules = customRules
             self.description = description
@@ -624,6 +653,8 @@ extension Amplify {
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, pattern: "^(?s).+$")
+            try self.validate(self.computeRoleArn, name: "computeRoleArn", parent: name, max: 1000)
+            try self.validate(self.computeRoleArn, name: "computeRoleArn", parent: name, pattern: "^(?s)")
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, max: 25000)
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, pattern: "^(?s)")
             try self.customRules?.forEach {
@@ -663,6 +694,7 @@ extension Amplify {
             case basicAuthCredentials = "basicAuthCredentials"
             case buildSpec = "buildSpec"
             case cacheConfig = "cacheConfig"
+            case computeRoleArn = "computeRoleArn"
             case customHeaders = "customHeaders"
             case customRules = "customRules"
             case description = "description"
@@ -769,6 +801,8 @@ extension Amplify {
         public let branchName: String
         ///  The build specification (build spec) for the branch.
         public let buildSpec: String?
+        /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        public let computeRoleArn: String?
         /// The description for the branch.
         public let description: String?
         ///  The display name for a branch. This is used as the default domain prefix.
@@ -797,13 +831,14 @@ extension Amplify {
         public let ttl: String?
 
         @inlinable
-        public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
+        public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, computeRoleArn: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
             self.appId = appId
             self.backend = backend
             self.backendEnvironmentArn = backendEnvironmentArn
             self.basicAuthCredentials = basicAuthCredentials
             self.branchName = branchName
             self.buildSpec = buildSpec
+            self.computeRoleArn = computeRoleArn
             self.description = description
             self.displayName = displayName
             self.enableAutoBuild = enableAutoBuild
@@ -828,6 +863,7 @@ extension Amplify {
             try container.encodeIfPresent(self.basicAuthCredentials, forKey: .basicAuthCredentials)
             try container.encode(self.branchName, forKey: .branchName)
             try container.encodeIfPresent(self.buildSpec, forKey: .buildSpec)
+            try container.encodeIfPresent(self.computeRoleArn, forKey: .computeRoleArn)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
             try container.encodeIfPresent(self.enableAutoBuild, forKey: .enableAutoBuild)
@@ -858,6 +894,8 @@ extension Amplify {
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, pattern: "^(?s).+$")
+            try self.validate(self.computeRoleArn, name: "computeRoleArn", parent: name, max: 1000)
+            try self.validate(self.computeRoleArn, name: "computeRoleArn", parent: name, pattern: "^(?s)")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^(?s)")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
@@ -890,6 +928,7 @@ extension Amplify {
             case basicAuthCredentials = "basicAuthCredentials"
             case branchName = "branchName"
             case buildSpec = "buildSpec"
+            case computeRoleArn = "computeRoleArn"
             case description = "description"
             case displayName = "displayName"
             case enableAutoBuild = "enableAutoBuild"
@@ -1850,7 +1889,7 @@ extension Amplify {
         public let commitId: String
         ///  The commit message from a third-party repository provider for the job.
         public let commitMessage: String
-        ///  The commit date and time for the job.
+        /// The commit date and time for the job.
         public let commitTime: Date
         ///  The end date and time for the job.
         public let endTime: Date?
@@ -2756,6 +2795,8 @@ extension Amplify {
         public let buildSpec: String?
         /// The cache configuration for the Amplify app.
         public let cacheConfig: CacheConfig?
+        /// The Amazon Resource Name (ARN) of the IAM role to assign to an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        public let computeRoleArn: String?
         /// The custom HTTP headers for an Amplify app.
         public let customHeaders: String?
         /// The custom redirect and rewrite rules for an Amplify app.
@@ -2772,7 +2813,7 @@ extension Amplify {
         public let enableBranchAutoDeletion: Bool?
         /// The environment variables for an Amplify app.
         public let environmentVariables: [String: String]?
-        /// The AWS Identity and Access Management (IAM) service role for an Amplify app.
+        /// The Amazon Resource Name (ARN) of the IAM service role for the Amplify app.
         public let iamServiceRoleArn: String?
         /// The name for an Amplify app.
         public let name: String?
@@ -2784,7 +2825,7 @@ extension Amplify {
         public let repository: String?
 
         @inlinable
-        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
+        public init(accessToken: String? = nil, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, cacheConfig: CacheConfig? = nil, computeRoleArn: String? = nil, customHeaders: String? = nil, customRules: [CustomRule]? = nil, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool? = nil, enableBranchAutoBuild: Bool? = nil, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String? = nil, oauthToken: String? = nil, platform: Platform? = nil, repository: String? = nil) {
             self.accessToken = accessToken
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -2792,6 +2833,7 @@ extension Amplify {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
             self.cacheConfig = cacheConfig
+            self.computeRoleArn = computeRoleArn
             self.customHeaders = customHeaders
             self.customRules = customRules
             self.description = description
@@ -2817,6 +2859,7 @@ extension Amplify {
             try container.encodeIfPresent(self.basicAuthCredentials, forKey: .basicAuthCredentials)
             try container.encodeIfPresent(self.buildSpec, forKey: .buildSpec)
             try container.encodeIfPresent(self.cacheConfig, forKey: .cacheConfig)
+            try container.encodeIfPresent(self.computeRoleArn, forKey: .computeRoleArn)
             try container.encodeIfPresent(self.customHeaders, forKey: .customHeaders)
             try container.encodeIfPresent(self.customRules, forKey: .customRules)
             try container.encodeIfPresent(self.description, forKey: .description)
@@ -2850,6 +2893,8 @@ extension Amplify {
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, pattern: "^(?s).+$")
+            try self.validate(self.computeRoleArn, name: "computeRoleArn", parent: name, max: 1000)
+            try self.validate(self.computeRoleArn, name: "computeRoleArn", parent: name, pattern: "^(?s)")
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, max: 25000)
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, pattern: "^(?s)")
             try self.customRules?.forEach {
@@ -2881,6 +2926,7 @@ extension Amplify {
             case basicAuthCredentials = "basicAuthCredentials"
             case buildSpec = "buildSpec"
             case cacheConfig = "cacheConfig"
+            case computeRoleArn = "computeRoleArn"
             case customHeaders = "customHeaders"
             case customRules = "customRules"
             case description = "description"
@@ -2924,6 +2970,8 @@ extension Amplify {
         public let branchName: String
         ///  The build specification (build spec) for the branch.
         public let buildSpec: String?
+        /// The Amazon Resource Name (ARN) of the IAM role to assign to a branch of an SSR app. The SSR Compute role allows the Amplify Hosting compute service to securely access specific Amazon Web Services resources based on the role's permissions. For more information about the SSR Compute role, see Adding an SSR Compute role in the Amplify User Guide.
+        public let computeRoleArn: String?
         ///  The description for the branch.
         public let description: String?
         ///  The display name for a branch. This is used as the default domain prefix.
@@ -2950,13 +2998,14 @@ extension Amplify {
         public let ttl: String?
 
         @inlinable
-        public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
+        public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, computeRoleArn: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
             self.appId = appId
             self.backend = backend
             self.backendEnvironmentArn = backendEnvironmentArn
             self.basicAuthCredentials = basicAuthCredentials
             self.branchName = branchName
             self.buildSpec = buildSpec
+            self.computeRoleArn = computeRoleArn
             self.description = description
             self.displayName = displayName
             self.enableAutoBuild = enableAutoBuild
@@ -2980,6 +3029,7 @@ extension Amplify {
             try container.encodeIfPresent(self.basicAuthCredentials, forKey: .basicAuthCredentials)
             request.encodePath(self.branchName, key: "branchName")
             try container.encodeIfPresent(self.buildSpec, forKey: .buildSpec)
+            try container.encodeIfPresent(self.computeRoleArn, forKey: .computeRoleArn)
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.displayName, forKey: .displayName)
             try container.encodeIfPresent(self.enableAutoBuild, forKey: .enableAutoBuild)
@@ -3009,6 +3059,8 @@ extension Amplify {
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, pattern: "^(?s).+$")
+            try self.validate(self.computeRoleArn, name: "computeRoleArn", parent: name, max: 1000)
+            try self.validate(self.computeRoleArn, name: "computeRoleArn", parent: name, pattern: "^(?s)")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^(?s)")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
@@ -3032,6 +3084,7 @@ extension Amplify {
             case backendEnvironmentArn = "backendEnvironmentArn"
             case basicAuthCredentials = "basicAuthCredentials"
             case buildSpec = "buildSpec"
+            case computeRoleArn = "computeRoleArn"
             case description = "description"
             case displayName = "displayName"
             case enableAutoBuild = "enableAutoBuild"
@@ -3196,14 +3249,36 @@ extension Amplify {
         }
     }
 
+    public struct WafConfiguration: AWSDecodableShape {
+        /// The reason for the current status of the Firewall configuration.
+        public let statusReason: String?
+        /// The status of the process to associate or disassociate a web ACL to an Amplify app.
+        public let wafStatus: WafStatus?
+        /// The Amazon Resource Name (ARN) for the web ACL associated with an Amplify app.
+        public let webAclArn: String?
+
+        @inlinable
+        public init(statusReason: String? = nil, wafStatus: WafStatus? = nil, webAclArn: String? = nil) {
+            self.statusReason = statusReason
+            self.wafStatus = wafStatus
+            self.webAclArn = webAclArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusReason = "statusReason"
+            case wafStatus = "wafStatus"
+            case webAclArn = "webAclArn"
+        }
+    }
+
     public struct Webhook: AWSDecodableShape {
         /// The name for a branch that is part of an Amplify app.
         public let branchName: String
-        /// The create date and time for a webhook.
+        /// A timestamp of when Amplify created the webhook in your Git repository.
         public let createTime: Date
         /// The description for a webhook.
         public let description: String
-        /// Updates the date and time for a webhook.
+        /// A timestamp of when Amplify updated the webhook in your Git repository.
         public let updateTime: Date
         /// The Amazon Resource Name (ARN) for the webhook.
         public let webhookArn: String

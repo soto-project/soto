@@ -169,6 +169,7 @@ extension GeoRoutes {
         case accuratePolylineUnavailable = "AccuratePolylineUnavailable"
         case noSchedule = "NoSchedule"
         case other = "Other"
+        case seasonalClosure = "SeasonalClosure"
         case violatedAvoidFerry = "ViolatedAvoidFerry"
         case violatedAvoidRailFerry = "ViolatedAvoidRailFerry"
         public var description: String { return self.rawValue }
@@ -211,6 +212,7 @@ extension GeoRoutes {
 
     public enum RouteLegTravelMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case car = "Car"
+        case carShuttleTrain = "CarShuttleTrain"
         case ferry = "Ferry"
         case pedestrian = "Pedestrian"
         case scooter = "Scooter"
@@ -577,6 +579,12 @@ extension GeoRoutes {
         public var description: String { return self.rawValue }
     }
 
+    public enum WaypointOptimizationClusteringAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case drivingDistance = "DrivingDistance"
+        case topologySegment = "TopologySegment"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WaypointOptimizationConstraint: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessHours = "AccessHours"
         case appointmentTime = "AppointmentTime"
@@ -631,7 +639,7 @@ extension GeoRoutes {
     // MARK: Shapes
 
     public struct CalculateIsolinesRequest: AWSEncodableShape {
-        /// Features that are allowed while calculating. a route
+        /// Features that are allowed while calculating an isoline.
         public let allow: IsolineAllowOptions?
         /// Time of arrival at the destination. Time format: YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let arrivalTime: String?
@@ -647,13 +655,11 @@ extension GeoRoutes {
         public let destinationOptions: IsolineDestinationOptions?
         /// The format of the returned IsolineGeometry.  Default Value:FlexiblePolyline
         public let isolineGeometryFormat: GeometryFormat?
-        /// Defines the granularity of the returned Isoline
+        /// Defines the granularity of the returned Isoline.
         public let isolineGranularity: IsolineGranularityOptions?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// Specifies the optimization criteria for when calculating an isoline. AccurateCalculation generates an isoline of higher granularity that is more precise.
-        /// FastCalculation generates an isoline faster by reducing the granularity, and in turn the quality of the isoline. BalancedCalculation generates an isoline by balancing between quality and performance.
-        ///  Default Value: BalancedCalculation
+        /// Specifies the optimization criteria for when calculating an isoline. AccurateCalculation generates an isoline of higher granularity that is more precise. FastCalculation generates an isoline faster by reducing the granularity, and in turn the quality of the isoline. BalancedCalculation generates an isoline by balancing between quality and performance.  Default Value: BalancedCalculation
         public let optimizeIsolineFor: IsolineOptimizationObjective?
         /// Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
         public let optimizeRoutingFor: RoutingObjective?
@@ -661,11 +667,11 @@ extension GeoRoutes {
         public let origin: [Double]?
         /// Origin related options.
         public let originOptions: IsolineOriginOptions?
-        /// Threshold to be used for the isoline calculation. Up to  3 thresholds per provided type can be requested.
+        /// Threshold to be used for the isoline calculation. Up to 3 thresholds per provided type can be requested. You incur a calculation charge for each threshold. Using a large amount of thresholds in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
         public let thresholds: IsolineThresholds
         /// Traffic related options.
         public let traffic: IsolineTrafficOptions?
-        /// Specifies the mode of transport when calculating a route.  Used in estimating the speed of travel and road compatibility.  The mode Scooter also applies to motorcycles, set to Scooter when wanted to calculate options for motorcycles.  Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility.  The mode Scooter also applies to motorcycles, set to Scooter when wanted to calculate options for motorcycles.  Default Value: Car
         public let travelMode: IsolineTravelMode?
         /// Travel mode related options for the provided travel mode.
         public let travelModeOptions: IsolineTravelModeOptions?
@@ -754,7 +760,7 @@ extension GeoRoutes {
     }
 
     public struct CalculateIsolinesResponse: AWSDecodableShape {
-        /// Time of arrival at the destination. This parameter is returned only if the Destination parameters was provided in the request.   Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
+        /// Time of arrival at the destination. This parameter is returned only if the Destination parameters was provided in the request.  Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let arrivalTime: String?
         /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let departureTime: String?
@@ -803,7 +809,7 @@ extension GeoRoutes {
     }
 
     public struct CalculateRouteMatrixRequest: AWSEncodableShape {
-        /// Features that are allowed while calculating. a route
+        /// Features that are allowed while calculating a route.
         public let allow: RouteMatrixAllowOptions?
         /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, it violates the avoidance and the returned response produces a notice for the violation.
         public let avoid: RouteMatrixAvoidanceOptions?
@@ -811,7 +817,7 @@ extension GeoRoutes {
         public let departNow: Bool?
         /// Time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let departureTime: String?
-        /// List of destinations for the route.
+        /// List of destinations for the route.  Route calculations are billed for each origin and destination pair. If you use a large matrix of origins and destinations, your costs will increase accordingly. See  Amazon Location's pricing page for more information.
         public let destinations: [RouteMatrixDestination]
         /// Features to be strictly excluded while calculating the route.
         public let exclude: RouteMatrixExclusionOptions?
@@ -819,13 +825,13 @@ extension GeoRoutes {
         public let key: String?
         /// Specifies the optimization criteria for calculating a route. Default Value: FastestRoute
         public let optimizeRoutingFor: RoutingObjective?
-        /// The position in longitude and latitude for the origin.
+        /// The position in longitude and latitude for the origin.  Route calculations are billed for each origin and destination pair. Using a large amount of Origins in a request can lead you to incur unexpected charges. See  Amazon Location's pricing page for more information.
         public let origins: [RouteMatrixOrigin]
-        /// Boundary within which the matrix is to be calculated.  All data, origins and destinations outside the boundary are considered invalid.  When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
+        /// Boundary within which the matrix is to be calculated. All data, origins and destinations outside the boundary are considered invalid.  When request routing boundary was set as AutoCircle, the response routing boundary will return Circle derived from the AutoCircle settings.
         public let routingBoundary: RouteMatrixBoundary
         /// Traffic related options.
         public let traffic: RouteMatrixTrafficOptions?
-        /// Specifies the mode of transport when calculating a route.  Used in estimating the speed of travel and road compatibility. Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
         public let travelMode: RouteMatrixTravelMode?
         /// Travel mode related options for the provided travel mode.
         public let travelModeOptions: RouteMatrixTravelModeOptions?
@@ -932,7 +938,7 @@ extension GeoRoutes {
     }
 
     public struct CalculateRoutesRequest: AWSEncodableShape {
-        /// Features that are allowed while calculating. a route
+        /// Features that are allowed while calculating a route.
         public let allow: RouteAllowOptions?
         /// Time of arrival at the destination. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let arrivalTime: String?
@@ -958,7 +964,7 @@ extension GeoRoutes {
         public let languages: [String]?
         /// A list of optional additional parameters such as timezone that can be requested for each result.    Elevation: Retrieves the elevation information for each location.    Incidents: Provides information on traffic incidents along the route.    PassThroughWaypoints: Indicates waypoints that are passed through without stopping.    Summary: Returns a summary of the route, including distance and duration.    Tolls: Supplies toll cost information along the route.    TravelStepInstructions: Provides step-by-step instructions for travel along the route.    TruckRoadTypes: Returns information about road types suitable for trucks.    TypicalDuration: Gives typical travel duration based on historical data.    Zones: Specifies the time zone information for each waypoint.
         public let legAdditionalFeatures: [RouteLegAdditionalFeature]?
-        /// Specifies the format of the geometry returned for each leg of the route. You can  choose between two different geometry encoding formats.  FlexiblePolyline: A compact and precise encoding format for the  leg geometry. For more information on the format, see the GitHub repository for   FlexiblePolyline .  Simple: A less compact encoding, which is easier to decode but may be less precise and result in larger payloads.
+        /// Specifies the format of the geometry returned for each leg of the route. You can choose between two different geometry encoding formats.  FlexiblePolyline: A compact and precise encoding format for the leg geometry. For more information on the format, see the GitHub repository for  FlexiblePolyline .  Simple: A less compact encoding, which is easier to decode but may be less precise and result in larger payloads.
         public let legGeometryFormat: GeometryFormat?
         /// Maximum number of alternative routes to be provided in the response, if available.
         public let maxAlternatives: Int?
@@ -974,13 +980,11 @@ extension GeoRoutes {
         public let tolls: RouteTollOptions?
         /// Traffic related options.
         public let traffic: RouteTrafficOptions?
-        /// Specifies the mode of transport when calculating a route.  Used in estimating the speed of travel and road compatibility. Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
         public let travelMode: RouteTravelMode?
         /// Travel mode related options for the provided travel mode.
         public let travelModeOptions: RouteTravelModeOptions?
-        /// Type of step returned by the response.
-        /// Default provides basic steps intended for web based applications.
-        /// TurnByTurn provides detailed instructions with more granularity intended for a turn based naviagtion system.
+        /// Type of step returned by the response. Default provides basic steps intended for web based applications. TurnByTurn provides detailed instructions with more granularity intended for a turn based navigation system.
         public let travelStepType: RouteTravelStepType?
         /// List of waypoints between the Origin and Destination.
         public let waypoints: [RouteWaypoint]?
@@ -1209,9 +1213,9 @@ extension GeoRoutes {
     }
 
     public struct IsolineAllowOptions: AWSEncodableShape {
-        /// Allow Hot (High Occupancy Toll) lanes while calculating the route.
+        /// Allow Hot (High Occupancy Toll) lanes while calculating an isoline. Default value: false
         public let hot: Bool?
-        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route.
+        /// Allow Hov (High Occupancy vehicle) lanes while calculating an isoline. Default value: false
         public let hov: Bool?
 
         @inlinable
@@ -1227,7 +1231,7 @@ extension GeoRoutes {
     }
 
     public struct IsolineAvoidanceArea: AWSEncodableShape {
-        /// Exceptions to the provided avoidance geometry, to be included while calculating the route.
+        /// Exceptions to the provided avoidance geometry, to be included while calculating an isoline.
         public let except: [IsolineAvoidanceAreaGeometry]?
         /// Geometry of the area to be avoided.
         public let geometry: IsolineAvoidanceAreaGeometry
@@ -1258,8 +1262,7 @@ extension GeoRoutes {
         public let corridor: Corridor?
         /// A list of Polygon will be excluded for calculating isolines, the list can only contain 1 polygon.
         public let polygon: [[[Double]]]?
-        /// Geometry defined as an encoded corridor – a polyline with a radius that defines the width of the corridor. For more information on polyline
-        /// encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
+        /// Geometry defined as an encoded corridor – a polyline with a radius that defines the width of the corridor. For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
         public let polylineCorridor: PolylineCorridor?
         /// A list of PolylinePolygon's that are excluded for calculating isolines, the list can only contain 1 polygon. For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
         public let polylinePolygon: [String]?
@@ -1300,24 +1303,23 @@ extension GeoRoutes {
     public struct IsolineAvoidanceOptions: AWSEncodableShape {
         /// Areas to be avoided.
         public let areas: [IsolineAvoidanceArea]?
-        /// Avoid car-shuttle-trains while calculating the route.
+        /// Avoid car-shuttle-trains while calculating an isoline.
         public let carShuttleTrains: Bool?
-        /// Avoid controlled access highways while calculating the route.
+        /// Avoid controlled access highways while calculating an isoline.
         public let controlledAccessHighways: Bool?
-        /// Avoid dirt roads while calculating the route.
+        /// Avoid dirt roads while calculating an isoline.
         public let dirtRoads: Bool?
-        /// Avoid ferries while calculating the route.
+        /// Avoid ferries while calculating an isoline.
         public let ferries: Bool?
-        /// Avoid roads that have seasonal closure while calculating the route.
+        /// Avoid roads that have seasonal closure while calculating an isoline.
         public let seasonalClosure: Bool?
         /// Avoids roads where the specified toll transponders are the only mode of payment.
         public let tollRoads: Bool?
         /// Avoids roads where the specified toll transponders are the only mode of payment.
         public let tollTransponders: Bool?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden.
-        /// A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
+        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
         public let truckRoadTypes: [String]?
-        /// Avoid tunnels while calculating the route.
+        /// Avoid tunnels while calculating an isoline.
         public let tunnels: Bool?
         /// Avoid U-turns for calculation on highways and motorways.
         public let uTurns: Bool?
@@ -1491,7 +1493,7 @@ extension GeoRoutes {
     public struct IsolineGranularityOptions: AWSEncodableShape {
         /// Maximum number of points of returned Isoline.
         public let maxPoints: Int?
-        /// Maximum resolution of the returned isoline.  Unit: centimeters
+        /// Maximum resolution of the returned isoline.  Unit: meters
         public let maxResolution: Int64?
 
         @inlinable
@@ -1612,7 +1614,7 @@ extension GeoRoutes {
     public struct IsolineShapeGeometry: AWSDecodableShape {
         /// A list of Isoline Polygons, for each isoline polygon, it contains polygons of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings).
         public let polygon: [[[Double]]]?
-        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon  of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings).  For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
+        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings). For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
         public let polylinePolygon: [String]?
 
         @inlinable
@@ -1727,7 +1729,7 @@ extension GeoRoutes {
     public struct IsolineTravelModeOptions: AWSEncodableShape {
         /// Travel mode options when the provided travel mode is "Car"
         public let car: IsolineCarOptions?
-        /// Travel mode options when the provided travel mode is "Scooter"
+        /// Travel mode options when the provided travel mode is Scooter   When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public let scooter: IsolineScooterOptions?
         /// Travel mode options when the provided travel mode is "Truck"
         public let truck: IsolineTruckOptions?
@@ -1783,7 +1785,7 @@ extension GeoRoutes {
         public let trailer: IsolineTrailerOptions?
         /// Type of the truck.
         public let truckType: IsolineTruckType?
-        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain.  They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
+        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
         /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: Kilograms
         public let weightPerAxle: Int64?
@@ -1895,8 +1897,10 @@ extension GeoRoutes {
     }
 
     public struct OptimizeWaypointsRequest: AWSEncodableShape {
-        /// Features that are avoided while calculating a route. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, this setting is ignored.
+        /// Features that are avoided. Avoidance is on a best-case basis. If an avoidance can't be satisfied for a particular case, this setting is ignored.
         public let avoid: WaypointOptimizationAvoidanceOptions?
+        /// Clustering allows you to specify how nearby waypoints can be clustered to improve the optimized sequence.
+        public let clustering: WaypointOptimizationClusteringOptions?
         /// Departure time from the waypoint. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let departureTime: String?
         /// The final position for the route in the World Geodetic System (WGS 84) format: [longitude, latitude].
@@ -1917,7 +1921,7 @@ extension GeoRoutes {
         public let originOptions: WaypointOptimizationOriginOptions?
         /// Traffic-related options.
         public let traffic: WaypointOptimizationTrafficOptions?
-        /// Specifies the mode of transport when calculating a route.  Used in estimating the speed of travel and road compatibility. Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
         public let travelMode: WaypointOptimizationTravelMode?
         /// Travel mode related options for the provided travel mode.
         public let travelModeOptions: WaypointOptimizationTravelModeOptions?
@@ -1925,8 +1929,9 @@ extension GeoRoutes {
         public let waypoints: [WaypointOptimizationWaypoint]?
 
         @inlinable
-        public init(avoid: WaypointOptimizationAvoidanceOptions? = nil, departureTime: String? = nil, destination: [Double]? = nil, destinationOptions: WaypointOptimizationDestinationOptions? = nil, driver: WaypointOptimizationDriverOptions? = nil, exclude: WaypointOptimizationExclusionOptions? = nil, key: String? = nil, optimizeSequencingFor: WaypointOptimizationSequencingObjective? = nil, origin: [Double], originOptions: WaypointOptimizationOriginOptions? = nil, traffic: WaypointOptimizationTrafficOptions? = nil, travelMode: WaypointOptimizationTravelMode? = nil, travelModeOptions: WaypointOptimizationTravelModeOptions? = nil, waypoints: [WaypointOptimizationWaypoint]? = nil) {
+        public init(avoid: WaypointOptimizationAvoidanceOptions? = nil, clustering: WaypointOptimizationClusteringOptions? = nil, departureTime: String? = nil, destination: [Double]? = nil, destinationOptions: WaypointOptimizationDestinationOptions? = nil, driver: WaypointOptimizationDriverOptions? = nil, exclude: WaypointOptimizationExclusionOptions? = nil, key: String? = nil, optimizeSequencingFor: WaypointOptimizationSequencingObjective? = nil, origin: [Double], originOptions: WaypointOptimizationOriginOptions? = nil, traffic: WaypointOptimizationTrafficOptions? = nil, travelMode: WaypointOptimizationTravelMode? = nil, travelModeOptions: WaypointOptimizationTravelModeOptions? = nil, waypoints: [WaypointOptimizationWaypoint]? = nil) {
             self.avoid = avoid
+            self.clustering = clustering
             self.departureTime = departureTime
             self.destination = destination
             self.destinationOptions = destinationOptions
@@ -1946,6 +1951,7 @@ extension GeoRoutes {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.avoid, forKey: .avoid)
+            try container.encodeIfPresent(self.clustering, forKey: .clustering)
             try container.encodeIfPresent(self.departureTime, forKey: .departureTime)
             try container.encodeIfPresent(self.destination, forKey: .destination)
             try container.encodeIfPresent(self.destinationOptions, forKey: .destinationOptions)
@@ -1963,6 +1969,7 @@ extension GeoRoutes {
 
         public func validate(name: String) throws {
             try self.avoid?.validate(name: "\(name).avoid")
+            try self.clustering?.validate(name: "\(name).clustering")
             try self.validate(self.departureTime, name: "departureTime", parent: name, pattern: "^([1-2][0-9]{3})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])T([01][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]|60)(\\.[0-9]{0,9})?(Z|[+-]([01][0-9]|2[0-3]):[0-5][0-9])$")
             try self.validate(self.destination, name: "destination", parent: name, max: 2)
             try self.validate(self.destination, name: "destination", parent: name, min: 2)
@@ -1981,6 +1988,7 @@ extension GeoRoutes {
 
         private enum CodingKeys: String, CodingKey {
             case avoid = "Avoid"
+            case clustering = "Clustering"
             case departureTime = "DepartureTime"
             case destination = "Destination"
             case destinationOptions = "DestinationOptions"
@@ -2207,7 +2215,7 @@ extension GeoRoutes {
         public let length: Int64?
         /// Trailer options corresponding to the vehicle.
         public let trailer: RoadSnapTrailerOptions?
-        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain.  They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
+        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
         /// Width of the vehicle in centimenters.
         public let width: Int64?
@@ -2249,8 +2257,7 @@ extension GeoRoutes {
     }
 
     public struct Route: AWSDecodableShape {
-        /// A leg is a section of a route from one waypoint to the next. A leg could be of type Vehicle, Pedestrian or Ferry.
-        /// Legs of different types could occur together within a single route. For example, a car employing the use of a Ferry will contain Vehicle legs corresponding to journey on land, and Ferry legs corresponding to the journey via Ferry.
+        /// A leg is a section of a route from one waypoint to the next. A leg could be of type Vehicle, Pedestrian or Ferry. Legs of different types could occur together within a single route. For example, a car employing the use of a Ferry will contain Vehicle legs corresponding to journey on land, and Ferry legs corresponding to the journey via Ferry.
         public let legs: [RouteLeg]
         /// Important labels including names and route numbers that differentiate the current route from the alternatives presented.
         public let majorRoadLabels: [RouteMajorRoadLabel]
@@ -2272,9 +2279,9 @@ extension GeoRoutes {
     }
 
     public struct RouteAllowOptions: AWSEncodableShape {
-        /// Allow Hot (High Occupancy Toll) lanes while calculating the route.
+        /// Allow Hot (High Occupancy Toll) lanes while calculating the route. Default value: false
         public let hot: Bool?
-        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route.
+        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route. Default value: false
         public let hov: Bool?
 
         @inlinable
@@ -2322,7 +2329,7 @@ extension GeoRoutes {
         public let polygon: [[[Double]]]?
         /// Geometry defined as an encoded corridor - an encoded polyline with a radius that defines the width of the corridor.
         public let polylineCorridor: PolylineCorridor?
-        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon  of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings).  For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
+        /// A list of Isoline PolylinePolygon, for each isoline PolylinePolygon, it contains PolylinePolygon of the first linear ring (the outer ring) and from 2nd item to the last item (the inner rings). For more information on polyline encoding, see https://github.com/heremaps/flexiblepolyline/blob/master/README.md.
         public let polylinePolygon: [String]?
 
         @inlinable
@@ -2375,7 +2382,7 @@ extension GeoRoutes {
         public let tollRoads: Bool?
         /// Avoids roads where the specified toll transponders are the only mode of payment.
         public let tollTransponders: Bool?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden.  A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
+        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
         public let truckRoadTypes: [String]?
         /// Avoid tunnels while calculating the route.
         public let tunnels: Bool?
@@ -2604,7 +2611,7 @@ extension GeoRoutes {
     }
 
     public struct RouteEmissionType: AWSEncodableShape {
-        /// The CO 2  emission classes.
+        /// The CO 2 emission classes.
         public let co2EmissionClass: String?
         /// Type of the emission.  Valid values: Euro1, Euro2, Euro3, Euro4, Euro5, Euro6, EuroEev
         public let type: String
@@ -2896,7 +2903,7 @@ extension GeoRoutes {
     public struct RouteFerrySpan: AWSDecodableShape {
         /// 3 letter Country code corresponding to the Span.
         public let country: String?
-        /// Distance of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties.
+        /// Distance of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties.  Unit: meters
         public let distance: Int64?
         /// Duration of the computed span. This feature doesn't split a span, but is always computed on a span split by other properties.  Unit: seconds
         public let duration: Int64?
@@ -3024,7 +3031,7 @@ extension GeoRoutes {
         public let language: String?
         /// Details related to the pedestrian leg.
         public let pedestrianLegDetails: RoutePedestrianLegDetails?
-        /// Specifies the mode of transport when calculating a route.  Used in estimating the speed of travel and road compatibility. Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
         public let travelMode: RouteLegTravelMode
         /// Type of the leg.
         public let type: RouteLegType
@@ -3123,9 +3130,9 @@ extension GeoRoutes {
     }
 
     public struct RouteMatrixAllowOptions: AWSEncodableShape {
-        /// Allow Hot (High Occupancy Toll) lanes while calculating the route.
+        /// Allow Hot (High Occupancy Toll) lanes while calculating the route. Default value: false
         public let hot: Bool?
-        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route.
+        /// Allow Hov (High Occupancy vehicle) lanes while calculating the route. Default value: false
         public let hov: Bool?
 
         @inlinable
@@ -3233,7 +3240,7 @@ extension GeoRoutes {
         public let tollRoads: Bool?
         /// Avoids roads where the specified toll transponders are the only mode of payment.
         public let tollTransponders: Bool?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden.  A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
+        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
         public let truckRoadTypes: [String]?
         /// Avoid tunnels while calculating the route.
         public let tunnels: Bool?
@@ -3631,7 +3638,7 @@ extension GeoRoutes {
     }
 
     public struct RouteMatrixTrafficOptions: AWSEncodableShape {
-        /// Duration for which flow traffic is considered valid.  For this period, the flow traffic is used over historical traffic data.  Flow traffic refers to congestion, which changes very quickly.  Duration in seconds for which flow traffic event would be considered valid.  While flow traffic event is valid it will be used over the historical traffic data.
+        /// Duration for which flow traffic is considered valid. For this period, the flow traffic is used over historical traffic data. Flow traffic refers to congestion, which changes very quickly. Duration in seconds for which flow traffic event would be considered valid. While flow traffic event is valid it will be used over the historical traffic data.
         public let flowEventThresholdOverride: Int64?
         /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
         public let usage: TrafficUsage?
@@ -3670,7 +3677,7 @@ extension GeoRoutes {
     public struct RouteMatrixTravelModeOptions: AWSEncodableShape {
         /// Travel mode options when the provided travel mode is "Car"
         public let car: RouteMatrixCarOptions?
-        /// Travel mode options when the provided travel mode is "Scooter"
+        /// Travel mode options when the provided travel mode is Scooter   When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public let scooter: RouteMatrixScooterOptions?
         /// Travel mode options when the provided travel mode is "Truck"
         public let truck: RouteMatrixTruckOptions?
@@ -3720,7 +3727,7 @@ extension GeoRoutes {
         public let trailer: RouteMatrixTrailerOptions?
         /// Type of the truck.
         public let truckType: RouteMatrixTruckType?
-        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain.  They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
+        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
         /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: Kilograms
         public let weightPerAxle: Int64?
@@ -4830,7 +4837,7 @@ extension GeoRoutes {
     }
 
     public struct RouteTrafficOptions: AWSEncodableShape {
-        /// Duration for which flow  traffic is considered valid.  For this period, the flow traffic is used over historical traffic data.  Flow traffic refers to congestion, which changes very quickly.  Duration in seconds for which flow traffic event would be considered valid.  While flow traffic event is valid it will be used over the historical traffic data.
+        /// Duration for which flow traffic is considered valid. For this period, the flow traffic is used over historical traffic data. Flow traffic refers to congestion, which changes very quickly. Duration in seconds for which flow traffic event would be considered valid. While flow traffic event is valid it will be used over the historical traffic data.
         public let flowEventThresholdOverride: Int64?
         /// Determines if traffic should be used or ignored while calculating the route. Default Value: UseTrafficData
         public let usage: TrafficUsage?
@@ -4889,7 +4896,7 @@ extension GeoRoutes {
         public let car: RouteCarOptions?
         /// Travel mode options when the provided travel mode is "Pedestrian"
         public let pedestrian: RoutePedestrianOptions?
-        /// Travel mode options when the provided travel mode is "Scooter"
+        /// Travel mode options when the provided travel mode is Scooter   When travel mode is set to Scooter, then the avoidance option ControlledAccessHighways defaults to true.
         public let scooter: RouteScooterOptions?
         /// Travel mode options when the provided travel mode is "Truck"
         public let truck: RouteTruckOptions?
@@ -4948,7 +4955,7 @@ extension GeoRoutes {
         public let trailer: RouteTrailerOptions?
         /// Type of the truck.
         public let truckType: RouteTruckType?
-        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain.  They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
+        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
         /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: Kilograms
         public let weightPerAxle: Int64?
@@ -5120,11 +5127,7 @@ extension GeoRoutes {
         public let description: String?
         /// End timestamp of the incident.
         public let endTime: String?
-        /// Severity of the incident
-        /// Critical - The part of the route the incident affects is unusable.
-        /// Major- Major impact on the leg duration, for example stop and go
-        /// Minor- Minor impact on the leg duration, for example traffic jam
-        /// Low - Low on duration, for example slightly increased traffic
+        /// Severity of the incident Critical - The part of the route the incident affects is unusable. Major- Major impact on the leg duration, for example stop and go Minor- Minor impact on the leg duration, for example traffic jam Low - Low on duration, for example slightly increased traffic
         public let severity: RouteVehicleIncidentSeverity?
         /// Start time of the incident.
         public let startTime: String?
@@ -5170,7 +5173,7 @@ extension GeoRoutes {
         public let tollSystems: [RouteTollSystem]
         /// Steps of a leg that must be performed before the travel portion of the leg.
         public let travelSteps: [RouteVehicleTravelStep]
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden.  A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
+        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
         public let truckRoadTypes: [String]
         /// Zones corresponding to this leg of the route.
         public let zones: [RouteZone]
@@ -5358,7 +5361,7 @@ extension GeoRoutes {
         public let tollSystems: [Int]?
         /// Access attributes for a truck corresponding to the span.
         public let truckAccess: [RouteSpanTruckAccessAttribute]?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden.  A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
+        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
         public let truckRoadTypes: [Int]?
         /// Duration of the computed span under typical traffic congestion.   Unit: seconds
         public let typicalDuration: Int64?
@@ -5582,11 +5585,11 @@ extension GeoRoutes {
         public let trailerCount: RouteNoticeDetailRange?
         /// Travel mode corresponding to the leg.
         public let travelMode: Bool?
-        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden.  A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
+        /// Truck road type identifiers. BK1 through BK4 apply only to Sweden. A2,A4,B2,B4,C,D,ET2,ET4 apply only to Mexico.  There are currently no other supported values as of 26th April 2024.
         public let truckRoadType: String?
         /// Type of the truck.
         public let truckType: RouteTruckType?
-        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain.  They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
+        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
 
         @inlinable
@@ -5735,7 +5738,7 @@ extension GeoRoutes {
         public let snapRadius: Int64?
         /// List of trace points to be snapped onto the road network.
         public let tracePoints: [RoadSnapTracePoint]
-        /// Specifies the mode of transport when calculating a route.  Used in estimating the speed of travel and road compatibility. Default Value: Car
+        /// Specifies the mode of transport when calculating a route. Used in estimating the speed of travel and road compatibility. Default Value: Car
         public let travelMode: RoadSnapTravelMode?
         /// Travel mode related options for the provided travel mode.
         public let travelModeOptions: RoadSnapTravelModeOptions?
@@ -5949,6 +5952,28 @@ extension GeoRoutes {
         }
     }
 
+    public struct WaypointOptimizationClusteringOptions: AWSEncodableShape {
+        /// The algorithm to be used. DrivingDistance assigns all the waypoints that are within driving distance of each other into a single cluster. TopologySegment assigns all the waypoints that are within the same topology segment into a single cluster. A Topology segment is a linear stretch of road between two junctions.
+        public let algorithm: WaypointOptimizationClusteringAlgorithm
+        /// Driving distance options to be used when the clustering algorithm is DrivingDistance.
+        public let drivingDistanceOptions: WaypointOptimizationDrivingDistanceOptions?
+
+        @inlinable
+        public init(algorithm: WaypointOptimizationClusteringAlgorithm, drivingDistanceOptions: WaypointOptimizationDrivingDistanceOptions? = nil) {
+            self.algorithm = algorithm
+            self.drivingDistanceOptions = drivingDistanceOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.drivingDistanceOptions?.validate(name: "\(name).drivingDistanceOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithm = "Algorithm"
+            case drivingDistanceOptions = "DrivingDistanceOptions"
+        }
+    }
+
     public struct WaypointOptimizationConnection: AWSDecodableShape {
         /// Distance of the step.
         public let distance: Int64
@@ -6055,6 +6080,25 @@ extension GeoRoutes {
         }
     }
 
+    public struct WaypointOptimizationDrivingDistanceOptions: AWSEncodableShape {
+        /// DrivingDistance assigns all the waypoints that are within driving distance of each other into a single cluster.
+        public let drivingDistance: Int64
+
+        @inlinable
+        public init(drivingDistance: Int64 = 0) {
+            self.drivingDistance = drivingDistance
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.drivingDistance, name: "drivingDistance", parent: name, max: 4294967295)
+            try self.validate(self.drivingDistance, name: "drivingDistance", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case drivingDistance = "DrivingDistance"
+        }
+    }
+
     public struct WaypointOptimizationExclusionOptions: AWSEncodableShape {
         /// List of countries to be avoided defined by two-letter or three-letter country codes.
         public let countries: [String]
@@ -6122,6 +6166,8 @@ extension GeoRoutes {
     public struct WaypointOptimizationOptimizedWaypoint: AWSDecodableShape {
         /// Estimated time of arrival at the destination. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let arrivalTime: String?
+        /// Index of the cluster the waypoint is associated with. The index is included in the response only if clustering was performed while processing the request.
+        public let clusterIndex: Int?
         /// Estimated time of departure from thr origin. Time format:YYYY-MM-DDThh:mm:ss.sssZ | YYYY-MM-DDThh:mm:ss.sss+hh:mm  Examples:  2020-04-22T17:57:24Z   2020-04-22T17:57:24+02:00
         public let departureTime: String
         /// The waypoint Id.
@@ -6130,8 +6176,9 @@ extension GeoRoutes {
         public let position: [Double]
 
         @inlinable
-        public init(arrivalTime: String? = nil, departureTime: String, id: String, position: [Double]) {
+        public init(arrivalTime: String? = nil, clusterIndex: Int? = nil, departureTime: String, id: String, position: [Double]) {
             self.arrivalTime = arrivalTime
+            self.clusterIndex = clusterIndex
             self.departureTime = departureTime
             self.id = id
             self.position = position
@@ -6139,6 +6186,7 @@ extension GeoRoutes {
 
         private enum CodingKeys: String, CodingKey {
             case arrivalTime = "ArrivalTime"
+            case clusterIndex = "ClusterIndex"
             case departureTime = "DepartureTime"
             case id = "Id"
             case position = "Position"
@@ -6357,7 +6405,7 @@ extension GeoRoutes {
         public let trailer: WaypointOptimizationTrailerOptions?
         /// Type of the truck.
         public let truckType: WaypointOptimizationTruckType?
-        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain.  They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
+        /// The tunnel restriction code. Tunnel categories in this list indicate the restrictions which apply to certain tunnels in Great Britain. They relate to the types of dangerous goods that can be transported through them.    Tunnel Category B     Risk Level: Limited risk    Restrictions: Few restrictions      Tunnel Category C     Risk Level: Medium risk    Restrictions: Some restrictions      Tunnel Category D     Risk Level: High risk    Restrictions: Many restrictions occur      Tunnel Category E     Risk Level: Very high risk    Restrictions: Restricted tunnel
         public let tunnelRestrictionCode: String?
         /// Heaviest weight per axle irrespective of the axle type or the axle group. Meant for usage in countries where the differences in axle types or axle groups are not distinguished.  Unit: Kilograms
         public let weightPerAxle: Int64?

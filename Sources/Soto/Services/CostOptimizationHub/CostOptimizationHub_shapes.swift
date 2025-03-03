@@ -32,8 +32,21 @@ extension CostOptimizationHub {
         case purchaseReservedInstances = "PurchaseReservedInstances"
         case purchaseSavingsPlans = "PurchaseSavingsPlans"
         case rightsize = "Rightsize"
+        case scaleIn = "ScaleIn"
         case stop = "Stop"
         case upgrade = "Upgrade"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AllocationStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case lowestPrice = "LowestPrice"
+        case prioritized = "Prioritized"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Ec2AutoScalingGroupType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case mixedInstanceTypes = "MixedInstanceTypes"
+        case singleInstanceType = "SingleInstanceType"
         public var description: String { return self.rawValue }
     }
 
@@ -129,7 +142,7 @@ extension CostOptimizationHub {
         case rdsReservedInstances(RdsReservedInstances)
         /// The Redshift reserved instances recommendation details.
         case redshiftReservedInstances(RedshiftReservedInstances)
-        /// The SageMaker Savings Plans recommendation details.
+        /// The SageMaker AI Savings Plans recommendation details.
         case sageMakerSavingsPlans(SageMakerSavingsPlans)
 
         public init(from decoder: Decoder) throws {
@@ -398,16 +411,28 @@ extension CostOptimizationHub {
     }
 
     public struct Ec2AutoScalingGroupConfiguration: AWSDecodableShape {
-        /// Details about the instance.
+        /// The strategy used for allocating instances, based on a predefined priority order or based on the lowest available price.
+        public let allocationStrategy: AllocationStrategy?
+        /// Details about the instance for the EC2 Auto Scaling group with a single instance type.
         public let instance: InstanceConfiguration?
+        /// A list of instance types for an EC2 Auto Scaling group with mixed instance types.
+        public let mixedInstances: [MixedInstanceConfiguration]?
+        /// The type of EC2 Auto Scaling group, showing whether it consists of a single instance type or mixed instance types.
+        public let type: Ec2AutoScalingGroupType?
 
         @inlinable
-        public init(instance: InstanceConfiguration? = nil) {
+        public init(allocationStrategy: AllocationStrategy? = nil, instance: InstanceConfiguration? = nil, mixedInstances: [MixedInstanceConfiguration]? = nil, type: Ec2AutoScalingGroupType? = nil) {
+            self.allocationStrategy = allocationStrategy
             self.instance = instance
+            self.mixedInstances = mixedInstances
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allocationStrategy = "allocationStrategy"
             case instance = "instance"
+            case mixedInstances = "mixedInstances"
+            case type = "type"
         }
     }
 
@@ -938,7 +963,7 @@ extension CostOptimizationHub {
     }
 
     public struct InstanceConfiguration: AWSDecodableShape {
-        /// Details about the type.
+        /// The instance type of the configuration.
         public let type: String?
 
         @inlinable
@@ -1159,6 +1184,20 @@ extension CostOptimizationHub {
         private enum CodingKeys: String, CodingKey {
             case items = "items"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct MixedInstanceConfiguration: AWSDecodableShape {
+        /// The instance type of the configuration.
+        public let type: String?
+
+        @inlinable
+        public init(type: String? = nil) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
         }
     }
 

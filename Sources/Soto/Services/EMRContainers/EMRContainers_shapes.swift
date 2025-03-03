@@ -26,6 +26,12 @@ import Foundation
 extension EMRContainers {
     // MARK: Enums
 
+    public enum AllowAWSToRetainLogs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CertificateProviderType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case pem = "PEM"
         public var description: String { return self.rawValue }
@@ -1881,20 +1887,47 @@ extension EMRContainers {
         }
     }
 
+    public struct ManagedLogs: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether Amazon Web Services can retain logs.
+        public let allowAWSToRetainLogs: AllowAWSToRetainLogs?
+        /// The Amazon resource name (ARN) of the encryption key for logs.
+        public let encryptionKeyArn: String?
+
+        @inlinable
+        public init(allowAWSToRetainLogs: AllowAWSToRetainLogs? = nil, encryptionKeyArn: String? = nil) {
+            self.allowAWSToRetainLogs = allowAWSToRetainLogs
+            self.encryptionKeyArn = encryptionKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, min: 3)
+            try self.validate(self.encryptionKeyArn, name: "encryptionKeyArn", parent: name, pattern: "^(arn:(aws[a-zA-Z0-9-]*):kms:.+:(\\d{12})?:key\\/[(0-9a-zA-Z)-?]+|\\$\\{[a-zA-Z]\\w*\\})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowAWSToRetainLogs = "allowAWSToRetainLogs"
+            case encryptionKeyArn = "encryptionKeyArn"
+        }
+    }
+
     public struct MonitoringConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Monitoring configurations for CloudWatch.
         public let cloudWatchMonitoringConfiguration: CloudWatchMonitoringConfiguration?
         /// Enable or disable container log rotation.
         public let containerLogRotationConfiguration: ContainerLogRotationConfiguration?
+        /// The entity that controls configuration for managed logs.
+        public let managedLogs: ManagedLogs?
         /// Monitoring configurations for the persistent application UI.
         public let persistentAppUI: PersistentAppUI?
         /// Amazon S3 configuration for monitoring log publishing.
         public let s3MonitoringConfiguration: S3MonitoringConfiguration?
 
         @inlinable
-        public init(cloudWatchMonitoringConfiguration: CloudWatchMonitoringConfiguration? = nil, containerLogRotationConfiguration: ContainerLogRotationConfiguration? = nil, persistentAppUI: PersistentAppUI? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
+        public init(cloudWatchMonitoringConfiguration: CloudWatchMonitoringConfiguration? = nil, containerLogRotationConfiguration: ContainerLogRotationConfiguration? = nil, managedLogs: ManagedLogs? = nil, persistentAppUI: PersistentAppUI? = nil, s3MonitoringConfiguration: S3MonitoringConfiguration? = nil) {
             self.cloudWatchMonitoringConfiguration = cloudWatchMonitoringConfiguration
             self.containerLogRotationConfiguration = containerLogRotationConfiguration
+            self.managedLogs = managedLogs
             self.persistentAppUI = persistentAppUI
             self.s3MonitoringConfiguration = s3MonitoringConfiguration
         }
@@ -1902,12 +1935,14 @@ extension EMRContainers {
         public func validate(name: String) throws {
             try self.cloudWatchMonitoringConfiguration?.validate(name: "\(name).cloudWatchMonitoringConfiguration")
             try self.containerLogRotationConfiguration?.validate(name: "\(name).containerLogRotationConfiguration")
+            try self.managedLogs?.validate(name: "\(name).managedLogs")
             try self.s3MonitoringConfiguration?.validate(name: "\(name).s3MonitoringConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchMonitoringConfiguration = "cloudWatchMonitoringConfiguration"
             case containerLogRotationConfiguration = "containerLogRotationConfiguration"
+            case managedLogs = "managedLogs"
             case persistentAppUI = "persistentAppUI"
             case s3MonitoringConfiguration = "s3MonitoringConfiguration"
         }

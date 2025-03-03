@@ -132,14 +132,14 @@ extension OpenSearchServerless {
         /// The name of the policy.
         public let name: String?
         /// The JSON policy document without any whitespaces.
-        public let policy: String?
+        public let policy: AWSDocument?
         /// The version of the policy.
         public let policyVersion: String?
         /// The type of access policy.
         public let type: AccessPolicyType?
 
         @inlinable
-        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: AccessPolicyType? = nil) {
+        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: AWSDocument? = nil, policyVersion: String? = nil, type: AccessPolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -369,6 +369,7 @@ extension OpenSearchServerless {
                 try validate($0, name: "ids[]", parent: name, min: 1)
                 try validate($0, name: "ids[]", parent: name, pattern: "^vpce-[0-9a-z]*$")
             }
+            try self.validate(self.ids, name: "ids", parent: name, max: 100)
             try self.validate(self.ids, name: "ids", parent: name, min: 1)
         }
 
@@ -1537,14 +1538,14 @@ extension OpenSearchServerless {
         /// The name of the lifecycle policy.
         public let name: String?
         /// The JSON policy document without any whitespaces.
-        public let policy: String?
+        public let policy: AWSDocument?
         /// The version of the lifecycle policy.
         public let policyVersion: String?
         /// The type of lifecycle policy.
         public let type: LifecyclePolicyType?
 
         @inlinable
-        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: LifecyclePolicyType? = nil) {
+        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: AWSDocument? = nil, policyVersion: String? = nil, type: LifecyclePolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate
@@ -1979,15 +1980,18 @@ extension OpenSearchServerless {
         public let groupAttribute: String?
         /// The XML IdP metadata file generated from your identity provider.
         public let metadata: String
+        /// Custom entity id attribute to override default entity id for this saml integration.
+        public let openSearchServerlessEntityId: String?
         /// The session timeout, in minutes. Default is 60 minutes (12 hours).
         public let sessionTimeout: Int?
         /// A user attribute for this SAML integration.
         public let userAttribute: String?
 
         @inlinable
-        public init(groupAttribute: String? = nil, metadata: String, sessionTimeout: Int? = nil, userAttribute: String? = nil) {
+        public init(groupAttribute: String? = nil, metadata: String, openSearchServerlessEntityId: String? = nil, sessionTimeout: Int? = nil, userAttribute: String? = nil) {
             self.groupAttribute = groupAttribute
             self.metadata = metadata
+            self.openSearchServerlessEntityId = openSearchServerlessEntityId
             self.sessionTimeout = sessionTimeout
             self.userAttribute = userAttribute
         }
@@ -1999,6 +2003,9 @@ extension OpenSearchServerless {
             try self.validate(self.metadata, name: "metadata", parent: name, max: 51200)
             try self.validate(self.metadata, name: "metadata", parent: name, min: 1)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+")
+            try self.validate(self.openSearchServerlessEntityId, name: "openSearchServerlessEntityId", parent: name, max: 1024)
+            try self.validate(self.openSearchServerlessEntityId, name: "openSearchServerlessEntityId", parent: name, min: 1)
+            try self.validate(self.openSearchServerlessEntityId, name: "openSearchServerlessEntityId", parent: name, pattern: "^aws:opensearch:[0-9]{12}:*")
             try self.validate(self.userAttribute, name: "userAttribute", parent: name, max: 2048)
             try self.validate(self.userAttribute, name: "userAttribute", parent: name, min: 1)
             try self.validate(self.userAttribute, name: "userAttribute", parent: name, pattern: "[\\w+=,.@-]+")
@@ -2007,6 +2014,7 @@ extension OpenSearchServerless {
         private enum CodingKeys: String, CodingKey {
             case groupAttribute = "groupAttribute"
             case metadata = "metadata"
+            case openSearchServerlessEntityId = "openSearchServerlessEntityId"
             case sessionTimeout = "sessionTimeout"
             case userAttribute = "userAttribute"
         }
@@ -2112,14 +2120,14 @@ extension OpenSearchServerless {
         /// The name of the policy.
         public let name: String?
         /// The JSON policy document without any whitespaces.
-        public let policy: String?
+        public let policy: AWSDocument?
         /// The version of the policy.
         public let policyVersion: String?
         /// The type of security policy.
         public let type: SecurityPolicyType?
 
         @inlinable
-        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: String? = nil, policyVersion: String? = nil, type: SecurityPolicyType? = nil) {
+        public init(createdDate: Int64? = nil, description: String? = nil, lastModifiedDate: Int64? = nil, name: String? = nil, policy: AWSDocument? = nil, policyVersion: String? = nil, type: SecurityPolicyType? = nil) {
             self.createdDate = createdDate
             self.description = description
             self.lastModifiedDate = lastModifiedDate

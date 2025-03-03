@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS BedrockDataAutomationRuntime service.
 ///
-/// Amazon Bedrock Keystone Runtime
+/// Amazon Bedrock Data Automation Runtime
 public struct BedrockDataAutomationRuntime: AWSService {
     // MARK: Member variables
 
@@ -129,32 +129,131 @@ public struct BedrockDataAutomationRuntime: AWSService {
     ///   - blueprints: Blueprint list.
     ///   - clientToken: Idempotency token.
     ///   - dataAutomationConfiguration: Data automation configuration.
+    ///   - dataAutomationProfileArn: Data automation profile ARN
     ///   - encryptionConfiguration: Encryption configuration.
     ///   - inputConfiguration: Input configuration.
     ///   - notificationConfiguration: Notification configuration.
     ///   - outputConfiguration: Output configuration.
+    ///   - tags: List of tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func invokeDataAutomationAsync(
         blueprints: [Blueprint]? = nil,
         clientToken: String? = InvokeDataAutomationAsyncRequest.idempotencyToken(),
         dataAutomationConfiguration: DataAutomationConfiguration? = nil,
+        dataAutomationProfileArn: String,
         encryptionConfiguration: EncryptionConfiguration? = nil,
         inputConfiguration: InputConfiguration,
         notificationConfiguration: NotificationConfiguration? = nil,
         outputConfiguration: OutputConfiguration,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> InvokeDataAutomationAsyncResponse {
         let input = InvokeDataAutomationAsyncRequest(
             blueprints: blueprints, 
             clientToken: clientToken, 
             dataAutomationConfiguration: dataAutomationConfiguration, 
+            dataAutomationProfileArn: dataAutomationProfileArn, 
             encryptionConfiguration: encryptionConfiguration, 
             inputConfiguration: inputConfiguration, 
             notificationConfiguration: notificationConfiguration, 
-            outputConfiguration: outputConfiguration
+            outputConfiguration: outputConfiguration, 
+            tags: tags
         )
         return try await self.invokeDataAutomationAsync(input, logger: logger)
+    }
+
+    /// List tags for an Amazon Bedrock Data Automation resource
+    @Sendable
+    @inlinable
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
+        try await self.client.execute(
+            operation: "ListTagsForResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List tags for an Amazon Bedrock Data Automation resource
+    ///
+    /// Parameters:
+    ///   - resourceARN: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listTagsForResource(
+        resourceARN: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListTagsForResourceResponse {
+        let input = ListTagsForResourceRequest(
+            resourceARN: resourceARN
+        )
+        return try await self.listTagsForResource(input, logger: logger)
+    }
+
+    /// Tag an Amazon Bedrock Data Automation resource
+    @Sendable
+    @inlinable
+    public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
+        try await self.client.execute(
+            operation: "TagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Tag an Amazon Bedrock Data Automation resource
+    ///
+    /// Parameters:
+    ///   - resourceARN: 
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func tagResource(
+        resourceARN: String,
+        tags: [Tag],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> TagResourceResponse {
+        let input = TagResourceRequest(
+            resourceARN: resourceARN, 
+            tags: tags
+        )
+        return try await self.tagResource(input, logger: logger)
+    }
+
+    /// Untag an Amazon Bedrock Data Automation resource
+    @Sendable
+    @inlinable
+    public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
+        try await self.client.execute(
+            operation: "UntagResource", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Untag an Amazon Bedrock Data Automation resource
+    ///
+    /// Parameters:
+    ///   - resourceARN: 
+    ///   - tagKeys: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func untagResource(
+        resourceARN: String,
+        tagKeys: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UntagResourceResponse {
+        let input = UntagResourceRequest(
+            resourceARN: resourceARN, 
+            tagKeys: tagKeys
+        )
+        return try await self.untagResource(input, logger: logger)
     }
 }
 

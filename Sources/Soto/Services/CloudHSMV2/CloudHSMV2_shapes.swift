@@ -217,9 +217,11 @@ extension CloudHSMV2 {
         public let hsms: [Hsm]?
         /// The type of HSM that the cluster contains.
         public let hsmType: String?
+        /// The timestamp until when the cluster can be rolled back to its original HSM type.
+        public let hsmTypeRollbackExpiration: Date?
         /// The mode of the cluster.
         public let mode: ClusterMode?
-        /// The cluster's NetworkType can be set to either IPV4 (which is the default) or DUALSTACK. When set to IPV4, communication between your application and the Hardware Security Modules (HSMs) is restricted to the IPv4 protocol only. In contrast, the DUALSTACK network type enables communication over both the IPv4 and IPv6 protocols. To use the DUALSTACK option, you'll need to configure your Virtual Private Cloud (VPC) and subnets to support both IPv4 and IPv6. This involves adding IPv6 Classless Inter-Domain Routing (CIDR) blocks to the existing IPv4 CIDR blocks in your subnets. The choice between IPV4 and DUALSTACK network types determines the flexibility of the network addressing setup for your cluster. The DUALSTACK option provides more flexibility by allowing both IPv4 and IPv6 communication.
+        /// The cluster's NetworkType can be IPv4 (the default) or DUALSTACK. The IPv4 NetworkType restricts communication between your application and the hardware security modules (HSMs) to the IPv4 protocol only. The DUALSTACK NetworkType enables communication over both IPv4 and IPv6 protocols. To use DUALSTACK, configure your virtual private cloud (VPC) and subnets to support both IPv4 and IPv6. This configuration involves adding IPv6 Classless Inter-Domain Routing (CIDR) blocks to the existing IPv4 CIDR blocks in your subnets. The NetworkType you choose affects the network addressing options for your cluster. DUALSTACK provides more flexibility by supporting both IPv4 and IPv6 communication.
         public let networkType: NetworkType?
         /// The default password for the cluster's Pre-Crypto Officer (PRECO) user.
         public let preCoPassword: String?
@@ -239,7 +241,7 @@ extension CloudHSMV2 {
         public let vpcId: String?
 
         @inlinable
-        public init(backupPolicy: BackupPolicy? = nil, backupRetentionPolicy: BackupRetentionPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, mode: ClusterMode? = nil, networkType: NetworkType? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
+        public init(backupPolicy: BackupPolicy? = nil, backupRetentionPolicy: BackupRetentionPolicy? = nil, certificates: Certificates? = nil, clusterId: String? = nil, createTimestamp: Date? = nil, hsms: [Hsm]? = nil, hsmType: String? = nil, hsmTypeRollbackExpiration: Date? = nil, mode: ClusterMode? = nil, networkType: NetworkType? = nil, preCoPassword: String? = nil, securityGroup: String? = nil, sourceBackupId: String? = nil, state: ClusterState? = nil, stateMessage: String? = nil, subnetMapping: [String: String]? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
             self.backupPolicy = backupPolicy
             self.backupRetentionPolicy = backupRetentionPolicy
             self.certificates = certificates
@@ -247,6 +249,7 @@ extension CloudHSMV2 {
             self.createTimestamp = createTimestamp
             self.hsms = hsms
             self.hsmType = hsmType
+            self.hsmTypeRollbackExpiration = hsmTypeRollbackExpiration
             self.mode = mode
             self.networkType = networkType
             self.preCoPassword = preCoPassword
@@ -267,6 +270,7 @@ extension CloudHSMV2 {
             case createTimestamp = "CreateTimestamp"
             case hsms = "Hsms"
             case hsmType = "HsmType"
+            case hsmTypeRollbackExpiration = "HsmTypeRollbackExpiration"
             case mode = "Mode"
             case networkType = "NetworkType"
             case preCoPassword = "PreCoPassword"
@@ -766,6 +770,8 @@ extension CloudHSMV2 {
         public let eniIpV6: String?
         /// The HSM's identifier (ID).
         public let hsmId: String
+        /// The type of HSM.
+        public let hsmType: String?
         /// The HSM's state.
         public let state: HsmState?
         /// A description of the HSM's state.
@@ -774,13 +780,14 @@ extension CloudHSMV2 {
         public let subnetId: String?
 
         @inlinable
-        public init(availabilityZone: String? = nil, clusterId: String? = nil, eniId: String? = nil, eniIp: String? = nil, eniIpV6: String? = nil, hsmId: String, state: HsmState? = nil, stateMessage: String? = nil, subnetId: String? = nil) {
+        public init(availabilityZone: String? = nil, clusterId: String? = nil, eniId: String? = nil, eniIp: String? = nil, eniIpV6: String? = nil, hsmId: String, hsmType: String? = nil, state: HsmState? = nil, stateMessage: String? = nil, subnetId: String? = nil) {
             self.availabilityZone = availabilityZone
             self.clusterId = clusterId
             self.eniId = eniId
             self.eniIp = eniIp
             self.eniIpV6 = eniIpV6
             self.hsmId = hsmId
+            self.hsmType = hsmType
             self.state = state
             self.stateMessage = stateMessage
             self.subnetId = subnetId
@@ -793,6 +800,7 @@ extension CloudHSMV2 {
             case eniIp = "EniIp"
             case eniIpV6 = "EniIpV6"
             case hsmId = "HsmId"
+            case hsmType = "HsmType"
             case state = "State"
             case stateMessage = "StateMessage"
             case subnetId = "SubnetId"
@@ -932,24 +940,30 @@ extension CloudHSMV2 {
 
     public struct ModifyClusterRequest: AWSEncodableShape {
         /// A policy that defines how the service retains backups.
-        public let backupRetentionPolicy: BackupRetentionPolicy
+        public let backupRetentionPolicy: BackupRetentionPolicy?
         /// The identifier (ID) of the cluster that you want to modify. To find the cluster ID, use DescribeClusters.
         public let clusterId: String
+        /// The desired HSM type of the cluster.
+        public let hsmType: String?
 
         @inlinable
-        public init(backupRetentionPolicy: BackupRetentionPolicy, clusterId: String) {
+        public init(backupRetentionPolicy: BackupRetentionPolicy? = nil, clusterId: String, hsmType: String? = nil) {
             self.backupRetentionPolicy = backupRetentionPolicy
             self.clusterId = clusterId
+            self.hsmType = hsmType
         }
 
         public func validate(name: String) throws {
-            try self.backupRetentionPolicy.validate(name: "\(name).backupRetentionPolicy")
+            try self.backupRetentionPolicy?.validate(name: "\(name).backupRetentionPolicy")
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "^cluster-[2-7a-zA-Z]{11,16}$")
+            try self.validate(self.hsmType, name: "hsmType", parent: name, max: 32)
+            try self.validate(self.hsmType, name: "hsmType", parent: name, pattern: "^((p|)hsm[0-9][a-z.]*\\.[a-zA-Z]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupRetentionPolicy = "BackupRetentionPolicy"
             case clusterId = "ClusterId"
+            case hsmType = "HsmType"
         }
     }
 
