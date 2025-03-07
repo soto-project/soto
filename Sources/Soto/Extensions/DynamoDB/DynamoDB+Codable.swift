@@ -26,10 +26,11 @@ extension DynamoDB {
     /// Invalid Requests with empty values will be rejected with a `ValidationException` exception.</p> <note> <p>To prevent a new item from replacing an existing item, use a conditional expression that contains the `attribute_not_exists` function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the `attribute_not_exists` function will only succeed if no matching item exists.</p> </note> <p>For more information about `PutItem`, see <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html">Working with Items</a> in the <i>Amazon DynamoDB Developer Guide</i>.
     public func putItem(
         _ input: PutItemCodableInput<some Encodable>,
+        encoder: DynamoDBEncoder = DynamoDBEncoder(),
         logger: Logger = AWSClient.loggingDisabled
     ) async throws -> PutItemOutput {
         do {
-            let item = try DynamoDBEncoder().encode(input.item)
+            let item = try encoder.encode(input.item)
             let request = DynamoDB.PutItemInput(
                 conditionExpression: input.conditionExpression,
                 expressionAttributeNames: input.expressionAttributeNames,
@@ -50,10 +51,11 @@ extension DynamoDB {
     public func getItem<T: Decodable>(
         _ input: GetItemInput,
         type: T.Type,
+        decoder: DynamoDBDecoder = DynamoDBDecoder(),
         logger: Logger = AWSClient.loggingDisabled
     ) async throws -> GetItemCodableOutput<T> {
         let response = try await self.getItem(input, logger: logger)
-        let item = try response.item.map { try DynamoDBDecoder().decode(T.self, from: $0) }
+        let item = try response.item.map { try decoder.decode(T.self, from: $0) }
         return GetItemCodableOutput(
             consumedCapacity: response.consumedCapacity,
             item: item
@@ -64,10 +66,11 @@ extension DynamoDB {
     ///
     /// You can also return the item's attribute values in the same `UpdateItem` operation using the `ReturnValues` parameter.
     public func updateItem(
-        _ input: UpdateItemCodableInput<some Encodable>,
+        _ input: UpdateItemCodableInput<some Encodable & Sendable, some Encodable & Sendable>,
+        encoder: DynamoDBEncoder = DynamoDBEncoder(),
         logger: Logger = AWSClient.loggingDisabled
     ) async throws -> UpdateItemOutput {
-        try await self.updateItem(input.createUpdateItemInput(), logger: logger)
+        try await self.updateItem(input.createUpdateItemInput(encoder: encoder), logger: logger)
     }
 
     /// The `Query` operation finds items based on primary key values. You can query any table or secondary index that has a composite primary key (a partition key and a sort key).
@@ -82,10 +85,11 @@ extension DynamoDB {
     public func query<T: Decodable>(
         _ input: QueryInput,
         type: T.Type,
+        decoder: DynamoDBDecoder = DynamoDBDecoder(),
         logger: Logger = AWSClient.loggingDisabled
     ) async throws -> QueryCodableOutput<T> {
         let response = try await self.query(input, logger: logger)
-        let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+        let items = try response.items.map { try $0.map { try decoder.decode(T.self, from: $0) } }
         return QueryCodableOutput(
             consumedCapacity: response.consumedCapacity,
             count: response.count,
@@ -107,10 +111,11 @@ extension DynamoDB {
     public func scan<T: Decodable>(
         _ input: ScanInput,
         type: T.Type,
+        decoder: DynamoDBDecoder = DynamoDBDecoder(),
         logger: Logger = AWSClient.loggingDisabled
     ) async throws -> ScanCodableOutput<T> {
         let response = try await self.scan(input, logger: logger)
-        let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
+        let items = try response.items.map { try $0.map { try decoder.decode(T.self, from: $0) } }
         return ScanCodableOutput(
             consumedCapacity: response.consumedCapacity,
             count: response.count,
@@ -134,11 +139,12 @@ extension DynamoDB {
     public func queryPaginator<T: Decodable>(
         _ input: QueryInput,
         type: T.Type,
+        decoder: DynamoDBDecoder = DynamoDBDecoder(),
         logger: Logger = AWSClient.loggingDisabled
     ) -> AWSClient.PaginatorSequence<QueryInput, QueryCodableOutput<T>> {
         .init(
             input: input,
-            command: { input, logger in try await self.query(input, type: T.self, logger: logger) },
+            command: { input, logger in try await self.query(input, type: T.self, decoder: decoder, logger: logger) },
             inputKey: \QueryInput.exclusiveStartKey,
             outputKey: \QueryCodableOutput<T>.lastEvaluatedKey,
             logger: logger
@@ -157,11 +163,12 @@ extension DynamoDB {
     public func scanPaginator<T: Decodable>(
         _ input: ScanInput,
         type: T.Type,
+        decoder: DynamoDBDecoder = DynamoDBDecoder(),
         logger: Logger = AWSClient.loggingDisabled
     ) -> AWSClient.PaginatorSequence<ScanInput, ScanCodableOutput<T>> {
         .init(
             input: input,
-            command: { input, logger in try await self.scan(input, type: T.self, logger: logger) },
+            command: { input, logger in try await self.scan(input, type: T.self, decoder: decoder, logger: logger) },
             inputKey: \ScanInput.exclusiveStartKey,
             outputKey: \ScanCodableOutput<T>.lastEvaluatedKey,
             logger: logger
@@ -221,11 +228,9 @@ extension DynamoDB {
         }
     }
 
-    public struct UpdateItemCodableInput<T: Encodable & Sendable>: AWSEncodableShape {
-        /// In case expressionAttributeNames is nil, the content of additionalAttributeNames is merged with the generated expressionAttributeNames dictionary and will override existing values. This can be used to specify complex conditionExpression with not auto-generated attribute names.
-        public let additionalAttributeNames: [String: String]?
+    public struct UpdateItemCodableInput<T: Encodable & Sendable, Additional: Encodable & Sendable>: AWSEncodableShape {
         /// The content of additionalAttributeValues is merged with expressionAttributeValues dictionary and will override existing values. This can be used to specify complex conditionExpression with not auto-generated attribute values.
-        public let additionalAttributeValues: [String: AttributeValue]?
+        public let additionalAttributes: Additional?
         /// A condition that must be satisfied in order for a conditional update to succeed. An expression can contain any of the following:   Functions: attribute_exists | attribute_not_exists | attribute_type | contains | begins_with | size  These function names are case-sensitive.   Comparison operators: = | &lt;&gt; | &lt; | &gt; | &lt;= | &gt;= | BETWEEN | IN      Logical operators: AND | OR | NOT    For more information about condition expressions, see Specifying Conditions in the Amazon DynamoDB Developer Guide.
         public let conditionExpression: String?
         /// One or more substitution tokens for attribute names in an expression. The following are some use cases for using ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating occurrences of an attribute name in an expression.   To prevent special characters in an attribute name from being misinterpreted in an expression.   Use the # character in an expression to dereference an attribute name. For example, consider the following attribute name:    Percentile    The name of this attribute conflicts with a reserved word, so it cannot be used directly in an expression. (For the complete list of reserved words, see Reserved Words in the Amazon DynamoDB Developer Guide.) To work around this, you could specify the following for ExpressionAttributeNames:    {"#P":"Percentile"}    You could then use this substitution in an expression, as in this example:    #P = :val     Tokens that begin with the : character are expression attribute values, which are placeholders for the actual value at runtime.  For more information about expression attribute names, see Specifying Item Attributes in the Amazon DynamoDB Developer Guide.
@@ -254,9 +259,8 @@ extension DynamoDB {
             tableName: String,
             updateExpression: String? = nil,
             updateItem: T
-        ) {
-            self.additionalAttributeNames = nil
-            self.additionalAttributeValues = nil
+        ) where Additional == _NullAdditionalAttributes {
+            self.additionalAttributes = nil
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = expressionAttributeNames
             self.key = key
@@ -269,7 +273,7 @@ extension DynamoDB {
         }
 
         public init(
-            additionalAttributes: some Encodable,
+            additionalAttributes: Additional,
             conditionExpression: String? = nil,
             key: [String],
             returnConsumedCapacity: ReturnConsumedCapacity? = nil,
@@ -278,9 +282,7 @@ extension DynamoDB {
             tableName: String,
             updateItem: T
         ) throws {
-            let attributes = try DynamoDBEncoder().encode(additionalAttributes)
-            self.additionalAttributeNames = .init(key.map { ("#\($0)", $0) }) { first, _ in first }
-            self.additionalAttributeValues = .init(attributes.map { (":\($0.key)", $0.value) }) { first, _ in first }
+            self.additionalAttributes = additionalAttributes
             self.conditionExpression = conditionExpression
             self.expressionAttributeNames = nil
             self.key = key
@@ -293,20 +295,22 @@ extension DynamoDB {
         }
 
         /// create `UpdateItemInput` from self
-        func createUpdateItemInput() throws -> UpdateItemInput {
-            var item = try DynamoDBEncoder().encode(self.updateItem)
+        func createUpdateItemInput(encoder: DynamoDBEncoder) throws -> UpdateItemInput {
+            var item = try encoder.encode(self.updateItem)
             // extract key from input object
             var key: [String: AttributeValue] = [:]
             for element in self.key {
                 key[element] = item[element]!
                 item[element] = nil
             }
+            let attributes = try self.additionalAttributes.map { try encoder.encode($0) }
             // construct expression attribute name and value arrays from name attribute value map.
             // if names already provided along with a custom update expression then use the provided names
             let expressionAttributeNames: [String: String]
             if let names = self.expressionAttributeNames, self.updateExpression != nil {
                 expressionAttributeNames = names
-            } else if let additionalAttributeNames {
+            } else if attributes != nil {
+                let additionalAttributeNames: [String: String] = .init(self.key.map { ("#\($0)", $0) }) { first, _ in first }
                 let tmpAttributeNames: [String: String] = .init(item.keys.map { ("#\($0)", $0) }) { first, _ in return first }
                 expressionAttributeNames = tmpAttributeNames.merging(additionalAttributeNames, uniquingKeysWith: { _, new in new })
             } else {
@@ -314,7 +318,8 @@ extension DynamoDB {
             }
 
             let expressionAttributeValues: [String: AttributeValue]
-            if let additionalAttributeValues {
+            if let attributes {
+                let additionalAttributeValues: [String: AttributeValue] = .init(attributes.map { (":\($0.key)", $0.value) }) { first, _ in first }
                 let tmpExpressionAttributeValues: [String: AttributeValue] = .init(item.map { (":\($0.key)", $0.value) }) { first, _ in return first }
                 expressionAttributeValues = tmpExpressionAttributeValues.merging(additionalAttributeValues, uniquingKeysWith: { _, new in new })
             } else {
@@ -368,3 +373,5 @@ extension DynamoDB {
         public let scannedCount: Int?
     }
 }
+
+public struct _NullAdditionalAttributes: Encodable & Sendable {}
