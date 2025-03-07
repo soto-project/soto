@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2025 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -15,12 +15,53 @@
 import Foundation
 
 public class DynamoDBEncoder {
-    public var userInfo: [CodingUserInfoKey: Any] = [:]
+    /// The strategy to use for encoding `Date` values.
+    public enum DateEncodingStrategy: Sendable {
+        /// Defer to `Date` for encoding. This is the default strategy.
+        case deferredToDate
+
+        /// Decode the `Date` as a UNIX timestamp from a JSON number.
+        case secondsSince1970
+
+        /// Decode the `Date` as UNIX millisecond timestamp from a JSON number.
+        case millisecondsSince1970
+
+        /// Decode the `Date` as an ISO-8601-formatted string (in RFC 3339 format).
+        @available(macOS 10.12, iOS 10.0, watchOS 3.0, tvOS 10.0, *)
+        case iso8601
+
+        /// Decode the `Date` as a custom value decoded by the given closure.
+        @preconcurrency
+        case custom(@Sendable (Date, Encoder) -> DynamoDB.AttributeValue)
+    }
+
+    /// Options set on the top-level encoder to pass down the encoding hierarchy.
+    fileprivate struct Options {
+        var dateEncodingStrategy: DateEncodingStrategy = .deferredToDate
+        var userInfo: [CodingUserInfoKey: any Sendable] = [:]
+    }
+    fileprivate var options: Options = .init()
+
+    public var dateEncodingStrategy: DateEncodingStrategy {
+        get { self.options.dateEncodingStrategy }
+        set { self.options.dateEncodingStrategy = newValue }
+    }
+    public var userInfo: [CodingUserInfoKey: any Sendable] {
+        get { self.options.userInfo }
+        _modify {
+            var value = self.options.userInfo
+            defer {
+                options.userInfo = value
+            }
+            yield &value
+        }
+        set { self.options.userInfo = newValue }
+    }
 
     public init() {}
 
     public func encode(_ value: some Encodable) throws -> [String: DynamoDB.AttributeValue] {
-        let encoder = _DynamoDBEncoder(userInfo: userInfo)
+        let encoder = _DynamoDBEncoder(options: options)
         try value.encode(to: encoder)
         return try encoder.storage.collapse()
     }
@@ -121,14 +162,17 @@ private struct _EncoderStorage {
     }
 }
 
-class _DynamoDBEncoder: Encoder {
+private class _DynamoDBEncoder: Encoder {
     var codingPath: [CodingKey]
-    var userInfo: [CodingUserInfoKey: Any]
     fileprivate var storage: _EncoderStorage
+    fileprivate let options: DynamoDBEncoder.Options
+    var userInfo: [CodingUserInfoKey: Any] {
+        self.options.userInfo
+    }
 
-    init(userInfo: [CodingUserInfoKey: Any], codingPath: [CodingKey] = []) {
+    fileprivate init(options: DynamoDBEncoder.Options, codingPath: [CodingKey] = []) {
         self.codingPath = codingPath
-        self.userInfo = userInfo
+        self.options = options
         self.storage = _EncoderStorage()
     }
 
@@ -458,10 +502,36 @@ extension _DynamoDBEncoder {
         .b(data)
     }
 
+    func box(_ date: Date) throws -> DynamoDB.AttributeValue {
+        switch self.options.dateEncodingStrategy {
+        case .deferredToDate:
+            try date.encode(to: self)
+            return self.storage.popContainer().attribute
+        case .millisecondsSince1970:
+            return .n((date.timeIntervalSince1970 * 1000).description)
+        case .secondsSince1970:
+            return .n(date.timeIntervalSince1970.description)
+        case .iso8601:
+            #if compiler(<6.0)
+            return .s(_iso8601DateFormatter.string(from: date))
+            #else
+            if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
+                return .s(date.formatted(.iso8601))
+            } else {
+                return .s(_iso8601DateFormatter.string(from: date))
+            }
+            #endif
+        case .custom(let closure):
+            return closure(date, self)
+        }
+    }
+
     func box(_ value: Encodable) throws -> DynamoDB.AttributeValue {
         let type = Swift.type(of: value)
         if type == AWSBase64Data.self {
             return try self.box(value as! AWSBase64Data)
+        } else if type == Date.self {
+            return try self.box(value as! Date)
         } else {
             try value.encode(to: self)
             return self.storage.popContainer().attribute
@@ -482,7 +552,7 @@ private class _DynamoDBReferencingEncoder: _DynamoDBEncoder {
 
     init(encoder: _DynamoDBEncoder, container: _EncoderKeyedContainer) {
         self.container = container
-        super.init(userInfo: encoder.userInfo, codingPath: encoder.codingPath)
+        super.init(options: encoder.options, codingPath: encoder.codingPath)
     }
 
     deinit {

@@ -2,7 +2,7 @@
 //
 // This source file is part of the Soto for AWS open source project
 //
-// Copyright (c) 2017-2020 the Soto project authors
+// Copyright (c) 2017-2025 the Soto project authors
 // Licensed under Apache License v2.0
 //
 // See LICENSE.txt for license information
@@ -27,15 +27,47 @@ extension DynamoDBTests {
             let age: Int
             let address: String
             let pets: [String]?
+            let date: Date
         }
         let id = UUID().uuidString
-        let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["zebra", "cat", "dog", "cat"])
-
+        let test = TestObject(
+            id: id,
+            name: "John",
+            surname: "Smith",
+            age: 32,
+            address: "1 Park Lane",
+            pets: ["zebra", "cat", "dog", "cat"],
+            date: Date(timeIntervalSinceReferenceDate: 134500.5)
+        )
+        let decoder = DynamoDBDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        let encoder = DynamoDBEncoder()
+        encoder.dateEncodingStrategy = .secondsSince1970
         let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: Self.tableName)
-        _ = try await Self.dynamoDB.putItem(putRequest, logger: TestEnvironment.logger)
+        _ = try await Self.dynamoDB.putItem(putRequest, encoder: encoder, logger: TestEnvironment.logger)
 
         let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: Self.tableName)
-        let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)
+        let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, decoder: decoder, logger: TestEnvironment.logger)
+
+        XCTAssertEqual(test, response.item)
+    }
+
+    func testCodablePutGetWithISO8601Date() async throws {
+        struct TestObject: Codable, Equatable {
+            let id: String
+            let date: Date
+        }
+        let id = UUID().uuidString
+        let test = TestObject(id: id, date: Date(timeIntervalSinceReferenceDate: 134500))
+        let decoder = DynamoDBDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        let encoder = DynamoDBEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: Self.tableName)
+        _ = try await Self.dynamoDB.putItem(putRequest, encoder: encoder, logger: TestEnvironment.logger)
+
+        let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: Self.tableName)
+        let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, decoder: decoder, logger: TestEnvironment.logger)
 
         XCTAssertEqual(test, response.item)
     }
