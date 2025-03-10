@@ -8553,17 +8553,21 @@ extension SageMaker {
     public struct CreateDomainResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the created domain.
         public let domainArn: String?
+        /// The ID of the created domain.
+        public let domainId: String?
         /// The URL to the created domain.
         public let url: String?
 
         @inlinable
-        public init(domainArn: String? = nil, url: String? = nil) {
+        public init(domainArn: String? = nil, domainId: String? = nil, url: String? = nil) {
             self.domainArn = domainArn
+            self.domainId = domainId
             self.url = url
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainArn = "DomainArn"
+            case domainId = "DomainId"
             case url = "Url"
         }
     }
@@ -24662,7 +24666,7 @@ extension SageMaker {
     }
 
     public struct KernelGatewayAppSettings: AWSEncodableShape & AWSDecodableShape {
-        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app.
+        /// A list of custom SageMaker AI images that are configured to run as a KernelGateway app. The maximum number of custom images are as follows.   On a domain level: 200   On a space level: 5   On a user profile level: 5
         public let customImages: [CustomImage]?
         /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker AI image used by the KernelGateway app.  The Amazon SageMaker AI Studio UI does not use the default instance type value set here. The default instance type set here is used when Apps are created using the CLI or CloudFormation and the instance type parameter value is not passed.
         public let defaultResourceSpec: ResourceSpec?

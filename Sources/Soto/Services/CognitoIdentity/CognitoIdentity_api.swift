@@ -93,6 +93,7 @@ public struct CognitoIdentity: AWSService {
             "ap-southeast-2": "cognito-identity.ap-southeast-2.amazonaws.com",
             "ap-southeast-3": "cognito-identity.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "cognito-identity.ap-southeast-4.amazonaws.com",
+            "ap-southeast-5": "cognito-identity.ap-southeast-5.amazonaws.com",
             "ca-central-1": "cognito-identity.ca-central-1.amazonaws.com",
             "ca-west-1": "cognito-identity.ca-west-1.amazonaws.com",
             "cn-north-1": "cognito-identity.cn-north-1.amazonaws.com.cn",
@@ -110,6 +111,7 @@ public struct CognitoIdentity: AWSService {
             "sa-east-1": "cognito-identity.sa-east-1.amazonaws.com",
             "us-east-1": "cognito-identity.us-east-1.amazonaws.com",
             "us-east-2": "cognito-identity.us-east-2.amazonaws.com",
+            "us-gov-east-1": "cognito-identity.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "cognito-identity.us-gov-west-1.amazonaws.com",
             "us-west-1": "cognito-identity.us-west-1.amazonaws.com",
             "us-west-2": "cognito-identity.us-west-2.amazonaws.com"

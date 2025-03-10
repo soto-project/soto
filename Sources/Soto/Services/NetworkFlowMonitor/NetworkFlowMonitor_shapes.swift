@@ -154,6 +154,9 @@ extension NetworkFlowMonitor {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
@@ -236,6 +239,9 @@ extension NetworkFlowMonitor {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1073,7 +1079,7 @@ extension NetworkFlowMonitor {
     }
 
     public struct StartQueryMonitorTopContributorsInput: AWSEncodableShape {
-        /// The category that you want to query top contributors for, for a specific monitor. Destination 		categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AWS_SERVICES: Top contributor network flows to or from Amazon Web Services services    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
+        /// The category that you want to query top contributors for, for a specific monitor. Destination 		categories can be one of the following:     INTRA_AZ: Top contributor network flows within a single Availability Zone    INTER_AZ: Top contributor network flows between Availability Zones    INTER_VPC: Top contributor network flows between VPCs    AMAZON_S3: Top contributor network flows to or from Amazon S3    AMAZON_DYNAMODB: Top contributor network flows to or from Amazon Dynamo DB    UNCLASSIFIED: Top contributor network flows that do not have a bucket classification
         public let destinationCategory: DestinationCategory
         /// The timestamp that is the date and time end of the period that you want to retrieve  		results for with your query.
         public let endTime: Date
@@ -1521,6 +1527,9 @@ extension NetworkFlowMonitor {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.monitorName, name: "monitorName", parent: name, max: 255)
             try self.validate(self.monitorName, name: "monitorName", parent: name, min: 1)
             try self.validate(self.monitorName, name: "monitorName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")

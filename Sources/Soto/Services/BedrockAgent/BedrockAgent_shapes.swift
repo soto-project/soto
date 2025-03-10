@@ -97,6 +97,11 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContextEnrichmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConversationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assistant = "assistant"
         case user = "user"
@@ -168,6 +173,11 @@ extension BedrockAgent {
     public enum EmbeddingDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binary = "BINARY"
         case float32 = "FLOAT32"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnrichmentStrategyMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case chunkEntityExtraction = "CHUNK_ENTITY_EXTRACTION"
         public var description: String { return self.rawValue }
     }
 
@@ -303,6 +313,7 @@ extension BedrockAgent {
 
     public enum KnowledgeBaseStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mongoDbAtlas = "MONGO_DB_ATLAS"
+        case neptuneAnalytics = "NEPTUNE_ANALYTICS"
         case opensearchServerless = "OPENSEARCH_SERVERLESS"
         case pinecone = "PINECONE"
         case rds = "RDS"
@@ -2175,6 +2186,30 @@ extension BedrockAgent {
         }
     }
 
+    public struct BedrockFoundationModelContextEnrichmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The enrichment stategy used to provide additional context. For example, Neptune GraphRAG uses Amazon Bedrock foundation models to perform chunk entity extraction.
+        public let enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration
+        /// The Amazon Resource Name (ARN) of the foundation model used for context enrichment.
+        public let modelArn: String
+
+        @inlinable
+        public init(enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration, modelArn: String) {
+            self.enrichmentStrategyConfiguration = enrichmentStrategyConfiguration
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enrichmentStrategyConfiguration = "enrichmentStrategyConfiguration"
+            case modelArn = "modelArn"
+        }
+    }
+
     public struct ByteContentDoc: AWSEncodableShape {
         /// The base64-encoded string of the content.
         public let data: AWSBase64Data
@@ -2374,6 +2409,28 @@ extension BedrockAgent {
             case credentialsSecretArn = "credentialsSecretArn"
             case hostType = "hostType"
             case hostUrl = "hostUrl"
+        }
+    }
+
+    public struct ContextEnrichmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the Amazon Bedrock foundation model used for context enrichment.
+        public let bedrockFoundationModelConfiguration: BedrockFoundationModelContextEnrichmentConfiguration?
+        /// The method used for context enrichment. It must be Amazon Bedrock foundation models.
+        public let type: ContextEnrichmentType
+
+        @inlinable
+        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelContextEnrichmentConfiguration? = nil, type: ContextEnrichmentType) {
+            self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockFoundationModelConfiguration?.validate(name: "\(name).bedrockFoundationModelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockFoundationModelConfiguration = "bedrockFoundationModelConfiguration"
+            case type = "type"
         }
     }
 
@@ -4391,6 +4448,20 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case bedrockEmbeddingModelConfiguration = "bedrockEmbeddingModelConfiguration"
+        }
+    }
+
+    public struct EnrichmentStrategyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The method used for the context enrichment strategy.
+        public let method: EnrichmentStrategyMethod
+
+        @inlinable
+        public init(method: EnrichmentStrategyMethod) {
+            self.method = method
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case method = "method"
         }
     }
 
@@ -7480,6 +7551,56 @@ extension BedrockAgent {
         }
     }
 
+    public struct NeptuneAnalyticsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the names of the fields to which to map information about the vector store.
+        public let fieldMapping: NeptuneAnalyticsFieldMapping
+        /// The Amazon Resource Name (ARN) of the Neptune Analytics vector store.
+        public let graphArn: String
+
+        @inlinable
+        public init(fieldMapping: NeptuneAnalyticsFieldMapping, graphArn: String) {
+            self.fieldMapping = fieldMapping
+            self.graphArn = graphArn
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldMapping.validate(name: "\(name).fieldMapping")
+            try self.validate(self.graphArn, name: "graphArn", parent: name, max: 255)
+            try self.validate(self.graphArn, name: "graphArn", parent: name, min: 1)
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):neptune-graph:[a-zA-Z0-9-]*:[0-9]{12}:graph/g-[a-zA-Z0-9]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldMapping = "fieldMapping"
+            case graphArn = "graphArn"
+        }
+    }
+
+    public struct NeptuneAnalyticsFieldMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
+        public let metadataField: String
+        /// The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.
+        public let textField: String
+
+        @inlinable
+        public init(metadataField: String, textField: String) {
+            self.metadataField = metadataField
+            self.textField = textField
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataField, name: "metadataField", parent: name, max: 2048)
+            try self.validate(self.metadataField, name: "metadataField", parent: name, pattern: "^.*$")
+            try self.validate(self.textField, name: "textField", parent: name, max: 2048)
+            try self.validate(self.textField, name: "textField", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataField = "metadataField"
+            case textField = "textField"
+        }
+    }
+
     public struct OpenSearchServerlessConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the OpenSearch Service vector store.
         public let collectionArn: String
@@ -9185,6 +9306,8 @@ extension BedrockAgent {
     public struct StorageConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains the storage configuration of the knowledge base in MongoDB Atlas.
         public let mongoDbAtlasConfiguration: MongoDbAtlasConfiguration?
+        /// Contains details about the Neptune Analytics configuration of the knowledge base in Amazon Neptune. For more information,  see Create a vector index in Amazon Neptune Analytics..
+        public let neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration?
         /// Contains the storage configuration of the knowledge base in Amazon OpenSearch Service.
         public let opensearchServerlessConfiguration: OpenSearchServerlessConfiguration?
         /// Contains the storage configuration of the knowledge base in Pinecone.
@@ -9197,8 +9320,9 @@ extension BedrockAgent {
         public let type: KnowledgeBaseStorageType
 
         @inlinable
-        public init(mongoDbAtlasConfiguration: MongoDbAtlasConfiguration? = nil, opensearchServerlessConfiguration: OpenSearchServerlessConfiguration? = nil, pineconeConfiguration: PineconeConfiguration? = nil, rdsConfiguration: RdsConfiguration? = nil, redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration? = nil, type: KnowledgeBaseStorageType) {
+        public init(mongoDbAtlasConfiguration: MongoDbAtlasConfiguration? = nil, neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration? = nil, opensearchServerlessConfiguration: OpenSearchServerlessConfiguration? = nil, pineconeConfiguration: PineconeConfiguration? = nil, rdsConfiguration: RdsConfiguration? = nil, redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration? = nil, type: KnowledgeBaseStorageType) {
             self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
+            self.neptuneAnalyticsConfiguration = neptuneAnalyticsConfiguration
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
             self.pineconeConfiguration = pineconeConfiguration
             self.rdsConfiguration = rdsConfiguration
@@ -9208,6 +9332,7 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.mongoDbAtlasConfiguration?.validate(name: "\(name).mongoDbAtlasConfiguration")
+            try self.neptuneAnalyticsConfiguration?.validate(name: "\(name).neptuneAnalyticsConfiguration")
             try self.opensearchServerlessConfiguration?.validate(name: "\(name).opensearchServerlessConfiguration")
             try self.pineconeConfiguration?.validate(name: "\(name).pineconeConfiguration")
             try self.rdsConfiguration?.validate(name: "\(name).rdsConfiguration")
@@ -9216,6 +9341,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case mongoDbAtlasConfiguration = "mongoDbAtlasConfiguration"
+            case neptuneAnalyticsConfiguration = "neptuneAnalyticsConfiguration"
             case opensearchServerlessConfiguration = "opensearchServerlessConfiguration"
             case pineconeConfiguration = "pineconeConfiguration"
             case rdsConfiguration = "rdsConfiguration"
@@ -10637,26 +10763,31 @@ extension BedrockAgent {
     public struct VectorIngestionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
         public let chunkingConfiguration: ChunkingConfiguration?
+        /// The context enrichment configuration used for ingestion of the data into the vector store.
+        public let contextEnrichmentConfiguration: ContextEnrichmentConfiguration?
         /// A custom document transformer for parsed data source documents.
         public let customTransformationConfiguration: CustomTransformationConfiguration?
         /// Configurations for a parser to use for parsing documents in your data source. If you exclude this field, the default parser will be used.
         public let parsingConfiguration: ParsingConfiguration?
 
         @inlinable
-        public init(chunkingConfiguration: ChunkingConfiguration? = nil, customTransformationConfiguration: CustomTransformationConfiguration? = nil, parsingConfiguration: ParsingConfiguration? = nil) {
+        public init(chunkingConfiguration: ChunkingConfiguration? = nil, contextEnrichmentConfiguration: ContextEnrichmentConfiguration? = nil, customTransformationConfiguration: CustomTransformationConfiguration? = nil, parsingConfiguration: ParsingConfiguration? = nil) {
             self.chunkingConfiguration = chunkingConfiguration
+            self.contextEnrichmentConfiguration = contextEnrichmentConfiguration
             self.customTransformationConfiguration = customTransformationConfiguration
             self.parsingConfiguration = parsingConfiguration
         }
 
         public func validate(name: String) throws {
             try self.chunkingConfiguration?.validate(name: "\(name).chunkingConfiguration")
+            try self.contextEnrichmentConfiguration?.validate(name: "\(name).contextEnrichmentConfiguration")
             try self.customTransformationConfiguration?.validate(name: "\(name).customTransformationConfiguration")
             try self.parsingConfiguration?.validate(name: "\(name).parsingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case chunkingConfiguration = "chunkingConfiguration"
+            case contextEnrichmentConfiguration = "contextEnrichmentConfiguration"
             case customTransformationConfiguration = "customTransformationConfiguration"
             case parsingConfiguration = "parsingConfiguration"
         }

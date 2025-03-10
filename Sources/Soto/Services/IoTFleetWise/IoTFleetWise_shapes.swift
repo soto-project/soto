@@ -180,6 +180,12 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum SignalValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case floatingPoint = "FLOATING_POINT"
+        case integer = "INTEGER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SpoolingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case off = "OFF"
         case toDisk = "TO_DISK"
@@ -1056,7 +1062,7 @@ extension IoTFleetWise {
         public let factor: Double
         /// Whether the byte ordering of a CAN message is big-endian.
         public let isBigEndian: Bool
-        /// Whether the message data is specified as a signed value.
+        /// Determines whether the message is signed (true) or not (false). If it's signed, the message can represent both positive and negative numbers. The isSigned parameter only applies to the INTEGER raw signal type, and it doesn't affect the FLOATING_POINT raw signal type.
         public let isSigned: Bool
         /// How many bytes of data are in the message.
         public let length: Int
@@ -1066,11 +1072,13 @@ extension IoTFleetWise {
         public let name: String?
         /// The offset used to calculate the signal value. Combined with factor, the calculation is value = raw_value * factor + offset.
         public let offset: Double
+        /// The value type of the signal. The default value is INTEGER.
+        public let signalValueType: SignalValueType?
         /// Indicates the beginning of the CAN signal. This should always be the least significant bit (LSB). This value might be different from the value in a DBC file. For little endian signals, startBit is the same value as in the DBC file. For big endian signals in a DBC file, the start bit is the most significant bit (MSB). You will have to calculate the LSB instead and pass it as the startBit.
         public let startBit: Int
 
         @inlinable
-        public init(factor: Double, isBigEndian: Bool, isSigned: Bool, length: Int, messageId: Int, name: String? = nil, offset: Double, startBit: Int) {
+        public init(factor: Double, isBigEndian: Bool, isSigned: Bool, length: Int, messageId: Int, name: String? = nil, offset: Double, signalValueType: SignalValueType? = nil, startBit: Int) {
             self.factor = factor
             self.isBigEndian = isBigEndian
             self.isSigned = isSigned
@@ -1078,6 +1086,7 @@ extension IoTFleetWise {
             self.messageId = messageId
             self.name = name
             self.offset = offset
+            self.signalValueType = signalValueType
             self.startBit = startBit
         }
 
@@ -1097,6 +1106,7 @@ extension IoTFleetWise {
             case messageId = "messageId"
             case name = "name"
             case offset = "offset"
+            case signalValueType = "signalValueType"
             case startBit = "startBit"
         }
     }
@@ -4375,6 +4385,8 @@ extension IoTFleetWise {
         public let bitRightShift: Int?
         /// The length of a message.
         public let byteLength: Int
+        /// Determines whether the message is signed (true) or not (false). If it's signed, the message can represent both positive and negative numbers. The isSigned parameter only applies to the INTEGER raw signal type, and it doesn't affect the FLOATING_POINT raw signal type. The default value is false.
+        public let isSigned: Bool?
         /// The offset used to calculate the signal value. Combined with scaling, the calculation is value = raw_value * scaling + offset.
         public let offset: Double
         /// The diagnostic code used to request data from a vehicle for this signal.
@@ -4385,19 +4397,23 @@ extension IoTFleetWise {
         public let scaling: Double
         /// The mode of operation (diagnostic service) in a message.
         public let serviceMode: Int
+        /// The value type of the signal. The default value is INTEGER.
+        public let signalValueType: SignalValueType?
         /// Indicates the beginning of the message.
         public let startByte: Int
 
         @inlinable
-        public init(bitMaskLength: Int? = nil, bitRightShift: Int? = nil, byteLength: Int, offset: Double, pid: Int, pidResponseLength: Int, scaling: Double, serviceMode: Int, startByte: Int) {
+        public init(bitMaskLength: Int? = nil, bitRightShift: Int? = nil, byteLength: Int, isSigned: Bool? = nil, offset: Double, pid: Int, pidResponseLength: Int, scaling: Double, serviceMode: Int, signalValueType: SignalValueType? = nil, startByte: Int) {
             self.bitMaskLength = bitMaskLength
             self.bitRightShift = bitRightShift
             self.byteLength = byteLength
+            self.isSigned = isSigned
             self.offset = offset
             self.pid = pid
             self.pidResponseLength = pidResponseLength
             self.scaling = scaling
             self.serviceMode = serviceMode
+            self.signalValueType = signalValueType
             self.startByte = startByte
         }
 
@@ -4417,11 +4433,13 @@ extension IoTFleetWise {
             case bitMaskLength = "bitMaskLength"
             case bitRightShift = "bitRightShift"
             case byteLength = "byteLength"
+            case isSigned = "isSigned"
             case offset = "offset"
             case pid = "pid"
             case pidResponseLength = "pidResponseLength"
             case scaling = "scaling"
             case serviceMode = "serviceMode"
+            case signalValueType = "signalValueType"
             case startByte = "startByte"
         }
     }

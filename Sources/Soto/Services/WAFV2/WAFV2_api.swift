@@ -92,6 +92,7 @@ public struct WAFV2: AWSService {
         "ap-southeast-3": "wafv2.ap-southeast-3.amazonaws.com",
         "ap-southeast-4": "wafv2.ap-southeast-4.amazonaws.com",
         "ap-southeast-5": "wafv2.ap-southeast-5.amazonaws.com",
+        "ap-southeast-7": "wafv2.ap-southeast-7.amazonaws.com",
         "ca-central-1": "wafv2.ca-central-1.amazonaws.com",
         "ca-west-1": "wafv2.ca-west-1.amazonaws.com",
         "cn-north-1": "wafv2.cn-north-1.amazonaws.com.cn",
@@ -107,6 +108,7 @@ public struct WAFV2: AWSService {
         "il-central-1": "wafv2.il-central-1.amazonaws.com",
         "me-central-1": "wafv2.me-central-1.amazonaws.com",
         "me-south-1": "wafv2.me-south-1.amazonaws.com",
+        "mx-central-1": "wafv2.mx-central-1.amazonaws.com",
         "sa-east-1": "wafv2.sa-east-1.amazonaws.com",
         "us-east-1": "wafv2.us-east-1.amazonaws.com",
         "us-east-2": "wafv2.us-east-2.amazonaws.com",
@@ -132,6 +134,7 @@ public struct WAFV2: AWSService {
             "ap-southeast-3": "wafv2-fips.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "wafv2-fips.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "wafv2-fips.ap-southeast-5.amazonaws.com",
+            "ap-southeast-7": "wafv2-fips.ap-southeast-7.amazonaws.com",
             "ca-central-1": "wafv2-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "wafv2-fips.ca-west-1.amazonaws.com",
             "cn-north-1": "wafv2-fips.cn-north-1.amazonaws.com.cn",
@@ -147,6 +150,7 @@ public struct WAFV2: AWSService {
             "il-central-1": "wafv2-fips.il-central-1.amazonaws.com",
             "me-central-1": "wafv2-fips.me-central-1.amazonaws.com",
             "me-south-1": "wafv2-fips.me-south-1.amazonaws.com",
+            "mx-central-1": "wafv2-fips.mx-central-1.amazonaws.com",
             "sa-east-1": "wafv2-fips.sa-east-1.amazonaws.com",
             "us-east-1": "wafv2-fips.us-east-1.amazonaws.com",
             "us-east-2": "wafv2-fips.us-east-2.amazonaws.com",
@@ -414,7 +418,7 @@ public struct WAFV2: AWSService {
     ///   - captchaConfig: Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     ///   - challengeConfig: Specifies how WAF should handle challenge evaluations for rules that don't have
     ///   - customResponseBodies: A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.  For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
-    ///   - dataProtectionConfig: Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+    ///   - dataProtectionConfig: Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
     ///   - defaultAction: The action to perform if none of the Rules contained in the WebACL match.
     ///   - description: A description of the web ACL that helps with identification.
     ///   - name: The name of the web ACL. You cannot change the name of a web ACL after you create it.
@@ -2119,7 +2123,7 @@ public struct WAFV2: AWSService {
     ///   - captchaConfig: Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     ///   - challengeConfig: Specifies how WAF should handle challenge evaluations for rules that don't have
     ///   - customResponseBodies: A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.  For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
-    ///   - dataProtectionConfig: Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+    ///   - dataProtectionConfig: Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
     ///   - defaultAction: The action to perform if none of the Rules contained in the WebACL match.
     ///   - description: A description of the web ACL that helps with identification.
     ///   - id: The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.

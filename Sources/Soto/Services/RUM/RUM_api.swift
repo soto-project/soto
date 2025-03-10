@@ -277,6 +277,38 @@ public struct RUM: AWSService {
         return try await self.deleteAppMonitor(input, logger: logger)
     }
 
+    /// Removes the association of a resource-based policy from an app monitor.
+    @Sendable
+    @inlinable
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "DeleteResourcePolicy", 
+            path: "/appmonitor/{Name}/policy", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Removes the association of a resource-based policy from an app monitor.
+    ///
+    /// Parameters:
+    ///   - name: The app monitor that you want to remove the resource policy from.
+    ///   - policyRevisionId: Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation.  If the revision ID that you provide doesn't match the latest policy revision ID, the request will be rejected with an InvalidPolicyRevisionIdException error.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteResourcePolicy(
+        name: String,
+        policyRevisionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteResourcePolicyResponse {
+        let input = DeleteResourcePolicyRequest(
+            name: name, 
+            policyRevisionId: policyRevisionId
+        )
+        return try await self.deleteResourcePolicy(input, logger: logger)
+    }
+
     /// Deletes a destination for CloudWatch RUM extended metrics, so that the specified app monitor stops sending extended metrics to that destination.
     @Sendable
     @inlinable
@@ -382,6 +414,35 @@ public struct RUM: AWSService {
         return try await self.getAppMonitorData(input, logger: logger)
     }
 
+    /// Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
+    @Sendable
+    @inlinable
+    public func getResourcePolicy(_ input: GetResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "GetResourcePolicy", 
+            path: "/appmonitor/{Name}/policy", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Use this operation to retrieve information about a resource-based policy that is attached to an app monitor.
+    ///
+    /// Parameters:
+    ///   - name: The name of the app monitor that is associated with the resource-based policy that you want to view.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getResourcePolicy(
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetResourcePolicyResponse {
+        let input = GetResourcePolicyRequest(
+            name: name
+        )
+        return try await self.getResourcePolicy(input, logger: logger)
+    }
+
     /// Returns a list of the Amazon CloudWatch RUM app monitors in the account.
     @Sendable
     @inlinable
@@ -478,6 +539,41 @@ public struct RUM: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
+    /// Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can  have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
+    @Sendable
+    @inlinable
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourcePolicyResponse {
+        try await self.client.execute(
+            operation: "PutResourcePolicy", 
+            path: "/appmonitor/{Name}/policy", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Use this operation to assign a resource-based policy to a CloudWatch RUM app monitor to control access to it. Each app monitor can  have one resource-based policy. The maximum size of the policy is 4 KB. To learn more about using resource policies with RUM, see Using resource-based policies with CloudWatch RUM.
+    ///
+    /// Parameters:
+    ///   - name: The name of the app monitor that you want to apply this resource-based policy to. To find the names of your app monitors, you can use the ListAppMonitors operation.
+    ///   - policyDocument: The JSON to use as the resource policy. The document can be up to 4 KB in size. For more information about the contents and syntax  for this policy, see Using resource-based policies with CloudWatch RUM.
+    ///   - policyRevisionId: A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you assign a policy revision ID, then later requests about that policy will be rejected with an InvalidPolicyRevisionIdException error if they don't provide the correct current revision ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putResourcePolicy(
+        name: String,
+        policyDocument: String,
+        policyRevisionId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> PutResourcePolicyResponse {
+        let input = PutResourcePolicyRequest(
+            name: name, 
+            policyDocument: policyDocument, 
+            policyRevisionId: policyRevisionId
+        )
+        return try await self.putResourcePolicy(input, logger: logger)
+    }
+
     /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code  snippet that RUM generates for you to add to your application includes PutRumEvents operations to  send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
     @Sendable
     @inlinable
@@ -495,6 +591,7 @@ public struct RUM: AWSService {
     /// Sends telemetry events about your application performance and user behavior to CloudWatch RUM. The code  snippet that RUM generates for you to add to your application includes PutRumEvents operations to  send this data to RUM. Each PutRumEvents operation can send a batch of events from one user session.
     ///
     /// Parameters:
+    ///   - alias: If the app monitor uses a resource-based policy that requires PutRumEvents requests to specify a certain alias, specify that alias here. This alias will be compared to the rum:alias context key in the resource-based policy.  For more information, see Using resource-based policies with CloudWatch RUM.
     ///   - appMonitorDetails: A structure that contains information about the app monitor that collected this telemetry information.
     ///   - batchId: A unique identifier for this batch of RUM event data.
     ///   - id: The ID of the app monitor that is sending this data.
@@ -503,6 +600,7 @@ public struct RUM: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func putRumEvents(
+        alias: String? = nil,
         appMonitorDetails: AppMonitorDetails,
         batchId: String,
         id: String,
@@ -511,6 +609,7 @@ public struct RUM: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> PutRumEventsResponse {
         let input = PutRumEventsRequest(
+            alias: alias, 
             appMonitorDetails: appMonitorDetails, 
             batchId: batchId, 
             id: id, 

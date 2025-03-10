@@ -78,8 +78,39 @@ public struct ApplicationInsights: AWSService {
 
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
+        "af-south-1": "applicationinsights.af-south-1.amazonaws.com",
+        "ap-east-1": "applicationinsights.ap-east-1.amazonaws.com",
+        "ap-northeast-1": "applicationinsights.ap-northeast-1.amazonaws.com",
+        "ap-northeast-2": "applicationinsights.ap-northeast-2.amazonaws.com",
+        "ap-northeast-3": "applicationinsights.ap-northeast-3.amazonaws.com",
+        "ap-south-1": "applicationinsights.ap-south-1.amazonaws.com",
+        "ap-south-2": "applicationinsights.ap-south-2.amazonaws.com",
+        "ap-southeast-1": "applicationinsights.ap-southeast-1.amazonaws.com",
+        "ap-southeast-2": "applicationinsights.ap-southeast-2.amazonaws.com",
+        "ap-southeast-3": "applicationinsights.ap-southeast-3.amazonaws.com",
+        "ap-southeast-4": "applicationinsights.ap-southeast-4.amazonaws.com",
+        "ca-central-1": "applicationinsights.ca-central-1.amazonaws.com",
+        "ca-west-1": "applicationinsights.ca-west-1.amazonaws.com",
+        "cn-north-1": "applicationinsights.cn-north-1.amazonaws.com.cn",
+        "cn-northwest-1": "applicationinsights.cn-northwest-1.amazonaws.com.cn",
+        "eu-central-1": "applicationinsights.eu-central-1.amazonaws.com",
+        "eu-central-2": "applicationinsights.eu-central-2.amazonaws.com",
+        "eu-north-1": "applicationinsights.eu-north-1.amazonaws.com",
+        "eu-south-1": "applicationinsights.eu-south-1.amazonaws.com",
+        "eu-south-2": "applicationinsights.eu-south-2.amazonaws.com",
+        "eu-west-1": "applicationinsights.eu-west-1.amazonaws.com",
+        "eu-west-2": "applicationinsights.eu-west-2.amazonaws.com",
+        "eu-west-3": "applicationinsights.eu-west-3.amazonaws.com",
+        "il-central-1": "applicationinsights.il-central-1.amazonaws.com",
+        "me-central-1": "applicationinsights.me-central-1.amazonaws.com",
+        "me-south-1": "applicationinsights.me-south-1.amazonaws.com",
+        "sa-east-1": "applicationinsights.sa-east-1.amazonaws.com",
+        "us-east-1": "applicationinsights.us-east-1.amazonaws.com",
+        "us-east-2": "applicationinsights.us-east-2.amazonaws.com",
         "us-gov-east-1": "applicationinsights.us-gov-east-1.amazonaws.com",
-        "us-gov-west-1": "applicationinsights.us-gov-west-1.amazonaws.com"
+        "us-gov-west-1": "applicationinsights.us-gov-west-1.amazonaws.com",
+        "us-west-1": "applicationinsights.us-west-1.amazonaws.com",
+        "us-west-2": "applicationinsights.us-west-2.amazonaws.com"
     ]}
 
 

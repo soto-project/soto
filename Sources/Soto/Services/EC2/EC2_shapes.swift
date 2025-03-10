@@ -3011,6 +3011,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceManaged: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alb = "alb"
+        case nlb = "nlb"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case deleted = "Deleted"
@@ -3613,6 +3619,31 @@ extension EC2 {
         case disassociating = "disassociating"
         case failed = "failed"
         case failing = "failing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEncryptionControlExclusionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case enabling = "enabling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEncryptionControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enforce = "enforce"
+        case monitor = "monitor"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEncryptionControlState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case enforceFailed = "enforce-failed"
+        case enforceInProgress = "enforce-in-progress"
+        case monitorFailed = "monitor-failed"
+        case monitorInProgress = "monitor-in-progress"
         public var description: String { return self.rawValue }
     }
 
@@ -4350,12 +4381,14 @@ extension EC2 {
         public let publicIp: String?
         /// The ID of an address pool.
         public let publicIpv4Pool: String?
+        /// The service that manages the elastic IP address.  The only option supported today is alb.
+        public let serviceManaged: ServiceManaged?
         /// Any tags assigned to the Elastic IP address.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
         @inlinable
-        public init(allocationId: String? = nil, associationId: String? = nil, carrierIp: String? = nil, customerOwnedIp: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, instanceId: String? = nil, networkBorderGroup: String? = nil, networkInterfaceId: String? = nil, networkInterfaceOwnerId: String? = nil, privateIpAddress: String? = nil, publicIp: String? = nil, publicIpv4Pool: String? = nil, tags: [Tag]? = nil) {
+        public init(allocationId: String? = nil, associationId: String? = nil, carrierIp: String? = nil, customerOwnedIp: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, instanceId: String? = nil, networkBorderGroup: String? = nil, networkInterfaceId: String? = nil, networkInterfaceOwnerId: String? = nil, privateIpAddress: String? = nil, publicIp: String? = nil, publicIpv4Pool: String? = nil, serviceManaged: ServiceManaged? = nil, tags: [Tag]? = nil) {
             self.allocationId = allocationId
             self.associationId = associationId
             self.carrierIp = carrierIp
@@ -4369,6 +4402,7 @@ extension EC2 {
             self.privateIpAddress = privateIpAddress
             self.publicIp = publicIp
             self.publicIpv4Pool = publicIpv4Pool
+            self.serviceManaged = serviceManaged
             self.tags = tags
         }
 
@@ -4386,6 +4420,7 @@ extension EC2 {
             case privateIpAddress = "privateIpAddress"
             case publicIp = "publicIp"
             case publicIpv4Pool = "publicIpv4Pool"
+            case serviceManaged = "serviceManaged"
             case tags = "tagSet"
         }
     }
@@ -12722,7 +12757,7 @@ extension EC2 {
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The name of the security group. Constraints: Up to 255 characters in length. Cannot start with sg-. Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
+        /// The name of the security group. Names are case-insensitive and must be unique within the VPC. Constraints: Up to 255 characters in length. Can't start with sg-. Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
         public let groupName: String?
         /// The tags to assign to the security group.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -60804,6 +60839,7 @@ extension EC2 {
         public var cidrBlockAssociationSet: [VpcCidrBlockAssociation]?
         /// The ID of the set of DHCP options you've associated with the VPC.
         public let dhcpOptionsId: String?
+        public let encryptionControl: VpcEncryptionControl?
         /// The allowed tenancy of instances launched into the VPC.
         public let instanceTenancy: Tenancy?
         /// Information about the IPv6 CIDR blocks associated with the VPC.
@@ -60822,11 +60858,12 @@ extension EC2 {
         public let vpcId: String?
 
         @inlinable
-        public init(blockPublicAccessStates: BlockPublicAccessStates? = nil, cidrBlock: String? = nil, cidrBlockAssociationSet: [VpcCidrBlockAssociation]? = nil, dhcpOptionsId: String? = nil, instanceTenancy: Tenancy? = nil, ipv6CidrBlockAssociationSet: [VpcIpv6CidrBlockAssociation]? = nil, isDefault: Bool? = nil, ownerId: String? = nil, state: VpcState? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(blockPublicAccessStates: BlockPublicAccessStates? = nil, cidrBlock: String? = nil, cidrBlockAssociationSet: [VpcCidrBlockAssociation]? = nil, dhcpOptionsId: String? = nil, encryptionControl: VpcEncryptionControl? = nil, instanceTenancy: Tenancy? = nil, ipv6CidrBlockAssociationSet: [VpcIpv6CidrBlockAssociation]? = nil, isDefault: Bool? = nil, ownerId: String? = nil, state: VpcState? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.blockPublicAccessStates = blockPublicAccessStates
             self.cidrBlock = cidrBlock
             self.cidrBlockAssociationSet = cidrBlockAssociationSet
             self.dhcpOptionsId = dhcpOptionsId
+            self.encryptionControl = encryptionControl
             self.instanceTenancy = instanceTenancy
             self.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet
             self.isDefault = isDefault
@@ -60841,6 +60878,7 @@ extension EC2 {
             case cidrBlock = "cidrBlock"
             case cidrBlockAssociationSet = "cidrBlockAssociationSet"
             case dhcpOptionsId = "dhcpOptionsId"
+            case encryptionControl = "encryptionControl"
             case instanceTenancy = "instanceTenancy"
             case ipv6CidrBlockAssociationSet = "ipv6CidrBlockAssociationSet"
             case isDefault = "isDefault"
@@ -61022,6 +61060,81 @@ extension EC2 {
             case classicLinkEnabled = "classicLinkEnabled"
             case tags = "tagSet"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct VpcEncryptionControl: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        public let mode: VpcEncryptionControlMode?
+        public let resourceExclusions: VpcEncryptionControlExclusions?
+        public let state: VpcEncryptionControlState?
+        public let stateMessage: String?
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        public let vpcEncryptionControlId: String?
+        public let vpcId: String?
+
+        @inlinable
+        public init(mode: VpcEncryptionControlMode? = nil, resourceExclusions: VpcEncryptionControlExclusions? = nil, state: VpcEncryptionControlState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, vpcEncryptionControlId: String? = nil, vpcId: String? = nil) {
+            self.mode = mode
+            self.resourceExclusions = resourceExclusions
+            self.state = state
+            self.stateMessage = stateMessage
+            self.tags = tags
+            self.vpcEncryptionControlId = vpcEncryptionControlId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+            case resourceExclusions = "resourceExclusions"
+            case state = "state"
+            case stateMessage = "stateMessage"
+            case tags = "tagSet"
+            case vpcEncryptionControlId = "vpcEncryptionControlId"
+            case vpcId = "vpcId"
+        }
+    }
+
+    public struct VpcEncryptionControlExclusion: AWSDecodableShape {
+        public let state: VpcEncryptionControlExclusionState?
+        public let stateMessage: String?
+
+        @inlinable
+        public init(state: VpcEncryptionControlExclusionState? = nil, stateMessage: String? = nil) {
+            self.state = state
+            self.stateMessage = stateMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case stateMessage = "stateMessage"
+        }
+    }
+
+    public struct VpcEncryptionControlExclusions: AWSDecodableShape {
+        public let egressOnlyInternetGateway: VpcEncryptionControlExclusion?
+        public let internetGateway: VpcEncryptionControlExclusion?
+        public let natGateway: VpcEncryptionControlExclusion?
+        public let virtualPrivateGateway: VpcEncryptionControlExclusion?
+        public let vpcPeering: VpcEncryptionControlExclusion?
+
+        @inlinable
+        public init(egressOnlyInternetGateway: VpcEncryptionControlExclusion? = nil, internetGateway: VpcEncryptionControlExclusion? = nil, natGateway: VpcEncryptionControlExclusion? = nil, virtualPrivateGateway: VpcEncryptionControlExclusion? = nil, vpcPeering: VpcEncryptionControlExclusion? = nil) {
+            self.egressOnlyInternetGateway = egressOnlyInternetGateway
+            self.internetGateway = internetGateway
+            self.natGateway = natGateway
+            self.virtualPrivateGateway = virtualPrivateGateway
+            self.vpcPeering = vpcPeering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressOnlyInternetGateway = "egressOnlyInternetGateway"
+            case internetGateway = "internetGateway"
+            case natGateway = "natGateway"
+            case virtualPrivateGateway = "virtualPrivateGateway"
+            case vpcPeering = "vpcPeering"
         }
     }
 

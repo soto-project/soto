@@ -309,11 +309,11 @@ extension NeptuneGraph {
     public struct CreateGraphInput: AWSEncodableShape {
         /// Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
         public let deletionProtection: Bool?
-        /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         public let graphName: String
         /// Specifies a KMS key to use to encrypt data in the new graph.
         public let kmsKeyIdentifier: String?
-        /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+        /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
         public let provisionedMemory: Int
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
         public let publicConnectivity: Bool?
@@ -384,9 +384,9 @@ extension NeptuneGraph {
         public let id: String
         /// Specifies the KMS key used to encrypt data in the new graph.
         public let kmsKeyIdentifier: String?
-        /// The graph name. For example: my-graph-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// The graph name. For example: my-graph-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         public let name: String
-        /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+        /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
         public let provisionedMemory: Int?
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated.  If enabling public connectivity for the first time, there will be a delay while it is enabled.
         public let publicConnectivity: Bool?
@@ -442,7 +442,7 @@ extension NeptuneGraph {
     public struct CreateGraphSnapshotInput: AWSEncodableShape {
         /// The unique identifier of the Neptune Analytics graph.
         public let graphIdentifier: String
-        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         public let snapshotName: String
         /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
         public let tags: [String: String]?
@@ -522,7 +522,7 @@ extension NeptuneGraph {
         public let failOnError: Bool?
         /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format, OPEN_CYPHER, which identifies the openCypher load format, or ntriples, which identifies the RDF n-triples format.
         public let format: Format?
-        /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         public let graphName: String
         /// Contains options for controlling the import process. For example, if the failOnError key is set to false, the import skips problem data and attempts to continue (whereas if set to true, the default, or if omitted, the import operation halts immediately when an error is encountered.
         public let importOptions: ImportOptions?
@@ -530,7 +530,7 @@ extension NeptuneGraph {
         public let kmsKeyIdentifier: String?
         /// The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified,  128 m-NCUs are used.
         public let maxProvisionedMemory: Int?
-        /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
+        /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 16
         public let minProvisionedMemory: Int?
         /// The parquet type of the import task.
         public let parquetType: ParquetType?
@@ -852,7 +852,7 @@ extension NeptuneGraph {
         public let id: String
         /// The ID of the KMS key used to encrypt and decrypt the snapshot.
         public let kmsKeyIdentifier: String?
-        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         public let name: String
         /// The time when the snapshot was created.
         public let snapshotCreateTime: Date?
@@ -1380,7 +1380,7 @@ extension NeptuneGraph {
         public let id: String
         /// The ID of the KMS key used to encrypt and decrypt the snapshot.
         public let kmsKeyIdentifier: String?
-        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         public let name: String
         /// The time when the snapshot was created.
         public let snapshotCreateTime: Date?
@@ -1719,7 +1719,7 @@ extension NeptuneGraph {
         public let id: String
         /// The ID of the KMS key used to encrypt and decrypt the snapshot.
         public let kmsKeyIdentifier: String?
-        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         public let name: String
         /// The time when the snapshot was created.
         public let snapshotCreateTime: Date?
@@ -2417,9 +2417,9 @@ extension NeptuneGraph {
     public struct RestoreGraphFromSnapshotInput: AWSEncodableShape {
         /// A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
-        /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+        /// A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
         public let graphName: String
-        /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+        /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
         public let provisionedMemory: Int?
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
         public let publicConnectivity: Bool?
@@ -2841,7 +2841,7 @@ extension NeptuneGraph {
         public let deletionProtection: Bool?
         /// The unique identifier of the Neptune Analytics graph.
         public let graphIdentifier: String
-        /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+        /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
         public let provisionedMemory: Int?
         /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
         public let publicConnectivity: Bool?

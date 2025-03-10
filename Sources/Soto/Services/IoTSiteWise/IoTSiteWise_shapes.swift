@@ -157,6 +157,13 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum CoreDeviceOperatingSystem: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case linuxAarch64 = "LINUX_AARCH64"
+        case linuxAmd64 = "LINUX_AMD64"
+        case windowsAmd64 = "WINDOWS_AMD64"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DatasetSourceFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case knowledgeBase = "KNOWLEDGE_BASE"
         public var description: String { return self.rawValue }
@@ -3265,13 +3272,16 @@ extension IoTSiteWise {
         public let gatewayName: String
         /// The gateway's platform. You can only specify one platform in a gateway.
         public let gatewayPlatform: GatewayPlatform
+        /// The version of the gateway to create. Specify 3 to create an MQTT-enabled, V3 gateway and 2 To create a Classic streams, V2 gateway. If the version isn't specified, a Classic streams, V2 gateway is created by default. We recommend creating an MQTT-enabled, V3 gateway for self-hosted gateways. SiteWise Edge gateways on Siemens Industrial Edge should use gateway version 2. For more information on gateway versions, see  Self-host a SiteWise Edge gateway with IoT Greengrass V2.
+        public let gatewayVersion: String?
         /// A list of key-value pairs that contain metadata for the gateway. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
         @inlinable
-        public init(gatewayName: String, gatewayPlatform: GatewayPlatform, tags: [String: String]? = nil) {
+        public init(gatewayName: String, gatewayPlatform: GatewayPlatform, gatewayVersion: String? = nil, tags: [String: String]? = nil) {
             self.gatewayName = gatewayName
             self.gatewayPlatform = gatewayPlatform
+            self.gatewayVersion = gatewayVersion
             self.tags = tags
         }
 
@@ -3280,6 +3290,9 @@ extension IoTSiteWise {
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, min: 1)
             try self.validate(self.gatewayName, name: "gatewayName", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.gatewayPlatform.validate(name: "\(name).gatewayPlatform")
+            try self.validate(self.gatewayVersion, name: "gatewayVersion", parent: name, max: 1024)
+            try self.validate(self.gatewayVersion, name: "gatewayVersion", parent: name, min: 1)
+            try self.validate(self.gatewayVersion, name: "gatewayVersion", parent: name, pattern: "^[0-9]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3292,6 +3305,7 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case gatewayName = "gatewayName"
             case gatewayPlatform = "gatewayPlatform"
+            case gatewayVersion = "gatewayVersion"
             case tags = "tags"
         }
     }
@@ -5035,17 +5049,20 @@ extension IoTSiteWise {
         public let gatewayName: String
         /// The gateway's platform.
         public let gatewayPlatform: GatewayPlatform?
+        /// The version of the gateway. A value of 3 indicates an MQTT-enabled, V3 gateway, while 2 indicates a Classic streams, V2 gateway.
+        public let gatewayVersion: String?
         /// The date the gateway was last updated, in Unix epoch time.
         public let lastUpdateDate: Date
 
         @inlinable
-        public init(creationDate: Date, gatewayArn: String, gatewayCapabilitySummaries: [GatewayCapabilitySummary], gatewayId: String, gatewayName: String, gatewayPlatform: GatewayPlatform? = nil, lastUpdateDate: Date) {
+        public init(creationDate: Date, gatewayArn: String, gatewayCapabilitySummaries: [GatewayCapabilitySummary], gatewayId: String, gatewayName: String, gatewayPlatform: GatewayPlatform? = nil, gatewayVersion: String? = nil, lastUpdateDate: Date) {
             self.creationDate = creationDate
             self.gatewayArn = gatewayArn
             self.gatewayCapabilitySummaries = gatewayCapabilitySummaries
             self.gatewayId = gatewayId
             self.gatewayName = gatewayName
             self.gatewayPlatform = gatewayPlatform
+            self.gatewayVersion = gatewayVersion
             self.lastUpdateDate = lastUpdateDate
         }
 
@@ -5056,6 +5073,7 @@ extension IoTSiteWise {
             case gatewayId = "gatewayId"
             case gatewayName = "gatewayName"
             case gatewayPlatform = "gatewayPlatform"
+            case gatewayVersion = "gatewayVersion"
             case lastUpdateDate = "lastUpdateDate"
         }
     }
@@ -5782,16 +5800,19 @@ extension IoTSiteWise {
         /// The name of the gateway.
         public let gatewayName: String
         public let gatewayPlatform: GatewayPlatform?
+        /// The version of the gateway. A value of 3 indicates an MQTT-enabled, V3 gateway, while 2 indicates a Classic streams, V2 gateway.
+        public let gatewayVersion: String?
         /// The date the gateway was last updated, in Unix epoch time.
         public let lastUpdateDate: Date
 
         @inlinable
-        public init(creationDate: Date, gatewayCapabilitySummaries: [GatewayCapabilitySummary]? = nil, gatewayId: String, gatewayName: String, gatewayPlatform: GatewayPlatform? = nil, lastUpdateDate: Date) {
+        public init(creationDate: Date, gatewayCapabilitySummaries: [GatewayCapabilitySummary]? = nil, gatewayId: String, gatewayName: String, gatewayPlatform: GatewayPlatform? = nil, gatewayVersion: String? = nil, lastUpdateDate: Date) {
             self.creationDate = creationDate
             self.gatewayCapabilitySummaries = gatewayCapabilitySummaries
             self.gatewayId = gatewayId
             self.gatewayName = gatewayName
             self.gatewayPlatform = gatewayPlatform
+            self.gatewayVersion = gatewayVersion
             self.lastUpdateDate = lastUpdateDate
         }
 
@@ -5801,6 +5822,7 @@ extension IoTSiteWise {
             case gatewayId = "gatewayId"
             case gatewayName = "gatewayName"
             case gatewayPlatform = "gatewayPlatform"
+            case gatewayVersion = "gatewayVersion"
             case lastUpdateDate = "lastUpdateDate"
         }
     }
@@ -6176,11 +6198,14 @@ extension IoTSiteWise {
     }
 
     public struct GreengrassV2: AWSEncodableShape & AWSDecodableShape {
+        /// The operating system of the core device in IoT Greengrass V2.
+        public let coreDeviceOperatingSystem: CoreDeviceOperatingSystem?
         /// The name of the IoT thing for your IoT Greengrass V2 core device.
         public let coreDeviceThingName: String
 
         @inlinable
-        public init(coreDeviceThingName: String) {
+        public init(coreDeviceOperatingSystem: CoreDeviceOperatingSystem? = nil, coreDeviceThingName: String) {
+            self.coreDeviceOperatingSystem = coreDeviceOperatingSystem
             self.coreDeviceThingName = coreDeviceThingName
         }
 
@@ -6191,6 +6216,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case coreDeviceOperatingSystem = "coreDeviceOperatingSystem"
             case coreDeviceThingName = "coreDeviceThingName"
         }
     }
