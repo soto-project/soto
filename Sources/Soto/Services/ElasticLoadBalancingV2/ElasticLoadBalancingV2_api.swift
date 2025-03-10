@@ -260,6 +260,7 @@ public struct ElasticLoadBalancingV2: AWSService {
     ///   - customerOwnedIpv4Pool: [Application Load Balancers on Outposts] The ID of the customer-owned address pool (CoIP pool).
     ///   - enablePrefixForIpv6SourceNat: [Network Load Balancers with UDP listeners] Indicates whether to use an IPv6 prefix  from each subnet for source NAT. The IP address type must be dualstack.  The default value is off.
     ///   - ipAddressType: The IP address type. Internal load balancers must use ipv4. [Application Load Balancers] The possible values are ipv4 (IPv4 addresses),  dualstack (IPv4 and IPv6 addresses), and dualstack-without-public-ipv4  (public IPv6 addresses and private IPv4 and IPv6 addresses). [Network Load Balancers and Gateway Load Balancers] The possible values are ipv4  (IPv4 addresses) and dualstack (IPv4 and IPv6 addresses).
+    ///   - ipamPools: [Application Load Balancers] The IPAM pools to use with the load balancer.
     ///   - name: The name of the load balancer. This name must be unique per region per account, can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens, must not begin or end with a hyphen, and must not begin with "internal-".
     ///   - scheme: The nodes of an Internet-facing load balancer have public IP addresses. The DNS name of an Internet-facing load balancer is publicly resolvable to the public IP addresses of the nodes. Therefore, Internet-facing load balancers can route requests from clients over the internet. The nodes of an internal load balancer have only private IP addresses. The DNS name of an internal load balancer is publicly resolvable to the private IP addresses of the nodes. Therefore, internal load balancers can route requests only from clients with access to the VPC for the load balancer. The default is an Internet-facing load balancer. You can't specify a scheme for a Gateway Load Balancer.
     ///   - securityGroups: [Application Load Balancers and Network Load Balancers] The IDs of the security groups for the load balancer.
@@ -273,6 +274,7 @@ public struct ElasticLoadBalancingV2: AWSService {
         customerOwnedIpv4Pool: String? = nil,
         enablePrefixForIpv6SourceNat: EnablePrefixForIpv6SourceNatEnum? = nil,
         ipAddressType: IpAddressType? = nil,
+        ipamPools: IpamPools? = nil,
         name: String? = nil,
         scheme: LoadBalancerSchemeEnum? = nil,
         securityGroups: [String]? = nil,
@@ -286,6 +288,7 @@ public struct ElasticLoadBalancingV2: AWSService {
             customerOwnedIpv4Pool: customerOwnedIpv4Pool, 
             enablePrefixForIpv6SourceNat: enablePrefixForIpv6SourceNat, 
             ipAddressType: ipAddressType, 
+            ipamPools: ipamPools, 
             name: name, 
             scheme: scheme, 
             securityGroups: securityGroups, 
@@ -1339,6 +1342,41 @@ public struct ElasticLoadBalancingV2: AWSService {
             resetCapacityReservation: resetCapacityReservation
         )
         return try await self.modifyCapacityReservation(input, logger: logger)
+    }
+
+    /// [Application Load Balancers] Modify the IP pool associated to a load balancer.
+    @Sendable
+    @inlinable
+    public func modifyIpPools(_ input: ModifyIpPoolsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyIpPoolsOutput {
+        try await self.client.execute(
+            operation: "ModifyIpPools", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// [Application Load Balancers] Modify the IP pool associated to a load balancer.
+    ///
+    /// Parameters:
+    ///   - ipamPools: The IPAM pools to be modified.
+    ///   - loadBalancerArn: The Amazon Resource Name (ARN) of the load balancer.
+    ///   - removeIpamPools: Remove the IP pools in use by the load balancer.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyIpPools(
+        ipamPools: IpamPools? = nil,
+        loadBalancerArn: String? = nil,
+        removeIpamPools: [RemoveIpamPoolEnum]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyIpPoolsOutput {
+        let input = ModifyIpPoolsInput(
+            ipamPools: ipamPools, 
+            loadBalancerArn: loadBalancerArn, 
+            removeIpamPools: removeIpamPools
+        )
+        return try await self.modifyIpPools(input, logger: logger)
     }
 
     /// Replaces the specified properties of the specified listener. Any properties that you do not specify remain unchanged. Changing the protocol from HTTPS to HTTP, or from TLS to TCP, removes the security policy and default certificate properties. If you change the protocol from HTTP to HTTPS, or from TCP to TLS, you must add the security policy and default certificate properties. To add an item to a list, remove an item from a list, or update an item in a list, you must provide the entire list. For example, to add an action, specify a list with the current actions plus the new action.

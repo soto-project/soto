@@ -1123,7 +1123,7 @@ extension DataSync {
         public let mountOptions: NfsMountOptions?
         /// Specifies the Amazon Resource Name (ARN) of the DataSync agent that can connect to your NFS file server. You can specify more than one agent. For more information, see Using multiple DataSync agents.
         public let onPremConfig: OnPremConfig
-        /// Specifies the Domain Name System (DNS) name or IP version 4 address of the NFS file server that your DataSync agent connects to.
+        /// Specifies the DNS name or IP version 4 address of the NFS file server that your DataSync agent connects to.
         public let serverHostname: String
         /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers.
         public let subdirectory: String
@@ -1185,7 +1185,7 @@ extension DataSync {
         public let secretKey: String?
         /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:   The object storage system's certificate   All intermediate certificates (if there are any)   The root certificate of the signing CA   You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates:  cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem  To use this parameter, configure ServerProtocol to HTTPS.
         public let serverCertificate: AWSBase64Data?
-        /// Specifies the domain name or IP address of the object storage server. A DataSync agent uses this hostname to mount the object storage server in a network.
+        /// Specifies the domain name or IP version 4 (IPv4) address of the object storage server that your DataSync agent connects to.
         public let serverHostname: String
         /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
         public let serverPort: Int?
@@ -1333,7 +1333,7 @@ extension DataSync {
     public struct CreateLocationSmbRequest: AWSEncodableShape {
         /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
         public let agentArns: [String]
-        /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+        /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers.
         public let authenticationType: SmbAuthenticationType?
         /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
         public let dnsIpAddresses: [String]?
@@ -1343,13 +1343,13 @@ extension DataSync {
         public let kerberosKeytab: AWSBase64Data?
         /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
         public let kerberosKrb5Conf: AWSBase64Data?
-        /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
+        /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
         public let kerberosPrincipal: String?
         /// Specifies the version of the SMB protocol that DataSync uses to access your SMB file server.
         public let mountOptions: SmbMountOptions?
         /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
         public let password: String?
-        /// Specifies the domain name or IP address of the SMB file server that your DataSync agent will mount. Remember the following when configuring this parameter:   You can't specify an IP version 6 (IPv6) address.   If you're using Kerberos authentication, you must specify a domain name.
+        /// Specifies the domain name or IP address of the SMB file server that your DataSync agent connects to. Remember the following when configuring this parameter:   You can't specify an IP version 6 (IPv6) address.   If you're using Kerberos authentication, you must specify a domain name.
         public let serverHostname: String
         /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers.
         public let subdirectory: String
@@ -5209,14 +5209,17 @@ extension DataSync {
         public let locationArn: String
         public let mountOptions: NfsMountOptions?
         public let onPremConfig: OnPremConfig?
+        /// Specifies the DNS name or IP version 4 (IPv4) address of the NFS file server that your DataSync agent connects to.
+        public let serverHostname: String?
         /// Specifies the export path in your NFS file server that you want DataSync to mount. This path (or a subdirectory of the path) is where DataSync transfers data to or from. For information on configuring an export for DataSync, see Accessing NFS file servers.
         public let subdirectory: String?
 
         @inlinable
-        public init(locationArn: String, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil, subdirectory: String? = nil) {
+        public init(locationArn: String, mountOptions: NfsMountOptions? = nil, onPremConfig: OnPremConfig? = nil, serverHostname: String? = nil, subdirectory: String? = nil) {
             self.locationArn = locationArn
             self.mountOptions = mountOptions
             self.onPremConfig = onPremConfig
+            self.serverHostname = serverHostname
             self.subdirectory = subdirectory
         }
 
@@ -5224,6 +5227,8 @@ extension DataSync {
             try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.onPremConfig?.validate(name: "\(name).onPremConfig")
+            try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
+            try self.validate(self.serverHostname, name: "serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]+$")
         }
@@ -5232,6 +5237,7 @@ extension DataSync {
             case locationArn = "LocationArn"
             case mountOptions = "MountOptions"
             case onPremConfig = "OnPremConfig"
+            case serverHostname = "ServerHostname"
             case subdirectory = "Subdirectory"
         }
     }
@@ -5251,6 +5257,8 @@ extension DataSync {
         public let secretKey: String?
         /// Specifies a certificate chain for DataSync to authenticate with your object storage system if the system uses a private or self-signed certificate authority (CA). You must specify a single .pem file with a full certificate chain (for example, file:///home/user/.ssh/object_storage_certificates.pem). The certificate chain might include:   The object storage system's certificate   All intermediate certificates (if there are any)   The root certificate of the signing CA   You can concatenate your certificates into a .pem file (which can be up to 32768 bytes before base64 encoding). The following example cat command creates an object_storage_certificates.pem file that includes three certificates:  cat object_server_certificate.pem intermediate_certificate.pem ca_root_certificate.pem > object_storage_certificates.pem  To use this parameter, configure ServerProtocol to HTTPS. Updating this parameter doesn't interfere with tasks that you have in progress.
         public let serverCertificate: AWSBase64Data?
+        /// Specifies the domain name or IP version 4 (IPv4) address of the object storage server that your DataSync agent connects to.
+        public let serverHostname: String?
         /// Specifies the port that your object storage server accepts inbound network traffic on (for example, port 443).
         public let serverPort: Int?
         /// Specifies the protocol that your object storage server uses to communicate.
@@ -5259,12 +5267,13 @@ extension DataSync {
         public let subdirectory: String?
 
         @inlinable
-        public init(accessKey: String? = nil, agentArns: [String]? = nil, locationArn: String, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil) {
+        public init(accessKey: String? = nil, agentArns: [String]? = nil, locationArn: String, secretKey: String? = nil, serverCertificate: AWSBase64Data? = nil, serverHostname: String? = nil, serverPort: Int? = nil, serverProtocol: ObjectStorageServerProtocol? = nil, subdirectory: String? = nil) {
             self.accessKey = accessKey
             self.agentArns = agentArns
             self.locationArn = locationArn
             self.secretKey = secretKey
             self.serverCertificate = serverCertificate
+            self.serverHostname = serverHostname
             self.serverPort = serverPort
             self.serverProtocol = serverProtocol
             self.subdirectory = subdirectory
@@ -5284,6 +5293,8 @@ extension DataSync {
             try self.validate(self.secretKey, name: "secretKey", parent: name, max: 200)
             try self.validate(self.secretKey, name: "secretKey", parent: name, pattern: "^.*$")
             try self.validate(self.serverCertificate, name: "serverCertificate", parent: name, max: 32768)
+            try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
+            try self.validate(self.serverHostname, name: "serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
             try self.validate(self.serverPort, name: "serverPort", parent: name, max: 65536)
             try self.validate(self.serverPort, name: "serverPort", parent: name, min: 1)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
@@ -5296,6 +5307,7 @@ extension DataSync {
             case locationArn = "LocationArn"
             case secretKey = "SecretKey"
             case serverCertificate = "ServerCertificate"
+            case serverHostname = "ServerHostname"
             case serverPort = "ServerPort"
             case serverProtocol = "ServerProtocol"
             case subdirectory = "Subdirectory"
@@ -5346,7 +5358,7 @@ extension DataSync {
     public struct UpdateLocationSmbRequest: AWSEncodableShape {
         /// Specifies the DataSync agent (or agents) that can connect to your SMB file server. You specify an agent by using its Amazon Resource Name (ARN).
         public let agentArns: [String]?
-        /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication.
+        /// Specifies the authentication protocol that DataSync uses to connect to your SMB file server. DataSync supports NTLM (default) and KERBEROS authentication. For more information, see Providing DataSync access to SMB file servers.
         public let authenticationType: SmbAuthenticationType?
         /// Specifies the IPv4 addresses for the DNS servers that your SMB file server belongs to. This parameter applies only if AuthenticationType is set to KERBEROS. If you have multiple domains in your environment, configuring this parameter makes sure that DataSync connects to the right SMB file server.
         public let dnsIpAddresses: [String]?
@@ -5356,20 +5368,22 @@ extension DataSync {
         public let kerberosKeytab: AWSBase64Data?
         /// Specifies a Kerberos configuration file (krb5.conf) that defines your Kerberos realm configuration. The file must be base64 encoded. If you're using the CLI, the encoding is done for you.
         public let kerberosKrb5Conf: AWSBase64Data?
-        /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@EXAMPLE.COM. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
+        /// Specifies a Kerberos prinicpal, which is an identity in your Kerberos realm that has permission to access the files, folders, and file metadata in your SMB file server. A Kerberos principal might look like HOST/kerberosuser@MYDOMAIN.ORG. Principal names are case sensitive. Your DataSync task execution will fail if the principal that you specify for this parameter doesn’t exactly match the principal that you use to create the keytab file.
         public let kerberosPrincipal: String?
         /// Specifies the ARN of the SMB location that you want to update.
         public let locationArn: String
         public let mountOptions: SmbMountOptions?
         /// Specifies the password of the user who can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM.
         public let password: String?
+        /// Specifies the domain name or IP address of the SMB file server that your DataSync agent connects to. Remember the following when configuring this parameter:   You can't specify an IP version 6 (IPv6) address.   If you're using Kerberos authentication, you must specify a domain name.
+        public let serverHostname: String?
         /// Specifies the name of the share exported by your SMB file server where DataSync will read or write data. You can include a subdirectory in the share path (for example, /path/to/subdirectory). Make sure that other SMB clients in your network can also mount this path. To copy all data in the specified subdirectory, DataSync must be able to mount the SMB share and access all of its data. For more information, see Providing DataSync access to SMB file servers.
         public let subdirectory: String?
         /// Specifies the user name that can mount your SMB file server and has permission to access the files and folders involved in your transfer. This parameter applies only if AuthenticationType is set to NTLM. For information about choosing a user with the right level of access for your transfer, see Providing DataSync access to SMB file servers.
         public let user: String?
 
         @inlinable
-        public init(agentArns: [String]? = nil, authenticationType: SmbAuthenticationType? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, locationArn: String, mountOptions: SmbMountOptions? = nil, password: String? = nil, subdirectory: String? = nil, user: String? = nil) {
+        public init(agentArns: [String]? = nil, authenticationType: SmbAuthenticationType? = nil, dnsIpAddresses: [String]? = nil, domain: String? = nil, kerberosKeytab: AWSBase64Data? = nil, kerberosKrb5Conf: AWSBase64Data? = nil, kerberosPrincipal: String? = nil, locationArn: String, mountOptions: SmbMountOptions? = nil, password: String? = nil, serverHostname: String? = nil, subdirectory: String? = nil, user: String? = nil) {
             self.agentArns = agentArns
             self.authenticationType = authenticationType
             self.dnsIpAddresses = dnsIpAddresses
@@ -5380,6 +5394,7 @@ extension DataSync {
             self.locationArn = locationArn
             self.mountOptions = mountOptions
             self.password = password
+            self.serverHostname = serverHostname
             self.subdirectory = subdirectory
             self.user = user
         }
@@ -5408,6 +5423,8 @@ extension DataSync {
             try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
             try self.validate(self.password, name: "password", parent: name, max: 104)
             try self.validate(self.password, name: "password", parent: name, pattern: "^.{0,104}$")
+            try self.validate(self.serverHostname, name: "serverHostname", parent: name, max: 255)
+            try self.validate(self.serverHostname, name: "serverHostname", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
             try self.validate(self.user, name: "user", parent: name, max: 104)
@@ -5425,6 +5442,7 @@ extension DataSync {
             case locationArn = "LocationArn"
             case mountOptions = "MountOptions"
             case password = "Password"
+            case serverHostname = "ServerHostname"
             case subdirectory = "Subdirectory"
             case user = "User"
         }

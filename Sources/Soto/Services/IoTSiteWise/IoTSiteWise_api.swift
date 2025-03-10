@@ -748,18 +748,21 @@ public struct IoTSiteWise: AWSService {
     /// Parameters:
     ///   - gatewayName: A unique name for the gateway.
     ///   - gatewayPlatform: The gateway's platform. You can only specify one platform in a gateway.
+    ///   - gatewayVersion: The version of the gateway to create. Specify 3 to create an MQTT-enabled, V3 gateway and 2 To create a Classic streams, V2 gateway. If the version isn't specified, a Classic streams, V2 gateway is created by default. We recommend creating an MQTT-enabled, V3 gateway for self-hosted gateways. SiteWise Edge gateways on Siemens Industrial Edge should use gateway version 2. For more information on gateway versions, see  Self-host a SiteWise Edge gateway with IoT Greengrass V2.
     ///   - tags: A list of key-value pairs that contain metadata for the gateway. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGateway(
         gatewayName: String,
         gatewayPlatform: GatewayPlatform,
+        gatewayVersion: String? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateGatewayResponse {
         let input = CreateGatewayRequest(
             gatewayName: gatewayName, 
             gatewayPlatform: gatewayPlatform, 
+            gatewayVersion: gatewayVersion, 
             tags: tags
         )
         return try await self.createGateway(input, logger: logger)

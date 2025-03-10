@@ -485,7 +485,7 @@ public struct RedshiftData: AWSService {
         return try await self.listSchemas(input, logger: logger)
     }
 
-    /// List of SQL statements. By default, only finished statements are shown.  A token is returned to page through the statement list.  For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
+    /// List of SQL statements. By default, only finished statements are shown.  A token is returned to page through the statement list.  When you use identity-enhanced role sessions to list statements, you must provide either the  cluster-identifier or workgroup-name parameter. This ensures that the IdC user can only access the Amazon Redshift IdC applications they are assigned. For more information, see   Trusted identity propagation overview. For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
     @Sendable
     @inlinable
     public func listStatements(_ input: ListStatementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStatementsResponse {
@@ -498,30 +498,39 @@ public struct RedshiftData: AWSService {
             logger: logger
         )
     }
-    /// List of SQL statements. By default, only finished statements are shown.  A token is returned to page through the statement list.  For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
+    /// List of SQL statements. By default, only finished statements are shown.  A token is returned to page through the statement list.  When you use identity-enhanced role sessions to list statements, you must provide either the  cluster-identifier or workgroup-name parameter. This ensures that the IdC user can only access the Amazon Redshift IdC applications they are assigned. For more information, see   Trusted identity propagation overview. For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Management Guide.
     ///
     /// Parameters:
+    ///   - clusterIdentifier: The cluster identifier. Only statements that ran on this cluster are returned.  When providing ClusterIdentifier, then WorkgroupName can't be specified.
+    ///   - database: The name of the database when listing statements run against a ClusterIdentifier or WorkgroupName.
     ///   - maxResults: The maximum number of SQL statements to return in the response.  If more SQL statements exist than fit in one response, then NextToken is returned to page through the results.
     ///   - nextToken: A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned NextToken value in the next NextToken parameter and retrying the command. If the NextToken field is empty, all response records have been retrieved for the request.
     ///   - roleLevel: A value that filters which statements to return in the response. If true, all statements run by the caller's IAM role are returned.  If false, only statements run by the caller's IAM role in the current IAM session are returned.  The default is true.
     ///   - statementName: The name of the SQL statement specified as input to BatchExecuteStatement or ExecuteStatement to identify the query.  You can list multiple statements by providing a prefix that matches the beginning of the statement name.  For example, to list myStatement1, myStatement2, myStatement3, and so on, then provide the a value of myStatement.   Data API does a case-sensitive match of SQL statement names to the prefix value you provide.
     ///   - status: The status of the SQL statement to list. Status values are defined as follows:    ABORTED - The query run was stopped by the user.    ALL -  A status value that includes all query statuses. This value can be used to filter results.    FAILED - The query run failed.    FINISHED - The query has finished running.    PICKED - The query has been chosen to be run.    STARTED - The query run has started.    SUBMITTED - The query was submitted, but not yet processed.
+    ///   - workgroupName: The serverless workgroup name or Amazon Resource Name (ARN). Only statements that ran on this workgroup are returned.  When providing WorkgroupName, then ClusterIdentifier can't be specified.
     ///   - logger: Logger use during operation
     @inlinable
     public func listStatements(
+        clusterIdentifier: String? = nil,
+        database: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         roleLevel: Bool? = nil,
         statementName: String? = nil,
         status: StatusString? = nil,
+        workgroupName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListStatementsResponse {
         let input = ListStatementsRequest(
+            clusterIdentifier: clusterIdentifier, 
+            database: database, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             roleLevel: roleLevel, 
             statementName: statementName, 
-            status: status
+            status: status, 
+            workgroupName: workgroupName
         )
         return try await self.listStatements(input, logger: logger)
     }
@@ -847,24 +856,33 @@ extension RedshiftData {
     /// Return PaginatorSequence for operation ``listStatements(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - clusterIdentifier: The cluster identifier. Only statements that ran on this cluster are returned.  When providing ClusterIdentifier, then WorkgroupName can't be specified.
+    ///   - database: The name of the database when listing statements run against a ClusterIdentifier or WorkgroupName.
     ///   - maxResults: The maximum number of SQL statements to return in the response.  If more SQL statements exist than fit in one response, then NextToken is returned to page through the results.
     ///   - roleLevel: A value that filters which statements to return in the response. If true, all statements run by the caller's IAM role are returned.  If false, only statements run by the caller's IAM role in the current IAM session are returned.  The default is true.
     ///   - statementName: The name of the SQL statement specified as input to BatchExecuteStatement or ExecuteStatement to identify the query.  You can list multiple statements by providing a prefix that matches the beginning of the statement name.  For example, to list myStatement1, myStatement2, myStatement3, and so on, then provide the a value of myStatement.   Data API does a case-sensitive match of SQL statement names to the prefix value you provide.
     ///   - status: The status of the SQL statement to list. Status values are defined as follows:    ABORTED - The query run was stopped by the user.    ALL -  A status value that includes all query statuses. This value can be used to filter results.    FAILED - The query run failed.    FINISHED - The query has finished running.    PICKED - The query has been chosen to be run.    STARTED - The query run has started.    SUBMITTED - The query was submitted, but not yet processed.
+    ///   - workgroupName: The serverless workgroup name or Amazon Resource Name (ARN). Only statements that ran on this workgroup are returned.  When providing WorkgroupName, then ClusterIdentifier can't be specified.
     ///   - logger: Logger used for logging
     @inlinable
     public func listStatementsPaginator(
+        clusterIdentifier: String? = nil,
+        database: String? = nil,
         maxResults: Int? = nil,
         roleLevel: Bool? = nil,
         statementName: String? = nil,
         status: StatusString? = nil,
+        workgroupName: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListStatementsRequest, ListStatementsResponse> {
         let input = ListStatementsRequest(
+            clusterIdentifier: clusterIdentifier, 
+            database: database, 
             maxResults: maxResults, 
             roleLevel: roleLevel, 
             statementName: statementName, 
-            status: status
+            status: status, 
+            workgroupName: workgroupName
         )
         return self.listStatementsPaginator(input, logger: logger)
     }
@@ -1002,11 +1020,14 @@ extension RedshiftData.ListStatementsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> RedshiftData.ListStatementsRequest {
         return .init(
+            clusterIdentifier: self.clusterIdentifier,
+            database: self.database,
             maxResults: self.maxResults,
             nextToken: token,
             roleLevel: self.roleLevel,
             statementName: self.statementName,
-            status: self.status
+            status: self.status,
+            workgroupName: self.workgroupName
         )
     }
 }

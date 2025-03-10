@@ -185,6 +185,7 @@ let package = Package(
         .library(name: "SotoFraudDetector", targets: ["SotoFraudDetector"]),
         .library(name: "SotoFreeTier", targets: ["SotoFreeTier"]),
         .library(name: "SotoGameLift", targets: ["SotoGameLift"]),
+        .library(name: "SotoGameLiftStreams", targets: ["SotoGameLiftStreams"]),
         .library(name: "SotoGeoMaps", targets: ["SotoGeoMaps"]),
         .library(name: "SotoGeoPlaces", targets: ["SotoGeoPlaces"]),
         .library(name: "SotoGeoRoutes", targets: ["SotoGeoRoutes"]),
@@ -217,6 +218,7 @@ let package = Package(
         .library(name: "SotoIoTFleetHub", targets: ["SotoIoTFleetHub"]),
         .library(name: "SotoIoTFleetWise", targets: ["SotoIoTFleetWise"]),
         .library(name: "SotoIoTJobsDataPlane", targets: ["SotoIoTJobsDataPlane"]),
+        .library(name: "SotoIoTManagedIntegrations", targets: ["SotoIoTManagedIntegrations"]),
         .library(name: "SotoIoTSecureTunneling", targets: ["SotoIoTSecureTunneling"]),
         .library(name: "SotoIoTSiteWise", targets: ["SotoIoTSiteWise"]),
         .library(name: "SotoIoTThingsGraph", targets: ["SotoIoTThingsGraph"]),
@@ -1377,6 +1379,12 @@ let package = Package(
             swiftSettings: swiftSettings
         ),
         .target(
+            name: "SotoGameLiftStreams",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/GameLiftStreams",
+            swiftSettings: swiftSettings
+        ),
+        .target(
             name: "SotoGeoMaps",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/GeoMaps",
@@ -1566,6 +1574,12 @@ let package = Package(
             name: "SotoIoTJobsDataPlane",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/IoTJobsDataPlane",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoIoTManagedIntegrations",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/IoTManagedIntegrations",
             swiftSettings: swiftSettings
         ),
         .target(

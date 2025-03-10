@@ -238,6 +238,12 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndpointEncryptionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fipsValidated = "FIPS_VALIDATED"
+        case standardTls = "STANDARD_TLS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ImageAssociatedResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case application = "APPLICATION"
         public var description: String { return self.rawValue }
@@ -3190,7 +3196,7 @@ extension WorkSpaces {
     }
 
     public struct DescribeWorkspacesPoolSessionsRequest: AWSEncodableShape {
-        /// The maximum number of items to return.
+        /// The maximum size of each page of results. The default value is 20 and the maximum value is 50.
         public let limit: Int?
         /// If you received a NextToken from a previous call that was paginated,  provide this token to receive the next set of results.
         public let nextToken: String?
@@ -4255,6 +4261,34 @@ extension WorkSpaces {
     }
 
     public struct ModifyClientPropertiesResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct ModifyEndpointEncryptionModeRequest: AWSEncodableShape {
+        ///  The identifier of the directory.
+        public let directoryId: String
+        /// The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools.
+        public let endpointEncryptionMode: EndpointEncryptionMode
+
+        @inlinable
+        public init(directoryId: String, endpointEncryptionMode: EndpointEncryptionMode) {
+            self.directoryId = directoryId
+            self.endpointEncryptionMode = endpointEncryptionMode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.directoryId, name: "directoryId", parent: name, max: 65)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, min: 10)
+            try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^(d-[0-9a-f]{8,63}$)|(wsd-[0-9a-z]{8,63}$)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directoryId = "DirectoryId"
+            case endpointEncryptionMode = "EndpointEncryptionMode"
+        }
+    }
+
+    public struct ModifyEndpointEncryptionModeResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -5797,11 +5831,13 @@ extension WorkSpaces {
         public let deviceTypeWeb: AccessPropertyValue?
         /// Indicates whether users can use Windows clients to access their WorkSpaces.
         public let deviceTypeWindows: AccessPropertyValue?
+        /// Indicates whether users can access their WorkSpaces through a WorkSpaces Thin Client.
+        public let deviceTypeWorkSpacesThinClient: AccessPropertyValue?
         /// Indicates whether users can use zero client devices to access their WorkSpaces.
         public let deviceTypeZeroClient: AccessPropertyValue?
 
         @inlinable
-        public init(deviceTypeAndroid: AccessPropertyValue? = nil, deviceTypeChromeOs: AccessPropertyValue? = nil, deviceTypeIos: AccessPropertyValue? = nil, deviceTypeLinux: AccessPropertyValue? = nil, deviceTypeOsx: AccessPropertyValue? = nil, deviceTypeWeb: AccessPropertyValue? = nil, deviceTypeWindows: AccessPropertyValue? = nil, deviceTypeZeroClient: AccessPropertyValue? = nil) {
+        public init(deviceTypeAndroid: AccessPropertyValue? = nil, deviceTypeChromeOs: AccessPropertyValue? = nil, deviceTypeIos: AccessPropertyValue? = nil, deviceTypeLinux: AccessPropertyValue? = nil, deviceTypeOsx: AccessPropertyValue? = nil, deviceTypeWeb: AccessPropertyValue? = nil, deviceTypeWindows: AccessPropertyValue? = nil, deviceTypeWorkSpacesThinClient: AccessPropertyValue? = nil, deviceTypeZeroClient: AccessPropertyValue? = nil) {
             self.deviceTypeAndroid = deviceTypeAndroid
             self.deviceTypeChromeOs = deviceTypeChromeOs
             self.deviceTypeIos = deviceTypeIos
@@ -5809,6 +5845,7 @@ extension WorkSpaces {
             self.deviceTypeOsx = deviceTypeOsx
             self.deviceTypeWeb = deviceTypeWeb
             self.deviceTypeWindows = deviceTypeWindows
+            self.deviceTypeWorkSpacesThinClient = deviceTypeWorkSpacesThinClient
             self.deviceTypeZeroClient = deviceTypeZeroClient
         }
 
@@ -5820,6 +5857,7 @@ extension WorkSpaces {
             case deviceTypeOsx = "DeviceTypeOsx"
             case deviceTypeWeb = "DeviceTypeWeb"
             case deviceTypeWindows = "DeviceTypeWindows"
+            case deviceTypeWorkSpacesThinClient = "DeviceTypeWorkSpacesThinClient"
             case deviceTypeZeroClient = "DeviceTypeZeroClient"
         }
     }
@@ -5970,6 +6008,8 @@ extension WorkSpaces {
         public let directoryType: WorkspaceDirectoryType?
         /// The IP addresses of the DNS servers for the directory.
         public let dnsIpAddresses: [String]?
+        /// Endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode.
+        public let endpointEncryptionMode: EndpointEncryptionMode?
         /// The error message returned.
         public let errorMessage: String?
         /// The identifier of the IAM role. This is the role that allows Amazon WorkSpaces to make calls to other services, such as Amazon EC2, on your behalf.
@@ -6010,7 +6050,7 @@ extension WorkSpaces {
         public let workspaceType: WorkspaceType?
 
         @inlinable
-        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, errorMessage: String? = nil, iamRoleId: String? = nil, idcConfig: IDCConfig? = nil, ipGroupIds: [String]? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, streamingProperties: StreamingProperties? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceSecurityGroupId: String? = nil, workspaceType: WorkspaceType? = nil) {
+        public init(activeDirectoryConfig: ActiveDirectoryConfig? = nil, alias: String? = nil, certificateBasedAuthProperties: CertificateBasedAuthProperties? = nil, customerUserName: String? = nil, directoryId: String? = nil, directoryName: String? = nil, directoryType: WorkspaceDirectoryType? = nil, dnsIpAddresses: [String]? = nil, endpointEncryptionMode: EndpointEncryptionMode? = nil, errorMessage: String? = nil, iamRoleId: String? = nil, idcConfig: IDCConfig? = nil, ipGroupIds: [String]? = nil, microsoftEntraConfig: MicrosoftEntraConfig? = nil, registrationCode: String? = nil, samlProperties: SamlProperties? = nil, selfservicePermissions: SelfservicePermissions? = nil, state: WorkspaceDirectoryState? = nil, streamingProperties: StreamingProperties? = nil, subnetIds: [String]? = nil, tenancy: Tenancy? = nil, userIdentityType: UserIdentityType? = nil, workspaceAccessProperties: WorkspaceAccessProperties? = nil, workspaceCreationProperties: DefaultWorkspaceCreationProperties? = nil, workspaceDirectoryDescription: String? = nil, workspaceDirectoryName: String? = nil, workspaceSecurityGroupId: String? = nil, workspaceType: WorkspaceType? = nil) {
             self.activeDirectoryConfig = activeDirectoryConfig
             self.alias = alias
             self.certificateBasedAuthProperties = certificateBasedAuthProperties
@@ -6019,6 +6059,7 @@ extension WorkSpaces {
             self.directoryName = directoryName
             self.directoryType = directoryType
             self.dnsIpAddresses = dnsIpAddresses
+            self.endpointEncryptionMode = endpointEncryptionMode
             self.errorMessage = errorMessage
             self.iamRoleId = iamRoleId
             self.idcConfig = idcConfig
@@ -6049,6 +6090,7 @@ extension WorkSpaces {
             case directoryName = "DirectoryName"
             case directoryType = "DirectoryType"
             case dnsIpAddresses = "DnsIpAddresses"
+            case endpointEncryptionMode = "EndpointEncryptionMode"
             case errorMessage = "ErrorMessage"
             case iamRoleId = "IamRoleId"
             case idcConfig = "IDCConfig"

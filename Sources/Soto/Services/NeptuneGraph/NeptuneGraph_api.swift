@@ -187,9 +187,9 @@ public struct NeptuneGraph: AWSService {
     ///
     /// Parameters:
     ///   - deletionProtection: Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
-    ///   - graphName: A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    ///   - graphName: A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     ///   - kmsKeyIdentifier: Specifies a KMS key to use to encrypt data in the new graph.
-    ///   - provisionedMemory: The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    ///   - provisionedMemory: The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     ///   - publicConnectivity: Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     ///   - replicaCount: The number of replicas in other AZs. Min =0, Max = 2, Default = 1.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
     ///   - tags: Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
@@ -237,7 +237,7 @@ public struct NeptuneGraph: AWSService {
     ///
     /// Parameters:
     ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
-    ///   - snapshotName: The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    ///   - snapshotName: The snapshot name. For example: my-snapshot-1. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     ///   - tags: Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
     ///   - logger: Logger use during operation
     @inlinable
@@ -275,11 +275,11 @@ public struct NeptuneGraph: AWSService {
     ///   - deletionProtection: Indicates whether or not to enable deletion protection on the graph. The graph can’t be deleted when deletion protection is enabled. (true or false).
     ///   - failOnError: If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
     ///   - format: Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format, OPEN_CYPHER, which identifies the openCypher load format, or ntriples, which identifies the RDF n-triples format.
-    ///   - graphName: A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
+    ///   - graphName: A name for the new Neptune Analytics graph to be created. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
     ///   - importOptions: Contains options for controlling the import process. For example, if the failOnError key is set to false, the import skips problem data and attempts to continue (whereas if set to true, the default, or if omitted, the import operation halts immediately when an error is encountered.
     ///   - kmsKeyIdentifier: Specifies a KMS key to use to encrypt data imported into the new graph.
     ///   - maxProvisionedMemory: The maximum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 1024, or the approved upper limit for your account. If both the minimum and maximum values are specified, the final provisioned-memory will be chosen per the actual size of your imported data. If neither value is specified,  128 m-NCUs are used.
-    ///   - minProvisionedMemory: The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
+    ///   - minProvisionedMemory: The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 16
     ///   - parquetType: The parquet type of the import task.
     ///   - publicConnectivity: Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     ///   - replicaCount: The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2.   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
@@ -1005,8 +1005,8 @@ public struct NeptuneGraph: AWSService {
     ///
     /// Parameters:
     ///   - deletionProtection: A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
-    ///   - graphName: A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens.
-    ///   - provisionedMemory: The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    ///   - graphName: A name for the new Neptune Analytics graph to be created from the snapshot. The name must contain from 1 to 63 letters, numbers, or hyphens, and its first character must be a letter. It cannot end with a hyphen or contain two consecutive hyphens. Only lowercase letters are allowed.
+    ///   - provisionedMemory: The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     ///   - publicConnectivity: Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     ///   - replicaCount: The number of replicas in other AZs. Min =0, Max = 2, Default =1   Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
     ///   - snapshotIdentifier: The ID of the snapshot in question.
@@ -1217,7 +1217,7 @@ public struct NeptuneGraph: AWSService {
     /// Parameters:
     ///   - deletionProtection: A value that indicates whether the graph has deletion protection enabled. The graph can't be deleted when deletion protection is enabled.
     ///   - graphIdentifier: The unique identifier of the Neptune Analytics graph.
-    ///   - provisionedMemory: The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
+    ///   - provisionedMemory: The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 16
     ///   - publicConnectivity: Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     ///   - logger: Logger use during operation
     @inlinable

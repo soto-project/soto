@@ -185,20 +185,26 @@ extension IVSRealTime {
     public struct AutoParticipantRecordingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Types of media to be recorded. Default: AUDIO_VIDEO.
         public let mediaTypes: [ParticipantRecordingMediaType]?
-        /// ARN of the StorageConfiguration resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a  Stage is created or updated.
+        /// If a stage publisher disconnects and then reconnects within the specified interval,
+        /// 	  the multiple recordings will be considered a single recording and merged together. The default value is 0, which disables merging.
+        public let recordingReconnectWindowSeconds: Int?
+        /// ARN of the StorageConfiguration resource to use for individual participant recording. Default: "" (empty string, no storage configuration is specified). Individual participant recording cannot be started unless a storage configuration is specified, when a Stage is created or updated. To disable individual participant recording, set this to ""; other fields in this object will get reset to their defaults when sending "".
         public let storageConfigurationArn: String
         /// A complex type that allows you to enable/disable the recording of thumbnails for individual participant recording and modify the interval at which thumbnails are generated for the live session.
         public let thumbnailConfiguration: ParticipantThumbnailConfiguration?
 
         @inlinable
-        public init(mediaTypes: [ParticipantRecordingMediaType]? = nil, storageConfigurationArn: String, thumbnailConfiguration: ParticipantThumbnailConfiguration? = nil) {
+        public init(mediaTypes: [ParticipantRecordingMediaType]? = nil, recordingReconnectWindowSeconds: Int? = nil, storageConfigurationArn: String, thumbnailConfiguration: ParticipantThumbnailConfiguration? = nil) {
             self.mediaTypes = mediaTypes
+            self.recordingReconnectWindowSeconds = recordingReconnectWindowSeconds
             self.storageConfigurationArn = storageConfigurationArn
             self.thumbnailConfiguration = thumbnailConfiguration
         }
 
         public func validate(name: String) throws {
             try self.validate(self.mediaTypes, name: "mediaTypes", parent: name, max: 1)
+            try self.validate(self.recordingReconnectWindowSeconds, name: "recordingReconnectWindowSeconds", parent: name, max: 300)
+            try self.validate(self.recordingReconnectWindowSeconds, name: "recordingReconnectWindowSeconds", parent: name, min: 0)
             try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, max: 128)
             try self.validate(self.storageConfigurationArn, name: "storageConfigurationArn", parent: name, pattern: "^^$|^arn:aws:ivs:[a-z0-9-]+:[0-9]+:storage-configuration/[a-zA-Z0-9-]+$$")
             try self.thumbnailConfiguration?.validate(name: "\(name).thumbnailConfiguration")
@@ -206,6 +212,7 @@ extension IVSRealTime {
 
         private enum CodingKeys: String, CodingKey {
             case mediaTypes = "mediaTypes"
+            case recordingReconnectWindowSeconds = "recordingReconnectWindowSeconds"
             case storageConfigurationArn = "storageConfigurationArn"
             case thumbnailConfiguration = "thumbnailConfiguration"
         }
@@ -241,8 +248,7 @@ extension IVSRealTime {
     public struct Composition: AWSDecodableShape {
         /// ARN of the Composition resource.
         public let arn: String
-        /// Array of Destination objects. A Composition can contain either one destination
-        /// 	        (channel or s3) or two (one channel and one s3).
+        /// Array of Destination objects. A Composition can contain either one destination (channel or s3) or two (one channel and one s3).
         public let destinations: [Destination]
         /// UTC time of the Composition end. This is an ISO 8601 timestamp; note that this is returned as a string.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -324,11 +330,7 @@ extension IVSRealTime {
     }
 
     public struct CompositionThumbnailConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/(width)x(height) directory, where (width) and (height) are the width
-        /// 	    and height of the thumbnail. LATEST saves the latest thumbnail in
-        /// 	    media/latest_thumbnail/(width)x(height)/thumb.jpg and overwrites it at the interval specified by
-        /// 	    targetIntervalSeconds.  You can enable both SEQUENTIAL and LATEST.
-        /// 	    Default: SEQUENTIAL.
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/(width)x(height) directory, where (width) and (height) are the width and height of the thumbnail. LATEST saves the latest thumbnail in media/latest_thumbnail/(width)x(height)/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
         public let storage: [ThumbnailStorageType]?
         /// The targeted thumbnail-generation interval in seconds. Default: 60.
         public let targetIntervalSeconds: Int?
@@ -790,13 +792,11 @@ extension IVSRealTime {
     }
 
     public struct DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// An IVS channel to be used for broadcasting, for server-side composition. Either a channel or an
-        /// 	  s3 must be specified.
+        /// An IVS channel to be used for broadcasting, for server-side composition. Either a channel or an s3 must be specified.
         public let channel: ChannelDestinationConfiguration?
         /// Name that can be specified to help identify the destination.
         public let name: String?
-        /// An S3 storage configuration to be used for recording video data. Either a channel
-        /// 	  or an s3 must be specified.
+        /// An S3 storage configuration to be used for recording video data. Either a channel or an s3 must be specified.
         public let s3: S3DestinationConfiguration?
 
         @inlinable
@@ -945,41 +945,7 @@ extension IVSRealTime {
     }
 
     public struct Event: AWSDecodableShape {
-        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null.    B_FRAME_PRESENT —
-        /// 		     The participant's stream includes B-frames.
-        /// 		     For details, see
-        /// 		     IVS RTMP Publishing.    BITRATE_EXCEEDED —
-        /// 		     The participant exceeded the maximum supported bitrate.
-        /// 		     For details, see
-        /// 		     Service Quotas.    INSUFFICIENT_CAPABILITIES —
-        /// 		     The participant tried to take an action
-        /// 		     that the participant’s token is not allowed to do. For details on participant capabilities, see
-        /// 		     the capabilities field in CreateParticipantToken.    INTERNAL_SERVER_EXCEPTION —
-        /// 		     The participant failed to publish to the stage due to an internal server error.    INVALID_AUDIO_CODEC —
-        /// 		     The participant is using an invalid audio codec.
-        /// 		     For details, see
-        /// 		     Stream Ingest.    INVALID_INPUT —
-        /// 		     The participant is using an invalid input stream.    INVALID_PROTOCOL —
-        /// 		     The participant's IngestConfiguration resource is configured for RTMPS but they tried streaming with RTMP.
-        /// 		     For details, see
-        /// 		     IVS RTMP Publishing.    INVALID_STREAM_KEY —
-        /// 		     The participant is using an invalid stream key.
-        /// 		     For details, see
-        /// 		     IVS RTMP Publishing.    INVALID_VIDEO_CODEC —
-        /// 		     The participant is using an invalid video codec.
-        /// 		     For details, see
-        /// 		     Stream Ingest.    PUBLISHER_NOT_FOUND —
-        /// 		     The participant tried to subscribe to a publisher that doesn’t exist.    QUOTA_EXCEEDED —
-        /// 		     The number of participants who want to publish/subscribe to a stage exceeds the quota.
-        /// 		     For details, see
-        /// 		     Service Quotas.    RESOLUTION_EXCEEDED —
-        /// 		     The participant exceeded the maximum supported resolution.
-        /// 		     For details, see
-        /// 		     Service Quotas.    REUSE_OF_STREAM_KEY —
-        /// 		     The participant tried to use a stream key that is associated with another active stage session.    STREAM_DURATION_EXCEEDED —
-        /// 		     The participant exceeded the maximum allowed stream duration.
-        /// 		     For details, see
-        /// 		     Service Quotas.
+        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null.    B_FRAME_PRESENT — The participant's stream includes B-frames. For details, see  IVS RTMP Publishing.    BITRATE_EXCEEDED — The participant exceeded the maximum supported bitrate. For details, see  Service Quotas.    INSUFFICIENT_CAPABILITIES — The participant tried to take an action that the participant’s token is not allowed to do. For details on participant capabilities, see the capabilities field in CreateParticipantToken.    INTERNAL_SERVER_EXCEPTION — The participant failed to publish to the stage due to an internal server error.    INVALID_AUDIO_CODEC — The participant is using an invalid audio codec. For details, see  Stream Ingest.    INVALID_INPUT — The participant is using an invalid input stream.    INVALID_PROTOCOL — The participant's IngestConfiguration resource is configured for RTMPS but they tried streaming with RTMP. For details, see IVS RTMP Publishing.    INVALID_STREAM_KEY — The participant is using an invalid stream key. For details, see  IVS RTMP Publishing.    INVALID_VIDEO_CODEC — The participant is using an invalid video codec. For details, see  Stream Ingest.    PUBLISHER_NOT_FOUND — The participant tried to subscribe to a publisher that doesn’t exist.    QUOTA_EXCEEDED — The number of participants who want to publish/subscribe to a stage exceeds the quota. For details, see  Service Quotas.    RESOLUTION_EXCEEDED — The participant exceeded the maximum supported resolution. For details, see  Service Quotas.    REUSE_OF_STREAM_KEY — The participant tried to use a stream key that is associated with another active stage session.    STREAM_DURATION_EXCEEDED — The participant exceeded the maximum allowed stream duration. For details, see  Service Quotas.
         public let errorCode: EventErrorCode?
         /// ISO 8601 timestamp (returned as a string) for when the event occurred.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -1310,7 +1276,7 @@ extension IVSRealTime {
         public let omitStoppedVideo: Bool?
         /// Sets the non-featured participant display mode, to control the aspect ratio of video tiles. VIDEO is 16:9, SQUARE is 1:1, and PORTRAIT is 3:4. Default: VIDEO.
         public let videoAspectRatio: VideoAspectRatio?
-        /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). When not set,  videoFillMode defaults to COVER fill mode for participants in the grid  and to CONTAIN fill mode for featured participants.
+        /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). When not set, videoFillMode defaults to COVER fill mode for participants in the grid and to CONTAIN fill mode for featured participants.
         public let videoFillMode: VideoFillMode?
 
         @inlinable
@@ -2031,7 +1997,11 @@ extension IVSRealTime {
         public let published: Bool?
         /// Name of the S3 bucket to where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
         public let recordingS3BucketName: String?
-        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled.
+        /// S3 prefix of the S3 bucket where the participant is being recorded, if individual participant recording is enabled, or "" (empty string), if recording is not enabled. If individual participant recording merge is enabled, and if a stage publisher
+        /// 		 disconnects from a stage and then reconnects, IVS tries to record to the same S3 prefix as
+        /// 		 the previous session. See
+        ///
+        /// 		 Merge Fragmented Individual Participant Recordings.
         public let recordingS3Prefix: String?
         /// The participant’s recording state.
         public let recordingState: ParticipantRecordingState?
@@ -2120,10 +2090,7 @@ extension IVSRealTime {
     public struct ParticipantThumbnailConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Thumbnail recording mode. Default: DISABLED.
         public let recordingMode: ThumbnailRecordingMode?
-        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/high directory. LATEST saves the latest thumbnail
-        /// 	    in media/latest_thumbnail/high/thumb.jpg and overwrites it at the interval specified by
-        /// 	    targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST.
-        /// 	    Default: SEQUENTIAL.
+        /// Indicates the format in which thumbnails are recorded. SEQUENTIAL records all generated thumbnails in a serial manner, to the media/thumbnails/high directory. LATEST saves the latest thumbnail in media/latest_thumbnail/high/thumb.jpg and overwrites it at the interval specified by targetIntervalSeconds. You can enable both SEQUENTIAL and LATEST. Default: SEQUENTIAL.
         public let storage: [ThumbnailStorageType]?
         /// The targeted thumbnail-generation interval in seconds. This is configurable only if recordingMode is INTERVAL. Default: 60.
         public let targetIntervalSeconds: Int?
@@ -2229,24 +2196,17 @@ extension IVSRealTime {
         public let omitStoppedVideo: Bool?
         /// Defines PiP behavior when all participants have left: STATIC (maintains original position/size) or DYNAMIC (expands to full composition). Default: STATIC.
         public let pipBehavior: PipBehavior?
-        /// Specifies the height of the PiP window in pixels. When this is not set explicitly,
-        /// 	        pipHeight’s value will be based on the size of the composition and the
-        /// 			aspect ratio of the participant’s video.
+        /// Specifies the height of the PiP window in pixels. When this is not set explicitly, pipHeight’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
         public let pipHeight: Int?
-        /// Sets the PiP window’s offset position in pixels from the closest edges determined by PipPosition.
-        /// 	  Default: 0.
+        /// Sets the PiP window’s offset position in pixels from the closest edges determined by PipPosition. Default: 0.
         public let pipOffset: Int?
-        /// Specifies the participant for the PiP window. A participant with this attribute set to "true" (as a string value) in ParticipantTokenConfiguration
-        /// 	 is placed in the PiP slot. Default: "" (no PiP participant).
+        /// Specifies the participant for the PiP window. A participant with this attribute set to "true" (as a string value) in ParticipantTokenConfiguration is placed in the PiP slot. Default: "" (no PiP participant).
         public let pipParticipantAttribute: String?
         /// Determines the corner position of the PiP window. Default: BOTTOM_RIGHT.
         public let pipPosition: PipPosition?
-        /// Specifies the width of the PiP window in pixels. When this is not set explicitly,
-        /// 	        pipWidth’s value will be based on the size of the composition and the
-        /// 			aspect ratio of the participant’s video.
+        /// Specifies the width of the PiP window in pixels. When this is not set explicitly, pipWidth’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
         public let pipWidth: Int?
-        /// Defines how video content fits within the participant tile: FILL (stretched),
-        /// 	  COVER (cropped), or CONTAIN (letterboxed). Default: COVER.
+        /// Defines how video content fits within the participant tile: FILL (stretched), COVER (cropped), or CONTAIN (letterboxed). Default: COVER.
         public let videoFillMode: VideoFillMode?
 
         @inlinable
@@ -2355,12 +2315,9 @@ extension IVSRealTime {
     }
 
     public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// ARNs of the EncoderConfiguration resource. The encoder configuration and stage resources
-        /// 	  must be in the same AWS account and region.
+        /// ARNs of the EncoderConfiguration resource. The encoder configuration and stage resources must be in the same AWS account and region.
         public let encoderConfigurationArns: [String]
-        /// Array of maps, each of the form string:string (key:value).
-        /// 	  This is an optional customer specification, currently used only to specify
-        /// 	  the recording format for storing a recording in Amazon S3.
+        /// Array of maps, each of the form string:string (key:value). This is an optional customer specification, currently used only to specify the recording format for storing a recording in Amazon S3.
         public let recordingConfiguration: RecordingConfiguration?
         /// ARN of the StorageConfiguration where recorded videos will be stored.
         public let storageConfigurationArn: String
@@ -2415,8 +2372,7 @@ extension IVSRealTime {
     }
 
     public struct S3StorageConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Location (S3 bucket name) where recorded videos will be stored.  Note that the StorageConfiguration
-        /// 	  and S3 bucket must be in the same region as the Composition.
+        /// Location (S3 bucket name) where recorded videos will be stored. Note that the StorageConfiguration and S3 bucket must be in the same region as the Composition.
         public let bucketName: String
 
         @inlinable
@@ -2691,8 +2647,7 @@ extension IVSRealTime {
         public let name: String?
         /// An S3 destination configuration where recorded videos will be stored.
         public let s3: S3StorageConfiguration?
-        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming
-        /// 	 limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Tags attached to the resource. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tags: [String: String]?
 
         @inlinable
@@ -2754,7 +2709,7 @@ extension IVSRealTime {
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to be untagged. The ARN must be URL-encoded.
         public let resourceArn: String
-        /// Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+        /// Array of tag keys (strings) for the tags to be removed. See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
         public let tagKeys: [String]
 
         @inlinable
