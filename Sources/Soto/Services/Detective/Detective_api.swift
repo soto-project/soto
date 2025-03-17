@@ -80,6 +80,40 @@ public struct Detective: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "detective.af-south-1.api.aws",
+            "ap-east-1": "detective.ap-east-1.api.aws",
+            "ap-northeast-1": "detective.ap-northeast-1.api.aws",
+            "ap-northeast-2": "detective.ap-northeast-2.api.aws",
+            "ap-south-1": "detective.ap-south-1.api.aws",
+            "ap-southeast-1": "detective.ap-southeast-1.api.aws",
+            "ap-southeast-2": "detective.ap-southeast-2.api.aws",
+            "ca-central-1": "detective.ca-central-1.api.aws",
+            "eu-central-1": "detective.eu-central-1.api.aws",
+            "eu-north-1": "detective.eu-north-1.api.aws",
+            "eu-south-1": "detective.eu-south-1.api.aws",
+            "eu-west-1": "detective.eu-west-1.api.aws",
+            "eu-west-2": "detective.eu-west-2.api.aws",
+            "eu-west-3": "detective.eu-west-3.api.aws",
+            "il-central-1": "detective.il-central-1.api.aws",
+            "me-south-1": "detective.me-south-1.api.aws",
+            "sa-east-1": "detective.sa-east-1.api.aws",
+            "us-east-1": "detective.us-east-1.api.aws",
+            "us-east-2": "detective.us-east-2.api.aws",
+            "us-gov-east-1": "detective.us-gov-east-1.api.aws",
+            "us-gov-west-1": "detective.us-gov-west-1.api.aws",
+            "us-west-1": "detective.us-west-1.api.aws",
+            "us-west-2": "detective.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "detective-fips.ca-central-1.api.aws",
+            "us-east-1": "detective-fips.us-east-1.api.aws",
+            "us-east-2": "detective-fips.us-east-2.api.aws",
+            "us-gov-east-1": "detective-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "detective-fips.us-gov-west-1.api.aws",
+            "us-west-1": "detective-fips.us-west-1.api.aws",
+            "us-west-2": "detective-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "api.detective-fips.ca-central-1.amazonaws.com",
             "us-east-1": "api.detective-fips.us-east-1.amazonaws.com",

@@ -506,7 +506,10 @@ public struct BedrockAgentRuntime: AWSService {
     ///
     /// Parameters:
     ///   - actionGroups:  A list of action groups with each action group defining the action the inline agent needs to carry out.
+    ///   - agentCollaboration:  Defines how the inline collaborator agent handles information across multiple collaborator agents to coordinate a final response. The inline collaborator agent can also be the supervisor.
     ///   - bedrockModelConfigurations: Model settings for the request.
+    ///   - collaboratorConfigurations:  Settings for an inline agent collaborator called with InvokeInlineAgent.
+    ///   - collaborators:  List of collaborator inline agents.
     ///   - customerEncryptionKeyArn:  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
     ///   - enableTrace:  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
     ///   - endSession:  Specifies whether to end the session with the inline agent or not.
@@ -524,7 +527,10 @@ public struct BedrockAgentRuntime: AWSService {
     @inlinable
     public func invokeInlineAgent(
         actionGroups: [AgentActionGroup]? = nil,
+        agentCollaboration: AgentCollaboration? = nil,
         bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil,
+        collaboratorConfigurations: [CollaboratorConfiguration]? = nil,
+        collaborators: [Collaborator]? = nil,
         customerEncryptionKeyArn: String? = nil,
         enableTrace: Bool? = nil,
         endSession: Bool? = nil,
@@ -542,7 +548,10 @@ public struct BedrockAgentRuntime: AWSService {
     ) async throws -> InvokeInlineAgentResponse {
         let input = InvokeInlineAgentRequest(
             actionGroups: actionGroups, 
+            agentCollaboration: agentCollaboration, 
             bedrockModelConfigurations: bedrockModelConfigurations, 
+            collaboratorConfigurations: collaboratorConfigurations, 
+            collaborators: collaborators, 
             customerEncryptionKeyArn: customerEncryptionKeyArn, 
             enableTrace: enableTrace, 
             endSession: endSession, 

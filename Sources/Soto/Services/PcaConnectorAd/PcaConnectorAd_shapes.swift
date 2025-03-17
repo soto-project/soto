@@ -138,8 +138,11 @@ extension PcaConnectorAd {
     }
 
     public enum ConnectorStatusReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case caCertificateRegistrationFailed = "CA_CERTIFICATE_REGISTRATION_FAILED"
         case directoryAccessDenied = "DIRECTORY_ACCESS_DENIED"
+        case insufficientFreeAddresses = "INSUFFICIENT_FREE_ADDRESSES"
         case internalFailure = "INTERNAL_FAILURE"
+        case invalidSubnetIpProtocol = "INVALID_SUBNET_IP_PROTOCOL"
         case privatecaAccessDenied = "PRIVATECA_ACCESS_DENIED"
         case privatecaResourceNotFound = "PRIVATECA_RESOURCE_NOT_FOUND"
         case securityGroupNotInVpc = "SECURITY_GROUP_NOT_IN_VPC"
@@ -171,6 +174,12 @@ extension PcaConnectorAd {
         case sha256 = "SHA256"
         case sha384 = "SHA384"
         case sha512 = "SHA512"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "DUALSTACK"
+        case ipv4 = "IPV4"
         public var description: String { return self.rawValue }
     }
 
@@ -207,6 +216,7 @@ extension PcaConnectorAd {
         case directoryResourceNotFound = "DIRECTORY_RESOURCE_NOT_FOUND"
         case internalFailure = "INTERNAL_FAILURE"
         case spnExistsOnDifferentAdObject = "SPN_EXISTS_ON_DIFFERENT_AD_OBJECT"
+        case spnLimitExceeded = "SPN_LIMIT_EXCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -611,7 +621,7 @@ extension PcaConnectorAd {
         public let directoryId: String
         /// Metadata assigned to a connector consisting of a key-value pair.
         public let tags: [String: String]?
-        /// Security group IDs that describe the inbound and outbound rules.
+        /// Information about your VPC and security groups used with the connector.
         public let vpcInformation: VpcInformation
 
         @inlinable
@@ -2659,11 +2669,14 @@ extension PcaConnectorAd {
     }
 
     public struct VpcInformation: AWSEncodableShape & AWSDecodableShape {
+        /// The VPC IP address type.
+        public let ipAddressType: IpAddressType?
         /// The security groups used with the connector. You can use a maximum of 4 security groups with a connector.
         public let securityGroupIds: [String]
 
         @inlinable
-        public init(securityGroupIds: [String]) {
+        public init(ipAddressType: IpAddressType? = nil, securityGroupIds: [String]) {
+            self.ipAddressType = ipAddressType
             self.securityGroupIds = securityGroupIds
         }
 
@@ -2678,6 +2691,7 @@ extension PcaConnectorAd {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipAddressType = "IpAddressType"
             case securityGroupIds = "SecurityGroupIds"
         }
     }

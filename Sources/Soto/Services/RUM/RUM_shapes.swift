@@ -484,7 +484,7 @@ extension RUM {
             try self.appMonitorConfiguration?.validate(name: "\(name).appMonitorConfiguration")
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
-            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(localhost)|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(?![-.])([A-Za-z0-9-\\.\\-]{0,63})((?![-])([a-zA-Z0-9]{1}|^[a-zA-Z0-9]{0,1}))\\.(?![-])[A-Za-z-0-9]{1,63}((?![-])([a-zA-Z0-9]{1}|^[a-zA-Z0-9]{0,1}))|^(\\*\\.)(?![-.])([A-Za-z0-9-\\.\\-]{0,63})((?![-])([a-zA-Z0-9]{1}|^[a-zA-Z0-9]{0,1}))\\.(?![-])[A-Za-z-0-9]{1,63}((?![-])([a-zA-Z0-9]{1}|^[a-zA-Z0-9]{0,1}))")
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(localhost)$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|(?=^[a-zA-Z0-9\\.\\*-]{4,253}$)(?!.*\\.-)(?!.*-\\.)(?!.*\\.\\.)(?!.*[^\\.]{64,})^(\\*\\.)?(?![-\\.\\*])[^\\*]{1,}\\.(?!.*--)(?=.*[a-zA-Z])[^\\*]{1,}[^\\*-]$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
@@ -592,6 +592,50 @@ extension RUM {
 
     public struct DeleteAppMonitorResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The app monitor that you want to remove the resource policy from.
+        public let name: String
+        /// Specifies a specific policy revision to delete. Provide a PolicyRevisionId to ensure an atomic delete operation.  If the revision ID that you provide doesn't match the latest policy revision ID, the request will be rejected with an InvalidPolicyRevisionIdException error.
+        public let policyRevisionId: String?
+
+        @inlinable
+        public init(name: String, policyRevisionId: String? = nil) {
+            self.name = name
+            self.policyRevisionId = policyRevisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            request.encodeQuery(self.policyRevisionId, key: "policyRevisionId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, max: 255)
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
+        /// The revision ID of the policy that was removed, if it had one.
+        public let policyRevisionId: String?
+
+        @inlinable
+        public init(policyRevisionId: String? = nil) {
+            self.policyRevisionId = policyRevisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyRevisionId = "PolicyRevisionId"
+        }
     }
 
     public struct DeleteRumMetricsDestinationRequest: AWSEncodableShape {
@@ -732,6 +776,48 @@ extension RUM {
 
         private enum CodingKeys: String, CodingKey {
             case appMonitor = "AppMonitor"
+        }
+    }
+
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        /// The name of the app monitor that is associated with the resource-based policy that you want to view.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The JSON policy document that you requested.
+        public let policyDocument: String?
+        /// The revision ID information for this version of the policy document that you requested.
+        public let policyRevisionId: String?
+
+        @inlinable
+        public init(policyDocument: String? = nil, policyRevisionId: String? = nil) {
+            self.policyDocument = policyDocument
+            self.policyRevisionId = policyRevisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+            case policyRevisionId = "PolicyRevisionId"
         }
     }
 
@@ -987,7 +1073,64 @@ extension RUM {
         }
     }
 
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// The name of the app monitor that you want to apply this resource-based policy to. To find the names of your app monitors, you can use the ListAppMonitors operation.
+        public let name: String
+        /// The JSON to use as the resource policy. The document can be up to 4 KB in size. For more information about the contents and syntax  for this policy, see Using resource-based policies with CloudWatch RUM.
+        public let policyDocument: String
+        /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you assign a policy revision ID, then later requests about that policy will be rejected with an InvalidPolicyRevisionIdException error if they don't provide the correct current revision ID.
+        public let policyRevisionId: String?
+
+        @inlinable
+        public init(name: String, policyDocument: String, policyRevisionId: String? = nil) {
+            self.name = name
+            self.policyDocument = policyDocument
+            self.policyRevisionId = policyRevisionId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.policyDocument, forKey: .policyDocument)
+            try container.encodeIfPresent(self.policyRevisionId, forKey: .policyRevisionId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, max: 255)
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+            case policyRevisionId = "PolicyRevisionId"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// The JSON policy document that you specified.
+        public let policyDocument: String?
+        /// The policy revision ID information that you specified.
+        public let policyRevisionId: String?
+
+        @inlinable
+        public init(policyDocument: String? = nil, policyRevisionId: String? = nil) {
+            self.policyDocument = policyDocument
+            self.policyRevisionId = policyRevisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+            case policyRevisionId = "PolicyRevisionId"
+        }
+    }
+
     public struct PutRumEventsRequest: AWSEncodableShape {
+        /// If the app monitor uses a resource-based policy that requires PutRumEvents requests to specify a certain alias, specify that alias here. This alias will be compared to the rum:alias context key in the resource-based policy.  For more information, see Using resource-based policies with CloudWatch RUM.
+        public let alias: String?
         /// A structure that contains information about the app monitor that collected this telemetry information.
         public let appMonitorDetails: AppMonitorDetails
         /// A unique identifier for this batch of RUM event data.
@@ -1000,7 +1143,8 @@ extension RUM {
         public let userDetails: UserDetails
 
         @inlinable
-        public init(appMonitorDetails: AppMonitorDetails, batchId: String, id: String, rumEvents: [RumEvent], userDetails: UserDetails) {
+        public init(alias: String? = nil, appMonitorDetails: AppMonitorDetails, batchId: String, id: String, rumEvents: [RumEvent], userDetails: UserDetails) {
+            self.alias = alias
             self.appMonitorDetails = appMonitorDetails
             self.batchId = batchId
             self.id = id
@@ -1011,6 +1155,7 @@ extension RUM {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.alias, forKey: .alias)
             try container.encode(self.appMonitorDetails, forKey: .appMonitorDetails)
             try container.encode(self.batchId, forKey: .batchId)
             request.encodePath(self.id, key: "Id")
@@ -1019,12 +1164,15 @@ extension RUM {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, max: 255)
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 36)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
             case appMonitorDetails = "AppMonitorDetails"
             case batchId = "BatchId"
             case rumEvents = "RumEvents"
@@ -1258,7 +1406,7 @@ extension RUM {
             try self.appMonitorConfiguration?.validate(name: "\(name).appMonitorConfiguration")
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
-            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(localhost)|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^(?![-.])([A-Za-z0-9-\\.\\-]{0,63})((?![-])([a-zA-Z0-9]{1}|^[a-zA-Z0-9]{0,1}))\\.(?![-])[A-Za-z-0-9]{1,63}((?![-])([a-zA-Z0-9]{1}|^[a-zA-Z0-9]{0,1}))|^(\\*\\.)(?![-.])([A-Za-z0-9-\\.\\-]{0,63})((?![-])([a-zA-Z0-9]{1}|^[a-zA-Z0-9]{0,1}))\\.(?![-])[A-Za-z-0-9]{1,63}((?![-])([a-zA-Z0-9]{1}|^[a-zA-Z0-9]{0,1}))")
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(localhost)$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|(?=^[a-zA-Z0-9\\.\\*-]{4,253}$)(?!.*\\.-)(?!.*-\\.)(?!.*\\.\\.)(?!.*[^\\.]{64,})^(\\*\\.)?(?![-\\.\\*])[^\\*]{1,}\\.(?!.*--)(?=.*[a-zA-Z])[^\\*]{1,}[^\\*-]$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
@@ -1357,6 +1505,10 @@ public struct RUMErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case invalidPolicyRevisionIdException = "InvalidPolicyRevisionIdException"
+        case malformedPolicyDocumentException = "MalformedPolicyDocumentException"
+        case policyNotFoundException = "PolicyNotFoundException"
+        case policySizeLimitExceededException = "PolicySizeLimitExceededException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
@@ -1387,6 +1539,14 @@ public struct RUMErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// Internal service exception.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The policy revision ID that you provided doeesn't match the latest policy revision ID.
+    public static var invalidPolicyRevisionIdException: Self { .init(.invalidPolicyRevisionIdException) }
+    /// The policy document that you specified is not formatted correctly.
+    public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
+    /// The resource-based policy doesn't exist on this app monitor.
+    public static var policyNotFoundException: Self { .init(.policyNotFoundException) }
+    /// The policy document is too large. The limit is 4 KB.
+    public static var policySizeLimitExceededException: Self { .init(.policySizeLimitExceededException) }
     /// Resource not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// This request exceeds a service quota.

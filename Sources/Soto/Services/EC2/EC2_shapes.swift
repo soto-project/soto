@@ -3011,6 +3011,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceManaged: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alb = "alb"
+        case nlb = "nlb"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "Available"
         case deleted = "Deleted"
@@ -3613,6 +3619,31 @@ extension EC2 {
         case disassociating = "disassociating"
         case failed = "failed"
         case failing = "failing"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEncryptionControlExclusionState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case enabling = "enabling"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEncryptionControlMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case enforce = "enforce"
+        case monitor = "monitor"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcEncryptionControlState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case enforceFailed = "enforce-failed"
+        case enforceInProgress = "enforce-in-progress"
+        case monitorFailed = "monitor-failed"
+        case monitorInProgress = "monitor-in-progress"
         public var description: String { return self.rawValue }
     }
 
@@ -4350,12 +4381,14 @@ extension EC2 {
         public let publicIp: String?
         /// The ID of an address pool.
         public let publicIpv4Pool: String?
+        /// The service that manages the elastic IP address.  The only option supported today is alb.
+        public let serviceManaged: ServiceManaged?
         /// Any tags assigned to the Elastic IP address.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
         @inlinable
-        public init(allocationId: String? = nil, associationId: String? = nil, carrierIp: String? = nil, customerOwnedIp: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, instanceId: String? = nil, networkBorderGroup: String? = nil, networkInterfaceId: String? = nil, networkInterfaceOwnerId: String? = nil, privateIpAddress: String? = nil, publicIp: String? = nil, publicIpv4Pool: String? = nil, tags: [Tag]? = nil) {
+        public init(allocationId: String? = nil, associationId: String? = nil, carrierIp: String? = nil, customerOwnedIp: String? = nil, customerOwnedIpv4Pool: String? = nil, domain: DomainType? = nil, instanceId: String? = nil, networkBorderGroup: String? = nil, networkInterfaceId: String? = nil, networkInterfaceOwnerId: String? = nil, privateIpAddress: String? = nil, publicIp: String? = nil, publicIpv4Pool: String? = nil, serviceManaged: ServiceManaged? = nil, tags: [Tag]? = nil) {
             self.allocationId = allocationId
             self.associationId = associationId
             self.carrierIp = carrierIp
@@ -4369,6 +4402,7 @@ extension EC2 {
             self.privateIpAddress = privateIpAddress
             self.publicIp = publicIp
             self.publicIpv4Pool = publicIpv4Pool
+            self.serviceManaged = serviceManaged
             self.tags = tags
         }
 
@@ -4386,6 +4420,7 @@ extension EC2 {
             case privateIpAddress = "privateIpAddress"
             case publicIp = "publicIp"
             case publicIpv4Pool = "publicIpv4Pool"
+            case serviceManaged = "serviceManaged"
             case tags = "tagSet"
         }
     }
@@ -6722,6 +6757,8 @@ extension EC2 {
     public struct AvailabilityZone: AWSDecodableShape {
         public struct _MessagesEncoding: ArrayCoderProperties { public static let member = "item" }
 
+        /// The long name of the Availability Zone group, Local Zone group, or Wavelength Zone group.
+        public let groupLongName: String?
         /// The name of the zone group. For example:   Availability Zones - us-east-1-zg-1    Local Zones - us-west-2-lax-1    Wavelength Zones - us-east-1-wl1-bos-wlz-1
         public let groupName: String?
         /// Any messages about the Availability Zone, Local Zone, or Wavelength Zone.
@@ -6729,7 +6766,7 @@ extension EC2 {
         public var messages: [AvailabilityZoneMessage]?
         /// The name of the network border group.
         public let networkBorderGroup: String?
-        /// For Availability Zones, this parameter always has the value of opt-in-not-required. For Local Zones and Wavelength Zones, this parameter is the opt-in status. The possible values are opted-in, and not-opted-in.
+        /// For Availability Zones, this parameter always has the value of opt-in-not-required. For Local Zones and Wavelength Zones, this parameter is the opt-in status. The possible values are opted-in and not-opted-in.
         public let optInStatus: AvailabilityZoneOptInStatus?
         /// The ID of the zone that handles some of the Local Zone or Wavelength Zone control plane operations, such as API calls.
         public let parentZoneId: String?
@@ -6737,17 +6774,18 @@ extension EC2 {
         public let parentZoneName: String?
         /// The name of the Region.
         public let regionName: String?
-        /// The state of the Availability Zone, Local Zone, or Wavelength Zone. This value is always available.
+        /// The state of the Availability Zone, Local Zone, or Wavelength Zone. The possible values are available, unavailable, and constrained.
         public let state: AvailabilityZoneState?
         /// The ID of the Availability Zone, Local Zone, or Wavelength Zone.
         public let zoneId: String?
         /// The name of the Availability Zone, Local Zone, or Wavelength Zone.
         public let zoneName: String?
-        /// The type of zone. The valid values are availability-zone, local-zone, and wavelength-zone.
+        /// The type of zone. Valid values: availability-zone | local-zone | wavelength-zone
         public let zoneType: String?
 
         @inlinable
-        public init(groupName: String? = nil, messages: [AvailabilityZoneMessage]? = nil, networkBorderGroup: String? = nil, optInStatus: AvailabilityZoneOptInStatus? = nil, parentZoneId: String? = nil, parentZoneName: String? = nil, regionName: String? = nil, state: AvailabilityZoneState? = nil, zoneId: String? = nil, zoneName: String? = nil, zoneType: String? = nil) {
+        public init(groupLongName: String? = nil, groupName: String? = nil, messages: [AvailabilityZoneMessage]? = nil, networkBorderGroup: String? = nil, optInStatus: AvailabilityZoneOptInStatus? = nil, parentZoneId: String? = nil, parentZoneName: String? = nil, regionName: String? = nil, state: AvailabilityZoneState? = nil, zoneId: String? = nil, zoneName: String? = nil, zoneType: String? = nil) {
+            self.groupLongName = groupLongName
             self.groupName = groupName
             self.messages = messages
             self.networkBorderGroup = networkBorderGroup
@@ -6762,6 +6800,7 @@ extension EC2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case groupLongName = "groupLongName"
             case groupName = "groupName"
             case messages = "messageSet"
             case networkBorderGroup = "networkBorderGroup"
@@ -11483,7 +11522,7 @@ extension EC2 {
     public struct CreateLaunchTemplateRequest: AWSEncodableShape {
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If a client token isn't specified, a randomly generated token is used in the request to ensure idempotency. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -11500,7 +11539,7 @@ extension EC2 {
         public let versionDescription: String?
 
         @inlinable
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData? = nil, launchTemplateName: String? = nil, operator: OperatorRequest? = nil, tagSpecifications: [TagSpecification]? = nil, versionDescription: String? = nil) {
+        public init(clientToken: String? = CreateLaunchTemplateRequest.idempotencyToken(), dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData? = nil, launchTemplateName: String? = nil, operator: OperatorRequest? = nil, tagSpecifications: [TagSpecification]? = nil, versionDescription: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.launchTemplateData = launchTemplateData
@@ -11548,7 +11587,7 @@ extension EC2 {
     }
 
     public struct CreateLaunchTemplateVersionRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If a client token isn't specified, a randomly generated token is used in the request to ensure idempotency. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -11566,7 +11605,7 @@ extension EC2 {
         public let versionDescription: String?
 
         @inlinable
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, resolveAlias: Bool? = nil, sourceVersion: String? = nil, versionDescription: String? = nil) {
+        public init(clientToken: String? = CreateLaunchTemplateVersionRequest.idempotencyToken(), dryRun: Bool? = nil, launchTemplateData: RequestLaunchTemplateData? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil, resolveAlias: Bool? = nil, sourceVersion: String? = nil, versionDescription: String? = nil) {
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.launchTemplateData = launchTemplateData
@@ -12722,7 +12761,7 @@ extension EC2 {
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The name of the security group. Constraints: Up to 255 characters in length. Cannot start with sg-. Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
+        /// The name of the security group. Names are case-insensitive and must be unique within the VPC. Constraints: Up to 255 characters in length. Can't start with sg-. Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
         public let groupName: String?
         /// The tags to assign to the security group.
         @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
@@ -18416,7 +18455,7 @@ extension EC2 {
         public let allAvailabilityZones: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
+        /// The filters.    group-long-name - The long name of the zone group for the Availability Zone (for example, US West (Oregon) 1), the Local Zone (for example, for Zone group us-west-2-lax-1, it is US West (Los Angeles), or the Wavelength Zone (for example, for Zone group us-east-1-wl1, it is US East (Verizon).    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the Availability Zones, Local Zones, and Wavelength Zones.
@@ -44530,7 +44569,7 @@ extension EC2 {
     }
 
     public struct ModifyLaunchTemplateRequest: AWSEncodableShape {
-        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests. Constraint: Maximum 128 ASCII characters.
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If a client token isn't specified, a randomly generated token is used in the request to ensure idempotency. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
         public let clientToken: String?
         /// The version number of the launch template to set as the default version.
         public let defaultVersion: String?
@@ -44542,7 +44581,7 @@ extension EC2 {
         public let launchTemplateName: String?
 
         @inlinable
-        public init(clientToken: String? = nil, defaultVersion: String? = nil, dryRun: Bool? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil) {
+        public init(clientToken: String? = ModifyLaunchTemplateRequest.idempotencyToken(), defaultVersion: String? = nil, dryRun: Bool? = nil, launchTemplateId: String? = nil, launchTemplateName: String? = nil) {
             self.clientToken = clientToken
             self.defaultVersion = defaultVersion
             self.dryRun = dryRun
@@ -60804,6 +60843,7 @@ extension EC2 {
         public var cidrBlockAssociationSet: [VpcCidrBlockAssociation]?
         /// The ID of the set of DHCP options you've associated with the VPC.
         public let dhcpOptionsId: String?
+        public let encryptionControl: VpcEncryptionControl?
         /// The allowed tenancy of instances launched into the VPC.
         public let instanceTenancy: Tenancy?
         /// Information about the IPv6 CIDR blocks associated with the VPC.
@@ -60822,11 +60862,12 @@ extension EC2 {
         public let vpcId: String?
 
         @inlinable
-        public init(blockPublicAccessStates: BlockPublicAccessStates? = nil, cidrBlock: String? = nil, cidrBlockAssociationSet: [VpcCidrBlockAssociation]? = nil, dhcpOptionsId: String? = nil, instanceTenancy: Tenancy? = nil, ipv6CidrBlockAssociationSet: [VpcIpv6CidrBlockAssociation]? = nil, isDefault: Bool? = nil, ownerId: String? = nil, state: VpcState? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(blockPublicAccessStates: BlockPublicAccessStates? = nil, cidrBlock: String? = nil, cidrBlockAssociationSet: [VpcCidrBlockAssociation]? = nil, dhcpOptionsId: String? = nil, encryptionControl: VpcEncryptionControl? = nil, instanceTenancy: Tenancy? = nil, ipv6CidrBlockAssociationSet: [VpcIpv6CidrBlockAssociation]? = nil, isDefault: Bool? = nil, ownerId: String? = nil, state: VpcState? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.blockPublicAccessStates = blockPublicAccessStates
             self.cidrBlock = cidrBlock
             self.cidrBlockAssociationSet = cidrBlockAssociationSet
             self.dhcpOptionsId = dhcpOptionsId
+            self.encryptionControl = encryptionControl
             self.instanceTenancy = instanceTenancy
             self.ipv6CidrBlockAssociationSet = ipv6CidrBlockAssociationSet
             self.isDefault = isDefault
@@ -60841,6 +60882,7 @@ extension EC2 {
             case cidrBlock = "cidrBlock"
             case cidrBlockAssociationSet = "cidrBlockAssociationSet"
             case dhcpOptionsId = "dhcpOptionsId"
+            case encryptionControl = "encryptionControl"
             case instanceTenancy = "instanceTenancy"
             case ipv6CidrBlockAssociationSet = "ipv6CidrBlockAssociationSet"
             case isDefault = "isDefault"
@@ -61022,6 +61064,81 @@ extension EC2 {
             case classicLinkEnabled = "classicLinkEnabled"
             case tags = "tagSet"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct VpcEncryptionControl: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        public let mode: VpcEncryptionControlMode?
+        public let resourceExclusions: VpcEncryptionControlExclusions?
+        public let state: VpcEncryptionControlState?
+        public let stateMessage: String?
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        public let vpcEncryptionControlId: String?
+        public let vpcId: String?
+
+        @inlinable
+        public init(mode: VpcEncryptionControlMode? = nil, resourceExclusions: VpcEncryptionControlExclusions? = nil, state: VpcEncryptionControlState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, vpcEncryptionControlId: String? = nil, vpcId: String? = nil) {
+            self.mode = mode
+            self.resourceExclusions = resourceExclusions
+            self.state = state
+            self.stateMessage = stateMessage
+            self.tags = tags
+            self.vpcEncryptionControlId = vpcEncryptionControlId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+            case resourceExclusions = "resourceExclusions"
+            case state = "state"
+            case stateMessage = "stateMessage"
+            case tags = "tagSet"
+            case vpcEncryptionControlId = "vpcEncryptionControlId"
+            case vpcId = "vpcId"
+        }
+    }
+
+    public struct VpcEncryptionControlExclusion: AWSDecodableShape {
+        public let state: VpcEncryptionControlExclusionState?
+        public let stateMessage: String?
+
+        @inlinable
+        public init(state: VpcEncryptionControlExclusionState? = nil, stateMessage: String? = nil) {
+            self.state = state
+            self.stateMessage = stateMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "state"
+            case stateMessage = "stateMessage"
+        }
+    }
+
+    public struct VpcEncryptionControlExclusions: AWSDecodableShape {
+        public let egressOnlyInternetGateway: VpcEncryptionControlExclusion?
+        public let internetGateway: VpcEncryptionControlExclusion?
+        public let natGateway: VpcEncryptionControlExclusion?
+        public let virtualPrivateGateway: VpcEncryptionControlExclusion?
+        public let vpcPeering: VpcEncryptionControlExclusion?
+
+        @inlinable
+        public init(egressOnlyInternetGateway: VpcEncryptionControlExclusion? = nil, internetGateway: VpcEncryptionControlExclusion? = nil, natGateway: VpcEncryptionControlExclusion? = nil, virtualPrivateGateway: VpcEncryptionControlExclusion? = nil, vpcPeering: VpcEncryptionControlExclusion? = nil) {
+            self.egressOnlyInternetGateway = egressOnlyInternetGateway
+            self.internetGateway = internetGateway
+            self.natGateway = natGateway
+            self.virtualPrivateGateway = virtualPrivateGateway
+            self.vpcPeering = vpcPeering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressOnlyInternetGateway = "egressOnlyInternetGateway"
+            case internetGateway = "internetGateway"
+            case natGateway = "natGateway"
+            case virtualPrivateGateway = "virtualPrivateGateway"
+            case vpcPeering = "vpcPeering"
         }
     }
 

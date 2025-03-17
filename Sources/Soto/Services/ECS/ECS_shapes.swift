@@ -650,8 +650,7 @@ extension ECS {
     public struct AwsVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Whether the task's elastic network interface receives a public IP address.  Consider the following when you set this value:   When you use create-service or update-service, the default is
         /// 						DISABLED.    When the service deploymentController is ECS, the value must be
-        /// 						DISABLED.    When you use create-service or update-service, the
-        /// 					default is ENABLED.
+        /// 						DISABLED.
         public let assignPublicIp: AssignPublicIp?
         /// The IDs of the security groups associated with the task or service. If you don't
         /// 			specify a security group, the default security group for the VPC is used. There's a
@@ -907,7 +906,7 @@ extension ECS {
     public struct ClusterServiceConnectDefaultsRequest: AWSEncodableShape {
         /// The namespace name or full Amazon Resource Name (ARN) of the Cloud Map namespace that's used when you create a service and don't specify
         /// 			a Service Connect configuration. The namespace name can include up to 1024 characters.
-        /// 			The name is case-sensitive. The name can't include hyphens (-), tilde (~), greater than
+        /// 			The name is case-sensitive. The name can't include greater than
         /// 			(>), less than ( If you enter an existing namespace name or ARN, then that namespace will be used.
         /// 			Any namespace type is supported. The namespace must be in this account and this Amazon Web Services
         /// 			Region. If you enter a new name, a Cloud Map namespace will be created. Amazon ECS creates a
@@ -7919,10 +7918,8 @@ extension ECS {
         /// 			determines your range of valid values for the memory parameter. If you're using the EC2 launch type or the external launch type, this
         /// 			field is optional. Supported values are between 128 CPU units
         /// 				(0.125 vCPUs) and 196608 CPU units (192
-        /// 			vCPUs).  If you're using the Fargate launch type, this field is required and you
-        /// 				must use one of the following values, which determines your range of supported values
-        /// 				for the memory parameter. The CPU units cannot be less than 1 vCPU when you use Windows containers on
-        /// 				Fargate.   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
+        /// 			vCPUs). The CPU units cannot be less than 1 vCPU when you use Windows containers on
+        /// 			Fargate.   256 (.25 vCPU) - Available memory values: 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)   512 (.5 vCPU) - Available memory values: 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)   1024 (1 vCPU) - Available memory values: 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)   2048 (2 vCPU) - Available memory values: 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)   4096 (4 vCPU) - Available memory values: 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)   8192 (8 vCPU)  - Available memory values: 16 GB and 60 GB in 4 GB increments This option requires Linux platform 1.4.0 or later.   16384 (16vCPU)  - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
         public let cpu: String?
         /// The Unix timestamp for the time when the task definition was deregistered.
         public let deregisteredAt: Date?
@@ -9300,7 +9297,7 @@ public struct ECSErrorType: AWSErrorType {
     /// 					set of parameters
     public static var conflictException: Self { .init(.conflictException) }
     /// The specified parameter isn't valid. Review the available parameters for the API
-    /// 			request.
+    /// 			request. For more information about service event errors, see Amazon ECS service event messages.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The limit for the resource was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }

@@ -386,6 +386,7 @@ extension LakeFormation {
     }
 
     public struct BatchPermissionsRequestEntry: AWSEncodableShape & AWSDecodableShape {
+        public let condition: Condition?
         /// A unique identifier for the batch permissions request entry.
         public let id: String
         /// The permissions to be granted.
@@ -398,7 +399,8 @@ extension LakeFormation {
         public let resource: Resource?
 
         @inlinable
-        public init(id: String, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+        public init(condition: Condition? = nil, id: String, permissions: [Permission]? = nil, permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil) {
+            self.condition = condition
             self.id = id
             self.permissions = permissions
             self.permissionsWithGrantOption = permissionsWithGrantOption
@@ -407,6 +409,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
+            try self.condition?.validate(name: "\(name).condition")
             try self.validate(self.id, name: "id", parent: name, max: 255)
             try self.validate(self.id, name: "id", parent: name, min: 1)
             try self.principal?.validate(name: "\(name).principal")
@@ -414,6 +417,7 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
             case id = "Id"
             case permissions = "Permissions"
             case permissionsWithGrantOption = "PermissionsWithGrantOption"
@@ -581,13 +585,17 @@ extension LakeFormation {
         }
     }
 
-    public struct Condition: AWSDecodableShape {
+    public struct Condition: AWSEncodableShape & AWSDecodableShape {
         /// An expression written based on the Cedar Policy Language used to match the principal attributes.
         public let expression: String?
 
         @inlinable
         public init(expression: String? = nil) {
             self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 3000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -753,21 +761,25 @@ extension LakeFormation {
     }
 
     public struct CreateLakeFormationOptInRequest: AWSEncodableShape {
+        public let condition: Condition?
         public let principal: DataLakePrincipal
         public let resource: Resource
 
         @inlinable
-        public init(principal: DataLakePrincipal, resource: Resource) {
+        public init(condition: Condition? = nil, principal: DataLakePrincipal, resource: Resource) {
+            self.condition = condition
             self.principal = principal
             self.resource = resource
         }
 
         public func validate(name: String) throws {
+            try self.condition?.validate(name: "\(name).condition")
             try self.principal.validate(name: "\(name).principal")
             try self.resource.validate(name: "\(name).resource")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
             case principal = "Principal"
             case resource = "Resource"
         }
@@ -1174,21 +1186,25 @@ extension LakeFormation {
     }
 
     public struct DeleteLakeFormationOptInRequest: AWSEncodableShape {
+        public let condition: Condition?
         public let principal: DataLakePrincipal
         public let resource: Resource
 
         @inlinable
-        public init(principal: DataLakePrincipal, resource: Resource) {
+        public init(condition: Condition? = nil, principal: DataLakePrincipal, resource: Resource) {
+            self.condition = condition
             self.principal = principal
             self.resource = resource
         }
 
         public func validate(name: String) throws {
+            try self.condition?.validate(name: "\(name).condition")
             try self.principal.validate(name: "\(name).principal")
             try self.resource.validate(name: "\(name).resource")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
             case principal = "Principal"
             case resource = "Resource"
         }
@@ -2256,6 +2272,7 @@ extension LakeFormation {
     public struct GrantPermissionsRequest: AWSEncodableShape {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
+        public let condition: Condition?
         /// The permissions granted to the principal on the resource. Lake Formation defines privileges to grant and revoke access to metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. Lake Formation requires that each principal be authorized to perform a specific task on Lake Formation resources.
         public let permissions: [Permission]
         /// Indicates a list of the granted permissions that the principal may pass to other users. These permissions may only be a subset of the permissions granted in the Privileges.
@@ -2266,8 +2283,9 @@ extension LakeFormation {
         public let resource: Resource
 
         @inlinable
-        public init(catalogId: String? = nil, permissions: [Permission], permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal, resource: Resource) {
+        public init(catalogId: String? = nil, condition: Condition? = nil, permissions: [Permission], permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal, resource: Resource) {
             self.catalogId = catalogId
+            self.condition = condition
             self.permissions = permissions
             self.permissionsWithGrantOption = permissionsWithGrantOption
             self.principal = principal
@@ -2278,12 +2296,14 @@ extension LakeFormation {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.condition?.validate(name: "\(name).condition")
             try self.principal.validate(name: "\(name).principal")
             try self.resource.validate(name: "\(name).resource")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
+            case condition = "Condition"
             case permissions = "Permissions"
             case permissionsWithGrantOption = "PermissionsWithGrantOption"
             case principal = "Principal"
@@ -3218,14 +3238,17 @@ extension LakeFormation {
         public let useServiceLinkedRole: Bool?
         /// Whether or not the resource is a federated resource.
         public let withFederation: Bool?
+        /// Grants the calling principal the permissions to perform all supported Lake Formation operations on the registered data location.
+        public let withPrivilegedAccess: Bool?
 
         @inlinable
-        public init(hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil, withFederation: Bool? = nil) {
+        public init(hybridAccessEnabled: Bool? = nil, resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil, withFederation: Bool? = nil, withPrivilegedAccess: Bool? = nil) {
             self.hybridAccessEnabled = hybridAccessEnabled
             self.resourceArn = resourceArn
             self.roleArn = roleArn
             self.useServiceLinkedRole = useServiceLinkedRole
             self.withFederation = withFederation
+            self.withPrivilegedAccess = withPrivilegedAccess
         }
 
         public func validate(name: String) throws {
@@ -3238,6 +3261,7 @@ extension LakeFormation {
             case roleArn = "RoleArn"
             case useServiceLinkedRole = "UseServiceLinkedRole"
             case withFederation = "WithFederation"
+            case withPrivilegedAccess = "WithPrivilegedAccess"
         }
     }
 
@@ -3362,14 +3386,17 @@ extension LakeFormation {
         public let roleArn: String?
         /// Whether or not the resource is a federated resource.
         public let withFederation: Bool?
+        /// Grants the calling principal the permissions to perform all supported Lake Formation operations on the registered data location.
+        public let withPrivilegedAccess: Bool?
 
         @inlinable
-        public init(hybridAccessEnabled: Bool? = nil, lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil, withFederation: Bool? = nil) {
+        public init(hybridAccessEnabled: Bool? = nil, lastModified: Date? = nil, resourceArn: String? = nil, roleArn: String? = nil, withFederation: Bool? = nil, withPrivilegedAccess: Bool? = nil) {
             self.hybridAccessEnabled = hybridAccessEnabled
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn
             self.withFederation = withFederation
+            self.withPrivilegedAccess = withPrivilegedAccess
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3378,12 +3405,14 @@ extension LakeFormation {
             case resourceArn = "ResourceArn"
             case roleArn = "RoleArn"
             case withFederation = "WithFederation"
+            case withPrivilegedAccess = "WithPrivilegedAccess"
         }
     }
 
     public struct RevokePermissionsRequest: AWSEncodableShape {
         /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
+        public let condition: Condition?
         /// The permissions revoked to the principal on the resource. For information about permissions, see Security and Access Control to Metadata and Data.
         public let permissions: [Permission]
         /// Indicates a list of permissions for which to revoke the grant option allowing the principal to pass permissions to other principals.
@@ -3394,8 +3423,9 @@ extension LakeFormation {
         public let resource: Resource
 
         @inlinable
-        public init(catalogId: String? = nil, permissions: [Permission], permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal, resource: Resource) {
+        public init(catalogId: String? = nil, condition: Condition? = nil, permissions: [Permission], permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal, resource: Resource) {
             self.catalogId = catalogId
+            self.condition = condition
             self.permissions = permissions
             self.permissionsWithGrantOption = permissionsWithGrantOption
             self.principal = principal
@@ -3406,12 +3436,14 @@ extension LakeFormation {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
             try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.condition?.validate(name: "\(name).condition")
             try self.principal.validate(name: "\(name).principal")
             try self.resource.validate(name: "\(name).resource")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
+            case condition = "Condition"
             case permissions = "Permissions"
             case permissionsWithGrantOption = "PermissionsWithGrantOption"
             case principal = "Principal"

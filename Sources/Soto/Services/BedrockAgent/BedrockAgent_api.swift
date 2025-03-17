@@ -264,7 +264,8 @@ public struct BedrockAgent: AWSService {
     ///   - clientToken: A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency.
     ///   - description: A description of the action group.
     ///   - functionSchema: Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
-    ///   - parentActionGroupSignature: To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+    ///   - parentActionGroupSignature: Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only.           When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity.  For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
+    ///   - parentActionGroupSignatureParams: The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
     ///   - logger: Logger use during operation
     @inlinable
     public func createAgentActionGroup(
@@ -278,6 +279,7 @@ public struct BedrockAgent: AWSService {
         description: String? = nil,
         functionSchema: FunctionSchema? = nil,
         parentActionGroupSignature: ActionGroupSignature? = nil,
+        parentActionGroupSignatureParams: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAgentActionGroupResponse {
         let input = CreateAgentActionGroupRequest(
@@ -290,7 +292,8 @@ public struct BedrockAgent: AWSService {
             clientToken: clientToken, 
             description: description, 
             functionSchema: functionSchema, 
-            parentActionGroupSignature: parentActionGroupSignature
+            parentActionGroupSignature: parentActionGroupSignature, 
+            parentActionGroupSignatureParams: parentActionGroupSignatureParams
         )
         return try await self.createAgentActionGroup(input, logger: logger)
     }
@@ -2395,7 +2398,8 @@ public struct BedrockAgent: AWSService {
     ///   - apiSchema: Contains either details about the S3 object containing the OpenAPI schema for the action group or the JSON or YAML-formatted payload defining the schema. For more information, see Action group OpenAPI schemas.
     ///   - description: Specifies a new name for the action group.
     ///   - functionSchema: Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
-    ///   - parentActionGroupSignature: To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+    ///   - parentActionGroupSignature: Update the built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only.           When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity.  For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.     During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+    ///   - parentActionGroupSignatureParams: The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateAgentActionGroup(
@@ -2409,6 +2413,7 @@ public struct BedrockAgent: AWSService {
         description: String? = nil,
         functionSchema: FunctionSchema? = nil,
         parentActionGroupSignature: ActionGroupSignature? = nil,
+        parentActionGroupSignatureParams: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateAgentActionGroupResponse {
         let input = UpdateAgentActionGroupRequest(
@@ -2421,7 +2426,8 @@ public struct BedrockAgent: AWSService {
             apiSchema: apiSchema, 
             description: description, 
             functionSchema: functionSchema, 
-            parentActionGroupSignature: parentActionGroupSignature
+            parentActionGroupSignature: parentActionGroupSignature, 
+            parentActionGroupSignatureParams: parentActionGroupSignatureParams
         )
         return try await self.updateAgentActionGroup(input, logger: logger)
     }

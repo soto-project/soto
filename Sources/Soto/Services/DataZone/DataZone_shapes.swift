@@ -461,6 +461,8 @@ extension DataZone {
         case active = "ACTIVE"
         case deleteFailed = "DELETE_FAILED"
         case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -4447,7 +4449,7 @@ extension DataZone {
         public let recommendation: RecommendationConfiguration?
         /// The schedule of the data source runs.
         public let schedule: ScheduleConfiguration?
-        /// The type of the data source.
+        /// The type of the data source. In Amazon DataZone, you can use data sources to import technical metadata of assets (data) from the source databases or data warehouses into Amazon DataZone. In the current release of Amazon DataZone, you can create and run data sources for Amazon Web Services Glue and Amazon Redshift.
         public let type: String
 
         @inlinable
@@ -5033,6 +5035,8 @@ extension DataZone {
         public let environmentActions: [ConfigurableEnvironmentAction]?
         /// The ID of the blueprint with which this Amazon DataZone environment was created.
         public let environmentBlueprintId: String?
+        /// The configuration ID of the environment.
+        public let environmentConfigurationId: String?
         /// The ID of the environment profile with which this Amazon DataZone environment was created.
         public let environmentProfileId: String?
         /// The glossary terms that can be used in this Amazon DataZone environment.
@@ -5059,7 +5063,7 @@ extension DataZone {
         public let userParameters: [CustomParameter]?
 
         @inlinable
-        public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, domainId: String, environmentActions: [ConfigurableEnvironmentAction]? = nil, environmentBlueprintId: String? = nil, environmentProfileId: String? = nil, glossaryTerms: [String]? = nil, id: String? = nil, lastDeployment: Deployment? = nil, name: String, projectId: String, provider: String, provisionedResources: [Resource]? = nil, provisioningProperties: ProvisioningProperties? = nil, status: EnvironmentStatus? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
+        public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, domainId: String, environmentActions: [ConfigurableEnvironmentAction]? = nil, environmentBlueprintId: String? = nil, environmentConfigurationId: String? = nil, environmentProfileId: String? = nil, glossaryTerms: [String]? = nil, id: String? = nil, lastDeployment: Deployment? = nil, name: String, projectId: String, provider: String, provisionedResources: [Resource]? = nil, provisioningProperties: ProvisioningProperties? = nil, status: EnvironmentStatus? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
             self.createdAt = createdAt
@@ -5069,6 +5073,7 @@ extension DataZone {
             self.domainId = domainId
             self.environmentActions = environmentActions
             self.environmentBlueprintId = environmentBlueprintId
+            self.environmentConfigurationId = environmentConfigurationId
             self.environmentProfileId = environmentProfileId
             self.glossaryTerms = glossaryTerms
             self.id = id
@@ -5093,6 +5098,7 @@ extension DataZone {
             case domainId = "domainId"
             case environmentActions = "environmentActions"
             case environmentBlueprintId = "environmentBlueprintId"
+            case environmentConfigurationId = "environmentConfigurationId"
             case environmentProfileId = "environmentProfileId"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
@@ -8598,12 +8604,15 @@ extension DataZone {
     public struct EnvironmentConfigurationUserParameter: AWSEncodableShape & AWSDecodableShape {
         /// The environment configuration name.
         public let environmentConfigurationName: String?
+        /// The ID of the environment.
+        public let environmentId: String?
         /// The environment parameters.
         public let environmentParameters: [EnvironmentParameter]?
 
         @inlinable
-        public init(environmentConfigurationName: String? = nil, environmentParameters: [EnvironmentParameter]? = nil) {
+        public init(environmentConfigurationName: String? = nil, environmentId: String? = nil, environmentParameters: [EnvironmentParameter]? = nil) {
             self.environmentConfigurationName = environmentConfigurationName
+            self.environmentId = environmentId
             self.environmentParameters = environmentParameters
         }
 
@@ -8611,10 +8620,12 @@ extension DataZone {
             try self.validate(self.environmentConfigurationName, name: "environmentConfigurationName", parent: name, max: 64)
             try self.validate(self.environmentConfigurationName, name: "environmentConfigurationName", parent: name, min: 1)
             try self.validate(self.environmentConfigurationName, name: "environmentConfigurationName", parent: name, pattern: "^[\\w -]+$")
+            try self.validate(self.environmentId, name: "environmentId", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case environmentConfigurationName = "environmentConfigurationName"
+            case environmentId = "environmentId"
             case environmentParameters = "environmentParameters"
         }
     }
@@ -8740,6 +8751,8 @@ extension DataZone {
         public let description: String?
         /// The identifier of the Amazon DataZone domain in which the environment exists.
         public let domainId: String
+        /// The configuration ID with which the environment is created.
+        public let environmentConfigurationId: String?
         /// The identifier of the environment profile with which the environment was created.
         public let environmentProfileId: String?
         /// The identifier of the environment.
@@ -8756,13 +8769,14 @@ extension DataZone {
         public let updatedAt: Date?
 
         @inlinable
-        public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, environmentProfileId: String? = nil, id: String? = nil, name: String, projectId: String, provider: String, status: EnvironmentStatus? = nil, updatedAt: Date? = nil) {
+        public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, description: String? = nil, domainId: String, environmentConfigurationId: String? = nil, environmentProfileId: String? = nil, id: String? = nil, name: String, projectId: String, provider: String, status: EnvironmentStatus? = nil, updatedAt: Date? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
             self.domainId = domainId
+            self.environmentConfigurationId = environmentConfigurationId
             self.environmentProfileId = environmentProfileId
             self.id = id
             self.name = name
@@ -8779,6 +8793,7 @@ extension DataZone {
             case createdBy = "createdBy"
             case description = "description"
             case domainId = "domainId"
+            case environmentConfigurationId = "environmentConfigurationId"
             case environmentProfileId = "environmentProfileId"
             case id = "id"
             case name = "name"
@@ -10236,6 +10251,8 @@ extension DataZone {
         public let environmentActions: [ConfigurableEnvironmentAction]?
         /// The blueprint with which the environment is created.
         public let environmentBlueprintId: String?
+        /// The configuration ID that is used to create the environment.
+        public let environmentConfigurationId: String?
         /// The ID of the environment profile with which the environment is created.
         public let environmentProfileId: String?
         /// The business glossary terms that can be used in this environment.
@@ -10262,7 +10279,7 @@ extension DataZone {
         public let userParameters: [CustomParameter]?
 
         @inlinable
-        public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, domainId: String, environmentActions: [ConfigurableEnvironmentAction]? = nil, environmentBlueprintId: String? = nil, environmentProfileId: String? = nil, glossaryTerms: [String]? = nil, id: String? = nil, lastDeployment: Deployment? = nil, name: String, projectId: String, provider: String, provisionedResources: [Resource]? = nil, provisioningProperties: ProvisioningProperties? = nil, status: EnvironmentStatus? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
+        public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, domainId: String, environmentActions: [ConfigurableEnvironmentAction]? = nil, environmentBlueprintId: String? = nil, environmentConfigurationId: String? = nil, environmentProfileId: String? = nil, glossaryTerms: [String]? = nil, id: String? = nil, lastDeployment: Deployment? = nil, name: String, projectId: String, provider: String, provisionedResources: [Resource]? = nil, provisioningProperties: ProvisioningProperties? = nil, status: EnvironmentStatus? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
             self.createdAt = createdAt
@@ -10272,6 +10289,7 @@ extension DataZone {
             self.domainId = domainId
             self.environmentActions = environmentActions
             self.environmentBlueprintId = environmentBlueprintId
+            self.environmentConfigurationId = environmentConfigurationId
             self.environmentProfileId = environmentProfileId
             self.glossaryTerms = glossaryTerms
             self.id = id
@@ -10296,6 +10314,7 @@ extension DataZone {
             case domainId = "domainId"
             case environmentActions = "environmentActions"
             case environmentBlueprintId = "environmentBlueprintId"
+            case environmentConfigurationId = "environmentConfigurationId"
             case environmentProfileId = "environmentProfileId"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
@@ -12666,7 +12685,7 @@ extension DataZone {
     public struct LakeFormationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies certain Amazon S3 locations if you do not want Amazon DataZone to automatically register them in hybrid mode.
         public let locationRegistrationExcludeS3Locations: [String]?
-        /// The role that is used to manage read/write access to the chosen Amazon S3 bucket(s) for Data Lake using AWS Lake Formation hybrid access mode.
+        /// The role that is used to manage read/write access to the chosen Amazon S3 bucket(s) for Data Lake using Amazon Web Services Lake Formation hybrid access mode.
         public let locationRegistrationRole: String?
 
         @inlinable
@@ -19416,6 +19435,8 @@ extension DataZone {
     }
 
     public struct UpdateEnvironmentInput: AWSEncodableShape {
+        /// The blueprint version to which the environment should be updated. You can only specify the following string for this parameter: latest.
+        public let blueprintVersion: String?
         /// The description to be updated as part of the UpdateEnvironment action.
         public let description: String?
         /// The identifier of the domain in which the environment is to be updated.
@@ -19426,24 +19447,30 @@ extension DataZone {
         public let identifier: String
         /// The name to be updated as part of the UpdateEnvironment action.
         public let name: String?
+        /// The user parameters of the environment.
+        public let userParameters: [EnvironmentParameter]?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil) {
+        public init(blueprintVersion: String? = nil, description: String? = nil, domainIdentifier: String, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil, userParameters: [EnvironmentParameter]? = nil) {
+            self.blueprintVersion = blueprintVersion
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.glossaryTerms = glossaryTerms
             self.identifier = identifier
             self.name = name
+            self.userParameters = userParameters
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.blueprintVersion, forKey: .blueprintVersion)
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.domainIdentifier, key: "domainIdentifier")
             try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
             request.encodePath(self.identifier, key: "identifier")
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.userParameters, forKey: .userParameters)
         }
 
         public func validate(name: String) throws {
@@ -19457,9 +19484,11 @@ extension DataZone {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blueprintVersion = "blueprintVersion"
             case description = "description"
             case glossaryTerms = "glossaryTerms"
             case name = "name"
+            case userParameters = "userParameters"
         }
     }
 
@@ -19482,6 +19511,8 @@ extension DataZone {
         public let environmentActions: [ConfigurableEnvironmentAction]?
         /// The blueprint identifier of the environment.
         public let environmentBlueprintId: String?
+        /// The configuration ID of the environment.
+        public let environmentConfigurationId: String?
         /// The profile identifier of the environment.
         public let environmentProfileId: String?
         /// The glossary terms to be updated as part of the UpdateEnvironment action.
@@ -19508,7 +19539,7 @@ extension DataZone {
         public let userParameters: [CustomParameter]?
 
         @inlinable
-        public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, domainId: String, environmentActions: [ConfigurableEnvironmentAction]? = nil, environmentBlueprintId: String? = nil, environmentProfileId: String? = nil, glossaryTerms: [String]? = nil, id: String? = nil, lastDeployment: Deployment? = nil, name: String, projectId: String, provider: String, provisionedResources: [Resource]? = nil, provisioningProperties: ProvisioningProperties? = nil, status: EnvironmentStatus? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
+        public init(awsAccountId: String? = nil, awsAccountRegion: String? = nil, createdAt: Date? = nil, createdBy: String, deploymentProperties: DeploymentProperties? = nil, description: String? = nil, domainId: String, environmentActions: [ConfigurableEnvironmentAction]? = nil, environmentBlueprintId: String? = nil, environmentConfigurationId: String? = nil, environmentProfileId: String? = nil, glossaryTerms: [String]? = nil, id: String? = nil, lastDeployment: Deployment? = nil, name: String, projectId: String, provider: String, provisionedResources: [Resource]? = nil, provisioningProperties: ProvisioningProperties? = nil, status: EnvironmentStatus? = nil, updatedAt: Date? = nil, userParameters: [CustomParameter]? = nil) {
             self.awsAccountId = awsAccountId
             self.awsAccountRegion = awsAccountRegion
             self.createdAt = createdAt
@@ -19518,6 +19549,7 @@ extension DataZone {
             self.domainId = domainId
             self.environmentActions = environmentActions
             self.environmentBlueprintId = environmentBlueprintId
+            self.environmentConfigurationId = environmentConfigurationId
             self.environmentProfileId = environmentProfileId
             self.glossaryTerms = glossaryTerms
             self.id = id
@@ -19542,6 +19574,7 @@ extension DataZone {
             case domainId = "domainId"
             case environmentActions = "environmentActions"
             case environmentBlueprintId = "environmentBlueprintId"
+            case environmentConfigurationId = "environmentConfigurationId"
             case environmentProfileId = "environmentProfileId"
             case glossaryTerms = "glossaryTerms"
             case id = "id"
@@ -19939,15 +19972,21 @@ extension DataZone {
         public let identifier: String
         /// The name to be updated as part of the UpdateProject action.
         public let name: String?
+        /// The project profile version to which the project should be updated. You can only specify the following string for this parameter: latest.
+        public let projectProfileVersion: String?
+        /// The user parameters of the project.
+        public let userParameters: [EnvironmentConfigurationUserParameter]?
 
         @inlinable
-        public init(description: String? = nil, domainIdentifier: String, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil) {
+        public init(description: String? = nil, domainIdentifier: String, environmentDeploymentDetails: EnvironmentDeploymentDetails? = nil, glossaryTerms: [String]? = nil, identifier: String, name: String? = nil, projectProfileVersion: String? = nil, userParameters: [EnvironmentConfigurationUserParameter]? = nil) {
             self.description = description
             self.domainIdentifier = domainIdentifier
             self.environmentDeploymentDetails = environmentDeploymentDetails
             self.glossaryTerms = glossaryTerms
             self.identifier = identifier
             self.name = name
+            self.projectProfileVersion = projectProfileVersion
+            self.userParameters = userParameters
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -19959,6 +19998,8 @@ extension DataZone {
             try container.encodeIfPresent(self.glossaryTerms, forKey: .glossaryTerms)
             request.encodePath(self.identifier, key: "identifier")
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.projectProfileVersion, forKey: .projectProfileVersion)
+            try container.encodeIfPresent(self.userParameters, forKey: .userParameters)
         }
 
         public func validate(name: String) throws {
@@ -19973,6 +20014,9 @@ extension DataZone {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w -]+$")
+            try self.userParameters?.forEach {
+                try $0.validate(name: "\(name).userParameters[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -19980,6 +20024,8 @@ extension DataZone {
             case environmentDeploymentDetails = "environmentDeploymentDetails"
             case glossaryTerms = "glossaryTerms"
             case name = "name"
+            case projectProfileVersion = "projectProfileVersion"
+            case userParameters = "userParameters"
         }
     }
 

@@ -144,7 +144,7 @@ extension TimestreamInfluxDB {
         public let networkType: NetworkType?
         /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
         public let organization: String?
-        /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Amazon Web Services Secrets Manager in your account.
+        /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Secrets Manager in your account.
         public let password: String
         /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
         public let port: Int?
@@ -152,7 +152,7 @@ extension TimestreamInfluxDB {
         public let publiclyAccessible: Bool?
         /// A list of key-value pairs to associate with the DB instance.
         public let tags: [String: String]?
-        /// The username of the initial admin user created in InfluxDB. Must start with a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-user1. This username will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Amazon Web Services Secrets Manager in your account.
+        /// The username of the initial admin user created in InfluxDB. Must start with a letter and can't end with a hyphen or contain two consecutive hyphens. For example, my-user1. This username will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a secret created in Secrets Manager in your account.
         public let username: String?
         /// A list of VPC security group IDs to associate with the Timestream for InfluxDB cluster.
         public let vpcSecurityGroupIds: [String]
@@ -284,7 +284,7 @@ extension TimestreamInfluxDB {
         public let networkType: NetworkType?
         /// The name of the initial organization for the initial admin user in InfluxDB. An InfluxDB organization is a workspace for a group of users.
         public let organization: String?
-        /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Amazon Web Services SecretManager in your account.
+        /// The password of the initial admin user created in InfluxDB. This password will allow you to access the InfluxDB UI to perform various administrative tasks and also use the InfluxDB CLI to create an operator token. These attributes will be stored in a Secret created in Secrets Manager in your account.
         public let password: String
         /// The port number on which InfluxDB accepts connections. Valid Values: 1024-65535 Default: 8086 Constraints: The value can't be 2375-2376, 7788-7799, 8090, or 51678-51680
         public let port: Int?
@@ -404,7 +404,7 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// A service-generated unique identifier.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
         /// Specifies the DbInstance's role in the cluster.
         public let instanceMode: InstanceMode?
@@ -677,7 +677,7 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// The service-generated unique identifier of the DB instance.
         public let id: String
-        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and Amazon Web Services CLI commands.
+        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
         /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
         public let networkType: NetworkType?
@@ -817,7 +817,7 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// A service-generated unique identifier.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
         /// Specifies the DbInstance's role in the cluster.
         public let instanceMode: InstanceMode?
@@ -947,7 +947,7 @@ extension TimestreamInfluxDB {
         public let failoverMode: FailoverMode?
         /// Service-generated unique identifier of the DB cluster to retrieve.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
@@ -1055,7 +1055,7 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// A service-generated unique identifier.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
         /// Specifies the DbInstance's role in the cluster.
         public let instanceMode: InstanceMode?
@@ -1201,7 +1201,7 @@ extension TimestreamInfluxDB {
         public let metricsDisabled: Bool?
         /// Disable the task scheduler. If problematic tasks prevent InfluxDB from starting, use this option to start InfluxDB without scheduling or executing tasks. Default: false
         public let noTasks: Bool?
-        /// Disable the /debug/pprof HTTP endpoint. This endpoint provides runtime profiling data and can be helpful when debugging. Default: false
+        /// Disable the /debug/pprof HTTP endpoint. This endpoint provides runtime profiling data and can be helpful when debugging. Default: true
         public let pprofDisabled: Bool?
         /// Number of queries allowed to execute concurrently. Setting to 0 allows an unlimited number of concurrent queries. Default: 0
         public let queryConcurrency: Int?
@@ -1767,13 +1767,13 @@ extension TimestreamInfluxDB {
         public let endpoint: String?
         /// A service-generated unique identifier.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
+        /// The Amazon Resource Name (ARN) of the Secrets Manager secret containing the initial InfluxDB authorization parameters. The secret value is a JSON formatted key-value pair holding InfluxDB authorization values: organization, bucket, username, and password.
         public let influxAuthParametersSecretArn: String?
         /// Specifies the DbInstance's role in the cluster.
         public let instanceMode: InstanceMode?
         /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
         public let logDeliveryConfiguration: LogDeliveryConfiguration?
-        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and Amazon Web Services CLI commands.
+        /// This customer-supplied name uniquely identifies the DB instance when interacting with the Amazon Timestream for InfluxDB API and CLI commands.
         public let name: String
         /// Specifies whether the networkType of the Timestream for InfluxDB instance is IPV4, which can communicate over IPv4 protocol only, or DUAL, which can communicate over both IPv4 and IPv6 protocols.
         public let networkType: NetworkType?

@@ -946,8 +946,9 @@ public struct Connect: AWSService {
     ///   - initiationMethod: Indicates how the contact was initiated.   CreateContact only supports the following initiation methods: OUTBOUND, AGENT_REPLY, and FLOW. The following information that states other initiation methods are supported is incorrect. We are working to update this topic.
     ///   - instanceId: The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
     ///   - name: The name of a the contact.
+    ///   - previousContactId: The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see Integrate Amazon Connect Contact Lens with external voice systems in the Amazon Connect Administrator Guide.
     ///   - references: A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
-    ///   - relatedContactId: The identifier of the contact in this instance of Amazon Connect.
+    ///   - relatedContactId: The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
     ///   - segmentAttributes: A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
     ///   - userInfo: User details for the contact
     ///   - logger: Logger use during operation
@@ -962,6 +963,7 @@ public struct Connect: AWSService {
         initiationMethod: ContactInitiationMethod,
         instanceId: String,
         name: String? = nil,
+        previousContactId: String? = nil,
         references: [String: Reference]? = nil,
         relatedContactId: String? = nil,
         segmentAttributes: [String: SegmentAttributeValue]? = nil,
@@ -978,6 +980,7 @@ public struct Connect: AWSService {
             initiationMethod: initiationMethod, 
             instanceId: instanceId, 
             name: name, 
+            previousContactId: previousContactId, 
             references: references, 
             relatedContactId: relatedContactId, 
             segmentAttributes: segmentAttributes, 
@@ -6142,7 +6145,7 @@ public struct Connect: AWSService {
         return try await self.listQuickConnects(input, logger: logger)
     }
 
-    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels only.   This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs.
     @Sendable
     @inlinable
     public func listRealtimeContactAnalysisSegmentsV2(_ input: ListRealtimeContactAnalysisSegmentsV2Request, logger: Logger = AWSClient.loggingDisabled) async throws -> ListRealtimeContactAnalysisSegmentsV2Response {
@@ -6155,7 +6158,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Provides a list of analysis segments for a real-time analysis session.
+    /// Provides a list of analysis segments for a real-time chat analysis session. This API supports CHAT channels only.   This API does not support VOICE. If you attempt to use it for VOICE, an InvalidRequestException occurs.
     ///
     /// Parameters:
     ///   - contactId: The identifier of the contact in this instance of Amazon Connect.
@@ -8778,7 +8781,7 @@ public struct Connect: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Transfers contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:   Transfer is supported for only TASK contacts.   Do not use both QueueId and UserId in the same call.   The following flow types are supported: Inbound flow, Transfer to agent flow, and Transfer to queue flow.   The TransferContact API can be called only on active contacts.   A contact cannot be transferred more than 11 times.
+    /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:   Transfer is supported for only TASK and EMAIL contacts.   Do not use both QueueId and UserId in the same call.   The following flow types are supported: Inbound flow, Transfer to agent flow, and Transfer to queue flow.   The TransferContact API can be called only on active contacts.   A contact cannot be transferred more than 11 times.
     @Sendable
     @inlinable
     public func transferContact(_ input: TransferContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TransferContactResponse {
@@ -8791,7 +8794,7 @@ public struct Connect: AWSService {
             logger: logger
         )
     }
-    /// Transfers contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:   Transfer is supported for only TASK contacts.   Do not use both QueueId and UserId in the same call.   The following flow types are supported: Inbound flow, Transfer to agent flow, and Transfer to queue flow.   The TransferContact API can be called only on active contacts.   A contact cannot be transferred more than 11 times.
+    /// Transfers TASK or EMAIL contacts from one agent or queue to another agent or queue at any point after a contact is created. You can transfer a contact to another queue by providing the flow which orchestrates the contact to the destination queue. This gives you more control over contact handling and helps you adhere to the service level agreement (SLA) guaranteed to your customers. Note the following requirements:   Transfer is supported for only TASK and EMAIL contacts.   Do not use both QueueId and UserId in the same call.   The following flow types are supported: Inbound flow, Transfer to agent flow, and Transfer to queue flow.   The TransferContact API can be called only on active contacts.   A contact cannot be transferred more than 11 times.
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.

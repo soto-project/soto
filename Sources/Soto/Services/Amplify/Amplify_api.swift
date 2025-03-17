@@ -237,6 +237,7 @@ public struct Amplify: AWSService {
     ///   - enableNotification:  Enables notifications for the branch.
     ///   - enablePerformanceMode: Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out.
     ///   - enablePullRequestPreview:  Enables pull request previews for this branch.
+    ///   - enableSkewProtection: Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
     ///   - environmentVariables:  The environment variables for the branch.
     ///   - framework:  The framework for the branch.
     ///   - pullRequestEnvironmentName:  The Amplify environment name for the pull request.
@@ -260,6 +261,7 @@ public struct Amplify: AWSService {
         enableNotification: Bool? = nil,
         enablePerformanceMode: Bool? = nil,
         enablePullRequestPreview: Bool? = nil,
+        enableSkewProtection: Bool? = nil,
         environmentVariables: [String: String]? = nil,
         framework: String? = nil,
         pullRequestEnvironmentName: String? = nil,
@@ -283,6 +285,7 @@ public struct Amplify: AWSService {
             enableNotification: enableNotification, 
             enablePerformanceMode: enablePerformanceMode, 
             enablePullRequestPreview: enablePullRequestPreview, 
+            enableSkewProtection: enableSkewProtection, 
             environmentVariables: environmentVariables, 
             framework: framework, 
             pullRequestEnvironmentName: pullRequestEnvironmentName, 
@@ -1447,6 +1450,7 @@ public struct Amplify: AWSService {
     ///   - enableNotification:  Enables notifications for the branch.
     ///   - enablePerformanceMode: Enables performance mode for the branch. Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. When performance mode is enabled, hosting configuration or code changes can take up to 10 minutes to roll out.
     ///   - enablePullRequestPreview:  Enables pull request previews for this branch.
+    ///   - enableSkewProtection: Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
     ///   - environmentVariables:  The environment variables for the branch.
     ///   - framework:  The framework for the branch.
     ///   - pullRequestEnvironmentName:  The Amplify environment name for the pull request.
@@ -1469,6 +1473,7 @@ public struct Amplify: AWSService {
         enableNotification: Bool? = nil,
         enablePerformanceMode: Bool? = nil,
         enablePullRequestPreview: Bool? = nil,
+        enableSkewProtection: Bool? = nil,
         environmentVariables: [String: String]? = nil,
         framework: String? = nil,
         pullRequestEnvironmentName: String? = nil,
@@ -1491,6 +1496,7 @@ public struct Amplify: AWSService {
             enableNotification: enableNotification, 
             enablePerformanceMode: enablePerformanceMode, 
             enablePullRequestPreview: enablePullRequestPreview, 
+            enableSkewProtection: enableSkewProtection, 
             environmentVariables: environmentVariables, 
             framework: framework, 
             pullRequestEnvironmentName: pullRequestEnvironmentName, 

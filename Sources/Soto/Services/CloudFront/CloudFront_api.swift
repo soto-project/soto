@@ -633,7 +633,7 @@ public struct CloudFront: AWSService {
         return try await self.createKeyValueStore(input, logger: logger)
     }
 
-    /// Enables additional CloudWatch metrics for the specified CloudFront distribution. The
+    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The
     /// 			additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in
     /// 			the Amazon CloudFront Developer Guide.
     @Sendable
@@ -648,13 +648,13 @@ public struct CloudFront: AWSService {
             logger: logger
         )
     }
-    /// Enables additional CloudWatch metrics for the specified CloudFront distribution. The
+    /// Enables or disables additional Amazon CloudWatch metrics for the specified CloudFront distribution. The
     /// 			additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in
     /// 			the Amazon CloudFront Developer Guide.
     ///
     /// Parameters:
     ///   - distributionId: The ID of the distribution that you are enabling metrics for.
-    ///   - monitoringSubscription: A monitoring subscription. This structure contains information about whether
+    ///   - monitoringSubscription: A monitoring subscription. This structure contains information about whether additional CloudWatch
     ///   - logger: Logger use during operation
     @inlinable
     public func createMonitoringSubscription(

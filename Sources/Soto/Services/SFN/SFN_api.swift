@@ -86,10 +86,15 @@ public struct SFN: AWSService {
             "cn-northwest-1": "states.cn-northwest-1.api.amazonwebservices.com.cn"
         ]),
         [.fips]: .init(endpoints: [
+            "ca-central-1": "states-fips.ca-central-1.amazonaws.com",
+            "ca-west-1": "states-fips.ca-west-1.amazonaws.com",
             "us-east-1": "states-fips.us-east-1.amazonaws.com",
             "us-east-2": "states-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "states-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "states.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "states-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "states-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "states-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "states-fips.us-west-1.amazonaws.com",
             "us-west-2": "states-fips.us-west-2.amazonaws.com"
         ])

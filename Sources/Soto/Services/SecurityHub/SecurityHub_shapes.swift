@@ -236,6 +236,12 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum StandardsControlsUpdatable: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case notReadyForUpdates = "NOT_READY_FOR_UPDATES"
+        case readyForUpdates = "READY_FOR_UPDATES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StandardsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deleting = "DELETING"
         case failed = "FAILED"
@@ -247,6 +253,7 @@ extension SecurityHub {
 
     public enum StatusReasonCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case internalError = "INTERNAL_ERROR"
+        case maximumNumberOfConfigRulesExceeded = "MAXIMUM_NUMBER_OF_CONFIG_RULES_EXCEEDED"
         case noAvailableConfigurationRecorder = "NO_AVAILABLE_CONFIGURATION_RECORDER"
         public var description: String { return self.rawValue }
     }
@@ -20945,7 +20952,7 @@ extension SecurityHub {
     }
 
     public struct BatchUpdateStandardsControlAssociationsRequest: AWSEncodableShape {
-        ///  Updates the enablement status of a security control in a specified standard.
+        ///  Updates the enablement status of a security control in a specified standard.   Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
         public let standardsControlAssociationUpdates: [StandardsControlAssociationUpdate]?
 
         @inlinable
@@ -27454,6 +27461,8 @@ extension SecurityHub {
     public struct StandardsSubscription: AWSDecodableShape {
         /// The ARN of a standard.
         public let standardsArn: String?
+        /// Indicates whether the controls associated with this standards subscription can be viewed and updated. The values are as follows:    READY_FOR_UPDATES - Controls associated with this standards subscription can be viewed and updated.    NOT_READY_FOR_UPDATES - Controls associated with this standards subscription cannot be retrieved or updated yet. Security Hub is still processing a request to create the controls.
+        public let standardsControlsUpdatable: StandardsControlsUpdatable?
         /// A key-value pair of input for the standard.
         public let standardsInput: [String: String]?
         /// The status of the standard subscription. The status values are as follows:    PENDING - Standard is in the process of being enabled.    READY - Standard is enabled.    INCOMPLETE - Standard could not be enabled completely. Some controls may not be available.    DELETING - Standard is in the process of being disabled.    FAILED - Standard could not be disabled.
@@ -27464,8 +27473,9 @@ extension SecurityHub {
         public let standardsSubscriptionArn: String?
 
         @inlinable
-        public init(standardsArn: String? = nil, standardsInput: [String: String]? = nil, standardsStatus: StandardsStatus? = nil, standardsStatusReason: StandardsStatusReason? = nil, standardsSubscriptionArn: String? = nil) {
+        public init(standardsArn: String? = nil, standardsControlsUpdatable: StandardsControlsUpdatable? = nil, standardsInput: [String: String]? = nil, standardsStatus: StandardsStatus? = nil, standardsStatusReason: StandardsStatusReason? = nil, standardsSubscriptionArn: String? = nil) {
             self.standardsArn = standardsArn
+            self.standardsControlsUpdatable = standardsControlsUpdatable
             self.standardsInput = standardsInput
             self.standardsStatus = standardsStatus
             self.standardsStatusReason = standardsStatusReason
@@ -27474,6 +27484,7 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case standardsArn = "StandardsArn"
+            case standardsControlsUpdatable = "StandardsControlsUpdatable"
             case standardsInput = "StandardsInput"
             case standardsStatus = "StandardsStatus"
             case standardsStatusReason = "StandardsStatusReason"

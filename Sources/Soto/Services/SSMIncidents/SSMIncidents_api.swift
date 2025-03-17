@@ -79,6 +79,31 @@ public struct SSMIncidents: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-northeast-1": "ssm-incidents.ap-northeast-1.api.aws",
+            "ap-northeast-2": "ssm-incidents.ap-northeast-2.api.aws",
+            "ap-south-1": "ssm-incidents.ap-south-1.api.aws",
+            "ap-southeast-1": "ssm-incidents.ap-southeast-1.api.aws",
+            "ap-southeast-2": "ssm-incidents.ap-southeast-2.api.aws",
+            "ca-central-1": "ssm-incidents.ca-central-1.api.aws",
+            "eu-central-1": "ssm-incidents.eu-central-1.api.aws",
+            "eu-north-1": "ssm-incidents.eu-north-1.api.aws",
+            "eu-west-1": "ssm-incidents.eu-west-1.api.aws",
+            "eu-west-2": "ssm-incidents.eu-west-2.api.aws",
+            "eu-west-3": "ssm-incidents.eu-west-3.api.aws",
+            "sa-east-1": "ssm-incidents.sa-east-1.api.aws",
+            "us-east-1": "ssm-incidents.us-east-1.api.aws",
+            "us-east-2": "ssm-incidents.us-east-2.api.aws",
+            "us-west-1": "ssm-incidents.us-west-1.api.aws",
+            "us-west-2": "ssm-incidents.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "ssm-incidents-fips.ca-central-1.api.aws",
+            "us-east-1": "ssm-incidents-fips.us-east-1.api.aws",
+            "us-east-2": "ssm-incidents-fips.us-east-2.api.aws",
+            "us-west-1": "ssm-incidents-fips.us-west-1.api.aws",
+            "us-west-2": "ssm-incidents-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "ssm-incidents-fips.ca-central-1.amazonaws.com",
             "us-east-1": "ssm-incidents-fips.us-east-1.amazonaws.com",

@@ -73,6 +73,18 @@ extension QBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public enum AudioExtractionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AudioExtractionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case summary = "SUMMARY"
+        case transcript = "TRANSCRIPT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AutoSubscriptionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -390,6 +402,18 @@ extension QBusiness {
     public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case qBusiness = "Q_BUSINESS"
         case qLite = "Q_LITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoExtractionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VideoExtractionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case summary = "SUMMARY"
+        case transcript = "TRANSCRIPT"
         public var description: String { return self.rawValue }
     }
 
@@ -979,6 +1003,43 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case contentBlockerRule = "contentBlockerRule"
             case contentRetrievalRule = "contentRetrievalRule"
+        }
+    }
+
+    public enum SourceDetails: AWSDecodableShape, Sendable {
+        /// Details specific to audio content within the source.
+        case audioSourceDetails(AudioSourceDetails)
+        /// Details specific to image content within the source.
+        case imageSourceDetails(ImageSourceDetails)
+        /// Details specific to video content within the source.
+        case videoSourceDetails(VideoSourceDetails)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .audioSourceDetails:
+                let value = try container.decode(AudioSourceDetails.self, forKey: .audioSourceDetails)
+                self = .audioSourceDetails(value)
+            case .imageSourceDetails:
+                let value = try container.decode(ImageSourceDetails.self, forKey: .imageSourceDetails)
+                self = .imageSourceDetails(value)
+            case .videoSourceDetails:
+                let value = try container.decode(VideoSourceDetails.self, forKey: .videoSourceDetails)
+                self = .videoSourceDetails(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioSourceDetails = "audioSourceDetails"
+            case imageSourceDetails = "imageSourceDetails"
+            case videoSourceDetails = "videoSourceDetails"
         }
     }
 
@@ -1709,6 +1770,50 @@ extension QBusiness {
             case lessThanOrEquals = "lessThanOrEquals"
             case notFilter = "notFilter"
             case orAllFilters = "orAllFilters"
+        }
+    }
+
+    public struct AudioExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of audio extraction (ENABLED or DISABLED) for processing audio content from files.
+        public let audioExtractionStatus: AudioExtractionStatus
+
+        @inlinable
+        public init(audioExtractionStatus: AudioExtractionStatus) {
+            self.audioExtractionStatus = audioExtractionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioExtractionStatus = "audioExtractionStatus"
+        }
+    }
+
+    public struct AudioSourceDetails: AWSDecodableShape {
+        /// The type of audio extraction performed on the content.
+        public let audioExtractionType: AudioExtractionType?
+        /// The ending timestamp in milliseconds for the relevant audio segment.
+        public let endTimeMilliseconds: Int64?
+        /// Unique identifier for the audio media file.
+        public let mediaId: String?
+        /// The MIME type of the audio file (e.g., audio/mp3, audio/wav).
+        public let mediaMimeType: String?
+        /// The starting timestamp in milliseconds for the relevant audio segment.
+        public let startTimeMilliseconds: Int64?
+
+        @inlinable
+        public init(audioExtractionType: AudioExtractionType? = nil, endTimeMilliseconds: Int64? = nil, mediaId: String? = nil, mediaMimeType: String? = nil, startTimeMilliseconds: Int64? = nil) {
+            self.audioExtractionType = audioExtractionType
+            self.endTimeMilliseconds = endTimeMilliseconds
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+            self.startTimeMilliseconds = startTimeMilliseconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioExtractionType = "audioExtractionType"
+            case endTimeMilliseconds = "endTimeMilliseconds"
+            case mediaId = "mediaId"
+            case mediaMimeType = "mediaMimeType"
+            case startTimeMilliseconds = "startTimeMilliseconds"
         }
     }
 
@@ -5485,6 +5590,24 @@ extension QBusiness {
         }
     }
 
+    public struct ImageSourceDetails: AWSDecodableShape {
+        /// Unique identifier for the image file.
+        public let mediaId: String?
+        /// The MIME type of the image file.
+        public let mediaMimeType: String?
+
+        @inlinable
+        public init(mediaId: String? = nil, mediaMimeType: String? = nil) {
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaId = "mediaId"
+            case mediaMimeType = "mediaMimeType"
+        }
+    }
+
     public struct Index: AWSDecodableShape {
         /// The Unix timestamp when the index was created.
         public let createdAt: Date?
@@ -6642,16 +6765,24 @@ extension QBusiness {
     }
 
     public struct MediaExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration settings for extracting and processing audio content from media files.
+        public let audioExtractionConfiguration: AudioExtractionConfiguration?
         /// The configuration for extracting semantic meaning from images in documents.  For more information, see Extracting semantic meaning from images and visuals.
         public let imageExtractionConfiguration: ImageExtractionConfiguration?
+        /// Configuration settings for extracting and processing video content from media files.
+        public let videoExtractionConfiguration: VideoExtractionConfiguration?
 
         @inlinable
-        public init(imageExtractionConfiguration: ImageExtractionConfiguration? = nil) {
+        public init(audioExtractionConfiguration: AudioExtractionConfiguration? = nil, imageExtractionConfiguration: ImageExtractionConfiguration? = nil, videoExtractionConfiguration: VideoExtractionConfiguration? = nil) {
+            self.audioExtractionConfiguration = audioExtractionConfiguration
             self.imageExtractionConfiguration = imageExtractionConfiguration
+            self.videoExtractionConfiguration = videoExtractionConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
+            case audioExtractionConfiguration = "audioExtractionConfiguration"
             case imageExtractionConfiguration = "imageExtractionConfiguration"
+            case videoExtractionConfiguration = "videoExtractionConfiguration"
         }
     }
 
@@ -7891,14 +8022,28 @@ extension QBusiness {
         public let mediaMimeType: String?
         /// The relevant text excerpt from a source that was used to generate a citation text segment in an Amazon Q Business chat response.
         public let snippetExcerpt: SnippetExcerpt?
+        /// Source information for a segment of extracted text, including its media type.
+        public let sourceDetails: SourceDetails?
 
         @inlinable
-        public init(beginOffset: Int? = nil, endOffset: Int? = nil, mediaId: String? = nil, mediaMimeType: String? = nil, snippetExcerpt: SnippetExcerpt? = nil) {
+        public init(beginOffset: Int? = nil, endOffset: Int? = nil, snippetExcerpt: SnippetExcerpt? = nil, sourceDetails: SourceDetails? = nil) {
+            self.beginOffset = beginOffset
+            self.endOffset = endOffset
+            self.mediaId = nil
+            self.mediaMimeType = nil
+            self.snippetExcerpt = snippetExcerpt
+            self.sourceDetails = sourceDetails
+        }
+
+        @available(*, deprecated, message: "Members mediaId, mediaMimeType have been deprecated")
+        @inlinable
+        public init(beginOffset: Int? = nil, endOffset: Int? = nil, mediaId: String? = nil, mediaMimeType: String? = nil, snippetExcerpt: SnippetExcerpt? = nil, sourceDetails: SourceDetails? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.mediaId = mediaId
             self.mediaMimeType = mediaMimeType
             self.snippetExcerpt = snippetExcerpt
+            self.sourceDetails = sourceDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7907,6 +8052,7 @@ extension QBusiness {
             case mediaId = "mediaId"
             case mediaMimeType = "mediaMimeType"
             case snippetExcerpt = "snippetExcerpt"
+            case sourceDetails = "sourceDetails"
         }
     }
 
@@ -8785,6 +8931,50 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case userGroups = "userGroups"
             case userIds = "userIds"
+        }
+    }
+
+    public struct VideoExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of video extraction (ENABLED or DISABLED) for processing video content from files.
+        public let videoExtractionStatus: VideoExtractionStatus
+
+        @inlinable
+        public init(videoExtractionStatus: VideoExtractionStatus) {
+            self.videoExtractionStatus = videoExtractionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case videoExtractionStatus = "videoExtractionStatus"
+        }
+    }
+
+    public struct VideoSourceDetails: AWSDecodableShape {
+        /// The ending timestamp in milliseconds for the relevant video segment.
+        public let endTimeMilliseconds: Int64?
+        /// Unique identifier for the video media file.
+        public let mediaId: String?
+        /// The MIME type of the video file (e.g., video/mp4, video/avi).
+        public let mediaMimeType: String?
+        /// The starting timestamp in milliseconds for the relevant video segment.
+        public let startTimeMilliseconds: Int64?
+        /// The type of video extraction performed on the content.
+        public let videoExtractionType: VideoExtractionType?
+
+        @inlinable
+        public init(endTimeMilliseconds: Int64? = nil, mediaId: String? = nil, mediaMimeType: String? = nil, startTimeMilliseconds: Int64? = nil, videoExtractionType: VideoExtractionType? = nil) {
+            self.endTimeMilliseconds = endTimeMilliseconds
+            self.mediaId = mediaId
+            self.mediaMimeType = mediaMimeType
+            self.startTimeMilliseconds = startTimeMilliseconds
+            self.videoExtractionType = videoExtractionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimeMilliseconds = "endTimeMilliseconds"
+            case mediaId = "mediaId"
+            case mediaMimeType = "mediaMimeType"
+            case startTimeMilliseconds = "startTimeMilliseconds"
+            case videoExtractionType = "videoExtractionType"
         }
     }
 

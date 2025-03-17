@@ -423,6 +423,8 @@ extension Amplify {
         public let enablePerformanceMode: Bool?
         ///  Enables pull request previews for the branch.
         public let enablePullRequestPreview: Bool
+        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
+        public let enableSkewProtection: Bool?
         ///  The environment variables specific to a branch of an Amplify app.
         public let environmentVariables: [String: String]
         ///  The framework for a branch of an Amplify app.
@@ -445,7 +447,7 @@ extension Amplify {
         public let updateTime: Date
 
         @inlinable
-        public init(activeJobId: String, associatedResources: [String]? = nil, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, computeRoleArn: String? = nil, createTime: Date, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: Date) {
+        public init(activeJobId: String, associatedResources: [String]? = nil, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, computeRoleArn: String? = nil, createTime: Date, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool, enableSkewProtection: Bool? = nil, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: Date) {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
             self.backend = backend
@@ -465,6 +467,7 @@ extension Amplify {
             self.enableNotification = enableNotification
             self.enablePerformanceMode = enablePerformanceMode
             self.enablePullRequestPreview = enablePullRequestPreview
+            self.enableSkewProtection = enableSkewProtection
             self.environmentVariables = environmentVariables
             self.framework = framework
             self.pullRequestEnvironmentName = pullRequestEnvironmentName
@@ -497,6 +500,7 @@ extension Amplify {
             case enableNotification = "enableNotification"
             case enablePerformanceMode = "enablePerformanceMode"
             case enablePullRequestPreview = "enablePullRequestPreview"
+            case enableSkewProtection = "enableSkewProtection"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
             case pullRequestEnvironmentName = "pullRequestEnvironmentName"
@@ -817,6 +821,8 @@ extension Amplify {
         public let enablePerformanceMode: Bool?
         ///  Enables pull request previews for this branch.
         public let enablePullRequestPreview: Bool?
+        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
+        public let enableSkewProtection: Bool?
         ///  The environment variables for the branch.
         public let environmentVariables: [String: String]?
         ///  The framework for the branch.
@@ -831,7 +837,7 @@ extension Amplify {
         public let ttl: String?
 
         @inlinable
-        public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, computeRoleArn: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
+        public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, computeRoleArn: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, enableSkewProtection: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
             self.appId = appId
             self.backend = backend
             self.backendEnvironmentArn = backendEnvironmentArn
@@ -846,6 +852,7 @@ extension Amplify {
             self.enableNotification = enableNotification
             self.enablePerformanceMode = enablePerformanceMode
             self.enablePullRequestPreview = enablePullRequestPreview
+            self.enableSkewProtection = enableSkewProtection
             self.environmentVariables = environmentVariables
             self.framework = framework
             self.pullRequestEnvironmentName = pullRequestEnvironmentName
@@ -871,6 +878,7 @@ extension Amplify {
             try container.encodeIfPresent(self.enableNotification, forKey: .enableNotification)
             try container.encodeIfPresent(self.enablePerformanceMode, forKey: .enablePerformanceMode)
             try container.encodeIfPresent(self.enablePullRequestPreview, forKey: .enablePullRequestPreview)
+            try container.encodeIfPresent(self.enableSkewProtection, forKey: .enableSkewProtection)
             try container.encodeIfPresent(self.environmentVariables, forKey: .environmentVariables)
             try container.encodeIfPresent(self.framework, forKey: .framework)
             try container.encodeIfPresent(self.pullRequestEnvironmentName, forKey: .pullRequestEnvironmentName)
@@ -936,6 +944,7 @@ extension Amplify {
             case enableNotification = "enableNotification"
             case enablePerformanceMode = "enablePerformanceMode"
             case enablePullRequestPreview = "enablePullRequestPreview"
+            case enableSkewProtection = "enableSkewProtection"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
             case pullRequestEnvironmentName = "pullRequestEnvironmentName"
@@ -2986,6 +2995,8 @@ extension Amplify {
         public let enablePerformanceMode: Bool?
         ///  Enables pull request previews for this branch.
         public let enablePullRequestPreview: Bool?
+        /// Specifies whether the skew protection feature is enabled for the branch. Deployment skew protection is available to Amplify applications to eliminate version skew issues between client and servers in web applications. When you apply skew protection to a branch, you can ensure that your clients always interact with the correct version of server-side assets, regardless of when a deployment occurs. For more information about skew protection, see Skew protection for Amplify deployments in the Amplify User Guide.
+        public let enableSkewProtection: Bool?
         ///  The environment variables for the branch.
         public let environmentVariables: [String: String]?
         ///  The framework for the branch.
@@ -2998,7 +3009,7 @@ extension Amplify {
         public let ttl: String?
 
         @inlinable
-        public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, computeRoleArn: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
+        public init(appId: String, backend: Backend? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, computeRoleArn: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, enableSkewProtection: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
             self.appId = appId
             self.backend = backend
             self.backendEnvironmentArn = backendEnvironmentArn
@@ -3013,6 +3024,7 @@ extension Amplify {
             self.enableNotification = enableNotification
             self.enablePerformanceMode = enablePerformanceMode
             self.enablePullRequestPreview = enablePullRequestPreview
+            self.enableSkewProtection = enableSkewProtection
             self.environmentVariables = environmentVariables
             self.framework = framework
             self.pullRequestEnvironmentName = pullRequestEnvironmentName
@@ -3037,6 +3049,7 @@ extension Amplify {
             try container.encodeIfPresent(self.enableNotification, forKey: .enableNotification)
             try container.encodeIfPresent(self.enablePerformanceMode, forKey: .enablePerformanceMode)
             try container.encodeIfPresent(self.enablePullRequestPreview, forKey: .enablePullRequestPreview)
+            try container.encodeIfPresent(self.enableSkewProtection, forKey: .enableSkewProtection)
             try container.encodeIfPresent(self.environmentVariables, forKey: .environmentVariables)
             try container.encodeIfPresent(self.framework, forKey: .framework)
             try container.encodeIfPresent(self.pullRequestEnvironmentName, forKey: .pullRequestEnvironmentName)
@@ -3092,6 +3105,7 @@ extension Amplify {
             case enableNotification = "enableNotification"
             case enablePerformanceMode = "enablePerformanceMode"
             case enablePullRequestPreview = "enablePullRequestPreview"
+            case enableSkewProtection = "enableSkewProtection"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
             case pullRequestEnvironmentName = "pullRequestEnvironmentName"

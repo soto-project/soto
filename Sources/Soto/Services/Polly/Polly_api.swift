@@ -106,6 +106,7 @@ public struct Polly: AWSService {
             "us-west-2": "polly.us-west-2.api.aws"
         ]),
         [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "polly-fips.ca-central-1.api.aws",
             "us-east-1": "polly-fips.us-east-1.api.aws",
             "us-east-2": "polly-fips.us-east-2.api.aws",
             "us-gov-west-1": "polly-fips.us-gov-west-1.api.aws",
@@ -113,6 +114,7 @@ public struct Polly: AWSService {
             "us-west-2": "polly-fips.us-west-2.api.aws"
         ]),
         [.fips]: .init(endpoints: [
+            "ca-central-1": "polly-fips.ca-central-1.amazonaws.com",
             "us-east-1": "polly-fips.us-east-1.amazonaws.com",
             "us-east-2": "polly-fips.us-east-2.amazonaws.com",
             "us-gov-west-1": "polly-fips.us-gov-west-1.amazonaws.com",

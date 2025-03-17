@@ -99,7 +99,7 @@ public struct PcaConnectorAd: AWSService {
     ///   - clientToken: Idempotency token.
     ///   - directoryId: The identifier of the Active Directory.
     ///   - tags: Metadata assigned to a connector consisting of a key-value pair.
-    ///   - vpcInformation: Security group IDs that describe the inbound and outbound rules.
+    ///   - vpcInformation: Information about your VPC and security groups used with the connector.
     ///   - logger: Logger use during operation
     @inlinable
     public func createConnector(

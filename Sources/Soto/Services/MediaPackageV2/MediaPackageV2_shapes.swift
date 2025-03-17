@@ -710,9 +710,11 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
+        /// When enabled, MediaPackage URL-encodes the query string for API requests for HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see Amazon Web Services Signature Version 4 for API requests in Identity and Access Management User Guide.
+        public let urlEncodeChildManifest: Bool?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, urlEncodeChildManifest: Bool? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -720,6 +722,7 @@ extension MediaPackageV2 {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.urlEncodeChildManifest = urlEncodeChildManifest
         }
 
         public func validate(name: String) throws {
@@ -739,6 +742,7 @@ extension MediaPackageV2 {
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
             case startTag = "StartTag"
+            case urlEncodeChildManifest = "UrlEncodeChildManifest"
         }
     }
 
@@ -754,9 +758,11 @@ extension MediaPackageV2 {
         public let programDateTimeIntervalSeconds: Int?
         public let scteHls: ScteHls?
         public let startTag: StartTag?
+        /// When enabled, MediaPackage URL-encodes the query string for API requests for LL-HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see Amazon Web Services Signature Version 4 for API requests in Identity and Access Management User Guide.
+        public let urlEncodeChildManifest: Bool?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, urlEncodeChildManifest: Bool? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -764,6 +770,7 @@ extension MediaPackageV2 {
             self.programDateTimeIntervalSeconds = programDateTimeIntervalSeconds
             self.scteHls = scteHls
             self.startTag = startTag
+            self.urlEncodeChildManifest = urlEncodeChildManifest
         }
 
         public func validate(name: String) throws {
@@ -783,6 +790,7 @@ extension MediaPackageV2 {
             case programDateTimeIntervalSeconds = "ProgramDateTimeIntervalSeconds"
             case scteHls = "ScteHls"
             case startTag = "StartTag"
+            case urlEncodeChildManifest = "UrlEncodeChildManifest"
         }
     }
 
@@ -1459,11 +1467,13 @@ extension MediaPackageV2 {
         public let modifiedAt: Date
         /// The settings for what common media server data (CMSD) headers AWS Elemental MediaPackage includes in responses to the CDN. This setting is valid only when InputType is CMAF.
         public let outputHeaderConfiguration: OutputHeaderConfiguration?
+        /// The time that the channel was last reset.
+        public let resetAt: Date?
         /// The comma-separated list of tag key:value pairs assigned to the channel.
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, createdAt: Date, description: String? = nil, eTag: String? = nil, ingestEndpoints: [IngestEndpoint]? = nil, inputSwitchConfiguration: InputSwitchConfiguration? = nil, inputType: InputType? = nil, modifiedAt: Date, outputHeaderConfiguration: OutputHeaderConfiguration? = nil, resetAt: Date? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1475,6 +1485,7 @@ extension MediaPackageV2 {
             self.inputType = inputType
             self.modifiedAt = modifiedAt
             self.outputHeaderConfiguration = outputHeaderConfiguration
+            self.resetAt = resetAt
             self.tags = tags
         }
 
@@ -1490,6 +1501,7 @@ extension MediaPackageV2 {
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
             case outputHeaderConfiguration = "OutputHeaderConfiguration"
+            case resetAt = "ResetAt"
             case tags = "Tags"
         }
     }
@@ -1680,9 +1692,11 @@ extension MediaPackageV2 {
         public let startTag: StartTag?
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
+        /// When enabled, MediaPackage URL-encodes the query string for API requests for HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see Amazon Web Services Signature Version 4 for API requests in Identity and Access Management User Guide.
+        public let urlEncodeChildManifest: Bool?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, url: String) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, url: String, urlEncodeChildManifest: Bool? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -1691,6 +1705,7 @@ extension MediaPackageV2 {
             self.scteHls = scteHls
             self.startTag = startTag
             self.url = url
+            self.urlEncodeChildManifest = urlEncodeChildManifest
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1702,6 +1717,7 @@ extension MediaPackageV2 {
             case scteHls = "ScteHls"
             case startTag = "StartTag"
             case url = "Url"
+            case urlEncodeChildManifest = "UrlEncodeChildManifest"
         }
     }
 
@@ -1719,9 +1735,11 @@ extension MediaPackageV2 {
         public let startTag: StartTag?
         /// The egress domain URL for stream delivery from MediaPackage.
         public let url: String
+        /// When enabled, MediaPackage URL-encodes the query string for API requests for LL-HLS child manifests to comply with Amazon Web Services Signature Version 4 (SigV4) signature signing protocol. For more information, see Amazon Web Services Signature Version 4 for API requests in Identity and Access Management User Guide.
+        public let urlEncodeChildManifest: Bool?
 
         @inlinable
-        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, url: String) {
+        public init(childManifestName: String? = nil, filterConfiguration: FilterConfiguration? = nil, manifestName: String, manifestWindowSeconds: Int? = nil, programDateTimeIntervalSeconds: Int? = nil, scteHls: ScteHls? = nil, startTag: StartTag? = nil, url: String, urlEncodeChildManifest: Bool? = nil) {
             self.childManifestName = childManifestName
             self.filterConfiguration = filterConfiguration
             self.manifestName = manifestName
@@ -1730,6 +1748,7 @@ extension MediaPackageV2 {
             self.scteHls = scteHls
             self.startTag = startTag
             self.url = url
+            self.urlEncodeChildManifest = urlEncodeChildManifest
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1741,6 +1760,7 @@ extension MediaPackageV2 {
             case scteHls = "ScteHls"
             case startTag = "StartTag"
             case url = "Url"
+            case urlEncodeChildManifest = "UrlEncodeChildManifest"
         }
     }
 
@@ -1873,6 +1893,8 @@ extension MediaPackageV2 {
         public let modifiedAt: Date
         /// The name that describes the origin endpoint. The name is the primary identifier for the origin endpoint, and and must be unique for your account in the AWS Region and channel.
         public let originEndpointName: String
+        /// The time that the origin endpoint was last reset.
+        public let resetAt: Date?
         public let segment: Segment
         /// The size of the window (in seconds) to create a window of the live stream that's available for on-demand viewing. Viewers can start-over or catch-up on content that falls within the window.
         public let startoverWindowSeconds: Int?
@@ -1880,7 +1902,7 @@ extension MediaPackageV2 {
         public let tags: [String: String]?
 
         @inlinable
-        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
+        public init(arn: String, channelGroupName: String, channelName: String, containerType: ContainerType, createdAt: Date, dashManifests: [GetDashManifestConfiguration]? = nil, description: String? = nil, eTag: String? = nil, forceEndpointErrorConfiguration: ForceEndpointErrorConfiguration? = nil, hlsManifests: [GetHlsManifestConfiguration]? = nil, lowLatencyHlsManifests: [GetLowLatencyHlsManifestConfiguration]? = nil, modifiedAt: Date, originEndpointName: String, resetAt: Date? = nil, segment: Segment, startoverWindowSeconds: Int? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.channelGroupName = channelGroupName
             self.channelName = channelName
@@ -1894,6 +1916,7 @@ extension MediaPackageV2 {
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
             self.modifiedAt = modifiedAt
             self.originEndpointName = originEndpointName
+            self.resetAt = resetAt
             self.segment = segment
             self.startoverWindowSeconds = startoverWindowSeconds
             self.tags = tags
@@ -1913,6 +1936,7 @@ extension MediaPackageV2 {
             case lowLatencyHlsManifests = "LowLatencyHlsManifests"
             case modifiedAt = "ModifiedAt"
             case originEndpointName = "OriginEndpointName"
+            case resetAt = "ResetAt"
             case segment = "Segment"
             case startoverWindowSeconds = "StartoverWindowSeconds"
             case tags = "Tags"
@@ -2610,6 +2634,131 @@ extension MediaPackageV2 {
 
     public struct PutOriginEndpointPolicyResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ResetChannelStateRequest: AWSEncodableShape {
+        /// The name of the channel group that contains the channel that you are resetting.
+        public let channelGroupName: String
+        /// The name of the channel that you are resetting.
+        public let channelName: String
+
+        @inlinable
+        public init(channelGroupName: String, channelName: String) {
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, max: 256)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, min: 1)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ResetChannelStateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) associated with the channel that you just reset.
+        public let arn: String
+        /// The name of the channel group that contains the channel that you just reset.
+        public let channelGroupName: String
+        /// The name of the channel that you just reset.
+        public let channelName: String
+        /// The time that the channel was last reset.
+        public let resetAt: Date
+
+        @inlinable
+        public init(arn: String, channelGroupName: String, channelName: String, resetAt: Date) {
+            self.arn = arn
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.resetAt = resetAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case channelGroupName = "ChannelGroupName"
+            case channelName = "ChannelName"
+            case resetAt = "ResetAt"
+        }
+    }
+
+    public struct ResetOriginEndpointStateRequest: AWSEncodableShape {
+        /// The name of the channel group that contains the channel with the origin endpoint that you are resetting.
+        public let channelGroupName: String
+        /// The name of the channel with the origin endpoint that you are resetting.
+        public let channelName: String
+        /// The name of the origin endpoint that you are resetting.
+        public let originEndpointName: String
+
+        @inlinable
+        public init(channelGroupName: String, channelName: String, originEndpointName: String) {
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.originEndpointName = originEndpointName
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.channelGroupName, key: "ChannelGroupName")
+            request.encodePath(self.channelName, key: "ChannelName")
+            request.encodePath(self.originEndpointName, key: "OriginEndpointName")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, max: 256)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, min: 1)
+            try self.validate(self.channelGroupName, name: "channelGroupName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.channelName, name: "channelName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, max: 256)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, min: 1)
+            try self.validate(self.originEndpointName, name: "originEndpointName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ResetOriginEndpointStateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) associated with the endpoint that you just reset.
+        public let arn: String
+        /// The name of the channel group that contains the channel with the origin endpoint that you just reset.
+        public let channelGroupName: String
+        /// The name of the channel with the origin endpoint that you just reset.
+        public let channelName: String
+        /// The name of the origin endpoint that you just reset.
+        public let originEndpointName: String
+        /// The time that the origin endpoint was last reset.
+        public let resetAt: Date
+
+        @inlinable
+        public init(arn: String, channelGroupName: String, channelName: String, originEndpointName: String, resetAt: Date) {
+            self.arn = arn
+            self.channelGroupName = channelGroupName
+            self.channelName = channelName
+            self.originEndpointName = originEndpointName
+            self.resetAt = resetAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case channelGroupName = "ChannelGroupName"
+            case channelName = "ChannelName"
+            case originEndpointName = "OriginEndpointName"
+            case resetAt = "ResetAt"
+        }
     }
 
     public struct S3DestinationConfig: AWSEncodableShape & AWSDecodableShape {
