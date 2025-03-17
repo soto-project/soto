@@ -472,7 +472,7 @@ public struct ElastiCache: AWSService {
     /// Creates a new Amazon ElastiCache cache parameter group. An ElastiCache cache parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster or replication group using the CacheParameterGroup. A newly created CacheParameterGroup is an exact duplicate of the default parameter group for the CacheParameterGroupFamily. To customize the newly created CacheParameterGroup you can change the values of specific parameters. For more information, see:    ModifyCacheParameterGroup in the ElastiCache API Reference.    Parameters and Parameter Groups in the ElastiCache User Guide.
     ///
     /// Parameters:
-    ///   - cacheParameterGroupFamily: The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
+    ///   - cacheParameterGroupFamily: The name of the cache parameter group family that the cache parameter group can be used with. Valid values are: valkey8 | valkey7 | memcached1.4 | memcached1.5 | memcached1.6 | redis2.6 | redis2.8 |
     ///   - cacheParameterGroupName: A user-specified name for the cache parameter group.
     ///   - description: A user-specified description for the cache parameter group.
     ///   - tags: A list of tags to be added to this resource. A tag is a key-value pair. A tag key must be accompanied by a tag value, although null is accepted.
@@ -1036,7 +1036,7 @@ public struct ElastiCache: AWSService {
     /// Parameters:
     ///   - applyImmediately: If True, the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
     ///   - newReplicaCount: The number of read replica nodes you want at the completion of this operation. For Valkey or Redis OSS (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Valkey or Redis OSS (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:   Valkey or Redis OSS (cluster mode disabled)   If Multi-AZ is enabled: 1   If Multi-AZ is not enabled: 0     Valkey or Redis OSS (cluster mode enabled): 0 (though you will not be able to failover to a replica if your primary node fails)
-    ///   - replicaConfiguration: A list of ConfigureShard objects that can be used to configure each shard in a Valkey or Redis OSS (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
+    ///   - replicaConfiguration: A list of ConfigureShard objects that can be used to configure each shard in a Valkey or Redis OSS replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
     ///   - replicasToRemove: A list of the node ids to remove from the replication group or node group (shard).
     ///   - replicationGroupId: The id of the replication group from which you want to remove replica nodes.
     ///   - logger: Logger use during operation

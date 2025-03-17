@@ -475,7 +475,7 @@ extension CloudWatchLogs {
         /// Specifies how often the anomaly detector runs and look for anomalies.
         public let evaluationFrequency: EvaluationFrequency?
         public let filterPattern: String?
-        /// The ID of the KMS key assigned to this anomaly detector, if any.
+        /// The ARN of the KMS key assigned to this anomaly detector, if any.
         public let kmsKeyId: String?
         /// The date and time when this anomaly detector was most recently modified.
         public let lastModifiedTimeStamp: Int64?
@@ -870,7 +870,7 @@ extension CloudWatchLogs {
         public let evaluationFrequency: EvaluationFrequency?
         /// You can use this parameter to limit the anomaly detection model to examine only log events that match the pattern you specify here. For more information, see Filter and Pattern Syntax.
         public let filterPattern: String?
-        /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is  assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If  a key is assigned to an anomaly detector, a user must have permissions for both this key and for the  anomaly detector to retrieve information about the anomalies that it finds. For more information about using a KMS key and to see the required IAM policy, see Use a KMS key with an anomaly detector.
+        /// Optionally assigns a KMS key to secure this anomaly detector and its findings. If a key is  assigned, the anomalies found and the model used by this detector are encrypted at rest with the key. If  a key is assigned to an anomaly detector, a user must have permissions for both this key and for the  anomaly detector to retrieve information about the anomalies that it finds. Make sure the value provided is a valid KMS key ARN. For more information about using a KMS key and to see the required IAM policy, see Use a KMS key with an anomaly detector.
         public let kmsKeyId: String?
         /// An array containing the ARN of the log group that this anomaly detector will watch. You can specify only one log group ARN.
         public let logGroupArnList: [String]
@@ -894,6 +894,7 @@ extension CloudWatchLogs {
             try self.validate(self.detectorName, name: "detectorName", parent: name, min: 1)
             try self.validate(self.filterPattern, name: "filterPattern", parent: name, max: 1024)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^arn:aws[a-z\\-]*:kms:[-a-z0-9]*:[0-9]*:key/[-a-z0-9]*$")
             try self.logGroupArnList.forEach {
                 try validate($0, name: "logGroupArnList[]", parent: name, max: 2048)
                 try validate($0, name: "logGroupArnList[]", parent: name, min: 1)
@@ -2763,7 +2764,7 @@ extension CloudWatchLogs {
     public struct FilterLogEventsResponse: AWSDecodableShape {
         /// The matched events.
         public let events: [FilteredLogEvent]?
-        /// The token to use when requesting the next set of items. The token expires after 24 hours.
+        /// The token to use when requesting the next set of items. The token expires after 24 hours. If the results don't include a nextToken, then pagination is finished.
         public let nextToken: String?
         ///  Important As of May 15, 2020, this parameter is no longer supported. This parameter returns an empty list. Indicates which log streams have been searched and whether each has been searched completely.
         public let searchedLogStreams: [SearchedLogStream]?
@@ -3067,7 +3068,7 @@ extension CloudWatchLogs {
         /// Specifies how often the anomaly detector runs and look for anomalies. Set this value according to the frequency that the log group receives new logs. For example, if the log group receives new log events every 10 minutes, then setting evaluationFrequency to FIFTEEN_MIN might be appropriate.
         public let evaluationFrequency: EvaluationFrequency?
         public let filterPattern: String?
-        /// The ID of the KMS key assigned to this anomaly detector, if any.
+        /// The ARN of the KMS key assigned to this anomaly detector, if any.
         public let kmsKeyId: String?
         /// The date and time when this anomaly detector was most recently modified.
         public let lastModifiedTimeStamp: Int64?

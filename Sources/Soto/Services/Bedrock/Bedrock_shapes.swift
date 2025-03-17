@@ -1653,6 +1653,78 @@ extension Bedrock {
         }
     }
 
+    public struct CreatePromptRouterRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure idempotency of your requests. If not specified, the Amazon Web Services SDK automatically generates one for you.
+        public let clientRequestToken: String?
+        /// An optional description of the prompt router to help identify its purpose.
+        public let description: String?
+        /// The default model to use when the routing criteria is not met.
+        public let fallbackModel: PromptRouterTargetModel
+        /// A list of foundation models that the prompt router can route requests to. At least one model must be specified.
+        public let models: [PromptRouterTargetModel]
+        /// The name of the prompt router. The name must be unique within your Amazon Web Services account in the current region.
+        public let promptRouterName: String
+        /// The criteria, which is the response quality difference, used to determine how incoming requests are routed to different models.
+        public let routingCriteria: RoutingCriteria
+        /// An array of key-value pairs to apply to this resource as tags. You can use tags to categorize and manage your Amazon Web Services resources.
+        public let tags: [Tag]?
+
+        @inlinable
+        public init(clientRequestToken: String? = CreatePromptRouterRequest.idempotencyToken(), description: String? = nil, fallbackModel: PromptRouterTargetModel, models: [PromptRouterTargetModel], promptRouterName: String, routingCriteria: RoutingCriteria, tags: [Tag]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.fallbackModel = fallbackModel
+            self.models = models
+            self.promptRouterName = promptRouterName
+            self.routingCriteria = routingCriteria
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 256)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^([0-9a-zA-Z:.][ _-]?)+$")
+            try self.fallbackModel.validate(name: "\(name).fallbackModel")
+            try self.models.forEach {
+                try $0.validate(name: "\(name).models[]")
+            }
+            try self.validate(self.promptRouterName, name: "promptRouterName", parent: name, max: 64)
+            try self.validate(self.promptRouterName, name: "promptRouterName", parent: name, min: 1)
+            try self.validate(self.promptRouterName, name: "promptRouterName", parent: name, pattern: "^([0-9a-zA-Z][ _-]?)+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "clientRequestToken"
+            case description = "description"
+            case fallbackModel = "fallbackModel"
+            case models = "models"
+            case promptRouterName = "promptRouterName"
+            case routingCriteria = "routingCriteria"
+            case tags = "tags"
+        }
+    }
+
+    public struct CreatePromptRouterResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies the prompt router.
+        public let promptRouterArn: String?
+
+        @inlinable
+        public init(promptRouterArn: String? = nil) {
+            self.promptRouterArn = promptRouterArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case promptRouterArn = "promptRouterArn"
+        }
+    }
+
     public struct CreateProvisionedModelThroughputRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see Ensuring idempotency in the Amazon S3 User Guide.
         public let clientRequestToken: String?
@@ -1904,6 +1976,34 @@ extension Bedrock {
     }
 
     public struct DeleteModelInvocationLoggingConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeletePromptRouterRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the prompt router to delete.
+        public let promptRouterArn: String
+
+        @inlinable
+        public init(promptRouterArn: String) {
+            self.promptRouterArn = promptRouterArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.promptRouterArn, key: "promptRouterArn")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.promptRouterArn, name: "promptRouterArn", parent: name, max: 2048)
+            try self.validate(self.promptRouterArn, name: "promptRouterArn", parent: name, min: 1)
+            try self.validate(self.promptRouterArn, name: "promptRouterArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:default-prompt-router/[a-zA-Z0-9-:.]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePromptRouterResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -5142,11 +5242,14 @@ extension Bedrock {
         public let maxResults: Int?
         /// Specify the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
+        /// The type of the prompt routers, such as whether it's default or custom.
+        public let type: PromptRouterType?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, type: PromptRouterType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.type = type
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -5154,6 +5257,7 @@ extension Bedrock {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodeQuery(self.maxResults, key: "maxResults")
             request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.type, key: "type")
         }
 
         public func validate(name: String) throws {
@@ -5281,7 +5385,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router)/[a-z0-9]{12}$)))")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5814,13 +5918,19 @@ extension Bedrock {
         }
     }
 
-    public struct PromptRouterTargetModel: AWSDecodableShape {
+    public struct PromptRouterTargetModel: AWSEncodableShape & AWSDecodableShape {
         /// The target model's ARN.
         public let modelArn: String?
 
         @inlinable
         public init(modelArn: String? = nil) {
             self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2})|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{0,20}):(|[0-9]{12}):(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6064,7 +6174,7 @@ extension Bedrock {
         }
     }
 
-    public struct RoutingCriteria: AWSDecodableShape {
+    public struct RoutingCriteria: AWSEncodableShape & AWSDecodableShape {
         /// The criteria's response quality difference.
         public let responseQualityDifference: Double
 
@@ -6306,7 +6416,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router)/[a-z0-9]{12}$)))")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -6435,7 +6545,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1011)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 20)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke)/[a-z0-9]{12}$)))")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "(^[a-zA-Z0-9][a-zA-Z0-9\\-]*$)|(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:([0-9]{12}|)((:(fine-tuning-job|model-customization-job|custom-model)/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12})$)|(:guardrail/[a-z0-9]+$)|(:automated-reasoning-policy/[a-zA-Z0-9]+(:[a-zA-Z0-9]+)?$)|(:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)|(:(provisioned-model|model-invocation-job|model-evaluation-job|evaluation-job|model-import-job|imported-model|async-invoke|provisioned-model-v2|provisioned-model-reservation|prompt-router)/[a-z0-9]{12}$)))")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

@@ -7267,18 +7267,22 @@ extension Inspector2 {
     }
 
     public struct Step: AWSDecodableShape {
+        /// The component ARN. The ARN can be null and is not displayed in the Amazon Web Services console.
+        public let componentArn: String?
         /// The component ID.
         public let componentId: String
         /// The component type.
         public let componentType: String
 
         @inlinable
-        public init(componentId: String, componentType: String) {
+        public init(componentArn: String? = nil, componentId: String, componentType: String) {
+            self.componentArn = componentArn
             self.componentId = componentId
             self.componentType = componentType
         }
 
         private enum CodingKeys: String, CodingKey {
+            case componentArn = "componentArn"
             case componentId = "componentId"
             case componentType = "componentType"
         }

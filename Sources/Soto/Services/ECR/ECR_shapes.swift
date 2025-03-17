@@ -152,6 +152,7 @@ extension ECR {
     public enum UpstreamRegistry: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case azureContainerRegistry = "azure-container-registry"
         case dockerHub = "docker-hub"
+        case ecr = "ecr"
         case ecrPublic = "ecr-public"
         case gitHubContainerRegistry = "github-container-registry"
         case gitLabContainerRegistry = "gitlab-container-registry"
@@ -516,40 +517,52 @@ extension ECR {
     public struct CreatePullThroughCacheRuleRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
         public let credentialArn: String?
-        /// The repository name prefix to use when caching images from the source registry.
+        /// Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring.
+        public let customRoleArn: String?
+        /// The repository name prefix to use when caching images from the source registry.  There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/.
         public let ecrRepositoryPrefix: String
         /// The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name of the upstream registry.
         public let upstreamRegistry: UpstreamRegistry?
-        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR Public (ecr-public) - public.ecr.aws    Docker Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) - registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io    Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
+        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
         public let upstreamRegistryUrl: String
+        /// The repository name prefix of the upstream registry to match with the upstream repository name. When this field isn't specified, Amazon ECR will use the ROOT.
+        public let upstreamRepositoryPrefix: String?
 
         @inlinable
-        public init(credentialArn: String? = nil, ecrRepositoryPrefix: String, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String) {
+        public init(credentialArn: String? = nil, customRoleArn: String? = nil, ecrRepositoryPrefix: String, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String, upstreamRepositoryPrefix: String? = nil) {
             self.credentialArn = credentialArn
+            self.customRoleArn = customRoleArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
             self.upstreamRegistry = upstreamRegistry
             self.upstreamRegistryUrl = upstreamRegistryUrl
+            self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
         }
 
         public func validate(name: String) throws {
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, max: 612)
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, min: 50)
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\\-pullthroughcache\\/[a-zA-Z0-9\\/_+=.@-]+$")
+            try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, max: 30)
+            try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, min: 2)
+            try self.validate(self.upstreamRepositoryPrefix, name: "upstreamRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case credentialArn = "credentialArn"
+            case customRoleArn = "customRoleArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
             case upstreamRegistry = "upstreamRegistry"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
+            case upstreamRepositoryPrefix = "upstreamRepositoryPrefix"
         }
     }
 
@@ -558,6 +571,8 @@ extension ECR {
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
         public let credentialArn: String?
+        /// The ARN of the IAM role associated with the pull through cache rule.
+        public let customRoleArn: String?
         /// The Amazon ECR repository prefix associated with the pull through cache rule.
         public let ecrRepositoryPrefix: String?
         /// The registry ID associated with the request.
@@ -566,24 +581,30 @@ extension ECR {
         public let upstreamRegistry: UpstreamRegistry?
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
+        /// The upstream repository prefix associated with the pull through cache rule.
+        public let upstreamRepositoryPrefix: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String? = nil) {
+        public init(createdAt: Date? = nil, credentialArn: String? = nil, customRoleArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String? = nil, upstreamRepositoryPrefix: String? = nil) {
             self.createdAt = createdAt
             self.credentialArn = credentialArn
+            self.customRoleArn = customRoleArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
             self.upstreamRegistry = upstreamRegistry
             self.upstreamRegistryUrl = upstreamRegistryUrl
+            self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case credentialArn = "credentialArn"
+            case customRoleArn = "customRoleArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
             case upstreamRegistry = "upstreamRegistry"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
+            case upstreamRepositoryPrefix = "upstreamRepositoryPrefix"
         }
     }
 
@@ -858,7 +879,7 @@ extension ECR {
         public func validate(name: String) throws {
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
         }
 
@@ -873,28 +894,36 @@ extension ECR {
         public let createdAt: Date?
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
         public let credentialArn: String?
+        /// The ARN of the IAM role associated with the pull through cache rule.
+        public let customRoleArn: String?
         /// The Amazon ECR repository prefix associated with the request.
         public let ecrRepositoryPrefix: String?
         /// The registry ID associated with the request.
         public let registryId: String?
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
+        /// The upstream repository prefix associated with the pull through cache rule.
+        public let upstreamRepositoryPrefix: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
+        public init(createdAt: Date? = nil, credentialArn: String? = nil, customRoleArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil, upstreamRepositoryPrefix: String? = nil) {
             self.createdAt = createdAt
             self.credentialArn = credentialArn
+            self.customRoleArn = customRoleArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
             self.upstreamRegistryUrl = upstreamRegistryUrl
+            self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case credentialArn = "credentialArn"
+            case customRoleArn = "customRoleArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
+            case upstreamRepositoryPrefix = "upstreamRepositoryPrefix"
         }
     }
 
@@ -1272,7 +1301,7 @@ extension ECR {
             try self.ecrRepositoryPrefixes?.forEach {
                 try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, max: 30)
                 try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, min: 2)
-                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
             }
             try self.validate(self.ecrRepositoryPrefixes, name: "ecrRepositoryPrefixes", parent: name, max: 100)
             try self.validate(self.ecrRepositoryPrefixes, name: "ecrRepositoryPrefixes", parent: name, min: 1)
@@ -1962,7 +1991,7 @@ extension ECR {
         public let imageScanFindingsSummary: ImageScanFindingsSummary?
         /// The current state of the scan.
         public let imageScanStatus: ImageScanStatus?
-        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
+        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image sizes returned by DescribeImages.
         public let imageSizeInBytes: Int64?
         /// The list of tags associated with this image.
         public let imageTags: [String]?
@@ -2505,6 +2534,8 @@ extension ECR {
         public let createdAt: Date?
         /// The ARN of the Secrets Manager secret associated with the pull through cache rule.
         public let credentialArn: String?
+        /// The ARN of the IAM role associated with the pull through cache rule.
+        public let customRoleArn: String?
         /// The Amazon ECR repository prefix associated with the pull through cache rule.
         public let ecrRepositoryPrefix: String?
         /// The Amazon Web Services account ID associated with the registry the pull through cache rule is associated with.
@@ -2515,26 +2546,32 @@ extension ECR {
         public let upstreamRegistry: UpstreamRegistry?
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
+        /// The upstream repository prefix associated with the pull through cache rule.
+        public let upstreamRepositoryPrefix: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, updatedAt: Date? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String? = nil) {
+        public init(createdAt: Date? = nil, credentialArn: String? = nil, customRoleArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, updatedAt: Date? = nil, upstreamRegistry: UpstreamRegistry? = nil, upstreamRegistryUrl: String? = nil, upstreamRepositoryPrefix: String? = nil) {
             self.createdAt = createdAt
             self.credentialArn = credentialArn
+            self.customRoleArn = customRoleArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
             self.updatedAt = updatedAt
             self.upstreamRegistry = upstreamRegistry
             self.upstreamRegistryUrl = upstreamRegistryUrl
+            self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "createdAt"
             case credentialArn = "credentialArn"
+            case customRoleArn = "customRoleArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
             case updatedAt = "updatedAt"
             case upstreamRegistry = "upstreamRegistry"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
+            case upstreamRepositoryPrefix = "upstreamRepositoryPrefix"
         }
     }
 
@@ -3109,7 +3146,7 @@ extension ECR {
         public let lifecyclePolicy: String?
         /// The repository namespace prefix associated with the repository creation template.
         public let prefix: String?
-        /// he repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
+        /// The repository policy to apply to repositories created using the template. A repository policy is a permissions policy associated with a repository to control access permissions.
         public let repositoryPolicy: String?
         /// The metadata to apply to the repository to help you categorize and organize. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let resourceTags: [Tag]?
@@ -3531,15 +3568,18 @@ extension ECR {
 
     public struct UpdatePullThroughCacheRuleRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
-        public let credentialArn: String
+        public let credentialArn: String?
+        /// Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring.
+        public let customRoleArn: String?
         /// The repository name prefix to use when caching images from the source registry.
         public let ecrRepositoryPrefix: String
         /// The Amazon Web Services account ID associated with the registry associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
 
         @inlinable
-        public init(credentialArn: String, ecrRepositoryPrefix: String, registryId: String? = nil) {
+        public init(credentialArn: String? = nil, customRoleArn: String? = nil, ecrRepositoryPrefix: String, registryId: String? = nil) {
             self.credentialArn = credentialArn
+            self.customRoleArn = customRoleArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
         }
@@ -3548,14 +3588,16 @@ extension ECR {
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, max: 612)
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, min: 50)
             try self.validate(self.credentialArn, name: "credentialArn", parent: name, pattern: "^arn:aws:secretsmanager:[a-zA-Z0-9-:]+:secret:ecr\\-pullthroughcache\\/[a-zA-Z0-9\\/_+=.@-]+$")
+            try self.validate(self.customRoleArn, name: "customRoleArn", parent: name, max: 2048)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case credentialArn = "credentialArn"
+            case customRoleArn = "customRoleArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
         }
@@ -3564,26 +3606,34 @@ extension ECR {
     public struct UpdatePullThroughCacheRuleResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
         public let credentialArn: String?
+        /// The ARN of the IAM role associated with the pull through cache rule.
+        public let customRoleArn: String?
         /// The Amazon ECR repository prefix associated with the pull through cache rule.
         public let ecrRepositoryPrefix: String?
         /// The registry ID associated with the request.
         public let registryId: String?
         /// The date and time, in JavaScript date format, when the pull through cache rule was updated.
         public let updatedAt: Date?
+        /// The upstream repository prefix associated with the pull through cache rule.
+        public let upstreamRepositoryPrefix: String?
 
         @inlinable
-        public init(credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, updatedAt: Date? = nil) {
+        public init(credentialArn: String? = nil, customRoleArn: String? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, updatedAt: Date? = nil, upstreamRepositoryPrefix: String? = nil) {
             self.credentialArn = credentialArn
+            self.customRoleArn = customRoleArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.registryId = registryId
             self.updatedAt = updatedAt
+            self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
         }
 
         private enum CodingKeys: String, CodingKey {
             case credentialArn = "credentialArn"
+            case customRoleArn = "customRoleArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case registryId = "registryId"
             case updatedAt = "updatedAt"
+            case upstreamRepositoryPrefix = "upstreamRepositoryPrefix"
         }
     }
 
@@ -3747,7 +3797,7 @@ extension ECR {
         public func validate(name: String) throws {
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 30)
             try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
-            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*$")
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "^((?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*/?|ROOT)$")
             try self.validate(self.registryId, name: "registryId", parent: name, pattern: "^[0-9]{12}$")
         }
 
@@ -3760,6 +3810,8 @@ extension ECR {
     public struct ValidatePullThroughCacheRuleResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret associated with the pull through cache rule.
         public let credentialArn: String?
+        /// The ARN of the IAM role associated with the pull through cache rule.
+        public let customRoleArn: String?
         /// The Amazon ECR repository prefix associated with the pull through cache rule.
         public let ecrRepositoryPrefix: String?
         /// The reason the validation failed. For more details about possible causes and how to address them, see Using pull through cache rules in the Amazon Elastic Container Registry User Guide.
@@ -3770,24 +3822,30 @@ extension ECR {
         public let registryId: String?
         /// The upstream registry URL associated with the pull through cache rule.
         public let upstreamRegistryUrl: String?
+        /// The upstream repository prefix associated with the pull through cache rule.
+        public let upstreamRepositoryPrefix: String?
 
         @inlinable
-        public init(credentialArn: String? = nil, ecrRepositoryPrefix: String? = nil, failure: String? = nil, isValid: Bool? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
+        public init(credentialArn: String? = nil, customRoleArn: String? = nil, ecrRepositoryPrefix: String? = nil, failure: String? = nil, isValid: Bool? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil, upstreamRepositoryPrefix: String? = nil) {
             self.credentialArn = credentialArn
+            self.customRoleArn = customRoleArn
             self.ecrRepositoryPrefix = ecrRepositoryPrefix
             self.failure = failure
             self.isValid = isValid
             self.registryId = registryId
             self.upstreamRegistryUrl = upstreamRegistryUrl
+            self.upstreamRepositoryPrefix = upstreamRepositoryPrefix
         }
 
         private enum CodingKeys: String, CodingKey {
             case credentialArn = "credentialArn"
+            case customRoleArn = "customRoleArn"
             case ecrRepositoryPrefix = "ecrRepositoryPrefix"
             case failure = "failure"
             case isValid = "isValid"
             case registryId = "registryId"
             case upstreamRegistryUrl = "upstreamRegistryUrl"
+            case upstreamRepositoryPrefix = "upstreamRepositoryPrefix"
         }
     }
 

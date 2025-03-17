@@ -3447,17 +3447,21 @@ extension S3Control {
     public struct GetDataAccessResult: AWSDecodableShape {
         /// The temporary credential token that S3 Access Grants vends.
         public let credentials: Credentials?
+        /// The user, group, or role that was granted access to the S3 location scope. For directory identities, this API also returns the grants of the IAM role used for the identity-aware request. For more information on identity-aware sessions, see Granting permissions to use identity-aware console sessions.
+        public let grantee: Grantee?
         /// The S3 URI path of the data to which you are being granted temporary access credentials.
         public let matchedGrantTarget: String?
 
         @inlinable
-        public init(credentials: Credentials? = nil, matchedGrantTarget: String? = nil) {
+        public init(credentials: Credentials? = nil, grantee: Grantee? = nil, matchedGrantTarget: String? = nil) {
             self.credentials = credentials
+            self.grantee = grantee
             self.matchedGrantTarget = matchedGrantTarget
         }
 
         private enum CodingKeys: String, CodingKey {
             case credentials = "Credentials"
+            case grantee = "Grantee"
             case matchedGrantTarget = "MatchedGrantTarget"
         }
     }

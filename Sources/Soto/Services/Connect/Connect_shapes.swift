@@ -3637,7 +3637,7 @@ extension Connect {
         public let description: String?
         /// Information about the call disconnect experience.
         public let disconnectDetails: DisconnectDetails?
-        /// The timestamp when the customer endpoint disconnected from Amazon Connect.
+        /// The date and time that the customer endpoint disconnected from the current contact, in UTC time. In transfer scenarios, the DisconnectTimestamp of the previous contact indicates the date and time when that contact ended.
         public let disconnectTimestamp: Date?
         /// The identifier for the contact.
         public let id: String?
@@ -4698,9 +4698,11 @@ extension Connect {
         public let instanceId: String
         /// The name of a the contact.
         public let name: String?
+        /// The ID of the previous contact when creating a transfer contact. This value can be provided only for external audio contacts. For more information, see Integrate Amazon Connect Contact Lens with external voice systems in the Amazon Connect Administrator Guide.
+        public let previousContactId: String?
         /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP). Tasks can have the following reference types at the time of creation: URL | NUMBER | STRING | DATE | EMAIL | ATTACHMENT.
         public let references: [String: Reference]?
-        /// The identifier of the contact in this instance of Amazon Connect.
+        /// The unique identifier for an Amazon Connect contact. This identifier is related to the contact starting.
         public let relatedContactId: String?
         /// A set of system defined key-value pairs stored on individual contact segments (unique contact ID) using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in flows. Attribute keys can include only alphanumeric, -, and _. This field can be used to set Segment Contact Expiry as a duration in minutes.  To set contact expiry, a ValueMap must be specified containing the integer number of minutes the contact will be active for before expiring, with SegmentAttributes like {  "connect:ContactExpiry": {"ValueMap" : { "ExpiryDuration": { "ValueInteger": 135}}}}.
         public let segmentAttributes: [String: SegmentAttributeValue]?
@@ -4708,7 +4710,7 @@ extension Connect {
         public let userInfo: UserInfo?
 
         @inlinable
-        public init(attributes: [String: String]? = nil, channel: Channel, clientToken: String? = CreateContactRequest.idempotencyToken(), description: String? = nil, expiryDurationInMinutes: Int? = nil, initiateAs: InitiateAs? = nil, initiationMethod: ContactInitiationMethod, instanceId: String, name: String? = nil, references: [String: Reference]? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, userInfo: UserInfo? = nil) {
+        public init(attributes: [String: String]? = nil, channel: Channel, clientToken: String? = CreateContactRequest.idempotencyToken(), description: String? = nil, expiryDurationInMinutes: Int? = nil, initiateAs: InitiateAs? = nil, initiationMethod: ContactInitiationMethod, instanceId: String, name: String? = nil, previousContactId: String? = nil, references: [String: Reference]? = nil, relatedContactId: String? = nil, segmentAttributes: [String: SegmentAttributeValue]? = nil, userInfo: UserInfo? = nil) {
             self.attributes = attributes
             self.channel = channel
             self.clientToken = clientToken
@@ -4718,6 +4720,7 @@ extension Connect {
             self.initiationMethod = initiationMethod
             self.instanceId = instanceId
             self.name = name
+            self.previousContactId = previousContactId
             self.references = references
             self.relatedContactId = relatedContactId
             self.segmentAttributes = segmentAttributes
@@ -4735,6 +4738,8 @@ extension Connect {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.previousContactId, name: "previousContactId", parent: name, max: 256)
+            try self.validate(self.previousContactId, name: "previousContactId", parent: name, min: 1)
             try self.references?.forEach {
                 try validate($0.key, name: "references.key", parent: name, max: 4096)
                 try validate($0.key, name: "references.key", parent: name, min: 1)
@@ -4760,6 +4765,7 @@ extension Connect {
             case initiationMethod = "InitiationMethod"
             case instanceId = "InstanceId"
             case name = "Name"
+            case previousContactId = "PreviousContactId"
             case references = "References"
             case relatedContactId = "RelatedContactId"
             case segmentAttributes = "SegmentAttributes"
@@ -14602,7 +14608,7 @@ extension Connect {
     }
 
     public struct ListRealtimeContactAnalysisSegmentsV2Response: AWSDecodableShape {
-        /// The channel of the contact. Voice will not be returned.
+        /// The channel of the contact.   Only CHAT is supported. This API does not support VOICE. If you attempt to use it for the VOICE channel, an InvalidRequestException error occurs.
         public let channel: RealTimeContactAnalysisSupportedChannel
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?

@@ -51,6 +51,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum AllowFullTableExternalDataAccessEnum: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `false` = "False"
+        case `true` = "True"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthenticationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case basic = "BASIC"
         case custom = "CUSTOM"
@@ -3096,6 +3102,8 @@ extension Glue {
     }
 
     public struct Catalog: AWSDecodableShape {
+        ///  Allows third-party engines to access data in Amazon S3 locations that are registered with Lake Formation.
+        public let allowFullTableExternalDataAccess: AllowFullTableExternalDataAccessEnum?
         /// The ID of the catalog. To grant access to the default catalog, this field should not be provided.
         public let catalogId: String?
         /// A CatalogProperties object that specifies data lake access properties and other custom properties.
@@ -3122,7 +3130,8 @@ extension Glue {
         public let updateTime: Date?
 
         @inlinable
-        public init(catalogId: String? = nil, catalogProperties: CatalogPropertiesOutput? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, createTime: Date? = nil, description: String? = nil, federatedCatalog: FederatedCatalog? = nil, name: String, parameters: [String: String]? = nil, resourceArn: String? = nil, targetRedshiftCatalog: TargetRedshiftCatalog? = nil, updateTime: Date? = nil) {
+        public init(allowFullTableExternalDataAccess: AllowFullTableExternalDataAccessEnum? = nil, catalogId: String? = nil, catalogProperties: CatalogPropertiesOutput? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, createTime: Date? = nil, description: String? = nil, federatedCatalog: FederatedCatalog? = nil, name: String, parameters: [String: String]? = nil, resourceArn: String? = nil, targetRedshiftCatalog: TargetRedshiftCatalog? = nil, updateTime: Date? = nil) {
+            self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.catalogId = catalogId
             self.catalogProperties = catalogProperties
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
@@ -3138,6 +3147,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowFullTableExternalDataAccess = "AllowFullTableExternalDataAccess"
             case catalogId = "CatalogId"
             case catalogProperties = "CatalogProperties"
             case createDatabaseDefaultPermissions = "CreateDatabaseDefaultPermissions"
@@ -3289,6 +3299,8 @@ extension Glue {
     }
 
     public struct CatalogInput: AWSEncodableShape {
+        ///  Allows third-party engines to access data in Amazon S3 locations that are registered with Lake Formation.
+        public let allowFullTableExternalDataAccess: AllowFullTableExternalDataAccessEnum?
         /// A CatalogProperties object that specifies data lake access properties and other custom properties.
         public let catalogProperties: CatalogProperties?
         /// An array of PrincipalPermissions objects. Creates a set of default permissions on the database(s) for principals. Used by Amazon Web Services Lake Formation. Typically should be explicitly set as an empty list.
@@ -3305,7 +3317,8 @@ extension Glue {
         public let targetRedshiftCatalog: TargetRedshiftCatalog?
 
         @inlinable
-        public init(catalogProperties: CatalogProperties? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, description: String? = nil, federatedCatalog: FederatedCatalog? = nil, parameters: [String: String]? = nil, targetRedshiftCatalog: TargetRedshiftCatalog? = nil) {
+        public init(allowFullTableExternalDataAccess: AllowFullTableExternalDataAccessEnum? = nil, catalogProperties: CatalogProperties? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, description: String? = nil, federatedCatalog: FederatedCatalog? = nil, parameters: [String: String]? = nil, targetRedshiftCatalog: TargetRedshiftCatalog? = nil) {
+            self.allowFullTableExternalDataAccess = allowFullTableExternalDataAccess
             self.catalogProperties = catalogProperties
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
@@ -3335,6 +3348,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowFullTableExternalDataAccess = "AllowFullTableExternalDataAccess"
             case catalogProperties = "CatalogProperties"
             case createDatabaseDefaultPermissions = "CreateDatabaseDefaultPermissions"
             case createTableDefaultPermissions = "CreateTableDefaultPermissions"

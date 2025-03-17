@@ -25,7 +25,7 @@ import Foundation
 
 /// Service object for interacting with AWS CognitoIdentity service.
 ///
-/// Amazon Cognito Federated Identities Amazon Cognito Federated Identities is a web service that delivers scoped temporary credentials to mobile devices and other untrusted environments. It uniquely identifies a device and supplies the user with a consistent identity over the lifetime of an application. Using Amazon Cognito Federated Identities, you can enable authentication with one or more third-party identity providers (Facebook, Google, or Login with Amazon) or an Amazon Cognito user pool, and you can also choose to support unauthenticated access from your app. Cognito delivers a unique identifier for each user and acts as an OpenID token provider trusted by AWS Security Token Service (STS) to access temporary, limited-privilege AWS credentials. For a description of the authentication flow from the Amazon Cognito Developer Guide see Authentication Flow. For more information see Amazon Cognito Federated Identities.
+/// Amazon Cognito Federated Identities Amazon Cognito Federated Identities is a web service that delivers scoped temporary credentials to mobile devices and other untrusted environments. It uniquely identifies a device and supplies the user with a consistent identity over the lifetime of an application. Using Amazon Cognito Federated Identities, you can enable authentication with one or more third-party identity providers (Facebook, Google, or Login with Amazon) or an Amazon Cognito user pool, and you can also choose to support unauthenticated access from your app. Cognito delivers a unique identifier for each user and acts as an OpenID token provider trusted by Security Token Service (STS) to access temporary, limited-privilege Amazon Web Services credentials. For a description of the authentication flow from the Amazon Cognito Developer Guide see Authentication Flow. For more information see Amazon Cognito Federated Identities.
 public struct CognitoIdentity: AWSService {
     // MARK: Member variables
 
@@ -93,6 +93,7 @@ public struct CognitoIdentity: AWSService {
             "ap-southeast-2": "cognito-identity.ap-southeast-2.amazonaws.com",
             "ap-southeast-3": "cognito-identity.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "cognito-identity.ap-southeast-4.amazonaws.com",
+            "ap-southeast-5": "cognito-identity.ap-southeast-5.amazonaws.com",
             "ca-central-1": "cognito-identity.ca-central-1.amazonaws.com",
             "ca-west-1": "cognito-identity.ca-west-1.amazonaws.com",
             "cn-north-1": "cognito-identity.cn-north-1.amazonaws.com.cn",
@@ -110,6 +111,7 @@ public struct CognitoIdentity: AWSService {
             "sa-east-1": "cognito-identity.sa-east-1.amazonaws.com",
             "us-east-1": "cognito-identity.us-east-1.amazonaws.com",
             "us-east-2": "cognito-identity.us-east-2.amazonaws.com",
+            "us-gov-east-1": "cognito-identity.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "cognito-identity.us-gov-west-1.amazonaws.com",
             "us-west-1": "cognito-identity.us-west-1.amazonaws.com",
             "us-west-2": "cognito-identity.us-west-2.amazonaws.com"
@@ -132,9 +134,7 @@ public struct CognitoIdentity: AWSService {
 
     // MARK: API Calls
 
-    /// Creates a new identity pool. The identity pool is a store of user identity information that is specific to your AWS account. The keys for SupportedLoginProviders are as follows:
-    ///    Facebook: graph.facebook.com    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com
-    ///  You must use AWS Developer credentials to call this API.
+    /// Creates a new identity pool. The identity pool is a store of user identity information that is specific to your Amazon Web Services account. The keys for SupportedLoginProviders are as follows:   Facebook: graph.facebook.com    Google: accounts.google.com    Sign in With Apple: appleid.apple.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com     If you don't provide a value for a parameter, Amazon Cognito sets it to its default value.    You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func createIdentityPool(_ input: CreateIdentityPoolInput, logger: Logger = AWSClient.loggingDisabled) async throws -> IdentityPool {
@@ -147,9 +147,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Creates a new identity pool. The identity pool is a store of user identity information that is specific to your AWS account. The keys for SupportedLoginProviders are as follows:
-    ///    Facebook: graph.facebook.com    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com
-    ///  You must use AWS Developer credentials to call this API.
+    /// Creates a new identity pool. The identity pool is a store of user identity information that is specific to your Amazon Web Services account. The keys for SupportedLoginProviders are as follows:   Facebook: graph.facebook.com    Google: accounts.google.com    Sign in With Apple: appleid.apple.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com     If you don't provide a value for a parameter, Amazon Cognito sets it to its default value.    You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - allowClassicFlow: Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authentication Flow in the Amazon Cognito Developer Guide.
@@ -189,7 +187,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.createIdentityPool(input, logger: logger)
     }
 
-    /// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use AWS Developer credentials to call this API.
+    /// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func deleteIdentities(_ input: DeleteIdentitiesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteIdentitiesResponse {
@@ -202,7 +200,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use AWS Developer credentials to call this API.
+    /// Deletes identities from an identity pool. You can specify a list of 1-60 identities that you want to delete. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - identityIdsToDelete: A list of 1-60 identities that you want to delete.
@@ -218,7 +216,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.deleteIdentities(input, logger: logger)
     }
 
-    /// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use AWS Developer credentials to call this API.
+    /// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func deleteIdentityPool(_ input: DeleteIdentityPoolInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -231,7 +229,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use AWS Developer credentials to call this API.
+    /// Deletes an identity pool. Once a pool is deleted, users will not be able to authenticate with the pool. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - identityPoolId: An identity pool ID in the format REGION:GUID.
@@ -247,7 +245,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.deleteIdentityPool(input, logger: logger)
     }
 
-    /// Returns metadata related to the given identity, including when the identity was created and any associated linked logins. You must use AWS Developer credentials to call this API.
+    /// Returns metadata related to the given identity, including when the identity was created and any associated linked logins. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func describeIdentity(_ input: DescribeIdentityInput, logger: Logger = AWSClient.loggingDisabled) async throws -> IdentityDescription {
@@ -260,7 +258,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Returns metadata related to the given identity, including when the identity was created and any associated linked logins. You must use AWS Developer credentials to call this API.
+    /// Returns metadata related to the given identity, including when the identity was created and any associated linked logins. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - identityId: A unique identifier in the format REGION:GUID.
@@ -276,7 +274,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.describeIdentity(input, logger: logger)
     }
 
-    /// Gets details about a particular identity pool, including the pool name, ID description, creation date, and current number of users. You must use AWS Developer credentials to call this API.
+    /// Gets details about a particular identity pool, including the pool name, ID description, creation date, and current number of users. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func describeIdentityPool(_ input: DescribeIdentityPoolInput, logger: Logger = AWSClient.loggingDisabled) async throws -> IdentityPool {
@@ -289,7 +287,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Gets details about a particular identity pool, including the pool name, ID description, creation date, and current number of users. You must use AWS Developer credentials to call this API.
+    /// Gets details about a particular identity pool, including the pool name, ID description, creation date, and current number of users. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - identityPoolId: An identity pool ID in the format REGION:GUID.
@@ -305,7 +303,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.describeIdentityPool(input, logger: logger)
     }
 
-    /// Returns credentials for the provided identity ID. Any provided logins will be validated against supported login providers. If the token is for cognito-identity.amazonaws.com, it will be passed through to AWS Security Token Service with the appropriate role for the token. This is a public API. You do not need any credentials to call this API.
+    /// Returns credentials for the provided identity ID. Any provided logins will be validated against supported login providers. If the token is for cognito-identity.amazonaws.com, it will be passed through to Security Token Service with the appropriate role for the token. This is a public API. You do not need any credentials to call this API.
     @Sendable
     @inlinable
     public func getCredentialsForIdentity(_ input: GetCredentialsForIdentityInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetCredentialsForIdentityResponse {
@@ -318,7 +316,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Returns credentials for the provided identity ID. Any provided logins will be validated against supported login providers. If the token is for cognito-identity.amazonaws.com, it will be passed through to AWS Security Token Service with the appropriate role for the token. This is a public API. You do not need any credentials to call this API.
+    /// Returns credentials for the provided identity ID. Any provided logins will be validated against supported login providers. If the token is for cognito-identity.amazonaws.com, it will be passed through to Security Token Service with the appropriate role for the token. This is a public API. You do not need any credentials to call this API.
     ///
     /// Parameters:
     ///   - customRoleArn: The Amazon Resource Name (ARN) of the role to be assumed when multiple roles were received in the token from the identity provider. For example, a SAML-based identity provider. This parameter is optional for identity providers that do not support role customization.
@@ -340,7 +338,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.getCredentialsForIdentity(input, logger: logger)
     }
 
-    /// Generates (or retrieves) a Cognito ID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API.
+    /// Generates (or retrieves) IdentityID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API.
     @Sendable
     @inlinable
     public func getId(_ input: GetIdInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdResponse {
@@ -353,10 +351,10 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Generates (or retrieves) a Cognito ID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API.
+    /// Generates (or retrieves) IdentityID. Supplying multiple logins will create an implicit linked account. This is a public API. You do not need any credentials to call this API.
     ///
     /// Parameters:
-    ///   - accountId: A standard AWS account ID (9+ digits).
+    ///   - accountId: A standard Amazon Web Services account ID (9+ digits).
     ///   - identityPoolId: An identity pool ID in the format REGION:GUID.
     ///   - logins: A set of optional name-value pairs that map provider names to provider tokens. The available provider names for Logins are as follows:   Facebook: graph.facebook.com    Amazon Cognito user pool: cognito-idp..amazonaws.com/, for example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.    Google: accounts.google.com    Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com
     ///   - logger: Logger use during operation
@@ -375,7 +373,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.getId(input, logger: logger)
     }
 
-    /// Gets the roles for an identity pool. You must use AWS Developer credentials to call this API.
+    /// Gets the roles for an identity pool. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func getIdentityPoolRoles(_ input: GetIdentityPoolRolesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetIdentityPoolRolesResponse {
@@ -388,7 +386,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Gets the roles for an identity pool. You must use AWS Developer credentials to call this API.
+    /// Gets the roles for an identity pool. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - identityPoolId: An identity pool ID in the format REGION:GUID.
@@ -436,7 +434,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.getOpenIdToken(input, logger: logger)
     }
 
-    /// Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a user authenticated by your backend authentication process. Supplying multiple logins will create an implicit linked account. You can only specify one developer provider as part of the Logins map, which is linked to the identity pool. The developer provider is the "domain" by which Cognito will refer to your users. You can use GetOpenIdTokenForDeveloperIdentity to create a new identity and to link new logins (that is, user credentials issued by a public provider or developer provider) to an existing identity. When you want to create a new identity, the IdentityId should be null. When you want to associate a new login with an existing authenticated/unauthenticated identity, you can do so by providing the existing IdentityId. This API will create the identity in the specified IdentityPoolId. You must use AWS Developer credentials to call this API.
+    /// Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a user authenticated by your backend authentication process. Supplying multiple logins will create an implicit linked account. You can only specify one developer provider as part of the Logins map, which is linked to the identity pool. The developer provider is the "domain" by which Cognito will refer to your users. You can use GetOpenIdTokenForDeveloperIdentity to create a new identity and to link new logins (that is, user credentials issued by a public provider or developer provider) to an existing identity. When you want to create a new identity, the IdentityId should be null. When you want to associate a new login with an existing authenticated/unauthenticated identity, you can do so by providing the existing IdentityId. This API will create the identity in the specified IdentityPoolId. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func getOpenIdTokenForDeveloperIdentity(_ input: GetOpenIdTokenForDeveloperIdentityInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetOpenIdTokenForDeveloperIdentityResponse {
@@ -449,14 +447,14 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a user authenticated by your backend authentication process. Supplying multiple logins will create an implicit linked account. You can only specify one developer provider as part of the Logins map, which is linked to the identity pool. The developer provider is the "domain" by which Cognito will refer to your users. You can use GetOpenIdTokenForDeveloperIdentity to create a new identity and to link new logins (that is, user credentials issued by a public provider or developer provider) to an existing identity. When you want to create a new identity, the IdentityId should be null. When you want to associate a new login with an existing authenticated/unauthenticated identity, you can do so by providing the existing IdentityId. This API will create the identity in the specified IdentityPoolId. You must use AWS Developer credentials to call this API.
+    /// Registers (or retrieves) a Cognito IdentityId and an OpenID Connect token for a user authenticated by your backend authentication process. Supplying multiple logins will create an implicit linked account. You can only specify one developer provider as part of the Logins map, which is linked to the identity pool. The developer provider is the "domain" by which Cognito will refer to your users. You can use GetOpenIdTokenForDeveloperIdentity to create a new identity and to link new logins (that is, user credentials issued by a public provider or developer provider) to an existing identity. When you want to create a new identity, the IdentityId should be null. When you want to associate a new login with an existing authenticated/unauthenticated identity, you can do so by providing the existing IdentityId. This API will create the identity in the specified IdentityPoolId. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - identityId: A unique identifier in the format REGION:GUID.
     ///   - identityPoolId: An identity pool ID in the format REGION:GUID.
     ///   - logins: A set of optional name-value pairs that map provider names to provider tokens. Each name-value pair represents a user from a public provider or developer provider. If the user is from a developer provider, the name-value pair will follow the syntax "developer_provider_name": "developer_user_identifier". The developer provider is the "domain" by which Cognito will refer to your users; you provided this domain while creating/updating the identity pool. The developer user identifier is an identifier from your backend that uniquely identifies a user. When you create an identity pool, you can specify the supported logins.
     ///   - principalTags: Use this operation to configure attribute mappings for custom providers.
-    ///   - tokenDuration: The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary AWS credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your AWS resources for the token's duration.  Please provide for a small grace period, usually no more than 5 minutes, to account for clock skew.
+    ///   - tokenDuration: The expiration time of the token, in seconds. You can specify a custom expiration time for the token so that you can cache it. If you don't provide an expiration time, the token is valid for 15 minutes. You can exchange the token with Amazon STS for temporary Amazon Web Services credentials, which are valid for a maximum of one hour. The maximum token duration you can set is 24 hours. You should take care in setting the expiration time for a token, as there are significant security implications: an attacker could use a leaked token to access your Amazon Web Services resources for the token's duration.  Please provide for a small grace period, usually no more than 5 minutes, to account for clock skew.
     ///   - logger: Logger use during operation
     @inlinable
     public func getOpenIdTokenForDeveloperIdentity(
@@ -509,7 +507,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.getPrincipalTagAttributeMap(input, logger: logger)
     }
 
-    /// Lists the identities in an identity pool. You must use AWS Developer credentials to call this API.
+    /// Lists the identities in an identity pool. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func listIdentities(_ input: ListIdentitiesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentitiesResponse {
@@ -522,7 +520,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Lists the identities in an identity pool. You must use AWS Developer credentials to call this API.
+    /// Lists the identities in an identity pool. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - hideDisabled: An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
@@ -547,7 +545,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.listIdentities(input, logger: logger)
     }
 
-    /// Lists all of the Cognito identity pools registered for your account. You must use AWS Developer credentials to call this API.
+    /// Lists all of the Cognito identity pools registered for your account. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func listIdentityPools(_ input: ListIdentityPoolsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListIdentityPoolsResponse {
@@ -560,7 +558,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Lists all of the Cognito identity pools registered for your account. You must use AWS Developer credentials to call this API.
+    /// Lists all of the Cognito identity pools registered for your account. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of identities to return.
@@ -608,7 +606,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID. If the values are verified against the database, the response returns both values and is the same as the request. Otherwise a ResourceConflictException is thrown.  LookupDeveloperIdentity is intended for low-throughput control plane operations: for example, to enable customer service to locate an identity ID by username. If you are using it for higher-volume operations such as user authentication, your requests are likely to be throttled. GetOpenIdTokenForDeveloperIdentity is a better option for higher-volume operations for user authentication. You must use AWS Developer credentials to call this API.
+    /// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID. If the values are verified against the database, the response returns both values and is the same as the request. Otherwise, a ResourceConflictException is thrown.  LookupDeveloperIdentity is intended for low-throughput control plane operations: for example, to enable customer service to locate an identity ID by username. If you are using it for higher-volume operations such as user authentication, your requests are likely to be throttled. GetOpenIdTokenForDeveloperIdentity is a better option for higher-volume operations for user authentication. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func lookupDeveloperIdentity(_ input: LookupDeveloperIdentityInput, logger: Logger = AWSClient.loggingDisabled) async throws -> LookupDeveloperIdentityResponse {
@@ -621,7 +619,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID. If the values are verified against the database, the response returns both values and is the same as the request. Otherwise a ResourceConflictException is thrown.  LookupDeveloperIdentity is intended for low-throughput control plane operations: for example, to enable customer service to locate an identity ID by username. If you are using it for higher-volume operations such as user authentication, your requests are likely to be throttled. GetOpenIdTokenForDeveloperIdentity is a better option for higher-volume operations for user authentication. You must use AWS Developer credentials to call this API.
+    /// Retrieves the IdentityID associated with a DeveloperUserIdentifier or the list of DeveloperUserIdentifier values associated with an IdentityId for an existing identity. Either IdentityID or DeveloperUserIdentifier must not be null. If you supply only one of these values, the other value will be searched in the database and returned as a part of the response. If you supply both, DeveloperUserIdentifier will be matched against IdentityID. If the values are verified against the database, the response returns both values and is the same as the request. Otherwise, a ResourceConflictException is thrown.  LookupDeveloperIdentity is intended for low-throughput control plane operations: for example, to enable customer service to locate an identity ID by username. If you are using it for higher-volume operations such as user authentication, your requests are likely to be throttled. GetOpenIdTokenForDeveloperIdentity is a better option for higher-volume operations for user authentication. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - developerUserIdentifier: A unique ID used by your backend authentication process to identify a user. Typically, a developer identity provider would issue many developer user identifiers, in keeping with the number of users.
@@ -649,7 +647,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.lookupDeveloperIdentity(input, logger: logger)
     }
 
-    /// Merges two users having different IdentityIds, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier) with the IdentityId of the DestinationUserIdentifier. Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown. The number of linked logins is limited to 20. So, the number of linked logins for the source user, SourceUserIdentifier, and the destination user, DestinationUserIdentifier, together should not be larger than 20. Otherwise, an exception will be thrown. You must use AWS Developer credentials to call this API.
+    /// Merges two users having different IdentityIds, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier) with the IdentityId of the DestinationUserIdentifier. Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown. The number of linked logins is limited to 20. So, the number of linked logins for the source user, SourceUserIdentifier, and the destination user, DestinationUserIdentifier, together should not be larger than 20. Otherwise, an exception will be thrown. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func mergeDeveloperIdentities(_ input: MergeDeveloperIdentitiesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> MergeDeveloperIdentitiesResponse {
@@ -662,7 +660,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Merges two users having different IdentityIds, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier) with the IdentityId of the DestinationUserIdentifier. Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown. The number of linked logins is limited to 20. So, the number of linked logins for the source user, SourceUserIdentifier, and the destination user, DestinationUserIdentifier, together should not be larger than 20. Otherwise, an exception will be thrown. You must use AWS Developer credentials to call this API.
+    /// Merges two users having different IdentityIds, existing in the same identity pool, and identified by the same developer provider. You can use this action to request that discrete users be merged and identified as a single user in the Cognito environment. Cognito associates the given source user (SourceUserIdentifier) with the IdentityId of the DestinationUserIdentifier. Only developer-authenticated users can be merged. If the users to be merged are associated with the same public provider, but as two different users, an exception will be thrown. The number of linked logins is limited to 20. So, the number of linked logins for the source user, SourceUserIdentifier, and the destination user, DestinationUserIdentifier, together should not be larger than 20. Otherwise, an exception will be thrown. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - destinationUserIdentifier: User identifier for the destination user. The value should be a DeveloperUserIdentifier.
@@ -687,7 +685,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.mergeDeveloperIdentities(input, logger: logger)
     }
 
-    /// Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use AWS Developer credentials to call this API.
+    /// Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func setIdentityPoolRoles(_ input: SetIdentityPoolRolesInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -700,11 +698,11 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use AWS Developer credentials to call this API.
+    /// Sets the roles for an identity pool. These roles are used when making calls to GetCredentialsForIdentity action. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - identityPoolId: An identity pool ID in the format REGION:GUID.
-    ///   - roleMappings: How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, "graph.facebook.com" or "cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id". Up to 25 rules can be specified per identity provider.
+    ///   - roleMappings: How users for a specific identity provider are to mapped to roles. This is a string to RoleMapping object map. The string identifies the identity provider, for example, graph.facebook.com or cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id. Up to 25 rules can be specified per identity provider.
     ///   - roles: The map of roles associated with this pool. For a given role, the key will be either "authenticated" or "unauthenticated" and the value will be the Role ARN.
     ///   - logger: Logger use during operation
     @inlinable
@@ -792,7 +790,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use AWS Developer credentials to call this API.
+    /// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func unlinkDeveloperIdentity(_ input: UnlinkDeveloperIdentityInput, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -805,7 +803,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use AWS Developer credentials to call this API.
+    /// Unlinks a DeveloperUserIdentifier from an existing identity. Unlinked developer users will be considered new identities next time they are seen. If, for a given Cognito identity, you remove all federated identities as well as the developer user identifier, the Cognito identity becomes inaccessible. You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - developerProviderName: The "domain" by which Cognito will refer to your users.
@@ -897,7 +895,7 @@ public struct CognitoIdentity: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates an identity pool. You must use AWS Developer credentials to call this API.
+    /// Updates the configuration of an identity pool.  If you don't provide a value for a parameter, Amazon Cognito sets it to its default value.    You must use Amazon Web Services developer credentials to call this operation.
     @Sendable
     @inlinable
     public func updateIdentityPool(_ input: IdentityPool, logger: Logger = AWSClient.loggingDisabled) async throws -> IdentityPool {
@@ -910,7 +908,7 @@ public struct CognitoIdentity: AWSService {
             logger: logger
         )
     }
-    /// Updates an identity pool. You must use AWS Developer credentials to call this API.
+    /// Updates the configuration of an identity pool.  If you don't provide a value for a parameter, Amazon Cognito sets it to its default value.    You must use Amazon Web Services developer credentials to call this operation.
     ///
     /// Parameters:
     ///   - allowClassicFlow: Enables or disables the Basic (Classic) authentication flow. For more information, see Identity Pools (Federated Identities) Authentication Flow in the Amazon Cognito Developer Guide.

@@ -350,10 +350,10 @@ extension CloudFront {
         /// A domain name associated with a distribution.
         public let cname: String?
         /// The Internet Content Provider (ICP) recordal status for a CNAME. The ICPRecordalStatus
-        /// 			is set to APPROVED for all CNAMEs (aliases) in regions outside of China. The status values returned are the following:    APPROVED indicates that the associated CNAME
+        /// 			is set to APPROVED for all CNAMEs (aliases) in Amazon Web Services Regions outside of China. The status values returned are the following:    APPROVED indicates that the associated CNAME
         /// 					has a valid ICP recordal number. Multiple CNAMEs can be associated with a
         /// 					distribution, and CNAMEs can correspond to different ICP recordals. To be marked
-        /// 					as APPROVED, that is, valid to use with China region, a CNAME must have one ICP
+        /// 					as APPROVED, that is, valid to use with the China Regions, a CNAME must have one ICP
         /// 					recordal number associated with it.    SUSPENDED indicates that the associated CNAME
         /// 					does not have a valid ICP recordal number.    PENDING indicates that CloudFront can't determine
         /// 					the ICP recordal status of the CNAME associated with the distribution because
@@ -2115,8 +2115,8 @@ extension CloudFront {
         public static let _xmlRootNodeName: String? = "MonitoringSubscription"
         /// The ID of the distribution that you are enabling metrics for.
         public let distributionId: String
-        /// A monitoring subscription. This structure contains information about whether
-        /// 			additional CloudWatch metrics are enabled for a given CloudFront distribution.
+        /// A monitoring subscription. This structure contains information about whether additional CloudWatch
+        /// 			metrics are enabled for a given CloudFront distribution.
         public let monitoringSubscription: MonitoringSubscription
 
         @inlinable
@@ -11609,7 +11609,7 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var trustedKeyGroupDoesNotExist: Self { .init(.trustedKeyGroupDoesNotExist) }
     /// One or more of your trusted signers don't exist.
     public static var trustedSignerDoesNotExist: Self { .init(.trustedSignerDoesNotExist) }
-    /// This operation is not supported in this region.
+    /// This operation is not supported in this Amazon Web Services Region.
     public static var unsupportedOperation: Self { .init(.unsupportedOperation) }
 }
 

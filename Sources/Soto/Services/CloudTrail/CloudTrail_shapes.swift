@@ -682,7 +682,7 @@ extension CloudTrail {
         public let s3BucketName: String
         /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
         public let s3KeyPrefix: String?
-        /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+        /// Specifies the name or ARN of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
         public let snsTopicName: String?
         public let tagsList: [Tag]?
 
@@ -4211,7 +4211,7 @@ extension CloudTrail {
         public let s3BucketName: String?
         /// Specifies the Amazon S3 key prefix that comes after the name of the bucket you have designated for log file delivery. For more information, see Finding Your CloudTrail Log Files. The maximum length is 200 characters.
         public let s3KeyPrefix: String?
-        /// Specifies the name of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
+        /// Specifies the name or ARN of the Amazon SNS topic defined for notification of log file delivery. The maximum length is 256 characters.
         public let snsTopicName: String?
 
         @inlinable

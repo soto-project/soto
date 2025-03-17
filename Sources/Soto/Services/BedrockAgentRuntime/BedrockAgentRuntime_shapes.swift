@@ -29,6 +29,9 @@ extension BedrockAgentRuntime {
     public enum ActionGroupSignature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonCodeinterpreter = "AMAZON.CodeInterpreter"
         case amazonUserinput = "AMAZON.UserInput"
+        case anthropicBash = "ANTHROPIC.Bash"
+        case anthropicComputer = "ANTHROPIC.Computer"
+        case anthropicTexteditor = "ANTHROPIC.TextEditor"
         public var description: String { return self.rawValue }
     }
 
@@ -36,6 +39,13 @@ extension BedrockAgentRuntime {
         case result = "RESULT"
         case userConfirmation = "USER_CONFIRMATION"
         case userConfirmationAndResult = "USER_CONFIRMATION_AND_RESULT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AgentCollaboration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case supervisor = "SUPERVISOR"
+        case supervisorRouter = "SUPERVISOR_ROUTER"
         public var description: String { return self.rawValue }
     }
 
@@ -209,6 +219,14 @@ extension BedrockAgentRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImageInputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case gif = "gif"
+        case jpeg = "jpeg"
+        case png = "png"
+        case webp = "webp"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InputQueryType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case text = "TEXT"
         public var description: String { return self.rawValue }
@@ -282,6 +300,12 @@ extension BedrockAgentRuntime {
 
     public enum QueryTransformationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case queryDecomposition = "QUERY_DECOMPOSITION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RelayConversationHistory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case toCollaborator = "TO_COLLABORATOR"
         public var description: String { return self.rawValue }
     }
 
@@ -1227,7 +1251,7 @@ extension BedrockAgentRuntime {
         case lessThanOrEquals(FilterAttribute)
         /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value is a list that contains the value as one of its members. The following example would return data sources with an animals attribute that is a list containing a cat member (for example ["dog", "cat"]).  "listContains": { "key": "animals", "value": "cat" }
         case listContains(FilterAttribute)
-        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value doesn't match the value in this object are returned. The following example would return data sources that don't contain an animal attribute whose value is cat.  "notEquals": { "key": "animal", "value": "cat" }
+        /// Knowledge base data sources are returned when:   It contains a metadata attribute whose name matches the key and whose value doesn't match the value in this object.   The key is not present in the document.   The following example would return data sources that don't contain an animal attribute whose value is cat.  "notEquals": { "key": "animal", "value": "cat" }
         case notEquals(FilterAttribute)
         /// Knowledge base data sources are returned if they contain a metadata attribute whose name matches the key and whose value isn't in the list specified in the value in this object. The following example would return data sources whose animal attribute is neither cat nor dog.  "notIn": { "key": "animal", "value": ["cat", "dog"] }
         case notIn(FilterAttribute)
@@ -1601,17 +1625,20 @@ extension BedrockAgentRuntime {
         public let description: String?
         ///  Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
         public let functionSchema: FunctionSchema?
-        ///  To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.  You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group.  To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter. You must  leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+        /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only.           When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity.  For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
         public let parentActionGroupSignature: ActionGroupSignature?
+        ///  The configuration settings for a computer use action.               Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
+        public let parentActionGroupSignatureParams: [String: String]?
 
         @inlinable
-        public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupName: String, apiSchema: APISchema? = nil, description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil) {
+        public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupName: String, apiSchema: APISchema? = nil, description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil, parentActionGroupSignatureParams: [String: String]? = nil) {
             self.actionGroupExecutor = actionGroupExecutor
             self.actionGroupName = actionGroupName
             self.apiSchema = apiSchema
             self.description = description
             self.functionSchema = functionSchema
             self.parentActionGroupSignature = parentActionGroupSignature
+            self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
         }
 
         public func validate(name: String) throws {
@@ -1630,6 +1657,7 @@ extension BedrockAgentRuntime {
             case description = "description"
             case functionSchema = "functionSchema"
             case parentActionGroupSignature = "parentActionGroupSignature"
+            case parentActionGroupSignatureParams = "parentActionGroupSignatureParams"
         }
     }
 
@@ -2095,6 +2123,118 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct Collaborator: AWSEncodableShape {
+        ///  List of action groups with each action group defining tasks the inline collaborator agent needs to carry out.
+        public let actionGroups: [AgentActionGroup]?
+        ///  Defines how the inline supervisor agent handles information across multiple collaborator agents to coordinate a final response.
+        public let agentCollaboration: AgentCollaboration?
+        ///  Name of the inline collaborator agent which must be the same name as specified for collaboratorName.
+        public let agentName: String?
+        ///  Settings of the collaborator agent.
+        public let collaboratorConfigurations: [CollaboratorConfiguration]?
+        ///  The Amazon Resource Name (ARN) of the AWS KMS key that encrypts the inline collaborator.
+        public let customerEncryptionKeyArn: String?
+        ///  The foundation model used by the inline collaborator agent.
+        public let foundationModel: String
+        ///  Details of the guardwrail associated with the inline collaborator.
+        public let guardrailConfiguration: GuardrailConfigurationWithArn?
+        ///  The number of seconds for which the Amazon Bedrock keeps information about the user's conversation with the inline collaborator agent. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Bedrock deletes any data provided before the timeout.
+        public let idleSessionTTLInSeconds: Int?
+        ///  Instruction that tell the inline collaborator agent what it should do and how it should interact with users.
+        public let instruction: String
+        ///  Knowledge base associated with the inline collaborator agent.
+        public let knowledgeBases: [KnowledgeBase]?
+        ///  Contains configurations to override prompt templates in different parts of an inline collaborator sequence. For more information, see Advanced prompts.
+        public let promptOverrideConfiguration: PromptOverrideConfiguration?
+
+        @inlinable
+        public init(actionGroups: [AgentActionGroup]? = nil, agentCollaboration: AgentCollaboration? = nil, agentName: String? = nil, collaboratorConfigurations: [CollaboratorConfiguration]? = nil, customerEncryptionKeyArn: String? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil) {
+            self.actionGroups = actionGroups
+            self.agentCollaboration = agentCollaboration
+            self.agentName = agentName
+            self.collaboratorConfigurations = collaboratorConfigurations
+            self.customerEncryptionKeyArn = customerEncryptionKeyArn
+            self.foundationModel = foundationModel
+            self.guardrailConfiguration = guardrailConfiguration
+            self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
+            self.instruction = instruction
+            self.knowledgeBases = knowledgeBases
+            self.promptOverrideConfiguration = promptOverrideConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.actionGroups?.forEach {
+                try $0.validate(name: "\(name).actionGroups[]")
+            }
+            try self.validate(self.agentName, name: "agentName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+            try self.collaboratorConfigurations?.forEach {
+                try $0.validate(name: "\(name).collaboratorConfigurations[]")
+            }
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
+            try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):kms:[a-zA-Z0-9-]*:[0-9]{12}:key/[a-zA-Z0-9-]{36}$")
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+))$|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)$")
+            try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
+            try self.validate(self.instruction, name: "instruction", parent: name, min: 40)
+            try self.knowledgeBases?.forEach {
+                try $0.validate(name: "\(name).knowledgeBases[]")
+            }
+            try self.promptOverrideConfiguration?.validate(name: "\(name).promptOverrideConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionGroups = "actionGroups"
+            case agentCollaboration = "agentCollaboration"
+            case agentName = "agentName"
+            case collaboratorConfigurations = "collaboratorConfigurations"
+            case customerEncryptionKeyArn = "customerEncryptionKeyArn"
+            case foundationModel = "foundationModel"
+            case guardrailConfiguration = "guardrailConfiguration"
+            case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
+            case instruction = "instruction"
+            case knowledgeBases = "knowledgeBases"
+            case promptOverrideConfiguration = "promptOverrideConfiguration"
+        }
+    }
+
+    public struct CollaboratorConfiguration: AWSEncodableShape {
+        ///  The Amazon Resource Name (ARN) of the inline collaborator agent.
+        public let agentAliasArn: String?
+        ///  Instructions that tell the inline collaborator agent what it should do and how it should interact with users.
+        public let collaboratorInstruction: String
+        ///  Name of the inline collaborator agent which must be the same name as specified for agentName.
+        public let collaboratorName: String
+        ///  A relay conversation history for the inline collaborator agent.
+        public let relayConversationHistory: RelayConversationHistory?
+
+        @inlinable
+        public init(agentAliasArn: String? = nil, collaboratorInstruction: String, collaboratorName: String, relayConversationHistory: RelayConversationHistory? = nil) {
+            self.agentAliasArn = agentAliasArn
+            self.collaboratorInstruction = collaboratorInstruction
+            self.collaboratorName = collaboratorName
+            self.relayConversationHistory = relayConversationHistory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.agentAliasArn, name: "agentAliasArn", parent: name, max: 2048)
+            try self.validate(self.agentAliasArn, name: "agentAliasArn", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:agent-alias/[0-9a-zA-Z]{10}/[0-9a-zA-Z]{10}$")
+            try self.validate(self.collaboratorInstruction, name: "collaboratorInstruction", parent: name, max: 4000)
+            try self.validate(self.collaboratorInstruction, name: "collaboratorInstruction", parent: name, min: 1)
+            try self.validate(self.collaboratorName, name: "collaboratorName", parent: name, pattern: "^([0-9a-zA-Z][_-]?){1,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentAliasArn = "agentAliasArn"
+            case collaboratorInstruction = "collaboratorInstruction"
+            case collaboratorName = "collaboratorName"
+            case relayConversationHistory = "relayConversationHistory"
+        }
+    }
+
     public struct ConflictException: AWSDecodableShape {
         public let message: String?
 
@@ -2111,14 +2251,18 @@ extension BedrockAgentRuntime {
     public struct ContentBody: AWSEncodableShape & AWSDecodableShape {
         /// The body of the API response.
         public let body: String?
+        /// Lists details, including format and source, for the image in the response from the function call. You can specify only one image and the function in the returnControlInvocationResults  must be a computer use action. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
+        public let images: [ImageInput]?
 
         @inlinable
-        public init(body: String? = nil) {
+        public init(body: String? = nil, images: [ImageInput]? = nil) {
             self.body = body
+            self.images = images
         }
 
         private enum CodingKeys: String, CodingKey {
             case body = "body"
+            case images = "images"
         }
     }
 
@@ -2965,7 +3109,7 @@ extension BedrockAgentRuntime {
         public let confirmationState: ConfirmationState?
         /// The name of the function that was called.
         public let function: String?
-        /// The response from the function call using the parameters. The key of the object is the content type (currently, only TEXT is supported). The response may be returned directly or from the Lambda function.
+        /// The response from the function call using the parameters. The response might be returned directly or from the Lambda function.  Specify TEXT or IMAGES. The key of the object is the content type. You can only specify one type. If you specify IMAGES, you can specify only one image. You can specify images only when the function in the returnControlInvocationResults  is a computer use action. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
         public let responseBody: [String: ContentBody]?
         /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
         public let responseState: ResponseState?
@@ -3606,6 +3750,24 @@ extension BedrockAgentRuntime {
         }
     }
 
+    public struct ImageInput: AWSEncodableShape & AWSDecodableShape {
+        /// The type of image in the result.
+        public let format: ImageInputFormat
+        /// The source of the image in the result.
+        public let source: ImageInputSource
+
+        @inlinable
+        public init(format: ImageInputFormat, source: ImageInputSource) {
+            self.format = format
+            self.source = source
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "format"
+            case source = "source"
+        }
+    }
+
     public struct ImplicitFilterConfiguration: AWSEncodableShape {
         /// Metadata that can be used in a filter.
         public let metadataAttributes: [MetadataAttributeSchema]
@@ -3775,6 +3937,8 @@ extension BedrockAgentRuntime {
     }
 
     public struct InlineSessionState: AWSEncodableShape {
+        ///  Contains the conversation history that persist across sessions.
+        public let conversationHistory: ConversationHistory?
         ///  Contains information about the files used by code interpreter.
         public let files: [InputFile]?
         ///  The identifier of the invocation of an action. This value must match the invocationId returned in the InvokeInlineAgent response for the action  whose results are provided in the returnControlInvocationResults field. For more information, see Return control to the agent developer.
@@ -3787,7 +3951,8 @@ extension BedrockAgentRuntime {
         public let sessionAttributes: [String: String]?
 
         @inlinable
-        public init(files: [InputFile]? = nil, invocationId: String? = nil, promptSessionAttributes: [String: String]? = nil, returnControlInvocationResults: [InvocationResultMember]? = nil, sessionAttributes: [String: String]? = nil) {
+        public init(conversationHistory: ConversationHistory? = nil, files: [InputFile]? = nil, invocationId: String? = nil, promptSessionAttributes: [String: String]? = nil, returnControlInvocationResults: [InvocationResultMember]? = nil, sessionAttributes: [String: String]? = nil) {
+            self.conversationHistory = conversationHistory
             self.files = files
             self.invocationId = invocationId
             self.promptSessionAttributes = promptSessionAttributes
@@ -3804,6 +3969,7 @@ extension BedrockAgentRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case conversationHistory = "conversationHistory"
             case files = "files"
             case invocationId = "invocationId"
             case promptSessionAttributes = "promptSessionAttributes"
@@ -4168,8 +4334,14 @@ extension BedrockAgentRuntime {
     public struct InvokeInlineAgentRequest: AWSEncodableShape {
         ///  A list of action groups with each action group defining the action the inline agent needs to carry out.
         public let actionGroups: [AgentActionGroup]?
+        ///  Defines how the inline collaborator agent handles information across multiple collaborator agents to coordinate a final response. The inline collaborator agent can also be the supervisor.
+        public let agentCollaboration: AgentCollaboration?
         /// Model settings for the request.
         public let bedrockModelConfigurations: InlineBedrockModelConfigurations?
+        ///  Settings for an inline agent collaborator called with InvokeInlineAgent.
+        public let collaboratorConfigurations: [CollaboratorConfiguration]?
+        ///  List of collaborator inline agents.
+        public let collaborators: [Collaborator]?
         ///  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
         public let customerEncryptionKeyArn: String?
         ///  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
@@ -4198,9 +4370,12 @@ extension BedrockAgentRuntime {
         public let streamingConfigurations: StreamingConfigurations?
 
         @inlinable
-        public init(actionGroups: [AgentActionGroup]? = nil, bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil, customerEncryptionKeyArn: String? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, inlineSessionState: InlineSessionState? = nil, inputText: String? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, sessionId: String, streamingConfigurations: StreamingConfigurations? = nil) {
+        public init(actionGroups: [AgentActionGroup]? = nil, agentCollaboration: AgentCollaboration? = nil, bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil, collaboratorConfigurations: [CollaboratorConfiguration]? = nil, collaborators: [Collaborator]? = nil, customerEncryptionKeyArn: String? = nil, enableTrace: Bool? = nil, endSession: Bool? = nil, foundationModel: String, guardrailConfiguration: GuardrailConfigurationWithArn? = nil, idleSessionTTLInSeconds: Int? = nil, inlineSessionState: InlineSessionState? = nil, inputText: String? = nil, instruction: String, knowledgeBases: [KnowledgeBase]? = nil, promptOverrideConfiguration: PromptOverrideConfiguration? = nil, sessionId: String, streamingConfigurations: StreamingConfigurations? = nil) {
             self.actionGroups = actionGroups
+            self.agentCollaboration = agentCollaboration
             self.bedrockModelConfigurations = bedrockModelConfigurations
+            self.collaboratorConfigurations = collaboratorConfigurations
+            self.collaborators = collaborators
             self.customerEncryptionKeyArn = customerEncryptionKeyArn
             self.enableTrace = enableTrace
             self.endSession = endSession
@@ -4220,7 +4395,10 @@ extension BedrockAgentRuntime {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.actionGroups, forKey: .actionGroups)
+            try container.encodeIfPresent(self.agentCollaboration, forKey: .agentCollaboration)
             try container.encodeIfPresent(self.bedrockModelConfigurations, forKey: .bedrockModelConfigurations)
+            try container.encodeIfPresent(self.collaboratorConfigurations, forKey: .collaboratorConfigurations)
+            try container.encodeIfPresent(self.collaborators, forKey: .collaborators)
             try container.encodeIfPresent(self.customerEncryptionKeyArn, forKey: .customerEncryptionKeyArn)
             try container.encodeIfPresent(self.enableTrace, forKey: .enableTrace)
             try container.encodeIfPresent(self.endSession, forKey: .endSession)
@@ -4239,6 +4417,12 @@ extension BedrockAgentRuntime {
         public func validate(name: String) throws {
             try self.actionGroups?.forEach {
                 try $0.validate(name: "\(name).actionGroups[]")
+            }
+            try self.collaboratorConfigurations?.forEach {
+                try $0.validate(name: "\(name).collaboratorConfigurations[]")
+            }
+            try self.collaborators?.forEach {
+                try $0.validate(name: "\(name).collaborators[]")
             }
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, max: 2048)
             try self.validate(self.customerEncryptionKeyArn, name: "customerEncryptionKeyArn", parent: name, min: 1)
@@ -4263,7 +4447,10 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case actionGroups = "actionGroups"
+            case agentCollaboration = "agentCollaboration"
             case bedrockModelConfigurations = "bedrockModelConfigurations"
+            case collaboratorConfigurations = "collaboratorConfigurations"
+            case collaborators = "collaborators"
             case customerEncryptionKeyArn = "customerEncryptionKeyArn"
             case enableTrace = "enableTrace"
             case endSession = "endSession"
@@ -5260,6 +5447,8 @@ extension BedrockAgentRuntime {
         public let additionalModelRequestFields: AWSDocument?
         /// Defines the prompt template with which to replace the default prompt template. You can use placeholder variables in the base prompt template to customize the prompt. For more information, see Prompt template placeholder variables. For more information, see Configure the prompt templates.
         public let basePromptTemplate: String?
+        ///  The foundation model to use.
+        public let foundationModel: String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see Inference parameters for foundation models.
         public let inferenceConfiguration: InferenceConfiguration?
         /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDDEN, the overrideLambda field in the PromptOverrideConfiguration must be specified with the ARN of a Lambda function.
@@ -5272,9 +5461,10 @@ extension BedrockAgentRuntime {
         public let promptType: PromptType?
 
         @inlinable
-        public init(additionalModelRequestFields: AWSDocument? = nil, basePromptTemplate: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
+        public init(additionalModelRequestFields: AWSDocument? = nil, basePromptTemplate: String? = nil, foundationModel: String? = nil, inferenceConfiguration: InferenceConfiguration? = nil, parserMode: CreationMode? = nil, promptCreationMode: CreationMode? = nil, promptState: PromptState? = nil, promptType: PromptType? = nil) {
             self.additionalModelRequestFields = additionalModelRequestFields
             self.basePromptTemplate = basePromptTemplate
+            self.foundationModel = foundationModel
             self.inferenceConfiguration = inferenceConfiguration
             self.parserMode = parserMode
             self.promptCreationMode = promptCreationMode
@@ -5285,12 +5475,16 @@ extension BedrockAgentRuntime {
         public func validate(name: String) throws {
             try self.validate(self.basePromptTemplate, name: "basePromptTemplate", parent: name, max: 100000)
             try self.validate(self.basePromptTemplate, name: "basePromptTemplate", parent: name, min: 1)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, max: 2048)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
+            try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "(^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}(([:][a-z0-9-]{1,63}){0,2})?/[a-z0-9]{12})|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})))|(([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2}))|(([0-9a-zA-Z][_-]?)+))$|(^arn:aws(|-us-gov|-cn|-iso|-iso-b):bedrock:(|[0-9a-z-]{1,20}):(|[0-9]{12}):inference-profile/[a-zA-Z0-9-:.]+)$")
             try self.inferenceConfiguration?.validate(name: "\(name).inferenceConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case additionalModelRequestFields = "additionalModelRequestFields"
             case basePromptTemplate = "basePromptTemplate"
+            case foundationModel = "foundationModel"
             case inferenceConfiguration = "inferenceConfiguration"
             case parserMode = "parserMode"
             case promptCreationMode = "promptCreationMode"
@@ -5929,7 +6123,7 @@ extension BedrockAgentRuntime {
         public let externalSourcesConfiguration: ExternalSourcesRetrieveAndGenerateConfiguration?
         /// Contains details about the knowledge base for retrieving information and generating responses.
         public let knowledgeBaseConfiguration: KnowledgeBaseRetrieveAndGenerateConfiguration?
-        /// The type of resource that contains your data for retrieving information and generating responses. If you choose to use EXTERNAL_SOURCES, then currently only Anthropic Claude 3 Sonnet models for knowledge bases are supported.
+        /// The type of resource that contains your data for retrieving information and generating responses.  If you choose to use EXTERNAL_SOURCES, then currently only Anthropic Claude 3 Sonnet models for knowledge bases are supported.
         public let type: RetrieveAndGenerateType
 
         @inlinable
@@ -6389,11 +6583,11 @@ extension BedrockAgentRuntime {
         public let invocationId: String?
         /// An array of configurations, each of which applies to a knowledge base attached to the agent.
         public let knowledgeBaseConfigurations: [KnowledgeBaseConfiguration]?
-        /// Contains attributes that persist across a prompt and the values of those attributes. These attributes replace the $prompt_session_attributes$ placeholder variable in the orchestration prompt template. For more information, see Prompt template placeholder variables.
+        /// Contains attributes that persist across a prompt and the values of those attributes.    In orchestration prompt template, these attributes replace the $prompt_session_attributes$ placeholder variable.  For more information, see Prompt template placeholder variables.   In multi-agent collaboration, the promptSessionAttributes will only be used by supervisor agent when $prompt_session_attributes$ is present in prompt template.
         public let promptSessionAttributes: [String: String]?
         /// Contains information about the results from the action group invocation. For more information, see Return control to the agent developer and Control session context.  If you include this field, the inputText field will be ignored.
         public let returnControlInvocationResults: [InvocationResultMember]?
-        /// Contains attributes that persist across a session and the values of those attributes.
+        /// Contains attributes that persist across a session and the values of those attributes. If sessionAttributes are passed to a supervisor agent in multi-agent collaboration, it will be forwarded to all agent collaborators.
         public let sessionAttributes: [String: String]?
 
         @inlinable
@@ -6674,18 +6868,22 @@ extension BedrockAgentRuntime {
         public let callerChain: [Caller]?
         /// The part's collaborator name.
         public let collaboratorName: String?
+        ///  The time of the trace.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var eventTime: Date?
         /// The unique identifier of the session with the agent.
         public let sessionId: String?
         /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see Trace enablement.
         public let trace: Trace?
 
         @inlinable
-        public init(agentAliasId: String? = nil, agentId: String? = nil, agentVersion: String? = nil, callerChain: [Caller]? = nil, collaboratorName: String? = nil, sessionId: String? = nil, trace: Trace? = nil) {
+        public init(agentAliasId: String? = nil, agentId: String? = nil, agentVersion: String? = nil, callerChain: [Caller]? = nil, collaboratorName: String? = nil, eventTime: Date? = nil, sessionId: String? = nil, trace: Trace? = nil) {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
             self.agentVersion = agentVersion
             self.callerChain = callerChain
             self.collaboratorName = collaboratorName
+            self.eventTime = eventTime
             self.sessionId = sessionId
             self.trace = trace
         }
@@ -6696,6 +6894,7 @@ extension BedrockAgentRuntime {
             case agentVersion = "agentVersion"
             case callerChain = "callerChain"
             case collaboratorName = "collaboratorName"
+            case eventTime = "eventTime"
             case sessionId = "sessionId"
             case trace = "trace"
         }
@@ -7051,6 +7250,20 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case functions = "functions"
+        }
+    }
+
+    public struct ImageInputSource: AWSEncodableShape & AWSDecodableShape {
+        ///  The raw image bytes for the image. If you use an Amazon Web Services SDK, you don't need to encode the image bytes in base64.
+        public let bytes: AWSBase64Data?
+
+        @inlinable
+        public init(bytes: AWSBase64Data? = nil) {
+            self.bytes = bytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "bytes"
         }
     }
 

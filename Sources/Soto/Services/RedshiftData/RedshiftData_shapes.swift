@@ -165,7 +165,7 @@ extension RedshiftData {
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov|(-iso[a-z]?))?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -479,7 +479,7 @@ extension RedshiftData {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov|(-iso[a-z]?))?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -578,7 +578,7 @@ extension RedshiftData {
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov|(-iso[a-z]?))?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -778,7 +778,7 @@ extension RedshiftData {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov|(-iso[a-z]?))?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -850,7 +850,7 @@ extension RedshiftData {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov|(-iso[a-z]?))?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -885,6 +885,10 @@ extension RedshiftData {
     }
 
     public struct ListStatementsRequest: AWSEncodableShape {
+        /// The cluster identifier. Only statements that ran on this cluster are returned.  When providing ClusterIdentifier, then WorkgroupName can't be specified.
+        public let clusterIdentifier: String?
+        /// The name of the database when listing statements run against a ClusterIdentifier or WorkgroupName.
+        public let database: String?
         /// The maximum number of SQL statements to return in the response.  If more SQL statements exist than fit in one response, then NextToken is returned to page through the results.
         public let maxResults: Int?
         /// A value that indicates the starting point for the next set of response records in a subsequent request. If a value is returned in a response, you can retrieve the next set of records by providing this returned NextToken value in the next NextToken parameter and retrying the command. If the NextToken field is empty, all response records have been retrieved for the request.
@@ -895,28 +899,41 @@ extension RedshiftData {
         public let statementName: String?
         /// The status of the SQL statement to list. Status values are defined as follows:    ABORTED - The query run was stopped by the user.    ALL -  A status value that includes all query statuses. This value can be used to filter results.    FAILED - The query run failed.    FINISHED - The query has finished running.    PICKED - The query has been chosen to be run.    STARTED - The query run has started.    SUBMITTED - The query was submitted, but not yet processed.
         public let status: StatusString?
+        /// The serverless workgroup name or Amazon Resource Name (ARN). Only statements that ran on this workgroup are returned.  When providing WorkgroupName, then ClusterIdentifier can't be specified.
+        public let workgroupName: String?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, roleLevel: Bool? = nil, statementName: String? = nil, status: StatusString? = nil) {
+        public init(clusterIdentifier: String? = nil, database: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, roleLevel: Bool? = nil, statementName: String? = nil, status: StatusString? = nil, workgroupName: String? = nil) {
+            self.clusterIdentifier = clusterIdentifier
+            self.database = database
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.roleLevel = roleLevel
             self.statementName = statementName
             self.status = status
+            self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 63)
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov|(-iso[a-z]?))?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clusterIdentifier = "ClusterIdentifier"
+            case database = "Database"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case roleLevel = "RoleLevel"
             case statementName = "StatementName"
             case status = "Status"
+            case workgroupName = "WorkgroupName"
         }
     }
 
@@ -981,7 +998,7 @@ extension RedshiftData {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 128)
             try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
-            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^(([a-z0-9-]+)|(arn:(aws(-[a-z]+)*):redshift-serverless:[a-z]{2}(-gov|(-iso[a-z]?))?-[a-z]+-\\d{1}:\\d{12}:workgroup/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}))$")
         }
 
         private enum CodingKeys: String, CodingKey {

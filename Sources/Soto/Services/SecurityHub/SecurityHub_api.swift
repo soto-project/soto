@@ -370,7 +370,7 @@ public struct SecurityHub: AWSService {
         return try await self.batchGetSecurityControls(input, logger: logger)
     }
 
-    ///  For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.
+    ///  For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.   Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the association has a NOT_READY_FOR_UPDATES value for StandardsControlsUpdatable.
     @Sendable
     @inlinable
     public func batchGetStandardsControlAssociations(_ input: BatchGetStandardsControlAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetStandardsControlAssociationsResponse {
@@ -383,7 +383,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.
+    ///  For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.   Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the association has a NOT_READY_FOR_UPDATES value for StandardsControlsUpdatable.
     ///
     /// Parameters:
     ///   - standardsControlAssociationIds:  An array with one or more objects that includes a security control (identified with SecurityControlId, SecurityControlArn, or a mix of both parameters) and the Amazon Resource Name (ARN) of a standard.  This field is used to query the enablement status of a control in a specified standard. The security control ID or ARN is the same across standards.
@@ -529,7 +529,7 @@ public struct SecurityHub: AWSService {
     ///  For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
     ///
     /// Parameters:
-    ///   - standardsControlAssociationUpdates:  Updates the enablement status of a security control in a specified standard.
+    ///   - standardsControlAssociationUpdates:  Updates the enablement status of a security control in a specified standard.   Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
     ///   - logger: Logger use during operation
     @inlinable
     public func batchUpdateStandardsControlAssociations(
@@ -1123,7 +1123,7 @@ public struct SecurityHub: AWSService {
         return try await self.describeStandards(input, logger: logger)
     }
 
-    /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+    /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information. This operation returns an empty list for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     @Sendable
     @inlinable
     public func describeStandardsControls(_ input: DescribeStandardsControlsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeStandardsControlsResponse {
@@ -1136,7 +1136,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+    /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information. This operation returns an empty list for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of security standard controls to return.
@@ -2151,7 +2151,7 @@ public struct SecurityHub: AWSService {
         return try await self.listSecurityControlDefinitions(input, logger: logger)
     }
 
-    ///  Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
+    ///  Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.  This operation omits standards control associations for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     @Sendable
     @inlinable
     public func listStandardsControlAssociations(_ input: ListStandardsControlAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListStandardsControlAssociationsResponse {
@@ -2164,7 +2164,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    ///  Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
+    ///  Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.  This operation omits standards control associations for standard subscriptions where StandardsControlsUpdatable has value NOT_READY_FOR_UPDATES.
     ///
     /// Parameters:
     ///   - maxResults:  An optional parameter that limits the total results of the API response to the specified number. If this parameter isn't provided in the request, the results include the first 25 standard and control associations. The results also include a NextToken parameter that you can use in a subsequent API call to get the next 25 associations. This repeats until all associations for the specified control are returned. The number of results is limited by the number of supported Security Hub standards that you've enabled in the calling account.
@@ -2629,7 +2629,7 @@ public struct SecurityHub: AWSService {
         return try await self.updateSecurityHubConfiguration(input, logger: logger)
     }
 
-    /// Used to control whether an individual security standard control is enabled or disabled.
+    /// Used to control whether an individual security standard control is enabled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
     @Sendable
     @inlinable
     public func updateStandardsControl(_ input: UpdateStandardsControlRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateStandardsControlResponse {
@@ -2642,7 +2642,7 @@ public struct SecurityHub: AWSService {
             logger: logger
         )
     }
-    /// Used to control whether an individual security standard control is enabled or disabled.
+    /// Used to control whether an individual security standard control is enabled or disabled. Calls to this operation return a RESOURCE_NOT_FOUND_EXCEPTION error when the standard subscription for the control has StandardsControlsUpdatable value NOT_READY_FOR_UPDATES.
     ///
     /// Parameters:
     ///   - controlStatus: The updated status of the security standard control.

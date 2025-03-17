@@ -85,6 +85,9 @@ public struct WorkSpaces: AWSService {
             "us-east-1": "workspaces-fips.us-east-1.amazonaws.com",
             "us-gov-east-1": "workspaces-fips.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "workspaces-fips.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "workspaces-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "workspaces-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "workspaces-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-2": "workspaces-fips.us-west-2.amazonaws.com"
         ])
     ]}
@@ -251,7 +254,7 @@ public struct WorkSpaces: AWSService {
         return try await self.authorizeIpRules(input, logger: logger)
     }
 
-    /// Copies the specified image from the specified Region to the current Region. For more information about copying images, see  Copy a Custom WorkSpaces Image. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support.  Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an image has been shared and to see the ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
+    /// Copies the specified image from the specified Region to the current Region. For more information about copying images, see  Copy a Custom WorkSpaces Image. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web ServicesSupport.  Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an image has been shared and to see the ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
     @Sendable
     @inlinable
     public func copyWorkspaceImage(_ input: CopyWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CopyWorkspaceImageResult {
@@ -264,7 +267,7 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Copies the specified image from the specified Region to the current Region. For more information about copying images, see  Copy a Custom WorkSpaces Image. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support.  Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an image has been shared and to see the ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
+    /// Copies the specified image from the specified Region to the current Region. For more information about copying images, see  Copy a Custom WorkSpaces Image. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web ServicesSupport.  Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an image has been shared and to see the ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
     ///
     /// Parameters:
     ///   - description: A description of the image.
@@ -1739,7 +1742,7 @@ public struct WorkSpaces: AWSService {
     /// Retrieves a list that describes the streaming sessions for a specified pool.
     ///
     /// Parameters:
-    ///   - limit: The maximum number of items to return.
+    ///   - limit: The maximum size of each page of results. The default value is 20 and the maximum value is 50.
     ///   - nextToken: If you received a NextToken from a previous call that was paginated,  provide this token to receive the next set of results.
     ///   - poolId: The identifier of the pool.
     ///   - userId: The identifier of the user.
@@ -2214,6 +2217,38 @@ public struct WorkSpaces: AWSService {
             resourceId: resourceId
         )
         return try await self.modifyClientProperties(input, logger: logger)
+    }
+
+    /// Modifies the endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode.
+    @Sendable
+    @inlinable
+    public func modifyEndpointEncryptionMode(_ input: ModifyEndpointEncryptionModeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyEndpointEncryptionModeResponse {
+        try await self.client.execute(
+            operation: "ModifyEndpointEncryptionMode", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the endpoint encryption mode that allows you to configure the specified directory between Standard TLS and FIPS 140-2 validated mode.
+    ///
+    /// Parameters:
+    ///   - directoryId:  The identifier of the directory.
+    ///   - endpointEncryptionMode: The encryption mode used for endpoint connections when streaming to WorkSpaces Personal or WorkSpace Pools.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyEndpointEncryptionMode(
+        directoryId: String,
+        endpointEncryptionMode: EndpointEncryptionMode,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyEndpointEncryptionModeResponse {
+        let input = ModifyEndpointEncryptionModeRequest(
+            directoryId: directoryId, 
+            endpointEncryptionMode: endpointEncryptionMode
+        )
+        return try await self.modifyEndpointEncryptionMode(input, logger: logger)
     }
 
     /// Modifies multiple properties related to SAML 2.0 authentication, including the enablement status,  user access URL, and relay state parameter name that are used for configuring federation with an  SAML 2.0 identity provider.
@@ -2778,7 +2813,7 @@ public struct WorkSpaces: AWSService {
         return try await self.stopWorkspacesPool(input, logger: logger)
     }
 
-    /// Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace.  You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.  Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing terms. To delete empty directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
+    /// Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web ServicesSupport before terminating the WorkSpace.  You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.  Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing terms. To delete empty directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     @Sendable
     @inlinable
     public func terminateWorkspaces(_ input: TerminateWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateWorkspacesResult {
@@ -2791,7 +2826,7 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace.  You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.  Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing terms. To delete empty directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
+    /// Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web ServicesSupport before terminating the WorkSpace.  You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.  Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing terms. To delete empty directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     ///
     /// Parameters:
     ///   - terminateWorkspaceRequests: The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
@@ -2999,7 +3034,7 @@ public struct WorkSpaces: AWSService {
         return try await self.updateWorkspaceBundle(input, logger: logger)
     }
 
-    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the image to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. For more information about sharing images, see  Share or Unshare a Custom WorkSpaces Image.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't supported at this time in Amazon Web Services GovCloud (US). To share BYOL images across accounts in Amazon Web Services GovCloud (US), contact Amazon Web Services Support.
+    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the image to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web ServicesSupport. For more information about sharing images, see  Share or Unshare a Custom WorkSpaces Image.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't supported at this time in Amazon Web Services GovCloud (US). To share BYOL images across accounts in Amazon Web Services GovCloud (US), contact Amazon Web ServicesSupport.
     @Sendable
     @inlinable
     public func updateWorkspaceImagePermission(_ input: UpdateWorkspaceImagePermissionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspaceImagePermissionResult {
@@ -3012,7 +3047,7 @@ public struct WorkSpaces: AWSService {
             logger: logger
         )
     }
-    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the image to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. For more information about sharing images, see  Share or Unshare a Custom WorkSpaces Image.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't supported at this time in Amazon Web Services GovCloud (US). To share BYOL images across accounts in Amazon Web Services GovCloud (US), contact Amazon Web Services Support.
+    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the image to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web ServicesSupport. For more information about sharing images, see  Share or Unshare a Custom WorkSpaces Image.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't supported at this time in Amazon Web Services GovCloud (US). To share BYOL images across accounts in Amazon Web Services GovCloud (US), contact Amazon Web ServicesSupport.
     ///
     /// Parameters:
     ///   - allowCopyImage: The permission to copy the image. This permission can be revoked only after an image has been shared.

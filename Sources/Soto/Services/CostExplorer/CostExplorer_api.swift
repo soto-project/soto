@@ -78,13 +78,19 @@ public struct CostExplorer: AWSService {
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
         "aws-cn-global": "ce.cn-northwest-1.amazonaws.com.cn",
-        "aws-global": "ce.us-east-1.amazonaws.com"
+        "aws-global": "ce.us-east-1.amazonaws.com",
+        "aws-iso-b-global": "ce.us-isob-east-1.sc2s.sgov.gov",
+        "aws-iso-f-global": "ce.us-isof-south-1.csp.hci.ic.gov",
+        "aws-iso-global": "ce.us-iso-east-1.c2s.ic.gov"
     ]}
 
     /// Default endpoint and region to use for each partition
     static var partitionEndpoints: [AWSPartition: (endpoint: String, region: SotoCore.Region)] {[
         .aws: (endpoint: "aws-global", region: .useast1),
-        .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)
+        .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
+        .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
+        .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+        .awsisof: (endpoint: "aws-iso-f-global", region: .usisofsouth1)
     ]}
 
 

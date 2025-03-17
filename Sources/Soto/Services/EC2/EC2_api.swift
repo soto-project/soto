@@ -3840,7 +3840,7 @@ public struct EC2: AWSService {
     /// Creates a launch template. A launch template contains the parameters to launch an instance. When you launch an instance using RunInstances, you can specify a launch template instead of providing the launch parameters in the request. For more information, see Store instance launch parameters in Amazon EC2 launch templates in the Amazon EC2 User Guide. To clone an existing launch template as the basis for a new launch template, use the  Amazon EC2 console. The API, SDKs, and CLI do not support cloning a template. For more  information, see Create a launch template from an existing launch template in the Amazon EC2 User Guide.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
+    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If a client token isn't specified, a randomly generated token is used in the request to ensure idempotency. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - launchTemplateData: The information for the launch template.
     ///   - launchTemplateName: A name for the launch template.
@@ -3850,7 +3850,7 @@ public struct EC2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createLaunchTemplate(
-        clientToken: String? = nil,
+        clientToken: String? = CreateLaunchTemplateRequest.idempotencyToken(),
         dryRun: Bool? = nil,
         launchTemplateData: RequestLaunchTemplateData? = nil,
         launchTemplateName: String? = nil,
@@ -3887,7 +3887,7 @@ public struct EC2: AWSService {
     /// Creates a new version of a launch template. You must specify an existing launch template, either by name or ID. You can determine whether the new version inherits  parameters from a source version, and add or overwrite parameters as needed. Launch template versions are numbered in the order in which they are created. You can't specify, change, or replace the numbering of launch template versions. Launch templates are immutable; after you create a launch template, you can't modify it. Instead, you can create a new version of the launch template that includes the changes that you require. For more information, see Modify a launch template (manage launch template versions) in the Amazon EC2 User Guide.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
+    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If a client token isn't specified, a randomly generated token is used in the request to ensure idempotency. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - launchTemplateData: The information for the launch template.
     ///   - launchTemplateId: The ID of the launch template. You must specify either the launch template ID or the launch template name, but not both.
@@ -3898,7 +3898,7 @@ public struct EC2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func createLaunchTemplateVersion(
-        clientToken: String? = nil,
+        clientToken: String? = CreateLaunchTemplateVersionRequest.idempotencyToken(),
         dryRun: Bool? = nil,
         launchTemplateData: RequestLaunchTemplateData? = nil,
         launchTemplateId: String? = nil,
@@ -4871,7 +4871,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - description: A description for the security group. Constraints: Up to 255 characters in length Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - groupName: The name of the security group. Constraints: Up to 255 characters in length. Cannot start with sg-. Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
+    ///   - groupName: The name of the security group. Names are case-insensitive and must be unique within the VPC. Constraints: Up to 255 characters in length. Can't start with sg-. Valid characters: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&;{}!$*
     ///   - tagSpecifications: The tags to assign to the security group.
     ///   - vpcId: The ID of the VPC. Required for a nondefault VPC.
     ///   - logger: Logger use during operation
@@ -9597,7 +9597,7 @@ public struct EC2: AWSService {
         return try await self.describeAggregateIdFormat(input, logger: logger)
     }
 
-    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. If there is an event impacting a zone, you can use this request to view the state and any provided messages for that zone. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     @Sendable
     @inlinable
     public func describeAvailabilityZones(_ input: DescribeAvailabilityZonesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeAvailabilityZonesResult {
@@ -9610,12 +9610,12 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. If there is an event impacting a zone, you can use this request to view the state and any provided messages for that zone. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    /// Describes the Availability Zones, Local Zones, and Wavelength Zones that are available to you. For more information about Availability Zones, Local Zones, and Wavelength Zones, see Regions and zones  in the Amazon EC2 User Guide.  The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// Parameters:
     ///   - allAvailabilityZones: Include all Availability Zones, Local Zones, and Wavelength Zones regardless of your opt-in status. If you do not use this parameter, the results include only the zones for the Regions where you have chosen the option to opt in.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
+    ///   - filters: The filters.    group-long-name - The long name of the zone group for the Availability Zone (for example, US West (Oregon) 1), the Local Zone (for example, for Zone group us-west-2-lax-1, it is US West (Los Angeles), or the Wavelength Zone (for example, for Zone group us-east-1-wl1, it is US East (Verizon).    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
     ///   - zoneIds: The IDs of the Availability Zones, Local Zones, and Wavelength Zones.
     ///   - zoneNames: The names of the Availability Zones, Local Zones, and Wavelength Zones.
     ///   - logger: Logger use during operation
@@ -21895,7 +21895,7 @@ public struct EC2: AWSService {
     /// Modifies a launch template. You can specify which version of the launch template to set as the default version. When launching an instance, the default version applies when a launch template version is not specified.
     ///
     /// Parameters:
-    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. For more information, see Ensuring idempotency in Amazon EC2 API requests. Constraint: Maximum 128 ASCII characters.
+    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request. If a client token isn't specified, a randomly generated token is used in the request to ensure idempotency. For more information, see Ensuring idempotency. Constraint: Maximum 128 ASCII characters.
     ///   - defaultVersion: The version number of the launch template to set as the default version.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - launchTemplateId: The ID of the launch template. You must specify either the launch template ID or the launch template name, but not both.
@@ -21903,7 +21903,7 @@ public struct EC2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func modifyLaunchTemplate(
-        clientToken: String? = nil,
+        clientToken: String? = ModifyLaunchTemplateRequest.idempotencyToken(),
         defaultVersion: String? = nil,
         dryRun: Bool? = nil,
         launchTemplateId: String? = nil,

@@ -693,7 +693,7 @@ public struct MediaPackageV2: AWSService {
         return try await self.getOriginEndpointPolicy(input, logger: logger)
     }
 
-    /// Retrieves all channel groups that are configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
+    /// Retrieves all channel groups that are configured in Elemental MediaPackage.
     @Sendable
     @inlinable
     public func listChannelGroups(_ input: ListChannelGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListChannelGroupsResponse {
@@ -706,7 +706,7 @@ public struct MediaPackageV2: AWSService {
             logger: logger
         )
     }
-    /// Retrieves all channel groups that are configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
+    /// Retrieves all channel groups that are configured in Elemental MediaPackage.
     ///
     /// Parameters:
     ///   - maxResults: The maximum number of results to return in the response.
@@ -942,6 +942,73 @@ public struct MediaPackageV2: AWSService {
             policy: policy
         )
         return try await self.putOriginEndpointPolicy(input, logger: logger)
+    }
+
+    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content.  Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder.
+    @Sendable
+    @inlinable
+    public func resetChannelState(_ input: ResetChannelStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetChannelStateResponse {
+        try await self.client.execute(
+            operation: "ResetChannelState", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/reset", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Resetting the channel can help to clear errors from misconfigurations in the encoder. A reset refreshes the ingest stream and removes previous content.  Be sure to stop the encoder before you reset the channel, and wait at least 30 seconds before you restart the encoder.
+    ///
+    /// Parameters:
+    ///   - channelGroupName: The name of the channel group that contains the channel that you are resetting.
+    ///   - channelName: The name of the channel that you are resetting.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func resetChannelState(
+        channelGroupName: String,
+        channelName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ResetChannelStateResponse {
+        let input = ResetChannelStateRequest(
+            channelGroupName: channelGroupName, 
+            channelName: channelName
+        )
+        return try await self.resetChannelState(input, logger: logger)
+    }
+
+    /// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin endpoint. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpoint.
+    @Sendable
+    @inlinable
+    public func resetOriginEndpointState(_ input: ResetOriginEndpointStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetOriginEndpointStateResponse {
+        try await self.client.execute(
+            operation: "ResetOriginEndpointState", 
+            path: "/channelGroup/{ChannelGroupName}/channel/{ChannelName}/originEndpoint/{OriginEndpointName}/reset", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Resetting the origin endpoint can help to resolve unexpected behavior and other content packaging issues. It also helps to preserve special events when you don't want the previous content to be available for viewing. A reset clears out all previous content from the origin endpoint. MediaPackage might return old content from this endpoint in the first 30 seconds after the endpoint reset. For best results, when possible, wait 30 seconds from endpoint reset to send playback requests to this endpoint.
+    ///
+    /// Parameters:
+    ///   - channelGroupName: The name of the channel group that contains the channel with the origin endpoint that you are resetting.
+    ///   - channelName: The name of the channel with the origin endpoint that you are resetting.
+    ///   - originEndpointName: The name of the origin endpoint that you are resetting.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func resetOriginEndpointState(
+        channelGroupName: String,
+        channelName: String,
+        originEndpointName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ResetOriginEndpointStateResponse {
+        let input = ResetOriginEndpointStateRequest(
+            channelGroupName: channelGroupName, 
+            channelName: channelName, 
+            originEndpointName: originEndpointName
+        )
+        return try await self.resetOriginEndpointState(input, logger: logger)
     }
 
     /// Assigns one of more tags (key-value pairs) to the specified MediaPackage resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.

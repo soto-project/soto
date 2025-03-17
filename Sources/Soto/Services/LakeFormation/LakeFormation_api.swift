@@ -486,16 +486,19 @@ public struct LakeFormation: AWSService {
     /// Enforce Lake Formation permissions for the given databases, tables, and principals.
     ///
     /// Parameters:
+    ///   - condition: 
     ///   - principal: 
     ///   - resource: 
     ///   - logger: Logger use during operation
     @inlinable
     public func createLakeFormationOptIn(
+        condition: Condition? = nil,
         principal: DataLakePrincipal,
         resource: Resource,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateLakeFormationOptInResponse {
         let input = CreateLakeFormationOptInRequest(
+            condition: condition, 
             principal: principal, 
             resource: resource
         )
@@ -649,16 +652,19 @@ public struct LakeFormation: AWSService {
     /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
     ///
     /// Parameters:
+    ///   - condition: 
     ///   - principal: 
     ///   - resource: 
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteLakeFormationOptIn(
+        condition: Condition? = nil,
         principal: DataLakePrincipal,
         resource: Resource,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> DeleteLakeFormationOptInResponse {
         let input = DeleteLakeFormationOptInRequest(
+            condition: condition, 
             principal: principal, 
             resource: resource
         )
@@ -1371,6 +1377,7 @@ public struct LakeFormation: AWSService {
     ///
     /// Parameters:
     ///   - catalogId: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
+    ///   - condition: 
     ///   - permissions: The permissions granted to the principal on the resource. Lake Formation defines privileges to grant and revoke access to metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. Lake Formation requires that each principal be authorized to perform a specific task on Lake Formation resources.
     ///   - permissionsWithGrantOption: Indicates a list of the granted permissions that the principal may pass to other users. These permissions may only be a subset of the permissions granted in the Privileges.
     ///   - principal: The principal to be granted the permissions on the resource. Supported principals are IAM users or IAM roles, and they are defined by their principal type and their ARN. Note that if you define a resource with a particular ARN, then later delete, and recreate a resource with that same ARN, the resource maintains the permissions already granted.
@@ -1379,6 +1386,7 @@ public struct LakeFormation: AWSService {
     @inlinable
     public func grantPermissions(
         catalogId: String? = nil,
+        condition: Condition? = nil,
         permissions: [Permission],
         permissionsWithGrantOption: [Permission]? = nil,
         principal: DataLakePrincipal,
@@ -1387,6 +1395,7 @@ public struct LakeFormation: AWSService {
     ) async throws -> GrantPermissionsResponse {
         let input = GrantPermissionsRequest(
             catalogId: catalogId, 
+            condition: condition, 
             permissions: permissions, 
             permissionsWithGrantOption: permissionsWithGrantOption, 
             principal: principal, 
@@ -1737,7 +1746,7 @@ public struct LakeFormation: AWSService {
         return try await self.putDataLakeSettings(input, logger: logger)
     }
 
-    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.  ResourceArn = arn:aws:s3:::my-bucket/
+    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.  ResourceArn = arn:aws:s3:::my-bucket/
     /// UseServiceLinkedRole = true  If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:  arn:aws:iam::12345:role/my-data-access-role
     @Sendable
     @inlinable
@@ -1751,7 +1760,7 @@ public struct LakeFormation: AWSService {
             logger: logger
         )
     }
-    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen Amazon S3 path. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.  ResourceArn = arn:aws:s3:::my-bucket/
+    /// Registers the resource as managed by the Data Catalog. To add or update data, Lake Formation needs read/write access to the chosen data location. Choose a role that you know has permission to do this, or choose the AWSServiceRoleForLakeFormationDataAccess service-linked role. When you register the first Amazon S3 path, the service-linked role and a new inline policy are created on your behalf. Lake Formation adds the first path to the inline policy and attaches it to the service-linked role. When you register subsequent paths, Lake Formation adds the path to the existing policy. The following request registers a new location and gives Lake Formation permission to use the service-linked role to access that location.  ResourceArn = arn:aws:s3:::my-bucket/
     /// UseServiceLinkedRole = true  If UseServiceLinkedRole is not set to true, you must provide or set the RoleArn:  arn:aws:iam::12345:role/my-data-access-role
     ///
     /// Parameters:
@@ -1760,6 +1769,7 @@ public struct LakeFormation: AWSService {
     ///   - roleArn: The identifier for the role that registers the resource.
     ///   - useServiceLinkedRole: Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation. For more information, see Using Service-Linked Roles for Lake Formation.
     ///   - withFederation: Whether or not the resource is a federated resource.
+    ///   - withPrivilegedAccess: Grants the calling principal the permissions to perform all supported Lake Formation operations on the registered data location.
     ///   - logger: Logger use during operation
     @inlinable
     public func registerResource(
@@ -1768,6 +1778,7 @@ public struct LakeFormation: AWSService {
         roleArn: String? = nil,
         useServiceLinkedRole: Bool? = nil,
         withFederation: Bool? = nil,
+        withPrivilegedAccess: Bool? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RegisterResourceResponse {
         let input = RegisterResourceRequest(
@@ -1775,7 +1786,8 @@ public struct LakeFormation: AWSService {
             resourceArn: resourceArn, 
             roleArn: roleArn, 
             useServiceLinkedRole: useServiceLinkedRole, 
-            withFederation: withFederation
+            withFederation: withFederation, 
+            withPrivilegedAccess: withPrivilegedAccess
         )
         return try await self.registerResource(input, logger: logger)
     }
@@ -1832,6 +1844,7 @@ public struct LakeFormation: AWSService {
     ///
     /// Parameters:
     ///   - catalogId: The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
+    ///   - condition: 
     ///   - permissions: The permissions revoked to the principal on the resource. For information about permissions, see Security and Access Control to Metadata and Data.
     ///   - permissionsWithGrantOption: Indicates a list of permissions for which to revoke the grant option allowing the principal to pass permissions to other principals.
     ///   - principal: The principal to be revoked permissions on the resource.
@@ -1840,6 +1853,7 @@ public struct LakeFormation: AWSService {
     @inlinable
     public func revokePermissions(
         catalogId: String? = nil,
+        condition: Condition? = nil,
         permissions: [Permission],
         permissionsWithGrantOption: [Permission]? = nil,
         principal: DataLakePrincipal,
@@ -1848,6 +1862,7 @@ public struct LakeFormation: AWSService {
     ) async throws -> RevokePermissionsResponse {
         let input = RevokePermissionsRequest(
             catalogId: catalogId, 
+            condition: condition, 
             permissions: permissions, 
             permissionsWithGrantOption: permissionsWithGrantOption, 
             principal: principal, 

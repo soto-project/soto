@@ -88,6 +88,8 @@ public struct Bedrock: AWSService {
         "bedrock-eu-central-1": "bedrock.eu-central-1.amazonaws.com",
         "bedrock-eu-central-2": "bedrock.eu-central-2.amazonaws.com",
         "bedrock-eu-north-1": "bedrock.eu-north-1.amazonaws.com",
+        "bedrock-eu-south-1": "bedrock.eu-south-1.amazonaws.com",
+        "bedrock-eu-south-2": "bedrock.eu-south-2.amazonaws.com",
         "bedrock-eu-west-1": "bedrock.eu-west-1.amazonaws.com",
         "bedrock-eu-west-2": "bedrock.eu-west-2.amazonaws.com",
         "bedrock-eu-west-3": "bedrock.eu-west-3.amazonaws.com",
@@ -108,6 +110,8 @@ public struct Bedrock: AWSService {
         "bedrock-runtime-eu-central-1": "bedrock-runtime.eu-central-1.amazonaws.com",
         "bedrock-runtime-eu-central-2": "bedrock-runtime.eu-central-2.amazonaws.com",
         "bedrock-runtime-eu-north-1": "bedrock-runtime.eu-north-1.amazonaws.com",
+        "bedrock-runtime-eu-south-1": "bedrock-runtime.eu-south-1.amazonaws.com",
+        "bedrock-runtime-eu-south-2": "bedrock-runtime.eu-south-2.amazonaws.com",
         "bedrock-runtime-eu-west-1": "bedrock-runtime.eu-west-1.amazonaws.com",
         "bedrock-runtime-eu-west-2": "bedrock-runtime.eu-west-2.amazonaws.com",
         "bedrock-runtime-eu-west-3": "bedrock-runtime.eu-west-3.amazonaws.com",
@@ -622,6 +626,53 @@ public struct Bedrock: AWSService {
         return try await self.createModelInvocationJob(input, logger: logger)
     }
 
+    /// Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
+    @Sendable
+    @inlinable
+    public func createPromptRouter(_ input: CreatePromptRouterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreatePromptRouterResponse {
+        try await self.client.execute(
+            operation: "CreatePromptRouter", 
+            path: "/prompt-routers", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
+    ///
+    /// Parameters:
+    ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure idempotency of your requests. If not specified, the Amazon Web Services SDK automatically generates one for you.
+    ///   - description: An optional description of the prompt router to help identify its purpose.
+    ///   - fallbackModel: The default model to use when the routing criteria is not met.
+    ///   - models: A list of foundation models that the prompt router can route requests to. At least one model must be specified.
+    ///   - promptRouterName: The name of the prompt router. The name must be unique within your Amazon Web Services account in the current region.
+    ///   - routingCriteria: The criteria, which is the response quality difference, used to determine how incoming requests are routed to different models.
+    ///   - tags: An array of key-value pairs to apply to this resource as tags. You can use tags to categorize and manage your Amazon Web Services resources.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createPromptRouter(
+        clientRequestToken: String? = CreatePromptRouterRequest.idempotencyToken(),
+        description: String? = nil,
+        fallbackModel: PromptRouterTargetModel,
+        models: [PromptRouterTargetModel],
+        promptRouterName: String,
+        routingCriteria: RoutingCriteria,
+        tags: [Tag]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreatePromptRouterResponse {
+        let input = CreatePromptRouterRequest(
+            clientRequestToken: clientRequestToken, 
+            description: description, 
+            fallbackModel: fallbackModel, 
+            models: models, 
+            promptRouterName: promptRouterName, 
+            routingCriteria: routingCriteria, 
+            tags: tags
+        )
+        return try await self.createPromptRouter(input, logger: logger)
+    }
+
     /// Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
@@ -838,6 +889,35 @@ public struct Bedrock: AWSService {
         let input = DeleteModelInvocationLoggingConfigurationRequest(
         )
         return try await self.deleteModelInvocationLoggingConfiguration(input, logger: logger)
+    }
+
+    /// Deletes a specified prompt router. This action cannot be undone.
+    @Sendable
+    @inlinable
+    public func deletePromptRouter(_ input: DeletePromptRouterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeletePromptRouterResponse {
+        try await self.client.execute(
+            operation: "DeletePromptRouter", 
+            path: "/prompt-routers/{promptRouterArn}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a specified prompt router. This action cannot be undone.
+    ///
+    /// Parameters:
+    ///   - promptRouterArn: The Amazon Resource Name (ARN) of the prompt router to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deletePromptRouter(
+        promptRouterArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeletePromptRouterResponse {
+        let input = DeletePromptRouterRequest(
+            promptRouterArn: promptRouterArn
+        )
+        return try await self.deletePromptRouter(input, logger: logger)
     }
 
     /// Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
@@ -1827,16 +1907,19 @@ public struct Bedrock: AWSService {
     /// Parameters:
     ///   - maxResults: The maximum number of prompt routers to return in one page of results.
     ///   - nextToken: Specify the pagination token from a previous request to retrieve the next page of results.
+    ///   - type: The type of the prompt routers, such as whether it's default or custom.
     ///   - logger: Logger use during operation
     @inlinable
     public func listPromptRouters(
         maxResults: Int? = nil,
         nextToken: String? = nil,
+        type: PromptRouterType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListPromptRoutersResponse {
         let input = ListPromptRoutersRequest(
             maxResults: maxResults, 
-            nextToken: nextToken
+            nextToken: nextToken, 
+            type: type
         )
         return try await self.listPromptRouters(input, logger: logger)
     }
@@ -2787,14 +2870,17 @@ extension Bedrock {
     ///
     /// - Parameters:
     ///   - maxResults: The maximum number of prompt routers to return in one page of results.
+    ///   - type: The type of the prompt routers, such as whether it's default or custom.
     ///   - logger: Logger used for logging
     @inlinable
     public func listPromptRoutersPaginator(
         maxResults: Int? = nil,
+        type: PromptRouterType? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListPromptRoutersRequest, ListPromptRoutersResponse> {
         let input = ListPromptRoutersRequest(
-            maxResults: maxResults
+            maxResults: maxResults, 
+            type: type
         )
         return self.listPromptRoutersPaginator(input, logger: logger)
     }
@@ -3009,7 +3095,8 @@ extension Bedrock.ListPromptRoutersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Bedrock.ListPromptRoutersRequest {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            type: self.type
         )
     }
 }

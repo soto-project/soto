@@ -1353,7 +1353,7 @@ extension WAFV2 {
         public let challengeConfig: ChallengeConfig?
         /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.  For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
         public let customResponseBodies: [String: CustomResponseBody]?
-        /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+        /// Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
         public let dataProtectionConfig: DataProtectionConfig?
         /// The action to perform if none of the Rules contained in the WebACL match.
         public let defaultAction: DefaultAction
@@ -1562,9 +1562,9 @@ extension WAFV2 {
     public struct DataProtection: AWSEncodableShape & AWSDecodableShape {
         /// Specifies how to protect the field. WAF can apply a one-way hash to the field or hard code a string substitution.    One-way hash example: ade099751dEXAMPLEHASH2ea9f3393f80dd5d3bEXAMPLEHASH966ae0d3cd5a1e    Substitution example: REDACTED
         public let action: DataProtectionAction
-        /// Specifies whether to also protect any rate-based rule details from the web ACL logs when applying data protection for this field type and keys.  For additional information, see the log field rateBasedRuleList at  Log fields for web ACL traffic in the WAF Developer Guide. Default: FALSE
+        /// Specifies whether to also exclude any rate-based rule details from the data protection you have enabled for a given field. If you specify this exception, RateBasedDetails will show the value of the field.  For additional information, see the log field rateBasedRuleList at  Log fields for web ACL traffic in the WAF Developer Guide. Default: FALSE
         public let excludeRateBasedDetails: Bool?
-        /// Specifies whether to also protect any rule match details from the web ACL logs when applying data protection this field type and keys. WAF logs these details for non-terminating  matching rules and for the terminating matching rule. For additional information, see  Log fields for web ACL traffic in the WAF Developer Guide. Default: FALSE
+        /// Specifies whether to also exclude any rule match details from the data protection you have enabled for a given field.  WAF logs these details for non-terminating  matching rules and for the terminating matching rule. For additional information, see  Log fields for web ACL traffic in the WAF Developer Guide. Default: FALSE
         public let excludeRuleMatchDetails: Bool?
         /// Specifies the field type and optional keys to apply the protection behavior to.
         public let field: FieldToProtect
@@ -2153,6 +2153,13 @@ extension WAFV2 {
         /// see Log fields in the WAF Developer Guide.  Provide the JA3 fingerprint string from the logs in your string match statement
         /// 							specification, to match with any future requests that have the same TLS configuration.
         public let ja3Fingerprint: JA3Fingerprint?
+        /// Available for use with Amazon CloudFront distributions and Application Load Balancers. Match against the request's JA4 fingerprint. The JA4 fingerprint is a 36-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each
+        /// 						request that has enough TLS Client Hello information for the calculation. Almost  all web requests include this information.  You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to  EXACTLY.    You can obtain the JA4 fingerprint for client requests from the web ACL logs.
+        /// 						If WAF is able to calculate the fingerprint, it includes it in the logs.
+        /// 						For information about the logging fields,
+        /// see Log fields in the WAF Developer Guide.  Provide the JA4 fingerprint string from the logs in your string match statement
+        /// 							specification, to match with any future requests that have the same TLS configuration.
+        public let ja4Fingerprint: JA4Fingerprint?
         /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  WAF does not support inspecting the entire contents of the web request body if the body  exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service  only forwards the contents that are within the limit to WAF for inspection.    For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).   For CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access, the default limit is 16 KB (16,384 bytes), and  you can increase the limit for each resource type in the web ACL AssociationConfig, for additional processing fees.    For information about how to handle oversized request bodies, see the JsonBody object configuration.
         public let jsonBody: JsonBody?
         /// Inspect the HTTP method. The method indicates the type of operation that the request is asking the origin to perform.
@@ -2167,13 +2174,14 @@ extension WAFV2 {
         public let uriPath: UriPath?
 
         @inlinable
-        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, cookies: Cookies? = nil, headerOrder: HeaderOrder? = nil, headers: Headers? = nil, ja3Fingerprint: JA3Fingerprint? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
+        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, cookies: Cookies? = nil, headerOrder: HeaderOrder? = nil, headers: Headers? = nil, ja3Fingerprint: JA3Fingerprint? = nil, ja4Fingerprint: JA4Fingerprint? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
             self.allQueryArguments = allQueryArguments
             self.body = body
             self.cookies = cookies
             self.headerOrder = headerOrder
             self.headers = headers
             self.ja3Fingerprint = ja3Fingerprint
+            self.ja4Fingerprint = ja4Fingerprint
             self.jsonBody = jsonBody
             self.method = method
             self.queryString = queryString
@@ -2197,6 +2205,7 @@ extension WAFV2 {
             case headerOrder = "HeaderOrder"
             case headers = "Headers"
             case ja3Fingerprint = "JA3Fingerprint"
+            case ja4Fingerprint = "JA4Fingerprint"
             case jsonBody = "JsonBody"
             case method = "Method"
             case queryString = "QueryString"
@@ -3234,6 +3243,20 @@ extension WAFV2 {
 
     public struct JA3Fingerprint: AWSEncodableShape & AWSDecodableShape {
         /// The match status to assign to the web request if the request doesn't have a JA3 fingerprint.  You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        public let fallbackBehavior: FallbackBehavior
+
+        @inlinable
+        public init(fallbackBehavior: FallbackBehavior) {
+            self.fallbackBehavior = fallbackBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fallbackBehavior = "FallbackBehavior"
+        }
+    }
+
+    public struct JA4Fingerprint: AWSEncodableShape & AWSDecodableShape {
+        /// The match status to assign to the web request if the request doesn't have a JA4 fingerprint.  You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
         public let fallbackBehavior: FallbackBehavior
 
         @inlinable
@@ -4701,6 +4724,10 @@ extension WAFV2 {
         public let httpMethod: RateLimitHTTPMethod?
         /// Use the request's originating IP address as an aggregate key. Each distinct IP address contributes to the aggregation instance. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the IP address by specifying IP in your rate-based statement's AggregateKeyType.
         public let ip: RateLimitIP?
+        ///  Use the request's JA3 fingerprint as an aggregate key. If you use a single JA3 fingerprint as your custom key, then each value fully defines an aggregation instance.
+        public let ja3Fingerprint: RateLimitJA3Fingerprint?
+        /// Use the request's JA4 fingerprint as an aggregate key. If you use a single JA4 fingerprint as your custom key, then each value fully defines an aggregation instance.
+        public let ja4Fingerprint: RateLimitJA4Fingerprint?
         /// Use the specified label namespace as an aggregate key. Each distinct fully qualified label name that has the specified label namespace contributes to the aggregation instance. If you use just one label namespace as your custom key, then each label name fully defines an aggregation instance.   This uses only labels that have been added to the request by rules that are evaluated before this rate-based rule in the web ACL.  For information about label namespaces and names, see  Label syntax and naming requirements in the WAF Developer Guide.
         public let labelNamespace: RateLimitLabelNamespace?
         /// Use the specified query argument as an aggregate key. Each distinct value for the named query argument contributes to the aggregation instance. If you  use a single query argument as your custom key, then each value fully defines an aggregation instance.
@@ -4711,12 +4738,14 @@ extension WAFV2 {
         public let uriPath: RateLimitUriPath?
 
         @inlinable
-        public init(cookie: RateLimitCookie? = nil, forwardedIP: RateLimitForwardedIP? = nil, header: RateLimitHeader? = nil, httpMethod: RateLimitHTTPMethod? = nil, ip: RateLimitIP? = nil, labelNamespace: RateLimitLabelNamespace? = nil, queryArgument: RateLimitQueryArgument? = nil, queryString: RateLimitQueryString? = nil, uriPath: RateLimitUriPath? = nil) {
+        public init(cookie: RateLimitCookie? = nil, forwardedIP: RateLimitForwardedIP? = nil, header: RateLimitHeader? = nil, httpMethod: RateLimitHTTPMethod? = nil, ip: RateLimitIP? = nil, ja3Fingerprint: RateLimitJA3Fingerprint? = nil, ja4Fingerprint: RateLimitJA4Fingerprint? = nil, labelNamespace: RateLimitLabelNamespace? = nil, queryArgument: RateLimitQueryArgument? = nil, queryString: RateLimitQueryString? = nil, uriPath: RateLimitUriPath? = nil) {
             self.cookie = cookie
             self.forwardedIP = forwardedIP
             self.header = header
             self.httpMethod = httpMethod
             self.ip = ip
+            self.ja3Fingerprint = ja3Fingerprint
+            self.ja4Fingerprint = ja4Fingerprint
             self.labelNamespace = labelNamespace
             self.queryArgument = queryArgument
             self.queryString = queryString
@@ -4738,6 +4767,8 @@ extension WAFV2 {
             case header = "Header"
             case httpMethod = "HTTPMethod"
             case ip = "IP"
+            case ja3Fingerprint = "JA3Fingerprint"
+            case ja4Fingerprint = "JA4Fingerprint"
             case labelNamespace = "LabelNamespace"
             case queryArgument = "QueryArgument"
             case queryString = "QueryString"
@@ -4829,6 +4860,34 @@ extension WAFV2 {
 
     public struct RateLimitIP: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct RateLimitJA3Fingerprint: AWSEncodableShape & AWSDecodableShape {
+        /// The match status to assign to the web request if there is insufficient TSL Client Hello information to compute the JA3 fingerprint. You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        public let fallbackBehavior: FallbackBehavior
+
+        @inlinable
+        public init(fallbackBehavior: FallbackBehavior) {
+            self.fallbackBehavior = fallbackBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fallbackBehavior = "FallbackBehavior"
+        }
+    }
+
+    public struct RateLimitJA4Fingerprint: AWSEncodableShape & AWSDecodableShape {
+        /// The match status to assign to the web request if there is insufficient TSL Client Hello information to compute the JA4 fingerprint. You can specify the following fallback behaviors:    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        public let fallbackBehavior: FallbackBehavior
+
+        @inlinable
+        public init(fallbackBehavior: FallbackBehavior) {
+            self.fallbackBehavior = fallbackBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fallbackBehavior = "FallbackBehavior"
+        }
     }
 
     public struct RateLimitLabelNamespace: AWSEncodableShape & AWSDecodableShape {
@@ -6317,7 +6376,7 @@ extension WAFV2 {
         public let challengeConfig: ChallengeConfig?
         /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.  For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
         public let customResponseBodies: [String: CustomResponseBody]?
-        /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+        /// Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
         public let dataProtectionConfig: DataProtectionConfig?
         /// The action to perform if none of the Rules contained in the WebACL match.
         public let defaultAction: DefaultAction
@@ -6517,7 +6576,7 @@ extension WAFV2 {
         public let challengeConfig: ChallengeConfig?
         /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the web ACL, and then use them in the rules and default actions that you define in the web ACL.  For information about customizing web requests and responses,  see Customizing web requests and responses in WAF  in the WAF Developer Guide.  For information about the limits on count and size for custom request and response settings, see WAF quotas  in the WAF Developer Guide.
         public let customResponseBodies: [String: CustomResponseBody]?
-        /// Specifies data protection to apply to the web request data that WAF stores for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including WAF logging, web ACL request sampling, Amazon Web Services Managed Rules, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
+        /// Specifies data protection to apply to the web request data for the web ACL. This is a web ACL level data protection option.  The data protection that you configure for the web ACL alters the data that's available for any other data collection activity,  including your WAF logging destinations, web ACL request sampling, and Amazon Security Lake data collection and management. Your other option for data protection is in the logging configuration, which only affects logging.
         public let dataProtectionConfig: DataProtectionConfig?
         /// The action to perform if none of the Rules contained in the WebACL match.
         public let defaultAction: DefaultAction

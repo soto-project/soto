@@ -826,6 +826,7 @@ extension MediaLive {
     }
 
     public enum GlobalConfigurationOutputLockingMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
         case epochLocking = "EPOCH_LOCKING"
         case pipelineLocking = "PIPELINE_LOCKING"
         public var description: String { return self.rawValue }
@@ -8094,23 +8095,22 @@ extension MediaLive {
     public struct EbuTtDDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// Complete this field if you want to include the name of the copyright holder in the copyright tag in the captions metadata.
         public let copyrightHolder: String?
-        /// Specifies how to handle the gap between the lines (in multi-line captions).
-        /// - enabled: Fill with the captions background color (as specified in the input captions).
-        /// - disabled: Leave the gap unfilled.
+        /// Specifies the default font size as a percentage of the computed cell size. Valid only if the defaultLineHeight is also set. If you leave this field empty, the default font size is 80% of the cell size.
+        public let defaultFontSize: Int?
+        /// Documentation update needed
+        public let defaultLineHeight: Int?
+        /// Specifies how to handle the gap between the lines (in multi-line captions). ENABLED: Fill with the captions background color (as specified in the input captions). DISABLED: Leave the gap unfilled
         public let fillLineGap: EbuTtDFillLineGapControl?
-        /// Specifies the font family to include in the font data attached to the EBU-TT captions. Valid only if styleControl is set to include. If you leave this field empty, the font family is set to "monospaced". (If styleControl is set to exclude, the font family is always set to "monospaced".)
-        /// You specify only the font family. All other style information (color, bold, position and so on) is copied from the input captions. The size is always set to 100% to allow the downstream player to choose the size.
-        /// - Enter a list of font families, as a comma-separated list of font names, in order of preference. The name can be a font family (such as “Arial”), or a generic font family (such as “serif”), or “default” (to let the downstream player choose the font).
-        /// - Leave blank to set the family to “monospace”.
+        /// Specifies the font family to include in the font data attached to the EBU-TT captions. Valid only if style_control is set to include. (If style_control is set to exclude, the font family is always set to monospaced.) Enter a list of font families, as a comma-separated list of font names, in order of preference. The name can be a font family (such as Arial), or a generic font family (such as serif), or default (to let the downstream player choose the font). Or leave blank to set the family to monospace. Note that you can specify only the font family. All other style information (color, bold, position and so on) is copied from the input captions. The size is always set to 100% to allow the downstream player to choose the size.
         public let fontFamily: String?
-        /// Specifies the style information (font color, font position, and so on) to include in the font data that is attached to the EBU-TT captions.
-        /// - include: Take the style information (font color, font position, and so on) from the source captions and include that information in the font data attached to the EBU-TT captions. This option is valid only if the source captions are Embedded or Teletext.
-        /// - exclude: In the font data attached to the EBU-TT captions, set the font family to "monospaced". Do not include any other style information.
+        /// Specifies the style information to include in the font data that is attached to the EBU-TT captions. INCLUDE: Take the style information from the source captions and include that information in the font data attached to the EBU-TT captions. This option is valid only if the source captions are Embedded or Teletext. EXCLUDE: Set the font family to monospaced. Do not include any other style information.
         public let styleControl: EbuTtDDestinationStyleControl?
 
         @inlinable
-        public init(copyrightHolder: String? = nil, fillLineGap: EbuTtDFillLineGapControl? = nil, fontFamily: String? = nil, styleControl: EbuTtDDestinationStyleControl? = nil) {
+        public init(copyrightHolder: String? = nil, defaultFontSize: Int? = nil, defaultLineHeight: Int? = nil, fillLineGap: EbuTtDFillLineGapControl? = nil, fontFamily: String? = nil, styleControl: EbuTtDDestinationStyleControl? = nil) {
             self.copyrightHolder = copyrightHolder
+            self.defaultFontSize = defaultFontSize
+            self.defaultLineHeight = defaultLineHeight
             self.fillLineGap = fillLineGap
             self.fontFamily = fontFamily
             self.styleControl = styleControl
@@ -8118,10 +8118,16 @@ extension MediaLive {
 
         public func validate(name: String) throws {
             try self.validate(self.copyrightHolder, name: "copyrightHolder", parent: name, max: 1000)
+            try self.validate(self.defaultFontSize, name: "defaultFontSize", parent: name, max: 800)
+            try self.validate(self.defaultFontSize, name: "defaultFontSize", parent: name, min: 1)
+            try self.validate(self.defaultLineHeight, name: "defaultLineHeight", parent: name, max: 800)
+            try self.validate(self.defaultLineHeight, name: "defaultLineHeight", parent: name, min: 80)
         }
 
         private enum CodingKeys: String, CodingKey {
             case copyrightHolder = "copyrightHolder"
+            case defaultFontSize = "defaultFontSize"
+            case defaultLineHeight = "defaultLineHeight"
             case fillLineGap = "fillLineGap"
             case fontFamily = "fontFamily"
             case styleControl = "styleControl"
@@ -9029,6 +9035,7 @@ extension MediaLive {
         /// Indicates how MediaLive pipelines are synchronized.
         /// PIPELINE_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the other.
         /// EPOCH_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the Unix epoch.
+        /// DISABLED - MediaLive will not attempt to synchronize the output of pipelines. We advise against disabling output locking because it has negative side effects in most workflows. For more information, see the section about output locking (pipeline locking) in the Medialive user guide.
         public let outputLockingMode: GlobalConfigurationOutputLockingMode?
         /// Advanced output locking settings
         public let outputLockingSettings: OutputLockingSettings?

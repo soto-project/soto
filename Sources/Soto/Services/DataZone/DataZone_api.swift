@@ -791,7 +791,7 @@ public struct DataZone: AWSService {
     ///   - publishOnImport: Specifies whether the assets that this data source creates in the inventory are to be also automatically published to the catalog.
     ///   - recommendation: Specifies whether the business name generation is to be enabled for this data source.
     ///   - schedule: The schedule of the data source runs.
-    ///   - type: The type of the data source.
+    ///   - type: The type of the data source. In Amazon DataZone, you can use data sources to import technical metadata of assets (data) from the source databases or data warehouses into Amazon DataZone. In the current release of Amazon DataZone, you can create and run data sources for Amazon Web Services Glue and Amazon Redshift.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDataSource(
@@ -5963,27 +5963,33 @@ public struct DataZone: AWSService {
     /// Updates the specified environment in Amazon DataZone.
     ///
     /// Parameters:
+    ///   - blueprintVersion: The blueprint version to which the environment should be updated. You can only specify the following string for this parameter: latest.
     ///   - description: The description to be updated as part of the UpdateEnvironment action.
     ///   - domainIdentifier: The identifier of the domain in which the environment is to be updated.
     ///   - glossaryTerms: The glossary terms to be updated as part of the UpdateEnvironment action.
     ///   - identifier: The identifier of the environment that is to be updated.
     ///   - name: The name to be updated as part of the UpdateEnvironment action.
+    ///   - userParameters: The user parameters of the environment.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateEnvironment(
+        blueprintVersion: String? = nil,
         description: String? = nil,
         domainIdentifier: String,
         glossaryTerms: [String]? = nil,
         identifier: String,
         name: String? = nil,
+        userParameters: [EnvironmentParameter]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateEnvironmentOutput {
         let input = UpdateEnvironmentInput(
+            blueprintVersion: blueprintVersion, 
             description: description, 
             domainIdentifier: domainIdentifier, 
             glossaryTerms: glossaryTerms, 
             identifier: identifier, 
-            name: name
+            name: name, 
+            userParameters: userParameters
         )
         return try await self.updateEnvironment(input, logger: logger)
     }
@@ -6230,6 +6236,8 @@ public struct DataZone: AWSService {
     ///   - glossaryTerms: The glossary terms to be updated as part of the UpdateProject action.
     ///   - identifier: The identifier of the project that is to be updated.
     ///   - name: The name to be updated as part of the UpdateProject action.
+    ///   - projectProfileVersion: The project profile version to which the project should be updated. You can only specify the following string for this parameter: latest.
+    ///   - userParameters: The user parameters of the project.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateProject(
@@ -6239,6 +6247,8 @@ public struct DataZone: AWSService {
         glossaryTerms: [String]? = nil,
         identifier: String,
         name: String? = nil,
+        projectProfileVersion: String? = nil,
+        userParameters: [EnvironmentConfigurationUserParameter]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateProjectOutput {
         let input = UpdateProjectInput(
@@ -6247,7 +6257,9 @@ public struct DataZone: AWSService {
             environmentDeploymentDetails: environmentDeploymentDetails, 
             glossaryTerms: glossaryTerms, 
             identifier: identifier, 
-            name: name
+            name: name, 
+            projectProfileVersion: projectProfileVersion, 
+            userParameters: userParameters
         )
         return try await self.updateProject(input, logger: logger)
     }

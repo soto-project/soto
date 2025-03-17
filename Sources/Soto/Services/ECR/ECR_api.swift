@@ -377,26 +377,32 @@ public struct ECR: AWSService {
     ///
     /// Parameters:
     ///   - credentialArn: The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
-    ///   - ecrRepositoryPrefix: The repository name prefix to use when caching images from the source registry.
+    ///   - customRoleArn: Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring.
+    ///   - ecrRepositoryPrefix: The repository name prefix to use when caching images from the source registry.  There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/.
     ///   - registryId: The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a registry, the default registry is assumed.
     ///   - upstreamRegistry: The name of the upstream registry.
-    ///   - upstreamRegistryUrl: The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR Public (ecr-public) - public.ecr.aws    Docker Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) - registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io    Microsoft Azure Container Registry (azure-container-registry) - .azurecr.io
+    ///   - upstreamRegistryUrl: The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
+    ///   - upstreamRepositoryPrefix: The repository name prefix of the upstream registry to match with the upstream repository name. When this field isn't specified, Amazon ECR will use the ROOT.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPullThroughCacheRule(
         credentialArn: String? = nil,
+        customRoleArn: String? = nil,
         ecrRepositoryPrefix: String,
         registryId: String? = nil,
         upstreamRegistry: UpstreamRegistry? = nil,
         upstreamRegistryUrl: String,
+        upstreamRepositoryPrefix: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePullThroughCacheRuleResponse {
         let input = CreatePullThroughCacheRuleRequest(
             credentialArn: credentialArn, 
+            customRoleArn: customRoleArn, 
             ecrRepositoryPrefix: ecrRepositoryPrefix, 
             registryId: registryId, 
             upstreamRegistry: upstreamRegistry, 
-            upstreamRegistryUrl: upstreamRegistryUrl
+            upstreamRegistryUrl: upstreamRegistryUrl, 
+            upstreamRepositoryPrefix: upstreamRepositoryPrefix
         )
         return try await self.createPullThroughCacheRule(input, logger: logger)
     }
@@ -1753,18 +1759,21 @@ public struct ECR: AWSService {
     ///
     /// Parameters:
     ///   - credentialArn: The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret that identifies the credentials to authenticate to the upstream registry.
+    ///   - customRoleArn: Amazon Resource Name (ARN) of the IAM role to be assumed by Amazon ECR to authenticate to the ECR upstream registry. This role must be in the same account as the registry that you are configuring.
     ///   - ecrRepositoryPrefix: The repository name prefix to use when caching images from the source registry.
     ///   - registryId: The Amazon Web Services account ID associated with the registry associated with the pull through cache rule. If you do not specify a registry, the default registry is assumed.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePullThroughCacheRule(
-        credentialArn: String,
+        credentialArn: String? = nil,
+        customRoleArn: String? = nil,
         ecrRepositoryPrefix: String,
         registryId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePullThroughCacheRuleResponse {
         let input = UpdatePullThroughCacheRuleRequest(
             credentialArn: credentialArn, 
+            customRoleArn: customRoleArn, 
             ecrRepositoryPrefix: ecrRepositoryPrefix, 
             registryId: registryId
         )

@@ -29,6 +29,9 @@ extension BedrockAgent {
     public enum ActionGroupSignature: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case amazonCodeinterpreter = "AMAZON.CodeInterpreter"
         case amazonUserinput = "AMAZON.UserInput"
+        case anthropicBash = "ANTHROPIC.Bash"
+        case anthropicComputer = "ANTHROPIC.Computer"
+        case anthropicTexteditor = "ANTHROPIC.TextEditor"
         public var description: String { return self.rawValue }
     }
 
@@ -94,6 +97,11 @@ extension BedrockAgent {
     public enum ContentDataSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case custom = "CUSTOM"
         case s3 = "S3"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ContextEnrichmentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bedrockFoundationModel = "BEDROCK_FOUNDATION_MODEL"
         public var description: String { return self.rawValue }
     }
 
@@ -168,6 +176,11 @@ extension BedrockAgent {
     public enum EmbeddingDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case binary = "BINARY"
         case float32 = "FLOAT32"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EnrichmentStrategyMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case chunkEntityExtraction = "CHUNK_ENTITY_EXTRACTION"
         public var description: String { return self.rawValue }
     }
 
@@ -303,6 +316,7 @@ extension BedrockAgent {
 
     public enum KnowledgeBaseStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mongoDbAtlas = "MONGO_DB_ATLAS"
+        case neptuneAnalytics = "NEPTUNE_ANALYTICS"
         case opensearchServerless = "OPENSEARCH_SERVERLESS"
         case pinecone = "PINECONE"
         case rds = "RDS"
@@ -1400,6 +1414,8 @@ extension BedrockAgent {
         public let description: String?
         /// Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group.
         public let functionSchema: FunctionSchema?
+        /// The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
+        public let parentActionGroupSignatureParams: [String: String]?
         /// If this field is set as AMAZON.UserInput, the agent can request the user for additional information when trying to complete a task. The description, apiSchema, and actionGroupExecutor fields must be blank for this action group. During orchestration, if the agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
         public let parentActionSignature: ActionGroupSignature?
         /// The time at which the action group was last updated.
@@ -1407,7 +1423,7 @@ extension BedrockAgent {
         public var updatedAt: Date
 
         @inlinable
-        public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupId: String, actionGroupName: String, actionGroupState: ActionGroupState, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, clientToken: String? = nil, createdAt: Date, description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionSignature: ActionGroupSignature? = nil, updatedAt: Date) {
+        public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupId: String, actionGroupName: String, actionGroupState: ActionGroupState, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, clientToken: String? = nil, createdAt: Date, description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignatureParams: [String: String]? = nil, parentActionSignature: ActionGroupSignature? = nil, updatedAt: Date) {
             self.actionGroupExecutor = actionGroupExecutor
             self.actionGroupId = actionGroupId
             self.actionGroupName = actionGroupName
@@ -1419,6 +1435,7 @@ extension BedrockAgent {
             self.createdAt = createdAt
             self.description = description
             self.functionSchema = functionSchema
+            self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
             self.parentActionSignature = parentActionSignature
             self.updatedAt = updatedAt
         }
@@ -1435,6 +1452,7 @@ extension BedrockAgent {
             case createdAt = "createdAt"
             case description = "description"
             case functionSchema = "functionSchema"
+            case parentActionGroupSignatureParams = "parentActionGroupSignatureParams"
             case parentActionSignature = "parentActionSignature"
             case updatedAt = "updatedAt"
         }
@@ -2175,6 +2193,30 @@ extension BedrockAgent {
         }
     }
 
+    public struct BedrockFoundationModelContextEnrichmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The enrichment stategy used to provide additional context. For example, Neptune GraphRAG uses Amazon Bedrock foundation models to perform chunk entity extraction.
+        public let enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration
+        /// The Amazon Resource Name (ARN) of the foundation model used for context enrichment.
+        public let modelArn: String
+
+        @inlinable
+        public init(enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration, modelArn: String) {
+            self.enrichmentStrategyConfiguration = enrichmentStrategyConfiguration
+            self.modelArn = modelArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelArn, name: "modelArn", parent: name, max: 2048)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, min: 1)
+            try self.validate(self.modelArn, name: "modelArn", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enrichmentStrategyConfiguration = "enrichmentStrategyConfiguration"
+            case modelArn = "modelArn"
+        }
+    }
+
     public struct ByteContentDoc: AWSEncodableShape {
         /// The base64-encoded string of the content.
         public let data: AWSBase64Data
@@ -2377,6 +2419,28 @@ extension BedrockAgent {
         }
     }
 
+    public struct ContextEnrichmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration of the Amazon Bedrock foundation model used for context enrichment.
+        public let bedrockFoundationModelConfiguration: BedrockFoundationModelContextEnrichmentConfiguration?
+        /// The method used for context enrichment. It must be Amazon Bedrock foundation models.
+        public let type: ContextEnrichmentType
+
+        @inlinable
+        public init(bedrockFoundationModelConfiguration: BedrockFoundationModelContextEnrichmentConfiguration? = nil, type: ContextEnrichmentType) {
+            self.bedrockFoundationModelConfiguration = bedrockFoundationModelConfiguration
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.bedrockFoundationModelConfiguration?.validate(name: "\(name).bedrockFoundationModelConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockFoundationModelConfiguration = "bedrockFoundationModelConfiguration"
+            case type = "type"
+        }
+    }
+
     public struct CrawlFilterConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The configuration of filtering certain objects or content types of the data source.
         public let patternObjectFilter: PatternObjectFilterConfiguration?
@@ -2418,11 +2482,13 @@ extension BedrockAgent {
         public let description: String?
         /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
         public let functionSchema: FunctionSchema?
-        /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+        /// Specify a built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only.           When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity.  For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.
         public let parentActionGroupSignature: ActionGroupSignature?
+        /// The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
+        public let parentActionGroupSignatureParams: [String: String]?
 
         @inlinable
-        public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupName: String, actionGroupState: ActionGroupState? = nil, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, clientToken: String? = CreateAgentActionGroupRequest.idempotencyToken(), description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil) {
+        public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupName: String, actionGroupState: ActionGroupState? = nil, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, clientToken: String? = CreateAgentActionGroupRequest.idempotencyToken(), description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil, parentActionGroupSignatureParams: [String: String]? = nil) {
             self.actionGroupExecutor = actionGroupExecutor
             self.actionGroupName = actionGroupName
             self.actionGroupState = actionGroupState
@@ -2433,6 +2499,7 @@ extension BedrockAgent {
             self.description = description
             self.functionSchema = functionSchema
             self.parentActionGroupSignature = parentActionGroupSignature
+            self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2448,6 +2515,7 @@ extension BedrockAgent {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.functionSchema, forKey: .functionSchema)
             try container.encodeIfPresent(self.parentActionGroupSignature, forKey: .parentActionGroupSignature)
+            try container.encodeIfPresent(self.parentActionGroupSignatureParams, forKey: .parentActionGroupSignatureParams)
         }
 
         public func validate(name: String) throws {
@@ -2475,6 +2543,7 @@ extension BedrockAgent {
             case description = "description"
             case functionSchema = "functionSchema"
             case parentActionGroupSignature = "parentActionGroupSignature"
+            case parentActionGroupSignatureParams = "parentActionGroupSignatureParams"
         }
     }
 
@@ -4391,6 +4460,20 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case bedrockEmbeddingModelConfiguration = "bedrockEmbeddingModelConfiguration"
+        }
+    }
+
+    public struct EnrichmentStrategyConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The method used for the context enrichment strategy.
+        public let method: EnrichmentStrategyMethod
+
+        @inlinable
+        public init(method: EnrichmentStrategyMethod) {
+            self.method = method
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case method = "method"
         }
     }
 
@@ -7480,6 +7563,56 @@ extension BedrockAgent {
         }
     }
 
+    public struct NeptuneAnalyticsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the names of the fields to which to map information about the vector store.
+        public let fieldMapping: NeptuneAnalyticsFieldMapping
+        /// The Amazon Resource Name (ARN) of the Neptune Analytics vector store.
+        public let graphArn: String
+
+        @inlinable
+        public init(fieldMapping: NeptuneAnalyticsFieldMapping, graphArn: String) {
+            self.fieldMapping = fieldMapping
+            self.graphArn = graphArn
+        }
+
+        public func validate(name: String) throws {
+            try self.fieldMapping.validate(name: "\(name).fieldMapping")
+            try self.validate(self.graphArn, name: "graphArn", parent: name, max: 255)
+            try self.validate(self.graphArn, name: "graphArn", parent: name, min: 1)
+            try self.validate(self.graphArn, name: "graphArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov):neptune-graph:[a-zA-Z0-9-]*:[0-9]{12}:graph/g-[a-zA-Z0-9]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldMapping = "fieldMapping"
+            case graphArn = "graphArn"
+        }
+    }
+
+    public struct NeptuneAnalyticsFieldMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
+        public let metadataField: String
+        /// The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.
+        public let textField: String
+
+        @inlinable
+        public init(metadataField: String, textField: String) {
+            self.metadataField = metadataField
+            self.textField = textField
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataField, name: "metadataField", parent: name, max: 2048)
+            try self.validate(self.metadataField, name: "metadataField", parent: name, pattern: "^.*$")
+            try self.validate(self.textField, name: "textField", parent: name, max: 2048)
+            try self.validate(self.textField, name: "textField", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataField = "metadataField"
+            case textField = "textField"
+        }
+    }
+
     public struct OpenSearchServerlessConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the OpenSearch Service vector store.
         public let collectionArn: String
@@ -7855,7 +7988,7 @@ extension BedrockAgent {
         public let foundationModel: String?
         /// Contains inference parameters to use when the agent invokes a foundation model in the part of the agent sequence defined by the promptType. For more information, see Inference parameters for foundation models.
         public let inferenceConfiguration: InferenceConfiguration?
-        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDEN, the overrideLambda field in the PromptOverrideConfiguration must be specified with the ARN of a Lambda function.
+        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType. If you set the field as OVERRIDDEN, the overrideLambda field in the PromptOverrideConfiguration must be specified with the ARN of a Lambda function.
         public let parserMode: CreationMode?
         /// Specifies whether to override the default prompt template for this promptType. Set this value to OVERRIDDEN to use the prompt that you provide in the basePromptTemplate. If you leave it as DEFAULT, the agent uses a default prompt template.
         public let promptCreationMode: CreationMode?
@@ -9185,6 +9318,8 @@ extension BedrockAgent {
     public struct StorageConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains the storage configuration of the knowledge base in MongoDB Atlas.
         public let mongoDbAtlasConfiguration: MongoDbAtlasConfiguration?
+        /// Contains details about the Neptune Analytics configuration of the knowledge base in Amazon Neptune. For more information,  see Create a vector index in Amazon Neptune Analytics..
+        public let neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration?
         /// Contains the storage configuration of the knowledge base in Amazon OpenSearch Service.
         public let opensearchServerlessConfiguration: OpenSearchServerlessConfiguration?
         /// Contains the storage configuration of the knowledge base in Pinecone.
@@ -9197,8 +9332,9 @@ extension BedrockAgent {
         public let type: KnowledgeBaseStorageType
 
         @inlinable
-        public init(mongoDbAtlasConfiguration: MongoDbAtlasConfiguration? = nil, opensearchServerlessConfiguration: OpenSearchServerlessConfiguration? = nil, pineconeConfiguration: PineconeConfiguration? = nil, rdsConfiguration: RdsConfiguration? = nil, redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration? = nil, type: KnowledgeBaseStorageType) {
+        public init(mongoDbAtlasConfiguration: MongoDbAtlasConfiguration? = nil, neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration? = nil, opensearchServerlessConfiguration: OpenSearchServerlessConfiguration? = nil, pineconeConfiguration: PineconeConfiguration? = nil, rdsConfiguration: RdsConfiguration? = nil, redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration? = nil, type: KnowledgeBaseStorageType) {
             self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
+            self.neptuneAnalyticsConfiguration = neptuneAnalyticsConfiguration
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
             self.pineconeConfiguration = pineconeConfiguration
             self.rdsConfiguration = rdsConfiguration
@@ -9208,6 +9344,7 @@ extension BedrockAgent {
 
         public func validate(name: String) throws {
             try self.mongoDbAtlasConfiguration?.validate(name: "\(name).mongoDbAtlasConfiguration")
+            try self.neptuneAnalyticsConfiguration?.validate(name: "\(name).neptuneAnalyticsConfiguration")
             try self.opensearchServerlessConfiguration?.validate(name: "\(name).opensearchServerlessConfiguration")
             try self.pineconeConfiguration?.validate(name: "\(name).pineconeConfiguration")
             try self.rdsConfiguration?.validate(name: "\(name).rdsConfiguration")
@@ -9216,6 +9353,7 @@ extension BedrockAgent {
 
         private enum CodingKeys: String, CodingKey {
             case mongoDbAtlasConfiguration = "mongoDbAtlasConfiguration"
+            case neptuneAnalyticsConfiguration = "neptuneAnalyticsConfiguration"
             case opensearchServerlessConfiguration = "opensearchServerlessConfiguration"
             case pineconeConfiguration = "pineconeConfiguration"
             case rdsConfiguration = "rdsConfiguration"
@@ -9722,11 +9860,13 @@ extension BedrockAgent {
         public let description: String?
         /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
         public let functionSchema: FunctionSchema?
-        /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
+        /// Update the built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only.           When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity.  For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.     During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
         public let parentActionGroupSignature: ActionGroupSignature?
+        /// The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
+        public let parentActionGroupSignatureParams: [String: String]?
 
         @inlinable
-        public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupId: String, actionGroupName: String, actionGroupState: ActionGroupState? = nil, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil) {
+        public init(actionGroupExecutor: ActionGroupExecutor? = nil, actionGroupId: String, actionGroupName: String, actionGroupState: ActionGroupState? = nil, agentId: String, agentVersion: String, apiSchema: APISchema? = nil, description: String? = nil, functionSchema: FunctionSchema? = nil, parentActionGroupSignature: ActionGroupSignature? = nil, parentActionGroupSignatureParams: [String: String]? = nil) {
             self.actionGroupExecutor = actionGroupExecutor
             self.actionGroupId = actionGroupId
             self.actionGroupName = actionGroupName
@@ -9737,6 +9877,7 @@ extension BedrockAgent {
             self.description = description
             self.functionSchema = functionSchema
             self.parentActionGroupSignature = parentActionGroupSignature
+            self.parentActionGroupSignatureParams = parentActionGroupSignatureParams
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -9752,6 +9893,7 @@ extension BedrockAgent {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.functionSchema, forKey: .functionSchema)
             try container.encodeIfPresent(self.parentActionGroupSignature, forKey: .parentActionGroupSignature)
+            try container.encodeIfPresent(self.parentActionGroupSignatureParams, forKey: .parentActionGroupSignatureParams)
         }
 
         public func validate(name: String) throws {
@@ -9776,6 +9918,7 @@ extension BedrockAgent {
             case description = "description"
             case functionSchema = "functionSchema"
             case parentActionGroupSignature = "parentActionGroupSignature"
+            case parentActionGroupSignatureParams = "parentActionGroupSignatureParams"
         }
     }
 
@@ -10637,26 +10780,31 @@ extension BedrockAgent {
     public struct VectorIngestionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
         public let chunkingConfiguration: ChunkingConfiguration?
+        /// The context enrichment configuration used for ingestion of the data into the vector store.
+        public let contextEnrichmentConfiguration: ContextEnrichmentConfiguration?
         /// A custom document transformer for parsed data source documents.
         public let customTransformationConfiguration: CustomTransformationConfiguration?
         /// Configurations for a parser to use for parsing documents in your data source. If you exclude this field, the default parser will be used.
         public let parsingConfiguration: ParsingConfiguration?
 
         @inlinable
-        public init(chunkingConfiguration: ChunkingConfiguration? = nil, customTransformationConfiguration: CustomTransformationConfiguration? = nil, parsingConfiguration: ParsingConfiguration? = nil) {
+        public init(chunkingConfiguration: ChunkingConfiguration? = nil, contextEnrichmentConfiguration: ContextEnrichmentConfiguration? = nil, customTransformationConfiguration: CustomTransformationConfiguration? = nil, parsingConfiguration: ParsingConfiguration? = nil) {
             self.chunkingConfiguration = chunkingConfiguration
+            self.contextEnrichmentConfiguration = contextEnrichmentConfiguration
             self.customTransformationConfiguration = customTransformationConfiguration
             self.parsingConfiguration = parsingConfiguration
         }
 
         public func validate(name: String) throws {
             try self.chunkingConfiguration?.validate(name: "\(name).chunkingConfiguration")
+            try self.contextEnrichmentConfiguration?.validate(name: "\(name).contextEnrichmentConfiguration")
             try self.customTransformationConfiguration?.validate(name: "\(name).customTransformationConfiguration")
             try self.parsingConfiguration?.validate(name: "\(name).parsingConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case chunkingConfiguration = "chunkingConfiguration"
+            case contextEnrichmentConfiguration = "contextEnrichmentConfiguration"
             case customTransformationConfiguration = "customTransformationConfiguration"
             case parsingConfiguration = "parsingConfiguration"
         }

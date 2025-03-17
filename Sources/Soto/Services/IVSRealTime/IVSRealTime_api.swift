@@ -1231,7 +1231,7 @@ public struct IVSRealTime: AWSService {
     ///
     /// Parameters:
     ///   - resourceArn: The ARN of the resource to be untagged. The ARN must be URL-encoded.
-    ///   - tagKeys: Array of tags to be removed. Array of maps, each of the form string:string (key:value). See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
+    ///   - tagKeys: Array of tag keys (strings) for the tags to be removed. See Best practices and strategies in Tagging AWS Resources and Tag Editor for details, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no constraints on tags beyond what is documented there.
     ///   - logger: Logger use during operation
     @inlinable
     public func untagResource(
