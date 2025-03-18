@@ -32,6 +32,18 @@ extension GeoMaps {
         public var description: String { return self.rawValue }
     }
 
+    public enum LabelSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case large = "Large"
+        case small = "Small"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MapFeatureMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "Disabled"
+        case enabled = "Enabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MapStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hybrid = "Hybrid"
         case monochrome = "Monochrome"
@@ -50,6 +62,7 @@ extension GeoMaps {
 
     public enum StaticMapStyle: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case satellite = "Satellite"
+        case standard = "Standard"
         public var description: String { return self.rawValue }
     }
 
@@ -181,8 +194,12 @@ extension GeoMaps {
         public let boundingBox: String?
         /// Takes in a pair of coordinates, [Lon, Lat], which becomes the center point of the image. This parameter requires that either zoom or radius is set.  Cannot be used with Zoom and or Radius   Example: 49.295,-123.108
         public let center: String?
+        /// Sets color tone for map, such as dark and light for specific map styles. It only applies to vector map styles, such as Standard. Example: Light  Default value: Light   Valid values for ColorScheme are case sensitive.
+        public let colorScheme: ColorScheme?
         /// Takes in a string to draw geometries on the image. The input is a comma separated format as follows format: [Lon, Lat]  Example: line:-122.407653,37.798557,-122.413291,37.802443;color=%23DD0000;width=7;outline-color=#00DD00;outline-width=5yd|point:-122.40572,37.80004;label=Fog Hill Market;size=large;text-color=%23DD0000;color=#EE4B2B   Currently it supports the following geometry types: point, line and polygon. It does not support multiPoint , multiLine and multiPolgyon.
         public let compactOverlay: String?
+        /// It is a flag that takes in true or false. It prevents the labels that are on the edge of the image from being cut or obscured.
+        public let cropLabels: Bool?
         /// The map scaling parameter to size the image, icons, and labels. It follows the pattern of ^map(@2x)?$. Example: map, map@2x
         public let fileName: String
         /// Takes in a string to draw geometries on the image. The input is a valid GeoJSON collection object.  Example: {"type":"FeatureCollection","features": [{"type":"Feature","geometry":{"type":"MultiPoint","coordinates": [[-90.076345,51.504107],[-0.074451,51.506892]]},"properties": {"color":"#00DD00"}}]}
@@ -191,13 +208,21 @@ extension GeoMaps {
         public let height: Int
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
+        /// Overrides the label size auto-calculated by FileName. Takes in one of the values - Small or Large.
+        public let labelSize: LabelSize?
+        /// Specifies the language on the map labels using the BCP 47 language tag, limited to ISO 639-1 two-letter language codes. If the specified language data isn't available for the map image, the labels will default to the regional primary language. Supported codes:    ar     as     az     be     bg     bn     bs     ca     cs     cy     da     de     el     en     es     et     eu     fi     fo     fr     ga     gl     gn     gu     he     hi     hr     hu     hy     id     is     it     ja     ka     kk     km     kn     ko     ky     lt     lv     mk     ml     mr     ms     mt     my     nl     no     or     pa     pl     pt     ro     ru     sk     sl     sq     sr     sv     ta     te     th     tr     uk     uz     vi     zh
+        public let language: String?
         /// Applies additional space (in pixels) around overlay feature to prevent them from being cut or obscured.  Value for max and min is determined by: Min: 1  Max: min(height, width)/4   Example: 100
         public let padding: Int?
+        /// Determines if the result image will display icons representing points of interest on the map.
+        public let pointsOfInterests: MapFeatureMode?
+        /// Specifies the political view, using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
+        public let politicalView: String?
         /// Used with center parameter, it specifies the zoom of the image where you can control it on a granular level. Takes in any value &gt;= 1.  Example: 1500   Cannot be used with Zoom.   Unit: Meters
         public let radius: Int64?
         /// Displays a scale on the bottom right of the map image with the unit specified in the input.  Example: KilometersMiles, Miles, Kilometers, MilesKilometers
         public let scaleBarUnit: ScaleBarUnit?
-        /// Style specifies the desired map style for the Style APIs.
+        ///  Style specifies the desired map style.
         public let style: StaticMapStyle?
         /// Specifies the width of the map image.
         public let width: Int
@@ -205,16 +230,22 @@ extension GeoMaps {
         public let zoom: Float?
 
         @inlinable
-        public init(boundedPositions: String? = nil, boundingBox: String? = nil, center: String? = nil, compactOverlay: String? = nil, fileName: String, geoJsonOverlay: String? = nil, height: Int, key: String? = nil, padding: Int? = nil, radius: Int64? = nil, scaleBarUnit: ScaleBarUnit? = nil, style: StaticMapStyle? = nil, width: Int, zoom: Float? = nil) {
+        public init(boundedPositions: String? = nil, boundingBox: String? = nil, center: String? = nil, colorScheme: ColorScheme? = nil, compactOverlay: String? = nil, cropLabels: Bool? = nil, fileName: String, geoJsonOverlay: String? = nil, height: Int, key: String? = nil, labelSize: LabelSize? = nil, language: String? = nil, padding: Int? = nil, pointsOfInterests: MapFeatureMode? = nil, politicalView: String? = nil, radius: Int64? = nil, scaleBarUnit: ScaleBarUnit? = nil, style: StaticMapStyle? = nil, width: Int, zoom: Float? = nil) {
             self.boundedPositions = boundedPositions
             self.boundingBox = boundingBox
             self.center = center
+            self.colorScheme = colorScheme
             self.compactOverlay = compactOverlay
+            self.cropLabels = cropLabels
             self.fileName = fileName
             self.geoJsonOverlay = geoJsonOverlay
             self.height = height
             self.key = key
+            self.labelSize = labelSize
+            self.language = language
             self.padding = padding
+            self.pointsOfInterests = pointsOfInterests
+            self.politicalView = politicalView
             self.radius = radius
             self.scaleBarUnit = scaleBarUnit
             self.style = style
@@ -228,12 +259,18 @@ extension GeoMaps {
             request.encodeQuery(self.boundedPositions, key: "bounded-positions")
             request.encodeQuery(self.boundingBox, key: "bounding-box")
             request.encodeQuery(self.center, key: "center")
+            request.encodeQuery(self.colorScheme, key: "color-scheme")
             request.encodeQuery(self.compactOverlay, key: "compact-overlay")
+            request.encodeQuery(self.cropLabels, key: "crop-labels")
             request.encodePath(self.fileName, key: "FileName")
             request.encodeQuery(self.geoJsonOverlay, key: "geojson-overlay")
             request.encodeQuery(self.height, key: "height")
             request.encodeQuery(self.key, key: "key")
+            request.encodeQuery(self.labelSize, key: "label-size")
+            request.encodeQuery(self.language, key: "lang")
             request.encodeQuery(self.padding, key: "padding")
+            request.encodeQuery(self.pointsOfInterests, key: "pois")
+            request.encodeQuery(self.politicalView, key: "political-view")
             request.encodeQuery(self.radius, key: "radius")
             request.encodeQuery(self.scaleBarUnit, key: "scale-unit")
             request.encodeQuery(self.style, key: "style")
@@ -254,6 +291,11 @@ extension GeoMaps {
             try self.validate(self.geoJsonOverlay, name: "geoJsonOverlay", parent: name, max: 7000)
             try self.validate(self.geoJsonOverlay, name: "geoJsonOverlay", parent: name, min: 1)
             try self.validate(self.key, name: "key", parent: name, max: 1000)
+            try self.validate(self.language, name: "language", parent: name, max: 35)
+            try self.validate(self.language, name: "language", parent: name, min: 2)
+            try self.validate(self.politicalView, name: "politicalView", parent: name, max: 3)
+            try self.validate(self.politicalView, name: "politicalView", parent: name, min: 2)
+            try self.validate(self.politicalView, name: "politicalView", parent: name, pattern: "^([A-Z]{2}|[A-Z]{3})$")
             try self.validate(self.radius, name: "radius", parent: name, max: 4294967295)
             try self.validate(self.radius, name: "radius", parent: name, min: 0)
         }
@@ -301,7 +343,7 @@ extension GeoMaps {
         public let colorScheme: ColorScheme?
         /// Optional: The API key to be used for authorization. Either an API key or valid SigV4 signature must be provided when making a request.
         public let key: String?
-        /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    PAK: Pakistan's view on Jammu and Kashmir and the Junagadh Area    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
+        /// Specifies the political view using ISO 3166-2 or ISO 3166-3 country code format. The following political views are currently supported:    ARG: Argentina's view on the Southern Patagonian Ice Field and Tierra Del Fuego, including the Falkland Islands, South Georgia, and South Sandwich Islands    EGY: Egypt's view on Bir Tawil    IND: India's view on Gilgit-Baltistan    KEN: Kenya's view on the Ilemi Triangle    MAR: Morocco's view on Western Sahara    RUS: Russia's view on Crimea    SDN: Sudan's view on the Halaib Triangle    SRB: Serbia's view on Kosovo, Vukovar, and Sarengrad Islands    SUR: Suriname's view on the Courantyne Headwaters and Lawa Headwaters    SYR: Syria's view on the Golan Heights    TUR: Turkey's view on Cyprus and Northern Cyprus    TZA: Tanzania's view on Lake Malawi    URY: Uruguay's view on Rincon de Artigas    VNM: Vietnam's view on the Paracel Islands and Spratly Islands
         public let politicalView: String?
         /// Style specifies the desired map style.
         public let style: MapStyle
@@ -407,7 +449,7 @@ extension GeoMaps {
 
     public struct GetTileResponse: AWSDecodableShape {
         public static let _options: AWSShapeOptions = [.rawPayload]
-        /// The blob represents a vector tile in mvt format for the GetTile API.
+        /// The blob represents a vector tile in mvt or a raster tile in an image format.
         public let blob: AWSHTTPBody
         /// Header that instructs caching configuration for the client.
         public let cacheControl: String?

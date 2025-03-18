@@ -32,6 +32,12 @@ extension RUM {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeobfuscationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MetricDestination: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudWatch = "CloudWatch"
         case evidently = "Evidently"
@@ -66,8 +72,12 @@ extension RUM {
         public let customEvents: CustomEvents?
         /// A structure that contains information about whether this app monitor stores a copy of the telemetry data that RUM collects using CloudWatch Logs.
         public let dataStorage: DataStorage?
+        ///  A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
+        public let deobfuscationConfiguration: DeobfuscationConfiguration?
         /// The top-level internet domain name for which your application has administrative authority.
         public let domain: String?
+        ///  List the domain names for which your application has administrative authority.
+        public let domainList: [String]?
         /// The unique ID of this app monitor.
         public let id: String?
         /// The date and time of the most recent changes to this app monitor's configuration.
@@ -80,12 +90,14 @@ extension RUM {
         public let tags: [String: String]?
 
         @inlinable
-        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, created: String? = nil, customEvents: CustomEvents? = nil, dataStorage: DataStorage? = nil, domain: String? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, state: StateEnum? = nil, tags: [String: String]? = nil) {
+        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, created: String? = nil, customEvents: CustomEvents? = nil, dataStorage: DataStorage? = nil, deobfuscationConfiguration: DeobfuscationConfiguration? = nil, domain: String? = nil, domainList: [String]? = nil, id: String? = nil, lastModified: String? = nil, name: String? = nil, state: StateEnum? = nil, tags: [String: String]? = nil) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.created = created
             self.customEvents = customEvents
             self.dataStorage = dataStorage
+            self.deobfuscationConfiguration = deobfuscationConfiguration
             self.domain = domain
+            self.domainList = domainList
             self.id = id
             self.lastModified = lastModified
             self.name = name
@@ -98,7 +110,9 @@ extension RUM {
             case created = "Created"
             case customEvents = "CustomEvents"
             case dataStorage = "DataStorage"
+            case deobfuscationConfiguration = "DeobfuscationConfiguration"
             case domain = "Domain"
+            case domainList = "DomainList"
             case id = "Id"
             case lastModified = "LastModified"
             case name = "Name"
@@ -463,28 +477,42 @@ extension RUM {
         public let customEvents: CustomEvents?
         /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false.
         public let cwLogEnabled: Bool?
+        ///  A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
+        public let deobfuscationConfiguration: DeobfuscationConfiguration?
         /// The top-level internet domain name for which your application has administrative authority.
-        public let domain: String
+        public let domain: String?
+        ///  List the domain names for which your application has administrative authority. The CreateAppMonitor requires either the domain or the domain list.
+        public let domainList: [String]?
         /// A name for the app monitor.
         public let name: String
         /// Assigns one or more tags (key-value pairs) to the app monitor. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with an app monitor. For more information, see Tagging Amazon Web Services resources.
         public let tags: [String: String]?
 
         @inlinable
-        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, domain: String, name: String, tags: [String: String]? = nil) {
+        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, deobfuscationConfiguration: DeobfuscationConfiguration? = nil, domain: String? = nil, domainList: [String]? = nil, name: String, tags: [String: String]? = nil) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.customEvents = customEvents
             self.cwLogEnabled = cwLogEnabled
+            self.deobfuscationConfiguration = deobfuscationConfiguration
             self.domain = domain
+            self.domainList = domainList
             self.name = name
             self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.appMonitorConfiguration?.validate(name: "\(name).appMonitorConfiguration")
+            try self.deobfuscationConfiguration?.validate(name: "\(name).deobfuscationConfiguration")
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
-            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(localhost)$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|(?=^[a-zA-Z0-9\\.\\*-]{4,253}$)(?!.*\\.-)(?!.*-\\.)(?!.*\\.\\.)(?!.*[^\\.]{64,})^(\\*\\.)?(?![-\\.\\*])[^\\*]{1,}\\.(?!.*--)(?=.*[a-zA-Z])[^\\*]{1,}[^\\*-]$")
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(localhost)$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|(?=^[a-zA-Z0-9\\.\\*-]{4,253}$)(?!.*\\.-)(?!.*-\\.)(?!.*\\.\\.)(?!.*[^\\.]{64,})^(\\*\\.)?(?![-\\.\\*])[^\\*]{1,}\\.(\\*|(?!.*--)(?=.*[a-zA-Z])[^\\*]{1,}[^\\*-])$")
+            try self.domainList?.forEach {
+                try validate($0, name: "domainList[]", parent: name, max: 253)
+                try validate($0, name: "domainList[]", parent: name, min: 1)
+                try validate($0, name: "domainList[]", parent: name, pattern: "^(localhost)$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|(?=^[a-zA-Z0-9\\.\\*-]{4,253}$)(?!.*\\.-)(?!.*-\\.)(?!.*\\.\\.)(?!.*[^\\.]{64,})^(\\*\\.)?(?![-\\.\\*])[^\\*]{1,}\\.(\\*|(?!.*--)(?=.*[a-zA-Z])[^\\*]{1,}[^\\*-])$")
+            }
+            try self.validate(self.domainList, name: "domainList", parent: name, max: 5)
+            try self.validate(self.domainList, name: "domainList", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
@@ -500,7 +528,9 @@ extension RUM {
             case appMonitorConfiguration = "AppMonitorConfiguration"
             case customEvents = "CustomEvents"
             case cwLogEnabled = "CwLogEnabled"
+            case deobfuscationConfiguration = "DeobfuscationConfiguration"
             case domain = "Domain"
+            case domainList = "DomainList"
             case name = "Name"
             case tags = "Tags"
         }
@@ -676,6 +706,24 @@ extension RUM {
         public init() {}
     }
 
+    public struct DeobfuscationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  A structure that contains the configuration for how an app monitor can unminify JavaScript error stack traces using source maps.
+        public let javaScriptSourceMaps: JavaScriptSourceMaps?
+
+        @inlinable
+        public init(javaScriptSourceMaps: JavaScriptSourceMaps? = nil) {
+            self.javaScriptSourceMaps = javaScriptSourceMaps
+        }
+
+        public func validate(name: String) throws {
+            try self.javaScriptSourceMaps?.validate(name: "\(name).javaScriptSourceMaps")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case javaScriptSourceMaps = "JavaScriptSourceMaps"
+        }
+    }
+
     public struct GetAppMonitorDataRequest: AWSEncodableShape {
         /// An array of structures that you can use to filter the results to those that match one or more sets of key-value pairs that you specify.
         public let filters: [QueryFilter]?
@@ -818,6 +866,30 @@ extension RUM {
         private enum CodingKeys: String, CodingKey {
             case policyDocument = "PolicyDocument"
             case policyRevisionId = "PolicyRevisionId"
+        }
+    }
+
+    public struct JavaScriptSourceMaps: AWSEncodableShape & AWSDecodableShape {
+        ///  The S3Uri of the bucket or folder that stores the source map files. It is required if status is ENABLED.
+        public let s3Uri: String?
+        ///  Specifies whether JavaScript error stack traces should be unminified for this app monitor. The default is for JavaScript error stack trace unminification to be DISABLED.
+        public let status: DeobfuscationStatus
+
+        @inlinable
+        public init(s3Uri: String? = nil, status: DeobfuscationStatus) {
+            self.s3Uri = s3Uri
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][-.a-z0-9]{1,61}(?:/[-!_*'().a-z0-9A-Z]+(?:/[-!_*'().a-z0-9A-Z]+)*)?/?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri = "S3Uri"
+            case status = "Status"
         }
     }
 
@@ -1378,17 +1450,23 @@ extension RUM {
         public let customEvents: CustomEvents?
         /// Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges.
         public let cwLogEnabled: Bool?
+        ///  A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
+        public let deobfuscationConfiguration: DeobfuscationConfiguration?
         /// The top-level internet domain name for which your application has administrative authority.
         public let domain: String?
+        ///  List the domain names for which your application has administrative authority. The UpdateAppMonitor allows either the domain or the domain list.
+        public let domainList: [String]?
         /// The name of the app monitor to update.
         public let name: String
 
         @inlinable
-        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, domain: String? = nil, name: String) {
+        public init(appMonitorConfiguration: AppMonitorConfiguration? = nil, customEvents: CustomEvents? = nil, cwLogEnabled: Bool? = nil, deobfuscationConfiguration: DeobfuscationConfiguration? = nil, domain: String? = nil, domainList: [String]? = nil, name: String) {
             self.appMonitorConfiguration = appMonitorConfiguration
             self.customEvents = customEvents
             self.cwLogEnabled = cwLogEnabled
+            self.deobfuscationConfiguration = deobfuscationConfiguration
             self.domain = domain
+            self.domainList = domainList
             self.name = name
         }
 
@@ -1398,15 +1476,25 @@ extension RUM {
             try container.encodeIfPresent(self.appMonitorConfiguration, forKey: .appMonitorConfiguration)
             try container.encodeIfPresent(self.customEvents, forKey: .customEvents)
             try container.encodeIfPresent(self.cwLogEnabled, forKey: .cwLogEnabled)
+            try container.encodeIfPresent(self.deobfuscationConfiguration, forKey: .deobfuscationConfiguration)
             try container.encodeIfPresent(self.domain, forKey: .domain)
+            try container.encodeIfPresent(self.domainList, forKey: .domainList)
             request.encodePath(self.name, key: "Name")
         }
 
         public func validate(name: String) throws {
             try self.appMonitorConfiguration?.validate(name: "\(name).appMonitorConfiguration")
+            try self.deobfuscationConfiguration?.validate(name: "\(name).deobfuscationConfiguration")
             try self.validate(self.domain, name: "domain", parent: name, max: 253)
             try self.validate(self.domain, name: "domain", parent: name, min: 1)
-            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(localhost)$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|(?=^[a-zA-Z0-9\\.\\*-]{4,253}$)(?!.*\\.-)(?!.*-\\.)(?!.*\\.\\.)(?!.*[^\\.]{64,})^(\\*\\.)?(?![-\\.\\*])[^\\*]{1,}\\.(?!.*--)(?=.*[a-zA-Z])[^\\*]{1,}[^\\*-]$")
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(localhost)$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|(?=^[a-zA-Z0-9\\.\\*-]{4,253}$)(?!.*\\.-)(?!.*-\\.)(?!.*\\.\\.)(?!.*[^\\.]{64,})^(\\*\\.)?(?![-\\.\\*])[^\\*]{1,}\\.(\\*|(?!.*--)(?=.*[a-zA-Z])[^\\*]{1,}[^\\*-])$")
+            try self.domainList?.forEach {
+                try validate($0, name: "domainList[]", parent: name, max: 253)
+                try validate($0, name: "domainList[]", parent: name, min: 1)
+                try validate($0, name: "domainList[]", parent: name, pattern: "^(localhost)$|^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|(?=^[a-zA-Z0-9\\.\\*-]{4,253}$)(?!.*\\.-)(?!.*-\\.)(?!.*\\.\\.)(?!.*[^\\.]{64,})^(\\*\\.)?(?![-\\.\\*])[^\\*]{1,}\\.(\\*|(?!.*--)(?=.*[a-zA-Z])[^\\*]{1,}[^\\*-])$")
+            }
+            try self.validate(self.domainList, name: "domainList", parent: name, max: 5)
+            try self.validate(self.domainList, name: "domainList", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!\\.)[\\.\\-_#A-Za-z0-9]+$")
@@ -1416,7 +1504,9 @@ extension RUM {
             case appMonitorConfiguration = "AppMonitorConfiguration"
             case customEvents = "CustomEvents"
             case cwLogEnabled = "CwLogEnabled"
+            case deobfuscationConfiguration = "DeobfuscationConfiguration"
             case domain = "Domain"
+            case domainList = "DomainList"
         }
     }
 

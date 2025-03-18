@@ -223,7 +223,9 @@ public struct RUM: AWSService {
     ///   - appMonitorConfiguration: A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services. If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
     ///   - customEvents: Specifies whether this app monitor allows the web client to define and send custom events. If you omit this parameter, custom events are DISABLED. For more information about custom events, see  Send custom events.
     ///   - cwLogEnabled: Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges. If you omit this parameter, the default is false.
+    ///   - deobfuscationConfiguration:  A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
     ///   - domain: The top-level internet domain name for which your application has administrative authority.
+    ///   - domainList:  List the domain names for which your application has administrative authority. The CreateAppMonitor requires either the domain or the domain list.
     ///   - name: A name for the app monitor.
     ///   - tags: Assigns one or more tags (key-value pairs) to the app monitor. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can associate as many as 50 tags with an app monitor. For more information, see Tagging Amazon Web Services resources.
     ///   - logger: Logger use during operation
@@ -232,7 +234,9 @@ public struct RUM: AWSService {
         appMonitorConfiguration: AppMonitorConfiguration? = nil,
         customEvents: CustomEvents? = nil,
         cwLogEnabled: Bool? = nil,
-        domain: String,
+        deobfuscationConfiguration: DeobfuscationConfiguration? = nil,
+        domain: String? = nil,
+        domainList: [String]? = nil,
         name: String,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -241,7 +245,9 @@ public struct RUM: AWSService {
             appMonitorConfiguration: appMonitorConfiguration, 
             customEvents: customEvents, 
             cwLogEnabled: cwLogEnabled, 
+            deobfuscationConfiguration: deobfuscationConfiguration, 
             domain: domain, 
+            domainList: domainList, 
             name: name, 
             tags: tags
         )
@@ -742,7 +748,9 @@ public struct RUM: AWSService {
     ///   - appMonitorConfiguration: A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services.
     ///   - customEvents: Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED. For more information about custom events, see  Send custom events.
     ///   - cwLogEnabled: Data collected by RUM is kept by RUM for 30 days and then deleted. This parameter specifies whether RUM  sends a copy of this telemetry data to Amazon CloudWatch Logs in your account. This enables you to keep the telemetry data for more than 30 days, but it does incur Amazon CloudWatch Logs charges.
+    ///   - deobfuscationConfiguration:  A structure that contains the configuration for how an app monitor can deobfuscate stack traces.
     ///   - domain: The top-level internet domain name for which your application has administrative authority.
+    ///   - domainList:  List the domain names for which your application has administrative authority. The UpdateAppMonitor allows either the domain or the domain list.
     ///   - name: The name of the app monitor to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -750,7 +758,9 @@ public struct RUM: AWSService {
         appMonitorConfiguration: AppMonitorConfiguration? = nil,
         customEvents: CustomEvents? = nil,
         cwLogEnabled: Bool? = nil,
+        deobfuscationConfiguration: DeobfuscationConfiguration? = nil,
         domain: String? = nil,
+        domainList: [String]? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateAppMonitorResponse {
@@ -758,7 +768,9 @@ public struct RUM: AWSService {
             appMonitorConfiguration: appMonitorConfiguration, 
             customEvents: customEvents, 
             cwLogEnabled: cwLogEnabled, 
+            deobfuscationConfiguration: deobfuscationConfiguration, 
             domain: domain, 
+            domainList: domainList, 
             name: name
         )
         return try await self.updateAppMonitor(input, logger: logger)

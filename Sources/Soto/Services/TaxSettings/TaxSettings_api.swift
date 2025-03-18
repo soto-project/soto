@@ -492,7 +492,7 @@ public struct TaxSettings: AWSService {
     ///   - accountIds:  The list of unique account identifiers.
     ///   - authority: 
     ///   - exemptionCertificate: 
-    ///   - exemptionType: The exemption type.
+    ///   - exemptionType: The exemption type. Use the supported tax exemption type description.
     ///   - logger: Logger use during operation
     @inlinable
     public func putTaxExemption(

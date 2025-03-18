@@ -244,6 +244,81 @@ extension ApplicationSignals {
         }
     }
 
+    public struct BatchUpdateExclusionWindowsError: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: String
+        /// The error message.
+        public let errorMessage: String
+        /// The SLO ID in the error.
+        public let sloId: String
+
+        @inlinable
+        public init(errorCode: String, errorMessage: String, sloId: String) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.sloId = sloId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case errorMessage = "ErrorMessage"
+            case sloId = "SloId"
+        }
+    }
+
+    public struct BatchUpdateExclusionWindowsInput: AWSEncodableShape {
+        /// A list of exclusion windows to add to the specified SLOs. You can add up to 10 exclusion windows per SLO.
+        public let addExclusionWindows: [ExclusionWindow]?
+        /// A list of exclusion windows to remove from the specified SLOs. The window configuration must match an existing exclusion window.
+        public let removeExclusionWindows: [ExclusionWindow]?
+        /// The list of SLO IDs to add or remove exclusion windows from.
+        public let sloIds: [String]
+
+        @inlinable
+        public init(addExclusionWindows: [ExclusionWindow]? = nil, removeExclusionWindows: [ExclusionWindow]? = nil, sloIds: [String]) {
+            self.addExclusionWindows = addExclusionWindows
+            self.removeExclusionWindows = removeExclusionWindows
+            self.sloIds = sloIds
+        }
+
+        public func validate(name: String) throws {
+            try self.addExclusionWindows?.forEach {
+                try $0.validate(name: "\(name).addExclusionWindows[]")
+            }
+            try self.validate(self.addExclusionWindows, name: "addExclusionWindows", parent: name, max: 10)
+            try self.removeExclusionWindows?.forEach {
+                try $0.validate(name: "\(name).removeExclusionWindows[]")
+            }
+            try self.validate(self.removeExclusionWindows, name: "removeExclusionWindows", parent: name, max: 10)
+            try self.validate(self.sloIds, name: "sloIds", parent: name, max: 50)
+            try self.validate(self.sloIds, name: "sloIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addExclusionWindows = "AddExclusionWindows"
+            case removeExclusionWindows = "RemoveExclusionWindows"
+            case sloIds = "SloIds"
+        }
+    }
+
+    public struct BatchUpdateExclusionWindowsOutput: AWSDecodableShape {
+        /// A list of errors that occurred while processing the request.
+        public let errors: [BatchUpdateExclusionWindowsError]
+        /// The list of SLO IDs that were successfully processed.
+        public let sloIds: [String]
+
+        @inlinable
+        public init(errors: [BatchUpdateExclusionWindowsError], sloIds: [String]) {
+            self.errors = errors
+            self.sloIds = sloIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case sloIds = "SloIds"
+        }
+    }
+
     public struct BurnRateConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The number of minutes to use as the look-back window.
         public let lookBackWindowMinutes: Int
@@ -406,6 +481,39 @@ extension ApplicationSignals {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct ExclusionWindow: AWSEncodableShape & AWSDecodableShape {
+        /// A description explaining why this time period should be excluded from SLO calculations.
+        public let reason: String?
+        /// The recurrence rule for the SLO time window exclusion. Supports both cron and rate expressions.
+        public let recurrenceRule: RecurrenceRule?
+        /// The start of the SLO time window exclusion. Defaults to current time if not specified.
+        public let startTime: Date?
+        /// The SLO time window exclusion .
+        public let window: Window
+
+        @inlinable
+        public init(reason: String? = nil, recurrenceRule: RecurrenceRule? = nil, startTime: Date? = nil, window: Window) {
+            self.reason = reason
+            self.recurrenceRule = recurrenceRule
+            self.startTime = startTime
+            self.window = window
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reason, name: "reason", parent: name, max: 1024)
+            try self.validate(self.reason, name: "reason", parent: name, min: 1)
+            try self.recurrenceRule?.validate(name: "\(name).recurrenceRule")
+            try self.window.validate(name: "\(name).window")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case recurrenceRule = "RecurrenceRule"
+            case startTime = "StartTime"
+            case window = "Window"
         }
     }
 
@@ -683,6 +791,56 @@ extension ApplicationSignals {
             case nextToken = "NextToken"
             case serviceDependents = "ServiceDependents"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct ListServiceLevelObjectiveExclusionWindowsInput: AWSEncodableShape {
+        /// The ID of the SLO to list exclusion windows for.
+        public let id: String
+        /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
+        public let maxResults: Int?
+        /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
+        public let nextToken: String?
+
+        @inlinable
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeQuery(self.maxResults, key: "MaxResults")
+            request.encodeQuery(self.nextToken, key: "NextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$|^arn:aws:application-signals:[^:]*:[^:]*:slo/[0-9A-Za-z][-._0-9A-Za-z ]{0,126}[0-9A-Za-z]$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 10)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListServiceLevelObjectiveExclusionWindowsOutput: AWSDecodableShape {
+        /// A list of exclusion windows configured for the SLO.
+        public let exclusionWindows: [ExclusionWindow]
+        /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
+        public let nextToken: String?
+
+        @inlinable
+        public init(exclusionWindows: [ExclusionWindow], nextToken: String? = nil) {
+            self.exclusionWindows = exclusionWindows
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionWindows = "ExclusionWindows"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1083,6 +1241,25 @@ extension ApplicationSignals {
             case period = "Period"
             case stat = "Stat"
             case unit = "Unit"
+        }
+    }
+
+    public struct RecurrenceRule: AWSEncodableShape & AWSDecodableShape {
+        /// A cron or rate expression that specifies the schedule for the exclusion window.
+        public let expression: String
+
+        @inlinable
+        public init(expression: String) {
+            self.expression = expression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 1024)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
         }
     }
 
@@ -1804,6 +1981,28 @@ extension ApplicationSignals {
 
         private enum CodingKeys: String, CodingKey {
             case slo = "Slo"
+        }
+    }
+
+    public struct Window: AWSEncodableShape & AWSDecodableShape {
+        /// The number of time units for the exclusion window length.
+        public let duration: Int
+        /// The unit of time for the exclusion window duration. Valid values: MINUTE, HOUR, DAY, MONTH.
+        public let durationUnit: DurationUnit
+
+        @inlinable
+        public init(duration: Int, durationUnit: DurationUnit) {
+            self.duration = duration
+            self.durationUnit = durationUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.duration, name: "duration", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration = "Duration"
+            case durationUnit = "DurationUnit"
         }
     }
 }
