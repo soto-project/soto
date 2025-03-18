@@ -507,8 +507,6 @@ extension TaxSettings {
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d+$")
             }
-            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5)
-            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -545,8 +543,6 @@ extension TaxSettings {
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d+$")
             }
-            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5)
-            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -612,8 +608,6 @@ extension TaxSettings {
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d+$")
             }
-            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5)
-            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
             try self.taxRegistrationEntry.validate(name: "\(name).taxRegistrationEntry")
         }
 
@@ -1298,7 +1292,7 @@ extension TaxSettings {
         public let accountIds: [String]
         public let authority: Authority
         public let exemptionCertificate: ExemptionCertificate
-        /// The exemption type.
+        /// The exemption type. Use the supported tax exemption type description.
         public let exemptionType: String
 
         @inlinable
@@ -1315,8 +1309,6 @@ extension TaxSettings {
                 try validate($0, name: "accountIds[]", parent: name, min: 12)
                 try validate($0, name: "accountIds[]", parent: name, pattern: "^\\d+$")
             }
-            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 5)
-            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
             try self.authority.validate(name: "\(name).authority")
             try self.exemptionCertificate.validate(name: "\(name).exemptionCertificate")
             try self.validate(self.exemptionType, name: "exemptionType", parent: name, max: 200)
@@ -1708,7 +1700,7 @@ extension TaxSettings {
         public let legalName: String
         ///  Your tax registration unique identifier.
         public let registrationId: String
-        /// Type of your tax registration. This can be either VAT or GST.
+        /// Type of your tax registration.
         public let registrationType: TaxRegistrationType
         /// The industry that describes your business. For business-to-business (B2B) customers, specify Business. For business-to-consumer (B2C) customers, specify Individual. For business-to-government (B2G), specify Government. Note that certain values may not applicable for the request country. Please refer to country specific information in API document.
         public let sector: Sector?
@@ -1967,13 +1959,13 @@ extension TaxSettings {
     }
 
     public struct VietnamAdditionalInfo: AWSEncodableShape & AWSDecodableShape {
-        /// The electronic transaction code number on the tax return document.
+        /// The electronic transaction code number on the tax return document. This field must be provided for successful API operation.
         public let electronicTransactionCodeNumber: String?
-        /// The enterprise identification number for tax registration.
+        /// The enterprise identification number for tax registration. This field must be provided for successful API operation.
         public let enterpriseIdentificationNumber: String?
-        /// The payment voucher number on the tax return payment document.
+        /// The payment voucher number on the tax return payment document. This field must be provided for successful API operation.
         public let paymentVoucherNumber: String?
-        /// The date on the tax return payment document.
+        /// The date on the tax return payment document. This field must be provided for successful API operation.
         public let paymentVoucherNumberDate: String?
 
         @inlinable
@@ -1987,7 +1979,7 @@ extension TaxSettings {
         public func validate(name: String) throws {
             try self.validate(self.electronicTransactionCodeNumber, name: "electronicTransactionCodeNumber", parent: name, pattern: "^\\d{17}$")
             try self.validate(self.enterpriseIdentificationNumber, name: "enterpriseIdentificationNumber", parent: name, pattern: "^(\\d{10}|(\\d{10}-\\d{3}))$")
-            try self.validate(self.paymentVoucherNumber, name: "paymentVoucherNumber", parent: name, pattern: "^\\d{17}$")
+            try self.validate(self.paymentVoucherNumber, name: "paymentVoucherNumber", parent: name, pattern: "^(\\d{17}|[A-Za-z]{3}\\d{13})$")
             try self.validate(self.paymentVoucherNumberDate, name: "paymentVoucherNumberDate", parent: name, pattern: "^(\\d{4}-(0[0-9]|1[0-2])-([0-2][0-9]|3[0-1]))$")
         }
 

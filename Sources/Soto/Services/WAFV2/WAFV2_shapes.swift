@@ -2170,11 +2170,13 @@ extension WAFV2 {
         public let singleHeader: SingleHeader?
         /// Inspect a single query argument. Provide the name of the query argument to inspect, such as UserName or SalesRegion. The name can be up to 30 characters long and isn't case sensitive.  Example JSON: "SingleQueryArgument": { "Name": "myArgument" }
         public let singleQueryArgument: SingleQueryArgument?
+        /// Inspect fragments of the request URI. You must configure scope and pattern matching filters in  the UriFragment object, to define the fragment of a URI that WAF inspects.  Only the first 8 KB (8192 bytes) of a request's URI fragments and only the first 200 URI fragments are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize URI fragment content in the UriFragment object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
+        public let uriFragment: UriFragment?
         /// Inspect the request URI path. This is the part of the web request that identifies a resource, for example, /images/daily-ad.jpg.
         public let uriPath: UriPath?
 
         @inlinable
-        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, cookies: Cookies? = nil, headerOrder: HeaderOrder? = nil, headers: Headers? = nil, ja3Fingerprint: JA3Fingerprint? = nil, ja4Fingerprint: JA4Fingerprint? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
+        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, cookies: Cookies? = nil, headerOrder: HeaderOrder? = nil, headers: Headers? = nil, ja3Fingerprint: JA3Fingerprint? = nil, ja4Fingerprint: JA4Fingerprint? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriFragment: UriFragment? = nil, uriPath: UriPath? = nil) {
             self.allQueryArguments = allQueryArguments
             self.body = body
             self.cookies = cookies
@@ -2187,6 +2189,7 @@ extension WAFV2 {
             self.queryString = queryString
             self.singleHeader = singleHeader
             self.singleQueryArgument = singleQueryArgument
+            self.uriFragment = uriFragment
             self.uriPath = uriPath
         }
 
@@ -2211,6 +2214,7 @@ extension WAFV2 {
             case queryString = "QueryString"
             case singleHeader = "SingleHeader"
             case singleQueryArgument = "SingleQueryArgument"
+            case uriFragment = "UriFragment"
             case uriPath = "UriPath"
         }
     }
@@ -6479,6 +6483,20 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case nextLockToken = "NextLockToken"
+        }
+    }
+
+    public struct UriFragment: AWSEncodableShape & AWSDecodableShape {
+        /// What WAF should do if it fails to completely parse the JSON body. The options are the following:    EVALUATE_AS_STRING - Inspect the body as plain text. WAF applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.    MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   If you don't provide this setting, WAF parses and evaluates the content only up to the first parsing failure that it encounters.  Example JSON: { "UriFragment": { "FallbackBehavior": "MATCH"} }   WAF parsing doesn't fully validate the input JSON string, so parsing can succeed even for invalid JSON. When  parsing succeeds, WAF doesn't apply the fallback behavior. For more information,  see JSON body  in the WAF Developer Guide.
+        public let fallbackBehavior: FallbackBehavior?
+
+        @inlinable
+        public init(fallbackBehavior: FallbackBehavior? = nil) {
+            self.fallbackBehavior = fallbackBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fallbackBehavior = "FallbackBehavior"
         }
     }
 

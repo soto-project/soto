@@ -111,6 +111,41 @@ public struct ApplicationSignals: AWSService {
         return try await self.batchGetServiceLevelObjectiveBudgetReport(input, logger: logger)
     }
 
+    /// Add or remove time window exclusions for one or more Service Level Objectives (SLOs).
+    @Sendable
+    @inlinable
+    public func batchUpdateExclusionWindows(_ input: BatchUpdateExclusionWindowsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchUpdateExclusionWindowsOutput {
+        try await self.client.execute(
+            operation: "BatchUpdateExclusionWindows", 
+            path: "/exclusion-windows", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Add or remove time window exclusions for one or more Service Level Objectives (SLOs).
+    ///
+    /// Parameters:
+    ///   - addExclusionWindows: A list of exclusion windows to add to the specified SLOs. You can add up to 10 exclusion windows per SLO.
+    ///   - removeExclusionWindows: A list of exclusion windows to remove from the specified SLOs. The window configuration must match an existing exclusion window.
+    ///   - sloIds: The list of SLO IDs to add or remove exclusion windows from.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchUpdateExclusionWindows(
+        addExclusionWindows: [ExclusionWindow]? = nil,
+        removeExclusionWindows: [ExclusionWindow]? = nil,
+        sloIds: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchUpdateExclusionWindowsOutput {
+        let input = BatchUpdateExclusionWindowsInput(
+            addExclusionWindows: addExclusionWindows, 
+            removeExclusionWindows: removeExclusionWindows, 
+            sloIds: sloIds
+        )
+        return try await self.batchUpdateExclusionWindows(input, logger: logger)
+    }
+
     /// Creates a service level objective (SLO), which can help you ensure that your critical business operations are  meeting customer expectations. Use SLOs to set and track specific target levels for the reliability and availability of your applications and services. SLOs use service level indicators (SLIs) to  calculate whether the application is performing at the level that you want. Create an SLO to set a target for a service or operation’s availability or latency. CloudWatch measures this target frequently you can find whether it has been breached.  The target performance quality that is defined for an SLO is the attainment goal. You can set SLO targets for your applications that are discovered by Application Signals, using critical metrics such as latency and availability.  You can also set SLOs against any CloudWatch metric or math expression that produces a time series.  You can't create an SLO for a service operation that was discovered by Application Signals until after that operation has reported standard metrics to Application Signals.  When you create an SLO, you specify whether it is a period-based SLO or a request-based SLO. Each type of SLO has a different way of evaluating  your application's performance against its attainment goal.   A period-based SLO uses defined periods of time within  a specified total time interval. For each period of time, Application Signals determines whether the  application met its goal. The attainment rate is calculated as the number of good periods/number of total periods. For example, for a period-based SLO, meeting an attainment goal of 99.9% means that within your interval, your application must meet its performance goal during at least 99.9% of the  time periods.   A request-based SLO doesn't use pre-defined periods of time. Instead,  the SLO measures number of good requests/number of total requests during the interval. At any time, you can find the ratio of  good requests to total requests for the interval up to the time stamp that you specify, and measure that ratio against the goal set in your SLO.   After you have created an SLO, you can retrieve error budget reports for it.  An error budget is the amount of time or amount of requests that your application can be non-compliant with the SLO's goal, and still have your application meet the goal.   For a period-based SLO, the error budget starts at a number defined by the highest number of periods that can fail to meet the threshold,  while still meeting the overall goal. The remaining error budget decreases with every failed period that is recorded. The error budget within one interval can never increase. For example, an SLO with a threshold that 99.95% of requests must be completed under 2000ms every month  translates to an error budget of 21.9 minutes of downtime per month.   For a request-based SLO, the remaining error budget is dynamic and can increase or decrease, depending on  the ratio of good requests to total requests.   For more information about SLOs, see  Service level objectives (SLOs).  When you perform a CreateServiceLevelObjective operation, Application Signals creates the AWSServiceRoleForCloudWatchApplicationSignals service-linked role,  if it doesn't already exist in your account. This service- linked role has the following permissions:    xray:GetServiceGraph     logs:StartQuery     logs:GetQueryResults     cloudwatch:GetMetricData     cloudwatch:ListMetrics     tag:GetResources     autoscaling:DescribeAutoScalingGroups
     @Sendable
     @inlinable
@@ -331,6 +366,41 @@ public struct ApplicationSignals: AWSService {
             startTime: startTime
         )
         return try await self.listServiceDependents(input, logger: logger)
+    }
+
+    /// Retrieves all exclusion windows configured for a specific SLO.
+    @Sendable
+    @inlinable
+    public func listServiceLevelObjectiveExclusionWindows(_ input: ListServiceLevelObjectiveExclusionWindowsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListServiceLevelObjectiveExclusionWindowsOutput {
+        try await self.client.execute(
+            operation: "ListServiceLevelObjectiveExclusionWindows", 
+            path: "/slo/{Id}/exclusion-windows", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves all exclusion windows configured for a specific SLO.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the SLO to list exclusion windows for.
+    ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
+    ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listServiceLevelObjectiveExclusionWindows(
+        id: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListServiceLevelObjectiveExclusionWindowsOutput {
+        let input = ListServiceLevelObjectiveExclusionWindowsInput(
+            id: id, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listServiceLevelObjectiveExclusionWindows(input, logger: logger)
     }
 
     /// Returns a list of SLOs created in this account.
@@ -725,6 +795,43 @@ extension ApplicationSignals {
         return self.listServiceDependentsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listServiceLevelObjectiveExclusionWindows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceLevelObjectiveExclusionWindowsPaginator(
+        _ input: ListServiceLevelObjectiveExclusionWindowsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListServiceLevelObjectiveExclusionWindowsInput, ListServiceLevelObjectiveExclusionWindowsOutput> {
+        return .init(
+            input: input,
+            command: self.listServiceLevelObjectiveExclusionWindows,
+            inputKey: \ListServiceLevelObjectiveExclusionWindowsInput.nextToken,
+            outputKey: \ListServiceLevelObjectiveExclusionWindowsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listServiceLevelObjectiveExclusionWindows(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - id: The ID of the SLO to list exclusion windows for.
+    ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listServiceLevelObjectiveExclusionWindowsPaginator(
+        id: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListServiceLevelObjectiveExclusionWindowsInput, ListServiceLevelObjectiveExclusionWindowsOutput> {
+        let input = ListServiceLevelObjectiveExclusionWindowsInput(
+            id: id, 
+            maxResults: maxResults
+        )
+        return self.listServiceLevelObjectiveExclusionWindowsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listServiceLevelObjectives(_:logger:)``.
     ///
     /// - Parameters:
@@ -883,6 +990,17 @@ extension ApplicationSignals.ListServiceDependentsInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             startTime: self.startTime
+        )
+    }
+}
+
+extension ApplicationSignals.ListServiceLevelObjectiveExclusionWindowsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> ApplicationSignals.ListServiceLevelObjectiveExclusionWindowsInput {
+        return .init(
+            id: self.id,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
