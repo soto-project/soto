@@ -119,12 +119,12 @@ extension DynamoDBTests {
 
         do {
             let additionalAttributes = AdditionalAttributes(oldAge: 34)
-            let conditionExpression = "attribute_exists(#id) AND #age = :oldAge"
             let nameUpdateWithAge = NameUpdateWithAge(id: id, name: "David", surname: "Jones", age: 35)
             let updateRequest = try DynamoDB.UpdateItemCodableInput(
                 additionalAttributes: additionalAttributes,
-                conditionExpression: conditionExpression,
+                conditionExpression: "attribute_exists(#id) AND #age = :oldAge",
                 key: ["id"],
+                returnValuesOnConditionCheckFailure: .allOld,
                 tableName: Self.tableName,
                 updateItem: nameUpdateWithAge
             )
