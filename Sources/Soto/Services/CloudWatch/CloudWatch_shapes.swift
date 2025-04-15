@@ -3479,7 +3479,7 @@ public struct CloudWatchErrorType: AWSErrorType {
 
 extension CloudWatchErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
-        "DashboardInvalidInputError": CloudWatch.DashboardInvalidInputError.self,
+        "InvalidParameterInput": CloudWatch.DashboardInvalidInputError.self,
         "ResourceNotFoundException": CloudWatch.ResourceNotFoundException.self
     ]
 }

@@ -132,7 +132,7 @@ extension DynamoDBTests {
             XCTFail("Should have thrown error because conditionExpression is not met")
         } catch let error as DynamoDBErrorType where error == .conditionalCheckFailedException {
             let conditionError = try XCTUnwrap(error.context?.extendedError as? DynamoDB.ConditionalCheckFailedException)
-            print(conditionError)
+            XCTAssertEqual(conditionError.item?["age"], .n("33"))
         } catch {
             XCTFail("Wrong error thrown")
         }

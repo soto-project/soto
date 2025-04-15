@@ -2200,12 +2200,12 @@ public struct CloudSearchErrorType: AWSErrorType {
 extension CloudSearchErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "BaseException": CloudSearch.BaseException.self,
-        "DisabledOperationException": CloudSearch.DisabledOperationException.self,
+        "DisabledAction": CloudSearch.DisabledOperationException.self,
         "InternalException": CloudSearch.InternalException.self,
-        "InvalidTypeException": CloudSearch.InvalidTypeException.self,
-        "LimitExceededException": CloudSearch.LimitExceededException.self,
-        "ResourceAlreadyExistsException": CloudSearch.ResourceAlreadyExistsException.self,
-        "ResourceNotFoundException": CloudSearch.ResourceNotFoundException.self,
+        "InvalidType": CloudSearch.InvalidTypeException.self,
+        "LimitExceeded": CloudSearch.LimitExceededException.self,
+        "ResourceAlreadyExists": CloudSearch.ResourceAlreadyExistsException.self,
+        "ResourceNotFound": CloudSearch.ResourceNotFoundException.self,
         "ValidationException": CloudSearch.ValidationException.self
     ]
 }
