@@ -12,6 +12,7 @@
 //
 //===----------------------------------------------------------------------===//
 
+import AsyncHTTPClient
 import Foundation
 import XCTest
 
@@ -55,8 +56,17 @@ class EC2Tests: XCTestCase {
     func testDescribeInstanceTypes() async throws {
         // Localstack returns unknown values
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
-        let describeTypesPaginator = Self.ec2.describeInstanceTypesPaginator(.init(), logger: TestEnvironment.logger)
-        _ = try await describeTypesPaginator.reduce([]) { $0 + ($1.instanceTypes ?? []) }
+        // Have to run this with custom HTTPClient as shared HTTPClient decompression
+        // throws an error as response expands too much
+        try await AWSClient.withAWSClient { awsClient in
+            let ec2 = EC2(
+                client: awsClient,
+                region: .useast1,
+                endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+            )
+            let describeTypesPaginator = ec2.describeInstanceTypesPaginator(logger: TestEnvironment.logger)
+            _ = try await describeTypesPaginator.reduce([]) { $0 + ($1.instanceTypes ?? []) }
+        }
     }
 
     func testDualStack() async throws {
@@ -90,3 +100,27 @@ extension AWSResponseError: @retroactive Equatable {}
 #else
 extension AWSResponseError: Equatable {}
 #endif
+
+extension AWSClient {
+    static func withAWSClient<Value>(
+        credentialProvider: CredentialProviderFactory = .default,
+        middleware: some AWSMiddlewareProtocol = AWSMiddleware { request, context, next in
+            try await next(request, context)
+        },
+        _ operation: (AWSClient) async throws -> Value
+    ) async throws -> Value {
+        let httpClient = HTTPClient()
+        let awsClient = AWSClient(credentialProvider: credentialProvider, middleware: middleware, httpClient: httpClient)
+        let value: Value
+        do {
+            value = try await operation(awsClient)
+        } catch {
+            try? await awsClient.shutdown()
+            try? await httpClient.shutdown()
+            throw error
+        }
+        try await awsClient.shutdown()
+        try await httpClient.shutdown()
+        return value
+    }
+}

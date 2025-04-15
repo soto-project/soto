@@ -123,13 +123,20 @@ class LambdaTests: XCTestCase {
         // create an IAM role
         Task {
             await XCTAsyncAssertNoThrow {
-                let response = try await Self.createIAMRole()
-                // IAM needs some time after Role creation,
-                // before the role can be attached to a Lambda function
-                // https://stackoverflow.com/a/37438525/663360
-                print("Sleeping 20 secs, waiting for IAM Role to be ready")
-                try await Task.sleep(nanoseconds: 20_000_000_000)
-                try await Self.createLambdaFunction(roleArn: response.role.arn)
+                let arn: String
+                do {
+                    let response = try await Self.createIAMRole()
+                    // IAM needs some time after Role creation,
+                    // before the role can be attached to a Lambda function
+                    // https://stackoverflow.com/a/37438525/663360
+                    print("Sleeping 20 secs, waiting for IAM Role to be ready")
+                    try await Task.sleep(nanoseconds: 20_000_000_000)
+                    arn = response.role.arn
+                } catch let error as IAMErrorType where error == .entityAlreadyExistsException {
+                    let response = try await Self.iam.getRole(roleName: self.functionExecutionRoleName)
+                    arn = response.role.arn
+                }
+                try await Self.createLambdaFunction(roleArn: arn)
             }
         }.syncAwait()
     }

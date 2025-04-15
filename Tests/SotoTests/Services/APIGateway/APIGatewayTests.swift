@@ -138,7 +138,8 @@ class APIGatewayTests: XCTestCase {
         } catch let error as APIGatewayErrorType where error == .notFoundException {
             // Localstack produces a different error message to AWS
             if !TestEnvironment.isUsingLocalstack {
-                XCTAssertEqual(error.message, "Invalid API identifier specified 931875313149:Test+%/*%25")
+                XCTAssert(error.message?.hasPrefix("Invalid API identifier specified") == true)
+                XCTAssert(error.message?.hasSuffix(":Test+%/*%25") == true)
             }
         } catch let error as AWSClientError where error == .invalidSignature {
             XCTFail("Invalid signature")
