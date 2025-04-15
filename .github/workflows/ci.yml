@@ -23,7 +23,7 @@ env:
 
 jobs:
   macos:
-    runs-on: macOS-13
+    runs-on: macOS-14
     steps:
     - name: Checkout
       uses: actions/checkout@v4
