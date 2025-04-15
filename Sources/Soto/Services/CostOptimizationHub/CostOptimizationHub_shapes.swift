@@ -113,6 +113,12 @@ extension CostOptimizationHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fieldValidationFailed = "FieldValidationFailed"
+        case other = "Other"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceDetails: AWSDecodableShape, Sendable {
         /// The Compute Savings Plans recommendation details.
         case computeSavingsPlans(ComputeSavingsPlans)
@@ -1719,6 +1725,23 @@ extension CostOptimizationHub {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The identifier of the resource that was not found.
+        public let resourceId: String
+
+        @inlinable
+        public init(message: String, resourceId: String) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+        }
+    }
+
     public struct ResourcePricing: AWSDecodableShape {
         /// The savings estimate incorporating all discounts with Amazon Web Services, such as Reserved Instances and Savings Plans.
         public let estimatedCostAfterDiscounts: Double?
@@ -1976,6 +1999,45 @@ extension CostOptimizationHub {
             case usageType = "usageType"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The list of fields that are invalid.
+        public let fields: [ValidationExceptionDetail]?
+        public let message: String
+        /// The reason for the validation exception.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fields: [ValidationExceptionDetail]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionDetail: AWSDecodableShape {
+        /// The field name where the invalid entry was detected.
+        public let fieldName: String
+        /// A message with the reason for the validation exception error.
+        public let message: String
+
+        @inlinable
+        public init(fieldName: String, message: String) {
+            self.fieldName = fieldName
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "fieldName"
+            case message = "message"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -2018,6 +2080,13 @@ public struct CostOptimizationHubErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension CostOptimizationHubErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": CostOptimizationHub.ResourceNotFoundException.self,
+        "ValidationException": CostOptimizationHub.ValidationException.self
+    ]
 }
 
 extension CostOptimizationHubErrorType: Equatable {

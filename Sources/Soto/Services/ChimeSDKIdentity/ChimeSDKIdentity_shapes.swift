@@ -51,6 +51,25 @@ extension ChimeSDKIdentity {
         public var description: String { return self.rawValue }
     }
 
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDenied = "AccessDenied"
+        case badRequest = "BadRequest"
+        case conflict = "Conflict"
+        case forbidden = "Forbidden"
+        case notFound = "NotFound"
+        case phoneNumberAssociationsExist = "PhoneNumberAssociationsExist"
+        case preconditionFailed = "PreconditionFailed"
+        case resourceLimitExceeded = "ResourceLimitExceeded"
+        case serviceFailure = "ServiceFailure"
+        case serviceUnavailable = "ServiceUnavailable"
+        case throttled = "Throttled"
+        case throttling = "Throttling"
+        case unauthorized = "Unauthorized"
+        case unprocessable = "Unprocessable"
+        case voiceConnectorGroupAssociationsExist = "VoiceConnectorGroupAssociationsExist"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExpirationCriterion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case createdTimestamp = "CREATED_TIMESTAMP"
         public var description: String { return self.rawValue }
@@ -379,6 +398,22 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct ChannelRetentionSettings: AWSEncodableShape & AWSDecodableShape {
         /// The time in days to retain the messages in a channel.
         public let retentionDays: Int?
@@ -413,6 +448,22 @@ extension ChimeSDKIdentity {
 
         private enum CodingKeys: String, CodingKey {
             case lex = "Lex"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -1068,6 +1119,22 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct ForbiddenException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct GetAppInstanceRetentionSettingsRequest: AWSEncodableShape {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
@@ -1498,6 +1565,22 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct NotFoundException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct PutAppInstanceRetentionSettingsRequest: AWSEncodableShape {
         /// The ARN of the AppInstance.
         public let appInstanceArn: String
@@ -1678,6 +1761,54 @@ extension ChimeSDKIdentity {
         }
     }
 
+    public struct ResourceLimitExceededException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct ServiceFailureException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct ServiceUnavailableException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key in a tag.
         public let key: String
@@ -1729,6 +1860,38 @@ extension ChimeSDKIdentity {
         private enum CodingKeys: String, CodingKey {
             case resourceARN = "ResourceARN"
             case tags = "Tags"
+        }
+    }
+
+    public struct ThrottledClientException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct UnauthorizedClientException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -2043,6 +2206,20 @@ public struct ChimeSDKIdentityErrorType: AWSErrorType {
     public static var throttledClientException: Self { .init(.throttledClientException) }
     /// The client is not currently authorized to make the request.
     public static var unauthorizedClientException: Self { .init(.unauthorizedClientException) }
+}
+
+extension ChimeSDKIdentityErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": ChimeSDKIdentity.BadRequestException.self,
+        "ConflictException": ChimeSDKIdentity.ConflictException.self,
+        "ForbiddenException": ChimeSDKIdentity.ForbiddenException.self,
+        "NotFoundException": ChimeSDKIdentity.NotFoundException.self,
+        "ResourceLimitExceededException": ChimeSDKIdentity.ResourceLimitExceededException.self,
+        "ServiceFailureException": ChimeSDKIdentity.ServiceFailureException.self,
+        "ServiceUnavailableException": ChimeSDKIdentity.ServiceUnavailableException.self,
+        "ThrottledClientException": ChimeSDKIdentity.ThrottledClientException.self,
+        "UnauthorizedClientException": ChimeSDKIdentity.UnauthorizedClientException.self
+    ]
 }
 
 extension ChimeSDKIdentityErrorType: Equatable {

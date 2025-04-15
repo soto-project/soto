@@ -643,6 +643,23 @@ extension SageMakerGeospatial {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// Identifier of the resource affected.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+        }
+    }
+
     public struct CustomIndicesInput: AWSEncodableShape & AWSDecodableShape {
         /// A list of BandMath indices to compute.
         public let operations: [Operation]?
@@ -1397,6 +1414,22 @@ extension SageMakerGeospatial {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+        }
+    }
+
     public struct ItemSource: AWSDecodableShape {
         /// This is a dictionary of Asset Objects data associated with the Item that  can be downloaded or streamed, each with a unique key.
         public let assets: [String: AssetValue]?
@@ -2107,6 +2140,23 @@ extension SageMakerGeospatial {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// Identifier of the resource that was not found.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+        }
+    }
+
     public struct ReverseGeocodingConfig: AWSEncodableShape & AWSDecodableShape {
         /// The field name for the data that describes x-axis coordinate, eg. longitude of a point.
         public let xAttributeName: String
@@ -2172,6 +2222,23 @@ extension SageMakerGeospatial {
             case approximateResultCount = "ApproximateResultCount"
             case items = "Items"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// Identifier of the resource affected.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
         }
     }
 
@@ -2498,6 +2565,22 @@ extension SageMakerGeospatial {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+        }
+    }
+
     public struct TimeRangeFilterInput: AWSEncodableShape {
         /// The end time for the time-range filter.
         public let endTime: Date
@@ -2582,6 +2665,22 @@ extension SageMakerGeospatial {
         private enum CodingKeys: String, CodingKey {
             case unit = "Unit"
             case value = "Value"
+        }
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        public let message: String
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
         }
     }
 
@@ -2839,6 +2938,17 @@ public struct SageMakerGeospatialErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension SageMakerGeospatialErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": SageMakerGeospatial.ConflictException.self,
+        "InternalServerException": SageMakerGeospatial.InternalServerException.self,
+        "ResourceNotFoundException": SageMakerGeospatial.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": SageMakerGeospatial.ServiceQuotaExceededException.self,
+        "ThrottlingException": SageMakerGeospatial.ThrottlingException.self,
+        "ValidationException": SageMakerGeospatial.ValidationException.self
+    ]
 }
 
 extension SageMakerGeospatialErrorType: Equatable {

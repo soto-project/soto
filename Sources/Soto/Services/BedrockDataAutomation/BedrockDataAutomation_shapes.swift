@@ -1404,6 +1404,38 @@ extension BedrockDataAutomation {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        public let message: String
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct VideoBoundingBox: AWSEncodableShape & AWSDecodableShape {
         public let state: State
 
@@ -1528,6 +1560,12 @@ public struct BedrockDataAutomationErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// This exception is thrown when the request's input validation fails
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension BedrockDataAutomationErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ValidationException": BedrockDataAutomation.ValidationException.self
+    ]
 }
 
 extension BedrockDataAutomationErrorType: Equatable {

@@ -55,8 +55,20 @@ extension Ivschat {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case room = "ROOM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UpdateLoggingConfigurationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case other = "OTHER"
+        case unknownOperation = "UNKNOWN_OPERATION"
         public var description: String { return self.rawValue }
     }
 
@@ -139,6 +151,25 @@ extension Ivschat {
 
         private enum CodingKeys: String, CodingKey {
             case logGroupName = "logGroupName"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        public let resourceId: String
+        public let resourceType: ResourceType
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: ResourceType) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -879,6 +910,25 @@ extension Ivschat {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        public let resourceId: String
+        public let resourceType: ResourceType
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: ResourceType) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct RoomSummary: AWSDecodableShape {
         /// Room ARN.
         public let arn: String?
@@ -987,6 +1037,28 @@ extension Ivschat {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let limit: Int
+        public let message: String
+        public let resourceId: String
+        public let resourceType: ResourceType
+
+        @inlinable
+        public init(limit: Int, message: String, resourceId: String, resourceType: ResourceType) {
+            self.limit = limit
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The ARN of the resource to be tagged. The ARN must be URL-encoded.
         public let resourceArn: String
@@ -1025,6 +1097,28 @@ extension Ivschat {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let limit: Int
+        public let message: String
+        public let resourceId: String
+        public let resourceType: ResourceType
+
+        @inlinable
+        public init(limit: Int, message: String, resourceId: String, resourceType: ResourceType) {
+            self.limit = limit
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "limit"
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -1243,6 +1337,43 @@ extension Ivschat {
             case updateTime = "updateTime"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// Explanation of the reason for the validation error.
+        public let message: String
+        /// Name of the field which failed validation.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1286,6 +1417,16 @@ public struct IvschatErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     public static var throttlingException: Self { .init(.throttlingException) }
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension IvschatErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Ivschat.ConflictException.self,
+        "ResourceNotFoundException": Ivschat.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": Ivschat.ServiceQuotaExceededException.self,
+        "ThrottlingException": Ivschat.ThrottlingException.self,
+        "ValidationException": Ivschat.ValidationException.self
+    ]
 }
 
 extension IvschatErrorType: Equatable {

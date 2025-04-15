@@ -1006,6 +1006,27 @@ extension IoTWireless {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// Id of the resource in the conflicting operation.
+        public let resourceId: String?
+        /// Type of the resource in the conflicting operation.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct ConnectionStatusEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Connection status event configuration object for enabling or disabling LoRaWAN related event topics.
         public let loRaWAN: LoRaWANConnectionStatusEventNotificationConfigurations?
@@ -6482,6 +6503,27 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// Id of the not found resource.
+        public let resourceId: String?
+        /// Type of the font found resource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct SemtechGnssConfiguration: AWSEncodableShape {
         /// Whether forward error correction is enabled.
         public let fec: PositionConfigurationFec
@@ -7644,6 +7686,23 @@ extension IoTWireless {
 
         private enum CodingKeys: String, CodingKey {
             case result = "Result"
+        }
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        /// Name of the resource that exceeds maximum number of tags allowed.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
         }
     }
 
@@ -8910,6 +8969,14 @@ public struct IoTWirelessErrorType: AWSErrorType {
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The input did not meet the specified constraints.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension IoTWirelessErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": IoTWireless.ConflictException.self,
+        "ResourceNotFoundException": IoTWireless.ResourceNotFoundException.self,
+        "TooManyTagsException": IoTWireless.TooManyTagsException.self
+    ]
 }
 
 extension IoTWirelessErrorType: Equatable {

@@ -28,6 +28,23 @@ extension MarketplaceDeployment {
 
     // MARK: Shapes
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The unique identifier for the resource associated with the error.
+        public let resourceId: String
+
+        @inlinable
+        public init(message: String, resourceId: String) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+        }
+    }
+
     public struct DeploymentParameterInput: AWSEncodableShape {
         /// The desired name of the deployment parameter. This is the identifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource.
         public let name: String
@@ -238,6 +255,23 @@ extension MarketplaceDeployment {
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
     }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The field name associated with the error.
+        public let fieldName: String
+        public let message: String
+
+        @inlinable
+        public init(fieldName: String, message: String) {
+            self.fieldName = fieldName
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "fieldName"
+            case message = "message"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -286,6 +320,13 @@ public struct MarketplaceDeploymentErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// An error occurred during validation.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension MarketplaceDeploymentErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": MarketplaceDeployment.ConflictException.self,
+        "ValidationException": MarketplaceDeployment.ValidationException.self
+    ]
 }
 
 extension MarketplaceDeploymentErrorType: Equatable {

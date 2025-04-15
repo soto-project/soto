@@ -2260,6 +2260,53 @@ extension ECR {
         }
     }
 
+    public struct InvalidLayerPartException: AWSErrorShape {
+        /// The last valid byte received from the layer part upload that is associated with the exception.
+        public let lastValidByteReceived: Int64?
+        /// The error message associated with the exception.
+        public let message: String?
+        /// The registry ID associated with the exception.
+        public let registryId: String?
+        /// The repository name associated with the exception.
+        public let repositoryName: String?
+        /// The upload ID associated with the exception.
+        public let uploadId: String?
+
+        @inlinable
+        public init(lastValidByteReceived: Int64? = nil, message: String? = nil, registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil) {
+            self.lastValidByteReceived = lastValidByteReceived
+            self.message = message
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastValidByteReceived = "lastValidByteReceived"
+            case message = "message"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case uploadId = "uploadId"
+        }
+    }
+
+    public struct KmsException: AWSErrorShape {
+        /// The error code returned by KMS.
+        public let kmsError: String?
+        public let message: String?
+
+        @inlinable
+        public init(kmsError: String? = nil, message: String? = nil) {
+            self.kmsError = kmsError
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsError = "kmsError"
+            case message = "message"
+        }
+    }
+
     public struct Layer: AWSDecodableShape {
         /// The availability status of the image layer.
         public let layerAvailability: LayerAvailability?
@@ -4041,6 +4088,13 @@ public struct ECRErrorType: AWSErrorType {
     public static var uploadNotFoundException: Self { .init(.uploadNotFoundException) }
     /// There was an exception validating this request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ECRErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InvalidLayerPartException": ECR.InvalidLayerPartException.self,
+        "KmsException": ECR.KmsException.self
+    ]
 }
 
 extension ECRErrorType: Equatable {

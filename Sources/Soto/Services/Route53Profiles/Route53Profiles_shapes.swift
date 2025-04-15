@@ -429,6 +429,40 @@ extension Route53Profiles {
         }
     }
 
+    public struct InvalidParameterException: AWSErrorShape {
+        ///  The parameter field name for the invalid parameter exception.
+        public let fieldName: String?
+        public let message: String
+
+        @inlinable
+        public init(fieldName: String? = nil, message: String) {
+            self.fieldName = fieldName
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case message = "Message"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let message: String?
+        ///  The resource type that caused the limits to be exceeded.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct ListProfileAssociationsRequest: AWSEncodableShape {
         ///  The maximum number of objects that you want to return for this request. If more objects are available, in the response,  a NextToken value, which you can use in a subsequent call to get the next batch of objects, is provided.  If you don't specify a value for MaxResults, up to 100 objects are returned.
         public let maxResults: Int?
@@ -800,6 +834,40 @@ extension Route53Profiles {
         }
     }
 
+    public struct ResourceExistsException: AWSErrorShape {
+        public let message: String?
+        ///  The resource type that caused the resource exists exception.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        ///  The resource type that caused the resource not found exception.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct Tag: AWSEncodableShape {
         ///  Key associated with the Tag.
         public let key: String
@@ -1005,6 +1073,15 @@ public struct Route53ProfilesErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     ///  You have provided an invalid command.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension Route53ProfilesErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InvalidParameterException": Route53Profiles.InvalidParameterException.self,
+        "LimitExceededException": Route53Profiles.LimitExceededException.self,
+        "ResourceExistsException": Route53Profiles.ResourceExistsException.self,
+        "ResourceNotFoundException": Route53Profiles.ResourceNotFoundException.self
+    ]
 }
 
 extension Route53ProfilesErrorType: Equatable {

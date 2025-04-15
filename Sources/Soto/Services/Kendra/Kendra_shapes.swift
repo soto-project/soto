@@ -1608,6 +1608,28 @@ extension Kendra {
         }
     }
 
+    public struct ConflictingItem: AWSDecodableShape {
+        /// The text of the conflicting query.
+        public let queryText: String?
+        /// The identifier of the set of featured results that the conflicting  query belongs to.
+        public let setId: String?
+        /// The name for the set of featured results that the conflicting query  belongs to.
+        public let setName: String?
+
+        @inlinable
+        public init(queryText: String? = nil, setId: String? = nil, setName: String? = nil) {
+            self.queryText = queryText
+            self.setId = setId
+            self.setName = setName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryText = "QueryText"
+            case setId = "SetId"
+            case setName = "SetName"
+        }
+    }
+
     public struct ConfluenceAttachmentConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Maps attributes or field names of Confluence attachments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to Confluence fields. For more information, see Mapping data source fields. The Confluence data source field names must exist in your Confluence custom metadata. If you specify the AttachentFieldMappings parameter, you must specify at least one field mapping.
         public let attachmentFieldMappings: [ConfluenceAttachmentToIndexFieldMapping]?
@@ -4924,6 +4946,24 @@ extension Kendra {
             case id = "Id"
             case title = "Title"
             case uri = "URI"
+        }
+    }
+
+    public struct FeaturedResultsConflictException: AWSErrorShape {
+        /// A list of the conflicting queries, including the query text, the name for  the featured results set, and the identifier of the featured results set.
+        public let conflictingItems: [ConflictingItem]?
+        /// An explanation for the conflicting queries.
+        public let message: String?
+
+        @inlinable
+        public init(conflictingItems: [ConflictingItem]? = nil, message: String? = nil) {
+            self.conflictingItems = conflictingItems
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictingItems = "ConflictingItems"
+            case message = "Message"
         }
     }
 
@@ -9720,6 +9760,12 @@ public struct KendraErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension KendraErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "FeaturedResultsConflictException": Kendra.FeaturedResultsConflictException.self
+    ]
 }
 
 extension KendraErrorType: Equatable {

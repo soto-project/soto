@@ -339,6 +339,22 @@ extension FinspaceData {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        public let reason: String?
+
+        @inlinable
+        public init(message: String? = nil, reason: String? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
     public struct CreateChangesetRequest: AWSEncodableShape {
         /// The option to indicate how a Changeset will be applied to a Dataset.    REPLACE – Changeset will be considered as a replacement to all prior loaded Changesets.    APPEND – Changeset will be considered as an addition to the end of all prior loaded Changesets.    MODIFY – Changeset is considered as a replacement to a specific prior ingested Changeset.
         public let changeType: ChangeType
@@ -2132,6 +2148,22 @@ extension FinspaceData {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        public let reason: String?
+
+        @inlinable
+        public init(message: String? = nil, reason: String? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
     public struct ResourcePermission: AWSEncodableShape {
         /// Permission for a resource.
         public let permission: String?
@@ -2630,6 +2662,22 @@ extension FinspaceData {
             case userId = "userId"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        public let message: String?
+        public let reason: String?
+
+        @inlinable
+        public init(message: String? = nil, reason: String? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -2678,6 +2726,14 @@ public struct FinspaceDataErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an AWS service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension FinspaceDataErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": FinspaceData.ConflictException.self,
+        "ResourceNotFoundException": FinspaceData.ResourceNotFoundException.self,
+        "ValidationException": FinspaceData.ValidationException.self
+    ]
 }
 
 extension FinspaceDataErrorType: Equatable {

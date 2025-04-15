@@ -202,6 +202,12 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case order = "ORDER"
+        case outpost = "OUTPOST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ShipmentCarrier: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dbs = "DBS"
         case dhl = "DHL"
@@ -636,6 +642,27 @@ extension Outposts {
             case instanceTypeCapacities = "InstanceTypeCapacities"
             case maxVcpus = "MaxVcpus"
             case state = "State"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// The ID of the resource causing the conflict.
+        public let resourceId: String?
+        /// The type of the resource causing the conflict.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -2915,6 +2942,12 @@ public struct OutpostsErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// A parameter is not valid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension OutpostsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Outposts.ConflictException.self
+    ]
 }
 
 extension OutpostsErrorType: Equatable {

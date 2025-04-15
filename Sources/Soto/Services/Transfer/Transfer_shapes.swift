@@ -4136,6 +4136,44 @@ extension Transfer {
         }
     }
 
+    public struct ResourceExistsException: AWSErrorShape {
+        public let message: String
+        public let resource: String
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resource: String, resourceType: String) {
+            self.message = message
+            self.resource = resource
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resource = "Resource"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        public let resource: String
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resource: String, resourceType: String) {
+            self.message = message
+            self.resource = resource
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resource = "Resource"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct S3FileLocation: AWSDecodableShape {
         /// Specifies the S3 bucket that contains the file being used.
         public let bucket: String?
@@ -4697,6 +4735,22 @@ extension Transfer {
             case statusCode = "StatusCode"
             case url = "Url"
         }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let retryAfterSeconds: String?
+
+        @inlinable
+        public init(retryAfterSeconds: String? = nil) {
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: CodingKey {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -5667,6 +5721,14 @@ public struct TransferErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension TransferErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceExistsException": Transfer.ResourceExistsException.self,
+        "ResourceNotFoundException": Transfer.ResourceNotFoundException.self,
+        "ThrottlingException": Transfer.ThrottlingException.self
+    ]
 }
 
 extension TransferErrorType: Equatable {

@@ -129,6 +129,14 @@ extension Evidently {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VariationValueType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
@@ -275,6 +283,27 @@ extension Evidently {
 
         private enum CodingKeys: String, CodingKey {
             case logGroup = "logGroup"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// The ID of the resource that caused the exception.
+        public let resourceId: String?
+        /// The type of the resource that is associated with the error.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2664,6 +2693,27 @@ extension Evidently {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The ID of the resource that caused the exception.
+        public let resourceId: String?
+        /// The type of the resource that is associated with the error.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct S3Destination: AWSDecodableShape {
         /// The name of the bucket in which Evidently stores evaluation events.
         public let bucket: String?
@@ -2882,6 +2932,35 @@ extension Evidently {
             case evaluationOrder = "evaluationOrder"
             case segment = "segment"
             case weights = "weights"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String?
+        /// The ID of the service quota that was exceeded.
+        public let quotaCode: String?
+        /// The ID of the resource that caused the exception.
+        public let resourceId: String?
+        /// The type of the resource that is associated with the error.
+        public let resourceType: String?
+        /// The ID of the service that is associated with the error.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
         }
     }
 
@@ -3166,6 +3245,27 @@ extension Evidently {
 
         private enum CodingKeys: String, CodingKey {
             case match = "match"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// The ID of the service quota that was exceeded.
+        public let quotaCode: String?
+        /// The ID of the service that is associated with the error.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String? = nil, quotaCode: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
         }
     }
 
@@ -3656,6 +3756,45 @@ extension Evidently {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// The parameter that caused the exception.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String?
+        /// A reason for the error.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The error message.
+        public let message: String
+        /// The error name.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct Variation: AWSDecodableShape {
         /// The name of the variation.
         public let name: String?
@@ -3748,6 +3887,16 @@ public struct EvidentlyErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The value of a parameter in the request caused an error.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension EvidentlyErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Evidently.ConflictException.self,
+        "ResourceNotFoundException": Evidently.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": Evidently.ServiceQuotaExceededException.self,
+        "ThrottlingException": Evidently.ThrottlingException.self,
+        "ValidationException": Evidently.ValidationException.self
+    ]
 }
 
 extension EvidentlyErrorType: Equatable {

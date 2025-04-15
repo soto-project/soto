@@ -130,8 +130,11 @@ extension DynamoDBTests {
             )
             _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
             XCTFail("Should have thrown error because conditionExpression is not met")
+        } catch let error as DynamoDBErrorType where error == .conditionalCheckFailedException {
+            let conditionError = try XCTUnwrap(error.context?.extendedError as? DynamoDB.ConditionalCheckFailedException)
+            print(conditionError)
         } catch {
-            XCTAssertNotNil(error)
+            XCTFail("Wrong error thrown")
         }
         let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: Self.tableName)
         let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)

@@ -410,7 +410,32 @@ extension SageMakerRuntime {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct ModelStreamError: AWSDecodableShape {
+    public struct ModelError: AWSErrorShape {
+        ///  The Amazon Resource Name (ARN) of the log stream.
+        public let logStreamArn: String?
+        public let message: String?
+        ///  Original message.
+        public let originalMessage: String?
+        ///  Original status code.
+        public let originalStatusCode: Int?
+
+        @inlinable
+        public init(logStreamArn: String? = nil, message: String? = nil, originalMessage: String? = nil, originalStatusCode: Int? = nil) {
+            self.logStreamArn = logStreamArn
+            self.message = message
+            self.originalMessage = originalMessage
+            self.originalStatusCode = originalStatusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logStreamArn = "LogStreamArn"
+            case message = "Message"
+            case originalMessage = "OriginalMessage"
+            case originalStatusCode = "OriginalStatusCode"
+        }
+    }
+
+    public struct ModelStreamError: AWSErrorShape {
         /// This error can have the following error codes:  ModelInvocationTimeExceeded  The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker.  StreamBroken  The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
         public let errorCode: String?
         public let message: String?
@@ -494,6 +519,13 @@ public struct SageMakerRuntimeErrorType: AWSErrorType {
     public static var serviceUnavailable: Self { .init(.serviceUnavailable) }
     ///  Inspect your request and try again.
     public static var validationError: Self { .init(.validationError) }
+}
+
+extension SageMakerRuntimeErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ModelError": SageMakerRuntime.ModelError.self,
+        "ModelStreamError": SageMakerRuntime.ModelStreamError.self
+    ]
 }
 
 extension SageMakerRuntimeErrorType: Equatable {

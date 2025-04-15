@@ -46,6 +46,22 @@ extension QLDBSession {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct CommitTransactionRequest: AWSEncodableShape {
         /// Specifies the commit digest for the transaction to commit. For every active transaction, the commit digest must be passed. QLDB validates CommitDigest and rejects the commit with an error if the digest computed on the client does not match the digest computed by QLDB. The purpose of the CommitDigest parameter is to ensure that QLDB commits a transaction if and only if the server has processed the exact set of statements sent by the client, in the same order that client sent them, and with no duplicates.
         public let commitDigest: AWSBase64Data
@@ -233,6 +249,22 @@ extension QLDBSession {
         private enum CodingKeys: String, CodingKey {
             case readIOs = "ReadIOs"
             case writeIOs = "WriteIOs"
+        }
+    }
+
+    public struct InvalidSessionException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -487,6 +519,13 @@ public struct QLDBSessionErrorType: AWSErrorType {
     public static var occConflictException: Self { .init(.occConflictException) }
     /// Returned when the rate of requests exceeds the allowed throughput.
     public static var rateExceededException: Self { .init(.rateExceededException) }
+}
+
+extension QLDBSessionErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": QLDBSession.BadRequestException.self,
+        "InvalidSessionException": QLDBSession.InvalidSessionException.self
+    ]
 }
 
 extension QLDBSessionErrorType: Equatable {

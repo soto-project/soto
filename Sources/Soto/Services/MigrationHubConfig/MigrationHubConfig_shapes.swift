@@ -229,6 +229,29 @@ extension MigrationHubConfig {
             case type = "Type"
         }
     }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds the caller should wait before retrying.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -274,6 +297,12 @@ public struct MigrationHubConfigErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension MigrationHubConfigErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ThrottlingException": MigrationHubConfig.ThrottlingException.self
+    ]
 }
 
 extension MigrationHubConfigErrorType: Equatable {

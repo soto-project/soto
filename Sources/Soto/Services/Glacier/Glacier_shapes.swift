@@ -1124,6 +1124,47 @@ extension Glacier {
         }
     }
 
+    public struct InsufficientCapacityException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case type = "type"
+        }
+    }
+
+    public struct InvalidParameterValueException: AWSErrorShape {
+        /// 400 Bad Request
+        public let code: String?
+        /// Returned if a parameter of the request is incorrectly specified.
+        public let message: String?
+        /// Client
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case type = "type"
+        }
+    }
+
     public struct InventoryRetrievalJobDescription: AWSDecodableShape {
         /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public let endDate: String?
@@ -1227,6 +1268,28 @@ extension Glacier {
             case snsTopic = "SNSTopic"
             case tier = "Tier"
             case type = "Type"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        /// 400 Bad Request
+        public let code: String?
+        /// Returned if the request results in a vault limit or tags limit being exceeded.
+        public let message: String?
+        /// Client
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case type = "type"
         }
     }
 
@@ -1518,6 +1581,28 @@ extension Glacier {
         }
     }
 
+    public struct MissingParameterValueException: AWSErrorShape {
+        /// 400 Bad Request
+        public let code: String?
+        /// Returned if no authentication data is found for the request.
+        public let message: String?
+        /// Client.
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case type = "type"
+        }
+    }
+
     public struct OutputLocation: AWSEncodableShape & AWSDecodableShape {
         /// Describes an S3 location that will receive the results of the job request.
         public let s3: S3Location?
@@ -1561,6 +1646,28 @@ extension Glacier {
         private enum CodingKeys: String, CodingKey {
             case rangeInBytes = "RangeInBytes"
             case sha256TreeHash = "SHA256TreeHash"
+        }
+    }
+
+    public struct PolicyEnforcedException: AWSErrorShape {
+        /// PolicyEnforcedException
+        public let code: String?
+        /// InitiateJob request denied by current data retrieval policy.
+        public let message: String?
+        /// Client
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case type = "type"
         }
     }
 
@@ -1649,6 +1756,50 @@ extension Glacier {
         }
     }
 
+    public struct RequestTimeoutException: AWSErrorShape {
+        /// 408 Request Timeout
+        public let code: String?
+        /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
+        public let message: String?
+        /// Client
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case type = "type"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// 404 Not Found
+        public let code: String?
+        /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
+        public let message: String?
+        /// Client
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case type = "type"
+        }
+    }
+
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
         /// A list of grants that control access to the staged results.
         public let accessControlList: [Grant]?
@@ -1714,6 +1865,28 @@ extension Glacier {
             case expressionType = "ExpressionType"
             case inputSerialization = "InputSerialization"
             case outputSerialization = "OutputSerialization"
+        }
+    }
+
+    public struct ServiceUnavailableException: AWSErrorShape {
+        /// 500 Internal Server Error
+        public let code: String?
+        /// Returned if the service cannot complete the request.
+        public let message: String?
+        /// Server
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case type = "type"
         }
     }
 
@@ -2010,6 +2183,19 @@ public struct GlacierErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// Returned if the service cannot complete the request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+}
+
+extension GlacierErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InsufficientCapacityException": Glacier.InsufficientCapacityException.self,
+        "InvalidParameterValueException": Glacier.InvalidParameterValueException.self,
+        "LimitExceededException": Glacier.LimitExceededException.self,
+        "MissingParameterValueException": Glacier.MissingParameterValueException.self,
+        "PolicyEnforcedException": Glacier.PolicyEnforcedException.self,
+        "RequestTimeoutException": Glacier.RequestTimeoutException.self,
+        "ResourceNotFoundException": Glacier.ResourceNotFoundException.self,
+        "ServiceUnavailableException": Glacier.ServiceUnavailableException.self
+    ]
 }
 
 extension GlacierErrorType: Equatable {

@@ -60,6 +60,29 @@ extension ObservabilityAdmin {
 
     // MARK: Shapes
 
+    public struct AccessDeniedException: AWSErrorShape {
+        ///  The name of the exception.
+        public let amznErrorType: String?
+        public let message: String?
+
+        @inlinable
+        public init(amznErrorType: String? = nil, message: String? = nil) {
+            self.amznErrorType = amznErrorType
+            self.message = message
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct GetTelemetryEvaluationStatusForOrganizationOutput: AWSDecodableShape {
         ///  This field describes the reason for the failure status. The field will only be populated if Status is FAILED_START or FAILED_STOP.
         public let failureReason: String?
@@ -93,6 +116,29 @@ extension ObservabilityAdmin {
         private enum CodingKeys: String, CodingKey {
             case failureReason = "FailureReason"
             case status = "Status"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        ///  The name of the exception.
+        public let amznErrorType: String?
+        public let message: String?
+
+        @inlinable
+        public init(amznErrorType: String? = nil, message: String? = nil) {
+            self.amznErrorType = amznErrorType
+            self.message = message
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.amznErrorType = try response.decodeHeaderIfPresent(String.self, key: "x-amzn-ErrorType")
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
         }
     }
 
@@ -313,6 +359,13 @@ public struct ObservabilityAdminErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     ///  Indicates input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ObservabilityAdminErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": ObservabilityAdmin.AccessDeniedException.self,
+        "InternalServerException": ObservabilityAdmin.InternalServerException.self
+    ]
 }
 
 extension ObservabilityAdminErrorType: Equatable {

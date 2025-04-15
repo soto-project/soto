@@ -236,6 +236,22 @@ extension CloudSearch {
         }
     }
 
+    public struct BaseException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct BuildSuggestersRequest: AWSEncodableShape {
         public let domainName: String
 
@@ -1094,6 +1110,22 @@ extension CloudSearch {
         }
     }
 
+    public struct DisabledOperationException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct DocumentSuggesterOptions: AWSEncodableShape & AWSDecodableShape {
         /// The level of fuzziness allowed when suggesting matches for a string: none, low, or high. With none, the specified string is treated as an exact prefix. With low, suggestions must differ from the specified string by no more than one character. With high, suggestions can differ by up to two characters. The default is none.
         public let fuzzyMatching: SuggesterFuzzyMatching?
@@ -1522,6 +1554,38 @@ extension CloudSearch {
         }
     }
 
+    public struct InternalException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct InvalidTypeException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct LatLonOptions: AWSEncodableShape & AWSDecodableShape {
         /// A value to use for the field if the field isn't specified for a document.
         public let defaultValue: String?
@@ -1559,6 +1623,22 @@ extension CloudSearch {
             case searchEnabled = "SearchEnabled"
             case sortEnabled = "SortEnabled"
             case sourceField = "SourceField"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -1695,6 +1775,38 @@ extension CloudSearch {
             case state = "State"
             case updateDate = "UpdateDate"
             case updateVersion = "UpdateVersion"
+        }
+    }
+
+    public struct ResourceAlreadyExistsException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -2017,6 +2129,22 @@ extension CloudSearch {
             case accessPolicies = "AccessPolicies"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -2068,6 +2196,19 @@ public struct CloudSearchErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was rejected because it has invalid parameters.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension CloudSearchErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BaseException": CloudSearch.BaseException.self,
+        "DisabledOperationException": CloudSearch.DisabledOperationException.self,
+        "InternalException": CloudSearch.InternalException.self,
+        "InvalidTypeException": CloudSearch.InvalidTypeException.self,
+        "LimitExceededException": CloudSearch.LimitExceededException.self,
+        "ResourceAlreadyExistsException": CloudSearch.ResourceAlreadyExistsException.self,
+        "ResourceNotFoundException": CloudSearch.ResourceNotFoundException.self,
+        "ValidationException": CloudSearch.ValidationException.self
+    ]
 }
 
 extension CloudSearchErrorType: Equatable {

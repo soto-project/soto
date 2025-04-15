@@ -8344,6 +8344,22 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct ResourceAlreadyExistsFault: AWSErrorShape {
+        public let message: String?
+        public let resourceArn: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceArn: String? = nil) {
+            self.message = message
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceArn = "resourceArn"
+        }
+    }
+
     public struct ResourcePendingMaintenanceActions: AWSDecodableShape {
         /// Detailed information about the pending maintenance action.
         public let pendingMaintenanceActionDetails: [PendingMaintenanceAction]?
@@ -9741,6 +9757,12 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
     public static var subnetAlreadyInUse: Self { .init(.subnetAlreadyInUse) }
     /// An upgrade dependency is preventing the database migration.
     public static var upgradeDependencyFailureFault: Self { .init(.upgradeDependencyFailureFault) }
+}
+
+extension DatabaseMigrationServiceErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceAlreadyExistsFault": DatabaseMigrationService.ResourceAlreadyExistsFault.self
+    ]
 }
 
 extension DatabaseMigrationServiceErrorType: Equatable {

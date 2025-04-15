@@ -134,6 +134,24 @@ extension CodeArtifact {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case asset = "asset"
+        case domain = "domain"
+        case package = "package"
+        case packageVersion = "package-version"
+        case repository = "repository"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "CANNOT_PARSE"
+        case encryptionKeyError = "ENCRYPTION_KEY_ERROR"
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case other = "OTHER"
+        case unknownOperation = "UNKNOWN_OPERATION"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AssetSummary: AWSDecodableShape {
@@ -240,6 +258,27 @@ extension CodeArtifact {
             case format = "format"
             case namespace = "namespace"
             case package = "package"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        ///  The ID of the resource.
+        public let resourceId: String?
+        ///  The type of Amazon Web Services resource.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -3810,6 +3849,27 @@ extension CodeArtifact {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        ///  The ID of the resource.
+        public let resourceId: String?
+        ///  The type of Amazon Web Services resource.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ResourcePolicy: AWSDecodableShape {
         ///  The resource policy formatted in JSON.
         public let document: String?
@@ -3829,6 +3889,27 @@ extension CodeArtifact {
             case document = "document"
             case resourceArn = "resourceArn"
             case revision = "revision"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        ///  The ID of the resource.
+        public let resourceId: String?
+        ///  The type of Amazon Web Services resource.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -3912,6 +3993,29 @@ extension CodeArtifact {
 
     public struct TagResourceResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        ///  The time period, in seconds, to wait before retrying the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -4310,6 +4414,23 @@ extension CodeArtifact {
             case repositoryName = "repositoryName"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        public let message: String
+        ///
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(message: String, reason: ValidationExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -4358,6 +4479,16 @@ public struct CodeArtifactErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     ///  The operation did not succeed because a parameter in the request was sent with an invalid value.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension CodeArtifactErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": CodeArtifact.ConflictException.self,
+        "ResourceNotFoundException": CodeArtifact.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": CodeArtifact.ServiceQuotaExceededException.self,
+        "ThrottlingException": CodeArtifact.ThrottlingException.self,
+        "ValidationException": CodeArtifact.ValidationException.self
+    ]
 }
 
 extension CodeArtifactErrorType: Equatable {

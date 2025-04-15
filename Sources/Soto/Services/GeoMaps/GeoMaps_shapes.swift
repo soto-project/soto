@@ -66,6 +66,22 @@ extension GeoMaps {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        ///     The input cannot be parsed. For example a required JSON document, ARN identifier, date value, or numeric field cannot be parsed.
+        case cannotParse = "CannotParse"
+        ///     The input is present and parsable, but it is otherwise invalid. For example, a required numeric argument is outside the allowed range.
+        case fieldValidationFailed = "FieldValidationFailed"
+        /// The required input is missing.
+        case missing = "Missing"
+        /// The input is invalid but no more specific reason is applicable.
+        case other = "Other"
+        /// No such field is supported.
+        case unknownField = "UnknownField"
+        /// No such operation is supported.
+        case unknownOperation = "UnknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Variant: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `default` = "Default"
         public var description: String { return self.rawValue }
@@ -481,6 +497,45 @@ extension GeoMaps {
 
         private enum CodingKeys: CodingKey {}
     }
+
+    public struct ValidationException: AWSErrorShape {
+        /// A message with the reason for the validation exception error.
+        public let fieldList: [ValidationExceptionField]
+        public let message: String
+        /// The field where the invalid entry was detected.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField], message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The error message.
+        public let message: String
+        /// The name of the resource.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -520,6 +575,12 @@ public struct GeoMapsErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an AWS service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension GeoMapsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ValidationException": GeoMaps.ValidationException.self
+    ]
 }
 
 extension GeoMapsErrorType: Equatable {

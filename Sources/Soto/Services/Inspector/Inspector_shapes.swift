@@ -26,6 +26,18 @@ import Foundation
 extension Inspector {
     // MARK: Enums
 
+    public enum AccessDeniedErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedToAssessmentRun = "ACCESS_DENIED_TO_ASSESSMENT_RUN"
+        case accessDeniedToAssessmentTarget = "ACCESS_DENIED_TO_ASSESSMENT_TARGET"
+        case accessDeniedToAssessmentTemplate = "ACCESS_DENIED_TO_ASSESSMENT_TEMPLATE"
+        case accessDeniedToFinding = "ACCESS_DENIED_TO_FINDING"
+        case accessDeniedToIamRole = "ACCESS_DENIED_TO_IAM_ROLE"
+        case accessDeniedToResourceGroup = "ACCESS_DENIED_TO_RESOURCE_GROUP"
+        case accessDeniedToRulesPackage = "ACCESS_DENIED_TO_RULES_PACKAGE"
+        case accessDeniedToSnsTopic = "ACCESS_DENIED_TO_SNS_TOPIC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AgentHealth: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
@@ -92,8 +104,93 @@ extension Inspector {
         public var description: String { return self.rawValue }
     }
 
+    public enum InvalidCrossAccountRoleErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case roleDoesNotExistOrInvalidTrustRelationship = "ROLE_DOES_NOT_EXIST_OR_INVALID_TRUST_RELATIONSHIP"
+        case roleDoesNotHaveCorrectPolicy = "ROLE_DOES_NOT_HAVE_CORRECT_POLICY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvalidInputErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assessmentTargetNameAlreadyTaken = "ASSESSMENT_TARGET_NAME_ALREADY_TAKEN"
+        case assessmentTemplateNameAlreadyTaken = "ASSESSMENT_TEMPLATE_NAME_ALREADY_TAKEN"
+        case invalidAgentId = "INVALID_AGENT_ID"
+        case invalidAssessmentRunArn = "INVALID_ASSESSMENT_RUN_ARN"
+        case invalidAssessmentRunCompletionTimeRange = "INVALID_ASSESSMENT_RUN_COMPLETION_TIME_RANGE"
+        case invalidAssessmentRunDurationRange = "INVALID_ASSESSMENT_RUN_DURATION_RANGE"
+        case invalidAssessmentRunStartTimeRange = "INVALID_ASSESSMENT_RUN_START_TIME_RANGE"
+        case invalidAssessmentRunState = "INVALID_ASSESSMENT_RUN_STATE"
+        case invalidAssessmentRunStateChangeTimeRange = "INVALID_ASSESSMENT_RUN_STATE_CHANGE_TIME_RANGE"
+        case invalidAssessmentTargetArn = "INVALID_ASSESSMENT_TARGET_ARN"
+        case invalidAssessmentTargetName = "INVALID_ASSESSMENT_TARGET_NAME"
+        case invalidAssessmentTargetNamePattern = "INVALID_ASSESSMENT_TARGET_NAME_PATTERN"
+        case invalidAssessmentTemplateArn = "INVALID_ASSESSMENT_TEMPLATE_ARN"
+        case invalidAssessmentTemplateDuration = "INVALID_ASSESSMENT_TEMPLATE_DURATION"
+        case invalidAssessmentTemplateDurationRange = "INVALID_ASSESSMENT_TEMPLATE_DURATION_RANGE"
+        case invalidAssessmentTemplateName = "INVALID_ASSESSMENT_TEMPLATE_NAME"
+        case invalidAssessmentTemplateNamePattern = "INVALID_ASSESSMENT_TEMPLATE_NAME_PATTERN"
+        case invalidAttribute = "INVALID_ATTRIBUTE"
+        case invalidAutoScalingGroup = "INVALID_AUTO_SCALING_GROUP"
+        case invalidEvent = "INVALID_EVENT"
+        case invalidFindingArn = "INVALID_FINDING_ARN"
+        case invalidIamRoleArn = "INVALID_IAM_ROLE_ARN"
+        case invalidLocale = "INVALID_LOCALE"
+        case invalidMaxResults = "INVALID_MAX_RESULTS"
+        case invalidNumberOfAgentIds = "INVALID_NUMBER_OF_AGENT_IDS"
+        case invalidNumberOfAssessmentRunArns = "INVALID_NUMBER_OF_ASSESSMENT_RUN_ARNS"
+        case invalidNumberOfAssessmentRunStates = "INVALID_NUMBER_OF_ASSESSMENT_RUN_STATES"
+        case invalidNumberOfAssessmentTargetArns = "INVALID_NUMBER_OF_ASSESSMENT_TARGET_ARNS"
+        case invalidNumberOfAssessmentTemplateArns = "INVALID_NUMBER_OF_ASSESSMENT_TEMPLATE_ARNS"
+        case invalidNumberOfAttributes = "INVALID_NUMBER_OF_ATTRIBUTES"
+        case invalidNumberOfAutoScalingGroups = "INVALID_NUMBER_OF_AUTO_SCALING_GROUPS"
+        case invalidNumberOfFindingArns = "INVALID_NUMBER_OF_FINDING_ARNS"
+        case invalidNumberOfResourceGroupArns = "INVALID_NUMBER_OF_RESOURCE_GROUP_ARNS"
+        case invalidNumberOfResourceGroupTags = "INVALID_NUMBER_OF_RESOURCE_GROUP_TAGS"
+        case invalidNumberOfRuleNames = "INVALID_NUMBER_OF_RULE_NAMES"
+        case invalidNumberOfRulesPackageArns = "INVALID_NUMBER_OF_RULES_PACKAGE_ARNS"
+        case invalidNumberOfSeverities = "INVALID_NUMBER_OF_SEVERITIES"
+        case invalidNumberOfTags = "INVALID_NUMBER_OF_TAGS"
+        case invalidNumberOfUserAttributes = "INVALID_NUMBER_OF_USER_ATTRIBUTES"
+        case invalidPaginationToken = "INVALID_PAGINATION_TOKEN"
+        case invalidResourceArn = "INVALID_RESOURCE_ARN"
+        case invalidResourceGroupArn = "INVALID_RESOURCE_GROUP_ARN"
+        case invalidResourceGroupTagKey = "INVALID_RESOURCE_GROUP_TAG_KEY"
+        case invalidResourceGroupTagValue = "INVALID_RESOURCE_GROUP_TAG_VALUE"
+        case invalidRuleName = "INVALID_RULE_NAME"
+        case invalidRulesPackageArn = "INVALID_RULES_PACKAGE_ARN"
+        case invalidSeverity = "INVALID_SEVERITY"
+        case invalidSnsTopicArn = "INVALID_SNS_TOPIC_ARN"
+        case invalidTag = "INVALID_TAG"
+        case invalidTagKey = "INVALID_TAG_KEY"
+        case invalidTagValue = "INVALID_TAG_VALUE"
+        case invalidUserAttribute = "INVALID_USER_ATTRIBUTE"
+        case invalidUserAttributeKey = "INVALID_USER_ATTRIBUTE_KEY"
+        case invalidUserAttributeValue = "INVALID_USER_ATTRIBUTE_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LimitExceededErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assessmentRunLimitExceeded = "ASSESSMENT_RUN_LIMIT_EXCEEDED"
+        case assessmentTargetLimitExceeded = "ASSESSMENT_TARGET_LIMIT_EXCEEDED"
+        case assessmentTemplateLimitExceeded = "ASSESSMENT_TEMPLATE_LIMIT_EXCEEDED"
+        case eventSubscriptionLimitExceeded = "EVENT_SUBSCRIPTION_LIMIT_EXCEEDED"
+        case resourceGroupLimitExceeded = "RESOURCE_GROUP_LIMIT_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Locale: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case enUs = "EN_US"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NoSuchEntityErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case assessmentRunDoesNotExist = "ASSESSMENT_RUN_DOES_NOT_EXIST"
+        case assessmentTargetDoesNotExist = "ASSESSMENT_TARGET_DOES_NOT_EXIST"
+        case assessmentTemplateDoesNotExist = "ASSESSMENT_TEMPLATE_DOES_NOT_EXIST"
+        case findingDoesNotExist = "FINDING_DOES_NOT_EXIST"
+        case iamRoleDoesNotExist = "IAM_ROLE_DOES_NOT_EXIST"
+        case resourceGroupDoesNotExist = "RESOURCE_GROUP_DOES_NOT_EXIST"
+        case rulesPackageDoesNotExist = "RULES_PACKAGE_DOES_NOT_EXIST"
+        case snsTopicDoesNotExist = "SNS_TOPIC_DOES_NOT_EXIST"
         public var description: String { return self.rawValue }
     }
 
@@ -145,6 +242,28 @@ extension Inspector {
 
     // MARK: Shapes
 
+    public struct AccessDeniedException: AWSErrorShape {
+        /// You can immediately retry your request.
+        public let canRetry: Bool
+        /// Code that indicates the type of error that is generated.
+        public let errorCode: AccessDeniedErrorCode
+        /// Details of the exception error.
+        public let message: String
+
+        @inlinable
+        public init(canRetry: Bool, errorCode: AccessDeniedErrorCode, message: String) {
+            self.canRetry = canRetry
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canRetry = "canRetry"
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
     public struct AddAttributesToFindingsRequest: AWSEncodableShape {
         /// The array of attributes that you want to assign to specified findings.
         public let attributes: [Attribute]
@@ -187,6 +306,24 @@ extension Inspector {
 
         private enum CodingKeys: String, CodingKey {
             case failedItems = "failedItems"
+        }
+    }
+
+    public struct AgentAlreadyRunningAssessment: AWSDecodableShape {
+        /// ID of the agent that is running on an EC2 instance that is already participating in another started assessment run.
+        public let agentId: String
+        /// The ARN of the assessment run that has already been started.
+        public let assessmentRunArn: String
+
+        @inlinable
+        public init(agentId: String, assessmentRunArn: String) {
+            self.agentId = agentId
+            self.assessmentRunArn = assessmentRunArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentId = "agentId"
+            case assessmentRunArn = "assessmentRunArn"
         }
     }
 
@@ -252,6 +389,30 @@ extension Inspector {
             case ipv4Address = "ipv4Address"
             case kernelVersion = "kernelVersion"
             case operatingSystem = "operatingSystem"
+        }
+    }
+
+    public struct AgentsAlreadyRunningAssessmentException: AWSErrorShape {
+        public let agents: [AgentAlreadyRunningAssessment]
+        public let agentsTruncated: Bool
+        /// You can immediately retry your request.
+        public let canRetry: Bool
+        /// Details of the exception error.
+        public let message: String
+
+        @inlinable
+        public init(agents: [AgentAlreadyRunningAssessment], agentsTruncated: Bool, canRetry: Bool, message: String) {
+            self.agents = agents
+            self.agentsTruncated = agentsTruncated
+            self.canRetry = canRetry
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agents = "agents"
+            case agentsTruncated = "agentsTruncated"
+            case canRetry = "canRetry"
+            case message = "message"
         }
     }
 
@@ -410,6 +571,32 @@ extension Inspector {
             case startTimeRange = "startTimeRange"
             case stateChangeTimeRange = "stateChangeTimeRange"
             case states = "states"
+        }
+    }
+
+    public struct AssessmentRunInProgressException: AWSErrorShape {
+        /// The ARNs of the assessment runs that are currently in progress.
+        public let assessmentRunArns: [String]
+        /// Boolean value that indicates whether the ARN list of the assessment runs is truncated.
+        public let assessmentRunArnsTruncated: Bool
+        /// You can immediately retry your request.
+        public let canRetry: Bool
+        /// Details of the exception error.
+        public let message: String
+
+        @inlinable
+        public init(assessmentRunArns: [String], assessmentRunArnsTruncated: Bool, canRetry: Bool, message: String) {
+            self.assessmentRunArns = assessmentRunArns
+            self.assessmentRunArnsTruncated = assessmentRunArnsTruncated
+            self.canRetry = canRetry
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assessmentRunArns = "assessmentRunArns"
+            case assessmentRunArnsTruncated = "assessmentRunArnsTruncated"
+            case canRetry = "canRetry"
+            case message = "message"
         }
     }
 
@@ -1647,6 +1834,90 @@ extension Inspector {
         }
     }
 
+    public struct InternalException: AWSErrorShape {
+        /// You can immediately retry your request.
+        public let canRetry: Bool
+        /// Details of the exception error.
+        public let message: String
+
+        @inlinable
+        public init(canRetry: Bool, message: String) {
+            self.canRetry = canRetry
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canRetry = "canRetry"
+            case message = "message"
+        }
+    }
+
+    public struct InvalidCrossAccountRoleException: AWSErrorShape {
+        /// You can immediately retry your request.
+        public let canRetry: Bool
+        /// Code that indicates the type of error that is generated.
+        public let errorCode: InvalidCrossAccountRoleErrorCode
+        /// Details of the exception error.
+        public let message: String
+
+        @inlinable
+        public init(canRetry: Bool, errorCode: InvalidCrossAccountRoleErrorCode, message: String) {
+            self.canRetry = canRetry
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canRetry = "canRetry"
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
+    public struct InvalidInputException: AWSErrorShape {
+        /// You can immediately retry your request.
+        public let canRetry: Bool
+        /// Code that indicates the type of error that is generated.
+        public let errorCode: InvalidInputErrorCode
+        /// Details of the exception error.
+        public let message: String
+
+        @inlinable
+        public init(canRetry: Bool, errorCode: InvalidInputErrorCode, message: String) {
+            self.canRetry = canRetry
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canRetry = "canRetry"
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        /// You can immediately retry your request.
+        public let canRetry: Bool
+        /// Code that indicates the type of error that is generated.
+        public let errorCode: LimitExceededErrorCode
+        /// Details of the exception error.
+        public let message: String
+
+        @inlinable
+        public init(canRetry: Bool, errorCode: LimitExceededErrorCode, message: String) {
+            self.canRetry = canRetry
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canRetry = "canRetry"
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
     public struct ListAssessmentRunAgentsRequest: AWSEncodableShape {
         /// The ARN that specifies the assessment run whose agents you want to list.
         public let assessmentRunArn: String
@@ -2128,6 +2399,28 @@ extension Inspector {
         }
     }
 
+    public struct NoSuchEntityException: AWSErrorShape {
+        /// You can immediately retry your request.
+        public let canRetry: Bool
+        /// Code that indicates the type of error that is generated.
+        public let errorCode: NoSuchEntityErrorCode
+        /// Details of the exception error.
+        public let message: String
+
+        @inlinable
+        public init(canRetry: Bool, errorCode: NoSuchEntityErrorCode, message: String) {
+            self.canRetry = canRetry
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canRetry = "canRetry"
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
     public struct PreviewAgentsRequest: AWSEncodableShape {
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 10. The maximum value is 500.
         public let maxResults: Int?
@@ -2371,6 +2664,24 @@ extension Inspector {
         }
     }
 
+    public struct ServiceTemporarilyUnavailableException: AWSErrorShape {
+        /// You can wait and then retry your request.
+        public let canRetry: Bool
+        /// Details of the exception error.
+        public let message: String
+
+        @inlinable
+        public init(canRetry: Bool, message: String) {
+            self.canRetry = canRetry
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canRetry = "canRetry"
+            case message = "message"
+        }
+    }
+
     public struct SetTagsForResourceRequest: AWSEncodableShape {
         /// The ARN of the assessment template that you want to set tags to.
         public let resourceArn: String
@@ -2605,6 +2916,22 @@ extension Inspector {
         }
     }
 
+    public struct UnsupportedFeatureException: AWSErrorShape {
+        public let canRetry: Bool
+        public let message: String
+
+        @inlinable
+        public init(canRetry: Bool, message: String) {
+            self.canRetry = canRetry
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case canRetry = "canRetry"
+            case message = "message"
+        }
+    }
+
     public struct UpdateAssessmentTargetRequest: AWSEncodableShape {
         /// The ARN of the assessment target that you want to update.
         public let assessmentTargetArn: String
@@ -2695,6 +3022,21 @@ public struct InspectorErrorType: AWSErrorType {
     public static var serviceTemporarilyUnavailableException: Self { .init(.serviceTemporarilyUnavailableException) }
     /// Used by the GetAssessmentReport API. The request was rejected because you tried to generate a report for an assessment run that existed before reporting was supported in Amazon Inspector. You can only generate reports for assessment runs that took place or will take place after generating reports in Amazon Inspector became available.
     public static var unsupportedFeatureException: Self { .init(.unsupportedFeatureException) }
+}
+
+extension InspectorErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": Inspector.AccessDeniedException.self,
+        "AgentsAlreadyRunningAssessmentException": Inspector.AgentsAlreadyRunningAssessmentException.self,
+        "AssessmentRunInProgressException": Inspector.AssessmentRunInProgressException.self,
+        "InternalException": Inspector.InternalException.self,
+        "InvalidCrossAccountRoleException": Inspector.InvalidCrossAccountRoleException.self,
+        "InvalidInputException": Inspector.InvalidInputException.self,
+        "LimitExceededException": Inspector.LimitExceededException.self,
+        "NoSuchEntityException": Inspector.NoSuchEntityException.self,
+        "ServiceTemporarilyUnavailableException": Inspector.ServiceTemporarilyUnavailableException.self,
+        "UnsupportedFeatureException": Inspector.UnsupportedFeatureException.self
+    ]
 }
 
 extension InspectorErrorType: Equatable {

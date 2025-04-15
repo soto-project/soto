@@ -286,6 +286,23 @@ extension Translate {
         }
     }
 
+    public struct DetectedLanguageLowConfidenceException: AWSErrorShape {
+        /// The language code of the auto-detected language from Amazon Comprehend.
+        public let detectedLanguageCode: String?
+        public let message: String?
+
+        @inlinable
+        public init(detectedLanguageCode: String? = nil, message: String? = nil) {
+            self.detectedLanguageCode = detectedLanguageCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectedLanguageCode = "DetectedLanguageCode"
+            case message = "Message"
+        }
+    }
+
     public struct Document: AWSEncodableShape {
         /// The Contentfield type is Binary large object (blob). This object contains the document content converted into base64-encoded binary data.    If you use one of the AWS SDKs, the SDK performs the Base64-encoding on this field before sending the request.
         public let content: AWSBase64Data
@@ -1338,6 +1355,22 @@ extension Translate {
         }
     }
 
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        public let resourceArn: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceArn: String? = nil) {
+            self.message = message
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct TranslateDocumentRequest: AWSEncodableShape {
         /// The content and content type for the document to be translated. The document size must not exceed 100 KB.
         public let document: Document
@@ -1521,6 +1554,44 @@ extension Translate {
         }
     }
 
+    public struct UnsupportedDisplayLanguageCodeException: AWSErrorShape {
+        /// Language code passed in with the request.
+        public let displayLanguageCode: String?
+        public let message: String?
+
+        @inlinable
+        public init(displayLanguageCode: String? = nil, message: String? = nil) {
+            self.displayLanguageCode = displayLanguageCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayLanguageCode = "DisplayLanguageCode"
+            case message = "Message"
+        }
+    }
+
+    public struct UnsupportedLanguagePairException: AWSErrorShape {
+        public let message: String?
+        /// The language code for the language of the input text.
+        public let sourceLanguageCode: String?
+        /// The language code for the language of the translated text.
+        public let targetLanguageCode: String?
+
+        @inlinable
+        public init(message: String? = nil, sourceLanguageCode: String? = nil, targetLanguageCode: String? = nil) {
+            self.message = message
+            self.sourceLanguageCode = sourceLanguageCode
+            self.targetLanguageCode = targetLanguageCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case sourceLanguageCode = "SourceLanguageCode"
+            case targetLanguageCode = "TargetLanguageCode"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the given Amazon Translate resource from which you want to remove the tags.
         public let resourceArn: String
@@ -1688,6 +1759,15 @@ public struct TranslateErrorType: AWSErrorType {
     public static var unsupportedDisplayLanguageCodeException: Self { .init(.unsupportedDisplayLanguageCodeException) }
     /// Amazon Translate does not support translation from the language of the source text into the requested target language. For more information, see Supported languages.
     public static var unsupportedLanguagePairException: Self { .init(.unsupportedLanguagePairException) }
+}
+
+extension TranslateErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "DetectedLanguageLowConfidenceException": Translate.DetectedLanguageLowConfidenceException.self,
+        "TooManyTagsException": Translate.TooManyTagsException.self,
+        "UnsupportedDisplayLanguageCodeException": Translate.UnsupportedDisplayLanguageCodeException.self,
+        "UnsupportedLanguagePairException": Translate.UnsupportedLanguagePairException.self
+    ]
 }
 
 extension TranslateErrorType: Equatable {

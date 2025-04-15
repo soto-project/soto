@@ -715,6 +715,23 @@ extension ServiceDiscovery {
         }
     }
 
+    public struct DuplicateRequest: AWSErrorShape {
+        /// The ID of the operation that's already in progress.
+        public let duplicateOperationId: String?
+        public let message: String?
+
+        @inlinable
+        public init(duplicateOperationId: String? = nil, message: String? = nil) {
+            self.duplicateOperationId = duplicateOperationId
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duplicateOperationId = "DuplicateOperationId"
+            case message = "Message"
+        }
+    }
+
     public struct GetInstanceRequest: AWSEncodableShape {
         /// The ID of the instance that you want to get information about.
         public let instanceId: String
@@ -1363,6 +1380,27 @@ extension ServiceDiscovery {
         }
     }
 
+    public struct NamespaceAlreadyExists: AWSErrorShape {
+        /// The CreatorRequestId that was used to create the namespace.
+        public let creatorRequestId: String?
+        public let message: String?
+        /// The ID of the existing namespace.
+        public let namespaceId: String?
+
+        @inlinable
+        public init(creatorRequestId: String? = nil, message: String? = nil, namespaceId: String? = nil) {
+            self.creatorRequestId = creatorRequestId
+            self.message = message
+            self.namespaceId = namespaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creatorRequestId = "CreatorRequestId"
+            case message = "Message"
+            case namespaceId = "NamespaceId"
+        }
+    }
+
     public struct NamespaceFilter: AWSEncodableShape {
         /// Specify the operator that you want to use to determine whether a namespace matches the specified value. Valid values for Condition are one of the following.    EQ: When you specify EQ for Condition, you can specify only one value. EQ is supported for TYPE, NAME, and HTTP_NAME. EQ is the default condition and can be omitted.    BEGINS_WITH: When you specify BEGINS_WITH for Condition, you can specify only one value. BEGINS_WITH is supported for TYPE, NAME, and HTTP_NAME.
         public let condition: FilterCondition?
@@ -1880,6 +1918,27 @@ extension ServiceDiscovery {
         }
     }
 
+    public struct ServiceAlreadyExists: AWSErrorShape {
+        /// The CreatorRequestId that was used to create the service.
+        public let creatorRequestId: String?
+        public let message: String?
+        /// The ID of the existing service.
+        public let serviceId: String?
+
+        @inlinable
+        public init(creatorRequestId: String? = nil, message: String? = nil, serviceId: String? = nil) {
+            self.creatorRequestId = creatorRequestId
+            self.message = message
+            self.serviceId = serviceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creatorRequestId = "CreatorRequestId"
+            case message = "Message"
+            case serviceId = "ServiceId"
+        }
+    }
+
     public struct ServiceAttributes: AWSDecodableShape {
         /// A string map that contains the following information for the service that you specify in ServiceArn:   The attributes that apply to the service.    For each attribute, the applicable value.   You can specify a total of 30 attributes.
         public let attributes: [String: String]?
@@ -2058,6 +2117,23 @@ extension ServiceDiscovery {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        /// The name of the resource.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -2385,6 +2461,15 @@ public struct ServiceDiscoveryErrorType: AWSErrorType {
     public static var serviceNotFound: Self { .init(.serviceNotFound) }
     /// The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension ServiceDiscoveryErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "DuplicateRequest": ServiceDiscovery.DuplicateRequest.self,
+        "NamespaceAlreadyExists": ServiceDiscovery.NamespaceAlreadyExists.self,
+        "ServiceAlreadyExists": ServiceDiscovery.ServiceAlreadyExists.self,
+        "TooManyTagsException": ServiceDiscovery.TooManyTagsException.self
+    ]
 }
 
 extension ServiceDiscoveryErrorType: Equatable {

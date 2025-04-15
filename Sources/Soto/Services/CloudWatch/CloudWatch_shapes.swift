@@ -384,6 +384,23 @@ extension CloudWatch {
         }
     }
 
+    public struct DashboardInvalidInputError: AWSErrorShape {
+        @OptionalCustomCoding<StandardArrayCoder<DashboardValidationMessage>>
+        public var dashboardValidationMessages: [DashboardValidationMessage]?
+        public let message: String?
+
+        @inlinable
+        public init(dashboardValidationMessages: [DashboardValidationMessage]? = nil, message: String? = nil) {
+            self.dashboardValidationMessages = dashboardValidationMessages
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dashboardValidationMessages = "dashboardValidationMessages"
+            case message = "message"
+        }
+    }
+
     public struct DashboardValidationMessage: AWSDecodableShape {
         /// The data path related to the message.
         public let dataPath: String?
@@ -3130,6 +3147,25 @@ extension CloudWatch {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        public let resourceId: String?
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct SetAlarmStateInput: AWSEncodableShape {
         /// The name of the alarm.
         public let alarmName: String?
@@ -3440,6 +3476,13 @@ public struct CloudWatchErrorType: AWSErrorType {
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
     /// The named resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension CloudWatchErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "DashboardInvalidInputError": CloudWatch.DashboardInvalidInputError.self,
+        "ResourceNotFoundException": CloudWatch.ResourceNotFoundException.self
+    ]
 }
 
 extension CloudWatchErrorType: Equatable {

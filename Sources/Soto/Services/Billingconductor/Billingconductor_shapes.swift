@@ -41,6 +41,15 @@ extension Billingconductor {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pricingPlanAttachedToBillingGroupDeleteConflict = "PRICING_PLAN_ATTACHED_TO_BILLING_GROUP_DELETE_CONFLICT"
+        case pricingRuleAttachedToPricingPlanDeleteConflict = "PRICING_RULE_ATTACHED_TO_PRICING_PLAN_DELETE_CONFLICT"
+        case pricingRuleInPricingPlanConflict = "PRICING_RULE_IN_PRICING_PLAN_CONFLICT"
+        case resourceNameConflict = "RESOURCE_NAME_CONFLICT"
+        case writeConflictRetry = "WRITE_CONFLICT_RETRY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CurrencyCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cny = "CNY"
         case usd = "USD"
@@ -92,6 +101,70 @@ extension Billingconductor {
         case discount = "DISCOUNT"
         case markup = "MARKUP"
         case tiering = "TIERING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountsAlreadyAssociated = "ACCOUNTS_ALREADY_ASSOCIATED"
+        case accountsNotAssociated = "ACCOUNTS_NOT_ASSOCIATED"
+        case cannotDeleteAutoAssociateBillingGroup = "CANNOT_DELETE_AUTO_ASSOCIATE_BILLING_GROUP"
+        case cannotParse = "CANNOT_PARSE"
+        case customLineItemAssociationExists = "CUSTOM_LINE_ITEM_ASSOCIATION_EXISTS"
+        case duplicateAccount = "DUPLICATE_ACCOUNT"
+        case duplicatePricingruleArns = "DUPLICATE_PRICINGRULE_ARNS"
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case illegalAccounts = "ILLEGAL_ACCOUNTS"
+        case illegalAccountId = "ILLEGAL_ACCOUNT_ID"
+        case illegalBillingEntity = "ILLEGAL_BILLING_ENTITY"
+        case illegalBillingPeriod = "ILLEGAL_BILLING_PERIOD"
+        case illegalBillingPeriodRange = "ILLEGAL_BILLING_PERIOD_RANGE"
+        case illegalChargeDetails = "ILLEGAL_CHARGE_DETAILS"
+        case illegalChildAssociateResource = "ILLEGAL_CHILD_ASSOCIATE_RESOURCE"
+        case illegalCustomlineitem = "ILLEGAL_CUSTOMLINEITEM"
+        case illegalCustomlineitemModification = "ILLEGAL_CUSTOMLINEITEM_MODIFICATION"
+        case illegalCustomlineitemUpdate = "ILLEGAL_CUSTOMLINEITEM_UPDATE"
+        case illegalEndedBillinggroup = "ILLEGAL_ENDED_BILLINGGROUP"
+        case illegalExpression = "ILLEGAL_EXPRESSION"
+        case illegalModifierPercentage = "ILLEGAL_MODIFIER_PERCENTAGE"
+        case illegalOperation = "ILLEGAL_OPERATION"
+        case illegalPrimaryAccount = "ILLEGAL_PRIMARY_ACCOUNT"
+        case illegalResourceArns = "ILLEGAL_RESOURCE_ARNS"
+        case illegalScope = "ILLEGAL_SCOPE"
+        case illegalService = "ILLEGAL_SERVICE"
+        case illegalTieringInput = "ILLEGAL_TIERING_INPUT"
+        case illegalType = "ILLEGAL_TYPE"
+        case illegalUpdateChargeDetails = "ILLEGAL_UPDATE_CHARGE_DETAILS"
+        case illegalUsageType = "ILLEGAL_USAGE_TYPE"
+        case invalidArn = "INVALID_ARN"
+        case invalidBillingviewArn = "INVALID_BILLINGVIEW_ARN"
+        case invalidBillingGroup = "INVALID_BILLING_GROUP"
+        case invalidBillingGroupStatus = "INVALID_BILLING_GROUP_STATUS"
+        case invalidBillingPeriodForOperation = "INVALID_BILLING_PERIOD_FOR_OPERATION"
+        case invalidFilter = "INVALID_FILTER"
+        case invalidSkuCombo = "INVALID_SKU_COMBO"
+        case invalidTimeRange = "INVALID_TIME_RANGE"
+        case mismatchedBillinggroupArn = "MISMATCHED_BILLINGGROUP_ARN"
+        case mismatchedBillingviewArn = "MISMATCHED_BILLINGVIEW_ARN"
+        case mismatchedCustomlineitemArn = "MISMATCHED_CUSTOMLINEITEM_ARN"
+        case mismatchedPricingplanArn = "MISMATCHED_PRICINGPLAN_ARN"
+        case mismatchedPricingruleArn = "MISMATCHED_PRICINGRULE_ARN"
+        case missingBillinggroup = "MISSING_BILLINGGROUP"
+        case missingCustomlineitem = "MISSING_CUSTOMLINEITEM"
+        case missingLinkedAccountIds = "MISSING_LINKED_ACCOUNT_IDS"
+        case missingPricingplan = "MISSING_PRICINGPLAN"
+        case missingPricingPlanArn = "MISSING_PRICING_PLAN_ARN"
+        case multipleLinkedAccountIds = "MULTIPLE_LINKED_ACCOUNT_IDS"
+        case multiplePricingPlanArn = "MULTIPLE_PRICING_PLAN_ARN"
+        case other = "OTHER"
+        case pricingrulesAlreadyAssociated = "PRICINGRULES_ALREADY_ASSOCIATED"
+        case pricingrulesNotAssociated = "PRICINGRULES_NOT_ASSOCIATED"
+        case pricingrulesNotExist = "PRICINGRULES_NOT_EXIST"
+        case primaryCannotDisassociate = "PRIMARY_CANNOT_DISASSOCIATE"
+        case primaryNotAssociated = "PRIMARY_NOT_ASSOCIATED"
+        case tooManyAccountsInRequest = "TOO_MANY_ACCOUNTS_IN_REQUEST"
+        case tooManyAutoAssociateBillingGroups = "TOO_MANY_AUTO_ASSOCIATE_BILLING_GROUPS"
+        case tooManyCustomlineitemsInRequest = "TOO_MANY_CUSTOMLINEITEMS_IN_REQUEST"
+        case unknownOperation = "UNKNOWN_OPERATION"
         public var description: String { return self.rawValue }
     }
 
@@ -548,6 +621,31 @@ extension Billingconductor {
 
         private enum CodingKeys: String, CodingKey {
             case pricingPlanArn = "PricingPlanArn"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// Reason for the inconsistent state.
+        public let reason: ConflictExceptionReason?
+        /// Identifier of the resource in use.
+        public let resourceId: String
+        /// Type of the resource in use.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, reason: ConflictExceptionReason? = nil, resourceId: String, resourceType: String) {
+            self.message = message
+            self.reason = reason
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -1463,6 +1561,29 @@ extension Billingconductor {
         private enum CodingKeys: String, CodingKey {
             case billingGroupCostReportResults = "BillingGroupCostReportResults"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// Number of seconds you can retry after the call.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
         }
     }
 
@@ -2499,6 +2620,56 @@ extension Billingconductor {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// Resource identifier that was not found.
+        public let resourceId: String
+        /// Resource type that was not found.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ServiceLimitExceededException: AWSErrorShape {
+        /// The unique code identifier of the service limit that is being exceeded.
+        public let limitCode: String
+        public let message: String
+        /// Identifier of the resource affected.
+        public let resourceId: String?
+        /// Type of the resource affected.
+        public let resourceType: String?
+        /// The unique code for the service of the limit that is being exceeded.
+        public let serviceCode: String
+
+        @inlinable
+        public init(limitCode: String, message: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
+            self.limitCode = limitCode
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitCode = "LimitCode"
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         ///  The Amazon Resource Name (ARN) of the resource to which to add tags.
         public let resourceArn: String
@@ -2537,6 +2708,29 @@ extension Billingconductor {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// Number of seconds you can safely retry after the call.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
     }
 
     public struct Tiering: AWSDecodableShape {
@@ -3039,6 +3233,45 @@ extension Billingconductor {
             case freeTier = "FreeTier"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The fields that caused the error, if applicable.
+        public let fields: [ValidationExceptionField]?
+        public let message: String
+        /// The reason the request's validation failed.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The message describing why the field failed validation.
+        public let message: String
+        /// The field name.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case name = "Name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -3087,6 +3320,17 @@ public struct BillingconductorErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input doesn't match with the constraints specified by Amazon Web Services.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension BillingconductorErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Billingconductor.ConflictException.self,
+        "InternalServerException": Billingconductor.InternalServerException.self,
+        "ResourceNotFoundException": Billingconductor.ResourceNotFoundException.self,
+        "ServiceLimitExceededException": Billingconductor.ServiceLimitExceededException.self,
+        "ThrottlingException": Billingconductor.ThrottlingException.self,
+        "ValidationException": Billingconductor.ValidationException.self
+    ]
 }
 
 extension BillingconductorErrorType: Equatable {

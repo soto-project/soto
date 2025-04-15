@@ -1644,6 +1644,29 @@ extension B2bi {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The server attempts to retry a failed command.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct ListCapabilitiesRequest: AWSEncodableShape {
         /// Specifies the maximum number of capabilities to return.
         public let maxResults: Int?
@@ -2072,6 +2095,35 @@ extension B2bi {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The quota that was exceeded, which caused the exception.
+        public let quotaCode: String
+        /// The ID for the resource that exceeded the quota, which caused the exception.
+        public let resourceId: String
+        /// The resource type (profile, partnership, transformer, or capability) that exceeded the quota, which caused the exception.
+        public let resourceType: String
+        /// The code responsible for exceeding the quota, which caused the exception.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct StartTransformerJobRequest: AWSEncodableShape {
         /// Reserved for future use.
         public let clientToken: String?
@@ -2295,6 +2347,29 @@ extension B2bi {
 
         private enum CodingKeys: String, CodingKey {
             case parsedFileContent = "parsedFileContent"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The server attempts to retry a command that was throttled.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -3263,6 +3338,14 @@ public struct B2biErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Occurs when a B2BI object cannot be validated against a request from another object.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension B2biErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InternalServerException": B2bi.InternalServerException.self,
+        "ServiceQuotaExceededException": B2bi.ServiceQuotaExceededException.self,
+        "ThrottlingException": B2bi.ThrottlingException.self
+    ]
 }
 
 extension B2biErrorType: Equatable {

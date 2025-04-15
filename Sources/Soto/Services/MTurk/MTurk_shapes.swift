@@ -2047,6 +2047,22 @@ extension MTurk {
         public init() {}
     }
 
+    public struct RequestError: AWSErrorShape {
+        public let message: String?
+        public let turkErrorCode: String?
+
+        @inlinable
+        public init(message: String? = nil, turkErrorCode: String? = nil) {
+            self.message = message
+            self.turkErrorCode = turkErrorCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case turkErrorCode = "TurkErrorCode"
+        }
+    }
+
     public struct ReviewActionDetail: AWSDecodableShape {
         /// The unique identifier for the action.
         public let actionId: String?
@@ -2225,6 +2241,22 @@ extension MTurk {
 
     public struct SendTestEventNotificationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ServiceFault: AWSErrorShape {
+        public let message: String?
+        public let turkErrorCode: String?
+
+        @inlinable
+        public init(message: String? = nil, turkErrorCode: String? = nil) {
+            self.message = message
+            self.turkErrorCode = turkErrorCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case turkErrorCode = "TurkErrorCode"
+        }
     }
 
     public struct UpdateExpirationForHITRequest: AWSEncodableShape {
@@ -2462,6 +2494,13 @@ public struct MTurkErrorType: AWSErrorType {
     public static var requestError: Self { .init(.requestError) }
     /// Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
     public static var serviceFault: Self { .init(.serviceFault) }
+}
+
+extension MTurkErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "RequestError": MTurk.RequestError.self,
+        "ServiceFault": MTurk.ServiceFault.self
+    ]
 }
 
 extension MTurkErrorType: Equatable {

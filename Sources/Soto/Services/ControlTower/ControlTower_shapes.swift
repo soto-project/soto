@@ -1767,6 +1767,39 @@ extension ControlTower {
         public init() {}
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The ID of the service quota that was exceeded.
+        public let quotaCode: String?
+        /// The number of seconds the caller should wait before retrying.
+        public let retryAfterSeconds: Int?
+        /// The ID of the service that is associated with the error.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         /// The ARN of the resource.
         public let resourceArn: String
@@ -1976,6 +2009,12 @@ public struct ControlTowerErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input does not satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ControlTowerErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ThrottlingException": ControlTower.ThrottlingException.self
+    ]
 }
 
 extension ControlTowerErrorType: Equatable {

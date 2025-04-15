@@ -31,6 +31,11 @@ extension NeptuneGraph {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case concurrentModification = "CONCURRENT_MODIFICATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ExplainMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `static` = "STATIC"
         case details = "DETAILS"
@@ -146,6 +151,26 @@ extension NeptuneGraph {
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UnprocessableExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case internalLimitExceeded = "INTERNAL_LIMIT_EXCEEDED"
+        case memoryLimitExceeded = "MEMORY_LIMIT_EXCEEDED"
+        case partitionFull = "PARTITION_FULL"
+        case queryTimeout = "QUERY_TIMEOUT"
+        case storageLimitExceeded = "STORAGE_LIMIT_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case badRequest = "BAD_REQUEST"
+        case constraintViolation = "CONSTRAINT_VIOLATION"
+        case illegalArgument = "ILLEGAL_ARGUMENT"
+        case malformedQuery = "MALFORMED_QUERY"
+        case queryCancelled = "QUERY_CANCELLED"
+        case queryTooLarge = "QUERY_TOO_LARGE"
+        case unsupportedOperation = "UNSUPPORTED_OPERATION"
         public var description: String { return self.rawValue }
     }
 
@@ -304,6 +329,24 @@ extension NeptuneGraph {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// A message describing the problem.
+        public let message: String
+        /// The reason for the conflict exception.
+        public let reason: ConflictExceptionReason?
+
+        @inlinable
+        public init(message: String, reason: ConflictExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
     }
 
     public struct CreateGraphInput: AWSEncodableShape {
@@ -2550,6 +2593,35 @@ extension NeptuneGraph {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// Service quota code of the resource for which quota was exceeded.
+        public let quotaCode: String?
+        /// The identifier of the resource that exceeded quota.
+        public let resourceId: String?
+        /// The type of the resource that exceeded quota. Ex: Graph, Snapshot
+        public let resourceType: String?
+        /// The service code that exceeded quota.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct StartExportTaskInput: AWSEncodableShape {
         /// The Amazon S3 URI where data will be exported to.
         public let destination: String
@@ -2798,6 +2870,23 @@ extension NeptuneGraph {
         public init() {}
     }
 
+    public struct UnprocessableException: AWSErrorShape {
+        public let message: String
+        /// The reason for the unprocessable exception.
+        public let reason: UnprocessableExceptionReason
+
+        @inlinable
+        public init(message: String, reason: UnprocessableExceptionReason) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         /// ARN of the resource whose tag needs to be removed.
         public let resourceArn: String
@@ -2945,6 +3034,24 @@ extension NeptuneGraph {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// A message describing the problem.
+        public let message: String
+        /// The reason that the resource could not be validated.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(message: String, reason: ValidationExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
     public struct VectorSearchConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The number of dimensions.
         public let dimension: Int
@@ -3028,6 +3135,15 @@ public struct NeptuneGraphErrorType: AWSErrorType {
     public static var unprocessableException: Self { .init(.unprocessableException) }
     /// A resource could not be validated.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension NeptuneGraphErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": NeptuneGraph.ConflictException.self,
+        "ServiceQuotaExceededException": NeptuneGraph.ServiceQuotaExceededException.self,
+        "UnprocessableException": NeptuneGraph.UnprocessableException.self,
+        "ValidationException": NeptuneGraph.ValidationException.self
+    ]
 }
 
 extension NeptuneGraphErrorType: Equatable {

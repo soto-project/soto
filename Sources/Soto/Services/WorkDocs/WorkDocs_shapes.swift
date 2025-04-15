@@ -1051,6 +1051,22 @@ extension WorkDocs {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeactivatingLastSystemUserException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct DeleteCommentRequest: AWSEncodableShape {
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
@@ -2156,6 +2172,23 @@ extension WorkDocs {
             case source = "Source"
             case status = "Status"
             case thumbnail = "Thumbnail"
+        }
+    }
+
+    public struct EntityNotExistsException: AWSErrorShape {
+        /// The IDs of the non-existent resources.
+        public let entityIds: [String]?
+        public let message: String?
+
+        @inlinable
+        public init(entityIds: [String]? = nil, message: String? = nil) {
+            self.entityIds = entityIds
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityIds = "EntityIds"
+            case message = "Message"
         }
     }
 
@@ -3339,6 +3372,22 @@ extension WorkDocs {
         }
     }
 
+    public struct UnauthorizedOperationException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct UpdateDocumentRequest: AWSEncodableShape {
         /// Amazon WorkDocs authentication token. Not required when using Amazon Web Services administrator credentials to access the API.
         public let authenticationToken: String?
@@ -3810,6 +3859,14 @@ public struct WorkDocsErrorType: AWSErrorType {
     public static var unauthorizedOperationException: Self { .init(.unauthorizedOperationException) }
     /// The caller does not have access to perform the action on the resource.
     public static var unauthorizedResourceAccessException: Self { .init(.unauthorizedResourceAccessException) }
+}
+
+extension WorkDocsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "DeactivatingLastSystemUserException": WorkDocs.DeactivatingLastSystemUserException.self,
+        "EntityNotExistsException": WorkDocs.EntityNotExistsException.self,
+        "UnauthorizedOperationException": WorkDocs.UnauthorizedOperationException.self
+    ]
 }
 
 extension WorkDocsErrorType: Equatable {

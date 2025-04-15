@@ -135,6 +135,14 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "CANNOT_PARSE"
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case other = "OTHER"
+        case unknownOperation = "UNKNOWN_OPERATION"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
@@ -763,6 +771,27 @@ extension LookoutMetrics {
         private enum CodingKeys: String, CodingKey {
             case backTestConfiguration = "BackTestConfiguration"
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The type of the resource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -2702,6 +2731,27 @@ extension LookoutMetrics {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The type of the resource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct S3SourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// Contains information about a source file's formatting.
         public let fileFormatDescriptor: FileFormatDescriptor?
@@ -2815,6 +2865,35 @@ extension LookoutMetrics {
             case historicalDataPathList = "HistoricalDataPathList"
             case roleArn = "RoleArn"
             case templatedPathList = "TemplatedPathList"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The quota code.
+        public let quotaCode: String?
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The type of the resource.
+        public let resourceType: String?
+        /// The service code.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case serviceCode = "ServiceCode"
         }
     }
 
@@ -3151,6 +3230,45 @@ extension LookoutMetrics {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// Fields that failed validation.
+        public let fields: [ValidationExceptionField]?
+        public let message: String
+        /// The reason that validation failed.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The message with more information about the validation exception.
+        public let message: String
+        /// The name of the field.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case name = "Name"
+        }
+    }
+
     public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// An array of strings containing the list of security groups.
         public let securityGroupIdList: [String]
@@ -3228,6 +3346,15 @@ public struct LookoutMetricsErrorType: AWSErrorType {
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// The input fails to satisfy the constraints specified by the AWS service. Check your input values and try again.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension LookoutMetricsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": LookoutMetrics.ConflictException.self,
+        "ResourceNotFoundException": LookoutMetrics.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": LookoutMetrics.ServiceQuotaExceededException.self,
+        "ValidationException": LookoutMetrics.ValidationException.self
+    ]
 }
 
 extension LookoutMetricsErrorType: Equatable {

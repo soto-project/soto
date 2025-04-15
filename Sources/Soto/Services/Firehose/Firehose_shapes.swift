@@ -2859,6 +2859,38 @@ extension Firehose {
         }
     }
 
+    public struct InvalidKMSResourceException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct InvalidSourceException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct KMSEncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same Amazon Web Services Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces.
         public let awskmsKeyARN: String
@@ -5080,6 +5112,13 @@ public struct FirehoseErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the Firehose stream may have been exceeded. For more information about limits and how to request an increase, see Amazon Firehose Limits.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+}
+
+extension FirehoseErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InvalidKMSResourceException": Firehose.InvalidKMSResourceException.self,
+        "InvalidSourceException": Firehose.InvalidSourceException.self
+    ]
 }
 
 extension FirehoseErrorType: Equatable {

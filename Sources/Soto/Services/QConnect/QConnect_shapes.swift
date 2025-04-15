@@ -8363,6 +8363,23 @@ extension QConnect {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The specified resource name.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+        }
+    }
+
     public struct ResultData: AWSDecodableShape {
         ///  Summary of the recommended content.
         public let data: DataSummary?
@@ -9311,6 +9328,23 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case value = "value"
+        }
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        /// The specified resource name.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
         }
     }
 
@@ -10552,6 +10586,13 @@ public struct QConnectErrorType: AWSErrorType {
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The input fails to satisfy the constraints specified by a service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension QConnectErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": QConnect.ResourceNotFoundException.self,
+        "TooManyTagsException": QConnect.TooManyTagsException.self
+    ]
 }
 
 extension QConnectErrorType: Equatable {

@@ -91,6 +91,14 @@ extension PCS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct Cluster: AWSDecodableShape {
@@ -374,6 +382,27 @@ extension PCS {
             case modifiedAt = "modifiedAt"
             case name = "name"
             case status = "status"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        ///  The unique identifier of the resource that caused the conflict exception.
+        public let resourceId: String
+        ///  The type or category of the resource that caused the conflict exception."
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1217,6 +1246,27 @@ extension PCS {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        ///  The unique identifier of the resource that was not found.
+        public let resourceId: String
+        ///  The type or category of the resource that was not found.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ScalingConfiguration: AWSDecodableShape {
         /// The upper bound of the number of instances allowed in the compute fleet.
         public let maxInstanceCount: Int
@@ -1286,6 +1336,35 @@ extension PCS {
         private enum CodingKeys: String, CodingKey {
             case type = "type"
             case version = "version"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        ///  The quota code of the service quota that was exceeded.
+        public let quotaCode: String?
+        ///  The unique identifier of the resource that caused the quota to be exceeded.
+        public let resourceId: String?
+        ///  The type or category of the resource that caused the quota to be exceeded.
+        public let resourceType: String?
+        ///  The service code associated with the quota that was exceeded.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
         }
     }
 
@@ -1367,6 +1446,29 @@ extension PCS {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tags = "tags"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        ///  The number of seconds to wait before retrying the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -1539,6 +1641,45 @@ extension PCS {
             case queue = "queue"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        ///  A list of fields or properties that failed validation.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        ///  The specific reason or cause of the validation error.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The message body of the exception.
+        public let message: String
+        /// The name of the exception.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1587,6 +1728,16 @@ public struct PCSErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request isn't valid.  Examples    Your request contains malformed JSON or unsupported characters.   The scheduler version isn't supported.   There are networking related errors, such as network validation failure.   AMI type is CUSTOM and the launch template doesn't define the AMI ID, or the AMI type is AL2 and the launch template defines the AMI.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension PCSErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": PCS.ConflictException.self,
+        "ResourceNotFoundException": PCS.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": PCS.ServiceQuotaExceededException.self,
+        "ThrottlingException": PCS.ThrottlingException.self,
+        "ValidationException": PCS.ValidationException.self
+    ]
 }
 
 extension PCSErrorType: Equatable {

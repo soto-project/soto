@@ -551,6 +551,27 @@ extension Pipes {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource that caused the exception.
+        public let resourceId: String
+        /// The type of resource that caused the exception.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct CreatePipeRequest: AWSEncodableShape {
         /// A description of the pipe.
         public let description: String?
@@ -1160,6 +1181,29 @@ extension Pipes {
 
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamArn = "DeliveryStreamArn"
+        }
+    }
+
+    public struct InternalException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds to wait before retrying the action that caused the exception.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -2620,6 +2664,35 @@ extension Pipes {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The identifier of the quota that caused the exception.
+        public let quotaCode: String
+        /// The ID of the resource that caused the exception.
+        public let resourceId: String
+        /// The type of resource that caused the exception.
+        public let resourceType: String
+        /// The identifier of the service that caused the exception.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct SingleMeasureMapping: AWSEncodableShape & AWSDecodableShape {
         /// Target measure name for the measurement attribute in the Timestream table.
         public let measureName: String
@@ -2828,6 +2901,39 @@ extension Pipes {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The identifier of the quota that caused the exception.
+        public let quotaCode: String?
+        /// The number of seconds to wait before retrying the action that caused the exception.
+        public let retryAfterSeconds: Int?
+        /// The identifier of the service that caused the exception.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -3312,6 +3418,41 @@ extension Pipes {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// The list of fields for which validation failed and the corresponding failure messages.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The message of the exception.
+        public let message: String
+        /// The name of the exception.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct MQBrokerAccessCredentials: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the Secrets Manager secret.
         public let basicAuth: String?
@@ -3376,6 +3517,16 @@ public struct PipesErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Indicates that an error has occurred while performing a validate operation.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension PipesErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Pipes.ConflictException.self,
+        "InternalException": Pipes.InternalException.self,
+        "ServiceQuotaExceededException": Pipes.ServiceQuotaExceededException.self,
+        "ThrottlingException": Pipes.ThrottlingException.self,
+        "ValidationException": Pipes.ValidationException.self
+    ]
 }
 
 extension PipesErrorType: Equatable {

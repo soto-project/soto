@@ -140,6 +140,15 @@ extension TaxSettings {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case expiredToken = "ExpiredToken"
+        case fieldValidationFailed = "FieldValidationFailed"
+        case invalidToken = "InvalidToken"
+        case malformedToken = "MalformedToken"
+        case missingInput = "MissingInput"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AccountDetails: AWSDecodableShape {
@@ -687,6 +696,23 @@ extension TaxSettings {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        /// 409
+        public let errorCode: String
+        public let message: String
+
+        @inlinable
+        public init(errorCode: String, message: String) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
     public struct DeleteSupplementalTaxRegistrationRequest: AWSEncodableShape {
         ///  The unique authority Id for the supplemental TRN information that needs to be deleted.
         public let authorityId: String
@@ -983,6 +1009,23 @@ extension TaxSettings {
 
         private enum CodingKeys: String, CodingKey {
             case pan = "pan"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        /// 500
+        public let errorCode: String
+        public let message: String
+
+        @inlinable
+        public init(errorCode: String, message: String) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case message = "message"
         }
     }
 
@@ -1392,6 +1435,23 @@ extension TaxSettings {
 
         private enum CodingKeys: String, CodingKey {
             case status = "status"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// 404
+        public let errorCode: String
+        public let message: String
+
+        @inlinable
+        public init(errorCode: String, message: String) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case message = "message"
         }
     }
 
@@ -1929,6 +1989,41 @@ extension TaxSettings {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// 400
+        public let errorCode: ValidationExceptionErrorCode
+        /// 400
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+
+        @inlinable
+        public init(errorCode: ValidationExceptionErrorCode, fieldList: [ValidationExceptionField]? = nil, message: String) {
+            self.errorCode = errorCode
+            self.fieldList = fieldList
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case fieldList = "fieldList"
+            case message = "message"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The name of the parameter that caused a ValidationException error.
+        public let name: String
+
+        @inlinable
+        public init(name: String) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+        }
+    }
+
     public struct VerificationDetails: AWSEncodableShape {
         /// Date of birth to verify your submitted TRN. Use the YYYY-MM-DD format.
         public let dateOfBirth: String?
@@ -2038,6 +2133,15 @@ public struct TaxSettingsErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The exception when the input doesn't pass validation for at least one of the input parameters.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension TaxSettingsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": TaxSettings.ConflictException.self,
+        "InternalServerException": TaxSettings.InternalServerException.self,
+        "ResourceNotFoundException": TaxSettings.ResourceNotFoundException.self,
+        "ValidationException": TaxSettings.ValidationException.self
+    ]
 }
 
 extension TaxSettingsErrorType: Equatable {

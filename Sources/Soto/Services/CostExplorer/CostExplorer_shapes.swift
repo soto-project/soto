@@ -4398,6 +4398,22 @@ extension CostExplorer {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+        }
+    }
+
     public struct ResourceTag: AWSEncodableShape & AWSDecodableShape {
         /// The key that's associated with the tag.
         public let key: String
@@ -5503,6 +5519,22 @@ extension CostExplorer {
         }
     }
 
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+        }
+    }
+
     public struct TotalImpactFilter: AWSEncodableShape {
         /// The upper bound dollar value that's used in the filter.
         public let endValue: Double?
@@ -5899,6 +5931,13 @@ public struct CostExplorerErrorType: AWSErrorType {
     public static var unknownSubscriptionException: Self { .init(.unknownSubscriptionException) }
     /// Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
     public static var unresolvableUsageUnitException: Self { .init(.unresolvableUsageUnitException) }
+}
+
+extension CostExplorerErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": CostExplorer.ResourceNotFoundException.self,
+        "TooManyTagsException": CostExplorer.TooManyTagsException.self
+    ]
 }
 
 extension CostExplorerErrorType: Equatable {

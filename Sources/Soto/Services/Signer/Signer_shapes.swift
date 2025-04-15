@@ -73,6 +73,22 @@ extension Signer {
 
     // MARK: Shapes
 
+    public struct AccessDeniedException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct AddProfilePermissionRequest: AWSEncodableShape {
         /// For cross-account signing. Grant a designated account permission to perform one or more of the following actions. Each action is associated with a specific API's operations. For more information about cross-account signing, see Using cross-account signing with signing profiles in the AWS Signer Developer Guide.
         /// 		       You can designate the following actions to an account.
@@ -143,6 +159,22 @@ extension Signer {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct CancelSigningProfileRequest: AWSEncodableShape {
         /// The name of the signing profile to be canceled.
         public let profileName: String
@@ -165,6 +197,22 @@ extension Signer {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
     }
 
     public struct DescribeSigningJobRequest: AWSEncodableShape {
@@ -557,6 +605,22 @@ extension Signer {
         }
     }
 
+    public struct InternalServiceErrorException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct ListProfilePermissionsRequest: AWSEncodableShape {
         /// String for specifying the next set of paginated results.
         public let nextToken: String?
@@ -852,6 +916,22 @@ extension Signer {
         }
     }
 
+    public struct NotFoundException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct Permission: AWSDecodableShape {
         /// An AWS Signer action permitted as part of cross-account permissions.
         public let action: String?
@@ -1014,6 +1094,22 @@ extension Signer {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct RevokeSignatureRequest: AWSEncodableShape {
         /// ID of the signing job to be revoked.
         public let jobId: String
@@ -1154,6 +1250,22 @@ extension Signer {
             case bucketName = "bucketName"
             case key = "key"
             case version = "version"
+        }
+    }
+
+    public struct ServiceLimitExceededException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -1674,6 +1786,38 @@ extension Signer {
         public init() {}
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct TooManyRequestsException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) for the signing profile.
         public let resourceArn: String
@@ -1708,6 +1852,22 @@ extension Signer {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
     }
 }
 
@@ -1769,6 +1929,21 @@ public struct SignerErrorType: AWSErrorType {
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// You signing certificate could not be validated.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension SignerErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": Signer.AccessDeniedException.self,
+        "BadRequestException": Signer.BadRequestException.self,
+        "ConflictException": Signer.ConflictException.self,
+        "InternalServiceErrorException": Signer.InternalServiceErrorException.self,
+        "NotFoundException": Signer.NotFoundException.self,
+        "ResourceNotFoundException": Signer.ResourceNotFoundException.self,
+        "ServiceLimitExceededException": Signer.ServiceLimitExceededException.self,
+        "ThrottlingException": Signer.ThrottlingException.self,
+        "TooManyRequestsException": Signer.TooManyRequestsException.self,
+        "ValidationException": Signer.ValidationException.self
+    ]
 }
 
 extension SignerErrorType: Equatable {

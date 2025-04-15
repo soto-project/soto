@@ -127,6 +127,28 @@ extension BackupSearch {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        /// Updating or deleting a resource can cause an inconsistent state.
+        public let message: String
+        /// Identifier of the resource affected.
+        public let resourceId: String
+        /// Type of the resource affected.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct CurrentSearchProgress: AWSDecodableShape {
         /// This number is the sum of all items that match  the item filters in a search job in progress.
         public let itemsMatchedCount: Int64?
@@ -661,6 +683,28 @@ extension BackupSearch {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// Request references a resource which does not exist.
+        public let message: String
+        /// Hypothetical identifier of the resource affected.
+        public let resourceId: String
+        /// Hypothetical type of the resource affected.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct S3ExportSpecification: AWSEncodableShape & AWSDecodableShape {
         /// This specifies the destination Amazon S3  bucket for the export job.
         public let destinationBucket: String
@@ -896,6 +940,36 @@ extension BackupSearch {
         private enum CodingKeys: String, CodingKey {
             case totalItemsToScanCount = "TotalItemsToScanCount"
             case totalRecoveryPointsToScanCount = "TotalRecoveryPointsToScanCount"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// This request was not successful due to a service quota exceeding limits.
+        public let message: String
+        /// This is the code specific to the quota type.
+        public let quotaCode: String
+        /// Identifier of the resource.
+        public let resourceId: String
+        /// Type of resource.
+        public let resourceType: String
+        /// This is the code unique to the originating service with the quota.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
         }
     }
 
@@ -1187,6 +1261,14 @@ public struct BackupSearchErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by a service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension BackupSearchErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": BackupSearch.ConflictException.self,
+        "ResourceNotFoundException": BackupSearch.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": BackupSearch.ServiceQuotaExceededException.self
+    ]
 }
 
 extension BackupSearchErrorType: Equatable {

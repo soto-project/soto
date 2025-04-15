@@ -2408,6 +2408,22 @@ extension Amplify {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let code: String
+        public let message: String
+
+        @inlinable
+        public init(code: String, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct StartDeploymentRequest: AWSEncodableShape {
         /// The unique ID for an Amplify app.
         public let appId: String
@@ -3370,6 +3386,12 @@ public struct AmplifyErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// An operation failed due to a lack of access.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension AmplifyErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": Amplify.ResourceNotFoundException.self
+    ]
 }
 
 extension AmplifyErrorType: Equatable {

@@ -857,6 +857,46 @@ extension DLM {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct InvalidRequestException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The request included parameters that cannot be provided together.
+        public let mutuallyExclusiveParameters: [String]?
+        /// The request omitted one or more required parameters.
+        public let requiredParameters: [String]?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, mutuallyExclusiveParameters: [String]? = nil, requiredParameters: [String]? = nil) {
+            self.code = code
+            self.message = message
+            self.mutuallyExclusiveParameters = mutuallyExclusiveParameters
+            self.requiredParameters = requiredParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case mutuallyExclusiveParameters = "MutuallyExclusiveParameters"
+            case requiredParameters = "RequiredParameters"
+        }
+    }
+
     public struct LifecyclePolicy: AWSDecodableShape {
         /// The local date and time when the lifecycle policy was created.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -950,6 +990,26 @@ extension DLM {
             case policyType = "PolicyType"
             case state = "State"
             case tags = "Tags"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// Value is the type of resource for which a limit was exceeded.
+        public let resourceType: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, resourceType: String? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -1168,6 +1228,30 @@ extension DLM {
             case retainInterval = "RetainInterval"
             case schedules = "Schedules"
             case targetTags = "TargetTags"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// Value is a list of resource IDs that were not found.
+        public let resourceIds: [String]?
+        /// Value is the type of resource that was not found.
+        public let resourceType: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, resourceIds: [String]? = nil, resourceType: String? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceIds = resourceIds
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case resourceIds = "ResourceIds"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -1690,6 +1774,15 @@ public struct DLMErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// A requested resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension DLMErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InternalServerException": DLM.InternalServerException.self,
+        "InvalidRequestException": DLM.InvalidRequestException.self,
+        "LimitExceededException": DLM.LimitExceededException.self,
+        "ResourceNotFoundException": DLM.ResourceNotFoundException.self
+    ]
 }
 
 extension DLMErrorType: Equatable {

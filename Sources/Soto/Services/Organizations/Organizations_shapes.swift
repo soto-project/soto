@@ -26,6 +26,11 @@ import Foundation
 extension Organizations {
     // MARK: Enums
 
+    public enum AccessDeniedForDependencyExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedDuringCreateServiceLinkedRole = "ACCESS_DENIED_DURING_CREATE_SERVICE_LINKED_ROLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AccountJoinedMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case created = "CREATED"
         case invited = "INVITED"
@@ -50,6 +55,46 @@ extension Organizations {
     public enum ChildType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConstraintViolationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountCannotLeaveOrganization = "ACCOUNT_CANNOT_LEAVE_ORGANIZATION"
+        case accountCannotLeaveWithoutEula = "ACCOUNT_CANNOT_LEAVE_WITHOUT_EULA"
+        case accountCannotLeaveWithoutPhoneVerification = "ACCOUNT_CANNOT_LEAVE_WITHOUT_PHONE_VERIFICATION"
+        case accountCreationNotComplete = "ACCOUNT_CREATION_NOT_COMPLETE"
+        case accountCreationRateLimitExceeded = "ACCOUNT_CREATION_RATE_LIMIT_EXCEEDED"
+        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+        case allFeaturesMigrationOrganizationSizeLimitExceeded = "ALL_FEATURES_MIGRATION_ORGANIZATION_SIZE_LIMIT_EXCEEDED"
+        case cannotCloseManagementAccount = "CANNOT_CLOSE_MANAGEMENT_ACCOUNT"
+        case cannotRegisterMasterAsDelegatedAdministrator = "CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR"
+        case cannotRegisterSuspendedAccountAsDelegatedAdministrator = "CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR"
+        case cannotRemoveDelegatedAdministratorFromOrg = "CANNOT_REMOVE_DELEGATED_ADMINISTRATOR_FROM_ORG"
+        case closeAccountQuotaExceeded = "CLOSE_ACCOUNT_QUOTA_EXCEEDED"
+        case closeAccountRequestsLimitExceeded = "CLOSE_ACCOUNT_REQUESTS_LIMIT_EXCEEDED"
+        case createOrganizationInBillingModeUnsupportedRegion = "CREATE_ORGANIZATION_IN_BILLING_MODE_UNSUPPORTED_REGION"
+        case delegatedAdministratorExistsForThisService = "DELEGATED_ADMINISTRATOR_EXISTS_FOR_THIS_SERVICE"
+        case emailVerificationCodeExpired = "EMAIL_VERIFICATION_CODE_EXPIRED"
+        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
+        case invalidPaymentInstrument = "INVALID_PAYMENT_INSTRUMENT"
+        case masterAccountAddressDoesNotMatchMarketplace = "MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE"
+        case masterAccountMissingBusinessLicense = "MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE"
+        case masterAccountMissingContactInfo = "MASTER_ACCOUNT_MISSING_CONTACT_INFO"
+        case masterAccountNotGovcloudEnabled = "MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED"
+        case masterAccountPaymentInstrumentRequired = "MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+        case maxDelegatedAdministratorsForServiceLimitExceeded = "MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED"
+        case maxPolicyTypeAttachmentLimitExceeded = "MAX_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+        case maxTagLimitExceeded = "MAX_TAG_LIMIT_EXCEEDED"
+        case memberAccountPaymentInstrumentRequired = "MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED"
+        case minPolicyTypeAttachmentLimitExceeded = "MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED"
+        case organizationNotInAllFeaturesMode = "ORGANIZATION_NOT_IN_ALL_FEATURES_MODE"
+        case ouDepthLimitExceeded = "OU_DEPTH_LIMIT_EXCEEDED"
+        case ouNumberLimitExceeded = "OU_NUMBER_LIMIT_EXCEEDED"
+        case policyContentLimitExceeded = "POLICY_CONTENT_LIMIT_EXCEEDED"
+        case policyNumberLimitExceeded = "POLICY_NUMBER_LIMIT_EXCEEDED"
+        case serviceAccessNotEnabled = "SERVICE_ACCESS_NOT_ENABLED"
+        case tagPolicyViolation = "TAG_POLICY_VIOLATION"
+        case waitPeriodActive = "WAIT_PERIOD_ACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -88,6 +133,20 @@ extension Organizations {
         public var description: String { return self.rawValue }
     }
 
+    public enum HandshakeConstraintViolationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountNumberLimitExceeded = "ACCOUNT_NUMBER_LIMIT_EXCEEDED"
+        case alreadyInAnOrganization = "ALREADY_IN_AN_ORGANIZATION"
+        case handshakeRateLimitExceeded = "HANDSHAKE_RATE_LIMIT_EXCEEDED"
+        case inviteDisabledDuringEnableAllFeatures = "INVITE_DISABLED_DURING_ENABLE_ALL_FEATURES"
+        case managementAccountEmailNotVerified = "MANAGEMENT_ACCOUNT_EMAIL_NOT_VERIFIED"
+        case organizationAlreadyHasAllFeatures = "ORGANIZATION_ALREADY_HAS_ALL_FEATURES"
+        case organizationFromDifferentSellerOfRecord = "ORGANIZATION_FROM_DIFFERENT_SELLER_OF_RECORD"
+        case organizationIsAlreadyPendingAllFeaturesMigration = "ORGANIZATION_IS_ALREADY_PENDING_ALL_FEATURES_MIGRATION"
+        case organizationMembershipChangeRateLimitExceeded = "ORGANIZATION_MEMBERSHIP_CHANGE_RATE_LIMIT_EXCEEDED"
+        case paymentInstrumentRequired = "PAYMENT_INSTRUMENT_REQUIRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HandshakePartyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case email = "EMAIL"
@@ -120,6 +179,40 @@ extension Organizations {
     public enum IAMUserAccessToBilling: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvalidInputExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case duplicateTagKey = "DUPLICATE_TAG_KEY"
+        case immutablePolicy = "IMMUTABLE_POLICY"
+        case inputRequired = "INPUT_REQUIRED"
+        case invalidEmailAddressTarget = "INVALID_EMAIL_ADDRESS_TARGET"
+        case invalidEnum = "INVALID_ENUM"
+        case invalidEnumPolicyType = "INVALID_ENUM_POLICY_TYPE"
+        case invalidFullNameTarget = "INVALID_FULL_NAME_TARGET"
+        case invalidListMember = "INVALID_LIST_MEMBER"
+        case invalidPaginationToken = "INVALID_NEXT_TOKEN"
+        case invalidPartyTypeTarget = "INVALID_PARTY_TYPE_TARGET"
+        case invalidPattern = "INVALID_PATTERN"
+        case invalidPatternTargetId = "INVALID_PATTERN_TARGET_ID"
+        case invalidPrincipal = "INVALID_PRINCIPAL"
+        case invalidResourcePolicyJson = "INVALID_RESOURCE_POLICY_JSON"
+        case invalidRoleName = "INVALID_ROLE_NAME"
+        case invalidSyntaxOrganization = "INVALID_SYNTAX_ORGANIZATION_ARN"
+        case invalidSyntaxPolicy = "INVALID_SYNTAX_POLICY_ID"
+        case invalidSystemTagsParameter = "INVALID_SYSTEM_TAGS_PARAMETER"
+        case maxFilterLimitExceeded = "MAX_LIMIT_EXCEEDED_FILTER"
+        case maxLengthExceeded = "MAX_LENGTH_EXCEEDED"
+        case maxValueExceeded = "MAX_VALUE_EXCEEDED"
+        case minLengthExceeded = "MIN_LENGTH_EXCEEDED"
+        case minValueExceeded = "MIN_VALUE_EXCEEDED"
+        case movingAccountBetweenDifferentRoots = "MOVING_ACCOUNT_BETWEEN_DIFFERENT_ROOTS"
+        case nonDetachablePolicy = "NON_DETACHABLE_POLICY"
+        case targetNotSupported = "TARGET_NOT_SUPPORTED"
+        case unrecognizedServicePrincipal = "UNRECOGNIZED_SERVICE_PRINCIPAL"
+        case unsupportedActionInResourcePolicy = "UNSUPPORTED_ACTION_IN_RESOURCE_POLICY"
+        case unsupportedPolicyTypeInResourcePolicy = "UNSUPPORTED_POLICY_TYPE_IN_RESOURCE_POLICY"
+        case unsupportedResourceInResourcePolicy = "UNSUPPORTED_RESOURCE_IN_RESOURCE_POLICY"
         public var description: String { return self.rawValue }
     }
 
@@ -192,6 +285,22 @@ extension Organizations {
 
         private enum CodingKeys: String, CodingKey {
             case handshake = "Handshake"
+        }
+    }
+
+    public struct AccessDeniedForDependencyException: AWSErrorShape {
+        public let message: String?
+        public let reason: AccessDeniedForDependencyExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: AccessDeniedForDependencyExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
         }
     }
 
@@ -325,6 +434,22 @@ extension Organizations {
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
+        }
+    }
+
+    public struct ConstraintViolationException: AWSErrorShape {
+        public let message: String?
+        public let reason: ConstraintViolationExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: ConstraintViolationExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
         }
     }
 
@@ -1247,6 +1372,22 @@ extension Organizations {
         }
     }
 
+    public struct HandshakeConstraintViolationException: AWSErrorShape {
+        public let message: String?
+        public let reason: HandshakeConstraintViolationExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: HandshakeConstraintViolationExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
     public struct HandshakeFilter: AWSEncodableShape {
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
         public let actionType: ActionType?
@@ -1313,6 +1454,22 @@ extension Organizations {
             case resources = "Resources"
             case type = "Type"
             case value = "Value"
+        }
+    }
+
+    public struct InvalidInputException: AWSErrorShape {
+        public let message: String?
+        public let reason: InvalidInputExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: InvalidInputExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
         }
     }
 
@@ -2529,6 +2686,22 @@ extension Organizations {
         }
     }
 
+    public struct TooManyRequestsException: AWSErrorShape {
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ID of the resource to remove a tag from. You can specify any of the following taggable resources.   Amazon Web Services account – specify the account ID number.   Organizational unit  – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3
         public let resourceId: String
@@ -2816,6 +2989,16 @@ public struct OrganizationsErrorType: AWSErrorType {
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// This action isn't available in the current Amazon Web Services Region.
     public static var unsupportedAPIEndpointException: Self { .init(.unsupportedAPIEndpointException) }
+}
+
+extension OrganizationsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedForDependencyException": Organizations.AccessDeniedForDependencyException.self,
+        "ConstraintViolationException": Organizations.ConstraintViolationException.self,
+        "HandshakeConstraintViolationException": Organizations.HandshakeConstraintViolationException.self,
+        "InvalidInputException": Organizations.InvalidInputException.self,
+        "TooManyRequestsException": Organizations.TooManyRequestsException.self
+    ]
 }
 
 extension OrganizationsErrorType: Equatable {

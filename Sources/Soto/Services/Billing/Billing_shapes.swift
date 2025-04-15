@@ -38,6 +38,14 @@ extension Billing {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ActiveTimeRange: AWSEncodableShape {
@@ -127,6 +135,27 @@ extension Billing {
             case description = "description"
             case name = "name"
             case ownerAccountId = "ownerAccountId"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        ///  The identifier for the service resource associated with the request.
+        public let resourceId: String
+        ///  The type of resource associated with the request.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -505,6 +534,27 @@ extension Billing {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        ///  Value is a list of resource IDs that were not found.
+        public let resourceId: String
+        ///  Value is the type of resource that was not found.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ResourceTag: AWSEncodableShape & AWSDecodableShape {
         ///  The key that's associated with the tag.
         public let key: String
@@ -526,6 +576,35 @@ extension Billing {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        ///  The container for the quotaCode.
+        public let quotaCode: String
+        ///  The ID of the resource.
+        public let resourceId: String
+        ///  The type of Amazon Web Services resource.
+        public let resourceType: String
+        ///  The container for the serviceCode.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
         }
     }
 
@@ -672,6 +751,45 @@ extension Billing {
             case updatedAt = "updatedAt"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The message describing why the field failed validation.
+        public let message: String
+        /// The name of the field.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -720,6 +838,15 @@ public struct BillingErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension BillingErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Billing.ConflictException.self,
+        "ResourceNotFoundException": Billing.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": Billing.ServiceQuotaExceededException.self,
+        "ValidationException": Billing.ValidationException.self
+    ]
 }
 
 extension BillingErrorType: Equatable {

@@ -3828,6 +3828,24 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct NotFoundException: AWSErrorShape {
+        /// Describes the error encountered.
+        public let message: String?
+        /// The resource type.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ParameterConstraints: AWSEncodableShape & AWSDecodableShape {
         /// Whether or not the parameter is required.
         public let required: Bool?
@@ -4214,6 +4232,24 @@ extension ApiGatewayV2 {
 
         private enum CodingKeys: String, CodingKey {
             case serverNameToVerify = "serverNameToVerify"
+        }
+    }
+
+    public struct TooManyRequestsException: AWSErrorShape {
+        /// The limit type.
+        public let limitType: String?
+        /// Describes the error encountered.
+        public let message: String?
+
+        @inlinable
+        public init(limitType: String? = nil, message: String? = nil) {
+            self.limitType = limitType
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitType = "limitType"
+            case message = "message"
         }
     }
 
@@ -5578,6 +5614,13 @@ public struct ApiGatewayV2ErrorType: AWSErrorType {
     public static var notFoundException: Self { .init(.notFoundException) }
     /// A limit has been exceeded. See the accompanying error message for details.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension ApiGatewayV2ErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "NotFoundException": ApiGatewayV2.NotFoundException.self,
+        "TooManyRequestsException": ApiGatewayV2.TooManyRequestsException.self
+    ]
 }
 
 extension ApiGatewayV2ErrorType: Equatable {

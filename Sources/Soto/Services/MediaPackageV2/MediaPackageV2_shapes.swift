@@ -43,6 +43,14 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConflictExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case conflictingOperation = "CONFLICTING_OPERATION"
+        case idempotentParameterMismatch = "IDEMPOTENT_PARAMETER_MISMATCH"
+        case resourceAlreadyExists = "RESOURCE_ALREADY_EXISTS"
+        case resourceInUse = "RESOURCE_IN_USE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContainerType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cmaf = "CMAF"
         case ts = "TS"
@@ -132,6 +140,14 @@ extension MediaPackageV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceTypeNotFound: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case channel = "CHANNEL"
+        case channelGroup = "CHANNEL_GROUP"
+        case harvestJob = "HARVEST_JOB"
+        case originEndpoint = "ORIGIN_ENDPOINT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScteFilter: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `break` = "BREAK"
         case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
@@ -148,6 +164,69 @@ extension MediaPackageV2 {
     public enum TsEncryptionMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case sampleAes = "SAMPLE_AES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cencIvIncompatible = "CENC_IV_INCOMPATIBLE"
+        case clipStartTimeWithStartOrEnd = "CLIP_START_TIME_WITH_START_OR_END"
+        case containerTypeImmutable = "CONTAINER_TYPE_IMMUTABLE"
+        case directModeWithTimingSource = "DIRECT_MODE_WITH_TIMING_SOURCE"
+        case drmSignalingMismatchSegmentEncryptionStatus = "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
+        case drmSystemsEncryptionMethodIncompatible = "DRM_SYSTEMS_ENCRYPTION_METHOD_INCOMPATIBLE"
+        case encryptionContractShared = "ENCRYPTION_CONTRACT_SHARED"
+        case encryptionContractUnencrypted = "ENCRYPTION_CONTRACT_UNENCRYPTED"
+        case encryptionContractWithoutAudioRenditionIncompatible = "ENCRYPTION_CONTRACT_WITHOUT_AUDIO_RENDITION_INCOMPATIBLE"
+        case encryptionMethodContainerTypeMismatch = "ENCRYPTION_METHOD_CONTAINER_TYPE_MISMATCH"
+        case endTimeEarlierThanStartTime = "END_TIME_EARLIER_THAN_START_TIME"
+        case harvestJobCustomerEndpointReadAccessDenied = "HARVEST_JOB_CUSTOMER_ENDPOINT_READ_ACCESS_DENIED"
+        case harvestJobIneligibleForCancellation = "HARVEST_JOB_INELIGIBLE_FOR_CANCELLATION"
+        case harvestJobS3DestinationMissingOrIncomplete = "HARVEST_JOB_S3_DESTINATION_MISSING_OR_INCOMPLETE"
+        case harvestJobUnableToWriteToS3Destination = "HARVEST_JOB_UNABLE_TO_WRITE_TO_S3_DESTINATION"
+        case harvestedManifestHasStartEndFilterConfiguration = "HARVESTED_MANIFEST_HAS_START_END_FILTER_CONFIGURATION"
+        case harvestedManifestNotFoundOnEndpoint = "HARVESTED_MANIFEST_NOT_FOUND_ON_ENDPOINT"
+        case invalidHarvestJobDuration = "INVALID_HARVEST_JOB_DURATION"
+        case invalidManifestFilter = "INVALID_MANIFEST_FILTER"
+        case invalidPaginationMaxResults = "INVALID_PAGINATION_MAX_RESULTS"
+        case invalidPaginationToken = "INVALID_PAGINATION_TOKEN"
+        case invalidPolicy = "INVALID_POLICY"
+        case invalidRoleArn = "INVALID_ROLE_ARN"
+        case invalidTimeDelaySeconds = "INVALID_TIME_DELAY_SECONDS"
+        case manifestDrmSystemsIncompatible = "MANIFEST_DRM_SYSTEMS_INCOMPATIBLE"
+        case manifestNameCollision = "MANIFEST_NAME_COLLISION"
+        case memberDoesNotMatchPattern = "MEMBER_DOES_NOT_MATCH_PATTERN"
+        case memberInvalid = "MEMBER_INVALID"
+        case memberInvalidEnumValue = "MEMBER_INVALID_ENUM_VALUE"
+        case memberMaxLength = "MEMBER_MAX_LENGTH"
+        case memberMaxValue = "MEMBER_MAX_VALUE"
+        case memberMinLength = "MEMBER_MIN_LENGTH"
+        case memberMinValue = "MEMBER_MIN_VALUE"
+        case memberMissing = "MEMBER_MISSING"
+        case noneModeWithTimingSource = "NONE_MODE_WITH_TIMING_SOURCE"
+        case numManifestsHigh = "NUM_MANIFESTS_HIGH"
+        case numManifestsLow = "NUM_MANIFESTS_LOW"
+        case onlyCmafInputTypeAllowForceEndpointErrorConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_FORCE_ENDPOINT_ERROR_CONFIGURATION"
+        case onlyCmafInputTypeAllowMqcsInputSwitching = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_INPUT_SWITCHING"
+        case onlyCmafInputTypeAllowMqcsOutputConfiguration = "ONLY_CMAF_INPUT_TYPE_ALLOW_MQCS_OUTPUT_CONFIGURATION"
+        case periodTriggersNoneSpecifiedWithAdditionalValues = "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
+        case roleArnInvalidFormat = "ROLE_ARN_INVALID_FORMAT"
+        case roleArnLengthOutOfRange = "ROLE_ARN_LENGTH_OUT_OF_RANGE"
+        case roleArnNotAssumable = "ROLE_ARN_NOT_ASSUMABLE"
+        case sourceDisruptionsEnabledIncorrectly = "SOURCE_DISRUPTIONS_ENABLED_INCORRECTLY"
+        case startTagTimeOffsetInvalid = "START_TAG_TIME_OFFSET_INVALID"
+        case timingSourceMissing = "TIMING_SOURCE_MISSING"
+        case tooManyInProgressHarvestJobs = "TOO_MANY_IN_PROGRESS_HARVEST_JOBS"
+        case tsContainerTypeWithDashManifest = "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
+        case updatePeriodSmallerThanSegmentDuration = "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
+        case urlInvalid = "URL_INVALID"
+        case urlLinkLocalAddress = "URL_LINK_LOCAL_ADDRESS"
+        case urlLocalAddress = "URL_LOCAL_ADDRESS"
+        case urlLoopbackAddress = "URL_LOOPBACK_ADDRESS"
+        case urlMulticastAddress = "URL_MULTICAST_ADDRESS"
+        case urlPort = "URL_PORT"
+        case urlScheme = "URL_SCHEME"
+        case urlUnknownHost = "URL_UNKNOWN_HOST"
+        case urlUserInfo = "URL_USER_INFO"
         public var description: String { return self.rawValue }
     }
 
@@ -274,6 +353,23 @@ extension MediaPackageV2 {
             case description = "Description"
             case inputType = "InputType"
             case modifiedAt = "ModifiedAt"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// The type of ConflictException.
+        public let conflictExceptionType: ConflictExceptionType?
+        public let message: String?
+
+        @inlinable
+        public init(conflictExceptionType: ConflictExceptionType? = nil, message: String? = nil) {
+            self.conflictExceptionType = conflictExceptionType
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictExceptionType = "ConflictExceptionType"
+            case message = "Message"
         }
     }
 
@@ -2761,6 +2857,23 @@ extension MediaPackageV2 {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The specified resource type wasn't found.
+        public let resourceTypeNotFound: ResourceTypeNotFound?
+
+        @inlinable
+        public init(message: String? = nil, resourceTypeNotFound: ResourceTypeNotFound? = nil) {
+            self.message = message
+            self.resourceTypeNotFound = resourceTypeNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceTypeNotFound = "ResourceTypeNotFound"
+        }
+    }
+
     public struct S3DestinationConfig: AWSEncodableShape & AWSDecodableShape {
         /// The name of an S3 bucket within which harvested content will be exported.
         public let bucketName: String
@@ -3330,6 +3443,23 @@ extension MediaPackageV2 {
             case tags = "tags"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        public let message: String?
+        /// The type of ValidationException.
+        public let validationExceptionType: ValidationExceptionType?
+
+        @inlinable
+        public init(message: String? = nil, validationExceptionType: ValidationExceptionType? = nil) {
+            self.message = message
+            self.validationExceptionType = validationExceptionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case validationExceptionType = "ValidationExceptionType"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -3378,6 +3508,14 @@ public struct MediaPackageV2ErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input failed to meet the constraints specified by the AWS service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension MediaPackageV2ErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": MediaPackageV2.ConflictException.self,
+        "ResourceNotFoundException": MediaPackageV2.ResourceNotFoundException.self,
+        "ValidationException": MediaPackageV2.ValidationException.self
+    ]
 }
 
 extension MediaPackageV2ErrorType: Equatable {

@@ -143,6 +143,14 @@ extension SecurityIR {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "CANNOT_PARSE"
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case other = "OTHER"
+        case unknownOperation = "UNKNOWN_OPERATION"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct BatchGetMemberAccountDetailsRequest: AWSEncodableShape {
@@ -1711,6 +1719,43 @@ extension SecurityIR {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// Element that provides the list of field(s) that caused the error, if applicable.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        /// Element that provides the reason the request failed validation.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        public let message: String
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct Watcher: AWSEncodableShape & AWSDecodableShape {
         public let email: String
         public let jobTitle: String?
@@ -1785,6 +1830,12 @@ public struct SecurityIRErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     public static var throttlingException: Self { .init(.throttlingException) }
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension SecurityIRErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ValidationException": SecurityIR.ValidationException.self
+    ]
 }
 
 extension SecurityIRErrorType: Equatable {

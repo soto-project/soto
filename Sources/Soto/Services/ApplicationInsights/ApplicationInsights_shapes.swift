@@ -1975,6 +1975,23 @@ extension ApplicationInsights {
         public init() {}
     }
 
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        /// The name of the resource with too many tags.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application that you want to remove one or more tags from.
         public let resourceARN: String
@@ -2441,6 +2458,12 @@ public struct ApplicationInsightsErrorType: AWSErrorType {
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The parameter is not valid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ApplicationInsightsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "TooManyTagsException": ApplicationInsights.TooManyTagsException.self
+    ]
 }
 
 extension ApplicationInsightsErrorType: Equatable {

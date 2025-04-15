@@ -103,11 +103,24 @@ extension ManagedBlockchainQuery {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case collection = "collection"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortOrder: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Result sorted in ascending order
         case ascending = "ASCENDING"
         /// Result sorted in descending order
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
         public var description: String { return self.rawValue }
     }
 
@@ -515,6 +528,30 @@ extension ManagedBlockchainQuery {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        /// The container for the exception message.
+        public let message: String
+        /// Specifies the retryAfterSeconds value.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct ListAssetContractsInput: AWSEncodableShape {
         /// Contains the filter parameter for the request.
         public let contractFilter: ContractFilter
@@ -865,6 +902,92 @@ extension ManagedBlockchainQuery {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// The container for the exception message.
+        public let message: String
+        /// The resourceId of the resource that caused the exception.
+        public let resourceId: String
+        /// The resourceType of the resource that caused the exception.
+        public let resourceType: ResourceType
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: ResourceType) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// The container for the exception message.
+        public let message: String
+        /// The container for the quotaCode.
+        public let quotaCode: String
+        /// The resourceId of the resource that caused the exception.
+        public let resourceId: String
+        /// The resourceType of the resource that caused the exception.
+        public let resourceType: ResourceType
+        /// The container for the serviceCode.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String, resourceType: ResourceType, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        /// The container for the exception message.
+        public let message: String
+        /// The container for the quotaCode.
+        public let quotaCode: String
+        /// The container of the retryAfterSeconds value.
+        public let retryAfterSeconds: Int?
+        /// The container for the serviceCode.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, retryAfterSeconds: Int? = nil, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decode(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decode(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct TimeFilter: AWSEncodableShape {
         public let from: BlockchainInstant?
         public let to: BlockchainInstant?
@@ -1158,6 +1281,46 @@ extension ManagedBlockchainQuery {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// The container for the fieldList of the exception.
+        public let fieldList: [ValidationExceptionField]?
+        /// The container for the exception message.
+        public let message: String
+        /// The container for the reason for the exception
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The ValidationException message.
+        public let message: String
+        /// The name of the field that triggered the ValidationException.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct VoutFilter: AWSEncodableShape {
         /// Specifies if the transaction output is spent or unspent.
         public let voutSpent: Bool
@@ -1216,6 +1379,16 @@ public struct ManagedBlockchainQueryErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The resource passed is invalid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ManagedBlockchainQueryErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InternalServerException": ManagedBlockchainQuery.InternalServerException.self,
+        "ResourceNotFoundException": ManagedBlockchainQuery.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": ManagedBlockchainQuery.ServiceQuotaExceededException.self,
+        "ThrottlingException": ManagedBlockchainQuery.ThrottlingException.self,
+        "ValidationException": ManagedBlockchainQuery.ValidationException.self
+    ]
 }
 
 extension ManagedBlockchainQueryErrorType: Equatable {

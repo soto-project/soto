@@ -229,6 +229,14 @@ extension AuditManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AWSAccount: AWSEncodableShape & AWSDecodableShape {
@@ -4206,6 +4214,27 @@ extension AuditManager {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        ///  The unique identifier for the resource.
+        public let resourceId: String
+        ///  The type of resource that's affected by the error.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct Role: AWSEncodableShape & AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) of the IAM role.
         public let roleArn: String
@@ -5111,6 +5140,45 @@ extension AuditManager {
             case validationErrors = "validationErrors"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        ///  The fields that caused the error, if applicable.
+        public let fields: [ValidationExceptionField]?
+        public let message: String
+        ///  The reason the request failed validation.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        ///  The body of the error message.
+        public let message: String
+        ///  The name of the validation error.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -5156,6 +5224,13 @@ public struct AuditManagerErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     ///  The request has invalid or missing parameters.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension AuditManagerErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": AuditManager.ResourceNotFoundException.self,
+        "ValidationException": AuditManager.ValidationException.self
+    ]
 }
 
 extension AuditManagerErrorType: Equatable {

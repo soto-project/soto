@@ -439,6 +439,23 @@ extension Snowball {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        /// You get this resource when you call CreateReturnShippingLabel more than once when other requests are not completed. .
+        public let conflictResource: String?
+        public let message: String?
+
+        @inlinable
+        public init(conflictResource: String? = nil, message: String? = nil) {
+            self.conflictResource = conflictResource
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictResource = "ConflictResource"
+            case message = "Message"
+        }
+    }
+
     public struct CreateAddressRequest: AWSEncodableShape {
         /// The address that you want the Snow device shipped to.
         public let address: Address
@@ -1263,6 +1280,23 @@ extension Snowball {
 
         private enum CodingKeys: String, CodingKey {
             case gstin = "GSTIN"
+        }
+    }
+
+    public struct InvalidResourceException: AWSErrorShape {
+        public let message: String?
+        /// The provided resource value is invalid.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -2530,6 +2564,13 @@ public struct SnowballErrorType: AWSErrorType {
     public static var returnShippingLabelAlreadyExistsException: Self { .init(.returnShippingLabelAlreadyExistsException) }
     /// The address is either outside the serviceable area for your region, or an error occurred. Check the address with your region's carrier and try again. If the issue persists, contact Amazon Web Services Support.
     public static var unsupportedAddressException: Self { .init(.unsupportedAddressException) }
+}
+
+extension SnowballErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Snowball.ConflictException.self,
+        "InvalidResourceException": Snowball.InvalidResourceException.self
+    ]
 }
 
 extension SnowballErrorType: Equatable {

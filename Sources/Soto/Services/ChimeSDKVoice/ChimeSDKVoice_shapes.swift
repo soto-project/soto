@@ -216,6 +216,22 @@ extension ChimeSDKVoice {
 
     // MARK: Shapes
 
+    public struct AccessDeniedException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct Address: AWSDecodableShape {
         /// The city of an address.
         public let city: String?
@@ -366,6 +382,22 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct BatchDeletePhoneNumberRequest: AWSEncodableShape {
         /// List of phone number IDs.
         public let phoneNumberIds: [String]
@@ -489,6 +521,22 @@ extension ChimeSDKVoice {
             case state = "state"
             case streetInfo = "streetInfo"
             case streetNumber = "streetNumber"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -1504,6 +1552,22 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct ForbiddenException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct GeoMatchParams: AWSEncodableShape & AWSDecodableShape {
         /// The area code.
         public let areaCode: String
@@ -2353,6 +2417,22 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct GoneException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct ListAvailableVoiceConnectorRegionsResponse: AWSDecodableShape {
         /// The list of AWS Regions.
         public let voiceConnectorRegions: [VoiceConnectorAwsRegion]?
@@ -2959,6 +3039,22 @@ extension ChimeSDKVoice {
         private enum CodingKeys: String, CodingKey {
             case configurationArn = "ConfigurationArn"
             case disabled = "Disabled"
+        }
+    }
+
+    public struct NotFoundException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -3803,6 +3899,22 @@ extension ChimeSDKVoice {
         }
     }
 
+    public struct ResourceLimitExceededException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct RestorePhoneNumberRequest: AWSEncodableShape {
         /// The ID of the phone number being restored.
         public let phoneNumberId: String
@@ -3929,6 +4041,38 @@ extension ChimeSDKVoice {
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
+    public struct ServiceFailureException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct ServiceUnavailableException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -4535,6 +4679,54 @@ extension ChimeSDKVoice {
         private enum CodingKeys: String, CodingKey {
             case source = "Source"
             case timestamp = "Timestamp"
+        }
+    }
+
+    public struct ThrottledClientException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct UnauthorizedClientException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct UnprocessableEntityException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -5560,6 +5752,23 @@ public struct ChimeSDKVoiceErrorType: AWSErrorType {
     public static var unauthorizedClientException: Self { .init(.unauthorizedClientException) }
     /// A well-formed request couldn't be followed due to semantic errors.
     public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
+}
+
+extension ChimeSDKVoiceErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": ChimeSDKVoice.AccessDeniedException.self,
+        "BadRequestException": ChimeSDKVoice.BadRequestException.self,
+        "ConflictException": ChimeSDKVoice.ConflictException.self,
+        "ForbiddenException": ChimeSDKVoice.ForbiddenException.self,
+        "GoneException": ChimeSDKVoice.GoneException.self,
+        "NotFoundException": ChimeSDKVoice.NotFoundException.self,
+        "ResourceLimitExceededException": ChimeSDKVoice.ResourceLimitExceededException.self,
+        "ServiceFailureException": ChimeSDKVoice.ServiceFailureException.self,
+        "ServiceUnavailableException": ChimeSDKVoice.ServiceUnavailableException.self,
+        "ThrottledClientException": ChimeSDKVoice.ThrottledClientException.self,
+        "UnauthorizedClientException": ChimeSDKVoice.UnauthorizedClientException.self,
+        "UnprocessableEntityException": ChimeSDKVoice.UnprocessableEntityException.self
+    ]
 }
 
 extension ChimeSDKVoiceErrorType: Equatable {

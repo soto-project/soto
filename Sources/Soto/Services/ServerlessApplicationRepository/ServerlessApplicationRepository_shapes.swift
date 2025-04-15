@@ -129,6 +129,42 @@ extension ServerlessApplicationRepository {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        /// 400
+        public let errorCode: String?
+        /// One of the parameters in the request is invalid.
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// 409
+        public let errorCode: String?
+        /// The resource already exists.
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
     public struct CreateApplicationRequest: AWSEncodableShape {
         /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
         public let author: String?
@@ -535,6 +571,24 @@ extension ServerlessApplicationRepository {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ForbiddenException: AWSErrorShape {
+        /// 403
+        public let errorCode: String?
+        /// The client is not authenticated.
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
     public struct GetApplicationPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
@@ -711,6 +765,24 @@ extension ServerlessApplicationRepository {
         }
     }
 
+    public struct InternalServerErrorException: AWSErrorShape {
+        /// 500
+        public let errorCode: String?
+        /// The AWS Serverless Application Repository service encountered an internal error.
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case message = "message"
+        }
+    }
+
     public struct ListApplicationDependenciesRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application.
         public let applicationId: String
@@ -855,6 +927,24 @@ extension ServerlessApplicationRepository {
         private enum CodingKeys: String, CodingKey {
             case applications = "applications"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct NotFoundException: AWSErrorShape {
+        /// 404
+        public let errorCode: String?
+        /// The resource (for example, an access policy statement) specified in the request doesn't exist.
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case message = "message"
         }
     }
 
@@ -1027,6 +1117,24 @@ extension ServerlessApplicationRepository {
         private enum CodingKeys: String, CodingKey {
             case key = "key"
             case value = "value"
+        }
+    }
+
+    public struct TooManyRequestsException: AWSErrorShape {
+        /// 429
+        public let errorCode: String?
+        /// The client is sending more than the allowed number of requests per unit of time.
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "errorCode"
+            case message = "message"
         }
     }
 
@@ -1281,6 +1389,17 @@ public struct ServerlessApplicationRepositoryErrorType: AWSErrorType {
     public static var notFoundException: Self { .init(.notFoundException) }
     /// The client is sending more than the allowed number of requests per unit of time.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension ServerlessApplicationRepositoryErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": ServerlessApplicationRepository.BadRequestException.self,
+        "ConflictException": ServerlessApplicationRepository.ConflictException.self,
+        "ForbiddenException": ServerlessApplicationRepository.ForbiddenException.self,
+        "InternalServerErrorException": ServerlessApplicationRepository.InternalServerErrorException.self,
+        "NotFoundException": ServerlessApplicationRepository.NotFoundException.self,
+        "TooManyRequestsException": ServerlessApplicationRepository.TooManyRequestsException.self
+    ]
 }
 
 extension ServerlessApplicationRepositoryErrorType: Equatable {

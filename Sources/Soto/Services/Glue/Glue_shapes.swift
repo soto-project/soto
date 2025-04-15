@@ -395,6 +395,20 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum FederationSourceErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedException = "AccessDeniedException"
+        case entityNotFoundException = "EntityNotFoundException"
+        case internalServiceException = "InternalServiceException"
+        case invalidCredentialsException = "InvalidCredentialsException"
+        case invalidInputException = "InvalidInputException"
+        case invalidResponseException = "InvalidResponseException"
+        case operationNotSupportedException = "OperationNotSupportedException"
+        case operationTimeoutException = "OperationTimeoutException"
+        case partialFailureException = "PartialFailureException"
+        case throttlingException = "ThrottlingException"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FieldDataType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `struct` = "STRUCT"
         case array = "ARRAY"
@@ -10574,6 +10588,24 @@ extension Glue {
         }
     }
 
+    public struct EntityNotFoundException: AWSErrorShape {
+        /// Indicates whether or not the exception relates to a federated source.
+        public let fromFederationSource: Bool?
+        /// A message describing the problem.
+        public let message: String?
+
+        @inlinable
+        public init(fromFederationSource: Bool? = nil, message: String? = nil) {
+            self.fromFederationSource = fromFederationSource
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromFederationSource = "FromFederationSource"
+            case message = "Message"
+        }
+    }
+
     public struct ErrorDetail: AWSDecodableShape {
         /// The code associated with this error.
         public let errorCode: String?
@@ -10862,6 +10894,24 @@ extension Glue {
         }
     }
 
+    public struct FederatedResourceAlreadyExistsException: AWSErrorShape {
+        /// The associated Glue resource already exists.
+        public let associatedGlueResource: String?
+        /// The message describing the problem.
+        public let message: String?
+
+        @inlinable
+        public init(associatedGlueResource: String? = nil, message: String? = nil) {
+            self.associatedGlueResource = associatedGlueResource
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedGlueResource = "AssociatedGlueResource"
+            case message = "Message"
+        }
+    }
+
     public struct FederatedTable: AWSDecodableShape {
         /// The name of the connection to the external metastore.
         public let connectionName: String?
@@ -10881,6 +10931,24 @@ extension Glue {
             case connectionName = "ConnectionName"
             case databaseIdentifier = "DatabaseIdentifier"
             case identifier = "Identifier"
+        }
+    }
+
+    public struct FederationSourceException: AWSErrorShape {
+        /// The error code of the problem.
+        public let federationSourceErrorCode: FederationSourceErrorCode?
+        /// The message describing the problem.
+        public let message: String?
+
+        @inlinable
+        public init(federationSourceErrorCode: FederationSourceErrorCode? = nil, message: String? = nil) {
+            self.federationSourceErrorCode = federationSourceErrorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case federationSourceErrorCode = "FederationSourceErrorCode"
+            case message = "Message"
         }
     }
 
@@ -15991,6 +16059,24 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case fieldName = "FieldName"
             case functionSpec = "FunctionSpec"
+        }
+    }
+
+    public struct InvalidInputException: AWSErrorShape {
+        /// Indicates whether or not the exception relates to a federated source.
+        public let fromFederationSource: Bool?
+        /// A message describing the problem.
+        public let message: String?
+
+        @inlinable
+        public init(fromFederationSource: Bool? = nil, message: String? = nil) {
+            self.fromFederationSource = fromFederationSource
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromFederationSource = "FromFederationSource"
+            case message = "Message"
         }
     }
 
@@ -27939,6 +28025,15 @@ public struct GlueErrorType: AWSErrorType {
     public static var validationException: Self { .init(.validationException) }
     /// There was a version conflict.
     public static var versionMismatchException: Self { .init(.versionMismatchException) }
+}
+
+extension GlueErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "EntityNotFoundException": Glue.EntityNotFoundException.self,
+        "FederatedResourceAlreadyExistsException": Glue.FederatedResourceAlreadyExistsException.self,
+        "FederationSourceException": Glue.FederationSourceException.self,
+        "InvalidInputException": Glue.InvalidInputException.self
+    ]
 }
 
 extension GlueErrorType: Equatable {

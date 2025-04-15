@@ -1359,6 +1359,22 @@ extension LicenseManager {
         }
     }
 
+    public struct FailedDependencyException: AWSErrorShape {
+        public let errorCode: String?
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
+    }
+
     public struct Filter: AWSEncodableShape {
         /// Name of the filter. Filter names are case-sensitive.
         public let name: String?
@@ -3174,6 +3190,28 @@ extension LicenseManager {
         }
     }
 
+    public struct RedirectException: AWSErrorShape {
+        public let location: String?
+        public let message: String?
+
+        @inlinable
+        public init(location: String? = nil, message: String? = nil) {
+            self.location = location
+            self.message = message
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct RejectGrantRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the grant.
         public let grantArn: String
@@ -3701,6 +3739,13 @@ public struct LicenseManagerErrorType: AWSErrorType {
     public static var unsupportedDigitalSignatureMethodException: Self { .init(.unsupportedDigitalSignatureMethodException) }
     /// The provided input is not valid. Try your request again.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension LicenseManagerErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "FailedDependencyException": LicenseManager.FailedDependencyException.self,
+        "RedirectException": LicenseManager.RedirectException.self
+    ]
 }
 
 extension LicenseManagerErrorType: Equatable {

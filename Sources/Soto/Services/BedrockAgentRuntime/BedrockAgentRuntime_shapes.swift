@@ -1897,7 +1897,7 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public struct BadGatewayException: AWSDecodableShape {
+    public struct BadGatewayException: AWSErrorShape {
         public let message: String?
         /// The name of the dependency that caused the issue, such as Amazon Bedrock, Lambda, or STS.
         public let resourceName: String?
@@ -2514,7 +2514,7 @@ extension BedrockAgentRuntime {
         public init() {}
     }
 
-    public struct DependencyFailedException: AWSDecodableShape {
+    public struct DependencyFailedException: AWSErrorShape {
         public let message: String?
         /// The name of the dependency that caused the issue, such as Amazon Bedrock, Lambda, or STS.
         public let resourceName: String?
@@ -4004,7 +4004,7 @@ extension BedrockAgentRuntime {
         }
     }
 
-    public struct InternalServerException: AWSDecodableShape {
+    public struct InternalServerException: AWSErrorShape {
         public let message: String?
         /// The reason for the exception. If the reason is BEDROCK_MODEL_INVOCATION_SERVICE_UNAVAILABLE, the model invocation service is unavailable. Retry your request.
         public let reason: String?
@@ -7386,6 +7386,14 @@ public struct BedrockAgentRuntimeErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension BedrockAgentRuntimeErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadGatewayException": BedrockAgentRuntime.BadGatewayException.self,
+        "DependencyFailedException": BedrockAgentRuntime.DependencyFailedException.self,
+        "InternalServerException": BedrockAgentRuntime.InternalServerException.self
+    ]
 }
 
 extension BedrockAgentRuntimeErrorType: Equatable {

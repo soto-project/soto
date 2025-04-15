@@ -3590,6 +3590,28 @@ extension APIGateway {
         }
     }
 
+    public struct LimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let retryAfterSeconds: String?
+
+        @inlinable
+        public init(message: String? = nil, retryAfterSeconds: String? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct Method: AWSDecodableShape {
         /// A boolean flag specifying whether a valid ApiKey is required to invoke this method.
         public let apiKeyRequired: Bool?
@@ -4504,6 +4526,28 @@ extension APIGateway {
         }
     }
 
+    public struct ServiceUnavailableException: AWSErrorShape {
+        public let message: String?
+        public let retryAfterSeconds: String?
+
+        @inlinable
+        public init(message: String? = nil, retryAfterSeconds: String? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct Stage: AWSDecodableShape {
         /// Settings for logging access in this stage.
         public let accessLogSettings: AccessLogSettings?
@@ -4877,6 +4921,28 @@ extension APIGateway {
 
         private enum CodingKeys: String, CodingKey {
             case insecureSkipVerification = "insecureSkipVerification"
+        }
+    }
+
+    public struct TooManyRequestsException: AWSErrorShape {
+        public let message: String?
+        public let retryAfterSeconds: String?
+
+        @inlinable
+        public init(message: String? = nil, retryAfterSeconds: String? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -5757,6 +5823,14 @@ public struct APIGatewayErrorType: AWSErrorType {
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// The request is denied because the caller has insufficient permissions.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension APIGatewayErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "LimitExceededException": APIGateway.LimitExceededException.self,
+        "ServiceUnavailableException": APIGateway.ServiceUnavailableException.self,
+        "TooManyRequestsException": APIGateway.TooManyRequestsException.self
+    ]
 }
 
 extension APIGatewayErrorType: Equatable {

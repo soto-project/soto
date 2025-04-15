@@ -89,6 +89,18 @@ extension IoTFleetWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum NetworkInterfaceFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canNetworkInterfaceInfoIsNull = "CAN_NETWORK_INTERFACE_INFO_IS_NULL"
+        case conflictingNetworkInterface = "CONFLICTING_NETWORK_INTERFACE"
+        case customDecodingSignalNetworkInterfaceInfoIsNull = "CUSTOM_DECODING_SIGNAL_NETWORK_INTERFACE_INFO_IS_NULL"
+        case duplicateInterface = "DUPLICATE_NETWORK_INTERFACE"
+        case networkInterfaceToAddAlreadyExists = "NETWORK_INTERFACE_TO_ADD_ALREADY_EXISTS"
+        case networkInterfaceToRemoveAssociatedWithSignals = "NETWORK_INTERFACE_TO_REMOVE_ASSOCIATED_WITH_SIGNALS"
+        case obdNetworkInterfaceInfoIsNull = "OBD_NETWORK_INTERFACE_INFO_IS_NULL"
+        case vehicleMiddlewareNetworkInterfaceInfoIsNull = "VEHICLE_MIDDLEWARE_NETWORK_INTERFACE_INFO_IS_NULL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NetworkInterfaceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canInterface = "CAN_INTERFACE"
         case customDecodingInterface = "CUSTOM_DECODING_INTERFACE"
@@ -159,6 +171,26 @@ extension IoTFleetWise {
         case registrationFailure = "REGISTRATION_FAILURE"
         case registrationPending = "REGISTRATION_PENDING"
         case registrationSuccess = "REGISTRATION_SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SignalDecoderFailureReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case canSignalInfoIsNull = "CAN_SIGNAL_INFO_IS_NULL"
+        case conflictingSignal = "CONFLICTING_SIGNAL"
+        case customDecodingSignalInfoIsNull = "CUSTOM_DECODING_SIGNAL_INFO_IS_NULL"
+        case duplicateSignal = "DUPLICATE_SIGNAL"
+        case emptyMessageSignal = "EMPTY_MESSAGE_SIGNAL"
+        case messageSignalInfoIsNull = "MESSAGE_SIGNAL_INFO_IS_NULL"
+        case networkInterfaceTypeIncompatibleWithSignalDecoderType = "NETWORK_INTERFACE_TYPE_INCOMPATIBLE_WITH_SIGNAL_DECODER_TYPE"
+        case noDecoderInfoForSignalInModel = "NO_DECODER_INFO_FOR_SIGNAL_IN_MODEL"
+        case noSignalInCatalogForDecoderSignal = "NO_SIGNAL_IN_CATALOG_FOR_DECODER_SIGNAL"
+        case obdSignalInfoIsNull = "OBD_SIGNAL_INFO_IS_NULL"
+        case signalDecoderIncompatibleWithSignalCatalog = "SIGNAL_DECODER_INCOMPATIBLE_WITH_SIGNAL_CATALOG"
+        case signalDecoderTypeIncompatibleWithMessageSignalType = "SIGNAL_DECODER_TYPE_INCOMPATIBLE_WITH_MESSAGE_SIGNAL_TYPE"
+        case signalNotAssociatedWithNetworkInterface = "SIGNAL_NOT_ASSOCIATED_WITH_NETWORK_INTERFACE"
+        case signalNotInModel = "SIGNAL_NOT_IN_MODEL"
+        case signalToAddAlreadyExists = "SIGNAL_TO_ADD_ALREADY_EXISTS"
+        case structSizeMismatch = "STRUCT_SIZE_MISMATCH"
         public var description: String { return self.rawValue }
     }
 
@@ -244,6 +276,14 @@ extension IoTFleetWise {
     public enum UpdateMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case merge = "Merge"
         case overwrite = "Overwrite"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
         public var description: String { return self.rawValue }
     }
 
@@ -1190,6 +1230,27 @@ extension IoTFleetWise {
         private enum CodingKeys: String, CodingKey {
             case conditionExpression = "conditionExpression"
             case triggerMode = "triggerMode"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The resource on which there are conflicting operations.
+        public let resource: String
+        /// The type of resource on which there are conflicting operations..
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resource: String, resourceType: String) {
+            self.message = message
+            self.resource = resource
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resource = "resource"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2224,6 +2285,27 @@ extension IoTFleetWise {
             case modelManifestArn = "modelManifestArn"
             case name = "name"
             case status = "status"
+        }
+    }
+
+    public struct DecoderManifestValidationException: AWSErrorShape {
+        /// The request couldn't be completed because of invalid network interfaces in the request.
+        public let invalidNetworkInterfaces: [InvalidNetworkInterface]?
+        /// The request couldn't be completed because of invalid signals in the request.
+        public let invalidSignals: [InvalidSignalDecoder]?
+        public let message: String?
+
+        @inlinable
+        public init(invalidNetworkInterfaces: [InvalidNetworkInterface]? = nil, invalidSignals: [InvalidSignalDecoder]? = nil, message: String? = nil) {
+            self.invalidNetworkInterfaces = invalidNetworkInterfaces
+            self.invalidSignals = invalidSignals
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidNetworkInterfaces = "invalidNetworkInterfaces"
+            case invalidSignals = "invalidSignals"
+            case message = "message"
         }
     }
 
@@ -3401,6 +3483,146 @@ extension IoTFleetWise {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case name = "name"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds to wait before retrying the command.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct InvalidNetworkInterface: AWSDecodableShape {
+        /// The ID of the interface that isn't valid.
+        public let interfaceId: String?
+        /// A message about why the interface isn't valid.
+        public let reason: NetworkInterfaceFailureReason?
+
+        @inlinable
+        public init(interfaceId: String? = nil, reason: NetworkInterfaceFailureReason? = nil) {
+            self.interfaceId = interfaceId
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interfaceId = "interfaceId"
+            case reason = "reason"
+        }
+    }
+
+    public struct InvalidNodeException: AWSErrorShape {
+        /// The specified node type isn't valid.
+        public let invalidNodes: [Node]?
+        public let message: String?
+        /// The reason the node validation failed.
+        public let reason: String?
+
+        @inlinable
+        public init(invalidNodes: [Node]? = nil, message: String? = nil, reason: String? = nil) {
+            self.invalidNodes = invalidNodes
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidNodes = "invalidNodes"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct InvalidSignal: AWSDecodableShape {
+        /// The name of the signal that isn't valid.
+        public let name: String?
+        /// A message about why the signal isn't valid.
+        public let reason: String?
+
+        @inlinable
+        public init(name: String? = nil, reason: String? = nil) {
+            self.name = name
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case reason = "reason"
+        }
+    }
+
+    public struct InvalidSignalDecoder: AWSDecodableShape {
+        /// The possible cause for the invalid signal decoder.
+        public let hint: String?
+        /// The name of a signal decoder that isn't valid.
+        public let name: String?
+        /// A message about why the signal decoder isn't valid.
+        public let reason: SignalDecoderFailureReason?
+
+        @inlinable
+        public init(hint: String? = nil, name: String? = nil, reason: SignalDecoderFailureReason? = nil) {
+            self.hint = hint
+            self.name = name
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hint = "hint"
+            case name = "name"
+            case reason = "reason"
+        }
+    }
+
+    public struct InvalidSignalsException: AWSErrorShape {
+        /// The signals which caused the exception.
+        public let invalidSignals: [InvalidSignal]?
+        public let message: String?
+
+        @inlinable
+        public init(invalidSignals: [InvalidSignal]? = nil, message: String? = nil) {
+            self.invalidSignals = invalidSignals
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidSignals = "invalidSignals"
+            case message = "message"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let message: String
+        /// The identifier of the resource that was exceeded.
+        public let resourceId: String
+        /// The type of resource that was exceeded.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -4616,6 +4838,27 @@ extension IoTFleetWise {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The identifier of the resource that wasn't found.
+        public let resourceId: String
+        /// The type of resource that wasn't found.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct S3Config: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
         public let bucketArn: String
@@ -5096,6 +5339,39 @@ extension IoTFleetWise {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The quota identifier of the applied throttling rules for this request.
+        public let quotaCode: String?
+        /// The number of seconds to wait before retrying the command.
+        public let retryAfterSeconds: Int?
+        /// The code for the service that couldn't be completed due to throttling.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
     }
 
     public struct TimeBasedCollectionScheme: AWSEncodableShape & AWSDecodableShape {
@@ -5980,6 +6256,45 @@ extension IoTFleetWise {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// The list of fields that fail to satisfy the constraints specified by an Amazon Web Services service.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        /// The reason the input failed to satisfy the constraints specified by an Amazon Web Services service.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// A message about the validation error.
+        public let message: String
+        /// The name of the parameter field with the validation error.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct VehicleMiddleware: AWSEncodableShape & AWSDecodableShape {
         /// The name of the vehicle middleware.
         public let name: String
@@ -6169,6 +6484,20 @@ public struct IoTFleetWiseErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension IoTFleetWiseErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": IoTFleetWise.ConflictException.self,
+        "DecoderManifestValidationException": IoTFleetWise.DecoderManifestValidationException.self,
+        "InternalServerException": IoTFleetWise.InternalServerException.self,
+        "InvalidNodeException": IoTFleetWise.InvalidNodeException.self,
+        "InvalidSignalsException": IoTFleetWise.InvalidSignalsException.self,
+        "LimitExceededException": IoTFleetWise.LimitExceededException.self,
+        "ResourceNotFoundException": IoTFleetWise.ResourceNotFoundException.self,
+        "ThrottlingException": IoTFleetWise.ThrottlingException.self,
+        "ValidationException": IoTFleetWise.ValidationException.self
+    ]
 }
 
 extension IoTFleetWiseErrorType: Equatable {

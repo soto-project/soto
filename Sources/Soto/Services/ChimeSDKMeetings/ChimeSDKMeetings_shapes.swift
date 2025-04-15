@@ -251,6 +251,26 @@ extension ChimeSDKMeetings {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The request id associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct BatchCreateAttendeeRequest: AWSEncodableShape {
         /// The attendee information, including attendees' IDs and join tokens.
         public let attendees: [CreateAttendeeRequestItem]
@@ -337,6 +357,26 @@ extension ChimeSDKMeetings {
         private enum CodingKeys: String, CodingKey {
             case capabilities = "Capabilities"
             case excludedAttendeeIds = "ExcludedAttendeeIds"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The ID of the request involved in the conflict.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -820,6 +860,26 @@ extension ChimeSDKMeetings {
         }
     }
 
+    public struct ForbiddenException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The request id associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct GetAttendeeRequest: AWSEncodableShape {
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String
@@ -894,6 +954,26 @@ extension ChimeSDKMeetings {
 
         private enum CodingKeys: String, CodingKey {
             case meeting = "Meeting"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The request id associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -1104,6 +1184,26 @@ extension ChimeSDKMeetings {
         }
     }
 
+    public struct NotFoundException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The request ID associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct NotificationsConfiguration: AWSEncodableShape {
         /// The ARN of the Amazon Web Services Lambda function in the notifications configuration.
         public let lambdaFunctionArn: String?
@@ -1135,6 +1235,82 @@ extension ChimeSDKMeetings {
             case lambdaFunctionArn = "LambdaFunctionArn"
             case snsTopicArn = "SnsTopicArn"
             case sqsQueueArn = "SqsQueueArn"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The ID of the resource that couldn't be found.
+        public let requestId: String?
+        /// The name of the resource that couldn't be found.
+        public let resourceName: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil, resourceName: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+            case resourceName = "ResourceName"
+        }
+    }
+
+    public struct ServiceFailureException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The ID of the failed request.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct ServiceUnavailableException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The request id associated with the call responsible for the exception.
+        public let requestId: String?
+        /// The number of seconds the caller should wait before retrying.
+        public let retryAfterSeconds: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil, retryAfterSeconds: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.code = try container.decodeIfPresent(String.self, forKey: .code)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -1247,6 +1423,50 @@ extension ChimeSDKMeetings {
         public init() {}
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The ID of the request that exceeded the throttling limit.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The ID of the request that contains too many tags.
+        public let requestId: String?
+        /// The name of the resource that received too many tags.
+        public let resourceName: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil, resourceName: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+            case resourceName = "ResourceName"
+        }
+    }
+
     public struct TranscriptionConfiguration: AWSEncodableShape {
         /// The transcription configuration settings passed to Amazon Transcribe Medical.
         public let engineTranscribeMedicalSettings: EngineTranscribeMedicalSettings?
@@ -1267,6 +1487,46 @@ extension ChimeSDKMeetings {
         private enum CodingKeys: String, CodingKey {
             case engineTranscribeMedicalSettings = "EngineTranscribeMedicalSettings"
             case engineTranscribeSettings = "EngineTranscribeSettings"
+        }
+    }
+
+    public struct UnauthorizedException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The request id associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UnprocessableEntityException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// The request id associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -1427,6 +1687,23 @@ public struct ChimeSDKMeetingsErrorType: AWSErrorType {
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// The request was well-formed but was unable to be followed due to semantic errors.
     public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
+}
+
+extension ChimeSDKMeetingsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": ChimeSDKMeetings.BadRequestException.self,
+        "ConflictException": ChimeSDKMeetings.ConflictException.self,
+        "ForbiddenException": ChimeSDKMeetings.ForbiddenException.self,
+        "LimitExceededException": ChimeSDKMeetings.LimitExceededException.self,
+        "NotFoundException": ChimeSDKMeetings.NotFoundException.self,
+        "ResourceNotFoundException": ChimeSDKMeetings.ResourceNotFoundException.self,
+        "ServiceFailureException": ChimeSDKMeetings.ServiceFailureException.self,
+        "ServiceUnavailableException": ChimeSDKMeetings.ServiceUnavailableException.self,
+        "ThrottlingException": ChimeSDKMeetings.ThrottlingException.self,
+        "TooManyTagsException": ChimeSDKMeetings.TooManyTagsException.self,
+        "UnauthorizedException": ChimeSDKMeetings.UnauthorizedException.self,
+        "UnprocessableEntityException": ChimeSDKMeetings.UnprocessableEntityException.self
+    ]
 }
 
 extension ChimeSDKMeetingsErrorType: Equatable {

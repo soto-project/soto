@@ -2377,6 +2377,23 @@ extension Route53Resolver {
         }
     }
 
+    public struct InvalidParameterException: AWSErrorShape {
+        /// For an InvalidParameterException error, the name of the parameter that's invalid.
+        public let fieldName: String?
+        public let message: String
+
+        @inlinable
+        public init(fieldName: String? = nil, message: String) {
+            self.fieldName = fieldName
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldName = "FieldName"
+            case message = "Message"
+        }
+    }
+
     public struct IpAddressRequest: AWSEncodableShape {
         /// The IPv4 address that you want to use for DNS queries.
         public let ip: String?
@@ -2490,6 +2507,23 @@ extension Route53Resolver {
             case ipId = "IpId"
             case ipv6 = "Ipv6"
             case subnetId = "SubnetId"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let message: String?
+        /// For a LimitExceededException error, the type of resource that exceeded the current limit.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -3951,6 +3985,74 @@ extension Route53Resolver {
         }
     }
 
+    public struct ResourceExistsException: AWSErrorShape {
+        public let message: String?
+        /// For a ResourceExistsException error, the type of resource that the error applies to.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceInUseException: AWSErrorShape {
+        public let message: String?
+        /// For a ResourceInUseException error, the type of resource that is currently in use.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// For a ResourceNotFoundException error, the type of resource that doesn't exist.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceUnavailableException: AWSErrorShape {
+        public let message: String?
+        /// For a ResourceUnavailableException error, the type of resource that isn't available.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The name for the tag. For example, if you want to associate Resolver resources with the account IDs of your customers for billing purposes,
         /// 			the value of Key might be account-id.
@@ -4682,6 +4784,17 @@ public struct Route53ResolverErrorType: AWSErrorType {
     /// You have provided an invalid command. If you ran the UpdateFirewallDomains request. supported values are ADD,
     /// 			REMOVE, or REPLACE a domain.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension Route53ResolverErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InvalidParameterException": Route53Resolver.InvalidParameterException.self,
+        "LimitExceededException": Route53Resolver.LimitExceededException.self,
+        "ResourceExistsException": Route53Resolver.ResourceExistsException.self,
+        "ResourceInUseException": Route53Resolver.ResourceInUseException.self,
+        "ResourceNotFoundException": Route53Resolver.ResourceNotFoundException.self,
+        "ResourceUnavailableException": Route53Resolver.ResourceUnavailableException.self
+    ]
 }
 
 extension Route53ResolverErrorType: Equatable {

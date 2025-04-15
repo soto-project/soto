@@ -185,6 +185,12 @@ extension Notifications {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AggregationDetail: AWSDecodableShape {
@@ -349,6 +355,23 @@ extension Notifications {
 
     public struct AssociateManagedNotificationAdditionalChannelResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The resource ID that prompted the conflict error.
+        public let resourceId: String
+
+        @inlinable
+        public init(message: String, resourceId: String) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+        }
     }
 
     public struct CreateEventRuleRequest: AWSEncodableShape {
@@ -2403,6 +2426,52 @@ extension Notifications {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource that wasn't found.
+        public let resourceId: String
+
+        @inlinable
+        public init(message: String, resourceId: String) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The code for the service quota in Service Quotas.
+        public let quotaCode: String?
+        /// The ID of the resource that exceeds the service quota.
+        public let resourceId: String?
+        /// The type of the resource that exceeds the service quota.
+        public let resourceType: String
+        /// The code for the service quota exceeded in Service Quotas.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct SourceEventMetadata: AWSDecodableShape {
         /// The date and time the source event occurred. This is based on the Source Event.
         public let eventOccurrenceTime: Date
@@ -2570,6 +2639,39 @@ extension Notifications {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// Identifies the quota that is being throttled.
+        public let quotaCode: String?
+        /// The number of seconds a client should wait before retrying the request.
+        public let retryAfterSeconds: Int?
+        /// Identifies the service being throttled.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) to use to untag a resource.
         public let arn: String
@@ -2722,6 +2824,45 @@ extension Notifications {
             case arn = "arn"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The list of input fields that are invalid.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        /// The reason why your input is considered invalid.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// A message with the reason for the validation exception error.
+        public let message: String
+        /// The field name where the invalid entry was detected.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -2770,6 +2911,16 @@ public struct NotificationsErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// This exception is thrown when the notification event fails validation.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension NotificationsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Notifications.ConflictException.self,
+        "ResourceNotFoundException": Notifications.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": Notifications.ServiceQuotaExceededException.self,
+        "ThrottlingException": Notifications.ThrottlingException.self,
+        "ValidationException": Notifications.ValidationException.self
+    ]
 }
 
 extension NotificationsErrorType: Equatable {

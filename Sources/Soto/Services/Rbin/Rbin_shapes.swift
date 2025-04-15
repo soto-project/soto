@@ -26,10 +26,20 @@ import Foundation
 extension Rbin {
     // MARK: Enums
 
+    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalidRuleState = "INVALID_RULE_STATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LockState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case locked = "locked"
         case pendingUnlock = "pending_unlock"
         case unlocked = "unlocked"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceNotFoundExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ruleNotFound = "RULE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -50,12 +60,40 @@ extension Rbin {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceQuotaExceededExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case serviceQuotaExceeded = "SERVICE_QUOTA_EXCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UnlockDelayUnit: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case days = "DAYS"
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalidPageToken = "INVALID_PAGE_TOKEN"
+        case invalidParameterValue = "INVALID_PARAMETER_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// The reason for the exception.
+        public let reason: ConflictExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: ConflictExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
 
     public struct CreateRuleRequest: AWSEncodableShape {
         /// The retention rule description.
@@ -474,6 +512,23 @@ extension Rbin {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The reason for the exception.
+        public let reason: ResourceNotFoundExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: ResourceNotFoundExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
     public struct ResourceTag: AWSEncodableShape & AWSDecodableShape {
         /// The tag key.
         public let resourceTagKey: String
@@ -547,6 +602,23 @@ extension Rbin {
             case lockState = "LockState"
             case retentionPeriod = "RetentionPeriod"
             case ruleArn = "RuleArn"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String?
+        /// The reason for the exception.
+        public let reason: ServiceQuotaExceededExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: ServiceQuotaExceededExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
         }
     }
 
@@ -858,6 +930,23 @@ extension Rbin {
             case status = "Status"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        public let message: String?
+        /// The reason for the exception.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: ValidationExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -900,6 +989,15 @@ public struct RbinErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// One or more of the parameters in the request is not valid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension RbinErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Rbin.ConflictException.self,
+        "ResourceNotFoundException": Rbin.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": Rbin.ServiceQuotaExceededException.self,
+        "ValidationException": Rbin.ValidationException.self
+    ]
 }
 
 extension RbinErrorType: Equatable {

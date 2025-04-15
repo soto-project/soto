@@ -539,6 +539,24 @@ extension GuardDuty {
         }
     }
 
+    public struct AccessDeniedException: AWSErrorShape {
+        /// The error message.
+        public let message: String?
+        /// The error type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "__type"
+        }
+    }
+
     public struct AccessKey: AWSDecodableShape {
         /// Principal ID of the user.
         public let principalId: String?
@@ -1001,6 +1019,24 @@ extension GuardDuty {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        /// The error message.
+        public let message: String?
+        /// The error type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "__type"
+        }
+    }
+
     public struct BlockPublicAccess: AWSDecodableShape {
         /// Indicates if S3 Block Public Access is set to BlockPublicAcls.
         public let blockPublicAcls: Bool?
@@ -1167,6 +1203,24 @@ extension GuardDuty {
             case lte = "lte"
             case neq = "neq"
             case notEquals = "notEquals"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// The error message.
+        public let message: String?
+        /// The error type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "__type"
         }
     }
 
@@ -4664,6 +4718,24 @@ extension GuardDuty {
         }
     }
 
+    public struct InternalServerErrorException: AWSErrorShape {
+        /// The error message.
+        public let message: String?
+        /// The error type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "__type"
+        }
+    }
+
     public struct Invitation: AWSDecodableShape {
         /// The ID of the account that the invitation was sent from.
         public let accountId: String?
@@ -7227,6 +7299,24 @@ extension GuardDuty {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// The error message.
+        public let message: String?
+        /// The error type.
+        public let type: String?
+
+        @inlinable
+        public init(message: String? = nil, type: String? = nil) {
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case type = "__type"
+        }
+    }
+
     public struct ResourceStatistics: AWSDecodableShape {
         /// The ID of the Amazon Web Services account.
         public let accountId: String?
@@ -9517,6 +9607,16 @@ public struct GuardDutyErrorType: AWSErrorType {
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
     /// The requested resource can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension GuardDutyErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": GuardDuty.AccessDeniedException.self,
+        "BadRequestException": GuardDuty.BadRequestException.self,
+        "ConflictException": GuardDuty.ConflictException.self,
+        "InternalServerErrorException": GuardDuty.InternalServerErrorException.self,
+        "ResourceNotFoundException": GuardDuty.ResourceNotFoundException.self
+    ]
 }
 
 extension GuardDutyErrorType: Equatable {

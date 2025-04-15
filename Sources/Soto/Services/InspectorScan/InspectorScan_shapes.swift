@@ -26,13 +26,56 @@ import Foundation
 extension InspectorScan {
     // MARK: Enums
 
+    public enum InternalServerExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case failedToGenerateSbom = "FAILED_TO_GENERATE_SBOM"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OutputFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cycloneDx15 = "CYCLONE_DX_1_5"
         case inspector = "INSPECTOR"
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "CANNOT_PARSE"
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case other = "OTHER"
+        case unknownOperation = "UNKNOWN_OPERATION"
+        case unsupportedSbomType = "UNSUPPORTED_SBOM_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The reason for the validation failure.
+        public let reason: InternalServerExceptionReason
+        /// The number of seconds to wait before retrying the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, reason: InternalServerExceptionReason, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.reason = reason
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.reason = try container.decode(InternalServerExceptionReason.self, forKey: .reason)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
 
     public struct ScanSbomRequest: AWSEncodableShape {
         /// The output format for the vulnerability report.
@@ -63,6 +106,68 @@ extension InspectorScan {
 
         private enum CodingKeys: String, CodingKey {
             case sbom = "sbom"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds to wait before retrying the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The fields that failed validation.
+        public let fields: [ValidationExceptionField]?
+        public let message: String
+        /// The reason for the validation failure.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The validation exception message.
+        public let message: String
+        /// The name of the validation exception.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
         }
     }
 }
@@ -104,6 +209,14 @@ public struct InspectorScanErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request has failed validation due to missing required fields or having invalid inputs.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension InspectorScanErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InternalServerException": InspectorScan.InternalServerException.self,
+        "ThrottlingException": InspectorScan.ThrottlingException.self,
+        "ValidationException": InspectorScan.ValidationException.self
+    ]
 }
 
 extension InspectorScanErrorType: Equatable {

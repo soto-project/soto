@@ -2861,6 +2861,27 @@ extension IoTAnalytics {
         }
     }
 
+    public struct ResourceAlreadyExistsException: AWSErrorShape {
+        public let message: String?
+        /// The ARN of the resource.
+        public let resourceArn: String?
+        /// The ID of the resource.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceArn: String? = nil, resourceId: String? = nil) {
+            self.message = message
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceArn = "resourceArn"
+            case resourceId = "resourceId"
+        }
+    }
+
     public struct ResourceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The type of the compute resource used to execute the containerAction. Possible values are: ACU_1 (vCPU=4, memory=16 GiB) or ACU_2 (vCPU=8, memory=32 GiB).
         public let computeType: ComputeType
@@ -3645,6 +3666,12 @@ public struct IoTAnalyticsErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension IoTAnalyticsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceAlreadyExistsException": IoTAnalytics.ResourceAlreadyExistsException.self
+    ]
 }
 
 extension IoTAnalyticsErrorType: Equatable {

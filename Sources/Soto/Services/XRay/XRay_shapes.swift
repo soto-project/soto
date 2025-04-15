@@ -2230,6 +2230,22 @@ extension XRay {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+        }
+    }
+
     public struct ResourcePolicy: AWSDecodableShape {
         /// When the policy was last updated, in Unix time seconds.
         public let lastUpdatedTime: Date?
@@ -2998,6 +3014,22 @@ extension XRay {
         }
     }
 
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+        }
+    }
+
     public struct Trace: AWSDecodableShape {
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
         public let duration: Double?
@@ -3457,6 +3489,13 @@ public struct XRayErrorType: AWSErrorType {
     public static var throttledException: Self { .init(.throttledException) }
     /// You have exceeded the maximum number of tags you can apply to this resource.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension XRayErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": XRay.ResourceNotFoundException.self,
+        "TooManyTagsException": XRay.TooManyTagsException.self
+    ]
 }
 
 extension XRayErrorType: Equatable {

@@ -313,6 +313,22 @@ extension DirectoryService {
         }
     }
 
+    public struct AccessDeniedException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct AddIpRoutesRequest: AWSEncodableShape {
         /// Identifier (ID) of the directory to which to add the address block.
         public let directoryId: String
@@ -429,6 +445,24 @@ extension DirectoryService {
         }
     }
 
+    public struct AuthenticationFailedException: AWSErrorShape {
+        /// The textual message for the exception.
+        public let message: String?
+        /// The identifier of the request that caused the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct CancelSchemaExtensionRequest: AWSEncodableShape {
         /// The identifier of the directory whose schema extension will be canceled.
         public let directoryId: String
@@ -498,6 +532,54 @@ extension DirectoryService {
         }
     }
 
+    public struct CertificateAlreadyExistsException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct CertificateDoesNotExistException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct CertificateInUseException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct CertificateInfo: AWSDecodableShape {
         /// The identifier of the certificate.
         public let certificateId: String?
@@ -525,6 +607,22 @@ extension DirectoryService {
             case expiryDateTime = "ExpiryDateTime"
             case state = "State"
             case type = "Type"
+        }
+    }
+
+    public struct CertificateLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -567,6 +665,22 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case ocspUrl = "OCSPUrl"
+        }
+    }
+
+    public struct ClientException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -1929,6 +2043,38 @@ extension DirectoryService {
         }
     }
 
+    public struct DirectoryAlreadyInRegionException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DirectoryAlreadySharedException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DirectoryConnectSettings: AWSEncodableShape {
         /// A list of one or more IP addresses of DNS servers or domain controllers in your self-managed directory.
         public let customerDnsIps: [String]
@@ -2115,6 +2261,54 @@ extension DirectoryService {
         }
     }
 
+    public struct DirectoryDoesNotExistException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DirectoryInDesiredStateException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DirectoryLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DirectoryLimits: AWSDecodableShape {
         /// The current number of cloud directories in the Region.
         public let cloudOnlyDirectoriesCurrentCount: Int?
@@ -2158,6 +2352,38 @@ extension DirectoryService {
             case connectedDirectoriesCurrentCount = "ConnectedDirectoriesCurrentCount"
             case connectedDirectoriesLimit = "ConnectedDirectoriesLimit"
             case connectedDirectoriesLimitReached = "ConnectedDirectoriesLimitReached"
+        }
+    }
+
+    public struct DirectoryNotSharedException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct DirectoryUnavailableException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -2392,6 +2618,22 @@ extension DirectoryService {
         }
     }
 
+    public struct DomainControllerLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct EnableClientAuthenticationRequest: AWSEncodableShape {
         /// The identifier of the specified directory.
         public let directoryId: String
@@ -2527,6 +2769,38 @@ extension DirectoryService {
         public init() {}
     }
 
+    public struct EntityAlreadyExistsException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct EntityDoesNotExistException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct EventTopic: AWSDecodableShape {
         /// The date and time of when you associated your directory with the Amazon SNS topic.
         public let createdDateTime: Date?
@@ -2607,6 +2881,150 @@ extension DirectoryService {
         }
     }
 
+    public struct IncompatibleSettingsException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InsufficientPermissionsException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidCertificateException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidClientAuthStatusException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidLDAPSStatusException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidNextTokenException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidParameterException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidPasswordException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidTargetException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct IpRoute: AWSEncodableShape {
         /// IP address block using CIDR format, for example 10.0.0.0/24. This is often the address block of the DNS server used for your self-managed domain. For a single IP address use a CIDR address block with /32. For example 10.0.0.0/32.
         public let cidrIp: String?
@@ -2662,6 +3080,22 @@ extension DirectoryService {
             case directoryId = "DirectoryId"
             case ipRouteStatusMsg = "IpRouteStatusMsg"
             case ipRouteStatusReason = "IpRouteStatusReason"
+        }
+    }
+
+    public struct IpRouteLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -2935,6 +3369,22 @@ extension DirectoryService {
         }
     }
 
+    public struct NoAvailableCertificateException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct OSUpdateSettings: AWSEncodableShape & AWSDecodableShape {
         ///  OS version that the directory needs to be updated to.
         public let osVersion: OSVersion?
@@ -2946,6 +3396,22 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case osVersion = "OSVersion"
+        }
+    }
+
+    public struct OrganizationsException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -3085,6 +3551,22 @@ extension DirectoryService {
             case status = "Status"
             case statusLastUpdatedDateTime = "StatusLastUpdatedDateTime"
             case vpcSettings = "VpcSettings"
+        }
+    }
+
+    public struct RegionLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -3391,6 +3873,22 @@ extension DirectoryService {
         }
     }
 
+    public struct ServiceException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct Setting: AWSEncodableShape {
         /// The name of the directory setting. For example:  TLS_1_0
         public let name: String
@@ -3518,6 +4016,22 @@ extension DirectoryService {
         }
     }
 
+    public struct ShareLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct ShareTarget: AWSEncodableShape {
         /// Identifier of the directory consumer account.
         public let id: String
@@ -3621,6 +4135,22 @@ extension DirectoryService {
         }
     }
 
+    public struct SnapshotLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct SnapshotLimits: AWSDecodableShape {
         /// The current number of manual snapshots of the directory.
         public let manualSnapshotsCurrentCount: Int?
@@ -3714,6 +4244,22 @@ extension DirectoryService {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct TagLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -3828,6 +4374,38 @@ extension DirectoryService {
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case type = "Type"
+        }
+    }
+
+    public struct UnsupportedOperationException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UnsupportedSettingsException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -4088,6 +4666,22 @@ extension DirectoryService {
         }
     }
 
+    public struct UserDoesNotExistException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct VerifyTrustRequest: AWSEncodableShape {
         /// The unique Trust ID of the trust relationship to verify.
         public let trustId: String
@@ -4257,6 +4851,48 @@ public struct DirectoryServiceErrorType: AWSErrorType {
     public static var unsupportedSettingsException: Self { .init(.unsupportedSettingsException) }
     /// The user provided a username that does not exist in your directory.
     public static var userDoesNotExistException: Self { .init(.userDoesNotExistException) }
+}
+
+extension DirectoryServiceErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": DirectoryService.AccessDeniedException.self,
+        "AuthenticationFailedException": DirectoryService.AuthenticationFailedException.self,
+        "CertificateAlreadyExistsException": DirectoryService.CertificateAlreadyExistsException.self,
+        "CertificateDoesNotExistException": DirectoryService.CertificateDoesNotExistException.self,
+        "CertificateInUseException": DirectoryService.CertificateInUseException.self,
+        "CertificateLimitExceededException": DirectoryService.CertificateLimitExceededException.self,
+        "ClientException": DirectoryService.ClientException.self,
+        "DirectoryAlreadyInRegionException": DirectoryService.DirectoryAlreadyInRegionException.self,
+        "DirectoryAlreadySharedException": DirectoryService.DirectoryAlreadySharedException.self,
+        "DirectoryDoesNotExistException": DirectoryService.DirectoryDoesNotExistException.self,
+        "DirectoryInDesiredStateException": DirectoryService.DirectoryInDesiredStateException.self,
+        "DirectoryLimitExceededException": DirectoryService.DirectoryLimitExceededException.self,
+        "DirectoryNotSharedException": DirectoryService.DirectoryNotSharedException.self,
+        "DirectoryUnavailableException": DirectoryService.DirectoryUnavailableException.self,
+        "DomainControllerLimitExceededException": DirectoryService.DomainControllerLimitExceededException.self,
+        "EntityAlreadyExistsException": DirectoryService.EntityAlreadyExistsException.self,
+        "EntityDoesNotExistException": DirectoryService.EntityDoesNotExistException.self,
+        "IncompatibleSettingsException": DirectoryService.IncompatibleSettingsException.self,
+        "InsufficientPermissionsException": DirectoryService.InsufficientPermissionsException.self,
+        "InvalidCertificateException": DirectoryService.InvalidCertificateException.self,
+        "InvalidClientAuthStatusException": DirectoryService.InvalidClientAuthStatusException.self,
+        "InvalidLDAPSStatusException": DirectoryService.InvalidLDAPSStatusException.self,
+        "InvalidNextTokenException": DirectoryService.InvalidNextTokenException.self,
+        "InvalidParameterException": DirectoryService.InvalidParameterException.self,
+        "InvalidPasswordException": DirectoryService.InvalidPasswordException.self,
+        "InvalidTargetException": DirectoryService.InvalidTargetException.self,
+        "IpRouteLimitExceededException": DirectoryService.IpRouteLimitExceededException.self,
+        "NoAvailableCertificateException": DirectoryService.NoAvailableCertificateException.self,
+        "OrganizationsException": DirectoryService.OrganizationsException.self,
+        "RegionLimitExceededException": DirectoryService.RegionLimitExceededException.self,
+        "ServiceException": DirectoryService.ServiceException.self,
+        "ShareLimitExceededException": DirectoryService.ShareLimitExceededException.self,
+        "SnapshotLimitExceededException": DirectoryService.SnapshotLimitExceededException.self,
+        "TagLimitExceededException": DirectoryService.TagLimitExceededException.self,
+        "UnsupportedOperationException": DirectoryService.UnsupportedOperationException.self,
+        "UnsupportedSettingsException": DirectoryService.UnsupportedSettingsException.self,
+        "UserDoesNotExistException": DirectoryService.UserDoesNotExistException.self
+    ]
 }
 
 extension DirectoryServiceErrorType: Equatable {

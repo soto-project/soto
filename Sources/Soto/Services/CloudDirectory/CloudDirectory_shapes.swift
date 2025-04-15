@@ -43,6 +43,28 @@ extension CloudDirectory {
         public var description: String { return self.rawValue }
     }
 
+    public enum BatchWriteExceptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessDeniedException = "AccessDeniedException"
+        case directoryNotEnabledException = "DirectoryNotEnabledException"
+        case facetValidationException = "FacetValidationException"
+        case indexedAttributeMissingException = "IndexedAttributeMissingException"
+        case internalServiceException = "InternalServiceException"
+        case invalidArnException = "InvalidArnException"
+        case invalidAttachmentException = "InvalidAttachmentException"
+        case limitExceededException = "LimitExceededException"
+        case linkNameAlreadyInUseException = "LinkNameAlreadyInUseException"
+        case notIndexException = "NotIndexException"
+        case notNodeException = "NotNodeException"
+        case notPolicyException = "NotPolicyException"
+        case objectAlreadyDetachedException = "ObjectAlreadyDetachedException"
+        case objectNotDetachedException = "ObjectNotDetachedException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case stillContainsLinksException = "StillContainsLinksException"
+        case unsupportedIndexTypeException = "UnsupportedIndexTypeException"
+        case validationException = "ValidationException"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConsistencyLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case eventual = "EVENTUAL"
         case serializable = "SERIALIZABLE"
@@ -1910,6 +1932,25 @@ extension CloudDirectory {
 
         private enum CodingKeys: String, CodingKey {
             case objectIdentifier = "ObjectIdentifier"
+        }
+    }
+
+    public struct BatchWriteException: AWSErrorShape {
+        public let index: Int?
+        public let message: String?
+        public let type: BatchWriteExceptionType?
+
+        @inlinable
+        public init(index: Int? = nil, message: String? = nil, type: BatchWriteExceptionType? = nil) {
+            self.index = index
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "Index"
+            case message = "Message"
+            case type = "Type"
         }
     }
 
@@ -5586,6 +5627,12 @@ public struct CloudDirectoryErrorType: AWSErrorType {
     public static var unsupportedIndexTypeException: Self { .init(.unsupportedIndexTypeException) }
     /// Indicates that your request is malformed in some manner. See the exception message.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension CloudDirectoryErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BatchWriteException": CloudDirectory.BatchWriteException.self
+    ]
 }
 
 extension CloudDirectoryErrorType: Equatable {

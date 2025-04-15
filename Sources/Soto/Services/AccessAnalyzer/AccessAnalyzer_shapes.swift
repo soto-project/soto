@@ -273,6 +273,15 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case notSupported = "notSupported"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Type`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case account = "ACCOUNT"
         case accountUnusedAccess = "ACCOUNT_UNUSED_ACCESS"
@@ -1254,6 +1263,27 @@ extension AccessAnalyzer {
             case endTime = "endTime"
             case startTime = "startTime"
             case trailProperties = "trailProperties"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource.
+        public let resourceId: String
+        /// The resource type.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2475,6 +2505,29 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The seconds to wait to retry.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct InternetConfiguration: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -3205,6 +3258,27 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource.
+        public let resourceId: String
+        /// The type of the resource.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ResourceTypeDetails: AWSDecodableShape {
         /// The total number of active cross-account findings for the resource type.
         public let totalActiveCrossAccount: Int?
@@ -3347,6 +3421,27 @@ extension AccessAnalyzer {
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "kmsKeyId"
             case secretPolicy = "secretPolicy"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The resource ID.
+        public let resourceId: String
+        /// The resource type.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -3544,6 +3639,29 @@ extension AccessAnalyzer {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The seconds to wait to retry.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
     }
 
     public struct Trail: AWSEncodableShape {
@@ -4016,6 +4134,45 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// A list of fields that didn't validate.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        /// The reason for the exception.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// A message about the validation exception.
+        public let message: String
+        /// The name of the validation exception.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct VpcConfiguration: AWSEncodableShape & AWSDecodableShape {
         ///  If this field is specified, this access point will only allow connections from the specified VPC ID.
         public let vpcId: String
@@ -4143,6 +4300,17 @@ public struct AccessAnalyzerErrorType: AWSErrorType {
     public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
     /// Validation exception error.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension AccessAnalyzerErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": AccessAnalyzer.ConflictException.self,
+        "InternalServerException": AccessAnalyzer.InternalServerException.self,
+        "ResourceNotFoundException": AccessAnalyzer.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": AccessAnalyzer.ServiceQuotaExceededException.self,
+        "ThrottlingException": AccessAnalyzer.ThrottlingException.self,
+        "ValidationException": AccessAnalyzer.ValidationException.self
+    ]
 }
 
 extension AccessAnalyzerErrorType: Equatable {

@@ -260,6 +260,16 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "CANNOT_PARSE"
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case invalidParameterCombination = "INVALID_PARAMETER_COMBINATION"
+        case other = "OTHER"
+        case parameterInconsistentWithServiceState = "PARAMETER_INCONSISTENT_WITH_SERVICE_STATE"
+        case unknownOperation = "UNKNOWN_OPERATION"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AccountHealth: AWSDecodableShape {
@@ -641,6 +651,27 @@ extension DevOpsGuru {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        ///  The ID of the Amazon Web Services resource in which a conflict occurred.
+        public let resourceId: String
+        ///  The type of the Amazon Web Services resource in which a conflict occurred.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -1551,6 +1582,30 @@ extension DevOpsGuru {
         private enum CodingKeys: String, CodingKey {
             case endTime = "EndTime"
             case startTime = "StartTime"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        ///  The number of seconds after which the action that caused the internal server
+        /// 			exception can be retried.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
         }
     }
 
@@ -3520,6 +3575,27 @@ extension DevOpsGuru {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        ///  The ID of the Amazon Web Services resource that could not be found.
+        public let resourceId: String
+        ///  The type of the Amazon Web Services resource that could not be found.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct SearchInsightsFilters: AWSEncodableShape {
         public let resourceCollection: ResourceCollection?
         /// A collection of the names of Amazon Web Services services.
@@ -4051,6 +4127,40 @@ extension DevOpsGuru {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        ///  The code of the quota that was exceeded, causing the throttling exception.
+        public let quotaCode: String?
+        ///  The number of seconds after which the action that caused the throttling exception can
+        /// 			be retried.
+        public let retryAfterSeconds: Int?
+        ///  The code of the service that caused the throttling exception.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
     public struct TimestampMetricValuePair: AWSDecodableShape {
         /// Value of the anomalous metric data point at respective Timestamp.
         public let metricValue: Double?
@@ -4258,6 +4368,46 @@ extension DevOpsGuru {
             case tagValues = "TagValues"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        public let fields: [ValidationExceptionField]?
+        ///  A message that describes the validation exception.
+        public let message: String
+        ///  The reason the validation exception was thrown.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        ///  The message associated with the validation exception with information to help
+        /// 			determine its cause.
+        public let message: String
+        ///  The name of the field.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case name = "Name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -4310,6 +4460,16 @@ public struct DevOpsGuruErrorType: AWSErrorType {
     ///  Contains information about data passed in to a field during a request that is not
     /// 			valid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension DevOpsGuruErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": DevOpsGuru.ConflictException.self,
+        "InternalServerException": DevOpsGuru.InternalServerException.self,
+        "ResourceNotFoundException": DevOpsGuru.ResourceNotFoundException.self,
+        "ThrottlingException": DevOpsGuru.ThrottlingException.self,
+        "ValidationException": DevOpsGuru.ValidationException.self
+    ]
 }
 
 extension DevOpsGuruErrorType: Equatable {

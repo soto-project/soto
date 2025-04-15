@@ -86,6 +86,23 @@ extension IoTJobsDataPlane {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// A conflict occurred while performing the API request on the resource ID.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+        }
+    }
+
     public struct DescribeJobExecutionRequest: AWSEncodableShape {
         /// Optional. A number that identifies a particular job execution on a particular device. If not specified, the latest job execution is returned.
         public let executionNumber: Int64?
@@ -404,6 +421,24 @@ extension IoTJobsDataPlane {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        /// The message associated with the exception.
+        public let message: String?
+        /// The payload associated with the exception.
+        public let payload: AWSBase64Data?
+
+        @inlinable
+        public init(message: String? = nil, payload: AWSBase64Data? = nil) {
+            self.message = message
+            self.payload = payload
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case payload = "payload"
+        }
+    }
+
     public struct UpdateJobExecutionRequest: AWSEncodableShape {
         /// Optional. A number that identifies a particular job execution on a particular device.
         public let executionNumber: Int64?
@@ -555,6 +590,13 @@ public struct IoTJobsDataPlaneErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// A validation error occurred when performing the API request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension IoTJobsDataPlaneErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": IoTJobsDataPlane.ConflictException.self,
+        "ThrottlingException": IoTJobsDataPlane.ThrottlingException.self
+    ]
 }
 
 extension IoTJobsDataPlaneErrorType: Equatable {

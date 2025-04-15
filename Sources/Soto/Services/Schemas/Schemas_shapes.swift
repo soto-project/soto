@@ -47,6 +47,42 @@ extension Schemas {
 
     // MARK: Shapes
 
+    public struct BadRequestException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct CreateDiscovererRequest: AWSEncodableShape {
         /// Support discovery of schemas in events sent to the bus from another account. (default: true).
         public let crossAccount: Bool?
@@ -690,6 +726,24 @@ extension Schemas {
         }
     }
 
+    public struct ForbiddenException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct GetCodeBindingSourceRequest: AWSEncodableShape {
         /// The language of the code binding.
         public let language: String
@@ -811,6 +865,42 @@ extension Schemas {
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
             case revisionId = "RevisionId"
+        }
+    }
+
+    public struct GoneException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct InternalServerErrorException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -1030,6 +1120,42 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct NotFoundException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct PreconditionFailedException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -1313,6 +1439,24 @@ extension Schemas {
         }
     }
 
+    public struct ServiceUnavailableException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
     public struct StartDiscovererRequest: AWSEncodableShape {
         /// The ID of the discoverer.
         public let discovererId: String
@@ -1406,6 +1550,42 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "tags"
+        }
+    }
+
+    public struct TooManyRequestsException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct UnauthorizedException: AWSErrorShape {
+        /// The error code.
+        public let code: String?
+        /// The message string of the error output.
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
         }
     }
 
@@ -1695,6 +1875,21 @@ public struct SchemasErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension SchemasErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": Schemas.BadRequestException.self,
+        "ConflictException": Schemas.ConflictException.self,
+        "ForbiddenException": Schemas.ForbiddenException.self,
+        "GoneException": Schemas.GoneException.self,
+        "InternalServerErrorException": Schemas.InternalServerErrorException.self,
+        "NotFoundException": Schemas.NotFoundException.self,
+        "PreconditionFailedException": Schemas.PreconditionFailedException.self,
+        "ServiceUnavailableException": Schemas.ServiceUnavailableException.self,
+        "TooManyRequestsException": Schemas.TooManyRequestsException.self,
+        "UnauthorizedException": Schemas.UnauthorizedException.self
+    ]
 }
 
 extension SchemasErrorType: Equatable {

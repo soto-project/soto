@@ -923,6 +923,27 @@ extension EntityResolution {
         }
     }
 
+    public struct ExceedsLimitException: AWSErrorShape {
+        public let message: String?
+        /// The name of the quota that has been breached.
+        public let quotaName: String?
+        /// The current quota value for the customers.
+        public let quotaValue: Int?
+
+        @inlinable
+        public init(message: String? = nil, quotaName: String? = nil, quotaValue: Int? = nil) {
+            self.message = message
+            self.quotaName = quotaName
+            self.quotaValue = quotaValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaName = "quotaName"
+            case quotaValue = "quotaValue"
+        }
+    }
+
     public struct GetIdMappingJobInput: AWSEncodableShape {
         /// The ID of the job.
         public let jobId: String
@@ -3484,6 +3505,12 @@ public struct EntityResolutionErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by Entity Resolution.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension EntityResolutionErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ExceedsLimitException": EntityResolution.ExceedsLimitException.self
+    ]
 }
 
 extension EntityResolutionErrorType: Equatable {

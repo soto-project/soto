@@ -906,6 +906,35 @@ extension ECRPublic {
         }
     }
 
+    public struct InvalidLayerPartException: AWSErrorShape {
+        /// The position of the last byte of the layer part.
+        public let lastValidByteReceived: Int64?
+        public let message: String?
+        /// The Amazon Web Services account ID that's associated with the layer part.
+        public let registryId: String?
+        /// The name of the repository.
+        public let repositoryName: String?
+        /// The upload ID that's associated with the layer part.
+        public let uploadId: String?
+
+        @inlinable
+        public init(lastValidByteReceived: Int64? = nil, message: String? = nil, registryId: String? = nil, repositoryName: String? = nil, uploadId: String? = nil) {
+            self.lastValidByteReceived = lastValidByteReceived
+            self.message = message
+            self.registryId = registryId
+            self.repositoryName = repositoryName
+            self.uploadId = uploadId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastValidByteReceived = "lastValidByteReceived"
+            case message = "message"
+            case registryId = "registryId"
+            case repositoryName = "repositoryName"
+            case uploadId = "uploadId"
+        }
+    }
+
     public struct Layer: AWSDecodableShape {
         /// The availability status of the image layer.
         public let layerAvailability: LayerAvailability?
@@ -1655,6 +1684,12 @@ public struct ECRPublicErrorType: AWSErrorType {
     public static var unsupportedCommandException: Self { .init(.unsupportedCommandException) }
     /// The upload can't be found, or the specified upload ID isn't valid for this repository.
     public static var uploadNotFoundException: Self { .init(.uploadNotFoundException) }
+}
+
+extension ECRPublicErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InvalidLayerPartException": ECRPublic.InvalidLayerPartException.self
+    ]
 }
 
 extension ECRPublicErrorType: Equatable {

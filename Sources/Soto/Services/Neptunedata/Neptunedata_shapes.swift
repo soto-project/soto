@@ -119,6 +119,72 @@ extension Neptunedata {
 
     // MARK: Shapes
 
+    public struct AccessDeniedException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct BadRequestException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the bad request.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct BulkLoadIdNotFoundException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The bulk-load job ID that could not be found.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
     public struct CancelGremlinQueryInput: AWSEncodableShape {
         /// The unique identifier that identifies the query to be canceled.
         public let queryId: String
@@ -340,6 +406,94 @@ extension Neptunedata {
         private enum CodingKeys: String, CodingKey {
             case payload = "payload"
             case status = "status"
+        }
+    }
+
+    public struct CancelledByUserException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct ClientTimeoutException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct ConcurrentModificationException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct ConstraintViolationException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
         }
     }
 
@@ -820,6 +974,50 @@ extension Neptunedata {
 
         private enum CodingKeys: String, CodingKey {
             case results = "results"
+        }
+    }
+
+    public struct ExpiredStreamException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct FailureByQueryException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
         }
     }
 
@@ -1528,6 +1726,116 @@ extension Neptunedata {
         }
     }
 
+    public struct IllegalArgumentException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct InternalFailureException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct InvalidArgumentException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct InvalidNumericDataException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct InvalidParameterException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request that includes an invalid parameter.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
     public struct ListGremlinQueriesInput: AWSEncodableShape {
         /// If set to TRUE, the list returned includes waiting queries. The default is FALSE;
         public let includeWaiting: Bool?
@@ -1812,6 +2120,28 @@ extension Neptunedata {
         }
     }
 
+    public struct LoadUrlAccessDeniedException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
     public struct LoaderIdResult: AWSDecodableShape {
         /// A list of load IDs.
         public let loadIds: [String]?
@@ -1823,6 +2153,50 @@ extension Neptunedata {
 
         private enum CodingKeys: String, CodingKey {
             case loadIds = "loadIds"
+        }
+    }
+
+    public struct MLResourceNotFoundException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct MalformedQueryException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the malformed query request.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
         }
     }
 
@@ -1887,6 +2261,72 @@ extension Neptunedata {
         private enum CodingKeys: String, CodingKey {
             case payload = "payload"
             case status = "status"
+        }
+    }
+
+    public struct MemoryLimitExceededException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request that failed.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct MethodNotAllowedException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct MissingParameterException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in which the parameter is missing.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
         }
     }
 
@@ -1961,6 +2401,50 @@ extension Neptunedata {
             case count = "count"
             case distinctOutgoingEdgeLabels = "distinctOutgoingEdgeLabels"
             case nodeProperties = "nodeProperties"
+        }
+    }
+
+    public struct ParsingException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct PreconditionsFailedException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
         }
     }
 
@@ -2156,6 +2640,72 @@ extension Neptunedata {
         }
     }
 
+    public struct QueryLimitExceededException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request which exceeded the limit.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct QueryLimitException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request that exceeded the limit.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct QueryTooLargeException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request that is too large.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
     public struct RDFGraphSummary: AWSDecodableShape {
         /// A list of the classes in the graph.
         public let classes: [String]?
@@ -2216,6 +2766,28 @@ extension Neptunedata {
         }
     }
 
+    public struct ReadOnlyViolationException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in which the parameter is missing.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
     public struct RefreshStatisticsIdMap: AWSDecodableShape {
         /// The ID of the statistics generation run that is currently occurring.
         public let statisticsId: String?
@@ -2227,6 +2799,50 @@ extension Neptunedata {
 
         private enum CodingKeys: String, CodingKey {
             case statisticsId = "statisticsId"
+        }
+    }
+
+    public struct S3Exception: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct ServerShutdownException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
         }
     }
 
@@ -2668,6 +3284,28 @@ extension Neptunedata {
         }
     }
 
+    public struct StatisticsNotAvailableException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
     public struct StatisticsSummary: AWSDecodableShape {
         /// The total number of characteristic-set instances.
         public let instanceCount: Int?
@@ -2690,6 +3328,28 @@ extension Neptunedata {
         }
     }
 
+    public struct StreamRecordsNotFoundException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
     public struct SubjectStructure: AWSDecodableShape {
         /// Number of occurrences of this specific structure.
         public let count: Int64?
@@ -2705,6 +3365,94 @@ extension Neptunedata {
         private enum CodingKeys: String, CodingKey {
             case count = "count"
             case predicates = "predicates"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request that could not be processed for this reason.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct TimeLimitExceededException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request that could not be processed for this reason.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct TooManyRequestsException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request that could not be processed for this reason.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
+        }
+    }
+
+    public struct UnsupportedOperationException: AWSErrorShape {
+        /// The HTTP status code returned with the exception.
+        public let code: String
+        /// A detailed message describing the problem.
+        public let detailedMessage: String
+        /// The ID of the request in question.
+        public let requestId: String
+
+        @inlinable
+        public init(code: String, detailedMessage: String, requestId: String) {
+            self.code = code
+            self.detailedMessage = detailedMessage
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case detailedMessage = "detailedMessage"
+            case requestId = "requestId"
         }
     }
 }
@@ -2836,6 +3584,45 @@ public struct NeptunedataErrorType: AWSErrorType {
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// Raised when a request attempts to initiate an operation that is not supported.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+}
+
+extension NeptunedataErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": Neptunedata.AccessDeniedException.self,
+        "BadRequestException": Neptunedata.BadRequestException.self,
+        "BulkLoadIdNotFoundException": Neptunedata.BulkLoadIdNotFoundException.self,
+        "CancelledByUserException": Neptunedata.CancelledByUserException.self,
+        "ClientTimeoutException": Neptunedata.ClientTimeoutException.self,
+        "ConcurrentModificationException": Neptunedata.ConcurrentModificationException.self,
+        "ConstraintViolationException": Neptunedata.ConstraintViolationException.self,
+        "ExpiredStreamException": Neptunedata.ExpiredStreamException.self,
+        "FailureByQueryException": Neptunedata.FailureByQueryException.self,
+        "IllegalArgumentException": Neptunedata.IllegalArgumentException.self,
+        "InternalFailureException": Neptunedata.InternalFailureException.self,
+        "InvalidArgumentException": Neptunedata.InvalidArgumentException.self,
+        "InvalidNumericDataException": Neptunedata.InvalidNumericDataException.self,
+        "InvalidParameterException": Neptunedata.InvalidParameterException.self,
+        "LoadUrlAccessDeniedException": Neptunedata.LoadUrlAccessDeniedException.self,
+        "MLResourceNotFoundException": Neptunedata.MLResourceNotFoundException.self,
+        "MalformedQueryException": Neptunedata.MalformedQueryException.self,
+        "MemoryLimitExceededException": Neptunedata.MemoryLimitExceededException.self,
+        "MethodNotAllowedException": Neptunedata.MethodNotAllowedException.self,
+        "MissingParameterException": Neptunedata.MissingParameterException.self,
+        "ParsingException": Neptunedata.ParsingException.self,
+        "PreconditionsFailedException": Neptunedata.PreconditionsFailedException.self,
+        "QueryLimitExceededException": Neptunedata.QueryLimitExceededException.self,
+        "QueryLimitException": Neptunedata.QueryLimitException.self,
+        "QueryTooLargeException": Neptunedata.QueryTooLargeException.self,
+        "ReadOnlyViolationException": Neptunedata.ReadOnlyViolationException.self,
+        "S3Exception": Neptunedata.S3Exception.self,
+        "ServerShutdownException": Neptunedata.ServerShutdownException.self,
+        "StatisticsNotAvailableException": Neptunedata.StatisticsNotAvailableException.self,
+        "StreamRecordsNotFoundException": Neptunedata.StreamRecordsNotFoundException.self,
+        "ThrottlingException": Neptunedata.ThrottlingException.self,
+        "TimeLimitExceededException": Neptunedata.TimeLimitExceededException.self,
+        "TooManyRequestsException": Neptunedata.TooManyRequestsException.self,
+        "UnsupportedOperationException": Neptunedata.UnsupportedOperationException.self
+    ]
 }
 
 extension NeptunedataErrorType: Equatable {

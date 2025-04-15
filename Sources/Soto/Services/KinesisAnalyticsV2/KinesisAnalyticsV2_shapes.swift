@@ -4500,6 +4500,27 @@ extension KinesisAnalyticsV2 {
         public init() {}
     }
 
+    public struct UnableToDetectSchemaException: AWSErrorShape {
+        public let message: String?
+        /// Stream data that was modified by the processor specified in the InputProcessingConfiguration parameter.
+        public let processedInputRecords: [String]?
+        /// Raw stream data that was sampled to infer the schema.
+        public let rawInputRecords: [String]?
+
+        @inlinable
+        public init(message: String? = nil, processedInputRecords: [String]? = nil, rawInputRecords: [String]? = nil) {
+            self.message = message
+            self.processedInputRecords = processedInputRecords
+            self.rawInputRecords = rawInputRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case processedInputRecords = "ProcessedInputRecords"
+            case rawInputRecords = "RawInputRecords"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ARN of the Managed Service for Apache Flink application from which to remove the tags.
         public let resourceARN: String
@@ -4941,6 +4962,12 @@ public struct KinesisAnalyticsV2ErrorType: AWSErrorType {
     public static var unableToDetectSchemaException: Self { .init(.unableToDetectSchemaException) }
     /// The request was rejected because a specified parameter is not supported or a specified resource is not valid for this  operation.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+}
+
+extension KinesisAnalyticsV2ErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "UnableToDetectSchemaException": KinesisAnalyticsV2.UnableToDetectSchemaException.self
+    ]
 }
 
 extension KinesisAnalyticsV2ErrorType: Equatable {

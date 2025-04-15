@@ -10777,6 +10777,41 @@ extension BedrockAgent {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// A list of objects containing fields that caused validation errors and their corresponding validation error messages.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// A message describing why this field failed validation.
+        public let message: String
+        /// The name of the field.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct VectorIngestionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Details about how to chunk the documents in the data source. A chunk refers to an excerpt from a data source that is returned when the knowledge base that it belongs to is queried.
         public let chunkingConfiguration: ChunkingConfiguration?
@@ -11124,6 +11159,12 @@ public struct BedrockAgentErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension BedrockAgentErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ValidationException": BedrockAgent.ValidationException.self
+    ]
 }
 
 extension BedrockAgentErrorType: Equatable {

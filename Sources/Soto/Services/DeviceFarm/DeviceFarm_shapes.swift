@@ -4507,6 +4507,38 @@ extension DeviceFarm {
         }
     }
 
+    public struct TagOperationException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct TagPolicyException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource or resources to which to add tags. You can associate tags with the following Device Farm resources: PROJECT, RUN, NETWORK_PROFILE, INSTANCE_PROFILE, DEVICE_INSTANCE, SESSION, DEVICE_POOL, DEVICE, and VPCE_CONFIGURATION.
         public let resourceARN: String
@@ -4748,6 +4780,22 @@ extension DeviceFarm {
             case securityGroupIds = "securityGroupIds"
             case subnetIds = "subnetIds"
             case vpcId = "vpcId"
+        }
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
         }
     }
 
@@ -5448,6 +5496,14 @@ public struct DeviceFarmErrorType: AWSErrorType {
     public static var tagPolicyException: Self { .init(.tagPolicyException) }
     /// The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension DeviceFarmErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "TagOperationException": DeviceFarm.TagOperationException.self,
+        "TagPolicyException": DeviceFarm.TagPolicyException.self,
+        "TooManyTagsException": DeviceFarm.TooManyTagsException.self
+    ]
 }
 
 extension DeviceFarmErrorType: Equatable {

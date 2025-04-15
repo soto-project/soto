@@ -127,6 +127,17 @@ extension ChimeSDKMediaPipelines {
         public var description: String { return self.rawValue }
     }
 
+    public enum ErrorCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case badRequest = "BadRequest"
+        case forbidden = "Forbidden"
+        case notFound = "NotFound"
+        case resourceLimitExceeded = "ResourceLimitExceeded"
+        case serviceFailure = "ServiceFailure"
+        case serviceUnavailable = "ServiceUnavailable"
+        case throttling = "Throttling"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FragmentSelectorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case producerTimestamp = "ProducerTimestamp"
         case serverTimestamp = "ServerTimestamp"
@@ -640,6 +651,26 @@ extension ChimeSDKMediaPipelines {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+        /// The request ID associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct ChannelDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The channel ID.
         public let channelId: Int
@@ -815,6 +846,26 @@ extension ChimeSDKMediaPipelines {
         private enum CodingKeys: String, CodingKey {
             case mediaCapturePipelineSourceConfiguration = "MediaCapturePipelineSourceConfiguration"
             case type = "Type"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+        /// The request ID associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -1419,6 +1470,26 @@ extension ChimeSDKMediaPipelines {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ForbiddenException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+        /// The request id associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
     }
 
     public struct FragmentSelector: AWSEncodableShape & AWSDecodableShape {
@@ -2883,6 +2954,26 @@ extension ChimeSDKMediaPipelines {
         }
     }
 
+    public struct NotFoundException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+        /// The request ID associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct PostCallAnalyticsSettings: AWSEncodableShape & AWSDecodableShape {
         /// The content redaction output settings for a post-call analysis task.
         public let contentRedactionOutput: ContentRedactionOutput?
@@ -3007,6 +3098,26 @@ extension ChimeSDKMediaPipelines {
 
         private enum CodingKeys: String, CodingKey {
             case streamArn = "StreamArn"
+        }
+    }
+
+    public struct ResourceLimitExceededException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+        /// The request ID associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -3137,6 +3248,46 @@ extension ChimeSDKMediaPipelines {
             case ruleName = "RuleName"
             case sentimentType = "SentimentType"
             case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct ServiceFailureException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+        /// The request ID associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct ServiceUnavailableException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+        /// The request ID associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -3545,6 +3696,26 @@ extension ChimeSDKMediaPipelines {
         public init() {}
     }
 
+    public struct ThrottledClientException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+        /// The request ID associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct TimestampRange: AWSEncodableShape & AWSDecodableShape {
         /// The ending timestamp for the specified range.
         public let endTimestamp: Date
@@ -3574,6 +3745,26 @@ extension ChimeSDKMediaPipelines {
 
         private enum CodingKeys: String, CodingKey {
             case state = "State"
+        }
+    }
+
+    public struct UnauthorizedClientException: AWSErrorShape {
+        public let code: ErrorCode?
+        public let message: String?
+        /// The request ID associated with the call responsible for the exception.
+        public let requestId: String?
+
+        @inlinable
+        public init(code: ErrorCode? = nil, message: String? = nil, requestId: String? = nil) {
+            self.code = code
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -3954,6 +4145,20 @@ public struct ChimeSDKMediaPipelinesErrorType: AWSErrorType {
     public static var throttledClientException: Self { .init(.throttledClientException) }
     /// The client is not currently authorized to make the request.
     public static var unauthorizedClientException: Self { .init(.unauthorizedClientException) }
+}
+
+extension ChimeSDKMediaPipelinesErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": ChimeSDKMediaPipelines.BadRequestException.self,
+        "ConflictException": ChimeSDKMediaPipelines.ConflictException.self,
+        "ForbiddenException": ChimeSDKMediaPipelines.ForbiddenException.self,
+        "NotFoundException": ChimeSDKMediaPipelines.NotFoundException.self,
+        "ResourceLimitExceededException": ChimeSDKMediaPipelines.ResourceLimitExceededException.self,
+        "ServiceFailureException": ChimeSDKMediaPipelines.ServiceFailureException.self,
+        "ServiceUnavailableException": ChimeSDKMediaPipelines.ServiceUnavailableException.self,
+        "ThrottledClientException": ChimeSDKMediaPipelines.ThrottledClientException.self,
+        "UnauthorizedClientException": ChimeSDKMediaPipelines.UnauthorizedClientException.self
+    ]
 }
 
 extension ChimeSDKMediaPipelinesErrorType: Equatable {

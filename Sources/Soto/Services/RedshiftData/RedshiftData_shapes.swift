@@ -110,6 +110,23 @@ extension RedshiftData {
 
     // MARK: Shapes
 
+    public struct BatchExecuteStatementException: AWSErrorShape {
+        public let message: String
+        /// Statement identifier of the exception.
+        public let statementId: String
+
+        @inlinable
+        public init(message: String, statementId: String) {
+            self.message = message
+            self.statementId = statementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case statementId = "StatementId"
+        }
+    }
+
     public struct BatchExecuteStatementInput: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -515,6 +532,24 @@ extension RedshiftData {
             case columnList = "ColumnList"
             case nextToken = "NextToken"
             case tableName = "TableName"
+        }
+    }
+
+    public struct ExecuteStatementException: AWSErrorShape {
+        /// The exception message.
+        public let message: String
+        /// Statement identifier of the exception.
+        public let statementId: String
+
+        @inlinable
+        public init(message: String, statementId: String) {
+            self.message = message
+            self.statementId = statementId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case statementId = "StatementId"
         }
     }
 
@@ -1033,6 +1068,24 @@ extension RedshiftData {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// The exception message.
+        public let message: String
+        /// Resource identifier associated with the exception.
+        public let resourceId: String
+
+        @inlinable
+        public init(message: String, resourceId: String) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+        }
+    }
+
     public struct SqlParameter: AWSEncodableShape & AWSDecodableShape {
         /// The name of the parameter.
         public let name: String
@@ -1257,6 +1310,14 @@ public struct RedshiftDataErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The Amazon Redshift Data API operation failed due to invalid input.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension RedshiftDataErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BatchExecuteStatementException": RedshiftData.BatchExecuteStatementException.self,
+        "ExecuteStatementException": RedshiftData.ExecuteStatementException.self,
+        "ResourceNotFoundException": RedshiftData.ResourceNotFoundException.self
+    ]
 }
 
 extension RedshiftDataErrorType: Equatable {

@@ -1552,6 +1552,23 @@ extension SNS {
         public init() {}
     }
 
+    public struct VerificationException: AWSErrorShape {
+        public let message: String
+        /// The status of the verification error.
+        public let status: String
+
+        @inlinable
+        public init(message: String, status: String) {
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case status = "Status"
+        }
+    }
+
     public struct VerifySMSSandboxPhoneNumberInput: AWSEncodableShape {
         /// The OTP sent to the destination number from the CreateSMSSandBoxPhoneNumber call.
         public let oneTimePassword: String
@@ -1710,6 +1727,12 @@ public struct SNSErrorType: AWSErrorType {
     public static var validationException: Self { .init(.validationException) }
     /// Indicates that the one-time password (OTP) used for verification is invalid.
     public static var verificationException: Self { .init(.verificationException) }
+}
+
+extension SNSErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "VerificationException": SNS.VerificationException.self
+    ]
 }
 
 extension SNSErrorType: Equatable {

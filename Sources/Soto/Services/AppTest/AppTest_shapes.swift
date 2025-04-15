@@ -137,6 +137,14 @@ extension AppTest {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CloudFormationStepSummary: AWSDecodableShape, Sendable {
         /// Creates the CloudFormation summary of the step.
         case createCloudformation(CreateCloudFormationSummary)
@@ -924,6 +932,27 @@ extension AppTest {
         private enum CodingKeys: String, CodingKey {
             case stepInput = "stepInput"
             case stepOutput = "stepOutput"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The resource ID of the conflicts with existing resources.
+        public let resourceId: String?
+        /// The resource type of the conflicts with existing resources.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1789,6 +1818,29 @@ extension AppTest {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds to retry the query.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -2542,6 +2594,27 @@ extension AppTest {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The resource ID of the resource not found.
+        public let resourceId: String?
+        /// The resource type of the resource not found.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct Script: AWSEncodableShape & AWSDecodableShape {
         /// The script location of the scripts.
         public let scriptLocation: String
@@ -2579,6 +2652,35 @@ extension AppTest {
         private enum CodingKeys: String, CodingKey {
             case scriptLocation = "scriptLocation"
             case type = "type"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The quote codes of AWS Application Testing that exceeded the limit.
+        public let quotaCode: String?
+        /// The resource ID of AWS Application Testing that exceeded the limit.
+        public let resourceId: String?
+        /// The resource type of AWS Application Testing that exceeded the limit.
+        public let resourceType: String?
+        /// The service code of AWS Application Testing that exceeded the limit.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
         }
     }
 
@@ -3189,6 +3291,39 @@ extension AppTest {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The quota code of requests that exceed the limit.
+        public let quotaCode: String?
+        /// The number of seconds to retry after for requests that exceed the limit.
+        public let retryAfterSeconds: Int?
+        /// The service code of requests that exceed the limit.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -3421,6 +3556,45 @@ extension AppTest {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// The field list of the validation exception.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        /// The reason for the validation exception.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The message stating reason for why service validation failed.
+        public let message: String
+        /// The name of the validation exception field.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct File: AWSDecodableShape {
         /// The file type of the file.
         public let fileType: CompareFileType?
@@ -3538,6 +3712,17 @@ public struct AppTestErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// One or more parameter provided in the request is not valid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension AppTestErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": AppTest.ConflictException.self,
+        "InternalServerException": AppTest.InternalServerException.self,
+        "ResourceNotFoundException": AppTest.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": AppTest.ServiceQuotaExceededException.self,
+        "ThrottlingException": AppTest.ThrottlingException.self,
+        "ValidationException": AppTest.ValidationException.self
+    ]
 }
 
 extension AppTestErrorType: Equatable {

@@ -1237,6 +1237,30 @@ extension MigrationHub {
             case statusDetail = "StatusDetail"
         }
     }
+
+    public struct ThrottlingException: AWSErrorShape {
+        /// A message that provides information about the exception.
+        public let message: String
+        /// The number of seconds the caller should wait before retrying.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -1294,6 +1318,12 @@ public struct MigrationHubErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Exception raised to indicate a request was not authorized when the DryRun flag is set to "true".
     public static var unauthorizedOperation: Self { .init(.unauthorizedOperation) }
+}
+
+extension MigrationHubErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ThrottlingException": MigrationHub.ThrottlingException.self
+    ]
 }
 
 extension MigrationHubErrorType: Equatable {

@@ -1335,6 +1335,24 @@ extension Pinpoint {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        /// The message that's returned from the API.
+        public let message: String?
+        /// The unique identifier for the request or response.
+        public let requestID: String?
+
+        @inlinable
+        public init(message: String? = nil, requestID: String? = nil) {
+            self.message = message
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestID = "RequestID"
+        }
+    }
+
     public struct BaiduChannelRequest: AWSEncodableShape {
         /// The API key that you received from the Baidu Cloud Push service to communicate with the service.
         public let apiKey: String?
@@ -2000,6 +2018,24 @@ extension Pinpoint {
             case evaluationWaitTime = "EvaluationWaitTime"
             case falseActivity = "FalseActivity"
             case trueActivity = "TrueActivity"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// The message that's returned from the API.
+        public let message: String?
+        /// The unique identifier for the request or response.
+        public let requestID: String?
+
+        @inlinable
+        public init(message: String? = nil, requestID: String? = nil) {
+            self.message = message
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestID = "RequestID"
         }
     }
 
@@ -4594,6 +4630,24 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case item = "Item"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct ForbiddenException: AWSErrorShape {
+        /// The message that's returned from the API.
+        public let message: String?
+        /// The unique identifier for the request or response.
+        public let requestID: String?
+
+        @inlinable
+        public init(message: String? = nil, requestID: String? = nil) {
+            self.message = message
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestID = "RequestID"
         }
     }
 
@@ -7257,6 +7311,24 @@ extension Pinpoint {
         }
     }
 
+    public struct InternalServerErrorException: AWSErrorShape {
+        /// The message that's returned from the API.
+        public let message: String?
+        /// The unique identifier for the request or response.
+        public let requestID: String?
+
+        @inlinable
+        public init(message: String? = nil, requestID: String? = nil) {
+            self.message = message
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestID = "RequestID"
+        }
+    }
+
     public struct ItemResponse: AWSDecodableShape {
         /// The response that was received after the endpoint data was accepted.
         public let endpointItemResponse: EndpointItemResponse?
@@ -8199,6 +8271,24 @@ extension Pinpoint {
         }
     }
 
+    public struct MethodNotAllowedException: AWSErrorShape {
+        /// The message that's returned from the API.
+        public let message: String?
+        /// The unique identifier for the request or response.
+        public let requestID: String?
+
+        @inlinable
+        public init(message: String? = nil, requestID: String? = nil) {
+            self.message = message
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestID = "RequestID"
+        }
+    }
+
     public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
         /// The operator to use when comparing metric values. Valid values are: GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL, and EQUAL.
         public let comparisonOperator: String?
@@ -8254,6 +8344,24 @@ extension Pinpoint {
             case branches = "Branches"
             case defaultActivity = "DefaultActivity"
             case evaluationWaitTime = "EvaluationWaitTime"
+        }
+    }
+
+    public struct NotFoundException: AWSErrorShape {
+        /// The message that's returned from the API.
+        public let message: String?
+        /// The unique identifier for the request or response.
+        public let requestID: String?
+
+        @inlinable
+        public init(message: String? = nil, requestID: String? = nil) {
+            self.message = message
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestID = "RequestID"
         }
     }
 
@@ -8404,6 +8512,24 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case buttonAction = "ButtonAction"
             case link = "Link"
+        }
+    }
+
+    public struct PayloadTooLargeException: AWSErrorShape {
+        /// The message that's returned from the API.
+        public let message: String?
+        /// The unique identifier for the request or response.
+        public let requestID: String?
+
+        @inlinable
+        public init(message: String? = nil, requestID: String? = nil) {
+            self.message = message
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestID = "RequestID"
         }
     }
 
@@ -10090,6 +10216,24 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case item = "Item"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct TooManyRequestsException: AWSErrorShape {
+        /// The message that's returned from the API.
+        public let message: String?
+        /// The unique identifier for the request or response.
+        public let requestID: String?
+
+        @inlinable
+        public init(message: String? = nil, requestID: String? = nil) {
+            self.message = message
+            self.requestID = requestID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestID = "RequestID"
         }
     }
 
@@ -11797,6 +11941,19 @@ public struct PinpointErrorType: AWSErrorType {
     public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
     /// Provides information about an API request or response.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension PinpointErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": Pinpoint.BadRequestException.self,
+        "ConflictException": Pinpoint.ConflictException.self,
+        "ForbiddenException": Pinpoint.ForbiddenException.self,
+        "InternalServerErrorException": Pinpoint.InternalServerErrorException.self,
+        "MethodNotAllowedException": Pinpoint.MethodNotAllowedException.self,
+        "NotFoundException": Pinpoint.NotFoundException.self,
+        "PayloadTooLargeException": Pinpoint.PayloadTooLargeException.self,
+        "TooManyRequestsException": Pinpoint.TooManyRequestsException.self
+    ]
 }
 
 extension PinpointErrorType: Equatable {

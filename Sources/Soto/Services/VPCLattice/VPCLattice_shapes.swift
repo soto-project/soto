@@ -278,6 +278,14 @@ extension VPCLattice {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HeaderMatchType: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// A contains type match.
         case contains(String)
@@ -628,6 +636,27 @@ extension VPCLattice {
         private enum CodingKeys: String, CodingKey {
             case successful = "successful"
             case unsuccessful = "unsuccessful"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The resource ID.
+        public let resourceId: String
+        /// The resource type.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -3504,6 +3533,29 @@ extension VPCLattice {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds to wait before retrying.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct IpResource: AWSEncodableShape & AWSDecodableShape {
         /// The IP address of the IP resource.
         public let ipAddress: String?
@@ -4714,6 +4766,27 @@ extension VPCLattice {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The resource ID.
+        public let resourceId: String
+        /// The resource type.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct RuleSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
@@ -5119,6 +5192,35 @@ extension VPCLattice {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The ID of the service quota that was exceeded.
+        public let quotaCode: String
+        /// The resource ID.
+        public let resourceId: String?
+        /// The resource type.
+        public let resourceType: String
+        /// The service code.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String? = nil, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct ServiceSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the service.
         public let arn: String?
@@ -5399,6 +5501,39 @@ extension VPCLattice {
             case port = "port"
             case reasonCode = "reasonCode"
             case status = "status"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The ID of the service quota that was exceeded.
+        public let quotaCode: String?
+        /// The number of seconds to wait before retrying.
+        public let retryAfterSeconds: Int?
+        /// The service code.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
         }
     }
 
@@ -6111,6 +6246,45 @@ extension VPCLattice {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// The fields that failed validation.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        /// The reason.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// Additional information about why the validation failed.
+        public let message: String
+        /// The name of the validation exception.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct WeightedTargetGroup: AWSEncodableShape & AWSDecodableShape {
         /// The ID or ARN of the target group.
         public let targetGroupIdentifier: String
@@ -6221,6 +6395,17 @@ public struct VPCLatticeErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input does not satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension VPCLatticeErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": VPCLattice.ConflictException.self,
+        "InternalServerException": VPCLattice.InternalServerException.self,
+        "ResourceNotFoundException": VPCLattice.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": VPCLattice.ServiceQuotaExceededException.self,
+        "ThrottlingException": VPCLattice.ThrottlingException.self,
+        "ValidationException": VPCLattice.ValidationException.self
+    ]
 }
 
 extension VPCLatticeErrorType: Equatable {

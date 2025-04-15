@@ -411,6 +411,28 @@ extension LexRuntimeService {
         }
     }
 
+    public struct LimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let retryAfterSeconds: String?
+
+        @inlinable
+        public init(message: String? = nil, retryAfterSeconds: String? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct PostContentRequest: AWSEncodableShape {
         public static let _options: AWSShapeOptions = [.allowStreaming, .allowChunkedStreaming]
         ///  You pass this value as the Accept HTTP header.  The message Amazon Lex returns in the response can be either text or speech based on the Accept HTTP header value in the request.    If the value is text/plain; charset=utf-8, Amazon Lex returns text in the response.    If the value begins with audio/, Amazon Lex returns speech in the response. Amazon Lex uses Amazon Polly to generate the speech (using the configuration you specified in the Accept header). For example, if you specify audio/mpeg as the value, Amazon Lex returns speech in the MPEG format.   If the value is audio/pcm, the speech returned is audio/pcm in 16-bit, little endian format.    The following are the accepted values:   audio/mpeg   audio/ogg   audio/pcm   text/plain; charset=utf-8   audio/* (defaults to mpeg)
@@ -971,6 +993,12 @@ public struct LexRuntimeServiceErrorType: AWSErrorType {
     public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
     /// The Content-Type header (PostContent API) has an invalid value.
     public static var unsupportedMediaTypeException: Self { .init(.unsupportedMediaTypeException) }
+}
+
+extension LexRuntimeServiceErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "LimitExceededException": LexRuntimeService.LimitExceededException.self
+    ]
 }
 
 extension LexRuntimeServiceErrorType: Equatable {

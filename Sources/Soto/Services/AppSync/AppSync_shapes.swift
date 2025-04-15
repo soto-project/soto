@@ -82,6 +82,11 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum BadRequestReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case codeError = "CODE_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CacheHealthMetricsConfig: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -660,6 +665,39 @@ extension AppSync {
         private enum CodingKeys: String, CodingKey {
             case signingRegion = "signingRegion"
             case signingServiceName = "signingServiceName"
+        }
+    }
+
+    public struct BadRequestDetail: AWSDecodableShape {
+        /// Contains the list of errors in the request.
+        public let codeErrors: [CodeError]?
+
+        @inlinable
+        public init(codeErrors: [CodeError]? = nil) {
+            self.codeErrors = codeErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeErrors = "codeErrors"
+        }
+    }
+
+    public struct BadRequestException: AWSErrorShape {
+        public let detail: BadRequestDetail?
+        public let message: String?
+        public let reason: BadRequestReason?
+
+        @inlinable
+        public init(detail: BadRequestDetail? = nil, message: String? = nil, reason: BadRequestReason? = nil) {
+            self.detail = detail
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detail = "detail"
+            case message = "message"
+            case reason = "reason"
         }
     }
 
@@ -5526,6 +5564,12 @@ public struct AppSyncErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// You aren't authorized to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension AppSyncErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": AppSync.BadRequestException.self
+    ]
 }
 
 extension AppSyncErrorType: Equatable {

@@ -48,6 +48,17 @@ extension PcaConnectorScep {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case caCertValidityTooShort = "CA_CERT_VALIDITY_TOO_SHORT"
+        case invalidCaUsageMode = "INVALID_CA_USAGE_MODE"
+        case invalidConnectorType = "INVALID_CONNECTOR_TYPE"
+        case invalidState = "INVALID_STATE"
+        case noClientToken = "NO_CLIENT_TOKEN"
+        case other = "OTHER"
+        case unknownOperation = "UNKNOWN_OPERATION"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct Challenge: AWSDecodableShape {
@@ -129,6 +140,27 @@ extension PcaConnectorScep {
             case connectorArn = "ConnectorArn"
             case createdAt = "CreatedAt"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The identifier of the Amazon Web Services resource.
+        public let resourceId: String
+        /// The resource type, which can be either Connector or Challenge.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -673,6 +705,52 @@ extension PcaConnectorScep {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The identifier of the Amazon Web Services resource.
+        public let resourceId: String
+        /// The resource type, which can be either Connector or Challenge.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The quota identifier.
+        public let quotaCode: String
+        /// The resource type, which can be either Connector or Challenge.
+        public let resourceType: String
+        /// Identifies the originating service.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case resourceType = "ResourceType"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
@@ -717,6 +795,23 @@ extension PcaConnectorScep {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        public let message: String
+        /// The reason for the validation error, if available. The service doesn't return a reason for every validation exception.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(message: String, reason: ValidationExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
     }
 
     public struct MobileDeviceManagement: AWSEncodableShape & AWSDecodableShape {
@@ -787,6 +882,15 @@ public struct PcaConnectorScepErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// An input validation error occurred. For example, invalid characters in a name tag, or an invalid pagination token.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension PcaConnectorScepErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": PcaConnectorScep.ConflictException.self,
+        "ResourceNotFoundException": PcaConnectorScep.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": PcaConnectorScep.ServiceQuotaExceededException.self,
+        "ValidationException": PcaConnectorScep.ValidationException.self
+    ]
 }
 
 extension PcaConnectorScepErrorType: Equatable {

@@ -13653,6 +13653,29 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// The number of seconds after which the user can invoke the API again.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String? = nil, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct TranscriptFilter: AWSEncodableShape & AWSDecodableShape {
         /// The object representing the filter that Amazon Lex will use to select the appropriate transcript when the transcript format is the Amazon Lex format.
         public let lexTranscriptFilter: LexTranscriptFilter?
@@ -15420,6 +15443,12 @@ public struct LexModelsV2ErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension LexModelsV2ErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ThrottlingException": LexModelsV2.ThrottlingException.self
+    ]
 }
 
 extension LexModelsV2ErrorType: Equatable {

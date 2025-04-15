@@ -742,6 +742,48 @@ extension QApps {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The unique identifier of the resource
+        public let resourceId: String
+        /// The type of the resource
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ContentTooLargeException: AWSErrorShape {
+        public let message: String
+        /// The unique identifier of the resource
+        public let resourceId: String
+        /// The type of the resource
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ConversationMessage: AWSEncodableShape {
         /// The text content of the conversation message.
         public let body: String
@@ -1822,6 +1864,29 @@ extension QApps {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds to wait before retrying the operation
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct LibraryItemMember: AWSDecodableShape {
         /// The unique identifier of the Q App associated with the library item.
         public let appId: String
@@ -2436,6 +2501,56 @@ extension QApps {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The unique identifier of the resource
+        public let resourceId: String
+        /// The type of the resource
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The code of the quota that was exceeded
+        public let quotaCode: String
+        /// The unique identifier of the resource
+        public let resourceId: String
+        /// The type of the resource
+        public let resourceType: String
+        /// The code for the service where the quota was exceeded
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct SessionSharingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether an Q App session can accept responses from users.
         public let acceptResponses: Bool?
@@ -2710,6 +2825,39 @@ extension QApps {
             case placeholder = "placeholder"
             case title = "title"
             case type = "type"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The code of the quota that was exceeded
+        public let quotaCode: String
+        /// The number of seconds to wait before retrying the operation
+        public let retryAfterSeconds: Int?
+        /// The code for the service where the quota was exceeded
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, retryAfterSeconds: Int? = nil, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decode(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decode(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
         }
     }
 
@@ -3287,6 +3435,17 @@ public struct QAppsErrorType: AWSErrorType {
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// The input failed to satisfy the constraints specified by the service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension QAppsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": QApps.ConflictException.self,
+        "ContentTooLargeException": QApps.ContentTooLargeException.self,
+        "InternalServerException": QApps.InternalServerException.self,
+        "ResourceNotFoundException": QApps.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": QApps.ServiceQuotaExceededException.self,
+        "ThrottlingException": QApps.ThrottlingException.self
+    ]
 }
 
 extension QAppsErrorType: Equatable {

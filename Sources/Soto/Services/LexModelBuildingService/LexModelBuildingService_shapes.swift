@@ -146,6 +146,14 @@ extension LexModelBuildingService {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReferenceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bot = "Bot"
+        case botalias = "BotAlias"
+        case botchannel = "BotChannel"
+        case intent = "Intent"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case bot = "BOT"
         case intent = "INTENT"
@@ -2547,6 +2555,28 @@ extension LexModelBuildingService {
         }
     }
 
+    public struct LimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let retryAfterSeconds: String?
+
+        @inlinable
+        public init(message: String? = nil, retryAfterSeconds: String? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
         public let resourceArn: String
@@ -3469,6 +3499,40 @@ extension LexModelBuildingService {
         }
     }
 
+    public struct ResourceInUseException: AWSErrorShape {
+        public let exampleReference: ResourceReference?
+        public let referenceType: ReferenceType?
+
+        @inlinable
+        public init(exampleReference: ResourceReference? = nil, referenceType: ReferenceType? = nil) {
+            self.exampleReference = exampleReference
+            self.referenceType = referenceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exampleReference = "exampleReference"
+            case referenceType = "referenceType"
+        }
+    }
+
+    public struct ResourceReference: AWSDecodableShape {
+        /// The name of the resource that is using the resource that you are trying to delete.
+        public let name: String?
+        /// The version of the resource that is using the resource that you are trying to delete.
+        public let version: String?
+
+        @inlinable
+        public init(name: String? = nil, version: String? = nil) {
+            self.name = name
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case version = "version"
+        }
+    }
+
     public struct Slot: AWSEncodableShape & AWSDecodableShape {
         /// A list of default values for the slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, session attributes, and defined values.
         public let defaultValueSpec: SlotDefaultValueSpec?
@@ -4035,6 +4099,13 @@ public struct LexModelBuildingServiceErrorType: AWSErrorType {
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
     /// The resource that you are attempting to delete is referred to by another resource. Use this information to remove references to the resource that you are trying to delete. The body of the exception contains a JSON object that describes the resource.  { "resourceType": BOT | BOTALIAS | BOTCHANNEL | INTENT,   "resourceReference": {   "name": string, "version": string } }
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+}
+
+extension LexModelBuildingServiceErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "LimitExceededException": LexModelBuildingService.LimitExceededException.self,
+        "ResourceInUseException": LexModelBuildingService.ResourceInUseException.self
+    ]
 }
 
 extension LexModelBuildingServiceErrorType: Equatable {

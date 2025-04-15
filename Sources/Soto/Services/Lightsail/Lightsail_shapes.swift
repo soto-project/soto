@@ -828,6 +828,28 @@ extension Lightsail {
 
     // MARK: Shapes
 
+    public struct AccessDeniedException: AWSErrorShape {
+        public let code: String?
+        public let docs: String?
+        public let message: String?
+        public let tip: String?
+
+        @inlinable
+        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+            self.code = code
+            self.docs = docs
+            self.message = message
+            self.tip = tip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case docs = "docs"
+            case message = "message"
+            case tip = "tip"
+        }
+    }
+
     public struct AccessKey: AWSDecodableShape {
         /// The ID of the access key.
         public let accessKeyId: String?
@@ -921,6 +943,28 @@ extension Lightsail {
             case lastSyncedAt = "lastSyncedAt"
             case message = "message"
             case status = "status"
+        }
+    }
+
+    public struct AccountSetupInProgressException: AWSErrorShape {
+        public let code: String?
+        public let docs: String?
+        public let message: String?
+        public let tip: String?
+
+        @inlinable
+        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+            self.code = code
+            self.docs = docs
+            self.message = message
+            self.tip = tip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case docs = "docs"
+            case message = "message"
+            case tip = "tip"
         }
     }
 
@@ -8316,6 +8360,28 @@ extension Lightsail {
         }
     }
 
+    public struct InvalidInputException: AWSErrorShape {
+        public let code: String?
+        public let docs: String?
+        public let message: String?
+        public let tip: String?
+
+        @inlinable
+        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+            self.code = code
+            self.docs = docs
+            self.message = message
+            self.tip = tip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case docs = "docs"
+            case message = "message"
+            case tip = "tip"
+        }
+    }
+
     public struct IsVpcPeeredRequest: AWSEncodableShape {
         public init() {}
     }
@@ -8912,6 +8978,28 @@ extension Lightsail {
         }
     }
 
+    public struct NotFoundException: AWSErrorShape {
+        public let code: String?
+        public let docs: String?
+        public let message: String?
+        public let tip: String?
+
+        @inlinable
+        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+            self.code = code
+            self.docs = docs
+            self.message = message
+            self.tip = tip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case docs = "docs"
+            case message = "message"
+            case tip = "tip"
+        }
+    }
+
     public struct OpenInstancePublicPortsRequest: AWSEncodableShape {
         /// The name of the instance for which to open ports.
         public let instanceName: String
@@ -9004,6 +9092,28 @@ extension Lightsail {
             case resourceType = "resourceType"
             case status = "status"
             case statusChangedAt = "statusChangedAt"
+        }
+    }
+
+    public struct OperationFailureException: AWSErrorShape {
+        public let code: String?
+        public let docs: String?
+        public let message: String?
+        public let tip: String?
+
+        @inlinable
+        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+            self.code = code
+            self.docs = docs
+            self.message = message
+            self.tip = tip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case docs = "docs"
+            case message = "message"
+            case tip = "tip"
         }
     }
 
@@ -10088,6 +10198,28 @@ extension Lightsail {
         }
     }
 
+    public struct ServiceException: AWSErrorShape {
+        public let code: String?
+        public let docs: String?
+        public let message: String?
+        public let tip: String?
+
+        @inlinable
+        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+            self.code = code
+            self.docs = docs
+            self.message = message
+            self.tip = tip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case docs = "docs"
+            case message = "message"
+            case tip = "tip"
+        }
+    }
+
     public struct Session: AWSDecodableShape {
         /// When true, this Boolean value indicates the primary session for the specified resource.
         public let isPrimary: Bool?
@@ -10748,6 +10880,28 @@ extension Lightsail {
         }
     }
 
+    public struct UnauthenticatedException: AWSErrorShape {
+        public let code: String?
+        public let docs: String?
+        public let message: String?
+        public let tip: String?
+
+        @inlinable
+        public init(code: String? = nil, docs: String? = nil, message: String? = nil, tip: String? = nil) {
+            self.code = code
+            self.docs = docs
+            self.message = message
+            self.tip = tip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case docs = "docs"
+            case message = "message"
+            case tip = "tip"
+        }
+    }
+
     public struct UnpeerVpcRequest: AWSEncodableShape {
         public init() {}
     }
@@ -11356,6 +11510,18 @@ public struct LightsailErrorType: AWSErrorType {
     public static var serviceException: Self { .init(.serviceException) }
     /// Lightsail throws this exception when the user has not been authenticated.
     public static var unauthenticatedException: Self { .init(.unauthenticatedException) }
+}
+
+extension LightsailErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": Lightsail.AccessDeniedException.self,
+        "AccountSetupInProgressException": Lightsail.AccountSetupInProgressException.self,
+        "InvalidInputException": Lightsail.InvalidInputException.self,
+        "NotFoundException": Lightsail.NotFoundException.self,
+        "OperationFailureException": Lightsail.OperationFailureException.self,
+        "ServiceException": Lightsail.ServiceException.self,
+        "UnauthenticatedException": Lightsail.UnauthenticatedException.self
+    ]
 }
 
 extension LightsailErrorType: Equatable {

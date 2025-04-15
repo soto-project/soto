@@ -4957,6 +4957,24 @@ extension CognitoIdentityProvider {
         }
     }
 
+    public struct InvalidParameterException: AWSErrorShape {
+        /// The message returned when the Amazon Cognito service throws an invalid parameter exception.
+        public let message: String?
+        /// The reason code of the exception.
+        public let reasonCode: String?
+
+        @inlinable
+        public init(message: String? = nil, reasonCode: String? = nil) {
+            self.message = message
+            self.reasonCode = reasonCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reasonCode = "reasonCode"
+        }
+    }
+
     public struct LambdaConfigType: AWSEncodableShape & AWSDecodableShape {
         /// The configuration of a create auth challenge Lambda trigger, one of three triggers in the sequence of the custom authentication challenge triggers.
         public let createAuthChallenge: String?
@@ -9034,6 +9052,12 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var webAuthnOriginNotAllowedException: Self { .init(.webAuthnOriginNotAllowedException) }
     /// This exception is thrown when the given passkey credential is associated with a different relying party ID than the user pool relying party ID.
     public static var webAuthnRelyingPartyMismatchException: Self { .init(.webAuthnRelyingPartyMismatchException) }
+}
+
+extension CognitoIdentityProviderErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InvalidParameterException": CognitoIdentityProvider.InvalidParameterException.self
+    ]
 }
 
 extension CognitoIdentityProviderErrorType: Equatable {

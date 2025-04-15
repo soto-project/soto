@@ -1300,6 +1300,20 @@ extension PaymentCryptography {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// The string for the exception.
+        public let resourceId: String?
+
+        @inlinable
+        public init(resourceId: String? = nil) {
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+        }
+    }
+
     public struct RestoreKeyInput: AWSEncodableShape {
         /// The KeyARN of the key to be restored within Amazon Web Services Payment Cryptography.
         public let keyIdentifier: String
@@ -1668,6 +1682,12 @@ public struct PaymentCryptographyErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request was denied due to an invalid request error.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension PaymentCryptographyErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": PaymentCryptography.ResourceNotFoundException.self
+    ]
 }
 
 extension PaymentCryptographyErrorType: Equatable {

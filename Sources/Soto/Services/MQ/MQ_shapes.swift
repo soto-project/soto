@@ -133,6 +133,24 @@ extension MQ {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        /// The attribute which caused the error.
+        public let errorAttribute: String?
+        /// The explanation of the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorAttribute: String? = nil, message: String? = nil) {
+            self.errorAttribute = errorAttribute
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorAttribute = "errorAttribute"
+            case message = "message"
+        }
+    }
+
     public struct BrokerEngineType: AWSDecodableShape {
         /// The broker's engine type.
         public let engineType: EngineType?
@@ -361,6 +379,24 @@ extension MQ {
             case current = "current"
             case history = "history"
             case pending = "pending"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// The attribute which caused the error.
+        public let errorAttribute: String?
+        /// The explanation of the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorAttribute: String? = nil, message: String? = nil) {
+            self.errorAttribute = errorAttribute
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorAttribute = "errorAttribute"
+            case message = "message"
         }
     }
 
@@ -1209,6 +1245,42 @@ extension MQ {
         }
     }
 
+    public struct ForbiddenException: AWSErrorShape {
+        /// The attribute which caused the error.
+        public let errorAttribute: String?
+        /// The explanation of the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorAttribute: String? = nil, message: String? = nil) {
+            self.errorAttribute = errorAttribute
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorAttribute = "errorAttribute"
+            case message = "message"
+        }
+    }
+
+    public struct InternalServerErrorException: AWSErrorShape {
+        /// The attribute which caused the error.
+        public let errorAttribute: String?
+        /// The explanation of the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorAttribute: String? = nil, message: String? = nil) {
+            self.errorAttribute = errorAttribute
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorAttribute = "errorAttribute"
+            case message = "message"
+        }
+    }
+
     public struct LdapServerMetadataInput: AWSEncodableShape {
         /// Specifies the location of the LDAP server such as Directory Service for Microsoft Active Directory. Optional failover server.
         public let hosts: [String]?
@@ -1601,6 +1673,24 @@ extension MQ {
         }
     }
 
+    public struct NotFoundException: AWSErrorShape {
+        /// The attribute which caused the error.
+        public let errorAttribute: String?
+        /// The explanation of the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorAttribute: String? = nil, message: String? = nil) {
+            self.errorAttribute = errorAttribute
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorAttribute = "errorAttribute"
+            case message = "message"
+        }
+    }
+
     public struct PendingLogs: AWSDecodableShape {
         /// Enables audit logging. Every user management action made using JMX or the ActiveMQ Web Console is logged.
         public let audit: Bool?
@@ -1698,6 +1788,24 @@ extension MQ {
             case attributeName = "attributeName"
             case elementName = "elementName"
             case reason = "reason"
+        }
+    }
+
+    public struct UnauthorizedException: AWSErrorShape {
+        /// The attribute which caused the error.
+        public let errorAttribute: String?
+        /// The explanation of the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorAttribute: String? = nil, message: String? = nil) {
+            self.errorAttribute = errorAttribute
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorAttribute = "errorAttribute"
+            case message = "message"
         }
     }
 
@@ -2083,6 +2191,17 @@ public struct MQErrorType: AWSErrorType {
     public static var notFoundException: Self { .init(.notFoundException) }
     /// Returns information about an error.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension MQErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": MQ.BadRequestException.self,
+        "ConflictException": MQ.ConflictException.self,
+        "ForbiddenException": MQ.ForbiddenException.self,
+        "InternalServerErrorException": MQ.InternalServerErrorException.self,
+        "NotFoundException": MQ.NotFoundException.self,
+        "UnauthorizedException": MQ.UnauthorizedException.self
+    ]
 }
 
 extension MQErrorType: Equatable {

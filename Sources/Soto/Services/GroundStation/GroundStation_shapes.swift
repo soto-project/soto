@@ -1274,6 +1274,22 @@ extension GroundStation {
         }
     }
 
+    public struct DependencyException: AWSErrorShape {
+        public let message: String?
+        public let parameterName: String?
+
+        @inlinable
+        public init(message: String? = nil, parameterName: String? = nil) {
+            self.message = message
+            self.parameterName = parameterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case parameterName = "parameterName"
+        }
+    }
+
     public struct DescribeContactRequest: AWSEncodableShape {
         /// UUID of a contact.
         public let contactId: String
@@ -2110,6 +2126,22 @@ extension GroundStation {
         }
     }
 
+    public struct InvalidParameterException: AWSErrorShape {
+        public let message: String?
+        public let parameterName: String?
+
+        @inlinable
+        public init(message: String? = nil, parameterName: String? = nil) {
+            self.message = message
+            self.parameterName = parameterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case parameterName = "parameterName"
+        }
+    }
+
     public struct ListConfigsRequest: AWSEncodableShape {
         /// Maximum number of Configs returned.
         public let maxResults: Int?
@@ -2724,6 +2756,22 @@ extension GroundStation {
             case satelliteArn = "satelliteArn"
             case startTime = "startTime"
             case tags = "tags"
+        }
+    }
+
+    public struct ResourceLimitExceededException: AWSErrorShape {
+        public let message: String?
+        public let parameterName: String?
+
+        @inlinable
+        public init(message: String? = nil, parameterName: String? = nil) {
+            self.message = message
+            self.parameterName = parameterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case parameterName = "parameterName"
         }
     }
 
@@ -3389,6 +3437,14 @@ public struct GroundStationErrorType: AWSErrorType {
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
     /// Resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension GroundStationErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "DependencyException": GroundStation.DependencyException.self,
+        "InvalidParameterException": GroundStation.InvalidParameterException.self,
+        "ResourceLimitExceededException": GroundStation.ResourceLimitExceededException.self
+    ]
 }
 
 extension GroundStationErrorType: Equatable {

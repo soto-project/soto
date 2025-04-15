@@ -70,6 +70,15 @@ extension LookoutVision {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataset = "DATASET"
+        case model = "MODEL"
+        case modelPackageJob = "MODEL_PACKAGE_JOB"
+        case project = "PROJECT"
+        case trial = "TRIAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetDevice: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case jetsonXavier = "jetson_xavier"
         public var description: String { return self.rawValue }
@@ -108,6 +117,27 @@ extension LookoutVision {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case pixelAnomaly = "PixelAnomaly"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The type of the resource.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -952,6 +982,29 @@ extension LookoutVision {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String?
+        /// The period of time, in seconds, before the operation can be retried.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String? = nil, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct ListDatasetEntriesRequest: AWSEncodableShape {
         /// Only includes entries after the specified date in the response. For example, 2020-06-23T00:00:00.
         public let afterCreationDate: Date?
@@ -1592,6 +1645,27 @@ extension LookoutVision {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The type of the resource.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
         /// The S3 bucket that contains the training or model packaging job output. If you are training a model, the bucket must in your AWS account. If you use an S3 bucket for a model packaging job, the S3 bucket must be in the same AWS Region and AWS account in which you use AWS IoT Greengrass.
         public let bucket: String?
@@ -1615,6 +1689,35 @@ extension LookoutVision {
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case prefix = "Prefix"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String?
+        /// The quota code.
+        public let quotaCode: String?
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The type of the resource.
+        public let resourceType: ResourceType?
+        /// The service code.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case serviceCode = "ServiceCode"
         }
     }
 
@@ -1896,6 +1999,39 @@ extension LookoutVision {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// The quota code.
+        public let quotaCode: String?
+        /// The period of time, in seconds, before the operation can be retried.
+        public let retryAfterSeconds: Int?
+        /// The service code.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String? = nil, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the model from which you want to remove tags.
         public let resourceArn: String
@@ -2040,6 +2176,16 @@ public struct LookoutVisionErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// An input validation error occured. For example, invalid characters in a project name, or if a pagination token is invalid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension LookoutVisionErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": LookoutVision.ConflictException.self,
+        "InternalServerException": LookoutVision.InternalServerException.self,
+        "ResourceNotFoundException": LookoutVision.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": LookoutVision.ServiceQuotaExceededException.self,
+        "ThrottlingException": LookoutVision.ThrottlingException.self
+    ]
 }
 
 extension LookoutVisionErrorType: Equatable {

@@ -1271,6 +1271,24 @@ extension Keyspaces {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// Description of the error.
+        public let message: String?
+        /// The unique identifier in the format of Amazon Resource Name (ARN) for the resource couldn’t be found.
+        public let resourceArn: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceArn: String? = nil) {
+            self.message = message
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceArn = "resourceArn"
+        }
+    }
+
     public struct RestoreTableRequest: AWSEncodableShape {
         /// The optional auto scaling settings for the restored table in provisioned capacity mode.  Specifies if the service can manage throughput capacity of a provisioned table  automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing  your table's read and write capacity automatically in response to application traffic. For more information, see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
         public let autoScalingSpecification: AutoScalingSpecification?
@@ -1736,6 +1754,12 @@ public struct KeyspacesErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The operation failed due to an invalid or malformed request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension KeyspacesErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": Keyspaces.ResourceNotFoundException.self
+    ]
 }
 
 extension KeyspacesErrorType: Equatable {

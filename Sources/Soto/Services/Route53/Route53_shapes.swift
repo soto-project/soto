@@ -3537,6 +3537,25 @@ extension Route53 {
         }
     }
 
+    public struct InvalidChangeBatch: AWSErrorShape {
+        public struct _messagesEncoding: ArrayCoderProperties { public static let member = "Message" }
+
+        public let message: String?
+        @OptionalCustomCoding<ArrayCoder<_messagesEncoding, String>>
+        public var messages: [String]?
+
+        @inlinable
+        public init(message: String? = nil, messages: [String]? = nil) {
+            self.message = message
+            self.messages = messages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case messages = "messages"
+        }
+    }
+
     public struct KeySigningKey: AWSDecodableShape {
         /// The date when the key-signing key (KSK) was created.
         public let createdDate: Date?
@@ -6682,6 +6701,12 @@ public struct Route53ErrorType: AWSErrorType {
     public static var vpcAssociationAuthorizationNotFound: Self { .init(.vpcAssociationAuthorizationNotFound) }
     /// The specified VPC and hosted zone are not currently associated.
     public static var vpcAssociationNotFound: Self { .init(.vpcAssociationNotFound) }
+}
+
+extension Route53ErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InvalidChangeBatch": Route53.InvalidChangeBatch.self
+    ]
 }
 
 extension Route53ErrorType: Equatable {

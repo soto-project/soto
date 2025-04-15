@@ -767,6 +767,13 @@ extension Inspector2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "CANNOT_PARSE"
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VulnerabilitySource: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case nvd = "NVD"
         public var description: String { return self.rawValue }
@@ -2595,6 +2602,27 @@ extension Inspector2 {
             case product = "product"
             case vendor = "vendor"
             case version = "version"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The ID of the conflicting resource.
+        public let resourceId: String
+        /// The type of the conflicting resource.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -5163,6 +5191,29 @@ extension Inspector2 {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds to wait before retrying the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct LambdaFunctionAggregation: AWSEncodableShape {
         /// The Amazon Web Services Lambda function names to include in the aggregation results.
         public let functionNames: [StringFilter]?
@@ -7133,6 +7184,23 @@ extension Inspector2 {
         public init() {}
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource that exceeds a service quota.
+        public let resourceId: String
+
+        @inlinable
+        public init(message: String, resourceId: String) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+        }
+    }
+
     public struct SeverityCounts: AWSDecodableShape {
         /// The total count of findings from all severities.
         public let all: Int64?
@@ -7527,6 +7595,29 @@ extension Inspector2 {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds to wait before retrying the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
     }
 
     public struct Time: AWSEncodableShape & AWSDecodableShape {
@@ -8014,6 +8105,45 @@ extension Inspector2 {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// The fields that failed validation.
+        public let fields: [ValidationExceptionField]?
+        public let message: String
+        /// The reason for the validation failure.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "fields"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The validation exception message.
+        public let message: String
+        /// The name of the validation exception.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct Vulnerability: AWSDecodableShape {
         /// An object that contains information about the Amazon Web Services Threat Intel Group (ATIG) details for the vulnerability.
         public let atigData: AtigData?
@@ -8220,6 +8350,16 @@ public struct Inspector2ErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request has failed validation due to missing required fields or having invalid inputs.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension Inspector2ErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Inspector2.ConflictException.self,
+        "InternalServerException": Inspector2.InternalServerException.self,
+        "ServiceQuotaExceededException": Inspector2.ServiceQuotaExceededException.self,
+        "ThrottlingException": Inspector2.ThrottlingException.self,
+        "ValidationException": Inspector2.ValidationException.self
+    ]
 }
 
 extension Inspector2ErrorType: Equatable {

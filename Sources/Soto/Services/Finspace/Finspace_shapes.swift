@@ -345,6 +345,23 @@ extension Finspace {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// The reason for the conflict exception.
+        public let reason: String?
+
+        @inlinable
+        public init(message: String? = nil, reason: String? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
     public struct CreateEnvironmentRequest: AWSEncodableShape {
         /// The list of Amazon Resource Names (ARN) of the data bundles to install. Currently supported data bundle ARNs:    arn:aws:finspace:${Region}::data-bundle/capital-markets-sample - Contains sample Capital Markets datasets, categories and controlled vocabularies.    arn:aws:finspace:${Region}::data-bundle/taq (default) - Contains trades and quotes data in addition to sample Capital Markets data.
         public let dataBundles: [String]?
@@ -5460,6 +5477,12 @@ public struct FinspaceErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an AWS service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension FinspaceErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Finspace.ConflictException.self
+    ]
 }
 
 extension FinspaceErrorType: Equatable {

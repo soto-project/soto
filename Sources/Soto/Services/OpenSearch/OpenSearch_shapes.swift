@@ -6858,6 +6858,24 @@ extension OpenSearch {
         }
     }
 
+    public struct SlotNotAvailableException: AWSErrorShape {
+        /// A description of the error.
+        public let message: String?
+        /// Alternate time slots during which OpenSearch Service has available capacity to schedule a domain action.
+        public let slotSuggestions: [Int64]?
+
+        @inlinable
+        public init(message: String? = nil, slotSuggestions: [Int64]? = nil) {
+            self.message = message
+            self.slotSuggestions = slotSuggestions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case slotSuggestions = "SlotSuggestions"
+        }
+    }
+
     public struct SnapshotOptions: AWSEncodableShape & AWSDecodableShape {
         /// The time, in UTC format, when OpenSearch Service takes a daily automated snapshot of the specified domain. Default is 0 hours.
         public let automatedSnapshotStartHour: Int?
@@ -8076,6 +8094,12 @@ public struct OpenSearchErrorType: AWSErrorType {
     public static var slotNotAvailableException: Self { .init(.slotNotAvailableException) }
     /// An exception for accessing or deleting a resource that doesn't exist.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension OpenSearchErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "SlotNotAvailableException": OpenSearch.SlotNotAvailableException.self
+    ]
 }
 
 extension OpenSearchErrorType: Equatable {

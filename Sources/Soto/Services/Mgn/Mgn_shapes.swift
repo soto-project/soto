@@ -297,6 +297,14 @@ extension Mgn {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VolumeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case gp2 = "gp2"
         case gp3 = "gp3"
@@ -323,6 +331,22 @@ extension Mgn {
     }
 
     // MARK: Shapes
+
+    public struct AccessDeniedException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
 
     public struct Application: AWSDecodableShape {
         /// Application aggregated status.
@@ -598,6 +622,34 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case state = "state"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let code: String?
+        /// Conflict Exception specific errors.
+        public let errors: [ErrorDetails]?
+        public let message: String?
+        /// A conflict occurred when prompting for the Resource ID.
+        public let resourceId: String?
+        /// A conflict occurred when prompting for resource type.
+        public let resourceType: String?
+
+        @inlinable
+        public init(code: String? = nil, errors: [ErrorDetails]? = nil, message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.code = code
+            self.errors = errors
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case errors = "errors"
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1827,6 +1879,32 @@ extension Mgn {
         }
     }
 
+    public struct ErrorDetails: AWSDecodableShape {
+        /// Error details code.
+        public let code: String?
+        /// Error details message.
+        public let message: String?
+        /// Error details resourceId.
+        public let resourceId: String?
+        /// Error details resourceType.
+        public let resourceType: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ExportErrorData: AWSDecodableShape {
         /// Export errors data raw error.
         public let rawError: String?
@@ -2218,6 +2296,29 @@ extension Mgn {
 
     public struct InitializeServiceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The server encountered an unexpected condition that prevented it from fulfilling the request. The request will be retried again after x seconds.
+        public let retryAfterSeconds: Int64?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int64? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int64.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
     }
 
     public struct Job: AWSDecodableShape {
@@ -4033,6 +4134,30 @@ extension Mgn {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// Resource ID not found error.
+        public let resourceId: String?
+        /// Resource type not found error.
+        public let resourceType: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.code = code
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct ResumeReplicationRequest: AWSEncodableShape {
         /// Resume Replication Request account ID.
         public let accountID: String?
@@ -4114,6 +4239,42 @@ extension Mgn {
             case s3Bucket = "s3Bucket"
             case s3BucketOwner = "s3BucketOwner"
             case s3Key = "s3Key"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+        /// Exceeded the service quota code.
+        public let quotaCode: String?
+        /// Exceeded the service quota value.
+        public let quotaValue: Int?
+        /// Exceeded the service quota resource ID.
+        public let resourceId: String?
+        /// Exceeded the service quota resource type.
+        public let resourceType: String?
+        /// Exceeded the service quota service code.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil, quotaCode: String? = nil, quotaValue: Int? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+            self.code = code
+            self.message = message
+            self.quotaCode = quotaCode
+            self.quotaValue = quotaValue
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case quotaValue = "quotaValue"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
         }
     }
 
@@ -4829,6 +4990,39 @@ extension Mgn {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// Reached throttling quota exception.
+        public let quotaCode: String?
+        /// Reached throttling quota exception will retry after x seconds.
+        public let retryAfterSeconds: String?
+        /// Reached throttling quota exception service code.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(String.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct UnarchiveApplicationRequest: AWSEncodableShape {
         /// Account ID.
         public let accountID: String?
@@ -4880,6 +5074,22 @@ extension Mgn {
         private enum CodingKeys: String, CodingKey {
             case accountID = "accountID"
             case waveID = "waveID"
+        }
+    }
+
+    public struct UninitializedAccountException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
         }
     }
 
@@ -5437,6 +5647,48 @@ extension Mgn {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        public let code: String?
+        /// Validate exception field list.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String?
+        /// Validate exception reason.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(code: String? = nil, fieldList: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+            self.code = code
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// Validate exception field message.
+        public let message: String?
+        /// Validate exception field name.
+        public let name: String?
+
+        @inlinable
+        public init(message: String? = nil, name: String? = nil) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct VcenterClient: AWSDecodableShape {
         /// Arn of vCenter client.
         public let arn: String?
@@ -5625,6 +5877,19 @@ public struct MgnErrorType: AWSErrorType {
     public static var uninitializedAccountException: Self { .init(.uninitializedAccountException) }
     /// Validate exception.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension MgnErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": Mgn.AccessDeniedException.self,
+        "ConflictException": Mgn.ConflictException.self,
+        "InternalServerException": Mgn.InternalServerException.self,
+        "ResourceNotFoundException": Mgn.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": Mgn.ServiceQuotaExceededException.self,
+        "ThrottlingException": Mgn.ThrottlingException.self,
+        "UninitializedAccountException": Mgn.UninitializedAccountException.self,
+        "ValidationException": Mgn.ValidationException.self
+    ]
 }
 
 extension MgnErrorType: Equatable {

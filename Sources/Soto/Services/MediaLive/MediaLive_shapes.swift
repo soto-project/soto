@@ -16971,6 +16971,24 @@ extension MediaLive {
         }
     }
 
+    public struct UnprocessableEntityException: AWSErrorShape {
+        /// The error message.
+        public let message: String?
+        /// A collection of validation error responses.
+        public let validationErrors: [ValidationError]?
+
+        @inlinable
+        public init(message: String? = nil, validationErrors: [ValidationError]? = nil) {
+            self.message = message
+            self.validationErrors = validationErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case validationErrors = "validationErrors"
+        }
+    }
+
     public struct UpdateAccountConfigurationRequest: AWSEncodableShape {
         public let accountConfiguration: AccountConfiguration?
 
@@ -18289,6 +18307,24 @@ extension MediaLive {
         }
     }
 
+    public struct ValidationError: AWSDecodableShape {
+        /// Path to the source of the error.
+        public let elementPath: String?
+        /// The error message.
+        public let errorMessage: String?
+
+        @inlinable
+        public init(elementPath: String? = nil, errorMessage: String? = nil) {
+            self.elementPath = elementPath
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elementPath = "elementPath"
+            case errorMessage = "errorMessage"
+        }
+    }
+
     public struct VideoBlackFailoverSettings: AWSEncodableShape & AWSDecodableShape {
         /// A value used in calculating the threshold below which MediaLive considers a pixel to be 'black'. For the input to be considered black, every pixel in a frame must be below this threshold. The threshold is calculated as a percentage (expressed as a decimal) of white. Therefore .1 means 10% white (or 90% black). Note how the formula works for any color depth. For example, if you set this field to 0.1 in 10-bit color depth: (1023*0.1=102.3), which means a pixel value of 102 or less is 'black'. If you set this field to .1 in an 8-bit color depth: (255*0.1=25.5), which means a pixel value of 25 or less is 'black'. The range is 0.0 to 1.0, with any number of decimal places.
         public let blackDetectThreshold: Double?
@@ -18641,6 +18677,12 @@ public struct MediaLiveErrorType: AWSErrorType {
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// Placeholder documentation for UnprocessableEntityException
     public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
+}
+
+extension MediaLiveErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "UnprocessableEntityException": MediaLive.UnprocessableEntityException.self
+    ]
 }
 
 extension MediaLiveErrorType: Equatable {

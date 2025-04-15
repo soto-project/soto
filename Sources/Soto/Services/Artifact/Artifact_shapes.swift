@@ -70,6 +70,15 @@ extension Artifact {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case invalidToken = "invalidToken"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AccountSettings: AWSDecodableShape {
@@ -83,6 +92,27 @@ extension Artifact {
 
         private enum CodingKeys: String, CodingKey {
             case notificationSubscriptionStatus = "notificationSubscriptionStatus"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// Identifier of the affected resource.
+        public let resourceId: String
+        /// Type of the affected resource.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -298,6 +328,29 @@ extension Artifact {
         private enum CodingKeys: String, CodingKey {
             case documentPresignedUrl = "documentPresignedUrl"
             case termToken = "termToken"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// Number of seconds in which the caller can retry the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -588,6 +641,128 @@ extension Artifact {
             case version = "version"
         }
     }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// Identifier of the affected resource.
+        public let resourceId: String
+        /// Type of the affected resource.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// Code for the affected quota.
+        public let quotaCode: String
+        /// Identifier of the affected resource.
+        public let resourceId: String
+        /// Type of the affected resource.
+        public let resourceType: String
+        /// Code for the affected service.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// Code for the affected quota.
+        public let quotaCode: String?
+        /// Number of seconds in which the caller can retry the request.
+        public let retryAfterSeconds: Int?
+        /// Code for the affected service.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The field that caused the error, if applicable.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        /// Reason the request failed validation.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// Message describing why the field failed validation.
+        public let message: String
+        /// Name of validation exception.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -636,6 +811,17 @@ public struct ArtifactErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Request fails to satisfy the constraints specified by an AWS service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ArtifactErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Artifact.ConflictException.self,
+        "InternalServerException": Artifact.InternalServerException.self,
+        "ResourceNotFoundException": Artifact.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": Artifact.ServiceQuotaExceededException.self,
+        "ThrottlingException": Artifact.ThrottlingException.self,
+        "ValidationException": Artifact.ValidationException.self
+    ]
 }
 
 extension ArtifactErrorType: Equatable {

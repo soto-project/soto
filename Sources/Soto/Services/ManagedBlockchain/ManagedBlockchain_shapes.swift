@@ -2215,6 +2215,23 @@ extension ManagedBlockchain {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// A requested resource doesn't exist. It may have been deleted or referenced inaccurately.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs and their format, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
         public let resourceArn: String
@@ -2253,6 +2270,22 @@ extension ManagedBlockchain {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -2517,6 +2550,13 @@ public struct ManagedBlockchainErrorType: AWSErrorType {
     /// The request or operation couldn't be performed because a service is  throttling requests. The most common source of throttling errors is  creating resources that exceed your service limit for this resource type.  Request a limit increase or delete unused resources if possible.
     public static var throttlingException: Self { .init(.throttlingException) }
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension ManagedBlockchainErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": ManagedBlockchain.ResourceNotFoundException.self,
+        "TooManyTagsException": ManagedBlockchain.TooManyTagsException.self
+    ]
 }
 
 extension ManagedBlockchainErrorType: Equatable {

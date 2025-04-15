@@ -1112,6 +1112,23 @@ extension TimestreamQuery {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The ARN of the scheduled query.
+        public let scheduledQueryArn: String?
+
+        @inlinable
+        public init(message: String? = nil, scheduledQueryArn: String? = nil) {
+            self.message = message
+            self.scheduledQueryArn = scheduledQueryArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case scheduledQueryArn = "ScheduledQueryArn"
+        }
+    }
+
     public struct Row: AWSDecodableShape {
         /// List of data points in a single row of the result set.
         public let data: [Datum]
@@ -1791,6 +1808,12 @@ public struct TimestreamQueryErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     ///  Invalid or malformed request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension TimestreamQueryErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": TimestreamQuery.ResourceNotFoundException.self
+    ]
 }
 
 extension TimestreamQueryErrorType: Equatable {

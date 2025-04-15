@@ -268,6 +268,14 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "CANNOT_PARSE"
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case other = "OTHER"
+        case unknownOperation = "UNKNOWN_OPERATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkloadEnvironment: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case preproduction = "PREPRODUCTION"
         case production = "PRODUCTION"
@@ -810,6 +818,25 @@ extension WellArchitected {
             case notes = "Notes"
             case reason = "Reason"
             case status = "Status"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        public let resourceId: String?
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -4427,6 +4454,25 @@ extension WellArchitected {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        public let resourceId: String?
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct ReviewTemplate: AWSDecodableShape {
         /// The review template description.
         public let description: String?
@@ -4704,6 +4750,31 @@ extension WellArchitected {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String?
+        public let quotaCode: String?
+        public let resourceId: String?
+        public let resourceType: String?
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
     public struct ShareInvitation: AWSDecodableShape {
         public let lensAlias: String?
         /// The ARN for the lens.
@@ -4853,6 +4924,25 @@ extension WellArchitected {
             case shareId = "ShareId"
             case status = "Status"
             case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        public let quotaCode: String?
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String? = nil, quotaCode: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case serviceCode = "ServiceCode"
         }
     }
 
@@ -5743,6 +5833,41 @@ extension WellArchitected {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        public let fields: [ValidationExceptionField]?
+        public let message: String?
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fields: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        public let message: String?
+        public let name: String?
+
+        @inlinable
+        public init(message: String? = nil, name: String? = nil) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case name = "Name"
+        }
+    }
+
     public struct VersionDifferences: AWSDecodableShape {
         /// The differences between the base and latest versions of the lens.
         public let pillarDifferences: [PillarDifference]?
@@ -6093,6 +6218,16 @@ public struct WellArchitectedErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The user input is not valid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension WellArchitectedErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": WellArchitected.ConflictException.self,
+        "ResourceNotFoundException": WellArchitected.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": WellArchitected.ServiceQuotaExceededException.self,
+        "ThrottlingException": WellArchitected.ThrottlingException.self,
+        "ValidationException": WellArchitected.ValidationException.self
+    ]
 }
 
 extension WellArchitectedErrorType: Equatable {

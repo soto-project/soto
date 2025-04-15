@@ -804,6 +804,24 @@ extension RDSData {
         }
     }
 
+    public struct StatementTimeoutException: AWSErrorShape {
+        /// The database connection ID that executed the SQL statement.
+        public let dbConnectionId: Int64?
+        /// The error message returned by this StatementTimeoutException error.
+        public let message: String?
+
+        @inlinable
+        public init(dbConnectionId: Int64? = nil, message: String? = nil) {
+            self.dbConnectionId = dbConnectionId
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dbConnectionId = "dbConnectionId"
+            case message = "message"
+        }
+    }
+
     public struct StructValue: AWSDecodableShape {
         /// The attributes returned in the record.
         public let attributes: [Value]?
@@ -909,6 +927,12 @@ public struct RDSDataErrorType: AWSErrorType {
     public static var transactionNotFoundException: Self { .init(.transactionNotFoundException) }
     /// There was a problem with the result because of one of the following conditions:   It contained an unsupported data type.   It contained a multidimensional array.   The size was too large.
     public static var unsupportedResultException: Self { .init(.unsupportedResultException) }
+}
+
+extension RDSDataErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "StatementTimeoutException": RDSData.StatementTimeoutException.self
+    ]
 }
 
 extension RDSDataErrorType: Equatable {

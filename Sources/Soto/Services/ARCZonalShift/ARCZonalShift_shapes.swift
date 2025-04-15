@@ -50,6 +50,16 @@ extension ARCZonalShift {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case autoshiftEnabled = "AutoShiftEnabled"
+        case practiceConfigurationAlreadyExists = "PracticeConfigurationAlreadyExists"
+        case practiceConfigurationDoesNotExist = "PracticeConfigurationDoesNotExist"
+        case simultaneousZonalShiftsConflict = "SimultaneousZonalShiftsConflict"
+        case zonalShiftAlreadyExists = "ZonalShiftAlreadyExists"
+        case zonalShiftStatusNotActive = "ZonalShiftStatusNotActive"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ControlConditionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cloudwatch = "CLOUDWATCH"
         public var description: String { return self.rawValue }
@@ -60,6 +70,20 @@ extension ARCZonalShift {
         case interrupted = "INTERRUPTED"
         case pending = "PENDING"
         case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalidAlarmCondition = "InvalidAlarmCondition"
+        case invalidAz = "InvalidAz"
+        case invalidConditionType = "InvalidConditionType"
+        case invalidExpiresIn = "InvalidExpiresIn"
+        case invalidPracticeBlocker = "InvalidPracticeBlocker"
+        case invalidResourceIdentifier = "InvalidResourceIdentifier"
+        case invalidStatus = "InvalidStatus"
+        case invalidToken = "InvalidToken"
+        case missingValue = "MissingValue"
+        case unsupportedAz = "UnsupportedAz"
         public var description: String { return self.rawValue }
     }
 
@@ -163,6 +187,27 @@ extension ARCZonalShift {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The reason for the conflict exception.
+        public let reason: ConflictExceptionReason
+        /// The zonal shift ID associated with the conflict exception.
+        public let zonalShiftId: String?
+
+        @inlinable
+        public init(message: String, reason: ConflictExceptionReason, zonalShiftId: String? = nil) {
+            self.message = message
+            self.reason = reason
+            self.zonalShiftId = zonalShiftId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+            case zonalShiftId = "zonalShiftId"
+        }
     }
 
     public struct ControlCondition: AWSEncodableShape & AWSDecodableShape {
@@ -942,6 +987,23 @@ extension ARCZonalShift {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        public let message: String
+        /// The reason for the validation exception.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(message: String, reason: ValidationExceptionReason) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
     public struct ZonalShift: AWSDecodableShape {
         /// The Availability Zone (for example, use1-az1) that traffic is moved away from for a resource when you start a zonal shift.
         /// 			Until the zonal shift expires or you cancel it, traffic for the resource is instead moved to other Availability Zones in the Amazon Web Services Region.
@@ -1127,6 +1189,13 @@ public struct ARCZonalShiftErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ARCZonalShiftErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": ARCZonalShift.ConflictException.self,
+        "ValidationException": ARCZonalShift.ValidationException.self
+    ]
 }
 
 extension ARCZonalShiftErrorType: Equatable {

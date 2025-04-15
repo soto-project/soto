@@ -470,6 +470,27 @@ extension RUM {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The name of the resource that is associated with the error.
+        public let resourceName: String
+        /// The type of the resource that is associated with the error.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String, resourceName: String, resourceType: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct CreateAppMonitorRequest: AWSEncodableShape {
         /// A structure that contains much of the configuration data for the app monitor. If you are using  Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the  Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own  authorization method. For more information, see  Authorize your application to send data to Amazon Web Services. If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
         public let appMonitorConfiguration: AppMonitorConfiguration?
@@ -866,6 +887,29 @@ extension RUM {
         private enum CodingKeys: String, CodingKey {
             case policyDocument = "PolicyDocument"
             case policyRevisionId = "PolicyRevisionId"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// The value of a parameter in the request caused an error.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -1321,6 +1365,27 @@ extension RUM {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The name of the resource that is associated with the error.
+        public let resourceName: String
+        /// The type of the resource that is associated with the error.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String, resourceName: String, resourceType: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct RumEvent: AWSEncodableShape {
         /// A string containing details about the event.
         public let details: String
@@ -1387,6 +1452,39 @@ extension RUM {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The ID of the service quota that was exceeded.
+        public let quotaCode: String?
+        /// The value of a parameter in the request caused an error.
+        public let retryAfterSeconds: Int?
+        /// The ID of the service that is associated with the error.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
     }
 
     public struct TimeRange: AWSEncodableShape {
@@ -1645,6 +1743,15 @@ public struct RUMErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// One of the arguments for the request is not valid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension RUMErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": RUM.ConflictException.self,
+        "InternalServerException": RUM.InternalServerException.self,
+        "ResourceNotFoundException": RUM.ResourceNotFoundException.self,
+        "ThrottlingException": RUM.ThrottlingException.self
+    ]
 }
 
 extension RUMErrorType: Equatable {

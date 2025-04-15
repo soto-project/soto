@@ -3153,6 +3153,23 @@ extension IoT {
         public init() {}
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// A resource with the same name already exists.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+        }
+    }
+
     public struct CreateAuditSuppressionRequest: AWSEncodableShape {
         public let checkName: String
         ///  Each audit supression must have a unique client request token. If you try to create a new audit suppression with the same token as one that already exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
@@ -16630,6 +16647,28 @@ extension IoT {
         }
     }
 
+    public struct ResourceAlreadyExistsException: AWSErrorShape {
+        /// The message for the exception.
+        public let message: String?
+        /// The ARN of the resource that caused the exception.
+        public let resourceArn: String?
+        /// The ID of the resource that caused the exception.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceArn: String? = nil, resourceId: String? = nil) {
+            self.message = message
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceArn = "resourceArn"
+            case resourceId = "resourceId"
+        }
+    }
+
     public struct ResourceIdentifier: AWSEncodableShape & AWSDecodableShape {
         /// The account with which the resource is associated.
         public let account: String?
@@ -21147,6 +21186,13 @@ public struct IoTErrorType: AWSErrorType {
     public static var versionConflictException: Self { .init(.versionConflictException) }
     /// The number of policy versions exceeds the limit.
     public static var versionsLimitExceededException: Self { .init(.versionsLimitExceededException) }
+}
+
+extension IoTErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": IoT.ConflictException.self,
+        "ResourceAlreadyExistsException": IoT.ResourceAlreadyExistsException.self
+    ]
 }
 
 extension IoTErrorType: Equatable {

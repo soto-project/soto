@@ -1530,6 +1530,24 @@ extension ServiceCatalogAppRegistry {
         public init() {}
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        /// A message associated with the Throttling exception.
+        public let message: String
+        /// The originating service code.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, serviceCode: String? = nil) {
+            self.message = message
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon resource name (ARN) that specifies the resource.
         public let resourceArn: String
@@ -1743,6 +1761,12 @@ public struct ServiceCatalogAppRegistryErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The request has invalid or missing parameters.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ServiceCatalogAppRegistryErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ThrottlingException": ServiceCatalogAppRegistry.ThrottlingException.self
+    ]
 }
 
 extension ServiceCatalogAppRegistryErrorType: Equatable {

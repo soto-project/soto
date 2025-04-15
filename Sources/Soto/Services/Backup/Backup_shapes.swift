@@ -237,6 +237,34 @@ extension Backup {
         }
     }
 
+    public struct AlreadyExistsException: AWSErrorShape {
+        public let arn: String?
+        public let code: String?
+        public let context: String?
+        public let creatorRequestId: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(arn: String? = nil, code: String? = nil, context: String? = nil, creatorRequestId: String? = nil, message: String? = nil, type: String? = nil) {
+            self.arn = arn
+            self.code = code
+            self.context = context
+            self.creatorRequestId = creatorRequestId
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case code = "Code"
+            case context = "Context"
+            case creatorRequestId = "CreatorRequestId"
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
     public struct BackupJob: AWSDecodableShape {
         /// The account ID that owns the backup job.
         public let accountId: String?
@@ -867,6 +895,28 @@ extension Backup {
             case stringLike = "StringLike"
             case stringNotEquals = "StringNotEquals"
             case stringNotLike = "StringNotLike"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let code: String?
+        public let context: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.context = context
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case context = "Context"
+            case message = "Message"
+            case type = "Type"
         }
     }
 
@@ -1881,6 +1931,28 @@ extension Backup {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DependencyFailureException: AWSErrorShape {
+        public let code: String?
+        public let context: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.context = context
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case context = "Context"
+            case message = "Message"
+            case type = "Type"
+        }
     }
 
     public struct DescribeBackupJobInput: AWSEncodableShape {
@@ -3461,6 +3533,72 @@ extension Backup {
         }
     }
 
+    public struct InvalidParameterValueException: AWSErrorShape {
+        public let code: String?
+        public let context: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.context = context
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case context = "Context"
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
+    public struct InvalidRequestException: AWSErrorShape {
+        public let code: String?
+        public let context: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.context = context
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case context = "Context"
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
+    public struct InvalidResourceStateException: AWSErrorShape {
+        public let code: String?
+        public let context: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.context = context
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case context = "Context"
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
     public struct KeyValue: AWSEncodableShape & AWSDecodableShape {
         /// The tag key (String). The key can't start with  aws:. Length Constraints: Minimum length of 1. Maximum  length of 128. Pattern: ^(?![aA]{1}[wW]{1}[sS]{1}:)([\p{L}\p{Z}\p{N}_.:/=+\-@]+)$
         public let key: String
@@ -3536,6 +3674,28 @@ extension Backup {
             case deleteAfterDays = "DeleteAfterDays"
             case moveToColdStorageAfterDays = "MoveToColdStorageAfterDays"
             case optInToArchiveForSupportedResources = "OptInToArchiveForSupportedResources"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let code: String?
+        public let context: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.context = context
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case context = "Context"
+            case message = "Message"
+            case type = "Type"
         }
     }
 
@@ -5006,6 +5166,28 @@ extension Backup {
         }
     }
 
+    public struct MissingParameterValueException: AWSErrorShape {
+        public let code: String?
+        public let context: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.context = context
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case context = "Context"
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
     public struct ProtectedResource: AWSDecodableShape {
         /// The date and time a resource was last backed up, in Unix format and Coordinated Universal Time (UTC). The value of LastBackupTime is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastBackupTime: Date?
@@ -5593,6 +5775,28 @@ extension Backup {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let code: String?
+        public let context: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.context = context
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case context = "Context"
+            case message = "Message"
+            case type = "Type"
+        }
+    }
+
     public struct RestoreJobCreator: AWSDecodableShape {
         /// An Amazon Resource Name (ARN) that uniquely identifies  a restore testing plan.
         public let restoreTestingPlanArn: String?
@@ -6058,6 +6262,28 @@ extension Backup {
             case protectedResourceConditions = "ProtectedResourceConditions"
             case restoreMetadataOverrides = "RestoreMetadataOverrides"
             case validationWindowHours = "ValidationWindowHours"
+        }
+    }
+
+    public struct ServiceUnavailableException: AWSErrorShape {
+        public let code: String?
+        public let context: String?
+        public let message: String?
+        public let type: String?
+
+        @inlinable
+        public init(code: String? = nil, context: String? = nil, message: String? = nil, type: String? = nil) {
+            self.code = code
+            self.context = context
+            self.message = message
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case context = "Context"
+            case message = "Message"
+            case type = "Type"
         }
     }
 
@@ -6886,6 +7112,21 @@ public struct BackupErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request failed due to a temporary failure of the server.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+}
+
+extension BackupErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AlreadyExistsException": Backup.AlreadyExistsException.self,
+        "ConflictException": Backup.ConflictException.self,
+        "DependencyFailureException": Backup.DependencyFailureException.self,
+        "InvalidParameterValueException": Backup.InvalidParameterValueException.self,
+        "InvalidRequestException": Backup.InvalidRequestException.self,
+        "InvalidResourceStateException": Backup.InvalidResourceStateException.self,
+        "LimitExceededException": Backup.LimitExceededException.self,
+        "MissingParameterValueException": Backup.MissingParameterValueException.self,
+        "ResourceNotFoundException": Backup.ResourceNotFoundException.self,
+        "ServiceUnavailableException": Backup.ServiceUnavailableException.self
+    ]
 }
 
 extension BackupErrorType: Equatable {

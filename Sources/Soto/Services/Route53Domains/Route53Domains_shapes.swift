@@ -1123,6 +1123,24 @@ extension Route53Domains {
         }
     }
 
+    public struct DuplicateRequest: AWSErrorShape {
+        /// The request is already in progress for the domain.
+        public let message: String?
+        /// ID of the request operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case requestId = "requestId"
+        }
+    }
+
     public struct EnableDomainAutoRenewRequest: AWSEncodableShape {
         /// The name of the domain that you want to enable automatic renewal for.
         public let domainName: String
@@ -2775,6 +2793,12 @@ public struct Route53DomainsErrorType: AWSErrorType {
     public static var tldRulesViolation: Self { .init(.tldRulesViolation) }
     /// Amazon Route 53 does not support this top-level domain (TLD).
     public static var unsupportedTLD: Self { .init(.unsupportedTLD) }
+}
+
+extension Route53DomainsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "DuplicateRequest": Route53Domains.DuplicateRequest.self
+    ]
 }
 
 extension Route53DomainsErrorType: Equatable {

@@ -96,6 +96,42 @@ extension CloudHSM {
         }
     }
 
+    public struct CloudHsmInternalException: AWSErrorShape {
+        /// Additional information about the error.
+        public let message: String?
+        /// Indicates if the action can be retried.
+        public let retryable: Bool?
+
+        @inlinable
+        public init(message: String? = nil, retryable: Bool? = nil) {
+            self.message = message
+            self.retryable = retryable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case retryable = "retryable"
+        }
+    }
+
+    public struct CloudHsmServiceException: AWSErrorShape {
+        /// Additional information about the error.
+        public let message: String?
+        /// Indicates if the action can be retried.
+        public let retryable: Bool?
+
+        @inlinable
+        public init(message: String? = nil, retryable: Bool? = nil) {
+            self.message = message
+            self.retryable = retryable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case retryable = "retryable"
+        }
+    }
+
     public struct CreateHapgRequest: AWSEncodableShape {
         /// The label of the new high-availability partition group.
         public let label: String
@@ -609,6 +645,24 @@ extension CloudHSM {
         }
     }
 
+    public struct InvalidRequestException: AWSErrorShape {
+        /// Additional information about the error.
+        public let message: String?
+        /// Indicates if the action can be retried.
+        public let retryable: Bool?
+
+        @inlinable
+        public init(message: String? = nil, retryable: Bool? = nil) {
+            self.message = message
+            self.retryable = retryable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case retryable = "retryable"
+        }
+    }
+
     public struct ListAvailableZonesRequest: AWSEncodableShape {
         public init() {}
     }
@@ -1006,6 +1060,14 @@ public struct CloudHSMErrorType: AWSErrorType {
     public static var cloudHsmServiceException: Self { .init(.cloudHsmServiceException) }
     /// Indicates that one or more of the request parameters are not valid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+}
+
+extension CloudHSMErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "CloudHsmInternalException": CloudHSM.CloudHsmInternalException.self,
+        "CloudHsmServiceException": CloudHSM.CloudHsmServiceException.self,
+        "InvalidRequestException": CloudHSM.InvalidRequestException.self
+    ]
 }
 
 extension CloudHSMErrorType: Equatable {

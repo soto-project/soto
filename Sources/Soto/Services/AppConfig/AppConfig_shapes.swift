@@ -38,6 +38,16 @@ extension AppConfig {
         public var description: String { return self.rawValue }
     }
 
+    public enum BadRequestReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalidConfiguration = "InvalidConfiguration"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BytesMeasure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case kilobytes = "KILOBYTES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeletionProtectionCheck: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accountDefault = "ACCOUNT_DEFAULT"
         case apply = "APPLY"
@@ -256,6 +266,25 @@ extension AppConfig {
             case extensionId = "ExtensionId"
             case parameters = "Parameters"
             case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct BadRequestException: AWSErrorShape {
+        public let details: BadRequestDetails?
+        public let message: String?
+        public let reason: BadRequestReason?
+
+        @inlinable
+        public init(details: BadRequestDetails? = nil, message: String? = nil, reason: BadRequestReason? = nil) {
+            self.details = details
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+            case message = "Message"
+            case reason = "Reason"
         }
     }
 
@@ -1840,6 +1869,36 @@ extension AppConfig {
         }
     }
 
+    public struct InvalidConfigurationDetail: AWSDecodableShape {
+        /// The invalid or out-of-range validation constraint in your JSON schema that failed validation.
+        public let constraint: String?
+        /// Location of the validation constraint in the configuration JSON schema that failed validation.
+        public let location: String?
+        /// The reason for an invalid configuration error.
+        public let reason: String?
+        /// The type of error for an invalid configuration.
+        public let type: String?
+        /// Details about an error with Lambda when a synchronous extension experiences an error during an invocation.
+        public let value: String?
+
+        @inlinable
+        public init(constraint: String? = nil, location: String? = nil, reason: String? = nil, type: String? = nil, value: String? = nil) {
+            self.constraint = constraint
+            self.location = location
+            self.reason = reason
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraint = "Constraint"
+            case location = "Location"
+            case reason = "Reason"
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
     public struct ListApplicationsRequest: AWSEncodableShape {
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -2209,6 +2268,44 @@ extension AppConfig {
             case description = "Description"
             case dynamic = "Dynamic"
             case required = "Required"
+        }
+    }
+
+    public struct PayloadTooLargeException: AWSErrorShape {
+        public let limit: Float?
+        public let measure: BytesMeasure?
+        public let message: String?
+        public let size: Float?
+
+        @inlinable
+        public init(limit: Float? = nil, measure: BytesMeasure? = nil, message: String? = nil, size: Float? = nil) {
+            self.limit = limit
+            self.measure = measure
+            self.message = message
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case measure = "Measure"
+            case message = "Message"
+            case size = "Size"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
         }
     }
 
@@ -2781,6 +2878,20 @@ extension AppConfig {
             case type = "Type"
         }
     }
+
+    public struct BadRequestDetails: AWSDecodableShape {
+        /// Detailed information about the bad request exception error when creating a hosted configuration version.
+        public let invalidConfiguration: [InvalidConfigurationDetail]?
+
+        @inlinable
+        public init(invalidConfiguration: [InvalidConfigurationDetail]? = nil) {
+            self.invalidConfiguration = invalidConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidConfiguration = "InvalidConfiguration"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -2826,6 +2937,14 @@ public struct AppConfigErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see Service quotas for AppConfig in the Amazon Web Services General Reference.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+}
+
+extension AppConfigErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": AppConfig.BadRequestException.self,
+        "PayloadTooLargeException": AppConfig.PayloadTooLargeException.self,
+        "ResourceNotFoundException": AppConfig.ResourceNotFoundException.self
+    ]
 }
 
 extension AppConfigErrorType: Equatable {

@@ -160,6 +160,14 @@ extension PaymentCryptographyData {
         public var description: String { return self.rawValue }
     }
 
+    public enum VerificationFailedReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalidAuthRequestCryptogram = "INVALID_AUTH_REQUEST_CRYPTOGRAM"
+        case invalidMac = "INVALID_MAC"
+        case invalidPin = "INVALID_PIN"
+        case invalidValidationData = "INVALID_VALIDATION_DATA"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CardGenerationAttributes: AWSEncodableShape, Sendable {
         case amexCardSecurityCodeVersion1(AmexCardSecurityCodeVersion1)
         /// Card data parameters that are required to generate a Card Security Code (CSC2) for an AMEX payment card.
@@ -2277,6 +2285,20 @@ extension PaymentCryptographyData {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// The resource that is missing.
+        public let resourceId: String?
+
+        @inlinable
+        public init(resourceId: String? = nil) {
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+        }
+    }
+
     public struct SessionKeyAmex: AWSEncodableShape {
         /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
         public let panSequenceNumber: String
@@ -2576,6 +2598,58 @@ extension PaymentCryptographyData {
 
     public struct TranslationPinDataIsoFormat1: AWSEncodableShape {
         public init() {}
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The request was denied due to an invalid request error.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String) {
+            self.fieldList = fieldList
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The request was denied due to an invalid request error.
+        public let message: String
+        /// The request was denied due to an invalid request error.
+        public let path: String
+
+        @inlinable
+        public init(message: String, path: String) {
+            self.message = message
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case path = "path"
+        }
+    }
+
+    public struct VerificationFailedException: AWSErrorShape {
+        public let message: String
+        /// The reason for the exception.
+        public let reason: VerificationFailedReason
+
+        @inlinable
+        public init(message: String, reason: VerificationFailedReason) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case reason = "Reason"
+        }
     }
 
     public struct VerifyAuthRequestCryptogramInput: AWSEncodableShape {
@@ -3072,6 +3146,14 @@ public struct PaymentCryptographyDataErrorType: AWSErrorType {
     public static var validationException: Self { .init(.validationException) }
     /// This request failed verification.
     public static var verificationFailedException: Self { .init(.verificationFailedException) }
+}
+
+extension PaymentCryptographyDataErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": PaymentCryptographyData.ResourceNotFoundException.self,
+        "ValidationException": PaymentCryptographyData.ValidationException.self,
+        "VerificationFailedException": PaymentCryptographyData.VerificationFailedException.self
+    ]
 }
 
 extension PaymentCryptographyDataErrorType: Equatable {

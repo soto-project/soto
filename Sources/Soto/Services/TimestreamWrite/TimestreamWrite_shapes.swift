@@ -1240,6 +1240,45 @@ extension TimestreamWrite {
         }
     }
 
+    public struct RejectedRecord: AWSDecodableShape {
+        /// The existing version of the record. This value is populated in scenarios where an identical record exists with a higher version than the version in the write request.
+        public let existingVersion: Int64?
+        ///  The reason why a record was not successfully inserted into Timestream. Possible causes of failure include:    Records with duplicate data where there are multiple records with the same dimensions, timestamps, and measure names but:    Measure values are different   Version is not present in the request, or the value of version in the new record is equal to or lower than the existing value   If Timestream rejects data for this case, the ExistingVersion field in the RejectedRecords response will indicate the current record’s version. To force an update, you can resend the request with a version for the record set to a value greater than the ExistingVersion.   Records with timestamps that lie outside the retention duration of the memory store.   When the retention window is updated, you will receive a RejectedRecords exception if you immediately try to ingest data within the new window. To avoid a RejectedRecords exception, wait until the duration of the new window to ingest new data. For further information, see  Best Practices for Configuring Timestream and the explanation of how storage works in Timestream.    Records with dimensions or measures that exceed the Timestream defined limits.    For more information, see Access Management in the Timestream Developer Guide.
+        public let reason: String?
+        ///  The index of the record in the input request for WriteRecords. Indexes begin with 0.
+        public let recordIndex: Int?
+
+        @inlinable
+        public init(existingVersion: Int64? = nil, reason: String? = nil, recordIndex: Int? = nil) {
+            self.existingVersion = existingVersion
+            self.reason = reason
+            self.recordIndex = recordIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case existingVersion = "ExistingVersion"
+            case reason = "Reason"
+            case recordIndex = "RecordIndex"
+        }
+    }
+
+    public struct RejectedRecordsException: AWSErrorShape {
+        public let message: String?
+        ///
+        public let rejectedRecords: [RejectedRecord]?
+
+        @inlinable
+        public init(message: String? = nil, rejectedRecords: [RejectedRecord]? = nil) {
+            self.message = message
+            self.rejectedRecords = rejectedRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case rejectedRecords = "RejectedRecords"
+        }
+    }
+
     public struct ReportConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Configuration of an S3 location to write error reports and events for a batch load.
         public let reportS3Configuration: ReportS3Configuration?
@@ -1719,6 +1758,12 @@ public struct TimestreamWriteErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     ///  An invalid or malformed request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension TimestreamWriteErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "RejectedRecordsException": TimestreamWrite.RejectedRecordsException.self
+    ]
 }
 
 extension TimestreamWriteErrorType: Equatable {

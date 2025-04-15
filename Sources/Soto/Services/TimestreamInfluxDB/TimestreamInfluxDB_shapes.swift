@@ -119,7 +119,34 @@ extension TimestreamInfluxDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case other = "OTHER"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The identifier for the Timestream for InfluxDB resource associated with the request.
+        public let resourceId: String
+        /// The type of Timestream for InfluxDB resource associated with the request.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
 
     public struct CreateDbClusterInput: AWSEncodableShape {
         /// The amount of storage to allocate for your DB storage type in GiB (gibibytes).
@@ -1547,6 +1574,27 @@ extension TimestreamInfluxDB {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The identifier for the Timestream for InfluxDB resource associated with the request.
+        public let resourceId: String
+        /// The type of Timestream for InfluxDB resource associated with the request.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct S3Configuration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the S3 bucket to deliver logs to.
         public let bucketName: String
@@ -1593,6 +1641,29 @@ extension TimestreamInfluxDB {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resourceArn"
             case tags = "tags"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The number of seconds the caller should wait before retrying.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -1840,6 +1911,23 @@ extension TimestreamInfluxDB {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        public let message: String
+        /// The reason that validation failed.
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(message: String, reason: ValidationExceptionReason) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
     public struct Parameters: AWSEncodableShape & AWSDecodableShape {
         /// All the customer-modifiable InfluxDB v2 parameters in Timestream for InfluxDB.
         public let influxDBv2: InfluxDBv2Parameters?
@@ -1901,6 +1989,15 @@ public struct TimestreamInfluxDBErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by Timestream for InfluxDB.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension TimestreamInfluxDBErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": TimestreamInfluxDB.ConflictException.self,
+        "ResourceNotFoundException": TimestreamInfluxDB.ResourceNotFoundException.self,
+        "ThrottlingException": TimestreamInfluxDB.ThrottlingException.self,
+        "ValidationException": TimestreamInfluxDB.ValidationException.self
+    ]
 }
 
 extension TimestreamInfluxDBErrorType: Equatable {

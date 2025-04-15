@@ -64,6 +64,18 @@ extension ConnectParticipant {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contact = "CONTACT"
+        case contactFlow = "CONTACT_FLOW"
+        case hierarchyGroup = "HIERARCHY_GROUP"
+        case hierarchyLevel = "HIERARCHY_LEVEL"
+        case instance = "INSTANCE"
+        case participant = "PARTICIPANT"
+        case phoneNumber = "PHONE_NUMBER"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScanDirection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case backward = "BACKWARD"
         case forward = "FORWARD"
@@ -627,6 +639,27 @@ extension ConnectParticipant {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The identifier of the resource.
+        public let resourceId: String?
+        /// The type of Amazon Connect resource.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct SendEventRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
@@ -991,6 +1024,12 @@ public struct ConnectParticipantErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints specified by Amazon Connect.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ConnectParticipantErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": ConnectParticipant.ResourceNotFoundException.self
+    ]
 }
 
 extension ConnectParticipantErrorType: Equatable {

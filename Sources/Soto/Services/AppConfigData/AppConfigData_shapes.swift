@@ -26,7 +26,59 @@ import Foundation
 extension AppConfigData {
     // MARK: Enums
 
+    public enum BadRequestReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Indicates there was a problem with one or more of the parameters.
+        /// See InvalidParameters in the BadRequestDetails for more information.
+        case invalidParameters = "InvalidParameters"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvalidParameterProblem: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// The parameter was corrupted and could not be understood by the service.
+        case corrupted = "Corrupted"
+        /// The parameter was expired and can no longer be used.
+        case expired = "Expired"
+        /// The client called the service before the time specified in the poll interval.
+        case pollIntervalNotSatisfied = "PollIntervalNotSatisfied"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Resource type value for the Application resource.
+        case application = "Application"
+        /// Resource type value for the Configuration resource.
+        case configuration = "Configuration"
+        /// Resource type value for the ConfigurationProfile resource.
+        case configurationProfile = "ConfigurationProfile"
+        /// Resource type value for the Deployment resource.
+        case deployment = "Deployment"
+        /// Resource type value for the Environment resource.
+        case environment = "Environment"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
+
+    public struct BadRequestException: AWSErrorShape {
+        /// Details describing why the request was invalid.
+        public let details: BadRequestDetails?
+        public let message: String?
+        /// Code indicating the reason the request was invalid.
+        public let reason: BadRequestReason?
+
+        @inlinable
+        public init(details: BadRequestDetails? = nil, message: String? = nil, reason: BadRequestReason? = nil) {
+            self.details = details
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details = "Details"
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
 
     public struct GetLatestConfigurationRequest: AWSEncodableShape {
         /// Token describing the current state of the configuration session. To obtain a token, first call the StartConfigurationSession API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls.  This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
@@ -85,6 +137,41 @@ extension AppConfigData {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct InvalidParameterDetail: AWSDecodableShape {
+        /// The reason the parameter is invalid.
+        public let problem: InvalidParameterProblem?
+
+        @inlinable
+        public init(problem: InvalidParameterProblem? = nil) {
+            self.problem = problem
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case problem = "Problem"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// A map indicating which parameters in the request reference the resource that was not found.
+        public let referencedBy: [String: String]?
+        /// The type of resource that was not found.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String? = nil, referencedBy: [String: String]? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.referencedBy = referencedBy
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case referencedBy = "ReferencedBy"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct StartConfigurationSessionRequest: AWSEncodableShape {
         /// The application ID or the application name.
         public let applicationIdentifier: String
@@ -135,6 +222,20 @@ extension AppConfigData {
             case initialConfigurationToken = "InitialConfigurationToken"
         }
     }
+
+    public struct BadRequestDetails: AWSDecodableShape {
+        /// One or more specified parameters are not valid for the call.
+        public let invalidParameters: [String: InvalidParameterDetail]?
+
+        @inlinable
+        public init(invalidParameters: [String: InvalidParameterDetail]? = nil) {
+            self.invalidParameters = invalidParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invalidParameters = "InvalidParameters"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -174,6 +275,13 @@ public struct AppConfigDataErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension AppConfigDataErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": AppConfigData.BadRequestException.self,
+        "ResourceNotFoundException": AppConfigData.ResourceNotFoundException.self
+    ]
 }
 
 extension AppConfigDataErrorType: Equatable {

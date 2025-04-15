@@ -2200,6 +2200,36 @@ extension OpenSearchServerless {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// Description of the error.
+        public let message: String
+        /// Service Quotas requirement to identify originating quota.
+        public let quotaCode: String?
+        /// Identifier of the resource affected.
+        public let resourceId: String?
+        /// Type of the resource affected.
+        public let resourceType: String?
+        /// Service Quotas requirement to identify originating service.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key to use in the tag.
         public let key: String
@@ -2938,6 +2968,12 @@ public struct OpenSearchServerlessErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Thrown when the HTTP request contains invalid input or is missing required input.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension OpenSearchServerlessErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ServiceQuotaExceededException": OpenSearchServerless.ServiceQuotaExceededException.self
+    ]
 }
 
 extension OpenSearchServerlessErrorType: Equatable {

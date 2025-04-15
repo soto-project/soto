@@ -677,6 +677,19 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExceptionResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accountSettings = "ACCOUNT_SETTINGS"
+        case dataSet = "DATA_SET"
+        case dataSource = "DATA_SOURCE"
+        case group = "GROUP"
+        case iampolicyAssignment = "IAMPOLICY_ASSIGNMENT"
+        case ingestion = "INGESTION"
+        case namespace = "NAMESPACE"
+        case user = "USER"
+        case vpcConnection = "VPC_CONNECTION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FileFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case clf = "CLF"
         case csv = "CSV"
@@ -2477,6 +2490,23 @@ extension QuickSight {
     }
 
     // MARK: Shapes
+
+    public struct AccessDeniedException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
 
     public struct AccountCustomization: AWSEncodableShape & AWSDecodableShape {
         /// The default email customization template.
@@ -7656,6 +7686,22 @@ extension QuickSight {
         }
     }
 
+    public struct ConcurrentUpdatingException: AWSErrorShape {
+        public let message: String?
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct ConditionalFormattingColor: AWSEncodableShape & AWSDecodableShape {
         /// Formatting configuration for gradient color.
         public let gradient: ConditionalFormattingGradientColor?
@@ -7839,6 +7885,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case color = "Color"
             case expression = "Expression"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -10975,6 +11038,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case customValues = "CustomValues"
             case includeNullValue = "IncludeNullValue"
+        }
+    }
+
+    public struct CustomerManagedKeyUnavailableException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -18955,6 +19035,23 @@ extension QuickSight {
         }
     }
 
+    public struct DomainNotWhitelistedException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct DonutCenterOptions: AWSEncodableShape & AWSDecodableShape {
         /// Determines the visibility of the label in a donut chart. In the Amazon QuickSight console, this option is called 'Show total'.
         public let labelVisibility: Visibility?
@@ -23732,6 +23829,23 @@ extension QuickSight {
         }
     }
 
+    public struct IdentityTypeNotSupportedException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct Image: AWSDecodableShape {
         /// The URL that points to the generated logo image.
         public let generatedImageUrl: String?
@@ -24275,6 +24389,74 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case customValue = "CustomValue"
             case valueWhenUnsetOption = "ValueWhenUnsetOption"
+        }
+    }
+
+    public struct InternalFailureException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidNextTokenException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidParameterValueException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct InvalidRequestException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -25020,6 +25202,27 @@ extension QuickSight {
             case valueFontConfiguration = "ValueFontConfiguration"
             case visibility = "Visibility"
             case width = "Width"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+        /// Limit exceeded.
+        public let resourceType: ExceptionResourceType?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
+            self.message = message
+            self.requestId = requestId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -31113,6 +31316,23 @@ extension QuickSight {
         }
     }
 
+    public struct PreconditionNotMetException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct PredefinedHierarchy: AWSEncodableShape & AWSDecodableShape {
         /// The list of columns that define the predefined hierarchy.
         public let columns: [ColumnIdentifier]
@@ -31405,6 +31625,23 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case queuedIngestion = "QueuedIngestion"
             case waitingOnIngestion = "WaitingOnIngestion"
+        }
+    }
+
+    public struct QuickSightUserNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -32618,6 +32855,48 @@ extension QuickSight {
         }
     }
 
+    public struct ResourceExistsException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+        /// The resource type for this request.
+        public let resourceType: ExceptionResourceType?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
+            self.message = message
+            self.requestId = requestId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+        /// The resource type for this request.
+        public let resourceType: ExceptionResourceType?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
+            self.message = message
+            self.requestId = requestId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct ResourcePermission: AWSEncodableShape & AWSDecodableShape {
         /// The IAM action to grant or revoke permissions on.
         public let actions: [String]
@@ -32640,6 +32919,27 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case actions = "Actions"
             case principal = "Principal"
+        }
+    }
+
+    public struct ResourceUnavailableException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+        /// The resource type for this request.
+        public let resourceType: ExceptionResourceType?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil, resourceType: ExceptionResourceType? = nil) {
+            self.message = message
+            self.requestId = requestId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -34328,6 +34628,23 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case siteBaseUrl = "SiteBaseUrl"
+        }
+    }
+
+    public struct SessionLifetimeInMinutesInvalidException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -37842,6 +38159,23 @@ extension QuickSight {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
     public struct TileLayoutStyle: AWSEncodableShape & AWSDecodableShape {
         /// The gutter settings that apply between tiles.
         public let gutter: GutterStyle?
@@ -40002,6 +40336,40 @@ extension QuickSight {
             case category = "Category"
             case computationId = "ComputationId"
             case name = "Name"
+        }
+    }
+
+    public struct UnsupportedPricingPlanException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
+        }
+    }
+
+    public struct UnsupportedUserEditionException: AWSErrorShape {
+        public let message: String?
+        /// The Amazon Web Services request ID for this request.
+        public let requestId: String?
+
+        @inlinable
+        public init(message: String? = nil, requestId: String? = nil) {
+            self.message = message
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case requestId = "RequestId"
         }
     }
 
@@ -44870,6 +45238,31 @@ public struct QuickSightErrorType: AWSErrorType {
     /// 			Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and
     /// 			capability is available in every edition.
     public static var unsupportedUserEditionException: Self { .init(.unsupportedUserEditionException) }
+}
+
+extension QuickSightErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": QuickSight.AccessDeniedException.self,
+        "ConcurrentUpdatingException": QuickSight.ConcurrentUpdatingException.self,
+        "ConflictException": QuickSight.ConflictException.self,
+        "CustomerManagedKeyUnavailableException": QuickSight.CustomerManagedKeyUnavailableException.self,
+        "DomainNotWhitelistedException": QuickSight.DomainNotWhitelistedException.self,
+        "IdentityTypeNotSupportedException": QuickSight.IdentityTypeNotSupportedException.self,
+        "InternalFailureException": QuickSight.InternalFailureException.self,
+        "InvalidNextTokenException": QuickSight.InvalidNextTokenException.self,
+        "InvalidParameterValueException": QuickSight.InvalidParameterValueException.self,
+        "InvalidRequestException": QuickSight.InvalidRequestException.self,
+        "LimitExceededException": QuickSight.LimitExceededException.self,
+        "PreconditionNotMetException": QuickSight.PreconditionNotMetException.self,
+        "QuickSightUserNotFoundException": QuickSight.QuickSightUserNotFoundException.self,
+        "ResourceExistsException": QuickSight.ResourceExistsException.self,
+        "ResourceNotFoundException": QuickSight.ResourceNotFoundException.self,
+        "ResourceUnavailableException": QuickSight.ResourceUnavailableException.self,
+        "SessionLifetimeInMinutesInvalidException": QuickSight.SessionLifetimeInMinutesInvalidException.self,
+        "ThrottlingException": QuickSight.ThrottlingException.self,
+        "UnsupportedPricingPlanException": QuickSight.UnsupportedPricingPlanException.self,
+        "UnsupportedUserEditionException": QuickSight.UnsupportedUserEditionException.self
+    ]
 }
 
 extension QuickSightErrorType: Equatable {

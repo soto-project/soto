@@ -50,6 +50,23 @@ extension BackupGateway {
 
     // MARK: Shapes
 
+    public struct AccessDeniedException: AWSErrorShape {
+        /// A description of why you have insufficient permissions.
+        public let errorCode: String
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
+    }
+
     public struct AssociateGatewayToServerInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the gateway. Use the ListGateways operation to return a list of gateways for your account and Amazon Web Services Region.
         public let gatewayArn: String
@@ -141,6 +158,23 @@ extension BackupGateway {
             case endMinuteOfHour = "EndMinuteOfHour"
             case startHourOfDay = "StartHourOfDay"
             case startMinuteOfHour = "StartMinuteOfHour"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// A description of why the operation is not supported.
+        public let errorCode: String
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
         }
     }
 
@@ -1045,6 +1079,23 @@ extension BackupGateway {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// A description of which resource wasn't found.
+        public let errorCode: String?
+        public let message: String?
+
+        @inlinable
+        public init(errorCode: String? = nil, message: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+        }
+    }
+
     public struct StartVirtualMachinesMetadataSyncInput: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the hypervisor.
         public let hypervisorArn: String
@@ -1553,6 +1604,14 @@ public struct BackupGatewayErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The operation did not succeed because a validation error occurred.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension BackupGatewayErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": BackupGateway.AccessDeniedException.self,
+        "ConflictException": BackupGateway.ConflictException.self,
+        "ResourceNotFoundException": BackupGateway.ResourceNotFoundException.self
+    ]
 }
 
 extension BackupGatewayErrorType: Equatable {

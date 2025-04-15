@@ -1388,6 +1388,27 @@ extension ApplicationSignals {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// Can't find the resource id.
+        public let resourceId: String
+        /// The resource type is not valid.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct RollingInterval: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the duration of each rolling interval. For example, if Duration is 7 and DurationUnit is DAY, each rolling interval is seven days.
         public let duration: Int
@@ -2050,6 +2071,12 @@ public struct ApplicationSignalsErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The resource is not valid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ApplicationSignalsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ResourceNotFoundException": ApplicationSignals.ResourceNotFoundException.self
+    ]
 }
 
 extension ApplicationSignalsErrorType: Equatable {

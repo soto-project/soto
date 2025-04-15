@@ -949,6 +949,36 @@ extension EKS {
         }
     }
 
+    public struct ClientException: AWSErrorShape {
+        /// The Amazon EKS add-on name associated with the exception.
+        public let addonName: String?
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        /// These errors are usually caused by a client action. Actions can include using an action or resource on behalf of an IAM principal that doesn't have permissions to use the action or resource or specifying an identifier that is not valid.
+        public let message: String?
+        /// The Amazon EKS managed node group associated with the exception.
+        public let nodegroupName: String?
+        /// The Amazon EKS subscription ID with the exception.
+        public let subscriptionId: String?
+
+        @inlinable
+        public init(addonName: String? = nil, clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+            self.addonName = addonName
+            self.clusterName = clusterName
+            self.message = message
+            self.nodegroupName = nodegroupName
+            self.subscriptionId = subscriptionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonName = "addonName"
+            case clusterName = "clusterName"
+            case message = "message"
+            case nodegroupName = "nodegroupName"
+            case subscriptionId = "subscriptionId"
+        }
+    }
+
     public struct ClientStat: AWSDecodableShape {
         /// The timestamp of the last request seen from the Kubernetes client.
         public let lastRequestTime: Date?
@@ -3362,6 +3392,70 @@ extension EKS {
         }
     }
 
+    public struct InvalidParameterException: AWSErrorShape {
+        /// The specified parameter for the add-on name is invalid. Review the available parameters for the API request
+        public let addonName: String?
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        /// The Fargate profile associated with the exception.
+        public let fargateProfileName: String?
+        /// The specified parameter is invalid. Review the available parameters for the API request.
+        public let message: String?
+        /// The Amazon EKS managed node group associated with the exception.
+        public let nodegroupName: String?
+        /// The Amazon EKS subscription ID with the exception.
+        public let subscriptionId: String?
+
+        @inlinable
+        public init(addonName: String? = nil, clusterName: String? = nil, fargateProfileName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+            self.addonName = addonName
+            self.clusterName = clusterName
+            self.fargateProfileName = fargateProfileName
+            self.message = message
+            self.nodegroupName = nodegroupName
+            self.subscriptionId = subscriptionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonName = "addonName"
+            case clusterName = "clusterName"
+            case fargateProfileName = "fargateProfileName"
+            case message = "message"
+            case nodegroupName = "nodegroupName"
+            case subscriptionId = "subscriptionId"
+        }
+    }
+
+    public struct InvalidRequestException: AWSErrorShape {
+        /// The request is invalid given the state of the add-on name. Check the state of the cluster and the associated operations.
+        public let addonName: String?
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        /// The Amazon EKS add-on name associated with the exception.
+        public let message: String?
+        /// The Amazon EKS managed node group associated with the exception.
+        public let nodegroupName: String?
+        /// The Amazon EKS subscription ID with the exception.
+        public let subscriptionId: String?
+
+        @inlinable
+        public init(addonName: String? = nil, clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+            self.addonName = addonName
+            self.clusterName = clusterName
+            self.message = message
+            self.nodegroupName = nodegroupName
+            self.subscriptionId = subscriptionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonName = "addonName"
+            case clusterName = "clusterName"
+            case message = "message"
+            case nodegroupName = "nodegroupName"
+            case subscriptionId = "subscriptionId"
+        }
+    }
+
     public struct Issue: AWSDecodableShape {
         /// A brief description of the error.    AccessDenied: Amazon EKS or one or more of your managed nodes is failing to authenticate or authorize with your Kubernetes cluster API server.    AsgInstanceLaunchFailures: Your Auto Scaling group is experiencing failures while attempting to launch instances.    AutoScalingGroupNotFound: We couldn't find the Auto Scaling group associated with the managed node group. You may be able to recreate an Auto Scaling group with the same settings to recover.    ClusterUnreachable: Amazon EKS or one or more of your managed nodes is unable to to communicate with your Kubernetes cluster API server. This can happen if there are network disruptions or if API servers are timing out processing requests.     Ec2InstanceTypeDoesNotExist: One or more of the supplied Amazon EC2 instance types do not exist. Amazon EKS checked for the instance types that you provided in this Amazon Web Services Region, and one or more aren't available.    Ec2LaunchTemplateNotFound: We couldn't find the Amazon EC2 launch template for your managed node group. You may be able to recreate a launch template with the same settings to recover.    Ec2LaunchTemplateVersionMismatch: The Amazon EC2 launch template version for your managed node group does not match the version that Amazon EKS created. You may be able to revert to the version that Amazon EKS created to recover.    Ec2SecurityGroupDeletionFailure: We could not delete the remote access security group for your managed node group. Remove any dependencies from the security group.    Ec2SecurityGroupNotFound: We couldn't find the cluster security group for the cluster. You must recreate your cluster.    Ec2SubnetInvalidConfiguration: One or more Amazon EC2 subnets specified for a node group do not automatically assign public IP addresses to instances launched into it. If you want your instances to be assigned a public IP address, then you need to enable the auto-assign public IP address setting for the subnet. See Modifying the public IPv4 addressing attribute for your subnet in the Amazon VPC User Guide.    IamInstanceProfileNotFound: We couldn't find the IAM instance profile for your managed node group. You may be able to recreate an instance profile with the same settings to recover.    IamNodeRoleNotFound: We couldn't find the IAM role for your managed node group. You may be able to recreate an IAM role with the same settings to recover.    InstanceLimitExceeded: Your Amazon Web Services account is unable to launch any more instances of the specified instance type. You may be able to request an Amazon EC2 instance limit increase to recover.    InsufficientFreeAddresses: One or more of the subnets associated with your managed node group does not have enough available IP addresses for new nodes.    InternalFailure: These errors are usually caused by an Amazon EKS server-side issue.    NodeCreationFailure: Your launched instances are unable to register with your Amazon EKS cluster. Common causes of this failure are insufficient node IAM role permissions or lack of outbound internet access for the nodes.
         public let code: NodegroupIssueCode?
@@ -4794,6 +4888,122 @@ extension EKS {
         }
     }
 
+    public struct ResourceInUseException: AWSErrorShape {
+        /// The specified add-on name is in use.
+        public let addonName: String?
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        /// The Amazon EKS message associated with the exception.
+        public let message: String?
+        /// The Amazon EKS managed node group associated with the exception.
+        public let nodegroupName: String?
+
+        @inlinable
+        public init(addonName: String? = nil, clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil) {
+            self.addonName = addonName
+            self.clusterName = clusterName
+            self.message = message
+            self.nodegroupName = nodegroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonName = "addonName"
+            case clusterName = "clusterName"
+            case message = "message"
+            case nodegroupName = "nodegroupName"
+        }
+    }
+
+    public struct ResourceLimitExceededException: AWSErrorShape {
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        /// The Amazon EKS message associated with the exception.
+        public let message: String?
+        /// The Amazon EKS managed node group associated with the exception.
+        public let nodegroupName: String?
+        /// The Amazon EKS subscription ID with the exception.
+        public let subscriptionId: String?
+
+        @inlinable
+        public init(clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+            self.clusterName = clusterName
+            self.message = message
+            self.nodegroupName = nodegroupName
+            self.subscriptionId = subscriptionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case message = "message"
+            case nodegroupName = "nodegroupName"
+            case subscriptionId = "subscriptionId"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// The Amazon EKS add-on name associated with the exception.
+        public let addonName: String?
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        /// The Fargate profile associated with the exception.
+        public let fargateProfileName: String?
+        /// The Amazon EKS message associated with the exception.
+        public let message: String?
+        /// The Amazon EKS managed node group associated with the exception.
+        public let nodegroupName: String?
+        /// The Amazon EKS subscription ID with the exception.
+        public let subscriptionId: String?
+
+        @inlinable
+        public init(addonName: String? = nil, clusterName: String? = nil, fargateProfileName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+            self.addonName = addonName
+            self.clusterName = clusterName
+            self.fargateProfileName = fargateProfileName
+            self.message = message
+            self.nodegroupName = nodegroupName
+            self.subscriptionId = subscriptionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonName = "addonName"
+            case clusterName = "clusterName"
+            case fargateProfileName = "fargateProfileName"
+            case message = "message"
+            case nodegroupName = "nodegroupName"
+            case subscriptionId = "subscriptionId"
+        }
+    }
+
+    public struct ServerException: AWSErrorShape {
+        /// The Amazon EKS add-on name associated with the exception.
+        public let addonName: String?
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        /// These errors are usually caused by a server-side issue.
+        public let message: String?
+        /// The Amazon EKS managed node group associated with the exception.
+        public let nodegroupName: String?
+        /// The Amazon EKS subscription ID with the exception.
+        public let subscriptionId: String?
+
+        @inlinable
+        public init(addonName: String? = nil, clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, subscriptionId: String? = nil) {
+            self.addonName = addonName
+            self.clusterName = clusterName
+            self.message = message
+            self.nodegroupName = nodegroupName
+            self.subscriptionId = subscriptionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addonName = "addonName"
+            case clusterName = "clusterName"
+            case message = "message"
+            case nodegroupName = "nodegroupName"
+            case subscriptionId = "subscriptionId"
+        }
+    }
+
     public struct StorageConfigRequest: AWSEncodableShape {
         /// Request to configure EBS Block Storage settings for your EKS Auto Mode cluster.
         public let blockStorage: BlockStorage?
@@ -4885,6 +5095,32 @@ extension EKS {
             case effect = "effect"
             case key = "key"
             case value = "value"
+        }
+    }
+
+    public struct UnsupportedAvailabilityZoneException: AWSErrorShape {
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        /// At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
+        public let message: String?
+        /// The Amazon EKS managed node group associated with the exception.
+        public let nodegroupName: String?
+        /// The supported Availability Zones for your account. Choose subnets in these Availability Zones for your cluster.
+        public let validZones: [String]?
+
+        @inlinable
+        public init(clusterName: String? = nil, message: String? = nil, nodegroupName: String? = nil, validZones: [String]? = nil) {
+            self.clusterName = clusterName
+            self.message = message
+            self.nodegroupName = nodegroupName
+            self.validZones = validZones
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case message = "message"
+            case nodegroupName = "nodegroupName"
+            case validZones = "validZones"
         }
     }
 
@@ -5707,6 +5943,19 @@ public struct EKSErrorType: AWSErrorType {
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     /// At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
     public static var unsupportedAvailabilityZoneException: Self { .init(.unsupportedAvailabilityZoneException) }
+}
+
+extension EKSErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ClientException": EKS.ClientException.self,
+        "InvalidParameterException": EKS.InvalidParameterException.self,
+        "InvalidRequestException": EKS.InvalidRequestException.self,
+        "ResourceInUseException": EKS.ResourceInUseException.self,
+        "ResourceLimitExceededException": EKS.ResourceLimitExceededException.self,
+        "ResourceNotFoundException": EKS.ResourceNotFoundException.self,
+        "ServerException": EKS.ServerException.self,
+        "UnsupportedAvailabilityZoneException": EKS.UnsupportedAvailabilityZoneException.self
+    ]
 }
 
 extension EKSErrorType: Equatable {

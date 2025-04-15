@@ -4527,6 +4527,24 @@ extension WorkSpaces {
         }
     }
 
+    public struct OperationNotSupportedException: AWSErrorShape {
+        /// The exception error message.
+        public let message: String?
+        /// The exception error reason.
+        public let reason: String?
+
+        @inlinable
+        public init(message: String? = nil, reason: String? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
     public struct PendingCreateStandbyWorkspacesRequest: AWSDecodableShape {
         /// The identifier of the directory for the standby WorkSpace.
         public let directoryId: String?
@@ -4821,6 +4839,59 @@ extension WorkSpaces {
             case state = "State"
             case type = "Type"
             case workspaceId = "WorkspaceId"
+        }
+    }
+
+    public struct ResourceInUseException: AWSErrorShape {
+        public let message: String?
+        /// The ID of the resource that is in use.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// The resource could not be found.
+        public let message: String?
+        /// The ID of the resource that could not be found.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ResourceUnavailableException: AWSErrorShape {
+        /// The exception error message.
+        public let message: String?
+        /// The identifier of the resource that is not available.
+        public let resourceId: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "ResourceId"
         }
     }
 
@@ -6550,6 +6621,15 @@ public struct WorkSpacesErrorType: AWSErrorType {
     public static var validationException: Self { .init(.validationException) }
     /// The workspaces_DefaultRole role could not be found. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see Creating the workspaces_DefaultRole Role.
     public static var workspacesDefaultRoleNotFoundException: Self { .init(.workspacesDefaultRoleNotFoundException) }
+}
+
+extension WorkSpacesErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "OperationNotSupportedException": WorkSpaces.OperationNotSupportedException.self,
+        "ResourceInUseException": WorkSpaces.ResourceInUseException.self,
+        "ResourceNotFoundException": WorkSpaces.ResourceNotFoundException.self,
+        "ResourceUnavailableException": WorkSpaces.ResourceUnavailableException.self
+    ]
 }
 
 extension WorkSpacesErrorType: Equatable {

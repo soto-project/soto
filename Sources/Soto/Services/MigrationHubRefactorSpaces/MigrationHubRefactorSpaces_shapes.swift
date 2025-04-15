@@ -314,6 +314,27 @@ extension MigrationHubRefactorSpaces {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource.
+        public let resourceId: String
+        /// The type of resource.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct CreateApplicationRequest: AWSEncodableShape {
         /// A wrapper object holding the API Gateway endpoint type and stage name for the proxy.
         public let apiGatewayProxy: ApiGatewayProxyInput?
@@ -2113,6 +2134,27 @@ extension MigrationHubRefactorSpaces {
         public init() {}
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource.
+        public let resourceId: String
+        /// The type of resource.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct RouteSummary: AWSDecodableShape {
         /// If set to true, this option appends the source path to the service URL endpoint.
         public let appendSourcePath: Bool?
@@ -2192,6 +2234,35 @@ extension MigrationHubRefactorSpaces {
             case sourcePath = "SourcePath"
             case state = "State"
             case tags = "Tags"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// Service quota requirement to identify originating quota. Reached throttling quota exception.
+        public let quotaCode: String?
+        /// The ID of the resource.
+        public let resourceId: String
+        /// The type of resource.
+        public let resourceType: String
+        /// Service quota requirement to identify originating service. Reached throttling quota exception service code.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, resourceId: String, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case serviceCode = "ServiceCode"
         }
     }
 
@@ -2303,6 +2374,39 @@ extension MigrationHubRefactorSpaces {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// Service quota requirement to identify originating quota. Reached throttling quota exception.
+        public let quotaCode: String?
+        /// The number of seconds to wait before retrying.
+        public let retryAfterSeconds: Int?
+        /// Service quota requirement to identify originating service. Reached throttling quota exception service code.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case serviceCode = "ServiceCode"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -2560,6 +2664,15 @@ public struct MigrationHubRefactorSpacesErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input does not satisfy the constraints specified by an Amazon Web Service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension MigrationHubRefactorSpacesErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": MigrationHubRefactorSpaces.ConflictException.self,
+        "ResourceNotFoundException": MigrationHubRefactorSpaces.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": MigrationHubRefactorSpaces.ServiceQuotaExceededException.self,
+        "ThrottlingException": MigrationHubRefactorSpaces.ThrottlingException.self
+    ]
 }
 
 extension MigrationHubRefactorSpacesErrorType: Equatable {

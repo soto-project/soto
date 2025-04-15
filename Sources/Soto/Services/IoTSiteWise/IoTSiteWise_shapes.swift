@@ -2615,7 +2615,7 @@ extension IoTSiteWise {
         }
     }
 
-    public struct ConflictingOperationException: AWSDecodableShape {
+    public struct ConflictingOperationException: AWSErrorShape {
         public let message: String
         /// The ARN of the resource that conflicts with this operation.
         public let resourceArn: String
@@ -7917,6 +7917,27 @@ extension IoTSiteWise {
         }
     }
 
+    public struct PreconditionFailedException: AWSErrorShape {
+        public let message: String
+        /// The ARN of the resource on which precondition failed with this operation.
+        public let resourceArn: String
+        /// The ID of the resource on which precondition failed with this operation.
+        public let resourceId: String
+
+        @inlinable
+        public init(message: String, resourceArn: String, resourceId: String) {
+            self.message = message
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceArn = "resourceArn"
+            case resourceId = "resourceId"
+        }
+    }
+
     public struct ProjectResource: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the project.
         public let id: String
@@ -8306,6 +8327,27 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ResourceAlreadyExistsException: AWSErrorShape {
+        public let message: String
+        /// The ARN of the resource that already exists.
+        public let resourceArn: String
+        /// The ID of the resource that already exists.
+        public let resourceId: String
+
+        @inlinable
+        public init(message: String, resourceArn: String, resourceId: String) {
+            self.message = message
+            self.resourceArn = resourceArn
+            self.resourceId = resourceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceArn = "resourceArn"
+            case resourceId = "resourceId"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSDecodableShape {
         public let message: String
 
@@ -8548,6 +8590,23 @@ extension IoTSiteWise {
             case timeSeriesCreationDate = "timeSeriesCreationDate"
             case timeSeriesId = "timeSeriesId"
             case timeSeriesLastUpdateDate = "timeSeriesLastUpdateDate"
+        }
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        /// The name of the resource with too many tags.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
         }
     }
 
@@ -9634,6 +9693,15 @@ public struct IoTSiteWiseErrorType: AWSErrorType {
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// The validation failed for this query.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension IoTSiteWiseErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictingOperationException": IoTSiteWise.ConflictingOperationException.self,
+        "PreconditionFailedException": IoTSiteWise.PreconditionFailedException.self,
+        "ResourceAlreadyExistsException": IoTSiteWise.ResourceAlreadyExistsException.self,
+        "TooManyTagsException": IoTSiteWise.TooManyTagsException.self
+    ]
 }
 
 extension IoTSiteWiseErrorType: Equatable {

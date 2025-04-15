@@ -56,6 +56,27 @@ extension DSQL {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// Resource Id
+        public let resourceId: String?
+        /// Resource Type
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct CreateClusterInput: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the  idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes  successfully, the subsequent retries with the same client token return the  result from the original successful request and they  have no additional effect. If you don't specify a client token, the Amazon Web Services SDK  automatically generates one.
         public let clientToken: String?
@@ -430,6 +451,57 @@ extension DSQL {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// Hypothetical identifier of the resource which does not exist
+        public let resourceId: String
+        /// Hypothetical type of the resource which does not exist
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// Description of the error
+        public let message: String
+        /// Service Quotas requirement to identify originating quota
+        public let quotaCode: String
+        /// Identifier of the resource affected
+        public let resourceId: String
+        /// Type of the resource affected
+        public let resourceType: String
+        /// Service Quotas requirement to identify originating service
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String, resourceType: String, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct TagResourceInput: AWSEncodableShape {
         /// The ARN of the resource that you want to tag.
         public let resourceArn: String
@@ -622,6 +694,14 @@ public struct DSQLErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input failed to satisfy the constraints specified by an Amazon Web Services service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension DSQLErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": DSQL.ConflictException.self,
+        "ResourceNotFoundException": DSQL.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": DSQL.ServiceQuotaExceededException.self
+    ]
 }
 
 extension DSQLErrorType: Equatable {

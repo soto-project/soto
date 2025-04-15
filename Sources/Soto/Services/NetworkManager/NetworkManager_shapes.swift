@@ -315,6 +315,14 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "CannotParse"
+        case fieldValidationFailed = "FieldValidationFailed"
+        case other = "Other"
+        case unknownOperation = "UnknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AWSLocation: AWSEncodableShape & AWSDecodableShape {
@@ -763,6 +771,27 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case peerAsn = "PeerAsn"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String
+        /// The ID of the resource.
+        public let resourceId: String
+        /// The resource type.
+        public let resourceType: String
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: String) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -1413,6 +1442,23 @@ extension NetworkManager {
             case errorCode = "ErrorCode"
             case message = "Message"
             case path = "Path"
+        }
+    }
+
+    public struct CoreNetworkPolicyException: AWSErrorShape {
+        /// Describes a core network policy exception.
+        public let errors: [CoreNetworkPolicyError]?
+        public let message: String
+
+        @inlinable
+        public init(errors: [CoreNetworkPolicyError]? = nil, message: String) {
+            self.errors = errors
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+            case message = "Message"
         }
     }
 
@@ -4852,6 +4898,29 @@ extension NetworkManager {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// Indicates when to retry the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
+    }
+
     public struct Link: AWSDecodableShape {
         /// The bandwidth for the link.
         public let bandwidth: Bandwidth?
@@ -5965,6 +6034,31 @@ extension NetworkManager {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// The specified resource could not be found.
+        public let context: [String: String]?
+        public let message: String
+        /// The ID of the resource.
+        public let resourceId: String
+        /// The resource type.
+        public let resourceType: String
+
+        @inlinable
+        public init(context: [String: String]? = nil, message: String, resourceId: String, resourceType: String) {
+            self.context = context
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case context = "Context"
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct RestoreCoreNetworkPolicyVersionRequest: AWSEncodableShape {
         /// The ID of a core network.
         public let coreNetworkId: String
@@ -6221,6 +6315,36 @@ extension NetworkManager {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// The limit code.
+        public let limitCode: String
+        /// The error message.
+        public let message: String
+        /// The ID of the resource.
+        public let resourceId: String?
+        /// The resource type.
+        public let resourceType: String?
+        /// The service code.
+        public let serviceCode: String
+
+        @inlinable
+        public init(limitCode: String, message: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
+            self.limitCode = limitCode
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitCode = "LimitCode"
+            case message = "Message"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
     public struct Site: AWSDecodableShape {
         /// The date and time that the site was created.
         public let createdAt: Date?
@@ -6432,6 +6556,29 @@ extension NetworkManager {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// Indicates when to retry the request.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+        }
     }
 
     public struct TransitGatewayConnectPeerAssociation: AWSDecodableShape {
@@ -7129,6 +7276,45 @@ extension NetworkManager {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// The fields that caused the error, if applicable.
+        public let fields: [ValidationExceptionField]?
+        public let message: String
+        /// The reason for the error.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fields: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fields = fields
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+            case message = "Message"
+            case reason = "Reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The message for the field.
+        public let message: String
+        /// The name of the field.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case name = "Name"
+        }
+    }
+
     public struct Via: AWSDecodableShape {
         /// The list of network function groups associated with the service insertion action.
         public let networkFunctionGroups: [NetworkFunctionGroup]?
@@ -7251,6 +7437,18 @@ public struct NetworkManagerErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the constraints.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension NetworkManagerErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": NetworkManager.ConflictException.self,
+        "CoreNetworkPolicyException": NetworkManager.CoreNetworkPolicyException.self,
+        "InternalServerException": NetworkManager.InternalServerException.self,
+        "ResourceNotFoundException": NetworkManager.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": NetworkManager.ServiceQuotaExceededException.self,
+        "ThrottlingException": NetworkManager.ThrottlingException.self,
+        "ValidationException": NetworkManager.ValidationException.self
+    ]
 }
 
 extension NetworkManagerErrorType: Equatable {

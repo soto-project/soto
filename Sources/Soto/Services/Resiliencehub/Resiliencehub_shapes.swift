@@ -1289,6 +1289,27 @@ extension Resiliencehub {
         }
     }
 
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// The identifier of the resource that the exception applies to.
+        public let resourceId: String?
+        /// The type of the resource that the exception applies to.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct Cost: AWSDecodableShape {
         /// The cost amount.
         public let amount: Double
@@ -5095,6 +5116,27 @@ extension Resiliencehub {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The identifier of the resource that the exception applies to.
+        public let resourceId: String?
+        /// The type of the resource that the exception applies to.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct S3Location: AWSDecodableShape {
         /// The name of the Amazon S3 bucket.
         public let bucket: String?
@@ -5485,6 +5527,23 @@ extension Resiliencehub {
             case referenceId = "referenceId"
             case risk = "risk"
             case type = "type"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// The number of seconds to wait before retrying the operation.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String? = nil, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case retryAfterSeconds = "retryAfterSeconds"
         }
     }
 
@@ -6017,6 +6076,14 @@ public struct ResiliencehubErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// This exception occurs when a request is not valid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ResiliencehubErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": Resiliencehub.ConflictException.self,
+        "ResourceNotFoundException": Resiliencehub.ResourceNotFoundException.self,
+        "ThrottlingException": Resiliencehub.ThrottlingException.self
+    ]
 }
 
 extension ResiliencehubErrorType: Equatable {

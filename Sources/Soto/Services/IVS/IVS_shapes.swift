@@ -122,6 +122,20 @@ extension IVS {
 
     // MARK: Shapes
 
+    public struct AccessDeniedException: AWSErrorShape {
+        /// User does not have sufficient access to perform this action.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
+        }
+    }
+
     public struct AudioConfiguration: AWSDecodableShape {
         /// Number of audio channels.
         public let channels: Int64?
@@ -418,6 +432,20 @@ extension IVS {
         }
     }
 
+    public struct ChannelNotBroadcasting: AWSErrorShape {
+        /// The stream is offline for the given channel ARN.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
+        }
+    }
+
     public struct ChannelSummary: AWSDecodableShape {
         /// Channel ARN.
         public let arn: String?
@@ -465,6 +493,20 @@ extension IVS {
             case recordingConfigurationArn = "recordingConfigurationArn"
             case tags = "tags"
             case type = "type"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        /// Updating or deleting a resource can cause an inconsistent state.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
         }
     }
 
@@ -1161,6 +1203,20 @@ extension IVS {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        /// Unexpected error during processing of request.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
+        }
+    }
+
     public struct ListChannelsRequest: AWSEncodableShape {
         /// Filters the channel list to match the specified name.
         public let filterByName: String?
@@ -1558,6 +1614,20 @@ extension IVS {
         }
     }
 
+    public struct PendingVerification: AWSErrorShape {
+        ///  Your account is pending verification.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
+        }
+    }
+
     public struct PlaybackKeyPair: AWSDecodableShape {
         /// Key-pair ARN.
         public let arn: String?
@@ -1789,6 +1859,20 @@ extension IVS {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        /// Request references a resource which does not exist.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
+        }
+    }
+
     public struct S3DestinationConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Location (S3 bucket name) where recorded videos will be stored.
         public let bucketName: String
@@ -1806,6 +1890,20 @@ extension IVS {
 
         private enum CodingKeys: String, CodingKey {
             case bucketName = "bucketName"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        /// Request would cause a service quota to be exceeded.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
         }
     }
 
@@ -2121,6 +2219,20 @@ extension IVS {
         }
     }
 
+    public struct StreamUnavailable: AWSErrorShape {
+        /// The stream is temporarily unavailable.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
+        }
+    }
+
     public struct TagResourceRequest: AWSEncodableShape {
         /// ARN of the resource for which tags are to be added or updated. The ARN must be URL-encoded.
         public let resourceArn: String
@@ -2159,6 +2271,20 @@ extension IVS {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        /// Request was denied due to request throttling.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
+        }
     }
 
     public struct ThumbnailConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -2368,6 +2494,20 @@ extension IVS {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
+        public let exceptionMessage: String?
+
+        @inlinable
+        public init(exceptionMessage: String? = nil) {
+            self.exceptionMessage = exceptionMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exceptionMessage = "exceptionMessage"
+        }
+    }
+
     public struct VideoConfiguration: AWSDecodableShape {
         /// Indicates the degree of required decoder performance for a profile. Normally this is set automatically by the encoder. For details, see the H.264 specification.
         public let avcLevel: String?
@@ -2468,6 +2608,21 @@ public struct IVSErrorType: AWSErrorType {
     public static var streamUnavailable: Self { .init(.streamUnavailable) }
     public static var throttlingException: Self { .init(.throttlingException) }
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension IVSErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": IVS.AccessDeniedException.self,
+        "ChannelNotBroadcasting": IVS.ChannelNotBroadcasting.self,
+        "ConflictException": IVS.ConflictException.self,
+        "InternalServerException": IVS.InternalServerException.self,
+        "PendingVerification": IVS.PendingVerification.self,
+        "ResourceNotFoundException": IVS.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": IVS.ServiceQuotaExceededException.self,
+        "StreamUnavailable": IVS.StreamUnavailable.self,
+        "ThrottlingException": IVS.ThrottlingException.self,
+        "ValidationException": IVS.ValidationException.self
+    ]
 }
 
 extension IVSErrorType: Equatable {

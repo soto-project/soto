@@ -26,6 +26,11 @@ import Foundation
 extension CleanRooms {
     // MARK: Enums
 
+    public enum AccessDeniedExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case insufficientPermissions = "INSUFFICIENT_PERMISSIONS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AdditionalAnalyses: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowed = "ALLOWED"
         case notAllowed = "NOT_ALLOWED"
@@ -106,6 +111,13 @@ extension CleanRooms {
         case aggregation = "AGGREGATION"
         case custom = "CUSTOM"
         case list = "LIST"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConflictExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case alreadyExists = "ALREADY_EXISTS"
+        case invalidState = "INVALID_STATE"
+        case subresourcesExist = "SUBRESOURCES_EXIST"
         public var description: String { return self.rawValue }
     }
 
@@ -233,6 +245,14 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case collaboration = "COLLABORATION"
+        case configuredTable = "CONFIGURED_TABLE"
+        case configuredTableAssociation = "CONFIGURED_TABLE_ASSOCIATION"
+        case membership = "MEMBERSHIP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResultFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case parquet = "PARQUET"
@@ -301,6 +321,14 @@ extension CleanRooms {
 
     public enum TargetProtectedQueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fieldValidationFailed = "FIELD_VALIDATION_FAILED"
+        case iamSynchronizationDelay = "IAM_SYNCHRONIZATION_DELAY"
+        case invalidConfiguration = "INVALID_CONFIGURATION"
+        case invalidQuery = "INVALID_QUERY"
         public var description: String { return self.rawValue }
     }
 
@@ -614,6 +642,23 @@ extension CleanRooms {
     }
 
     // MARK: Shapes
+
+    public struct AccessDeniedException: AWSErrorShape {
+        public let message: String?
+        /// A reason code for the exception.
+        public let reason: AccessDeniedExceptionReason?
+
+        @inlinable
+        public init(message: String? = nil, reason: AccessDeniedExceptionReason? = nil) {
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+        }
+    }
 
     public struct AggregateColumn: AWSEncodableShape & AWSDecodableShape {
         /// Column names in configured table of aggregate columns.
@@ -2420,6 +2465,31 @@ extension CleanRooms {
             case id = "id"
             case name = "name"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// A reason code for the exception.
+        public let reason: ConflictExceptionReason?
+        /// The ID of the conflicting resource.
+        public let resourceId: String?
+        /// The type of the conflicting resource.
+        public let resourceType: ResourceType?
+
+        @inlinable
+        public init(message: String? = nil, reason: ConflictExceptionReason? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.message = message
+            self.reason = reason
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case reason = "reason"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -7059,6 +7129,27 @@ extension CleanRooms {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The Id of the missing resource.
+        public let resourceId: String
+        /// The type of the missing resource.
+        public let resourceType: ResourceType
+
+        @inlinable
+        public init(message: String, resourceId: String, resourceType: ResourceType) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
     public struct Schema: AWSDecodableShape {
         /// The analysis method for the schema. The only valid value is currently DIRECT_QUERY.
         public let analysisMethod: AnalysisMethod?
@@ -7239,6 +7330,27 @@ extension CleanRooms {
             case name = "name"
             case type = "type"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The name of the quota.
+        public let quotaName: String
+        /// The value of the quota.
+        public let quotaValue: Double
+
+        @inlinable
+        public init(message: String, quotaName: String, quotaValue: Double) {
+            self.message = message
+            self.quotaName = quotaName
+            self.quotaValue = quotaValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaName = "quotaName"
+            case quotaValue = "quotaValue"
         }
     }
 
@@ -8127,6 +8239,45 @@ extension CleanRooms {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// Validation errors for specific input parameters.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String?
+        /// A reason code for the exception.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// A message for the input validation error.
+        public let message: String
+        /// The name of the input parameter.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
+
     public struct WorkerComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
         ///  The number of workers.
         public let number: Int?
@@ -8451,6 +8602,16 @@ public struct CleanRoomsErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// The input fails to satisfy the specified constraints.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension CleanRoomsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": CleanRooms.AccessDeniedException.self,
+        "ConflictException": CleanRooms.ConflictException.self,
+        "ResourceNotFoundException": CleanRooms.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": CleanRooms.ServiceQuotaExceededException.self,
+        "ValidationException": CleanRooms.ValidationException.self
+    ]
 }
 
 extension CleanRoomsErrorType: Equatable {

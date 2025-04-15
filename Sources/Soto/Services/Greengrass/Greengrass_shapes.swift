@@ -197,6 +197,24 @@ extension Greengrass {
         }
     }
 
+    public struct BadRequestException: AWSErrorShape {
+        /// Details about the error.
+        public let errorDetails: [ErrorDetail]?
+        /// A message containing information about the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorDetails: [ErrorDetail]? = nil, message: String? = nil) {
+            self.errorDetails = errorDetails
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "ErrorDetails"
+            case message = "Message"
+        }
+    }
+
     public struct BulkDeployment: AWSDecodableShape {
         /// The ARN of the bulk deployment.
         public let bulkDeploymentArn: String?
@@ -3474,6 +3492,24 @@ extension Greengrass {
         }
     }
 
+    public struct InternalServerErrorException: AWSErrorShape {
+        /// Details about the error.
+        public let errorDetails: [ErrorDetail]?
+        /// A message containing information about the error.
+        public let message: String?
+
+        @inlinable
+        public init(errorDetails: [ErrorDetail]? = nil, message: String? = nil) {
+            self.errorDetails = errorDetails
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetails = "ErrorDetails"
+            case message = "Message"
+        }
+    }
+
     public struct ListBulkDeploymentDetailedReportsRequest: AWSEncodableShape {
         /// The ID of the bulk deployment.
         public let bulkDeploymentId: String
@@ -5232,6 +5268,13 @@ public struct GreengrassErrorType: AWSErrorType {
     public static var badRequestException: Self { .init(.badRequestException) }
     /// General error information.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+}
+
+extension GreengrassErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": Greengrass.BadRequestException.self,
+        "InternalServerErrorException": Greengrass.InternalServerErrorException.self
+    ]
 }
 
 extension GreengrassErrorType: Equatable {

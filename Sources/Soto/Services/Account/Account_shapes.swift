@@ -48,6 +48,12 @@ extension Account {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case fieldValidationFailed = "fieldValidationFailed"
+        case invalidRegionOptTarget = "invalidRegionOptTarget"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AcceptPrimaryEmailUpdateRequest: AWSEncodableShape {
@@ -595,6 +601,46 @@ extension Account {
             case status = "Status"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The field where the invalid entry was detected.
+        public let fieldList: [ValidationExceptionField]?
+        /// The message that informs you about what was invalid about the request.
+        public let message: String
+        /// The reason that validation failed.
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// A message about the validation exception.
+        public let message: String
+        /// The field name where the invalid entry was detected.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -640,6 +686,12 @@ public struct AccountErrorType: AWSErrorType {
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// The operation failed because one of the input parameters was invalid.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension AccountErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ValidationException": Account.ValidationException.self
+    ]
 }
 
 extension AccountErrorType: Equatable {

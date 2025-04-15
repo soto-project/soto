@@ -116,6 +116,14 @@ extension WorkSpacesWeb {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VisualMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dark = "Dark"
         case light = "Light"
@@ -572,6 +580,27 @@ extension WorkSpacesWeb {
             case notValidBefore = "notValidBefore"
             case subject = "subject"
             case thumbprint = "thumbprint"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let message: String?
+        /// Identifier of the resource affected.
+        public let resourceId: String?
+        /// Type of the resource affected.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
         }
     }
 
@@ -2490,6 +2519,29 @@ extension WorkSpacesWeb {
         }
     }
 
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String?
+        /// Advice to clients on when the call can be safely retried.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String? = nil, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+        }
+    }
+
     public struct IpAccessSettings: AWSDecodableShape {
         /// The additional encryption context of the IP access settings.
         public let additionalEncryptionContext: [String: String]?
@@ -3424,6 +3476,56 @@ extension WorkSpacesWeb {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// Hypothetical identifier of the resource affected.
+        public let resourceId: String?
+        /// Hypothetical type of the resource affected.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+        }
+    }
+
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String?
+        /// The originating quota.
+        public let quotaCode: String?
+        /// Identifier of the resource affected.
+        public let resourceId: String?
+        ///  Type of the resource affected.
+        public let resourceType: String?
+        /// The originating service.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String? = nil, quotaCode: String? = nil, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case resourceId = "resourceId"
+            case resourceType = "resourceType"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct Session: AWSDecodableShape {
         /// The IP address of the client.
         public let clientIpAddresses: [String]?
@@ -3565,6 +3667,56 @@ extension WorkSpacesWeb {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String?
+        /// The originating quota.
+        public let quotaCode: String?
+        /// Advice to clients on when the call can be safely retried.
+        public let retryAfterSeconds: Int?
+        /// The originating service.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String? = nil, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decodeIfPresent(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        /// Name of the resource affected.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+        }
     }
 
     public struct ToolbarConfiguration: AWSEncodableShape & AWSDecodableShape {
@@ -4444,6 +4596,45 @@ extension WorkSpacesWeb {
             case userSettingsArn = "userSettingsArn"
         }
     }
+
+    public struct ValidationException: AWSErrorShape {
+        /// The field that caused the error.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String?
+        /// Reason the request failed validation
+        public let reason: ValidationExceptionReason?
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String? = nil, reason: ValidationExceptionReason? = nil) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The message describing why the field failed validation.
+        public let message: String
+        /// The name of the field that failed validation.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -4495,6 +4686,18 @@ public struct WorkSpacesWebErrorType: AWSErrorType {
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// There is a validation error.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension WorkSpacesWebErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ConflictException": WorkSpacesWeb.ConflictException.self,
+        "InternalServerException": WorkSpacesWeb.InternalServerException.self,
+        "ResourceNotFoundException": WorkSpacesWeb.ResourceNotFoundException.self,
+        "ServiceQuotaExceededException": WorkSpacesWeb.ServiceQuotaExceededException.self,
+        "ThrottlingException": WorkSpacesWeb.ThrottlingException.self,
+        "TooManyTagsException": WorkSpacesWeb.TooManyTagsException.self,
+        "ValidationException": WorkSpacesWeb.ValidationException.self
+    ]
 }
 
 extension WorkSpacesWebErrorType: Equatable {

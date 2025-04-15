@@ -142,6 +142,22 @@ extension RedshiftServerless {
 
     // MARK: Shapes
 
+    public struct AccessDeniedException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct Association: AWSDecodableShape {
         /// The custom domain name’s certificate Amazon resource name (ARN).
         public let customDomainCertificateArn: String?
@@ -2443,6 +2459,23 @@ extension RedshiftServerless {
         }
     }
 
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String
+        /// The name of the resource that could not be found.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+        }
+    }
+
     public struct ResourcePolicy: AWSDecodableShape {
         /// The resource policy.
         public let policy: String?
@@ -3057,6 +3090,39 @@ extension RedshiftServerless {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let code: String?
+        public let message: String?
+
+        @inlinable
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        /// The name of the resource that exceeded the number of tags allowed for a resource.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -3776,6 +3842,15 @@ public struct RedshiftServerlessErrorType: AWSErrorType {
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The input failed to satisfy the constraints specified by an AWS service.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension RedshiftServerlessErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "AccessDeniedException": RedshiftServerless.AccessDeniedException.self,
+        "ResourceNotFoundException": RedshiftServerless.ResourceNotFoundException.self,
+        "ThrottlingException": RedshiftServerless.ThrottlingException.self,
+        "TooManyTagsException": RedshiftServerless.TooManyTagsException.self
+    ]
 }
 
 extension RedshiftServerlessErrorType: Equatable {

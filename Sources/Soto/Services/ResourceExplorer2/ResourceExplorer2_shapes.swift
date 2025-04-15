@@ -979,6 +979,27 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The name of the service quota that was exceeded by the request.
+        public let name: String
+        /// The current value for the quota that the request tried to exceed.
+        public let value: String
+
+        @inlinable
+        public init(message: String, name: String, value: String) {
+            self.message = message
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct SupportedResourceType: AWSDecodableShape {
         /// The unique identifier of the resource type.
         public let resourceType: String?
@@ -1131,6 +1152,41 @@ extension ResourceExplorer2 {
         }
     }
 
+    public struct ValidationException: AWSErrorShape {
+        /// An array of the request fields that had validation errors.
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String) {
+            self.fieldList = fieldList
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "FieldList"
+            case message = "Message"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// The name of the request field that had a validation error.
+        public let name: String
+        /// The validation error caused by the request field.
+        public let validationIssue: String
+
+        @inlinable
+        public init(name: String, validationIssue: String) {
+            self.name = name
+            self.validationIssue = validationIssue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case validationIssue = "ValidationIssue"
+        }
+    }
+
     public struct View: AWSDecodableShape {
         /// An array of SearchFilter objects that specify which resources can be included in the results of queries made using this view.
         public let filters: SearchFilter?
@@ -1215,6 +1271,13 @@ public struct ResourceExplorer2ErrorType: AWSErrorType {
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension ResourceExplorer2ErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "ServiceQuotaExceededException": ResourceExplorer2.ServiceQuotaExceededException.self,
+        "ValidationException": ResourceExplorer2.ValidationException.self
+    ]
 }
 
 extension ResourceExplorer2ErrorType: Equatable {

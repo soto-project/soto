@@ -6491,6 +6491,23 @@ extension Bedrock {
         }
     }
 
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        /// The name of the resource with too many tags.
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+        }
+    }
+
     public struct TrainingDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// Settings for using invocation logs to customize a model.
         public let invocationLogsConfig: InvocationLogsConfig?
@@ -7125,6 +7142,12 @@ public struct BedrockErrorType: AWSErrorType {
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// Input validation failed. Check your request parameters and retry the request.
     public static var validationException: Self { .init(.validationException) }
+}
+
+extension BedrockErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "TooManyTagsException": Bedrock.TooManyTagsException.self
+    ]
 }
 
 extension BedrockErrorType: Equatable {

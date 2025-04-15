@@ -74,6 +74,24 @@ extension CloudSearchDomain {
         }
     }
 
+    public struct DocumentServiceException: AWSErrorShape {
+        /// The description of the errors returned by the document service.
+        public let message: String?
+        /// The return status of a document upload request, error or success.
+        public let status: String?
+
+        @inlinable
+        public init(message: String? = nil, status: String? = nil) {
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case status = "status"
+        }
+    }
+
     public struct DocumentServiceWarning: AWSDecodableShape {
         /// The description for a warning returned by the document service.
         public let message: String?
@@ -489,6 +507,12 @@ public struct CloudSearchDomainErrorType: AWSErrorType {
     public static var documentServiceException: Self { .init(.documentServiceException) }
     /// Information about any problems encountered while processing a search request.
     public static var searchException: Self { .init(.searchException) }
+}
+
+extension CloudSearchDomainErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "DocumentServiceException": CloudSearchDomain.DocumentServiceException.self
+    ]
 }
 
 extension CloudSearchDomainErrorType: Equatable {

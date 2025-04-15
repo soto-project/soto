@@ -614,6 +614,23 @@ extension QLDB {
         }
     }
 
+    public struct InvalidParameterException: AWSErrorShape {
+        public let message: String?
+        /// The name of the invalid parameter.
+        public let parameterName: String?
+
+        @inlinable
+        public init(message: String? = nil, parameterName: String? = nil) {
+            self.message = message
+            self.parameterName = parameterName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case parameterName = "ParameterName"
+        }
+    }
+
     public struct JournalKinesisStreamDescription: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the QLDB journal stream.
         public let arn: String?
@@ -777,6 +794,23 @@ extension QLDB {
             case creationDateTime = "CreationDateTime"
             case name = "Name"
             case state = "State"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let message: String?
+        /// The type of resource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -1020,6 +1054,90 @@ extension QLDB {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct ResourceAlreadyExistsException: AWSErrorShape {
+        public let message: String?
+        /// The name of the resource.
+        public let resourceName: String?
+        /// The type of resource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceInUseException: AWSErrorShape {
+        public let message: String?
+        /// The name of the resource.
+        public let resourceName: String?
+        /// The type of resource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourceNotFoundException: AWSErrorShape {
+        public let message: String?
+        /// The name of the resource.
+        public let resourceName: String?
+        /// The type of resource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct ResourcePreconditionNotMetException: AWSErrorShape {
+        public let message: String?
+        /// The name of the resource.
+        public let resourceName: String?
+        /// The type of resource.
+        public let resourceType: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil, resourceType: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case resourceName = "ResourceName"
+            case resourceType = "ResourceType"
         }
     }
 
@@ -1417,6 +1535,17 @@ public struct QLDBErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The operation failed because a condition wasn't satisfied in advance.
     public static var resourcePreconditionNotMetException: Self { .init(.resourcePreconditionNotMetException) }
+}
+
+extension QLDBErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "InvalidParameterException": QLDB.InvalidParameterException.self,
+        "LimitExceededException": QLDB.LimitExceededException.self,
+        "ResourceAlreadyExistsException": QLDB.ResourceAlreadyExistsException.self,
+        "ResourceInUseException": QLDB.ResourceInUseException.self,
+        "ResourceNotFoundException": QLDB.ResourceNotFoundException.self,
+        "ResourcePreconditionNotMetException": QLDB.ResourcePreconditionNotMetException.self
+    ]
 }
 
 extension QLDBErrorType: Equatable {

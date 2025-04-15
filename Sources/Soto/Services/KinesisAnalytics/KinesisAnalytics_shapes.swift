@@ -2201,6 +2201,25 @@ extension KinesisAnalytics {
         public init() {}
     }
 
+    public struct UnableToDetectSchemaException: AWSErrorShape {
+        public let message: String?
+        public let processedInputRecords: [String]?
+        public let rawInputRecords: [String]?
+
+        @inlinable
+        public init(message: String? = nil, processedInputRecords: [String]? = nil, rawInputRecords: [String]? = nil) {
+            self.message = message
+            self.processedInputRecords = processedInputRecords
+            self.rawInputRecords = rawInputRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case processedInputRecords = "ProcessedInputRecords"
+            case rawInputRecords = "RawInputRecords"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The ARN of the Kinesis Analytics application from which to remove the tags.
         public let resourceARN: String
@@ -2332,6 +2351,12 @@ public struct KinesisAnalyticsErrorType: AWSErrorType {
     public static var unableToDetectSchemaException: Self { .init(.unableToDetectSchemaException) }
     /// The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+}
+
+extension KinesisAnalyticsErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "UnableToDetectSchemaException": KinesisAnalytics.UnableToDetectSchemaException.self
+    ]
 }
 
 extension KinesisAnalyticsErrorType: Equatable {

@@ -94,6 +94,63 @@ extension Cloud9 {
 
     // MARK: Shapes
 
+    public struct BadRequestException: AWSErrorShape {
+        public let className: String?
+        public let code: Int?
+        public let message: String?
+
+        @inlinable
+        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+            self.className = className
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "className"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct ConcurrentAccessException: AWSErrorShape {
+        public let className: String?
+        public let code: Int?
+        public let message: String?
+
+        @inlinable
+        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+            self.className = className
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "className"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct ConflictException: AWSErrorShape {
+        public let className: String?
+        public let code: Int?
+        public let message: String?
+
+        @inlinable
+        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+            self.className = className
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "className"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct CreateEnvironmentEC2Request: AWSEncodableShape {
         /// The number of minutes until the running instance is shut down after the environment has last been used.
         public let automaticStopTimeMinutes: Int?
@@ -498,6 +555,63 @@ extension Cloud9 {
         }
     }
 
+    public struct ForbiddenException: AWSErrorShape {
+        public let className: String?
+        public let code: Int?
+        public let message: String?
+
+        @inlinable
+        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+            self.className = className
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "className"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct InternalServerErrorException: AWSErrorShape {
+        public let className: String?
+        public let code: Int?
+        public let message: String?
+
+        @inlinable
+        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+            self.className = className
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "className"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct LimitExceededException: AWSErrorShape {
+        public let className: String?
+        public let code: Int?
+        public let message: String?
+
+        @inlinable
+        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+            self.className = className
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "className"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct ListEnvironmentsRequest: AWSEncodableShape {
         /// The maximum number of environments to get identifiers for.
         public let maxResults: Int?
@@ -571,6 +685,25 @@ extension Cloud9 {
         }
     }
 
+    public struct NotFoundException: AWSErrorShape {
+        public let className: String?
+        public let code: Int?
+        public let message: String?
+
+        @inlinable
+        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+            self.className = className
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "className"
+            case code = "code"
+            case message = "message"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The name part of a tag.
         public let key: String
@@ -623,6 +756,25 @@ extension Cloud9 {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TooManyRequestsException: AWSErrorShape {
+        public let className: String?
+        public let code: Int?
+        public let message: String?
+
+        @inlinable
+        public init(className: String? = nil, code: Int? = nil, message: String? = nil) {
+            self.className = className
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "className"
+            case code = "code"
+            case message = "message"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -784,6 +936,19 @@ public struct Cloud9ErrorType: AWSErrorType {
     public static var notFoundException: Self { .init(.notFoundException) }
     /// Too many service requests were made over the given time period.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension Cloud9ErrorType: AWSServiceErrorType {
+    public static let errorCodeMap: [String: AWSErrorShape.Type] = [
+        "BadRequestException": Cloud9.BadRequestException.self,
+        "ConcurrentAccessException": Cloud9.ConcurrentAccessException.self,
+        "ConflictException": Cloud9.ConflictException.self,
+        "ForbiddenException": Cloud9.ForbiddenException.self,
+        "InternalServerErrorException": Cloud9.InternalServerErrorException.self,
+        "LimitExceededException": Cloud9.LimitExceededException.self,
+        "NotFoundException": Cloud9.NotFoundException.self,
+        "TooManyRequestsException": Cloud9.TooManyRequestsException.self
+    ]
 }
 
 extension Cloud9ErrorType: Equatable {
