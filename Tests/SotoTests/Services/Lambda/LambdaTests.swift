@@ -27,15 +27,15 @@ class LambdaTests: XCTestCase {
     static let functionExecutionRoleName: String = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
 
     /*
-
+    
      The testing code for the AWS Lambda function is created with the following commands:
-
+    
      echo "exports.handler = async (event) => { return \"hello world\" };" > lambda.js
      zip lambda.zip lambda.js
      cat lambda.zip | base64
      rm lambda.zip
      rm lambda.js
-
+    
      */
     class func createLambdaFunction(roleArn: String) async throws {
         // Base64 and Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
