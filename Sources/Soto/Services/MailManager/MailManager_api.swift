@@ -284,6 +284,7 @@ public struct MailManager: AWSService {
     ///   - clientToken: A unique token that Amazon SES uses to recognize subsequent retries of the same request.
     ///   - ingressPointConfiguration: If you choose an Authenticated ingress endpoint, you must configure either an SMTP password or a secret ARN.
     ///   - ingressPointName: A user friendly name for an ingress endpoint resource.
+    ///   - networkConfiguration: Specifies the network configuration for the ingress point. This allows you to create an IPv4-only, Dual-Stack, or PrivateLink type of ingress point. If not specified, the default network type is IPv4-only.
     ///   - ruleSetId: The identifier of an existing rule set that you attach to an ingress endpoint resource.
     ///   - tags: The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
     ///   - trafficPolicyId: The identifier of an existing traffic policy that you attach to an ingress endpoint resource.
@@ -294,6 +295,7 @@ public struct MailManager: AWSService {
         clientToken: String? = CreateIngressPointRequest.idempotencyToken(),
         ingressPointConfiguration: IngressPointConfiguration? = nil,
         ingressPointName: String,
+        networkConfiguration: NetworkConfiguration? = nil,
         ruleSetId: String,
         tags: [Tag]? = nil,
         trafficPolicyId: String,
@@ -304,6 +306,7 @@ public struct MailManager: AWSService {
             clientToken: clientToken, 
             ingressPointConfiguration: ingressPointConfiguration, 
             ingressPointName: ingressPointName, 
+            networkConfiguration: networkConfiguration, 
             ruleSetId: ruleSetId, 
             tags: tags, 
             trafficPolicyId: trafficPolicyId, 

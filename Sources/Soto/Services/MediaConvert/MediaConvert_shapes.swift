@@ -642,6 +642,7 @@ extension MediaConvert {
     public enum CmafSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exact = "EXACT"
         case gopMultiple = "GOP_MULTIPLE"
+        case match = "MATCH"
         public var description: String { return self.rawValue }
     }
 
@@ -913,6 +914,7 @@ extension MediaConvert {
     public enum DashIsoSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exact = "EXACT"
         case gopMultiple = "GOP_MULTIPLE"
+        case match = "MATCH"
         public var description: String { return self.rawValue }
     }
 
@@ -1871,6 +1873,7 @@ extension MediaConvert {
     public enum HlsSegmentLengthControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case exact = "EXACT"
         case gopMultiple = "GOP_MULTIPLE"
+        case match = "MATCH"
         public var description: String { return self.rawValue }
     }
 
@@ -3001,6 +3004,7 @@ extension MediaConvert {
 
     public enum TsPtsOffset: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case auto = "AUTO"
+        case milliseconds = "MILLISECONDS"
         case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
@@ -3834,13 +3838,13 @@ extension MediaConvert {
     public struct AudioProperties: AWSDecodableShape {
         /// The bit depth of the audio track.
         public let bitDepth: Int?
-        /// The bit rate of the audio track in bits per second.
+        /// The bit rate of the audio track, in bits per second.
         public let bitRate: Int?
-        /// The number of audio channels.
+        /// The number of audio channels in the audio track.
         public let channels: Int?
-        /// the calculated frame rate of the asset.
+        /// The frame rate of the video or audio track.
         public let frameRate: FrameRate?
-        /// the language code of the track
+        /// The language code of the audio track, in three character ISO 639-3 format.
         public let languageCode: String?
         /// The sample rate of the audio track.
         public let sampleRate: Int?
@@ -4009,6 +4013,8 @@ extension MediaConvert {
     public struct AutomatedAbrSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specify the maximum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default. The average bitrate of your highest-quality rendition will be equal to or below this value, depending on the quality, complexity, and resolution of your content. Note that the instantaneous maximum bitrate may vary above the value that you specify.
         public let maxAbrBitrate: Int?
+        /// Optional. Specify the QVBR quality level to use for all renditions in your automated ABR stack. To have MediaConvert automatically determine the quality level: Leave blank. To manually specify a quality level: Enter an integer from 1 to 10. MediaConvert will use a quality level up to the value that you specify, depending on your source. For more information about QVBR quality levels, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/qvbr-guidelines.html
+        public let maxQualityLevel: Double?
         /// Optional. The maximum number of renditions that MediaConvert will create in your automated ABR stack. The number of renditions is determined automatically, based on analysis of each job, but will never exceed this limit. When you set this to Auto in the console, which is equivalent to excluding it from your JSON job specification, MediaConvert defaults to a limit of 15.
         public let maxRenditions: Int?
         /// Specify the minimum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 600,000 (600 kb/s) by default. The average bitrate of your lowest-quality rendition will be near this value. Note that the instantaneous minimum bitrate may vary below the value that you specify.
@@ -4017,8 +4023,9 @@ extension MediaConvert {
         public let rules: [AutomatedAbrRule]?
 
         @inlinable
-        public init(maxAbrBitrate: Int? = nil, maxRenditions: Int? = nil, minAbrBitrate: Int? = nil, rules: [AutomatedAbrRule]? = nil) {
+        public init(maxAbrBitrate: Int? = nil, maxQualityLevel: Double? = nil, maxRenditions: Int? = nil, minAbrBitrate: Int? = nil, rules: [AutomatedAbrRule]? = nil) {
             self.maxAbrBitrate = maxAbrBitrate
+            self.maxQualityLevel = maxQualityLevel
             self.maxRenditions = maxRenditions
             self.minAbrBitrate = minAbrBitrate
             self.rules = rules
@@ -4038,6 +4045,7 @@ extension MediaConvert {
 
         private enum CodingKeys: String, CodingKey {
             case maxAbrBitrate = "maxAbrBitrate"
+            case maxQualityLevel = "maxQualityLevel"
             case maxRenditions = "maxRenditions"
             case minAbrBitrate = "minAbrBitrate"
             case rules = "rules"
@@ -4836,7 +4844,7 @@ extension MediaConvert {
         public let segmentControl: CmafSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public let segmentLength: Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
         public let segmentLengthControl: CmafSegmentLengthControl?
         /// Include or exclude RESOLUTION attribute for video in EXT-X-STREAM-INF tag of variant manifest.
         public let streamInfResolution: CmafStreamInfResolution?
@@ -5163,11 +5171,11 @@ extension MediaConvert {
     }
 
     public struct Container: AWSDecodableShape {
-        /// The duration of the media file in seconds.
+        /// The total duration of your media file, in seconds.
         public let duration: Double?
-        /// The format of the container
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), or WebM. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public let format: Format?
-        /// List of Track objects.
+        /// Details about each track (video, audio, or data) in the media file.
         public let tracks: [Track]?
 
         @inlinable
@@ -5587,7 +5595,7 @@ extension MediaConvert {
         public let segmentControl: DashIsoSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 30. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public let segmentLength: Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
         public let segmentLengthControl: DashIsoSegmentLengthControl?
         /// Specify the video sample composition time offset mode in the output fMP4 TRUN box. For wider player compatibility, set Video composition offsets to Unsigned or leave blank. The earliest presentation time may be greater than zero, and sample composition time offsets will increment using unsigned integers. For strict fMP4 video and audio timing, set Video composition offsets to Signed. The earliest presentation time will be equal to zero, and sample composition time offsets will increment using signed integers.
         public let videoCompositionOffsets: DashIsoVideoCompositionOffsets?
@@ -5710,7 +5718,7 @@ extension MediaConvert {
     }
 
     public struct DataProperties: AWSDecodableShape {
-        /// the language code of the track
+        /// The language code of the data track, in three character ISO 639-3 format.
         public let languageCode: String?
 
         @inlinable
@@ -6815,9 +6823,9 @@ extension MediaConvert {
     }
 
     public struct FrameRate: AWSDecodableShape {
-        /// the denominator of the frame rate of the asset.
+        /// The denominator, or bottom number, in the fractional frame rate. For example, if your frame rate is 24000 / 1001 (23.976 frames per second), then the denominator would be 1001.
         public let denominator: Int?
-        /// the numerator of the frame rate of the asset.
+        /// The numerator, or top number, in the fractional frame rate. For example, if your frame rate is 24000 / 1001 (23.976 frames per second), then the numerator would be 24000.
         public let numerator: Int?
 
         @inlinable
@@ -7777,7 +7785,7 @@ extension MediaConvert {
         public let segmentControl: HlsSegmentControl?
         /// Specify the length, in whole seconds, of each segment. When you don't specify a value, MediaConvert defaults to 10. Related settings: Use Segment length control to specify whether the encoder enforces this value strictly. Use Segment control to specify whether MediaConvert creates separate segment files or one content file that has metadata to mark the segment boundaries.
         public let segmentLength: Int?
-        /// Specify how you want MediaConvert to determine the segment length. Choose Exact to have the encoder use the exact length that you specify with the setting Segment length. This might result in extra I-frames. Choose Multiple of GOP to have the encoder round up the segment lengths to match the next GOP boundary.
+        /// Specify how you want MediaConvert to determine segment lengths in this output group. To use the exact value that you specify under Segment length: Choose Exact. Note that this might result in additional I-frames in the output GOP. To create segment lengths that are a multiple of the GOP: Choose Multiple of GOP. MediaConvert will round up the segment lengths to match the next GOP boundary. To have MediaConvert automatically determine a segment duration that is a multiple of both the audio packets and the frame rates: Choose Match. When you do, also specify a target segment duration under Segment length. This is useful for some ad-insertion or segment replacement workflows. Note that Match has the following requirements: - Output containers: Include at least one video output and at least one audio output. Audio-only outputs are not supported. - Output frame rate: Follow source is not supported. - Multiple output frame rates: When you specify multiple outputs, we recommend they share a similar frame rate (as in X/3, X/2, X, or 2X). For example: 5, 15, 30 and 60. Or: 25 and 50. (Outputs must share an integer multiple.) - Output audio codec: Specify Advanced Audio Coding (AAC). - Output sample rate: Choose 48kHz.
         public let segmentLengthControl: HlsSegmentLengthControl?
         /// Specify the number of segments to write to a subdirectory before starting a new one. You must also set Directory structure to Subdirectory per stream for this setting to have an effect.
         public let segmentsPerSubdirectory: Int?
@@ -9397,6 +9405,8 @@ extension MediaConvert {
         public let audioFramesPerPes: Int?
         /// Specify the packet identifiers (PIDs) for any elementary audio streams you include in this output. Specify multiple PIDs as a JSON array. Default is the range 482-492.
         public let audioPids: [Int]?
+        /// Manually specify the difference in PTS offset that will be applied to the audio track, in seconds or milliseconds, when you set PTS offset to Seconds or Milliseconds. Enter an integer from -10000 to 10000. Leave blank to keep the default value 0.
+        public let audioPtsOffsetDelta: Int?
         /// Specify the output bitrate of the transport stream in bits per second. Setting to 0 lets the muxer automatically determine the appropriate bitrate. Other common values are 3750000, 7500000, and 15000000.
         public let bitrate: Int?
         /// Controls what buffer model to use for accurate interleaving. If set to MULTIPLEX, use multiplex buffer model. If set to NONE, this can lead to lower latency, but low-memory devices may not be able to play back the stream without interruptions.
@@ -9451,7 +9461,7 @@ extension MediaConvert {
         public let programNumber: Int?
         /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
         public let ptsOffset: Int?
-        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds or Milliseconds. Then specify the number of seconds or milliseconds with PTS offset.
         public let ptsOffsetMode: TsPtsOffset?
         /// When set to CBR, inserts null packets into transport stream to fill specified bitrate. When set to VBR, the bitrate setting acts as the maximum bitrate, but the output will not be padded up to that bitrate.
         public let rateMode: M2tsRateMode?
@@ -9475,11 +9485,12 @@ extension MediaConvert {
         public let videoPid: Int?
 
         @inlinable
-        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioDuration: M2tsAudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dataPTSControl: M2tsDataPtsControl? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, klvMetadata: M2tsKlvMetadata? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, preventBufferUnderflow: M2tsPreventBufferUnderflow? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, ptsOffset: Int? = nil, ptsOffsetMode: TsPtsOffset? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioDuration: M2tsAudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, audioPtsOffsetDelta: Int? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dataPTSControl: M2tsDataPtsControl? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, klvMetadata: M2tsKlvMetadata? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, preventBufferUnderflow: M2tsPreventBufferUnderflow? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, ptsOffset: Int? = nil, ptsOffsetMode: TsPtsOffset? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
             self.audioBufferModel = audioBufferModel
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
+            self.audioPtsOffsetDelta = audioPtsOffsetDelta
             self.bitrate = bitrate
             self.bufferModel = bufferModel
             self.dataPTSControl = dataPTSControl
@@ -9527,6 +9538,8 @@ extension MediaConvert {
                 try validate($0, name: "audioPids[]", parent: name, max: 8182)
                 try validate($0, name: "audioPids[]", parent: name, min: 32)
             }
+            try self.validate(self.audioPtsOffsetDelta, name: "audioPtsOffsetDelta", parent: name, max: 10000)
+            try self.validate(self.audioPtsOffsetDelta, name: "audioPtsOffsetDelta", parent: name, min: -10000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, max: 2147483647)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 0)
             try self.dvbNitSettings?.validate(name: "\(name).dvbNitSettings")
@@ -9572,6 +9585,7 @@ extension MediaConvert {
             case audioDuration = "audioDuration"
             case audioFramesPerPes = "audioFramesPerPes"
             case audioPids = "audioPids"
+            case audioPtsOffsetDelta = "audioPtsOffsetDelta"
             case bitrate = "bitrate"
             case bufferModel = "bufferModel"
             case dataPTSControl = "dataPTSControl"
@@ -9620,6 +9634,8 @@ extension MediaConvert {
         public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation.
         public let audioPids: [Int]?
+        /// Manually specify the difference in PTS offset that will be applied to the audio track, in seconds or milliseconds, when you set PTS offset to Seconds or Milliseconds. Enter an integer from -10000 to 10000. Leave blank to keep the default value 0.
+        public let audioPtsOffsetDelta: Int?
         /// If you select ALIGN_TO_VIDEO, MediaConvert writes captions and data packets with Presentation Timestamp (PTS) values greater than or equal to the first video packet PTS (MediaConvert drops captions and data packets with lesser PTS values). Keep the default value AUTO to allow all PTS values.
         public let dataPTSControl: M3u8DataPtsControl?
         /// Specify the maximum time, in milliseconds, between Program Clock References (PCRs) inserted into the transport stream.
@@ -9642,7 +9658,7 @@ extension MediaConvert {
         public let programNumber: Int?
         /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
         public let ptsOffset: Int?
-        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds or Milliseconds. Then specify the number of seconds or milliseconds with PTS offset.
         public let ptsOffsetMode: TsPtsOffset?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream.
         public let scte35Pid: Int?
@@ -9658,10 +9674,11 @@ extension MediaConvert {
         public let videoPid: Int?
 
         @inlinable
-        public init(audioDuration: M3u8AudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, dataPTSControl: M3u8DataPtsControl? = nil, maxPcrInterval: Int? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, ptsOffset: Int? = nil, ptsOffsetMode: TsPtsOffset? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioDuration: M3u8AudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, audioPtsOffsetDelta: Int? = nil, dataPTSControl: M3u8DataPtsControl? = nil, maxPcrInterval: Int? = nil, nielsenId3: M3u8NielsenId3? = nil, patInterval: Int? = nil, pcrControl: M3u8PcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, ptsOffset: Int? = nil, ptsOffsetMode: TsPtsOffset? = nil, scte35Pid: Int? = nil, scte35Source: M3u8Scte35Source? = nil, timedMetadata: TimedMetadata? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
+            self.audioPtsOffsetDelta = audioPtsOffsetDelta
             self.dataPTSControl = dataPTSControl
             self.maxPcrInterval = maxPcrInterval
             self.nielsenId3 = nielsenId3
@@ -9689,6 +9706,8 @@ extension MediaConvert {
                 try validate($0, name: "audioPids[]", parent: name, max: 8182)
                 try validate($0, name: "audioPids[]", parent: name, min: 32)
             }
+            try self.validate(self.audioPtsOffsetDelta, name: "audioPtsOffsetDelta", parent: name, max: 10000)
+            try self.validate(self.audioPtsOffsetDelta, name: "audioPtsOffsetDelta", parent: name, min: -10000)
             try self.validate(self.maxPcrInterval, name: "maxPcrInterval", parent: name, max: 500)
             try self.validate(self.maxPcrInterval, name: "maxPcrInterval", parent: name, min: 0)
             try self.validate(self.patInterval, name: "patInterval", parent: name, max: 1000)
@@ -9719,6 +9738,7 @@ extension MediaConvert {
             case audioDuration = "audioDuration"
             case audioFramesPerPes = "audioFramesPerPes"
             case audioPids = "audioPids"
+            case audioPtsOffsetDelta = "audioPtsOffsetDelta"
             case dataPTSControl = "dataPTSControl"
             case maxPcrInterval = "maxPcrInterval"
             case nielsenId3 = "nielsenId3"
@@ -9741,14 +9761,14 @@ extension MediaConvert {
     }
 
     public struct Metadata: AWSDecodableShape {
-        /// The ETag of the file.
+        /// The entity tag (ETag) of the file.
         public let eTag: String?
-        /// The size of the file in bytes.
+        /// The size of the media file, in bytes.
         public let fileSize: Int64?
-        /// The last modification time of the file.
+        /// The last modification timestamp of the media file, in Unix time.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModified: Date?
-        /// The MIME type of the file.
+        /// The MIME type of the media file.
         public let mimeType: String?
 
         @inlinable
@@ -11039,7 +11059,7 @@ extension MediaConvert {
     }
 
     public struct ProbeInputFile: AWSEncodableShape {
-        /// The URI to your input file(s) that is stored in Amazon S3 or on an HTTP(S) server.
+        /// Specify the S3, HTTP, or HTTPS URL for your media file.
         public let fileUrl: String?
 
         @inlinable
@@ -11053,7 +11073,7 @@ extension MediaConvert {
     }
 
     public struct ProbeRequest: AWSEncodableShape {
-        /// The list of input media files to be probed.
+        /// Specify a media file to probe.
         public let inputFiles: [ProbeInputFile]?
 
         @inlinable
@@ -11067,7 +11087,7 @@ extension MediaConvert {
     }
 
     public struct ProbeResponse: AWSDecodableShape {
-        /// List of probe results for the input media file(s).
+        /// Probe results for your media file.
         public let probeResults: [ProbeResult]?
 
         @inlinable
@@ -11081,11 +11101,11 @@ extension MediaConvert {
     }
 
     public struct ProbeResult: AWSDecodableShape {
-        /// Information about the container format of the media file.
+        /// The container of your media file. This information helps you understand the overall structure and details of your media, including format, duration, and track layout.
         public let container: Container?
-        /// Metadata about the file.
+        /// Metadata and other file information.
         public let metadata: Metadata?
-        /// List of Track mapping objects.
+        /// An array containing track mapping information.
         public let trackMappings: [TrackMapping]?
 
         @inlinable
@@ -11620,7 +11640,7 @@ extension MediaConvert {
         public let encryptionContractConfiguration: EncryptionContractConfiguration?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
         public let resourceId: String?
-        /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. Other group types support one system id. See https://dashif.org/identifiers/content_protection/ for more details.
+        /// Relates to SPEKE implementation. DRM system identifiers. DASH output groups support a max of two system ids. HLS output groups support a max of 3 system ids. Other group types support one system id. See https://dashif.org/identifiers/content_protection/ for more details.
         public let systemIds: [String]?
         /// Specify the URL to the key server that your SPEKE-compliant DRM key provider uses to provide keys for encrypting your content.
         public let url: String?
@@ -11658,7 +11678,7 @@ extension MediaConvert {
         public let dashSignaledSystemIds: [String]?
         /// Specify the SPEKE version, either v1.0 or v2.0, that MediaConvert uses when encrypting your output. For more information, see: https://docs.aws.amazon.com/speke/latest/documentation/speke-api-specification.html To use SPEKE v1.0: Leave blank. To use SPEKE v2.0: Specify a SPEKE v2.0 video preset and a SPEKE v2.0 audio preset.
         public let encryptionContractConfiguration: EncryptionContractConfiguration?
-        /// Specify the DRM system ID that you want signaled in the HLS manifest that MediaConvert creates as part of this CMAF package. The HLS manifest can currently signal only one system ID. For more information, see https://dashif.org/identifiers/content_protection/.
+        /// Specify up to 3 DRM system IDs that you want signaled in the HLS manifest that MediaConvert creates as part of this CMAF package. For more information, see https://dashif.org/identifiers/content_protection/.
         public let hlsSignaledSystemIds: [String]?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
         public let resourceId: String?
@@ -11919,19 +11939,19 @@ extension MediaConvert {
     }
 
     public struct Track: AWSDecodableShape {
-        /// Properties specific to audio tracks.
+        /// Details about the media file's audio track.
         public let audioProperties: AudioProperties?
-        /// The codec used for the track.
+        /// The codec of the audio or video track, or caption format of the data track.
         public let codec: Codec?
-        /// Properties specific to data tracks.
+        /// Details about the media file's data track.
         public let dataProperties: DataProperties?
-        /// The duration of the track in seconds.
+        /// The duration of the track, in seconds.
         public let duration: Double?
-        /// The index of the track.
+        /// The unique index number of the track, starting at 1.
         public let index: Int?
-        /// The type of the track (video, audio, or data).
+        /// The type of track: video, audio, or data.
         public let trackType: TrackType?
-        /// Properties specific to video tracks.
+        /// Details about the media file's video track.
         public let videoProperties: VideoProperties?
 
         @inlinable
@@ -11957,11 +11977,11 @@ extension MediaConvert {
     }
 
     public struct TrackMapping: AWSDecodableShape {
-        /// The indexes of the audio tracks.
+        /// The index numbers of the audio tracks in your media file.
         public let audioTrackIndexes: [Int]?
-        /// The indexes of the data tracks.
+        /// The index numbers of the data tracks in your media file.
         public let dataTrackIndexes: [Int]?
-        /// The indexes of the video tracks.
+        /// The index numbers of the video tracks in your media file.
         public let videoTrackIndexes: [Int]?
 
         @inlinable
@@ -12753,19 +12773,19 @@ extension MediaConvert {
     public struct VideoProperties: AWSDecodableShape {
         /// The bit depth of the video track.
         public let bitDepth: Int?
-        /// The bit rate of the video track in bits per second.
+        /// The bit rate of the video track, in bits per second.
         public let bitRate: Int?
-        /// the color primaries.
+        /// The color space color primaries of the video track.
         public let colorPrimaries: ColorPrimaries?
-        /// the calculated frame rate of the asset.
+        /// The frame rate of the video or audio track.
         public let frameRate: FrameRate?
-        /// The height of the video track in pixels.
+        /// The height of the video track, in pixels.
         public let height: Int?
-        /// the matrix coefficients.
+        /// The color space matrix coefficients of the video track.
         public let matrixCoefficients: MatrixCoefficients?
-        /// the transfer characteristics.
+        /// The color space transfer characteristics of the video track.
         public let transferCharacteristics: TransferCharacteristics?
-        /// The width of the video track in pixels.
+        /// The width of the video track, in pixels.
         public let width: Int?
 
         @inlinable

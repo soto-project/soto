@@ -101,18 +101,21 @@ public struct Route53RecoveryControlConfig: AWSService {
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request.
     ///   - clusterName: The name of the cluster.
+    ///   - networkType: The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK.
     ///   - tags: The tags associated with the cluster.
     ///   - logger: Logger use during operation
     @inlinable
     public func createCluster(
         clientToken: String? = CreateClusterRequest.idempotencyToken(),
         clusterName: String? = nil,
+        networkType: NetworkType? = nil,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateClusterResponse {
         let input = CreateClusterRequest(
             clientToken: clientToken, 
             clusterName: clusterName, 
+            networkType: networkType, 
             tags: tags
         )
         return try await self.createCluster(input, logger: logger)
@@ -756,6 +759,38 @@ public struct Route53RecoveryControlConfig: AWSService {
             tagKeys: tagKeys
         )
         return try await self.untagResource(input, logger: logger)
+    }
+
+    /// Updates an existing cluster. You can only update the network type of a cluster.
+    @Sendable
+    @inlinable
+    public func updateCluster(_ input: UpdateClusterRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterResponse {
+        try await self.client.execute(
+            operation: "UpdateCluster", 
+            path: "/cluster", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates an existing cluster. You can only update the network type of a cluster.
+    ///
+    /// Parameters:
+    ///   - clusterArn: The Amazon Resource Name (ARN) of the cluster.
+    ///   - networkType: The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateCluster(
+        clusterArn: String? = nil,
+        networkType: NetworkType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateClusterResponse {
+        let input = UpdateClusterRequest(
+            clusterArn: clusterArn, 
+            networkType: networkType
+        )
+        return try await self.updateCluster(input, logger: logger)
     }
 
     /// Updates a control panel. The only update you can make to a control panel is to change the name of the control panel.

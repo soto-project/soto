@@ -248,6 +248,7 @@ public struct LexModelsV2: AWSService {
     ///   - botType: The type of a bot to create.
     ///   - dataPrivacy: Provides information on additional privacy protections Amazon Lex should use with the bot's data.
     ///   - description: A description of the bot. It appears in lists to help you identify a particular bot.
+    ///   - errorLogSettings: Specifies the configuration for error logging during bot creation.
     ///   - idleSessionTTLInSeconds: The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot.  A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
     ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot.
     ///   - testBotAliasTags: A list of tags to add to the test alias for a bot. You can only add tags when you create a bot. You can't use the UpdateAlias operation to update tags. To update tags on the test alias, use the TagResource operation.
@@ -260,6 +261,7 @@ public struct LexModelsV2: AWSService {
         botType: BotType? = nil,
         dataPrivacy: DataPrivacy,
         description: String? = nil,
+        errorLogSettings: ErrorLogSettings? = nil,
         idleSessionTTLInSeconds: Int,
         roleArn: String,
         testBotAliasTags: [String: String]? = nil,
@@ -272,6 +274,7 @@ public struct LexModelsV2: AWSService {
             botType: botType, 
             dataPrivacy: dataPrivacy, 
             description: description, 
+            errorLogSettings: errorLogSettings, 
             idleSessionTTLInSeconds: idleSessionTTLInSeconds, 
             roleArn: roleArn, 
             testBotAliasTags: testBotAliasTags
@@ -508,6 +511,7 @@ public struct LexModelsV2: AWSService {
     ///   - localeId: The identifier of the language and locale where this intent is used. All of the bots, slot types, and slots used by the intent must have the same locale. For more information, see Supported languages.
     ///   - outputContexts: A lists of contexts that the intent activates when it is fulfilled. You can use an output context to indicate the intents that Amazon Lex should consider for the next turn of the conversation with a customer.  When you use the outputContextsList property, all of the contexts specified in the list are activated when the intent is fulfilled. You can set up to 10 output contexts. You can also set the number of conversation turns that the context should be active, or the length of time that the context should be active.
     ///   - parentIntentSignature: A unique identifier for the built-in intent to base this intent on.
+    ///   - qInConnectIntentConfiguration: Qinconnect intent configuration details for the create intent request.
     ///   - qnAIntentConfiguration: Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
     ///   - sampleUtterances: An array of strings that a user might say to signal the intent. For example, "I want a pizza", or "I want a {PizzaSize} pizza".  In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they should be displayed in the utterance shown to the user..
     ///   - logger: Logger use during operation
@@ -527,6 +531,7 @@ public struct LexModelsV2: AWSService {
         localeId: String,
         outputContexts: [OutputContext]? = nil,
         parentIntentSignature: String? = nil,
+        qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil,
         qnAIntentConfiguration: QnAIntentConfiguration? = nil,
         sampleUtterances: [SampleUtterance]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -546,6 +551,7 @@ public struct LexModelsV2: AWSService {
             localeId: localeId, 
             outputContexts: outputContexts, 
             parentIntentSignature: parentIntentSignature, 
+            qInConnectIntentConfiguration: qInConnectIntentConfiguration, 
             qnAIntentConfiguration: qnAIntentConfiguration, 
             sampleUtterances: sampleUtterances
         )
@@ -3670,6 +3676,7 @@ public struct LexModelsV2: AWSService {
     ///   - botType: The type of the bot to be updated.
     ///   - dataPrivacy: Provides information on additional privacy protections Amazon Lex should use with the bot's data.
     ///   - description: A description of the bot.
+    ///   - errorLogSettings: Allows you to modify how Amazon Lex logs errors during bot interactions, including destinations for error logs and the types of errors to be captured.
     ///   - idleSessionTTLInSeconds: The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
     ///   - roleArn: The Amazon Resource Name (ARN) of an IAM role that has permissions to access the bot.
     ///   - logger: Logger use during operation
@@ -3681,6 +3688,7 @@ public struct LexModelsV2: AWSService {
         botType: BotType? = nil,
         dataPrivacy: DataPrivacy,
         description: String? = nil,
+        errorLogSettings: ErrorLogSettings? = nil,
         idleSessionTTLInSeconds: Int,
         roleArn: String,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3692,6 +3700,7 @@ public struct LexModelsV2: AWSService {
             botType: botType, 
             dataPrivacy: dataPrivacy, 
             description: description, 
+            errorLogSettings: errorLogSettings, 
             idleSessionTTLInSeconds: idleSessionTTLInSeconds, 
             roleArn: roleArn
         )
@@ -3899,6 +3908,7 @@ public struct LexModelsV2: AWSService {
     ///   - localeId: The identifier of the language and locale where this intent is used. The string must match one of the supported locales. For more information, see Supported languages.
     ///   - outputContexts: A new list of contexts that Amazon Lex activates when the intent is fulfilled.
     ///   - parentIntentSignature: The signature of the new built-in intent to use as the parent of this intent.
+    ///   - qInConnectIntentConfiguration: Qinconnect intent configuration details for the update intent request.
     ///   - qnAIntentConfiguration: Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
     ///   - sampleUtterances: New utterances used to invoke the intent.
     ///   - slotPriorities: A new list of slots and their priorities that are contained by the intent.
@@ -3920,6 +3930,7 @@ public struct LexModelsV2: AWSService {
         localeId: String,
         outputContexts: [OutputContext]? = nil,
         parentIntentSignature: String? = nil,
+        qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil,
         qnAIntentConfiguration: QnAIntentConfiguration? = nil,
         sampleUtterances: [SampleUtterance]? = nil,
         slotPriorities: [SlotPriority]? = nil,
@@ -3941,6 +3952,7 @@ public struct LexModelsV2: AWSService {
             localeId: localeId, 
             outputContexts: outputContexts, 
             parentIntentSignature: parentIntentSignature, 
+            qInConnectIntentConfiguration: qInConnectIntentConfiguration, 
             qnAIntentConfiguration: qnAIntentConfiguration, 
             sampleUtterances: sampleUtterances, 
             slotPriorities: slotPriorities

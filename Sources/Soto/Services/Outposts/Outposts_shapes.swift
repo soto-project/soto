@@ -346,7 +346,7 @@ extension Outposts {
     }
 
     public struct AssetInfo: AWSDecodableShape {
-        ///  The ID of the asset.
+        ///  The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
         public let assetId: String?
         ///  The position of an asset in a rack.
         public let assetLocation: AssetLocation?
@@ -377,7 +377,7 @@ extension Outposts {
 
     public struct AssetInstance: AWSDecodableShape {
         public let accountId: String?
-        /// The ID of the asset.
+        /// The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
         public let assetId: String?
         /// The Amazon Web Services service name of the instance.
         public let awsServiceName: AWSServiceName?
@@ -539,6 +539,8 @@ extension Outposts {
     }
 
     public struct CapacityTaskSummary: AWSDecodableShape {
+        /// The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+        public let assetId: String?
         /// The ID of the specified capacity task.
         public let capacityTaskId: String?
         /// The status of the capacity task.
@@ -555,7 +557,8 @@ extension Outposts {
         public let outpostId: String?
 
         @inlinable
-        public init(capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil) {
+        public init(assetId: String? = nil, capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil) {
+            self.assetId = assetId
             self.capacityTaskId = capacityTaskId
             self.capacityTaskStatus = capacityTaskStatus
             self.completionDate = completionDate
@@ -566,6 +569,7 @@ extension Outposts {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetId = "AssetId"
             case capacityTaskId = "CapacityTaskId"
             case capacityTaskStatus = "CapacityTaskStatus"
             case completionDate = "CompletionDate"
@@ -1005,9 +1009,11 @@ extension Outposts {
     }
 
     public struct GetCapacityTaskOutput: AWSDecodableShape {
+        /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+        public let assetId: String?
         /// ID of the capacity task.
         public let capacityTaskId: String?
-        /// Status of the capacity task. A capacity task can have one of the following statuses:    REQUESTED - The capacity task was created and is awaiting the next step by Amazon Web Services Outposts.    IN_PROGRESS - The capacity task is running and cannot be cancelled.    WAITING_FOR_EVACUATION - The capacity task requires capacity to run. You must stop the recommended EC2 running instances to free up capacity for the task to run.
+        /// Status of the capacity task. A capacity task can have one of the following statuses:    REQUESTED - The capacity task was created and is awaiting the next step by Amazon Web Services Outposts.    IN_PROGRESS - The capacity task is running and cannot be cancelled.    FAILED - The capacity task could not be completed.    COMPLETED - The capacity task has completed successfully.    WAITING_FOR_EVACUATION - The capacity task requires capacity to run. You must stop the recommended EC2 running instances to free up capacity for the task to run.    CANCELLATION_IN_PROGRESS - The capacity task has been cancelled and is in the process of cleaning up resources.    CANCELLED - The capacity task is cancelled.
         public let capacityTaskStatus: CapacityTaskStatus?
         /// The date the capacity task ran successfully.
         public let completionDate: Date?
@@ -1031,7 +1037,8 @@ extension Outposts {
         public let taskActionOnBlockingInstances: TaskActionOnBlockingInstances?
 
         @inlinable
-        public init(capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, dryRun: Bool? = nil, failed: CapacityTaskFailure? = nil, instancesToExclude: InstancesToExclude? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil, requestedInstancePools: [InstanceTypeCapacity]? = nil, taskActionOnBlockingInstances: TaskActionOnBlockingInstances? = nil) {
+        public init(assetId: String? = nil, capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, dryRun: Bool? = nil, failed: CapacityTaskFailure? = nil, instancesToExclude: InstancesToExclude? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil, requestedInstancePools: [InstanceTypeCapacity]? = nil, taskActionOnBlockingInstances: TaskActionOnBlockingInstances? = nil) {
+            self.assetId = assetId
             self.capacityTaskId = capacityTaskId
             self.capacityTaskStatus = capacityTaskStatus
             self.completionDate = completionDate
@@ -1047,6 +1054,7 @@ extension Outposts {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetId = "AssetId"
             case capacityTaskId = "CapacityTaskId"
             case capacityTaskStatus = "CapacityTaskStatus"
             case completionDate = "CompletionDate"
@@ -1275,6 +1283,8 @@ extension Outposts {
     }
 
     public struct GetOutpostSupportedInstanceTypesInput: AWSEncodableShape {
+        /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+        public let assetId: String?
         public let maxResults: Int?
         public let nextToken: String?
         /// The ID for the Amazon Web Services Outposts order.
@@ -1283,7 +1293,8 @@ extension Outposts {
         public let outpostIdentifier: String
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil, orderId: String? = nil, outpostIdentifier: String) {
+        public init(assetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderId: String? = nil, outpostIdentifier: String) {
+            self.assetId = assetId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.orderId = orderId
@@ -1293,6 +1304,7 @@ extension Outposts {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.assetId, key: "AssetId")
             request.encodeQuery(self.maxResults, key: "MaxResults")
             request.encodeQuery(self.nextToken, key: "NextToken")
             request.encodeQuery(self.orderId, key: "OrderId")
@@ -1300,6 +1312,9 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 10)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 10)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^\\d{10}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
@@ -1539,7 +1554,7 @@ extension Outposts {
     }
 
     public struct LineItemAssetInformation: AWSDecodableShape {
-        ///  The ID of the asset.
+        ///  The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
         public let assetId: String?
         ///  The MAC addresses of the asset.
         public let macAddressList: [String]?
@@ -2392,6 +2407,8 @@ extension Outposts {
     }
 
     public struct StartCapacityTaskInput: AWSEncodableShape {
+        /// The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+        public let assetId: String?
         /// You can request a dry run to determine if the instance type and instance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
         public let dryRun: Bool?
         /// The instance pools specified in the capacity task.
@@ -2406,7 +2423,8 @@ extension Outposts {
         public let taskActionOnBlockingInstances: TaskActionOnBlockingInstances?
 
         @inlinable
-        public init(dryRun: Bool? = nil, instancePools: [InstanceTypeCapacity], instancesToExclude: InstancesToExclude? = nil, orderId: String? = nil, outpostIdentifier: String, taskActionOnBlockingInstances: TaskActionOnBlockingInstances? = nil) {
+        public init(assetId: String? = nil, dryRun: Bool? = nil, instancePools: [InstanceTypeCapacity], instancesToExclude: InstancesToExclude? = nil, orderId: String? = nil, outpostIdentifier: String, taskActionOnBlockingInstances: TaskActionOnBlockingInstances? = nil) {
+            self.assetId = assetId
             self.dryRun = dryRun
             self.instancePools = instancePools
             self.instancesToExclude = instancesToExclude
@@ -2418,6 +2436,7 @@ extension Outposts {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.assetId, forKey: .assetId)
             try container.encodeIfPresent(self.dryRun, forKey: .dryRun)
             try container.encode(self.instancePools, forKey: .instancePools)
             try container.encodeIfPresent(self.instancesToExclude, forKey: .instancesToExclude)
@@ -2427,6 +2446,9 @@ extension Outposts {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 10)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 10)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^\\d{10}$")
             try self.instancePools.forEach {
                 try $0.validate(name: "\(name).instancePools[]")
             }
@@ -2440,6 +2462,7 @@ extension Outposts {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetId = "AssetId"
             case dryRun = "DryRun"
             case instancePools = "InstancePools"
             case instancesToExclude = "InstancesToExclude"
@@ -2449,6 +2472,8 @@ extension Outposts {
     }
 
     public struct StartCapacityTaskOutput: AWSDecodableShape {
+        /// The ID of the asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
+        public let assetId: String?
         /// ID of the capacity task that you want to start.
         public let capacityTaskId: String?
         /// Status of the specified capacity task.
@@ -2475,7 +2500,8 @@ extension Outposts {
         public let taskActionOnBlockingInstances: TaskActionOnBlockingInstances?
 
         @inlinable
-        public init(capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, dryRun: Bool? = nil, failed: CapacityTaskFailure? = nil, instancesToExclude: InstancesToExclude? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil, requestedInstancePools: [InstanceTypeCapacity]? = nil, taskActionOnBlockingInstances: TaskActionOnBlockingInstances? = nil) {
+        public init(assetId: String? = nil, capacityTaskId: String? = nil, capacityTaskStatus: CapacityTaskStatus? = nil, completionDate: Date? = nil, creationDate: Date? = nil, dryRun: Bool? = nil, failed: CapacityTaskFailure? = nil, instancesToExclude: InstancesToExclude? = nil, lastModifiedDate: Date? = nil, orderId: String? = nil, outpostId: String? = nil, requestedInstancePools: [InstanceTypeCapacity]? = nil, taskActionOnBlockingInstances: TaskActionOnBlockingInstances? = nil) {
+            self.assetId = assetId
             self.capacityTaskId = capacityTaskId
             self.capacityTaskStatus = capacityTaskStatus
             self.completionDate = completionDate
@@ -2491,6 +2517,7 @@ extension Outposts {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetId = "AssetId"
             case capacityTaskId = "CapacityTaskId"
             case capacityTaskStatus = "CapacityTaskStatus"
             case completionDate = "CompletionDate"

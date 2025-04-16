@@ -688,6 +688,8 @@ public struct MediaLive: AWSService {
     ///   - name: Name of the input.
     ///   - requestId: Unique identifier of the request to ensure the request is handled
     ///   - roleArn: The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
+    ///   - sdiSources: 
+    ///   - smpte2110ReceiverGroupSettings: Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
     ///   - sources: The source URLs for a PULL-type input. Every PULL type input needs
     ///   - srtSettings: The settings associated with an SRT input.
     ///   - tags: A collection of key-value pairs.
@@ -705,6 +707,8 @@ public struct MediaLive: AWSService {
         name: String? = nil,
         requestId: String? = CreateInputRequest.idempotencyToken(),
         roleArn: String? = nil,
+        sdiSources: [String]? = nil,
+        smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil,
         sources: [InputSourceRequest]? = nil,
         srtSettings: SrtSettingsRequest? = nil,
         tags: [String: String]? = nil,
@@ -722,6 +726,8 @@ public struct MediaLive: AWSService {
             name: name, 
             requestId: requestId, 
             roleArn: roleArn, 
+            sdiSources: sdiSources, 
+            smpte2110ReceiverGroupSettings: smpte2110ReceiverGroupSettings, 
             sources: sources, 
             srtSettings: srtSettings, 
             tags: tags, 
@@ -1004,6 +1010,47 @@ public struct MediaLive: AWSService {
             tags: tags
         )
         return try await self.createPartnerInput(input, logger: logger)
+    }
+
+    /// Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses.
+    @Sendable
+    @inlinable
+    public func createSdiSource(_ input: CreateSdiSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSdiSourceResponse {
+        try await self.client.execute(
+            operation: "CreateSdiSource", 
+            path: "/prod/sdiSources", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Create an SdiSource for each video source that uses the SDI protocol. You will reference the SdiSource when you create an SDI input in MediaLive. You will also reference it in an SdiSourceMapping, in order to create a connection between the logical SdiSource and the physical SDI card and port that the physical SDI source uses.
+    ///
+    /// Parameters:
+    ///   - mode: Applies only if the type is QUAD. Specify the mode for handling the quad-link signal: QUADRANT or INTERLEAVE.
+    ///   - name: Specify a name that is unique in the AWS account. We recommend you assign a name that describes the source, for example curling-cameraA. Names are case-sensitive.
+    ///   - requestId: An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+    ///   - tags: A collection of key-value pairs.
+    ///   - type: Specify the  type of the SDI source: SINGLE: The source  is a single-link source. QUAD: The source  is one part of a quad-link source.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createSdiSource(
+        mode: SdiSourceMode? = nil,
+        name: String? = nil,
+        requestId: String? = CreateSdiSourceRequest.idempotencyToken(),
+        tags: [String: String]? = nil,
+        type: SdiSourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateSdiSourceResponse {
+        let input = CreateSdiSourceRequest(
+            mode: mode, 
+            name: name, 
+            requestId: requestId, 
+            tags: tags, 
+            type: type
+        )
+        return try await self.createSdiSource(input, logger: logger)
     }
 
     /// Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
@@ -1529,6 +1576,35 @@ public struct MediaLive: AWSService {
         return try await self.deleteSchedule(input, logger: logger)
     }
 
+    /// Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input.
+    @Sendable
+    @inlinable
+    public func deleteSdiSource(_ input: DeleteSdiSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSdiSourceResponse {
+        try await self.client.execute(
+            operation: "DeleteSdiSource", 
+            path: "/prod/sdiSources/{SdiSourceId}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Delete an SdiSource. The SdiSource must not be part of any SidSourceMapping and must not be attached to any input.
+    ///
+    /// Parameters:
+    ///   - sdiSourceId: The ID of the SdiSource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteSdiSource(
+        sdiSourceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteSdiSourceResponse {
+        let input = DeleteSdiSourceRequest(
+            sdiSourceId: sdiSourceId
+        )
+        return try await self.deleteSdiSource(input, logger: logger)
+    }
+
     /// Deletes the specified signal map.
     @Sendable
     @inlinable
@@ -2038,6 +2114,35 @@ public struct MediaLive: AWSService {
             nextToken: nextToken
         )
         return try await self.describeSchedule(input, logger: logger)
+    }
+
+    /// Gets details about a SdiSource.
+    @Sendable
+    @inlinable
+    public func describeSdiSource(_ input: DescribeSdiSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeSdiSourceResponse {
+        try await self.client.execute(
+            operation: "DescribeSdiSource", 
+            path: "/prod/sdiSources/{SdiSourceId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets details about a SdiSource.
+    ///
+    /// Parameters:
+    ///   - sdiSourceId: Get details about an SdiSource.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeSdiSource(
+        sdiSourceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeSdiSourceResponse {
+        let input = DescribeSdiSourceRequest(
+            sdiSourceId: sdiSourceId
+        )
+        return try await self.describeSdiSource(input, logger: logger)
     }
 
     /// Describe the latest thumbnails data.
@@ -2852,6 +2957,38 @@ public struct MediaLive: AWSService {
             videoQuality: videoQuality
         )
         return try await self.listReservations(input, logger: logger)
+    }
+
+    /// List all the SdiSources in the AWS account.
+    @Sendable
+    @inlinable
+    public func listSdiSources(_ input: ListSdiSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSdiSourcesResponse {
+        try await self.client.execute(
+            operation: "ListSdiSources", 
+            path: "/prod/sdiSources", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// List all the SdiSources in the AWS account.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of items to return.
+    ///   - nextToken: The token to retrieve the next page of results.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSdiSources(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSdiSourcesResponse {
+        let input = ListSdiSourcesRequest(
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listSdiSources(input, logger: logger)
     }
 
     /// Lists signal maps.
@@ -3832,6 +3969,8 @@ public struct MediaLive: AWSService {
     ///   - multicastSettings: Multicast Input settings.
     ///   - name: Name of the input.
     ///   - roleArn: The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
+    ///   - sdiSources: 
+    ///   - smpte2110ReceiverGroupSettings: Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
     ///   - sources: The source URLs for a PULL-type input. Every PULL type input needs
     ///   - srtSettings: The settings associated with an SRT input.
     ///   - logger: Logger use during operation
@@ -3845,6 +3984,8 @@ public struct MediaLive: AWSService {
         multicastSettings: MulticastSettingsUpdateRequest? = nil,
         name: String? = nil,
         roleArn: String? = nil,
+        sdiSources: [String]? = nil,
+        smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil,
         sources: [InputSourceRequest]? = nil,
         srtSettings: SrtSettingsRequest? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -3858,6 +3999,8 @@ public struct MediaLive: AWSService {
             multicastSettings: multicastSettings, 
             name: name, 
             roleArn: roleArn, 
+            sdiSources: sdiSources, 
+            smpte2110ReceiverGroupSettings: smpte2110ReceiverGroupSettings, 
             sources: sources, 
             srtSettings: srtSettings
         )
@@ -4068,6 +4211,7 @@ public struct MediaLive: AWSService {
     ///   - name: Include this parameter only if you want to change the current name of the Node. Specify a name that is unique in the Cluster. You can't change the name. Names are case-sensitive.
     ///   - nodeId: The ID of the node.
     ///   - role: The initial role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
+    ///   - sdiSourceMappings: The mappings of a SDI capture card port to a logical SDI data stream
     ///   - logger: Logger use during operation
     @inlinable
     public func updateNode(
@@ -4075,13 +4219,15 @@ public struct MediaLive: AWSService {
         name: String? = nil,
         nodeId: String,
         role: NodeRole? = nil,
+        sdiSourceMappings: [SdiSourceMappingUpdateRequest]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateNodeResponse {
         let input = UpdateNodeRequest(
             clusterId: clusterId, 
             name: name, 
             nodeId: nodeId, 
-            role: role
+            role: role, 
+            sdiSourceMappings: sdiSourceMappings
         )
         return try await self.updateNode(input, logger: logger)
     }
@@ -4154,6 +4300,44 @@ public struct MediaLive: AWSService {
             reservationId: reservationId
         )
         return try await self.updateReservation(input, logger: logger)
+    }
+
+    /// Change some of the settings in an SdiSource.
+    @Sendable
+    @inlinable
+    public func updateSdiSource(_ input: UpdateSdiSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateSdiSourceResponse {
+        try await self.client.execute(
+            operation: "UpdateSdiSource", 
+            path: "/prod/sdiSources/{SdiSourceId}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Change some of the settings in an SdiSource.
+    ///
+    /// Parameters:
+    ///   - mode: Include this parameter only if you want to change the name of the SdiSource. Specify a name that is unique in the AWS account. We recommend you assign a name that describes the source, for example curling-cameraA. Names are case-sensitive.
+    ///   - name: Include this parameter only if you want to change the name of the SdiSource. Specify a name that is unique in the AWS account. We recommend you assign a name that describes the source, for example curling-cameraA. Names are case-sensitive.
+    ///   - sdiSourceId: The ID of the SdiSource
+    ///   - type: Include this parameter only if you want to change the mode. Specify the type of the SDI source: SINGLE: The source is a single-link source. QUAD: The source is one part of a quad-link source.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateSdiSource(
+        mode: SdiSourceMode? = nil,
+        name: String? = nil,
+        sdiSourceId: String,
+        type: SdiSourceType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateSdiSourceResponse {
+        let input = UpdateSdiSourceRequest(
+            mode: mode, 
+            name: name, 
+            sdiSourceId: sdiSourceId, 
+            type: type
+        )
+        return try await self.updateSdiSource(input, logger: logger)
     }
 }
 
@@ -4875,6 +5059,40 @@ extension MediaLive {
         return self.listReservationsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listSdiSources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSdiSourcesPaginator(
+        _ input: ListSdiSourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSdiSourcesRequest, ListSdiSourcesResponse> {
+        return .init(
+            input: input,
+            command: self.listSdiSources,
+            inputKey: \ListSdiSourcesRequest.nextToken,
+            outputKey: \ListSdiSourcesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSdiSources(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of items to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSdiSourcesPaginator(
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSdiSourcesRequest, ListSdiSourcesResponse> {
+        let input = ListSdiSourcesRequest(
+            maxResults: maxResults
+        )
+        return self.listSdiSourcesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listSignalMaps(_:logger:)``.
     ///
     /// - Parameters:
@@ -5123,6 +5341,16 @@ extension MediaLive.ListReservationsRequest: AWSPaginateToken {
             resourceType: self.resourceType,
             specialFeature: self.specialFeature,
             videoQuality: self.videoQuality
+        )
+    }
+}
+
+extension MediaLive.ListSdiSourcesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListSdiSourcesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

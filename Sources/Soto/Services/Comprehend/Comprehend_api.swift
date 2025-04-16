@@ -79,6 +79,28 @@ public struct Comprehend: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-northeast-1": "comprehend.ap-northeast-1.api.aws",
+            "ap-northeast-2": "comprehend.ap-northeast-2.api.aws",
+            "ap-south-1": "comprehend.ap-south-1.api.aws",
+            "ap-southeast-1": "comprehend.ap-southeast-1.api.aws",
+            "ap-southeast-2": "comprehend.ap-southeast-2.api.aws",
+            "ca-central-1": "comprehend.ca-central-1.api.aws",
+            "eu-central-1": "comprehend.eu-central-1.api.aws",
+            "eu-west-1": "comprehend.eu-west-1.api.aws",
+            "eu-west-2": "comprehend.eu-west-2.api.aws",
+            "us-east-1": "comprehend.us-east-1.api.aws",
+            "us-east-2": "comprehend.us-east-2.api.aws",
+            "us-gov-west-1": "comprehend.us-gov-west-1.api.aws",
+            "us-west-2": "comprehend.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "comprehend-fips.ca-central-1.api.aws",
+            "us-east-1": "comprehend-fips.us-east-1.api.aws",
+            "us-east-2": "comprehend-fips.us-east-2.api.aws",
+            "us-gov-west-1": "comprehend-fips.us-gov-west-1.api.aws",
+            "us-west-2": "comprehend-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "comprehend-fips.ca-central-1.amazonaws.com",
             "us-east-1": "comprehend-fips.us-east-1.amazonaws.com",

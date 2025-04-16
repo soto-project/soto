@@ -381,6 +381,32 @@ extension WorkSpacesThinClient {
         public let updatedAt: Date?
 
         @inlinable
+        public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, currentSoftwareSetVersion: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, serialNumber: String? = nil, softwareSetComplianceStatus: DeviceSoftwareSetComplianceStatus? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, softwareSetUpdateStatus: SoftwareSetUpdateStatus? = nil, status: DeviceStatus? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.currentSoftwareSetId = currentSoftwareSetId
+            self.currentSoftwareSetVersion = currentSoftwareSetVersion
+            self.desiredSoftwareSetId = desiredSoftwareSetId
+            self.environmentId = environmentId
+            self.id = id
+            self.kmsKeyArn = kmsKeyArn
+            self.lastConnectedAt = lastConnectedAt
+            self.lastPostureAt = lastPostureAt
+            self.model = model
+            self.name = name
+            self.pendingSoftwareSetId = pendingSoftwareSetId
+            self.pendingSoftwareSetVersion = pendingSoftwareSetVersion
+            self.serialNumber = serialNumber
+            self.softwareSetComplianceStatus = softwareSetComplianceStatus
+            self.softwareSetUpdateSchedule = softwareSetUpdateSchedule
+            self.softwareSetUpdateStatus = softwareSetUpdateStatus
+            self.status = status
+            self.tags = nil
+            self.updatedAt = updatedAt
+        }
+
+        @available(*, deprecated, message: "Members tags have been deprecated")
+        @inlinable
         public init(arn: String? = nil, createdAt: Date? = nil, currentSoftwareSetId: String? = nil, currentSoftwareSetVersion: String? = nil, desiredSoftwareSetId: String? = nil, environmentId: String? = nil, id: String? = nil, kmsKeyArn: String? = nil, lastConnectedAt: Date? = nil, lastPostureAt: Date? = nil, model: String? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, serialNumber: String? = nil, softwareSetComplianceStatus: DeviceSoftwareSetComplianceStatus? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, softwareSetUpdateStatus: SoftwareSetUpdateStatus? = nil, status: DeviceStatus? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.createdAt = createdAt
@@ -542,6 +568,31 @@ extension WorkSpacesThinClient {
         /// The timestamp of when the device was updated.
         public let updatedAt: Date?
 
+        @inlinable
+        public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, deviceCreationTags: [String: String]? = nil, id: String? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, registeredDevicesCount: Int? = nil, softwareSetComplianceStatus: EnvironmentSoftwareSetComplianceStatus? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, updatedAt: Date? = nil) {
+            self.activationCode = activationCode
+            self.arn = arn
+            self.createdAt = createdAt
+            self.desiredSoftwareSetId = desiredSoftwareSetId
+            self.desktopArn = desktopArn
+            self.desktopEndpoint = desktopEndpoint
+            self.desktopType = desktopType
+            self.deviceCreationTags = deviceCreationTags
+            self.id = id
+            self.kmsKeyArn = kmsKeyArn
+            self.maintenanceWindow = maintenanceWindow
+            self.name = name
+            self.pendingSoftwareSetId = pendingSoftwareSetId
+            self.pendingSoftwareSetVersion = pendingSoftwareSetVersion
+            self.registeredDevicesCount = registeredDevicesCount
+            self.softwareSetComplianceStatus = softwareSetComplianceStatus
+            self.softwareSetUpdateMode = softwareSetUpdateMode
+            self.softwareSetUpdateSchedule = softwareSetUpdateSchedule
+            self.tags = nil
+            self.updatedAt = updatedAt
+        }
+
+        @available(*, deprecated, message: "Members tags have been deprecated")
         @inlinable
         public init(activationCode: String? = nil, arn: String? = nil, createdAt: Date? = nil, desiredSoftwareSetId: String? = nil, desktopArn: String? = nil, desktopEndpoint: String? = nil, desktopType: DesktopType? = nil, deviceCreationTags: [String: String]? = nil, id: String? = nil, kmsKeyArn: String? = nil, maintenanceWindow: MaintenanceWindow? = nil, name: String? = nil, pendingSoftwareSetId: String? = nil, pendingSoftwareSetVersion: String? = nil, registeredDevicesCount: Int? = nil, softwareSetComplianceStatus: EnvironmentSoftwareSetComplianceStatus? = nil, softwareSetUpdateMode: SoftwareSetUpdateMode? = nil, softwareSetUpdateSchedule: SoftwareSetUpdateSchedule? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.activationCode = activationCode
@@ -1097,6 +1148,19 @@ extension WorkSpacesThinClient {
         /// The version of the software set.
         public let version: String?
 
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, releasedAt: Date? = nil, software: [Software]? = nil, supportedUntil: Date? = nil, validationStatus: SoftwareSetValidationStatus? = nil, version: String? = nil) {
+            self.arn = arn
+            self.id = id
+            self.releasedAt = releasedAt
+            self.software = software
+            self.supportedUntil = supportedUntil
+            self.tags = nil
+            self.validationStatus = validationStatus
+            self.version = version
+        }
+
+        @available(*, deprecated, message: "Members tags have been deprecated")
         @inlinable
         public init(arn: String? = nil, id: String? = nil, releasedAt: Date? = nil, software: [Software]? = nil, supportedUntil: Date? = nil, tags: [String: String]? = nil, validationStatus: SoftwareSetValidationStatus? = nil, version: String? = nil) {
             self.arn = arn

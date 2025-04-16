@@ -81,6 +81,12 @@ extension ApiGatewayV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "dualstack"
+        case ipv4 = "ipv4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LoggingLevel: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case error = "ERROR"
         case info = "INFO"
@@ -163,6 +169,8 @@ extension ApiGatewayV2 {
         public let disableSchemaValidation: Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
         public let importInfo: [String]?
+        /// The IP address types that can invoke the API.
+        public let ipAddressType: IpAddressType?
         /// The name of the API.
         public let name: String?
         /// The API protocol.
@@ -177,7 +185,7 @@ extension ApiGatewayV2 {
         public let warnings: [String]?
 
         @inlinable
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -188,6 +196,7 @@ extension ApiGatewayV2 {
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
@@ -207,6 +216,7 @@ extension ApiGatewayV2 {
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case protocolType = "protocolType"
             case routeSelectionExpression = "routeSelectionExpression"
@@ -408,6 +418,8 @@ extension ApiGatewayV2 {
         public let disableExecuteApiEndpoint: Bool?
         /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
         public let disableSchemaValidation: Bool?
+        /// The IP address types that can invoke the API.
+        public let ipAddressType: IpAddressType?
         /// The name of the API.
         public let name: String?
         /// The API protocol.
@@ -424,13 +436,14 @@ extension ApiGatewayV2 {
         public let version: String?
 
         @inlinable
-        public init(apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, target: String? = nil, version: String? = nil) {
+        public init(apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, target: String? = nil, version: String? = nil) {
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.corsConfiguration = corsConfiguration
             self.credentialsArn = credentialsArn
             self.description = description
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolType = protocolType
             self.routeKey = routeKey
@@ -451,6 +464,7 @@ extension ApiGatewayV2 {
             case description = "description"
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case protocolType = "protocolType"
             case routeKey = "routeKey"
@@ -483,6 +497,8 @@ extension ApiGatewayV2 {
         public let disableSchemaValidation: Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
         public let importInfo: [String]?
+        /// The IP address types that can invoke the API.
+        public let ipAddressType: IpAddressType?
         /// The name of the API.
         public let name: String?
         /// The API protocol.
@@ -497,7 +513,7 @@ extension ApiGatewayV2 {
         public let warnings: [String]?
 
         @inlinable
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -508,6 +524,7 @@ extension ApiGatewayV2 {
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
@@ -527,6 +544,7 @@ extension ApiGatewayV2 {
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case protocolType = "protocolType"
             case routeSelectionExpression = "routeSelectionExpression"
@@ -1992,13 +2010,15 @@ extension ApiGatewayV2 {
         public let endpointType: EndpointType?
         /// The Amazon Route 53 Hosted Zone ID of the endpoint.
         public let hostedZoneId: String?
+        /// The IP address types that can invoke the domain name. Use ipv4 to allow only IPv4 addresses to invoke your domain name, or use dualstack to allow both IPv4 and IPv6 addresses to invoke your domain name.
+        public let ipAddressType: IpAddressType?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn
         public let ownershipVerificationCertificateArn: String?
         /// The Transport Layer Security (TLS) version of the security policy for this domain name. The valid values are TLS_1_0 and TLS_1_2.
         public let securityPolicy: SecurityPolicy?
 
         @inlinable
-        public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil, ownershipVerificationCertificateArn: String? = nil, securityPolicy: SecurityPolicy? = nil) {
+        public init(apiGatewayDomainName: String? = nil, certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: Date? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointType: EndpointType? = nil, hostedZoneId: String? = nil, ipAddressType: IpAddressType? = nil, ownershipVerificationCertificateArn: String? = nil, securityPolicy: SecurityPolicy? = nil) {
             self.apiGatewayDomainName = apiGatewayDomainName
             self.certificateArn = certificateArn
             self.certificateName = certificateName
@@ -2007,6 +2027,7 @@ extension ApiGatewayV2 {
             self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointType = endpointType
             self.hostedZoneId = hostedZoneId
+            self.ipAddressType = ipAddressType
             self.ownershipVerificationCertificateArn = ownershipVerificationCertificateArn
             self.securityPolicy = securityPolicy
         }
@@ -2020,6 +2041,7 @@ extension ApiGatewayV2 {
             case domainNameStatusMessage = "domainNameStatusMessage"
             case endpointType = "endpointType"
             case hostedZoneId = "hostedZoneId"
+            case ipAddressType = "ipAddressType"
             case ownershipVerificationCertificateArn = "ownershipVerificationCertificateArn"
             case securityPolicy = "securityPolicy"
         }
@@ -2212,6 +2234,8 @@ extension ApiGatewayV2 {
         public let disableSchemaValidation: Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
         public let importInfo: [String]?
+        /// The IP address types that can invoke the API.
+        public let ipAddressType: IpAddressType?
         /// The name of the API.
         public let name: String?
         /// The API protocol.
@@ -2226,7 +2250,7 @@ extension ApiGatewayV2 {
         public let warnings: [String]?
 
         @inlinable
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -2237,6 +2261,7 @@ extension ApiGatewayV2 {
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
@@ -2256,6 +2281,7 @@ extension ApiGatewayV2 {
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case protocolType = "protocolType"
             case routeSelectionExpression = "routeSelectionExpression"
@@ -3562,6 +3588,8 @@ extension ApiGatewayV2 {
         public let disableSchemaValidation: Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
         public let importInfo: [String]?
+        /// The IP address types that can invoke the API.
+        public let ipAddressType: IpAddressType?
         /// The name of the API.
         public let name: String?
         /// The API protocol.
@@ -3576,7 +3604,7 @@ extension ApiGatewayV2 {
         public let warnings: [String]?
 
         @inlinable
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -3587,6 +3615,7 @@ extension ApiGatewayV2 {
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
@@ -3606,6 +3635,7 @@ extension ApiGatewayV2 {
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case protocolType = "protocolType"
             case routeSelectionExpression = "routeSelectionExpression"
@@ -3913,6 +3943,8 @@ extension ApiGatewayV2 {
         public let disableSchemaValidation: Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
         public let importInfo: [String]?
+        /// The IP address types that can invoke the API.
+        public let ipAddressType: IpAddressType?
         /// The name of the API.
         public let name: String?
         /// The API protocol.
@@ -3927,7 +3959,7 @@ extension ApiGatewayV2 {
         public let warnings: [String]?
 
         @inlinable
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -3938,6 +3970,7 @@ extension ApiGatewayV2 {
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
@@ -3957,6 +3990,7 @@ extension ApiGatewayV2 {
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case protocolType = "protocolType"
             case routeSelectionExpression = "routeSelectionExpression"
@@ -4353,6 +4387,8 @@ extension ApiGatewayV2 {
         public let disableExecuteApiEndpoint: Bool?
         /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
         public let disableSchemaValidation: Bool?
+        /// The IP address types that can invoke your API or domain name.
+        public let ipAddressType: IpAddressType?
         /// The name of the API.
         public let name: String?
         /// This property is part of quick create. If not specified, the route created using quick create is kept. Otherwise, this value replaces the route key of the quick create route. Additional routes may still be added after the API is updated. Supported only for HTTP APIs.
@@ -4365,7 +4401,7 @@ extension ApiGatewayV2 {
         public let version: String?
 
         @inlinable
-        public init(apiId: String, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, target: String? = nil, version: String? = nil) {
+        public init(apiId: String, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, target: String? = nil, version: String? = nil) {
             self.apiId = apiId
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.corsConfiguration = corsConfiguration
@@ -4373,6 +4409,7 @@ extension ApiGatewayV2 {
             self.description = description
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
+            self.ipAddressType = ipAddressType
             self.name = name
             self.routeKey = routeKey
             self.routeSelectionExpression = routeSelectionExpression
@@ -4390,6 +4427,7 @@ extension ApiGatewayV2 {
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.disableExecuteApiEndpoint, forKey: .disableExecuteApiEndpoint)
             try container.encodeIfPresent(self.disableSchemaValidation, forKey: .disableSchemaValidation)
+            try container.encodeIfPresent(self.ipAddressType, forKey: .ipAddressType)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.routeKey, forKey: .routeKey)
             try container.encodeIfPresent(self.routeSelectionExpression, forKey: .routeSelectionExpression)
@@ -4408,6 +4446,7 @@ extension ApiGatewayV2 {
             case description = "description"
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case routeKey = "routeKey"
             case routeSelectionExpression = "routeSelectionExpression"
@@ -4438,6 +4477,8 @@ extension ApiGatewayV2 {
         public let disableSchemaValidation: Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
         public let importInfo: [String]?
+        /// The IP address types that can invoke the API.
+        public let ipAddressType: IpAddressType?
         /// The name of the API.
         public let name: String?
         /// The API protocol.
@@ -4452,7 +4493,7 @@ extension ApiGatewayV2 {
         public let warnings: [String]?
 
         @inlinable
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: Date? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, ipAddressType: IpAddressType? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -4463,6 +4504,7 @@ extension ApiGatewayV2 {
             self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
+            self.ipAddressType = ipAddressType
             self.name = name
             self.protocolType = protocolType
             self.routeSelectionExpression = routeSelectionExpression
@@ -4482,6 +4524,7 @@ extension ApiGatewayV2 {
             case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
+            case ipAddressType = "ipAddressType"
             case name = "name"
             case protocolType = "protocolType"
             case routeSelectionExpression = "routeSelectionExpression"

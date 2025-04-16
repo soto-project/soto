@@ -681,7 +681,7 @@ public struct Deadline: AWSService {
     ///   - maxRetriesPerTask: The maximum number of retries for each task.
     ///   - maxWorkerCount: The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
     ///   - parameters: The parameters for the job.
-    ///   - priority: The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
+    ///   - priority: The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
     ///   - queueId: The ID of the queue that the job is submitted to.
     ///   - sourceJobId: The job ID for the source job.
     ///   - storageProfileId: The storage profile ID for the storage profile to connect to the job.
@@ -934,7 +934,7 @@ public struct Deadline: AWSService {
     /// Parameters:
     ///   - clientToken: The unique token which the server uses to recognize retries of the same request.
     ///   - farmId: The farm ID of the farm to connect to the environment.
-    ///   - priority: Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority. If two environments share the same priority value, the environment created first takes higher priority.
+    ///   - priority: Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the environment created first takes higher priority.
     ///   - queueId: The queue ID to connect the queue and environment.
     ///   - template: The environment template to use in the queue.
     ///   - templateType: The template's file type, JSON or YAML.

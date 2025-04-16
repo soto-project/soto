@@ -64,6 +64,7 @@ public struct AppSync: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: AppSyncErrorType.self,
             xmlNamespace: "http://appsync.amazonaws.com",
             middleware: middleware,
@@ -76,6 +77,41 @@ public struct AppSync: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "appsync.af-south-1.api.aws",
+            "ap-east-1": "appsync.ap-east-1.api.aws",
+            "ap-northeast-1": "appsync.ap-northeast-1.api.aws",
+            "ap-northeast-2": "appsync.ap-northeast-2.api.aws",
+            "ap-northeast-3": "appsync.ap-northeast-3.api.aws",
+            "ap-south-1": "appsync.ap-south-1.api.aws",
+            "ap-south-2": "appsync.ap-south-2.api.aws",
+            "ap-southeast-1": "appsync.ap-southeast-1.api.aws",
+            "ap-southeast-2": "appsync.ap-southeast-2.api.aws",
+            "ap-southeast-3": "appsync.ap-southeast-3.api.aws",
+            "ap-southeast-4": "appsync.ap-southeast-4.api.aws",
+            "ca-central-1": "appsync.ca-central-1.api.aws",
+            "cn-north-1": "appsync.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "appsync.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "appsync.eu-central-1.api.aws",
+            "eu-central-2": "appsync.eu-central-2.api.aws",
+            "eu-north-1": "appsync.eu-north-1.api.aws",
+            "eu-south-1": "appsync.eu-south-1.api.aws",
+            "eu-south-2": "appsync.eu-south-2.api.aws",
+            "eu-west-1": "appsync.eu-west-1.api.aws",
+            "eu-west-2": "appsync.eu-west-2.api.aws",
+            "eu-west-3": "appsync.eu-west-3.api.aws",
+            "il-central-1": "appsync.il-central-1.api.aws",
+            "me-central-1": "appsync.me-central-1.api.aws",
+            "me-south-1": "appsync.me-south-1.api.aws",
+            "sa-east-1": "appsync.sa-east-1.api.aws",
+            "us-east-1": "appsync.us-east-1.api.aws",
+            "us-east-2": "appsync.us-east-2.api.aws",
+            "us-west-1": "appsync.us-west-1.api.aws",
+            "us-west-2": "appsync.us-west-2.api.aws"
+        ])
+    ]}
 
     // MARK: API Calls
 
@@ -435,18 +471,21 @@ public struct AppSync: AWSService {
     ///   - certificateArn: The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Management (IAM) server certificate.
     ///   - description: A description of the DomainName.
     ///   - domainName: The domain name.
+    ///   - tags: 
     ///   - logger: Logger use during operation
     @inlinable
     public func createDomainName(
         certificateArn: String,
         description: String? = nil,
         domainName: String,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDomainNameResponse {
         let input = CreateDomainNameRequest(
             certificateArn: certificateArn, 
             description: description, 
-            domainName: domainName
+            domainName: domainName, 
+            tags: tags
         )
         return try await self.createDomainName(input, logger: logger)
     }

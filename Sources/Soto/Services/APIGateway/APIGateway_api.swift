@@ -423,7 +423,7 @@ public struct APIGateway: AWSService {
     ///   - certificateName: The user-friendly name of the certificate that will be used by edge-optimized endpoint or private endpoint for this domain name.
     ///   - certificatePrivateKey: [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
     ///   - domainName: The name of the DomainName resource.
-    ///   - endpointConfiguration: The endpoint configuration of this DomainName showing the endpoint types of the domain name.
+    ///   - endpointConfiguration: The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
     ///   - mutualTlsAuthentication: 
     ///   - ownershipVerificationCertificateArn: The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
     ///   - policy: A stringified JSON policy document that applies to the execute-api service for this DomainName regardless of the caller and Method configuration. Supported only for private custom domain names.
@@ -642,7 +642,7 @@ public struct APIGateway: AWSService {
     ///   - cloneFrom: The ID of the RestApi that you want to clone from.
     ///   - description: The description of the RestApi.
     ///   - disableExecuteApiEndpoint: Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint
-    ///   - endpointConfiguration: The endpoint configuration of this RestApi showing the endpoint types of the API.
+    ///   - endpointConfiguration: The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
     ///   - minimumCompressionSize: A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
     ///   - name: The name of the RestApi.
     ///   - policy: A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.

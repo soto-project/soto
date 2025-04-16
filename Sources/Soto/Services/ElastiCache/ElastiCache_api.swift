@@ -2430,7 +2430,7 @@ public struct ElastiCache: AWSService {
     ///   - cacheNodeType: A valid cache node type that you want to scale this cluster up to.
     ///   - cacheParameterGroupName: The name of the cache parameter group to apply to this cluster. This change is asynchronously applied as soon as possible for parameters when the ApplyImmediately parameter is specified as true for this request.
     ///   - cacheSecurityGroupNames: A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
-    ///   - engine: Modifies the engine listed in a cluster message. The options are redis, memcached or valkey.
+    ///   - engine: The engine type used by the cache cluster. The options are valkey, memcached or redis.
     ///   - engineVersion: The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
     ///   - ipDiscovery: The network type you choose when modifying a cluster, either ipv4 | ipv6. IPv6 is supported for workloads using Valkey 7.2 and above, Redis OSS engine version 6.2 to 7.1 or Memcached engine version 1.6.6 and above on all instances built on the Nitro system.
     ///   - logDeliveryConfigurations: Specifies the destination, format and type of the logs.
@@ -2439,6 +2439,7 @@ public struct ElastiCache: AWSService {
     ///   - notificationTopicStatus: The status of the Amazon SNS notification topic. Notifications are sent only if the status is active. Valid values: active | inactive
     ///   - numCacheNodes: The number of cache nodes that the cluster should have. If the value for NumCacheNodes is greater than the sum of the number of current cache nodes and the number of cache nodes pending creation (which may be zero), more nodes are added. If the value is less than the number of existing cache nodes, nodes are removed. If the value is equal to the number of current cache nodes, any pending add or remove requests are canceled. If you are removing cache nodes, you must use the CacheNodeIdsToRemove parameter to provide the IDs of the specific cache nodes to remove. For clusters running Valkey or Redis OSS, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.  Adding or removing Memcached cache nodes can be applied immediately or as a pending operation (see ApplyImmediately). A pending operation to modify the number of cache nodes in a cluster during its maintenance window, whether by adding or removing nodes in accordance with the scale out architecture, is not queued. The customer's latest request to add or remove nodes to the cluster overrides any previous pending operations to modify the number of cache nodes in the cluster. For example, a request to remove 2 nodes would override a previous pending operation to remove 3 nodes. Similarly, a request to add 2 nodes would override a previous pending operation to remove 3 nodes and vice versa. As Memcached cache nodes may now be provisioned in different Availability Zones with flexible cache node placement, a request to add nodes does not automatically override a previous pending operation to add nodes. The customer can modify the previous pending operation to add more nodes or explicitly cancel the pending request and retry the new request. To cancel pending operations to modify the number of cache nodes in a cluster, use the ModifyCacheCluster request and set NumCacheNodes equal to the number of cache nodes currently in the cluster.
     ///   - preferredMaintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
+    ///   - scaleConfig: Configures horizontal or vertical scaling for Memcached clusters, specifying the scaling percentage and interval.
     ///   - securityGroupIds: Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
     ///   - snapshotRetentionLimit: The number of days for which ElastiCache retains automatic cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, a snapshot that was taken today is retained for 5 days before being deleted.  If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off.
     ///   - snapshotWindow: The daily time range (in UTC) during which ElastiCache begins taking a daily snapshot of your cluster.
@@ -2464,6 +2465,7 @@ public struct ElastiCache: AWSService {
         notificationTopicStatus: String? = nil,
         numCacheNodes: Int? = nil,
         preferredMaintenanceWindow: String? = nil,
+        scaleConfig: ScaleConfig? = nil,
         securityGroupIds: [String]? = nil,
         snapshotRetentionLimit: Int? = nil,
         snapshotWindow: String? = nil,
@@ -2489,6 +2491,7 @@ public struct ElastiCache: AWSService {
             notificationTopicStatus: notificationTopicStatus, 
             numCacheNodes: numCacheNodes, 
             preferredMaintenanceWindow: preferredMaintenanceWindow, 
+            scaleConfig: scaleConfig, 
             securityGroupIds: securityGroupIds, 
             snapshotRetentionLimit: snapshotRetentionLimit, 
             snapshotWindow: snapshotWindow

@@ -2556,7 +2556,7 @@ extension IoTWireless {
     public struct FuotaTaskLogOption: AWSEncodableShape & AWSDecodableShape {
         public let events: [FuotaTaskEventLogOption]?
         public let logLevel: LogLevel
-        /// The fuota task type.
+        /// The FUOTA task type.
         public let type: FuotaTaskType
 
         @inlinable
@@ -3298,7 +3298,7 @@ extension IoTWireless {
 
     public struct GetResourceLogLevelRequest: AWSEncodableShape {
         public let resourceIdentifier: String
-        /// The type of the resource, which can be WirelessDevice, WirelessGateway or FuotaTask.
+        /// The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
         public let resourceType: String
 
         @inlinable
@@ -3379,7 +3379,7 @@ extension IoTWireless {
     }
 
     public struct GetServiceEndpointRequest: AWSEncodableShape {
-        /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint or CLAIM for the global endpoint.
+        /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint.
         public let serviceType: WirelessGatewayServiceType?
 
         @inlinable
@@ -5914,7 +5914,7 @@ extension IoTWireless {
         /// E-UTRA (Evolved universal terrestrial Radio Access) absolute radio frequency channel Number (EARFCN).
         public let earfcn: Int
         /// E-UTRAN (Evolved Universal Terrestrial Radio Access Network) cell global identifier (EUTRANCID).
-        public let eutranCid: Int
+        public let eutranCid: Int?
         /// Physical cell ID.
         public let pci: Int
         /// Signal power of the reference signal received, measured in dBm (decibel-milliwatts).
@@ -5923,7 +5923,7 @@ extension IoTWireless {
         public let rsrq: Float?
 
         @inlinable
-        public init(earfcn: Int, eutranCid: Int, pci: Int, rsrp: Int? = nil, rsrq: Float? = nil) {
+        public init(earfcn: Int, eutranCid: Int? = nil, pci: Int, rsrp: Int? = nil, rsrq: Float? = nil) {
             self.earfcn = earfcn
             self.eutranCid = eutranCid
             self.pci = pci
@@ -6248,9 +6248,9 @@ extension IoTWireless {
     }
 
     public struct ParticipatingGatewaysMulticast: AWSEncodableShape & AWSDecodableShape {
-        /// The list of gateways that you want to use for sending the multicast downlink. Each downlink will be sent to all the gateways in the list with transmission interval between them. If list is empty the gateway list will be dynamically selected similar to the case of no ParticipatingGateways
+        /// The list of gateways that you want to use for sending the multicast downlink message. Each downlink message will be sent to all the gateways in the list in the order that you provided. If the gateway list is empty, then AWS IoT Core for LoRaWAN chooses the gateways that were most recently used by the devices to send an uplink message.
         public let gatewayList: [String]?
-        /// The duration of time for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast payload to the next gateway in the list.
+        /// The duration of time in milliseconds for which AWS IoT Core for LoRaWAN will wait before transmitting the multicast payload to the next gateway in the list.
         public let transmissionInterval: Int?
 
         @inlinable
@@ -6434,7 +6434,7 @@ extension IoTWireless {
     public struct PutResourceLogLevelRequest: AWSEncodableShape {
         public let logLevel: LogLevel
         public let resourceIdentifier: String
-        /// The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
+        /// The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
         public let resourceType: String
 
         @inlinable
@@ -6475,7 +6475,7 @@ extension IoTWireless {
 
     public struct ResetResourceLogLevelRequest: AWSEncodableShape {
         public let resourceIdentifier: String
-        /// The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
+        /// The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
         public let resourceType: String
 
         @inlinable

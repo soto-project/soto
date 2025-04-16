@@ -64,6 +64,7 @@ public struct MediaPackageV2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2022-12-25",
             endpoint: endpoint,
+            variantEndpoints: Self.variantEndpoints,
             errorType: MediaPackageV2ErrorType.self,
             middleware: middleware,
             timeout: timeout,
@@ -75,6 +76,16 @@ public struct MediaPackageV2: AWSService {
 
 
 
+    /// FIPS and dualstack endpoints
+    static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.fips]: .init(endpoints: [
+            "ca-central-1": "mediapackagev2-fips.ca-central-1.amazonaws.com",
+            "us-east-1": "mediapackagev2-fips.us-east-1.amazonaws.com",
+            "us-east-2": "mediapackagev2-fips.us-east-2.amazonaws.com",
+            "us-west-1": "mediapackagev2-fips.us-west-1.amazonaws.com",
+            "us-west-2": "mediapackagev2-fips.us-west-2.amazonaws.com"
+        ])
+    ]}
 
     // MARK: API Calls
 

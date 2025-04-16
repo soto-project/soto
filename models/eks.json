@@ -68,6 +68,18 @@
                         "smithy.api#enumValue": "BOTTLEROCKET_x86_64"
                     }
                 },
+                "BOTTLEROCKET_ARM_64_FIPS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BOTTLEROCKET_ARM_64_FIPS"
+                    }
+                },
+                "BOTTLEROCKET_x86_64_FIPS": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "BOTTLEROCKET_x86_64_FIPS"
+                    }
+                },
                 "BOTTLEROCKET_ARM_64_NVIDIA": {
                     "target": "smithy.api#Unit",
                     "traits": {
@@ -2086,6 +2098,9 @@
                 },
                 {
                     "target": "com.amazonaws.eks#ServerException"
+                },
+                {
+                    "target": "com.amazonaws.eks#ThrottlingException"
                 }
             ],
             "traits": {
@@ -2164,6 +2179,9 @@
                 },
                 {
                     "target": "com.amazonaws.eks#ServerException"
+                },
+                {
+                    "target": "com.amazonaws.eks#ThrottlingException"
                 }
             ],
             "traits": {
@@ -2630,7 +2648,7 @@
                 "remoteNetworkConfig": {
                     "target": "com.amazonaws.eks#RemoteNetworkConfigResponse",
                     "traits": {
-                        "smithy.api#documentation": "<p>The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this\n            configuration after the cluster is created.</p>"
+                        "smithy.api#documentation": "<p>The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this\n            configuration after the cluster is created.</p>"
                     }
                 },
                 "computeConfig": {
@@ -3588,7 +3606,7 @@
                 "remoteNetworkConfig": {
                     "target": "com.amazonaws.eks#RemoteNetworkConfigRequest",
                     "traits": {
-                        "smithy.api#documentation": "<p>The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this\n            configuration after the cluster is created.</p>"
+                        "smithy.api#documentation": "<p>The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this\n            configuration after the cluster is created.</p>"
                     }
                 },
                 "computeConfig": {
@@ -6090,6 +6108,9 @@
                 },
                 {
                     "target": "com.amazonaws.eks#ServerException"
+                },
+                {
+                    "target": "com.amazonaws.eks#ThrottlingException"
                 }
             ],
             "traits": {
@@ -6216,7 +6237,7 @@
                 "licenses": {
                     "target": "com.amazonaws.eks#LicenseList",
                     "traits": {
-                        "smithy.api#documentation": "<p>Includes all of the claims in the license token necessary to validate the license for\n\t    extended support.</p>"
+                        "smithy.api#documentation": "<p>Includes all of the claims in the license token necessary to validate the license for\n            extended support.</p>"
                     }
                 },
                 "tags": {
@@ -7168,6 +7189,25 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>The request is invalid given the state of the cluster. Check the state of the cluster\n            and the associated operations.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 400
+            }
+        },
+        "com.amazonaws.eks#InvalidStateException": {
+            "type": "structure",
+            "members": {
+                "clusterName": {
+                    "target": "com.amazonaws.eks#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon EKS cluster associated with the exception.</p>"
+                    }
+                },
+                "message": {
+                    "target": "com.amazonaws.eks#String"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Amazon EKS detected upgrade readiness issues. Call the <a href=\"https://docs.aws.amazon.com/eks/latest/APIReference/API_ListInsights.html\">\n               <code>ListInsights</code>\n            </a> API to view detected upgrade blocking issues.\n            Pass the <a href=\"https://docs.aws.amazon.com/eks/latest/APIReference/API_UpdateClusterVersion.html#API_UpdateClusterVersion_RequestBody\">\n               <code>force</code>\n            </a> flag when updating to override upgrade readiness\n            errors.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 400
             }
@@ -9739,7 +9779,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this\n            configuration after the cluster is created.</p>"
+                "smithy.api#documentation": "<p>The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this\n            configuration after the cluster is created.</p>"
             }
         },
         "com.amazonaws.eks#RemoteNetworkConfigResponse": {
@@ -9759,7 +9799,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this\n            configuration after the cluster is created.</p>"
+                "smithy.api#documentation": "<p>The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this\n            configuration after the cluster is created.</p>"
             }
         },
         "com.amazonaws.eks#RemoteNodeNetwork": {
@@ -10238,6 +10278,25 @@
                 }
             }
         },
+        "com.amazonaws.eks#ThrottlingException": {
+            "type": "structure",
+            "members": {
+                "clusterName": {
+                    "target": "com.amazonaws.eks#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon EKS cluster associated with the exception.</p>"
+                    }
+                },
+                "message": {
+                    "target": "com.amazonaws.eks#String"
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The request or operation couldn't be performed because a service is throttling\n            requests.</p>",
+                "smithy.api#error": "client",
+                "smithy.api#httpError": 429
+            }
+        },
         "com.amazonaws.eks#Timestamp": {
             "type": "timestamp"
         },
@@ -10612,10 +10671,13 @@
                 },
                 {
                     "target": "com.amazonaws.eks#ServerException"
+                },
+                {
+                    "target": "com.amazonaws.eks#ThrottlingException"
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Updates an Amazon EKS cluster configuration. Your cluster continues to function during the\n            update. The response output includes an update ID that you can use to track the status\n            of your cluster update with <code>DescribeUpdate</code>\"/>.</p>\n         <p>You can use this API operation to enable or disable exporting the Kubernetes control plane\n            logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported\n            to CloudWatch Logs. For more information, see <a href=\"https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html\">Amazon EKS\n                Cluster control plane logs</a> in the\n            <i>\n               <i>Amazon EKS User Guide</i>\n            </i>.</p>\n         <note>\n            <p>CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported\n                control plane logs. For more information, see <a href=\"http://aws.amazon.com/cloudwatch/pricing/\">CloudWatch Pricing</a>.</p>\n         </note>\n         <p>You can also use this API operation to enable or disable public and private access to\n            your cluster's Kubernetes API server endpoint. By default, public access is enabled, and\n            private access is disabled. For more information, see <a href=\"https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html\">Amazon EKS cluster\n                endpoint access control</a> in the <i>\n               <i>Amazon EKS User Guide</i>\n            </i>.</p>\n         <p>You can also use this API operation to choose different subnets and security groups\n            for the cluster. You must specify at least two subnets that are in different Availability Zones. You\n            can't change which VPC the subnets are from, the subnets must be in the same VPC as the\n            subnets that the cluster was created with. For more information about the VPC\n            requirements, see <a href=\"https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html\">https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html</a> in the <i>\n               <i>Amazon EKS User Guide</i>\n            </i>.</p>\n         <p>You can also use this API operation to enable or disable ARC zonal shift. If zonal\n            shift is enabled, Amazon Web Services configures zonal autoshift for the cluster.</p>\n         <p>Cluster updates are asynchronous, and they should finish within a few minutes. During\n            an update, the cluster status moves to <code>UPDATING</code> (this status transition is\n            eventually consistent). When the update is complete (either <code>Failed</code> or\n                <code>Successful</code>), the cluster status moves to <code>Active</code>.</p>",
+                "smithy.api#documentation": "<p>Updates an Amazon EKS cluster configuration. Your cluster continues to function during the\n            update. The response output includes an update ID that you can use to track the status\n            of your cluster update with <code>DescribeUpdate</code>.</p>\n         <p>You can use this operation to do the following actions:</p>\n         <ul>\n            <li>\n               <p>You can use this API operation to enable or disable exporting the Kubernetes\n                    control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane\n                    logs aren't exported to CloudWatch Logs. For more information, see <a href=\"https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html\">Amazon EKS Cluster control plane logs</a> in the\n                        <i>\n                     <i>Amazon EKS User Guide</i>\n                  </i>.</p>\n               <note>\n                  <p>CloudWatch Logs ingestion, archive storage, and data scanning rates apply to\n                        exported control plane logs. For more information, see <a href=\"http://aws.amazon.com/cloudwatch/pricing/\">CloudWatch Pricing</a>.</p>\n               </note>\n            </li>\n            <li>\n               <p>You can also use this API operation to enable or disable public and private\n                    access to your cluster's Kubernetes API server endpoint. By default, public access is\n                    enabled, and private access is disabled. For more information, see <a href=\"https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html\">Amazon EKS\n                        cluster endpoint access control</a> in the\n                        <i>\n                     <i>Amazon EKS User Guide</i>\n                  </i>.</p>\n            </li>\n            <li>\n               <p>You can also use this API operation to choose different subnets and security\n                    groups for the cluster. You must specify at least two subnets that are in\n                    different Availability Zones. You can't change which VPC the subnets are from, the subnets\n                    must be in the same VPC as the subnets that the cluster was created with. For\n                    more information about the VPC requirements, see <a href=\"https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html\">https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html</a> in the\n                        <i>\n                     <i>Amazon EKS User Guide</i>\n                  </i>.</p>\n            </li>\n            <li>\n               <p>You can also use this API operation to enable or disable ARC zonal shift. If\n                    zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster.</p>\n            </li>\n            <li>\n               <p>You can also use this API operation to add, change, or remove the\n                    configuration in the cluster for EKS Hybrid Nodes. To remove the configuration,\n                    use the <code>remoteNetworkConfig</code> key with an object containing both\n                    subkeys with empty arrays for each. Here is an inline example:\n                        <code>\"remoteNetworkConfig\": { \"remoteNodeNetworks\": [],\n                        \"remotePodNetworks\": [] }</code>.</p>\n            </li>\n         </ul>\n         <p>Cluster updates are asynchronous, and they should finish within a few minutes. During\n            an update, the cluster status moves to <code>UPDATING</code> (this status transition is\n            eventually consistent). When the update is complete (either <code>Failed</code> or\n                <code>Successful</code>), the cluster status moves to <code>Active</code>.</p>",
                 "smithy.api#http": {
                     "method": "POST",
                     "uri": "/clusters/{name}/update-config",
@@ -10682,6 +10744,9 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Update the configuration of the block storage capability of your EKS Auto Mode\n            cluster. For example, enable the capability.</p>"
                     }
+                },
+                "remoteNetworkConfig": {
+                    "target": "com.amazonaws.eks#RemoteNetworkConfigRequest"
                 }
             },
             "traits": {
@@ -10718,6 +10783,9 @@
                     "target": "com.amazonaws.eks#InvalidRequestException"
                 },
                 {
+                    "target": "com.amazonaws.eks#InvalidStateException"
+                },
+                {
                     "target": "com.amazonaws.eks#ResourceInUseException"
                 },
                 {
@@ -10725,6 +10793,9 @@
                 },
                 {
                     "target": "com.amazonaws.eks#ServerException"
+                },
+                {
+                    "target": "com.amazonaws.eks#ThrottlingException"
                 }
             ],
             "traits": {
@@ -10759,6 +10830,13 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A unique, case-sensitive identifier that you provide to ensure\nthe idempotency of the request.</p>",
                         "smithy.api#idempotencyToken": {}
+                    }
+                },
+                "force": {
+                    "target": "com.amazonaws.eks#Boolean",
+                    "traits": {
+                        "smithy.api#default": false,
+                        "smithy.api#documentation": "<p>Set this value to <code>true</code> to override upgrade-blocking readiness checks when\n            updating a cluster.</p>"
                     }
                 }
             },
@@ -11324,6 +11402,12 @@
                     "traits": {
                         "smithy.api#enumValue": "KubernetesNetworkConfig"
                     }
+                },
+                "REMOTE_NETWORK_CONFIG": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RemoteNetworkConfig"
+                    }
                 }
             }
         },
@@ -11543,6 +11627,12 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "AutoModeUpdate"
+                    }
+                },
+                "REMOTE_NETWORK_CONFIG_UPDATE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "RemoteNetworkConfigUpdate"
                     }
                 }
             }

@@ -412,6 +412,12 @@ extension CloudFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScanType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "FULL"
+        case partial = "PARTIAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StackDriftDetectionStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case detectionComplete = "DETECTION_COMPLETE"
         case detectionFailed = "DETECTION_FAILED"
@@ -1163,7 +1169,7 @@ extension CloudFormation {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 5120)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
 
@@ -1338,14 +1344,14 @@ extension CloudFormation {
             try self.rollbackConfiguration?.validate(name: "\(name).rollbackConfiguration")
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, max: 16384)
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, min: 1)
-            try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, max: 1350)
+            try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, max: 5120)
             try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 5120)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
             try self.validate(self.timeoutInMinutes, name: "timeoutInMinutes", parent: name, min: 1)
         }
@@ -1510,11 +1516,11 @@ extension CloudFormation {
     }
 
     public struct CreateStackSetInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the IAM role to use to create this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites for using StackSets in the CloudFormation User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role to use to create this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Grant self-managed permissions in the CloudFormation User Guide. Valid only if the permissions model is SELF_MANAGED.
         public let administrationRoleARN: String?
-        /// Describes whether StackSets automatically deploys to Organizations accounts that are added to the target organization or organizational unit (OU). Specify only if PermissionModel is SERVICE_MANAGED.
+        /// Describes whether StackSets automatically deploys to Organizations accounts that are added to the target organization or organizational unit (OU). For more information, see Manage automatic deployments for CloudFormation StackSets that use service-managed permissions in the CloudFormation User Guide. Required if the permissions model is SERVICE_MANAGED. (Not used with self-managed permissions.)
         public let autoDeployment: AutoDeployment?
-        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   To create a stack set with service-managed permissions while signed in to the management account, specify SELF.   To create a stack set with service-managed permissions while signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated admin in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.   Stack sets with service-managed permissions are created in the management account, including stack sets that are created by delegated administrators.
+        /// Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   To create a stack set with service-managed permissions while signed in to the management account, specify SELF.   To create a stack set with service-managed permissions while signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated admin in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.   Stack sets with service-managed permissions are created in the management account, including stack sets that are created by delegated administrators. Valid only if the permissions model is SERVICE_MANAGED.
         public let callAs: CallAs?
         /// In some cases, you must explicitly acknowledge that your stack set template contains certain capabilities in order for CloudFormation to create the stack set and related stack instances.    CAPABILITY_IAM and CAPABILITY_NAMED_IAM  Some stack templates might include resources that can affect permissions in your Amazon Web Services account; for example, by creating new IAM users. For those stack sets, you must explicitly acknowledge this by specifying one of these capabilities. The following IAM resources require you to specify either the CAPABILITY_IAM or CAPABILITY_NAMED_IAM capability.   If you have IAM resources, you can specify either capability.   If you have IAM resources with custom names, you must specify CAPABILITY_NAMED_IAM.   If you don't specify either of these capabilities, CloudFormation returns an InsufficientCapabilities error.   If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.    AWS::IAM::AccessKey     AWS::IAM::Group     AWS::IAM::InstanceProfile     AWS::IAM::Policy     AWS::IAM::Role     AWS::IAM::User     AWS::IAM::UserToGroupAddition    For more information, see Acknowledging IAM resources in CloudFormation templates.    CAPABILITY_AUTO_EXPAND  Some templates reference macros. If your stack set template references one or more macros, you must create the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To create the stack set directly, you must acknowledge this capability. For more information, see Perform custom processing on CloudFormation templates with template macros.  Stack sets with service-managed permissions don't currently support the use of macros in templates. (This includes the AWS::Include and AWS::Serverless transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
         @OptionalCustomCoding<StandardArrayCoder<Capability>>
@@ -1523,7 +1529,7 @@ extension CloudFormation {
         public let clientRequestToken: String?
         /// A description of the stack set. You can use the description to identify the stack set's purpose or other important information.
         public let description: String?
-        /// The name of the IAM execution role to use to create the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets.
+        /// The name of the IAM execution role to use to create the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets. Valid only if the permissions model is SELF_MANAGED.
         public let executionRoleName: String?
         /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
         public let managedExecution: ManagedExecution?
@@ -1579,7 +1585,7 @@ extension CloudFormation {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 5120)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
 
@@ -2338,28 +2344,32 @@ extension CloudFormation {
         public let percentageCompleted: Double?
         /// The Amazon Resource Name (ARN) of the resource scan. The format is arn:${Partition}:cloudformation:${Region}:${Account}:resourceScan/${Id}. An example is arn:aws:cloudformation:us-east-1:123456789012:resourceScan/f5b490f7-7ed4-428a-aa06-31ff25db0772 .
         public let resourceScanId: String?
-        /// The number of resources that were read. This is only available for scans with a Status set to COMPLETE, EXPIRED, or FAILED .  This field may be 0 if the resource scan failed with a ResourceScanLimitExceededException.
+        /// The number of resources that were read. This is only available for scans with a Status set to COMPLETE, EXPIRED, or FAILED.  This field may be 0 if the resource scan failed with a ResourceScanLimitExceededException.
         public let resourcesRead: Int?
         /// The number of resources that were listed. This is only available for scans with a Status set to COMPLETE, EXPIRED, or FAILED .
         public let resourcesScanned: Int?
         /// The list of resource types for the specified scan. Resource types are only available for scans with a Status set to COMPLETE or FAILED .
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var resourceTypes: [String]?
+        /// The scan filters that were used.
+        @OptionalCustomCoding<StandardArrayCoder<ScanFilter>>
+        public var scanFilters: [ScanFilter]?
         /// The time that the resource scan was started.
         public let startTime: Date?
-        /// Status of the resource scan.    INPROGRESS    The resource scan is still in progress.    COMPLETE    The resource scan is complete.    EXPIRED    The resource scan has expired.    FAILED    The resource scan has failed.
+        /// Status of the resource scan.    IN_PROGRESS    The resource scan is still in progress.    COMPLETE    The resource scan is complete.    EXPIRED    The resource scan has expired.    FAILED    The resource scan has failed.
         public let status: ResourceScanStatus?
         /// The reason for the resource scan status, providing more information if a failure happened.
         public let statusReason: String?
 
         @inlinable
-        public init(endTime: Date? = nil, percentageCompleted: Double? = nil, resourceScanId: String? = nil, resourcesRead: Int? = nil, resourcesScanned: Int? = nil, resourceTypes: [String]? = nil, startTime: Date? = nil, status: ResourceScanStatus? = nil, statusReason: String? = nil) {
+        public init(endTime: Date? = nil, percentageCompleted: Double? = nil, resourceScanId: String? = nil, resourcesRead: Int? = nil, resourcesScanned: Int? = nil, resourceTypes: [String]? = nil, scanFilters: [ScanFilter]? = nil, startTime: Date? = nil, status: ResourceScanStatus? = nil, statusReason: String? = nil) {
             self.endTime = endTime
             self.percentageCompleted = percentageCompleted
             self.resourceScanId = resourceScanId
             self.resourcesRead = resourcesRead
             self.resourcesScanned = resourcesScanned
             self.resourceTypes = resourceTypes
+            self.scanFilters = scanFilters
             self.startTime = startTime
             self.status = status
             self.statusReason = statusReason
@@ -2372,6 +2382,7 @@ extension CloudFormation {
             case resourcesRead = "ResourcesRead"
             case resourcesScanned = "ResourcesScanned"
             case resourceTypes = "ResourceTypes"
+            case scanFilters = "ScanFilters"
             case startTime = "StartTime"
             case status = "Status"
             case statusReason = "StatusReason"
@@ -2438,7 +2449,7 @@ extension CloudFormation {
     public struct DescribeStackEventsInput: AWSEncodableShape {
         /// A string that identifies the next page of events that you want to retrieve.
         public let nextToken: String?
-        /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
+        /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
         public let stackName: String?
 
         @inlinable
@@ -2633,9 +2644,9 @@ extension CloudFormation {
     }
 
     public struct DescribeStackResourceInput: AWSEncodableShape {
-        /// The logical name of the resource as specified in the template. Default: There is no default value.
+        /// The logical name of the resource as specified in the template.
         public let logicalResourceId: String?
-        /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
+        /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
         public let stackName: String?
 
         @inlinable
@@ -2665,11 +2676,11 @@ extension CloudFormation {
     }
 
     public struct DescribeStackResourcesInput: AWSEncodableShape {
-        /// The logical name of the resource as specified in the template. Default: There is no default value.
+        /// The logical name of the resource as specified in the template.
         public let logicalResourceId: String?
-        /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by CloudFormation. For example, for an Amazon Elastic Compute Cloud (EC2) instance, PhysicalResourceId corresponds to the InstanceId. You can pass the EC2 InstanceId to DescribeStackResources to find which stack the instance belongs to and what other resources are part of the stack. Required: Conditional. If you don't specify PhysicalResourceId, you must specify StackName. Default: There is no default value.
+        /// The name or unique identifier that corresponds to a physical instance ID of a resource supported by CloudFormation. For example, for an Amazon Elastic Compute Cloud (EC2) instance, PhysicalResourceId corresponds to the InstanceId. You can pass the EC2 InstanceId to DescribeStackResources to find which stack the instance belongs to and what other resources are part of the stack. Required: Conditional. If you don't specify PhysicalResourceId, you must specify StackName.
         public let physicalResourceId: String?
-        /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value. Required: Conditional. If you don't specify StackName, you must specify PhysicalResourceId.
+        /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Required: Conditional. If you don't specify StackName, you must specify PhysicalResourceId.
         public let stackName: String?
 
         @inlinable
@@ -2778,7 +2789,7 @@ extension CloudFormation {
     public struct DescribeStacksInput: AWSEncodableShape {
         /// A string that identifies the next page of stacks that you want to retrieve.
         public let nextToken: String?
-        ///  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
+        ///  If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the ListStacks API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] }  The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
         public let stackName: String?
 
         @inlinable
@@ -3175,7 +3186,7 @@ extension CloudFormation {
 
         public func validate(name: String) throws {
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 5120)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
 
@@ -3353,7 +3364,7 @@ extension CloudFormation {
     public struct GetTemplateInput: AWSEncodableShape {
         /// The name or Amazon Resource Name (ARN) of a change set for which CloudFormation returns the associated template. If you specify a name, you must also specify the StackName.
         public let changeSetName: String?
-        /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
+        /// The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
         public let stackName: String?
         /// For templates that include transforms, the stage of the template that CloudFormation returns. To get the user-submitted template, specify Original. To get the template after CloudFormation has processed all transforms, specify Processed. If the template doesn't include transforms, Original and Processed return the same template. By default, CloudFormation specifies Processed.
         public let templateStage: TemplateStage?
@@ -3426,7 +3437,7 @@ extension CloudFormation {
             try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^([a-zA-Z][-a-zA-Z0-9]*)|(arn:\\b(aws|aws-us-gov|aws-cn)\\b:[-a-zA-Z0-9:/._+]*)$")
             try self.validate(self.stackSetName, name: "stackSetName", parent: name, pattern: "^[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?$")
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 5120)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
 
@@ -3730,7 +3741,7 @@ extension CloudFormation {
     public struct ListHookResultsInput: AWSEncodableShape {
         /// A string that identifies the next page of events that you want to retrieve.
         public let nextToken: String?
-        /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set,  it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HookRequestToken returned by the Cloud Control API  operation request. For more information on the HookRequestToken, see ProgressEvent.
+        /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set, it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HookRequestToken returned by the Cloud Control API operation request. For more information on the HookRequestToken, see ProgressEvent.
         public let targetId: String?
         /// The type of operation being targeted by the Hook.
         public let targetType: ListHookResultsTargetType?
@@ -3758,12 +3769,12 @@ extension CloudFormation {
     }
 
     public struct ListHookResultsOutput: AWSDecodableShape {
-        /// A list of HookResultSummary structures that provides the status and Hook status reason for each Hook  invocation for the specified target.
+        /// A list of HookResultSummary structures that provides the status and Hook status reason for each Hook invocation for the specified target.
         @OptionalCustomCoding<StandardArrayCoder<HookResultSummary>>
         public var hookResults: [HookResultSummary]?
         /// Pagination token, null or empty if no more results.
         public let nextToken: String?
-        /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set,  it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HooksRequestToken returned by the Cloud Control API  operation request. For more information on the HooksRequestToken, see ProgressEvent.
+        /// The logical ID of the target the operation is acting on by the Hook. If the target is a change set, it's the ARN of the change set. If the target is a Cloud Control API operation, this will be the HooksRequestToken returned by the Cloud Control API operation request. For more information on the HooksRequestToken, see ProgressEvent.
         public let targetId: String?
         /// The type of operation being targeted by the Hook.
         public let targetType: ListHookResultsTargetType?
@@ -3953,11 +3964,14 @@ extension CloudFormation {
         public let maxResults: Int?
         /// A string that identifies the next page of resource scan results.
         public let nextToken: String?
+        /// The scan type that you want to get summary information about. The default is FULL.
+        public let scanTypeFilter: ScanType?
 
         @inlinable
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, scanTypeFilter: ScanType? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.scanTypeFilter = scanTypeFilter
         }
 
         public func validate(name: String) throws {
@@ -3968,6 +3982,7 @@ extension CloudFormation {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case scanTypeFilter = "ScanTypeFilter"
         }
     }
 
@@ -4238,7 +4253,7 @@ extension CloudFormation {
     public struct ListStackResourcesInput: AWSEncodableShape {
         /// A string that identifies the next page of stack resources that you want to retrieve.
         public let nextToken: String?
-        /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default: There is no default value.
+        /// The name or the unique stack ID that is associated with the stack, which aren't always interchangeable:   Running stacks: You can specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify the unique stack ID.
         public let stackName: String?
 
         @inlinable
@@ -5431,18 +5446,21 @@ extension CloudFormation {
         public let percentageCompleted: Double?
         /// The Amazon Resource Name (ARN) of the resource scan.
         public let resourceScanId: String?
+        /// The scan type that has been completed.
+        public let scanType: ScanType?
         /// The time that the resource scan was started.
         public let startTime: Date?
-        /// Status of the resource scan.    INPROGRESS    The resource scan is still in progress.    COMPLETE    The resource scan is complete.    EXPIRED    The resource scan has expired.    FAILED    The resource scan has failed.
+        /// Status of the resource scan.    IN_PROGRESS    The resource scan is still in progress.    COMPLETE    The resource scan is complete.    EXPIRED    The resource scan has expired.    FAILED    The resource scan has failed.
         public let status: ResourceScanStatus?
         /// The reason for the resource scan status, providing more information if a failure happened.
         public let statusReason: String?
 
         @inlinable
-        public init(endTime: Date? = nil, percentageCompleted: Double? = nil, resourceScanId: String? = nil, startTime: Date? = nil, status: ResourceScanStatus? = nil, statusReason: String? = nil) {
+        public init(endTime: Date? = nil, percentageCompleted: Double? = nil, resourceScanId: String? = nil, scanType: ScanType? = nil, startTime: Date? = nil, status: ResourceScanStatus? = nil, statusReason: String? = nil) {
             self.endTime = endTime
             self.percentageCompleted = percentageCompleted
             self.resourceScanId = resourceScanId
+            self.scanType = scanType
             self.startTime = startTime
             self.status = status
             self.statusReason = statusReason
@@ -5452,6 +5470,7 @@ extension CloudFormation {
             case endTime = "EndTime"
             case percentageCompleted = "PercentageCompleted"
             case resourceScanId = "ResourceScanId"
+            case scanType = "ScanType"
             case startTime = "StartTime"
             case status = "Status"
             case statusReason = "StatusReason"
@@ -5625,6 +5644,29 @@ extension CloudFormation {
         }
     }
 
+    public struct ScanFilter: AWSEncodableShape & AWSDecodableShape {
+        /// An array of strings where each string represents an Amazon Web Services resource type you want to scan. Each string defines the resource type using the format AWS::ServiceName::ResourceType, for example, AWS::DynamoDB::Table. For the full list of supported resource types, see the Resource type support table in the CloudFormation User Guide. To scan all resource types within a service, you can use a wildcard, represented by an asterisk (*). You can place a asterisk at only the end of the string, for example, AWS::S3::*.
+        @OptionalCustomCoding<StandardArrayCoder<String>>
+        public var types: [String]?
+
+        @inlinable
+        public init(types: [String]? = nil) {
+            self.types = types
+        }
+
+        public func validate(name: String) throws {
+            try self.types?.forEach {
+                try validate($0, name: "types[]", parent: name, max: 100)
+                try validate($0, name: "types[]", parent: name, min: 1)
+            }
+            try self.validate(self.types, name: "types", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case types = "Types"
+        }
+    }
+
     public struct ScannedResource: AWSDecodableShape {
         /// If true, the resource is managed by a CloudFormation stack.
         public let managedByStack: Bool?
@@ -5690,7 +5732,7 @@ extension CloudFormation {
         public func validate(name: String) throws {
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, max: 16384)
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, min: 1)
-            try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, max: 1350)
+            try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, max: 5120)
             try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, min: 1)
         }
 
@@ -5965,7 +6007,7 @@ extension CloudFormation {
 
         public func validate(name: String) throws {
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 5120)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
 
@@ -6840,7 +6882,7 @@ extension CloudFormation {
         public let maxConcurrentPercentage: Int?
         /// The concurrency type of deploying StackSets operations in Regions, could be in parallel or one Region at a time.
         public let regionConcurrencyType: RegionConcurrencyType?
-        /// The order of the Regions where you want to perform the stack operation.   RegionOrder isn't followed if AutoDeployment is enabled.
+        /// The order of the Regions where you want to perform the stack operation.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var regionOrder: [String]?
 
@@ -7071,20 +7113,30 @@ extension CloudFormation {
     public struct StartResourceScanInput: AWSEncodableShape {
         /// A unique identifier for this StartResourceScan request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to start a new resource scan.
         public let clientRequestToken: String?
+        /// The scan filters to use.
+        @OptionalCustomCoding<StandardArrayCoder<ScanFilter>>
+        public var scanFilters: [ScanFilter]?
 
         @inlinable
-        public init(clientRequestToken: String? = nil) {
+        public init(clientRequestToken: String? = nil, scanFilters: [ScanFilter]? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.scanFilters = scanFilters
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9][-a-zA-Z0-9]*$")
+            try self.scanFilters?.forEach {
+                try $0.validate(name: "\(name).scanFilters[]")
+            }
+            try self.validate(self.scanFilters, name: "scanFilters", parent: name, max: 1)
+            try self.validate(self.scanFilters, name: "scanFilters", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case scanFilters = "ScanFilters"
         }
     }
 
@@ -7700,16 +7752,16 @@ extension CloudFormation {
             try self.validate(self.stackPolicyBody, name: "stackPolicyBody", parent: name, min: 1)
             try self.validate(self.stackPolicyDuringUpdateBody, name: "stackPolicyDuringUpdateBody", parent: name, max: 16384)
             try self.validate(self.stackPolicyDuringUpdateBody, name: "stackPolicyDuringUpdateBody", parent: name, min: 1)
-            try self.validate(self.stackPolicyDuringUpdateURL, name: "stackPolicyDuringUpdateURL", parent: name, max: 1350)
+            try self.validate(self.stackPolicyDuringUpdateURL, name: "stackPolicyDuringUpdateURL", parent: name, max: 5120)
             try self.validate(self.stackPolicyDuringUpdateURL, name: "stackPolicyDuringUpdateURL", parent: name, min: 1)
-            try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, max: 1350)
+            try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, max: 5120)
             try self.validate(self.stackPolicyURL, name: "stackPolicyURL", parent: name, min: 1)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 5120)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
 
@@ -7827,9 +7879,9 @@ extension CloudFormation {
         /// [Self-managed permissions] The accounts in which to update associated stack instances. If you specify accounts, you must also specify the Amazon Web Services Regions in which to update stack set instances. To update all the stack instances associated with this stack set, don't specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the stack set update does not include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Amazon Web Services Regions, while leaving all other stack instances with their existing stack instance status.
         @OptionalCustomCoding<StandardArrayCoder<String>>
         public var accounts: [String]?
-        /// The Amazon Resource Name (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Prerequisites for using CloudFormation StackSets in the CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
+        /// [Self-managed permissions] The Amazon Resource Name (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see Grant self-managed permissions in the CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
         public let administrationRoleARN: String?
-        /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). If you specify AutoDeployment, don't specify DeploymentTargets or Regions.
+        /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). For more information, see Manage automatic deployments for CloudFormation StackSets that use service-managed permissions in the CloudFormation User Guide. If you specify AutoDeployment, don't specify DeploymentTargets or Regions.
         public let autoDeployment: AutoDeployment?
         /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
         public let callAs: CallAs?
@@ -7840,7 +7892,7 @@ extension CloudFormation {
         public let deploymentTargets: DeploymentTargets?
         /// A brief description of updates that you are making.
         public let description: String?
-        /// The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets. If you specify a customized execution role, CloudFormation uses that role to update the stack. If you do not specify a customized execution role, CloudFormation performs the update using the role previously associated with the stack set, so long as you have permissions to perform operations on the stack set.
+        /// [Self-managed permissions] The name of the IAM execution role to use to update the stack set. If you do not specify an execution role, CloudFormation uses the AWSCloudFormationStackSetExecutionRole role for the stack set operation. Specify an IAM role only if you are using customized execution roles to control which stack resources users and groups can include in their stack sets. If you specify a customized execution role, CloudFormation uses that role to update the stack. If you do not specify a customized execution role, CloudFormation performs the update using the role previously associated with the stack set, so long as you have permissions to perform operations on the stack set.
         public let executionRoleName: String?
         /// Describes whether StackSets performs non-conflicting operations concurrently and queues conflicting operations.
         public let managedExecution: ManagedExecution?
@@ -7915,7 +7967,7 @@ extension CloudFormation {
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 5120)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
 
@@ -8007,7 +8059,7 @@ extension CloudFormation {
 
         public func validate(name: String) throws {
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
-            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 1024)
+            try self.validate(self.templateURL, name: "templateURL", parent: name, max: 5120)
             try self.validate(self.templateURL, name: "templateURL", parent: name, min: 1)
         }
 

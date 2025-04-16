@@ -176,6 +176,44 @@ public struct M2: AWSService {
         return try await self.createApplication(input, logger: logger)
     }
 
+    /// Starts a data set export task for a specific application.
+    @Sendable
+    @inlinable
+    public func createDataSetExportTask(_ input: CreateDataSetExportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDataSetExportTaskResponse {
+        try await self.client.execute(
+            operation: "CreateDataSetExportTask", 
+            path: "/applications/{applicationId}/dataset-export-task", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a data set export task for a specific application.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the application for which you want to export data sets.
+    ///   - clientToken: Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create a data set export. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
+    ///   - exportConfig: The data set export task configuration.
+    ///   - kmsKeyId: The identifier of a customer managed key.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDataSetExportTask(
+        applicationId: String,
+        clientToken: String? = CreateDataSetExportTaskRequest.idempotencyToken(),
+        exportConfig: DataSetExportConfig,
+        kmsKeyId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDataSetExportTaskResponse {
+        let input = CreateDataSetExportTaskRequest(
+            applicationId: applicationId, 
+            clientToken: clientToken, 
+            exportConfig: exportConfig, 
+            kmsKeyId: kmsKeyId
+        )
+        return try await self.createDataSetExportTask(input, logger: logger)
+    }
+
     /// Starts a data set import task for a specific application.
     @Sendable
     @inlinable
@@ -535,6 +573,38 @@ public struct M2: AWSService {
         return try await self.getDataSetDetails(input, logger: logger)
     }
 
+    /// Gets the status of a data set import task initiated with the CreateDataSetExportTask operation.
+    @Sendable
+    @inlinable
+    public func getDataSetExportTask(_ input: GetDataSetExportTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDataSetExportTaskResponse {
+        try await self.client.execute(
+            operation: "GetDataSetExportTask", 
+            path: "/applications/{applicationId}/dataset-export-tasks/{taskId}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the status of a data set import task initiated with the CreateDataSetExportTask operation.
+    ///
+    /// Parameters:
+    ///   - applicationId: The application identifier.
+    ///   - taskId: The task identifier returned by the CreateDataSetExportTask operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDataSetExportTask(
+        applicationId: String,
+        taskId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDataSetExportTaskResponse {
+        let input = GetDataSetExportTaskRequest(
+            applicationId: applicationId, 
+            taskId: taskId
+        )
+        return try await self.getDataSetExportTask(input, logger: logger)
+    }
+
     /// Gets the status of a data set import task initiated with the CreateDataSetImportTask operation.
     @Sendable
     @inlinable
@@ -835,6 +905,41 @@ public struct M2: AWSService {
             executionId: executionId
         )
         return try await self.listBatchJobRestartPoints(input, logger: logger)
+    }
+
+    /// Lists the data set exports for the specified application.
+    @Sendable
+    @inlinable
+    public func listDataSetExportHistory(_ input: ListDataSetExportHistoryRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDataSetExportHistoryResponse {
+        try await self.client.execute(
+            operation: "ListDataSetExportHistory", 
+            path: "/applications/{applicationId}/dataset-export-tasks", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the data set exports for the specified application.
+    ///
+    /// Parameters:
+    ///   - applicationId: The unique identifier of the application.
+    ///   - maxResults: The maximum number of objects to return.
+    ///   - nextToken: A pagination token returned from a previous call to this operation. This specifies the next item to return. To return to the beginning of the  list, exclude this parameter.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDataSetExportHistory(
+        applicationId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDataSetExportHistoryResponse {
+        let input = ListDataSetExportHistoryRequest(
+            applicationId: applicationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listDataSetExportHistory(input, logger: logger)
     }
 
     /// Lists the data set imports for the specified application.
@@ -1481,6 +1586,43 @@ extension M2 {
         return self.listBatchJobExecutionsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listDataSetExportHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataSetExportHistoryPaginator(
+        _ input: ListDataSetExportHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDataSetExportHistoryRequest, ListDataSetExportHistoryResponse> {
+        return .init(
+            input: input,
+            command: self.listDataSetExportHistory,
+            inputKey: \ListDataSetExportHistoryRequest.nextToken,
+            outputKey: \ListDataSetExportHistoryResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDataSetExportHistory(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - applicationId: The unique identifier of the application.
+    ///   - maxResults: The maximum number of objects to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDataSetExportHistoryPaginator(
+        applicationId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDataSetExportHistoryRequest, ListDataSetExportHistoryResponse> {
+        let input = ListDataSetExportHistoryRequest(
+            applicationId: applicationId, 
+            maxResults: maxResults
+        )
+        return self.listDataSetExportHistoryPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDataSetImportHistory(_:logger:)``.
     ///
     /// - Parameters:
@@ -1723,6 +1865,17 @@ extension M2.ListBatchJobExecutionsRequest: AWSPaginateToken {
             startedAfter: self.startedAfter,
             startedBefore: self.startedBefore,
             status: self.status
+        )
+    }
+}
+
+extension M2.ListDataSetExportHistoryRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> M2.ListDataSetExportHistoryRequest {
+        return .init(
+            applicationId: self.applicationId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

@@ -159,6 +159,7 @@ extension Polly {
         case jacek = "Jacek"
         case jan = "Jan"
         case jasmine = "Jasmine"
+        case jihye = "Jihye"
         case jitka = "Jitka"
         case joanna = "Joanna"
         case joey = "Joey"

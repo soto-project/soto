@@ -80,6 +80,48 @@ public struct EventBridge: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "events.af-south-1.api.aws",
+            "ap-east-1": "events.ap-east-1.api.aws",
+            "ap-northeast-1": "events.ap-northeast-1.api.aws",
+            "ap-northeast-2": "events.ap-northeast-2.api.aws",
+            "ap-northeast-3": "events.ap-northeast-3.api.aws",
+            "ap-south-1": "events.ap-south-1.api.aws",
+            "ap-south-2": "events.ap-south-2.api.aws",
+            "ap-southeast-1": "events.ap-southeast-1.api.aws",
+            "ap-southeast-2": "events.ap-southeast-2.api.aws",
+            "ap-southeast-3": "events.ap-southeast-3.api.aws",
+            "ap-southeast-4": "events.ap-southeast-4.api.aws",
+            "ap-southeast-5": "events.ap-southeast-5.api.aws",
+            "ap-southeast-7": "events.ap-southeast-7.api.aws",
+            "ca-central-1": "events.ca-central-1.api.aws",
+            "ca-west-1": "events.ca-west-1.api.aws",
+            "cn-north-1": "events.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "events.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "events.eu-central-1.api.aws",
+            "eu-central-2": "events.eu-central-2.api.aws",
+            "eu-north-1": "events.eu-north-1.api.aws",
+            "eu-south-1": "events.eu-south-1.api.aws",
+            "eu-south-2": "events.eu-south-2.api.aws",
+            "eu-west-1": "events.eu-west-1.api.aws",
+            "eu-west-2": "events.eu-west-2.api.aws",
+            "eu-west-3": "events.eu-west-3.api.aws",
+            "il-central-1": "events.il-central-1.api.aws",
+            "me-central-1": "events.me-central-1.api.aws",
+            "me-south-1": "events.me-south-1.api.aws",
+            "mx-central-1": "events.mx-central-1.api.aws",
+            "sa-east-1": "events.sa-east-1.api.aws",
+            "us-east-1": "events.us-east-1.api.aws",
+            "us-east-2": "events.us-east-2.api.aws",
+            "us-west-1": "events.us-west-1.api.aws",
+            "us-west-2": "events.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "events-fips.us-east-1.api.aws",
+            "us-east-2": "events-fips.us-east-2.api.aws",
+            "us-west-1": "events-fips.us-west-1.api.aws",
+            "us-west-2": "events-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "events-fips.us-east-1.amazonaws.com",
             "us-east-2": "events-fips.us-east-2.amazonaws.com",
@@ -194,7 +236,7 @@ public struct EventBridge: AWSService {
         return try await self.createApiDestination(input, logger: logger)
     }
 
-    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.  Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:   You call  CreateArchive on an event bus set to use a customer managed key for encryption.   You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with an archives or schema discovery enabled.   To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.  If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
     @Sendable
     @inlinable
     public func createArchive(_ input: CreateArchiveRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateArchiveResponse {
@@ -207,13 +249,14 @@ public struct EventBridge: AWSService {
             logger: logger
         )
     }
-    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.  Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:   You call  CreateArchive on an event bus set to use a customer managed key for encryption.   You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with an archives or schema discovery enabled.   To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+    /// Creates an archive of events with the specified settings. When you create an archive, incoming events might not immediately start being sent to the archive. Allow a short period of time for changes to take effect. If you do not specify a pattern to filter events sent to the archive, all events are sent to the archive except replayed events. Replayed events are not sent to an archive.  If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
     ///
     /// Parameters:
     ///   - archiveName: The name for the archive to create.
     ///   - description: A description for the archive.
     ///   - eventPattern: An event pattern to use to filter events sent to the archive.
     ///   - eventSourceArn: The ARN of the event bus that sends events to the archive.
+    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see Identify and view keys in the Key Management Service Developer Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
     ///   - retentionDays: The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely
     ///   - logger: Logger use during operation
     @inlinable
@@ -222,6 +265,7 @@ public struct EventBridge: AWSService {
         description: String? = nil,
         eventPattern: String? = nil,
         eventSourceArn: String,
+        kmsKeyIdentifier: String? = nil,
         retentionDays: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateArchiveResponse {
@@ -230,6 +274,7 @@ public struct EventBridge: AWSService {
             description: description, 
             eventPattern: eventPattern, 
             eventSourceArn: eventSourceArn, 
+            kmsKeyIdentifier: kmsKeyIdentifier, 
             retentionDays: retentionDays
         )
         return try await self.createArchive(input, logger: logger)
@@ -254,7 +299,7 @@ public struct EventBridge: AWSService {
     ///   - authorizationType: The type of authorization to use for the connection.  OAUTH tokens are refreshed when a 401 or 407 response is returned.
     ///   - authParameters: The authorization parameters to use to authorize with the endpoint.  You must include only authorization parameters for the AuthorizationType you specify.
     ///   - description: A description for the connection to create.
-    ///   - invocationConnectivityParameters: For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
+    ///   - invocationConnectivityParameters: For connections to private APIs, the parameters to use for invoking the API. For more information, see Connecting to private APIs in the  Amazon EventBridge User Guide .
     ///   - name: The name for the connection to create.
     ///   - logger: Logger use during operation
     @inlinable
@@ -339,7 +384,7 @@ public struct EventBridge: AWSService {
     ///   - deadLetterConfig: 
     ///   - description: The event bus description.
     ///   - eventSourceName: If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
-    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Managing keys in the Key Management Service Developer Guide.   Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:   You call  CreateArchive on an event bus set to use a customer managed key for encryption.   You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with an archives or schema discovery enabled.   To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if you call  CreateDiscoverer on an event bus set to use a customer managed key for encryption. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
     ///   - name: The name of the new event bus.  Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
     ///   - tags: Tags to associate with the event bus.
     ///   - logger: Logger use during operation
@@ -1476,7 +1521,7 @@ public struct EventBridge: AWSService {
         return try await self.listTargetsByRule(input, logger: logger)
     }
 
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including the event and any necessary characters and keys of the JSON representation of the event. To learn more, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide   PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency.  However, the total entry size must be less than 256KB. You can calculate the entry size before you send the events.  For more information, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide . PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
     @Sendable
     @inlinable
     public func putEvents(_ input: PutEventsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutEventsResponse {
@@ -1489,7 +1534,7 @@ public struct EventBridge: AWSService {
             logger: logger
         )
     }
-    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum size for a PutEvents event entry is 256 KB. Entry size is calculated including the event and any necessary characters and keys of the JSON representation of the event. To learn more, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide   PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
+    /// Sends custom events to Amazon EventBridge so that they can be matched to rules. You can batch multiple event entries into one request for efficiency.  However, the total entry size must be less than 256KB. You can calculate the entry size before you send the events.  For more information, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide . PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of 9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1000 levels deep.
     ///
     /// Parameters:
     ///   - endpointId: The URL subdomain of the endpoint. For example, if the URL for Endpoint is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When using Java, you must include auth-crt on the class path.
@@ -1942,6 +1987,7 @@ public struct EventBridge: AWSService {
     ///   - archiveName: The name of the archive to update.
     ///   - description: The description for the archive.
     ///   - eventPattern: The event pattern to use to filter events sent to the archive.
+    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see Identify and view keys in the Key Management Service Developer Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
     ///   - retentionDays: The number of days to retain events in the archive.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1949,6 +1995,7 @@ public struct EventBridge: AWSService {
         archiveName: String,
         description: String? = nil,
         eventPattern: String? = nil,
+        kmsKeyIdentifier: String? = nil,
         retentionDays: Int? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateArchiveResponse {
@@ -1956,6 +2003,7 @@ public struct EventBridge: AWSService {
             archiveName: archiveName, 
             description: description, 
             eventPattern: eventPattern, 
+            kmsKeyIdentifier: kmsKeyIdentifier, 
             retentionDays: retentionDays
         )
         return try await self.updateArchive(input, logger: logger)
@@ -1980,7 +2028,7 @@ public struct EventBridge: AWSService {
     ///   - authorizationType: The type of authorization to use for the connection.
     ///   - authParameters: The authorization parameters to use for the connection.
     ///   - description: A description for the connection.
-    ///   - invocationConnectivityParameters: For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
+    ///   - invocationConnectivityParameters: For connections to private APIs, the parameters to use for invoking the API. For more information, see Connecting to private APIs in the  Amazon EventBridge User Guide .
     ///   - name: The name of the connection to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2064,7 +2112,7 @@ public struct EventBridge: AWSService {
     /// Parameters:
     ///   - deadLetterConfig: 
     ///   - description: The event bus description.
-    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Managing keys in the Key Management Service Developer Guide.   Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:   You call  CreateArchive on an event bus set to use a customer managed key for encryption.   You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with an archives or schema discovery enabled.   To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if you call  CreateDiscoverer on an event bus set to use a customer managed key for encryption. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
     ///   - name: The name of the event bus.
     ///   - logger: Logger use during operation
     @inlinable

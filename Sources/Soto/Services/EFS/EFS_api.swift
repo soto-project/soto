@@ -98,6 +98,7 @@ public struct EFS: AWSService {
             "cn-northwest-1": "elasticfilesystem-fips.cn-northwest-1.amazonaws.com.cn",
             "eu-central-1": "elasticfilesystem-fips.eu-central-1.amazonaws.com",
             "eu-central-2": "elasticfilesystem-fips.eu-central-2.amazonaws.com",
+            "eu-isoe-west-1": "elasticfilesystem-fips.eu-isoe-west-1.cloud.adc-e.uk",
             "eu-north-1": "elasticfilesystem-fips.eu-north-1.amazonaws.com",
             "eu-south-1": "elasticfilesystem-fips.eu-south-1.amazonaws.com",
             "eu-south-2": "elasticfilesystem-fips.eu-south-2.amazonaws.com",

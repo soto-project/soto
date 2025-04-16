@@ -127,6 +127,7 @@ extension QuickSight {
 
     public enum AssetBundleExportJobDataSetPropertyToOverride: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case name = "Name"
+        case refreshFailureEmailAlertStatus = "RefreshFailureEmailAlertStatus"
         public var description: String { return self.rawValue }
     }
 
@@ -539,6 +540,11 @@ extension QuickSight {
     public enum DataSetImportMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case directQuery = "DIRECT_QUERY"
         case spice = "SPICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DataSetUseAs: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rlsRules = "RLS_RULES"
         public var description: String { return self.rawValue }
     }
 
@@ -1352,6 +1358,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum QBusinessInsightsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum QSearchStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -1406,6 +1418,12 @@ extension QuickSight {
     public enum ReferenceLineValueLabelRelativePosition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case afterCustomLabel = "AFTER_CUSTOM_LABEL"
         case beforeCustomLabel = "BEFORE_CUSTOM_LABEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RefreshFailureAlertStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -1865,6 +1883,12 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransposedColumnType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rowHeaderColumn = "ROW_HEADER_COLUMN"
+        case valueColumn = "VALUE_COLUMN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum URLTargetConfiguration: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case newTab = "NEW_TAB"
         case newWindow = "NEW_WINDOW"
@@ -1939,6 +1963,13 @@ extension QuickSight {
     public enum VisualCustomActionTrigger: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dataPointClick = "DATA_POINT_CLICK"
         case dataPointMenu = "DATA_POINT_MENU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VisualHighlightTrigger: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dataPointClick = "DATA_POINT_CLICK"
+        case dataPointHover = "DATA_POINT_HOVER"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -2781,6 +2812,46 @@ extension QuickSight {
         }
     }
 
+    public struct AmazonQInQuickSightConsoleConfigurations: AWSEncodableShape {
+        /// Adds generative Q&A capabilitiees to an embedded Amazon QuickSight console.
+        public let dataQnA: DataQnAConfigurations?
+        /// Adds the data stories feature to an embedded Amazon QuickSight console.
+        public let dataStories: DataStoriesConfigurations?
+        /// Adds the executive summaries feature to an embedded Amazon QuickSight console.
+        public let executiveSummary: ExecutiveSummaryConfigurations?
+        /// Adds the generative BI authoring experience to an embedded Amazon QuickSight console.
+        public let generativeAuthoring: GenerativeAuthoringConfigurations?
+
+        @inlinable
+        public init(dataQnA: DataQnAConfigurations? = nil, dataStories: DataStoriesConfigurations? = nil, executiveSummary: ExecutiveSummaryConfigurations? = nil, generativeAuthoring: GenerativeAuthoringConfigurations? = nil) {
+            self.dataQnA = dataQnA
+            self.dataStories = dataStories
+            self.executiveSummary = executiveSummary
+            self.generativeAuthoring = generativeAuthoring
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataQnA = "DataQnA"
+            case dataStories = "DataStories"
+            case executiveSummary = "ExecutiveSummary"
+            case generativeAuthoring = "GenerativeAuthoring"
+        }
+    }
+
+    public struct AmazonQInQuickSightDashboardConfigurations: AWSEncodableShape {
+        /// A generated executive summary of an embedded Amazon QuickSight dashboard.
+        public let executiveSummary: ExecutiveSummaryConfigurations?
+
+        @inlinable
+        public init(executiveSummary: ExecutiveSummaryConfigurations? = nil) {
+            self.executiveSummary = executiveSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executiveSummary = "ExecutiveSummary"
+        }
+    }
+
     public struct Analysis: AWSDecodableShape {
         /// The ID of the analysis.
         public let analysisId: String?
@@ -2897,6 +2968,7 @@ extension QuickSight {
                 try $0.validate(name: "\(name).filterGroups[]")
             }
             try self.validate(self.filterGroups, name: "filterGroups", parent: name, max: 2000)
+            try self.options?.validate(name: "\(name).options")
             try self.parameterDeclarations?.forEach {
                 try $0.validate(name: "\(name).parameterDeclarations[]")
             }
@@ -3887,22 +3959,26 @@ extension QuickSight {
     public struct AssetBundleImportJobDataSetOverrideParameters: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the dataset to apply overrides to.
         public let dataSetId: String
+        public let dataSetRefreshProperties: DataSetRefreshProperties?
         /// A new name for the dataset.
         public let name: String?
 
         @inlinable
-        public init(dataSetId: String, name: String? = nil) {
+        public init(dataSetId: String, dataSetRefreshProperties: DataSetRefreshProperties? = nil, name: String? = nil) {
             self.dataSetId = dataSetId
+            self.dataSetRefreshProperties = dataSetRefreshProperties
             self.name = name
         }
 
         public func validate(name: String) throws {
+            try self.dataSetRefreshProperties?.validate(name: "\(name).dataSetRefreshProperties")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSetId = "DataSetId"
+            case dataSetRefreshProperties = "DataSetRefreshProperties"
             case name = "Name"
         }
     }
@@ -4807,18 +4883,34 @@ extension QuickSight {
     }
 
     public struct AssetOptions: AWSEncodableShape & AWSDecodableShape {
+        /// A list of visual custom actions for the analysis.
+        public let customActionDefaults: VisualCustomActionDefaults?
+        /// A list of dataset ARNS to exclude from Dashboard Q&A.
+        public let excludedDataSetArns: [String]?
+        /// Determines whether insight summaries from Amazon Q Business are allowed in Dashboard Q&A.
+        public let qBusinessInsightsStatus: QBusinessInsightsStatus?
         /// Determines the timezone for the analysis.
         public let timezone: String?
         /// Determines the week start day for an analysis.
         public let weekStart: DayOfTheWeek?
 
         @inlinable
-        public init(timezone: String? = nil, weekStart: DayOfTheWeek? = nil) {
+        public init(customActionDefaults: VisualCustomActionDefaults? = nil, excludedDataSetArns: [String]? = nil, qBusinessInsightsStatus: QBusinessInsightsStatus? = nil, timezone: String? = nil, weekStart: DayOfTheWeek? = nil) {
+            self.customActionDefaults = customActionDefaults
+            self.excludedDataSetArns = excludedDataSetArns
+            self.qBusinessInsightsStatus = qBusinessInsightsStatus
             self.timezone = timezone
             self.weekStart = weekStart
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.excludedDataSetArns, name: "excludedDataSetArns", parent: name, max: 100)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case customActionDefaults = "CustomActionDefaults"
+            case excludedDataSetArns = "ExcludedDataSetArns"
+            case qBusinessInsightsStatus = "QBusinessInsightsStatus"
             case timezone = "Timezone"
             case weekStart = "WeekStart"
         }
@@ -8718,9 +8810,11 @@ extension QuickSight {
         public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
         public let tags: [Tag]?
+        /// The usage of the dataset. RLS_RULES must be specified for RLS permission datasets.
+        public let useAs: DataSetUseAs?
 
         @inlinable
-        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, folderArns: [String]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, performanceConfiguration: PerformanceConfiguration? = nil, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil, tags: [Tag]? = nil) {
+        public init(awsAccountId: String, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, dataSetId: String, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, folderArns: [String]? = nil, importMode: DataSetImportMode, logicalTableMap: [String: LogicalTable]? = nil, name: String, performanceConfiguration: PerformanceConfiguration? = nil, permissions: [ResourcePermission]? = nil, physicalTableMap: [String: PhysicalTable], rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil, tags: [Tag]? = nil, useAs: DataSetUseAs? = nil) {
             self.awsAccountId = awsAccountId
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -8738,6 +8832,7 @@ extension QuickSight {
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
             self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
             self.tags = tags
+            self.useAs = useAs
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -8760,6 +8855,7 @@ extension QuickSight {
             try container.encodeIfPresent(self.rowLevelPermissionDataSet, forKey: .rowLevelPermissionDataSet)
             try container.encodeIfPresent(self.rowLevelPermissionTagConfiguration, forKey: .rowLevelPermissionTagConfiguration)
             try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encodeIfPresent(self.useAs, forKey: .useAs)
         }
 
         public func validate(name: String) throws {
@@ -8835,6 +8931,7 @@ extension QuickSight {
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
             case rowLevelPermissionTagConfiguration = "RowLevelPermissionTagConfiguration"
             case tags = "Tags"
+            case useAs = "UseAs"
         }
     }
 
@@ -11130,6 +11227,8 @@ extension QuickSight {
         public let dataPointMenuLabelOption: DataPointMenuLabelOption?
         /// The data point tool tip options of a dashboard.
         public let dataPointTooltipOption: DataPointTooltipOption?
+        /// Adds Q&A capabilities to an Amazon QuickSight dashboard. If no topic is linked, Dashboard Q&A uses the data values that are rendered on the dashboard. End users can use Dashboard Q&A to ask for different slices of the data that they see on the dashboard. If a topic is linked, Topic Q&A is used.
+        public let dataQAEnabledOption: DataQAEnabledOption?
         /// Export to .csv option.
         public let exportToCSVOption: ExportToCSVOption?
         /// Determines if hidden fields are exported with a dashboard.
@@ -11146,11 +11245,12 @@ extension QuickSight {
         public let visualPublishOptions: DashboardVisualPublishOptions?
 
         @inlinable
-        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil) {
+        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, dataQAEnabledOption: DataQAEnabledOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil) {
             self.adHocFilteringOption = adHocFilteringOption
             self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
             self.dataPointMenuLabelOption = dataPointMenuLabelOption
             self.dataPointTooltipOption = dataPointTooltipOption
+            self.dataQAEnabledOption = dataQAEnabledOption
             self.exportToCSVOption = exportToCSVOption
             self.exportWithHiddenFieldsOption = exportWithHiddenFieldsOption
             self.sheetControlsOption = sheetControlsOption
@@ -11162,11 +11262,12 @@ extension QuickSight {
 
         @available(*, deprecated, message: "Members visualPublishOptions have been deprecated")
         @inlinable
-        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil, visualPublishOptions: DashboardVisualPublishOptions? = nil) {
+        public init(adHocFilteringOption: AdHocFilteringOption? = nil, dataPointDrillUpDownOption: DataPointDrillUpDownOption? = nil, dataPointMenuLabelOption: DataPointMenuLabelOption? = nil, dataPointTooltipOption: DataPointTooltipOption? = nil, dataQAEnabledOption: DataQAEnabledOption? = nil, exportToCSVOption: ExportToCSVOption? = nil, exportWithHiddenFieldsOption: ExportWithHiddenFieldsOption? = nil, sheetControlsOption: SheetControlsOption? = nil, sheetLayoutElementMaximizationOption: SheetLayoutElementMaximizationOption? = nil, visualAxisSortOption: VisualAxisSortOption? = nil, visualMenuOption: VisualMenuOption? = nil, visualPublishOptions: DashboardVisualPublishOptions? = nil) {
             self.adHocFilteringOption = adHocFilteringOption
             self.dataPointDrillUpDownOption = dataPointDrillUpDownOption
             self.dataPointMenuLabelOption = dataPointMenuLabelOption
             self.dataPointTooltipOption = dataPointTooltipOption
+            self.dataQAEnabledOption = dataQAEnabledOption
             self.exportToCSVOption = exportToCSVOption
             self.exportWithHiddenFieldsOption = exportWithHiddenFieldsOption
             self.sheetControlsOption = sheetControlsOption
@@ -11181,6 +11282,7 @@ extension QuickSight {
             case dataPointDrillUpDownOption = "DataPointDrillUpDownOption"
             case dataPointMenuLabelOption = "DataPointMenuLabelOption"
             case dataPointTooltipOption = "DataPointTooltipOption"
+            case dataQAEnabledOption = "DataQAEnabledOption"
             case exportToCSVOption = "ExportToCSVOption"
             case exportWithHiddenFieldsOption = "ExportWithHiddenFieldsOption"
             case sheetControlsOption = "SheetControlsOption"
@@ -11394,6 +11496,7 @@ extension QuickSight {
                 try $0.validate(name: "\(name).filterGroups[]")
             }
             try self.validate(self.filterGroups, name: "filterGroups", parent: name, max: 2000)
+            try self.options?.validate(name: "\(name).options")
             try self.parameterDeclarations?.forEach {
                 try $0.validate(name: "\(name).parameterDeclarations[]")
             }
@@ -11942,6 +12045,34 @@ extension QuickSight {
         }
     }
 
+    public struct DataQAEnabledOption: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the Data Q&A option on the dashboard.
+        public let availabilityStatus: DashboardBehavior?
+
+        @inlinable
+        public init(availabilityStatus: DashboardBehavior? = nil) {
+            self.availabilityStatus = availabilityStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityStatus = "AvailabilityStatus"
+        }
+    }
+
+    public struct DataQnAConfigurations: AWSEncodableShape {
+        /// The generative Q&A settings of an embedded Amazon QuickSight console.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct DataSet: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
@@ -11979,9 +12110,11 @@ extension QuickSight {
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
         /// The element you can use to define tags for row-level security.
         public let rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration?
+        /// The usage of the dataset.
+        public let useAs: DataSetUseAs?
 
         @inlinable
-        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, performanceConfiguration: PerformanceConfiguration? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil) {
+        public init(arn: String? = nil, columnGroups: [ColumnGroup]? = nil, columnLevelPermissionRules: [ColumnLevelPermissionRule]? = nil, consumedSpiceCapacityInBytes: Int64? = nil, createdTime: Date? = nil, dataSetId: String? = nil, datasetParameters: [DatasetParameter]? = nil, dataSetUsageConfiguration: DataSetUsageConfiguration? = nil, fieldFolders: [String: FieldFolder]? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, logicalTableMap: [String: LogicalTable]? = nil, name: String? = nil, outputColumns: [OutputColumn]? = nil, performanceConfiguration: PerformanceConfiguration? = nil, physicalTableMap: [String: PhysicalTable]? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil, useAs: DataSetUseAs? = nil) {
             self.arn = arn
             self.columnGroups = columnGroups
             self.columnLevelPermissionRules = columnLevelPermissionRules
@@ -12000,6 +12133,7 @@ extension QuickSight {
             self.physicalTableMap = physicalTableMap
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
             self.rowLevelPermissionTagConfiguration = rowLevelPermissionTagConfiguration
+            self.useAs = useAs
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12021,6 +12155,7 @@ extension QuickSight {
             case physicalTableMap = "PhysicalTableMap"
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
             case rowLevelPermissionTagConfiguration = "RowLevelPermissionTagConfiguration"
+            case useAs = "UseAs"
         }
     }
 
@@ -12100,19 +12235,23 @@ extension QuickSight {
     }
 
     public struct DataSetRefreshProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The failure configuration for a dataset.
+        public let failureConfiguration: RefreshFailureConfiguration?
         /// The refresh configuration for a dataset.
-        public let refreshConfiguration: RefreshConfiguration
+        public let refreshConfiguration: RefreshConfiguration?
 
         @inlinable
-        public init(refreshConfiguration: RefreshConfiguration) {
+        public init(failureConfiguration: RefreshFailureConfiguration? = nil, refreshConfiguration: RefreshConfiguration? = nil) {
+            self.failureConfiguration = failureConfiguration
             self.refreshConfiguration = refreshConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.refreshConfiguration.validate(name: "\(name).refreshConfiguration")
+            try self.refreshConfiguration?.validate(name: "\(name).refreshConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case failureConfiguration = "FailureConfiguration"
             case refreshConfiguration = "RefreshConfiguration"
         }
     }
@@ -12176,9 +12315,11 @@ extension QuickSight {
         public let rowLevelPermissionDataSet: RowLevelPermissionDataSet?
         /// Whether or not the row level permission tags are applied.
         public let rowLevelPermissionTagConfigurationApplied: Bool?
+        /// The usage of the dataset.
+        public let useAs: DataSetUseAs?
 
         @inlinable
-        public init(arn: String? = nil, columnLevelPermissionRulesApplied: Bool? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfigurationApplied: Bool? = nil) {
+        public init(arn: String? = nil, columnLevelPermissionRulesApplied: Bool? = nil, createdTime: Date? = nil, dataSetId: String? = nil, importMode: DataSetImportMode? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil, rowLevelPermissionTagConfigurationApplied: Bool? = nil, useAs: DataSetUseAs? = nil) {
             self.arn = arn
             self.columnLevelPermissionRulesApplied = columnLevelPermissionRulesApplied
             self.createdTime = createdTime
@@ -12188,6 +12329,7 @@ extension QuickSight {
             self.name = name
             self.rowLevelPermissionDataSet = rowLevelPermissionDataSet
             self.rowLevelPermissionTagConfigurationApplied = rowLevelPermissionTagConfigurationApplied
+            self.useAs = useAs
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12200,6 +12342,7 @@ extension QuickSight {
             case name = "Name"
             case rowLevelPermissionDataSet = "RowLevelPermissionDataSet"
             case rowLevelPermissionTagConfigurationApplied = "RowLevelPermissionTagConfigurationApplied"
+            case useAs = "UseAs"
         }
     }
 
@@ -12384,6 +12527,20 @@ extension QuickSight {
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
             case type = "Type"
+        }
+    }
+
+    public struct DataStoriesConfigurations: AWSEncodableShape {
+        /// The data story settings of an embedded Amazon QuickSight console.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
@@ -19279,6 +19436,20 @@ extension QuickSight {
         }
     }
 
+    public struct ExecutiveSummaryConfigurations: AWSEncodableShape {
+        /// The executive summary settings of an embedded Amazon QuickSight console or dashboard.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct ExplicitHierarchy: AWSEncodableShape & AWSDecodableShape {
         /// The list of columns that define the explicit hierarchy.
         public let columns: [ColumnIdentifier]
@@ -19362,7 +19533,7 @@ extension QuickSight {
         public let keyArn: String?
         /// A message that provides information about why a FailedKeyRegistrationEntry error occurred.
         public let message: String
-        /// A boolean that indicates whether a FailedKeyRegistrationEntry resulted from user error. If the value of this property is True, the error was caused by user error. If the value of this property is False, the error occurred on the backend. If your job continues fail and with a False SenderFault value, contact Amazon Web Services Support.
+        /// A boolean that indicates whether a FailedKeyRegistrationEntry resulted from user error. If the value of this property is True, the error was caused by user error. If the value of this property is False, the error occurred on the backend. If your job continues fail and with a False SenderFault value, contact Amazon Web ServicesSupport.
         public let senderFault: Bool
         /// The HTTP status of a FailedKeyRegistrationEntry error.
         public let statusCode: Int
@@ -21797,6 +21968,20 @@ extension QuickSight {
             case restatement = "Restatement"
             case topicId = "TopicId"
             case topicName = "TopicName"
+        }
+    }
+
+    public struct GenerativeAuthoringConfigurations: AWSEncodableShape {
+        /// The generative BI authoring settings of an embedded Amazon QuickSight console.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
@@ -29383,12 +29568,15 @@ extension QuickSight {
         public let host: String
         /// The port.
         public let port: Int
+        /// A Boolean value that indicates whether the Database uses a service name or an SID. If this value is left blank, the default value is SID. If this value is set to false, the value is SID.
+        public let useServiceName: Bool?
 
         @inlinable
-        public init(database: String, host: String, port: Int) {
+        public init(database: String, host: String, port: Int, useServiceName: Bool? = nil) {
             self.database = database
             self.host = host
             self.port = port
+            self.useServiceName = useServiceName
         }
 
         public func validate(name: String) throws {
@@ -29404,6 +29592,7 @@ extension QuickSight {
             case database = "Database"
             case host = "Host"
             case port = "Port"
+            case useServiceName = "UseServiceName"
         }
     }
 
@@ -31972,6 +32161,20 @@ extension QuickSight {
         }
     }
 
+    public struct RecentSnapshotsConfigurations: AWSEncodableShape {
+        /// The recent snapshots configuration for an embedded Amazon QuickSight dashboard.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct RedshiftIAMParameters: AWSEncodableShape & AWSDecodableShape {
         /// Automatically creates a database user. If your database doesn't have a DatabaseUser, set this parameter to True. If there is no DatabaseUser, Amazon QuickSight can't connect to your cluster. The RoleArn that you use for this operation must grant access to redshift:CreateClusterUser to successfully create the user.
         public let autoCreateDatabaseUser: Bool?
@@ -32282,6 +32485,34 @@ extension QuickSight {
         }
     }
 
+    public struct RefreshFailureConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The email alert configuration for a dataset refresh failure.
+        public let emailAlert: RefreshFailureEmailAlert?
+
+        @inlinable
+        public init(emailAlert: RefreshFailureEmailAlert? = nil) {
+            self.emailAlert = emailAlert
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emailAlert = "EmailAlert"
+        }
+    }
+
+    public struct RefreshFailureEmailAlert: AWSEncodableShape & AWSDecodableShape {
+        /// The status value that determines if email alerts are sent.
+        public let alertStatus: RefreshFailureAlertStatus?
+
+        @inlinable
+        public init(alertStatus: RefreshFailureAlertStatus? = nil) {
+            self.alertStatus = alertStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alertStatus = "AlertStatus"
+        }
+    }
+
     public struct RefreshFrequency: AWSEncodableShape & AWSDecodableShape {
         /// The interval between scheduled refreshes. Valid values are as follows:    MINUTE15: The dataset refreshes every 15 minutes. This value is only supported for incremental refreshes. This interval can only be used for one schedule per dataset.    MINUTE30:The dataset refreshes every 30 minutes. This value is only supported for incremental refreshes. This interval can only be used for one schedule per dataset.    HOURLY: The dataset refreshes every hour. This interval can only be used for one schedule per dataset.    DAILY: The dataset refreshes every day.    WEEKLY: The dataset refreshes every week.    MONTHLY: The dataset refreshes every month.
         public let interval: RefreshInterval
@@ -32510,20 +32741,36 @@ extension QuickSight {
     }
 
     public struct RegisteredUserConsoleFeatureConfigurations: AWSEncodableShape {
+        /// The Amazon Q configurations of an embedded Amazon QuickSight console.
+        public let amazonQInQuickSight: AmazonQInQuickSightConsoleConfigurations?
+        /// The recent snapshots configuration for an embedded Amazon QuickSight dashboard.
+        public let recentSnapshots: RecentSnapshotsConfigurations?
+        /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+        public let schedules: SchedulesConfigurations?
         /// The shared view settings of an embedded dashboard.
         public let sharedView: SharedViewConfigurations?
         /// The state persistence configurations of an embedded Amazon QuickSight console.
         public let statePersistence: StatePersistenceConfigurations?
+        /// The threshold alerts configuration for an embedded Amazon QuickSight dashboard.
+        public let thresholdAlerts: ThresholdAlertsConfigurations?
 
         @inlinable
-        public init(sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil) {
+        public init(amazonQInQuickSight: AmazonQInQuickSightConsoleConfigurations? = nil, recentSnapshots: RecentSnapshotsConfigurations? = nil, schedules: SchedulesConfigurations? = nil, sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil, thresholdAlerts: ThresholdAlertsConfigurations? = nil) {
+            self.amazonQInQuickSight = amazonQInQuickSight
+            self.recentSnapshots = recentSnapshots
+            self.schedules = schedules
             self.sharedView = sharedView
             self.statePersistence = statePersistence
+            self.thresholdAlerts = thresholdAlerts
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonQInQuickSight = "AmazonQInQuickSight"
+            case recentSnapshots = "RecentSnapshots"
+            case schedules = "Schedules"
             case sharedView = "SharedView"
             case statePersistence = "StatePersistence"
+            case thresholdAlerts = "ThresholdAlerts"
         }
     }
 
@@ -32552,24 +32799,40 @@ extension QuickSight {
     }
 
     public struct RegisteredUserDashboardFeatureConfigurations: AWSEncodableShape {
+        /// The Amazon Q configurations of an embedded Amazon QuickSight dashboard.
+        public let amazonQInQuickSight: AmazonQInQuickSightDashboardConfigurations?
         /// The bookmarks configuration for an embedded dashboard in Amazon QuickSight.
         public let bookmarks: BookmarksConfigurations?
+        /// The recent snapshots configuration for an Amazon QuickSight embedded dashboard
+        public let recentSnapshots: RecentSnapshotsConfigurations?
+        /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+        public let schedules: SchedulesConfigurations?
         /// The shared view settings of an embedded dashboard.
         public let sharedView: SharedViewConfigurations?
         /// The state persistence settings of an embedded dashboard.
         public let statePersistence: StatePersistenceConfigurations?
+        /// The threshold alerts configuration for an Amazon QuickSight embedded dashboard.
+        public let thresholdAlerts: ThresholdAlertsConfigurations?
 
         @inlinable
-        public init(bookmarks: BookmarksConfigurations? = nil, sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil) {
+        public init(amazonQInQuickSight: AmazonQInQuickSightDashboardConfigurations? = nil, bookmarks: BookmarksConfigurations? = nil, recentSnapshots: RecentSnapshotsConfigurations? = nil, schedules: SchedulesConfigurations? = nil, sharedView: SharedViewConfigurations? = nil, statePersistence: StatePersistenceConfigurations? = nil, thresholdAlerts: ThresholdAlertsConfigurations? = nil) {
+            self.amazonQInQuickSight = amazonQInQuickSight
             self.bookmarks = bookmarks
+            self.recentSnapshots = recentSnapshots
+            self.schedules = schedules
             self.sharedView = sharedView
             self.statePersistence = statePersistence
+            self.thresholdAlerts = thresholdAlerts
         }
 
         private enum CodingKeys: String, CodingKey {
+            case amazonQInQuickSight = "AmazonQInQuickSight"
             case bookmarks = "Bookmarks"
+            case recentSnapshots = "RecentSnapshots"
+            case schedules = "Schedules"
             case sharedView = "SharedView"
             case statePersistence = "StatePersistence"
+            case thresholdAlerts = "ThresholdAlerts"
         }
     }
 
@@ -33762,6 +34025,20 @@ extension QuickSight {
         }
     }
 
+    public struct SchedulesConfigurations: AWSEncodableShape {
+        /// The schedules configuration for an embedded Amazon QuickSight dashboard.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
     public struct ScrollBarOptions: AWSEncodableShape & AWSDecodableShape {
         /// The visibility of the data zoom scroll bar.
         public let visibility: Visibility?
@@ -34826,6 +35103,8 @@ extension QuickSight {
     public struct SheetDefinition: AWSEncodableShape & AWSDecodableShape {
         /// The layout content type of the sheet. Choose one of the following options:    PAGINATED: Creates a sheet for a paginated report.    INTERACTIVE: Creates a sheet for an interactive dashboard.
         public let contentType: SheetContentType?
+        /// A list of visual custom actions for the sheet.
+        public let customActionDefaults: VisualCustomActionDefaults?
         /// A description of the sheet.
         public let description: String?
         /// The list of filter controls that are on a sheet. For more information, see Adding filter controls to analysis sheets in the Amazon QuickSight User Guide.
@@ -34850,8 +35129,9 @@ extension QuickSight {
         public let visuals: [Visual]?
 
         @inlinable
-        public init(contentType: SheetContentType? = nil, description: String? = nil, filterControls: [FilterControl]? = nil, images: [SheetImage]? = nil, layouts: [Layout]? = nil, name: String? = nil, parameterControls: [ParameterControl]? = nil, sheetControlLayouts: [SheetControlLayout]? = nil, sheetId: String, textBoxes: [SheetTextBox]? = nil, title: String? = nil, visuals: [Visual]? = nil) {
+        public init(contentType: SheetContentType? = nil, customActionDefaults: VisualCustomActionDefaults? = nil, description: String? = nil, filterControls: [FilterControl]? = nil, images: [SheetImage]? = nil, layouts: [Layout]? = nil, name: String? = nil, parameterControls: [ParameterControl]? = nil, sheetControlLayouts: [SheetControlLayout]? = nil, sheetId: String, textBoxes: [SheetTextBox]? = nil, title: String? = nil, visuals: [Visual]? = nil) {
             self.contentType = contentType
+            self.customActionDefaults = customActionDefaults
             self.description = description
             self.filterControls = filterControls
             self.images = images
@@ -34908,6 +35188,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case contentType = "ContentType"
+            case customActionDefaults = "CustomActionDefaults"
             case description = "Description"
             case filterControls = "FilterControls"
             case images = "Images"
@@ -37014,12 +37295,15 @@ extension QuickSight {
         public let pinnedFieldOptions: TablePinnedFieldOptions?
         /// The field options to be configured to a table.
         public let selectedFieldOptions: [TableFieldOption]?
+        /// The TableOptions of a transposed table.
+        public let transposedTableOptions: [TransposedTableOption]?
 
         @inlinable
-        public init(order: [String]? = nil, pinnedFieldOptions: TablePinnedFieldOptions? = nil, selectedFieldOptions: [TableFieldOption]? = nil) {
+        public init(order: [String]? = nil, pinnedFieldOptions: TablePinnedFieldOptions? = nil, selectedFieldOptions: [TableFieldOption]? = nil, transposedTableOptions: [TransposedTableOption]? = nil) {
             self.order = order
             self.pinnedFieldOptions = pinnedFieldOptions
             self.selectedFieldOptions = selectedFieldOptions
+            self.transposedTableOptions = transposedTableOptions
         }
 
         public func validate(name: String) throws {
@@ -37033,12 +37317,17 @@ extension QuickSight {
                 try $0.validate(name: "\(name).selectedFieldOptions[]")
             }
             try self.validate(self.selectedFieldOptions, name: "selectedFieldOptions", parent: name, max: 201)
+            try self.transposedTableOptions?.forEach {
+                try $0.validate(name: "\(name).transposedTableOptions[]")
+            }
+            try self.validate(self.transposedTableOptions, name: "transposedTableOptions", parent: name, max: 10001)
         }
 
         private enum CodingKeys: String, CodingKey {
             case order = "Order"
             case pinnedFieldOptions = "PinnedFieldOptions"
             case selectedFieldOptions = "SelectedFieldOptions"
+            case transposedTableOptions = "TransposedTableOptions"
         }
     }
 
@@ -37737,6 +38026,7 @@ extension QuickSight {
                 try $0.validate(name: "\(name).filterGroups[]")
             }
             try self.validate(self.filterGroups, name: "filterGroups", parent: name, max: 2000)
+            try self.options?.validate(name: "\(name).options")
             try self.parameterDeclarations?.forEach {
                 try $0.validate(name: "\(name).parameterDeclarations[]")
             }
@@ -38155,6 +38445,20 @@ extension QuickSight {
             case groupingStyle = "GroupingStyle"
             case symbol = "Symbol"
             case visibility = "Visibility"
+        }
+    }
+
+    public struct ThresholdAlertsConfigurations: AWSEncodableShape {
+        /// The threshold alerts configuration for an embedded Amazon QuickSight dashboard.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool = false) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
         }
     }
 
@@ -39876,6 +40180,33 @@ extension QuickSight {
             case totalAggregationOptions = "TotalAggregationOptions"
             case totalCellStyle = "TotalCellStyle"
             case totalsVisibility = "TotalsVisibility"
+        }
+    }
+
+    public struct TransposedTableOption: AWSEncodableShape & AWSDecodableShape {
+        /// The index of a columns in a transposed table. The index range is 0-9999.
+        public let columnIndex: Int?
+        /// The column type of the column in a transposed table. Choose one of the following options:    ROW_HEADER_COLUMN: Refers to the leftmost column of the row header in the transposed table.    VALUE_COLUMN: Refers to all value columns in the transposed table.
+        public let columnType: TransposedColumnType
+        /// The width of a column in a transposed table.
+        public let columnWidth: String?
+
+        @inlinable
+        public init(columnIndex: Int? = nil, columnType: TransposedColumnType, columnWidth: String? = nil) {
+            self.columnIndex = columnIndex
+            self.columnType = columnType
+            self.columnWidth = columnWidth
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.columnIndex, name: "columnIndex", parent: name, max: 9999)
+            try self.validate(self.columnIndex, name: "columnIndex", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnIndex = "ColumnIndex"
+            case columnType = "ColumnType"
+            case columnWidth = "ColumnWidth"
         }
     }
 
@@ -44439,6 +44770,20 @@ extension QuickSight {
         }
     }
 
+    public struct VisualCustomActionDefaults: AWSEncodableShape & AWSDecodableShape {
+        /// A list of highlight operations available for visuals in an analysis or sheet.
+        public let highlightOperation: VisualHighlightOperation?
+
+        @inlinable
+        public init(highlightOperation: VisualHighlightOperation? = nil) {
+            self.highlightOperation = highlightOperation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case highlightOperation = "highlightOperation"
+        }
+    }
+
     public struct VisualCustomActionOperation: AWSEncodableShape & AWSDecodableShape {
         /// The filter operation that filters data included in a visual or in an entire sheet.
         public let filterOperation: CustomActionFilterOperation?
@@ -44469,6 +44814,20 @@ extension QuickSight {
             case navigationOperation = "NavigationOperation"
             case setParametersOperation = "SetParametersOperation"
             case urlOperation = "URLOperation"
+        }
+    }
+
+    public struct VisualHighlightOperation: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether a highlight operation is initiated by a click or hover, or whether it's disabled.
+        public let trigger: VisualHighlightTrigger
+
+        @inlinable
+        public init(trigger: VisualHighlightTrigger) {
+            self.trigger = trigger
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case trigger = "Trigger"
         }
     }
 

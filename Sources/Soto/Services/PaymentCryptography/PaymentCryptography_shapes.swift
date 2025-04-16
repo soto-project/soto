@@ -25,12 +25,36 @@ import Foundation
 extension PaymentCryptography {
     // MARK: Enums
 
+    public enum DeriveKeyUsage: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case tr31B0BaseDerivationKey = "TR31_B0_BASE_DERIVATION_KEY"
+        case tr31C0CardVerificationKey = "TR31_C0_CARD_VERIFICATION_KEY"
+        case tr31D0SymmetricDataEncryptionKey = "TR31_D0_SYMMETRIC_DATA_ENCRYPTION_KEY"
+        case tr31E0EmvMkeyAppCryptograms = "TR31_E0_EMV_MKEY_APP_CRYPTOGRAMS"
+        case tr31E1EmvMkeyConfidentiality = "TR31_E1_EMV_MKEY_CONFIDENTIALITY"
+        case tr31E2EmvMkeyIntegrity = "TR31_E2_EMV_MKEY_INTEGRITY"
+        case tr31E4EmvMkeyDynamicNumbers = "TR31_E4_EMV_MKEY_DYNAMIC_NUMBERS"
+        case tr31E5EmvMkeyCardPersonalization = "TR31_E5_EMV_MKEY_CARD_PERSONALIZATION"
+        case tr31E6EmvMkeyOther = "TR31_E6_EMV_MKEY_OTHER"
+        case tr31K0KeyEncryptionKey = "TR31_K0_KEY_ENCRYPTION_KEY"
+        case tr31K1KeyBlockProtectionKey = "TR31_K1_KEY_BLOCK_PROTECTION_KEY"
+        case tr31M1Iso97971MacKey = "TR31_M1_ISO_9797_1_MAC_KEY"
+        case tr31M3Iso97973MacKey = "TR31_M3_ISO_9797_3_MAC_KEY"
+        case tr31M6Iso97975CmacKey = "TR31_M6_ISO_9797_5_CMAC_KEY"
+        case tr31M7HmacKey = "TR31_M7_HMAC_KEY"
+        case tr31P0PinEncryptionKey = "TR31_P0_PIN_ENCRYPTION_KEY"
+        case tr31P1PinGenerationKey = "TR31_P1_PIN_GENERATION_KEY"
+        case tr31V1Ibm3624PinVerificationKey = "TR31_V1_IBM3624_PIN_VERIFICATION_KEY"
+        case tr31V2VisaPinVerificationKey = "TR31_V2_VISA_PIN_VERIFICATION_KEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case aes128 = "AES_128"
         case aes192 = "AES_192"
         case aes256 = "AES_256"
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
+        case eccNistP521 = "ECC_NIST_P521"
         case rsa2048 = "RSA_2048"
         case rsa3072 = "RSA_3072"
         case rsa4096 = "RSA_4096"
@@ -50,6 +74,19 @@ extension PaymentCryptography {
         case privateKey = "PRIVATE_KEY"
         case publicKey = "PUBLIC_KEY"
         case symmetricKey = "SYMMETRIC_KEY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyDerivationFunction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ansiX963 = "ANSI_X963"
+        case nistSp800 = "NIST_SP800"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum KeyDerivationHashAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case sha256 = "SHA_256"
+        case sha384 = "SHA_384"
+        case sha512 = "SHA_512"
         public var description: String { return self.rawValue }
     }
 
@@ -110,6 +147,15 @@ extension PaymentCryptography {
         public var description: String { return self.rawValue }
     }
 
+    public enum SymmetricKeyAlgorithm: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case aes128 = "AES_128"
+        case aes192 = "AES_192"
+        case aes256 = "AES_256"
+        case tdes2Key = "TDES_2KEY"
+        case tdes3Key = "TDES_3KEY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Tr34KeyBlockFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case x9Tr342012 = "X9_TR34_2012"
         public var description: String { return self.rawValue }
@@ -129,6 +175,8 @@ extension PaymentCryptography {
     }
 
     public enum ExportKeyMaterial: AWSEncodableShape, Sendable {
+        /// Parameter information for key material export using the asymmetric ECDH key exchange method.
+        case diffieHellmanTr31KeyBlock(ExportDiffieHellmanTr31KeyBlock)
         /// Parameter information for key material export using asymmetric RSA wrap and unwrap key exchange method
         case keyCryptogram(ExportKeyCryptogram)
         /// Parameter information for key material export using symmetric TR-31 key exchange method.
@@ -139,6 +187,8 @@ extension PaymentCryptography {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .diffieHellmanTr31KeyBlock(let value):
+                try container.encode(value, forKey: .diffieHellmanTr31KeyBlock)
             case .keyCryptogram(let value):
                 try container.encode(value, forKey: .keyCryptogram)
             case .tr31KeyBlock(let value):
@@ -150,6 +200,8 @@ extension PaymentCryptography {
 
         public func validate(name: String) throws {
             switch self {
+            case .diffieHellmanTr31KeyBlock(let value):
+                try value.validate(name: "\(name).diffieHellmanTr31KeyBlock")
             case .keyCryptogram(let value):
                 try value.validate(name: "\(name).keyCryptogram")
             case .tr31KeyBlock(let value):
@@ -160,6 +212,7 @@ extension PaymentCryptography {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case diffieHellmanTr31KeyBlock = "DiffieHellmanTr31KeyBlock"
             case keyCryptogram = "KeyCryptogram"
             case tr31KeyBlock = "Tr31KeyBlock"
             case tr34KeyBlock = "Tr34KeyBlock"
@@ -167,6 +220,8 @@ extension PaymentCryptography {
     }
 
     public enum ImportKeyMaterial: AWSEncodableShape, Sendable {
+        /// Parameter information for key material import using the asymmetric ECDH key exchange method.
+        case diffieHellmanTr31KeyBlock(ImportDiffieHellmanTr31KeyBlock)
         /// Parameter information for key material import using asymmetric RSA wrap and unwrap key exchange method.
         case keyCryptogram(ImportKeyCryptogram)
         /// Parameter information for root public key certificate import.
@@ -181,6 +236,8 @@ extension PaymentCryptography {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .diffieHellmanTr31KeyBlock(let value):
+                try container.encode(value, forKey: .diffieHellmanTr31KeyBlock)
             case .keyCryptogram(let value):
                 try container.encode(value, forKey: .keyCryptogram)
             case .rootCertificatePublicKey(let value):
@@ -196,6 +253,8 @@ extension PaymentCryptography {
 
         public func validate(name: String) throws {
             switch self {
+            case .diffieHellmanTr31KeyBlock(let value):
+                try value.validate(name: "\(name).diffieHellmanTr31KeyBlock")
             case .keyCryptogram(let value):
                 try value.validate(name: "\(name).keyCryptogram")
             case .rootCertificatePublicKey(let value):
@@ -210,6 +269,7 @@ extension PaymentCryptography {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case diffieHellmanTr31KeyBlock = "DiffieHellmanTr31KeyBlock"
             case keyCryptogram = "KeyCryptogram"
             case rootCertificatePublicKey = "RootCertificatePublicKey"
             case tr31KeyBlock = "Tr31KeyBlock"
@@ -280,6 +340,8 @@ extension PaymentCryptography {
     }
 
     public struct CreateKeyInput: AWSEncodableShape {
+        /// The cryptographic usage of an ECDH derived key as deﬁned in section A.5.2 of the TR-31 spec.
+        public let deriveKeyUsage: DeriveKeyUsage?
         /// Specifies whether to enable the key. If the key is enabled, it is activated for use within the service. If the key is not enabled, then it is created but not activated. The default value is enabled.
         public let enabled: Bool?
         /// Specifies whether the key is exportable from the service.
@@ -292,7 +354,8 @@ extension PaymentCryptography {
         public let tags: [Tag]?
 
         @inlinable
-        public init(enabled: Bool? = nil, exportable: Bool, keyAttributes: KeyAttributes, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, tags: [Tag]? = nil) {
+        public init(deriveKeyUsage: DeriveKeyUsage? = nil, enabled: Bool? = nil, exportable: Bool, keyAttributes: KeyAttributes, keyCheckValueAlgorithm: KeyCheckValueAlgorithm? = nil, tags: [Tag]? = nil) {
+            self.deriveKeyUsage = deriveKeyUsage
             self.enabled = enabled
             self.exportable = exportable
             self.keyAttributes = keyAttributes
@@ -308,6 +371,7 @@ extension PaymentCryptography {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deriveKeyUsage = "DeriveKeyUsage"
             case enabled = "Enabled"
             case exportable = "Exportable"
             case keyAttributes = "KeyAttributes"
@@ -411,6 +475,61 @@ extension PaymentCryptography {
         private enum CodingKeys: String, CodingKey {
             case exportDukptInitialKey = "ExportDukptInitialKey"
             case keyCheckValueAlgorithm = "KeyCheckValueAlgorithm"
+        }
+    }
+
+    public struct ExportDiffieHellmanTr31KeyBlock: AWSEncodableShape {
+        /// The keyARN of the certificate that signed the client's PublicKeyCertificate.
+        public let certificateAuthorityPublicKeyIdentifier: String
+        /// Derivation data used to derive an ECDH key.
+        public let derivationData: DiffieHellmanDerivationData
+        /// The key algorithm of the derived ECDH key.
+        public let deriveKeyAlgorithm: SymmetricKeyAlgorithm
+        public let keyBlockHeaders: KeyBlockHeaders?
+        /// The key derivation function to use for deriving a key using ECDH.
+        public let keyDerivationFunction: KeyDerivationFunction
+        /// The hash type to use for deriving a key using ECDH.
+        public let keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm
+        /// The keyARN of the asymmetric ECC key.
+        public let privateKeyIdentifier: String
+        /// The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation.
+        public let publicKeyCertificate: String
+
+        @inlinable
+        public init(certificateAuthorityPublicKeyIdentifier: String, derivationData: DiffieHellmanDerivationData, deriveKeyAlgorithm: SymmetricKeyAlgorithm, keyBlockHeaders: KeyBlockHeaders? = nil, keyDerivationFunction: KeyDerivationFunction, keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm, privateKeyIdentifier: String, publicKeyCertificate: String) {
+            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
+            self.derivationData = derivationData
+            self.deriveKeyAlgorithm = deriveKeyAlgorithm
+            self.keyBlockHeaders = keyBlockHeaders
+            self.keyDerivationFunction = keyDerivationFunction
+            self.keyDerivationHashAlgorithm = keyDerivationHashAlgorithm
+            self.privateKeyIdentifier = privateKeyIdentifier
+            self.publicKeyCertificate = publicKeyCertificate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.derivationData.validate(name: "\(name).derivationData")
+            try self.keyBlockHeaders?.validate(name: "\(name).keyBlockHeaders")
+            try self.validate(self.privateKeyIdentifier, name: "privateKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.privateKeyIdentifier, name: "privateKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.privateKeyIdentifier, name: "privateKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, max: 32768)
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, min: 1)
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityPublicKeyIdentifier = "CertificateAuthorityPublicKeyIdentifier"
+            case derivationData = "DerivationData"
+            case deriveKeyAlgorithm = "DeriveKeyAlgorithm"
+            case keyBlockHeaders = "KeyBlockHeaders"
+            case keyDerivationFunction = "KeyDerivationFunction"
+            case keyDerivationHashAlgorithm = "KeyDerivationHashAlgorithm"
+            case privateKeyIdentifier = "PrivateKeyIdentifier"
+            case publicKeyCertificate = "PublicKeyCertificate"
         }
     }
 
@@ -784,6 +903,64 @@ extension PaymentCryptography {
         }
     }
 
+    public struct ImportDiffieHellmanTr31KeyBlock: AWSEncodableShape {
+        /// The keyARN of the certificate that signed the client's PublicKeyCertificate.
+        public let certificateAuthorityPublicKeyIdentifier: String
+        /// Derivation data used to derive an ECDH key.
+        public let derivationData: DiffieHellmanDerivationData
+        /// The key algorithm of the derived ECDH key.
+        public let deriveKeyAlgorithm: SymmetricKeyAlgorithm
+        /// The key derivation function to use for deriving a key using ECDH.
+        public let keyDerivationFunction: KeyDerivationFunction
+        /// The hash type to use for deriving a key using ECDH.
+        public let keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm
+        /// The keyARN of the asymmetric ECC key.
+        public let privateKeyIdentifier: String
+        /// The client's public key certificate in PEM format (base64 encoded) to use for ECDH key derivation.
+        public let publicKeyCertificate: String
+        /// The ECDH wrapped key block to import.
+        public let wrappedKeyBlock: String
+
+        @inlinable
+        public init(certificateAuthorityPublicKeyIdentifier: String, derivationData: DiffieHellmanDerivationData, deriveKeyAlgorithm: SymmetricKeyAlgorithm, keyDerivationFunction: KeyDerivationFunction, keyDerivationHashAlgorithm: KeyDerivationHashAlgorithm, privateKeyIdentifier: String, publicKeyCertificate: String, wrappedKeyBlock: String) {
+            self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
+            self.derivationData = derivationData
+            self.deriveKeyAlgorithm = deriveKeyAlgorithm
+            self.keyDerivationFunction = keyDerivationFunction
+            self.keyDerivationHashAlgorithm = keyDerivationHashAlgorithm
+            self.privateKeyIdentifier = privateKeyIdentifier
+            self.publicKeyCertificate = publicKeyCertificate
+            self.wrappedKeyBlock = wrappedKeyBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.certificateAuthorityPublicKeyIdentifier, name: "certificateAuthorityPublicKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.derivationData.validate(name: "\(name).derivationData")
+            try self.validate(self.privateKeyIdentifier, name: "privateKeyIdentifier", parent: name, max: 322)
+            try self.validate(self.privateKeyIdentifier, name: "privateKeyIdentifier", parent: name, min: 7)
+            try self.validate(self.privateKeyIdentifier, name: "privateKeyIdentifier", parent: name, pattern: "^arn:aws:payment-cryptography:[a-z]{2}-[a-z]{1,16}-[0-9]+:[0-9]{12}:(key/[0-9a-zA-Z]{16,64}|alias/[a-zA-Z0-9/_-]+)$|^alias/[a-zA-Z0-9/_-]+$")
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, max: 32768)
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, min: 1)
+            try self.validate(self.publicKeyCertificate, name: "publicKeyCertificate", parent: name, pattern: "^[^\\[;\\]<>]+$")
+            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, max: 9984)
+            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, min: 56)
+            try self.validate(self.wrappedKeyBlock, name: "wrappedKeyBlock", parent: name, pattern: "^[0-9A-Z]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityPublicKeyIdentifier = "CertificateAuthorityPublicKeyIdentifier"
+            case derivationData = "DerivationData"
+            case deriveKeyAlgorithm = "DeriveKeyAlgorithm"
+            case keyDerivationFunction = "KeyDerivationFunction"
+            case keyDerivationHashAlgorithm = "KeyDerivationHashAlgorithm"
+            case privateKeyIdentifier = "PrivateKeyIdentifier"
+            case publicKeyCertificate = "PublicKeyCertificate"
+            case wrappedKeyBlock = "WrappedKeyBlock"
+        }
+    }
+
     public struct ImportKeyCryptogram: AWSEncodableShape {
         /// Specifies whether the key is exportable from the service.
         public let exportable: Bool
@@ -952,6 +1129,8 @@ extension PaymentCryptography {
         public let deletePendingTimestamp: Date?
         /// The date and time after which Amazon Web Services Payment Cryptography will delete the key. This value is present only when when the KeyState is DELETE_COMPLETE and the Amazon Web Services Payment Cryptography key is deleted.
         public let deleteTimestamp: Date?
+        /// The cryptographic usage of an ECDH derived key as deﬁned in section A.5.2 of the TR-31 spec.
+        public let deriveKeyUsage: DeriveKeyUsage?
         /// Specifies whether the key is enabled.
         public let enabled: Bool
         /// Specifies whether the key is exportable. This data is immutable after the key is created.
@@ -974,10 +1153,11 @@ extension PaymentCryptography {
         public let usageStopTimestamp: Date?
 
         @inlinable
-        public init(createTimestamp: Date, deletePendingTimestamp: Date? = nil, deleteTimestamp: Date? = nil, enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyCheckValueAlgorithm: KeyCheckValueAlgorithm, keyOrigin: KeyOrigin, keyState: KeyState, usageStartTimestamp: Date? = nil, usageStopTimestamp: Date? = nil) {
+        public init(createTimestamp: Date, deletePendingTimestamp: Date? = nil, deleteTimestamp: Date? = nil, deriveKeyUsage: DeriveKeyUsage? = nil, enabled: Bool, exportable: Bool, keyArn: String, keyAttributes: KeyAttributes, keyCheckValue: String, keyCheckValueAlgorithm: KeyCheckValueAlgorithm, keyOrigin: KeyOrigin, keyState: KeyState, usageStartTimestamp: Date? = nil, usageStopTimestamp: Date? = nil) {
             self.createTimestamp = createTimestamp
             self.deletePendingTimestamp = deletePendingTimestamp
             self.deleteTimestamp = deleteTimestamp
+            self.deriveKeyUsage = deriveKeyUsage
             self.enabled = enabled
             self.exportable = exportable
             self.keyArn = keyArn
@@ -994,6 +1174,7 @@ extension PaymentCryptography {
             case createTimestamp = "CreateTimestamp"
             case deletePendingTimestamp = "DeletePendingTimestamp"
             case deleteTimestamp = "DeleteTimestamp"
+            case deriveKeyUsage = "DeriveKeyUsage"
             case enabled = "Enabled"
             case exportable = "Exportable"
             case keyArn = "KeyArn"
@@ -1628,6 +1809,26 @@ extension PaymentCryptography {
             case keyMaterial = "KeyMaterial"
             case wrappedKeyMaterialFormat = "WrappedKeyMaterialFormat"
             case wrappingKeyArn = "WrappingKeyArn"
+        }
+    }
+
+    public struct DiffieHellmanDerivationData: AWSEncodableShape {
+        /// A byte string containing information that binds the ECDH derived key to the two parties involved or to the context of the key. It may include details like identities of the two parties deriving the key, context of the operation, session IDs, and optionally a nonce. It must not contain zero bytes, and re-using shared information for multiple ECDH key derivations is not recommended.
+        public let sharedInformation: String?
+
+        @inlinable
+        public init(sharedInformation: String? = nil) {
+            self.sharedInformation = sharedInformation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sharedInformation, name: "sharedInformation", parent: name, max: 2048)
+            try self.validate(self.sharedInformation, name: "sharedInformation", parent: name, min: 2)
+            try self.validate(self.sharedInformation, name: "sharedInformation", parent: name, pattern: "^(?:[0-9a-fA-F][0-9a-fA-F])+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sharedInformation = "SharedInformation"
         }
     }
 }

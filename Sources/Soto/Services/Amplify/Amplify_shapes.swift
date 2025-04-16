@@ -2573,7 +2573,7 @@ extension Amplify {
     }
 
     public struct Step: AWSDecodableShape {
-        ///  The URL to the artifact for the execution step.
+        ///  The URL to the build artifact for the execution step.
         public let artifactsUrl: String?
         ///  The context for the current step. Includes a build image if the step is build.
         public let context: String?
@@ -3301,6 +3301,8 @@ extension Amplify {
     }
 
     public struct Webhook: AWSDecodableShape {
+        /// The unique ID of an Amplify app.
+        public let appId: String?
         /// The name for a branch that is part of an Amplify app.
         public let branchName: String
         /// A timestamp of when Amplify created the webhook in your Git repository.
@@ -3317,7 +3319,8 @@ extension Amplify {
         public let webhookUrl: String
 
         @inlinable
-        public init(branchName: String, createTime: Date, description: String, updateTime: Date, webhookArn: String, webhookId: String, webhookUrl: String) {
+        public init(appId: String? = nil, branchName: String, createTime: Date, description: String, updateTime: Date, webhookArn: String, webhookId: String, webhookUrl: String) {
+            self.appId = appId
             self.branchName = branchName
             self.createTime = createTime
             self.description = description
@@ -3328,6 +3331,7 @@ extension Amplify {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appId = "appId"
             case branchName = "branchName"
             case createTime = "createTime"
             case description = "description"

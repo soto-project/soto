@@ -110,6 +110,16 @@ public struct Route53Profiles: AWSService {
             "us-gov-west-1": "route53profiles.us-gov-west-1.api.aws",
             "us-west-1": "route53profiles.us-west-1.api.aws",
             "us-west-2": "route53profiles.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "route53profiles-fips.ca-central-1.api.aws",
+            "ca-west-1": "route53profiles-fips.ca-west-1.api.aws",
+            "us-east-1": "route53profiles-fips.us-east-1.api.aws",
+            "us-east-2": "route53profiles-fips.us-east-2.api.aws",
+            "us-gov-east-1": "route53profiles-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "route53profiles-fips.us-gov-west-1.api.aws",
+            "us-west-1": "route53profiles-fips.us-west-1.api.aws",
+            "us-west-2": "route53profiles-fips.us-west-2.api.aws"
         ])
     ]}
 

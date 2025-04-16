@@ -79,6 +79,32 @@ public struct Rekognition: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-northeast-1": "rekognition.ap-northeast-1.api.aws",
+            "ap-northeast-2": "rekognition.ap-northeast-2.api.aws",
+            "ap-south-1": "rekognition.ap-south-1.api.aws",
+            "ap-southeast-1": "rekognition.ap-southeast-1.api.aws",
+            "ap-southeast-2": "rekognition.ap-southeast-2.api.aws",
+            "ca-central-1": "rekognition.ca-central-1.api.aws",
+            "eu-central-1": "rekognition.eu-central-1.api.aws",
+            "eu-south-2": "rekognition.eu-south-2.api.aws",
+            "eu-west-1": "rekognition.eu-west-1.api.aws",
+            "eu-west-2": "rekognition.eu-west-2.api.aws",
+            "il-central-1": "rekognition.il-central-1.api.aws",
+            "us-east-1": "rekognition.us-east-1.api.aws",
+            "us-east-2": "rekognition.us-east-2.api.aws",
+            "us-gov-west-1": "rekognition.us-gov-west-1.api.aws",
+            "us-west-1": "rekognition.us-west-1.api.aws",
+            "us-west-2": "rekognition.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "rekognition-fips.ca-central-1.api.aws",
+            "us-east-1": "rekognition-fips.us-east-1.api.aws",
+            "us-east-2": "rekognition-fips.us-east-2.api.aws",
+            "us-gov-west-1": "rekognition-fips.us-gov-west-1.api.aws",
+            "us-west-1": "rekognition-fips.us-west-1.api.aws",
+            "us-west-2": "rekognition-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "rekognition-fips.ca-central-1.amazonaws.com",
             "us-east-1": "rekognition-fips.us-east-1.amazonaws.com",

@@ -354,7 +354,7 @@ public struct EKS: AWSService {
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The unique name to give to your cluster. The name can contain only alphanumeric characters (case-sensitive),
     ///   - outpostConfig: An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Local clusters for Amazon EKS on Amazon Web Services Outposts in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
-    ///   - remoteNetworkConfig: The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+    ///   - remoteNetworkConfig: The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
     ///   - resourcesVpcConfig: The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
     ///   - roleArn: The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
     ///   - storageConfig: Enable or disable the block storage capability of EKS Auto Mode when creating your EKS Auto Mode cluster. If the block storage capability is enabled, EKS Auto Mode will create and delete EBS volumes in your Amazon Web Services account.
@@ -2053,7 +2053,7 @@ public struct EKS: AWSService {
         return try await self.updateAddon(input, logger: logger)
     }
 
-    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with DescribeUpdate"/>. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide . You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html in the  Amazon EKS User Guide . You can also use this API operation to enable or disable ARC zonal shift. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
+    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with DescribeUpdate. You can use this operation to do the following actions:   You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.    You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .   You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html in the  Amazon EKS User Guide .   You can also use this API operation to enable or disable ARC zonal shift. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster.   You can also use this API operation to add, change, or remove the configuration in the cluster for EKS Hybrid Nodes. To remove the configuration, use the remoteNetworkConfig key with an object containing both subkeys with empty arrays for each. Here is an inline example: "remoteNetworkConfig": { "remoteNodeNetworks": [], "remotePodNetworks": [] }.   Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
     @Sendable
     @inlinable
     public func updateClusterConfig(_ input: UpdateClusterConfigRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateClusterConfigResponse {
@@ -2066,7 +2066,7 @@ public struct EKS: AWSService {
             logger: logger
         )
     }
-    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with DescribeUpdate"/>. You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.  You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide . You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html in the  Amazon EKS User Guide . You can also use this API operation to enable or disable ARC zonal shift. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster. Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
+    /// Updates an Amazon EKS cluster configuration. Your cluster continues to function during the update. The response output includes an update ID that you can use to track the status of your cluster update with DescribeUpdate. You can use this operation to do the following actions:   You can use this API operation to enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs. By default, cluster control plane logs aren't exported to CloudWatch Logs. For more information, see Amazon EKS Cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.    You can also use this API operation to enable or disable public and private access to your cluster's Kubernetes API server endpoint. By default, public access is enabled, and private access is disabled. For more information, see Amazon EKS cluster endpoint access control in the  Amazon EKS User Guide .   You can also use this API operation to choose different subnets and security groups for the cluster. You must specify at least two subnets that are in different Availability Zones. You can't change which VPC the subnets are from, the subnets must be in the same VPC as the subnets that the cluster was created with. For more information about the VPC requirements, see https://docs.aws.amazon.com/eks/latest/userguide/network_reqs.html in the  Amazon EKS User Guide .   You can also use this API operation to enable or disable ARC zonal shift. If zonal shift is enabled, Amazon Web Services configures zonal autoshift for the cluster.   You can also use this API operation to add, change, or remove the configuration in the cluster for EKS Hybrid Nodes. To remove the configuration, use the remoteNetworkConfig key with an object containing both subkeys with empty arrays for each. Here is an inline example: "remoteNetworkConfig": { "remoteNodeNetworks": [], "remotePodNetworks": [] }.   Cluster updates are asynchronous, and they should finish within a few minutes. During an update, the cluster status moves to UPDATING (this status transition is eventually consistent). When the update is complete (either Failed or Successful), the cluster status moves to Active.
     ///
     /// Parameters:
     ///   - accessConfig: The access configuration for the cluster.
@@ -2075,6 +2075,7 @@ public struct EKS: AWSService {
     ///   - kubernetesNetworkConfig: 
     ///   - logging: Enable or disable exporting the Kubernetes control plane logs for your cluster to CloudWatch Logs . By default, cluster control plane logs aren't exported to CloudWatch Logs . For more information, see Amazon EKS cluster control plane logs in the  Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
     ///   - name: The name of the Amazon EKS cluster to update.
+    ///   - remoteNetworkConfig: 
     ///   - resourcesVpcConfig: 
     ///   - storageConfig: Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
     ///   - upgradePolicy: You can enable or disable extended support for clusters currently on standard support. You cannot disable extended support once it starts. You must enable extended support before your cluster exits standard support.
@@ -2088,6 +2089,7 @@ public struct EKS: AWSService {
         kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil,
         logging: Logging? = nil,
         name: String,
+        remoteNetworkConfig: RemoteNetworkConfigRequest? = nil,
         resourcesVpcConfig: VpcConfigRequest? = nil,
         storageConfig: StorageConfigRequest? = nil,
         upgradePolicy: UpgradePolicyRequest? = nil,
@@ -2101,6 +2103,7 @@ public struct EKS: AWSService {
             kubernetesNetworkConfig: kubernetesNetworkConfig, 
             logging: logging, 
             name: name, 
+            remoteNetworkConfig: remoteNetworkConfig, 
             resourcesVpcConfig: resourcesVpcConfig, 
             storageConfig: storageConfig, 
             upgradePolicy: upgradePolicy, 
@@ -2126,18 +2129,21 @@ public struct EKS: AWSService {
     ///
     /// Parameters:
     ///   - clientRequestToken: A unique, case-sensitive identifier that you provide to ensure
+    ///   - force: Set this value to true to override upgrade-blocking readiness checks when updating a cluster.
     ///   - name: The name of the Amazon EKS cluster to update.
     ///   - version: The desired Kubernetes version following a successful update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateClusterVersion(
         clientRequestToken: String? = UpdateClusterVersionRequest.idempotencyToken(),
+        force: Bool? = nil,
         name: String,
         version: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateClusterVersionResponse {
         let input = UpdateClusterVersionRequest(
             clientRequestToken: clientRequestToken, 
+            force: force, 
             name: name, 
             version: version
         )

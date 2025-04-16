@@ -4917,6 +4917,13 @@ extension Glue {
             self.connections = connections
         }
 
+        public func validate(name: String) throws {
+            try self.connections?.forEach {
+                try validate($0, name: "connections[]", parent: name, max: 255)
+            }
+            try self.validate(self.connections, name: "connections", parent: name, max: 1000)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case connections = "Connections"
         }
@@ -6438,6 +6445,7 @@ extension Glue {
                 try $0.value.validate(name: "\(name).codeGenConfigurationNodes[\"\($0.key)\"]")
             }
             try self.command.validate(name: "\(name).command")
+            try self.connections?.validate(name: "\(name).connections")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
@@ -7043,6 +7051,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.command.validate(name: "\(name).command")
+            try self.connections?.validate(name: "\(name).connections")
             try self.defaultArguments?.forEach {
                 try validate($0.key, name: "defaultArguments.key", parent: name, max: 128)
                 try validate($0.key, name: "defaultArguments.key", parent: name, min: 1)
@@ -7418,6 +7427,7 @@ extension Glue {
                 try validate($0.key, name: "defaultRunProperties.key", parent: name, min: 1)
                 try validate($0.key, name: "defaultRunProperties.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             }
+            try self.validate(self.description, name: "description", parent: name, max: 120000)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -15690,17 +15700,20 @@ extension Glue {
     }
 
     public struct IcebergCompactionMetrics: AWSDecodableShape {
+        /// The number of DPU hours consumed by the job.
+        public let dpuHours: Double?
         /// The duration of the job in hours.
         public let jobDurationInHour: Double?
         /// The number of bytes removed by the compaction job run.
         public let numberOfBytesCompacted: Int64?
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public let numberOfDpus: Int?
         /// The number of files removed by the compaction job run.
         public let numberOfFilesCompacted: Int64?
 
         @inlinable
-        public init(jobDurationInHour: Double? = nil, numberOfBytesCompacted: Int64? = nil, numberOfDpus: Int? = nil, numberOfFilesCompacted: Int64? = nil) {
+        public init(dpuHours: Double? = nil, jobDurationInHour: Double? = nil, numberOfBytesCompacted: Int64? = nil, numberOfDpus: Int? = nil, numberOfFilesCompacted: Int64? = nil) {
+            self.dpuHours = dpuHours
             self.jobDurationInHour = jobDurationInHour
             self.numberOfBytesCompacted = numberOfBytesCompacted
             self.numberOfDpus = numberOfDpus
@@ -15708,6 +15721,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dpuHours = "DpuHours"
             case jobDurationInHour = "JobDurationInHour"
             case numberOfBytesCompacted = "NumberOfBytesCompacted"
             case numberOfDpus = "NumberOfDpus"
@@ -15758,21 +15772,25 @@ extension Glue {
     }
 
     public struct IcebergOrphanFileDeletionMetrics: AWSDecodableShape {
+        /// The number of DPU hours consumed by the job.
+        public let dpuHours: Double?
         /// The duration of the job in hours.
         public let jobDurationInHour: Double?
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public let numberOfDpus: Int?
         /// The number of orphan files deleted by the orphan file deletion job run.
         public let numberOfOrphanFilesDeleted: Int64?
 
         @inlinable
-        public init(jobDurationInHour: Double? = nil, numberOfDpus: Int? = nil, numberOfOrphanFilesDeleted: Int64? = nil) {
+        public init(dpuHours: Double? = nil, jobDurationInHour: Double? = nil, numberOfDpus: Int? = nil, numberOfOrphanFilesDeleted: Int64? = nil) {
+            self.dpuHours = dpuHours
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDpus = numberOfDpus
             self.numberOfOrphanFilesDeleted = numberOfOrphanFilesDeleted
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dpuHours = "DpuHours"
             case jobDurationInHour = "JobDurationInHour"
             case numberOfDpus = "NumberOfDpus"
             case numberOfOrphanFilesDeleted = "NumberOfOrphanFilesDeleted"
@@ -15802,11 +15820,13 @@ extension Glue {
     }
 
     public struct IcebergRetentionMetrics: AWSDecodableShape {
+        /// The number of DPU hours consumed by the job.
+        public let dpuHours: Double?
         /// The duration of the job in hours.
         public let jobDurationInHour: Double?
         /// The number of data files deleted by the retention job run.
         public let numberOfDataFilesDeleted: Int64?
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public let numberOfDpus: Int?
         /// The number of manifest files deleted by the retention job run.
         public let numberOfManifestFilesDeleted: Int64?
@@ -15814,7 +15834,8 @@ extension Glue {
         public let numberOfManifestListsDeleted: Int64?
 
         @inlinable
-        public init(jobDurationInHour: Double? = nil, numberOfDataFilesDeleted: Int64? = nil, numberOfDpus: Int? = nil, numberOfManifestFilesDeleted: Int64? = nil, numberOfManifestListsDeleted: Int64? = nil) {
+        public init(dpuHours: Double? = nil, jobDurationInHour: Double? = nil, numberOfDataFilesDeleted: Int64? = nil, numberOfDpus: Int? = nil, numberOfManifestFilesDeleted: Int64? = nil, numberOfManifestListsDeleted: Int64? = nil) {
+            self.dpuHours = dpuHours
             self.jobDurationInHour = jobDurationInHour
             self.numberOfDataFilesDeleted = numberOfDataFilesDeleted
             self.numberOfDpus = numberOfDpus
@@ -15823,6 +15844,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dpuHours = "DpuHours"
             case jobDurationInHour = "JobDurationInHour"
             case numberOfDataFilesDeleted = "NumberOfDataFilesDeleted"
             case numberOfDpus = "NumberOfDpus"
@@ -16802,6 +16824,7 @@ extension Glue {
                 try $0.value.validate(name: "\(name).codeGenConfigurationNodes[\"\($0.key)\"]")
             }
             try self.command?.validate(name: "\(name).command")
+            try self.connections?.validate(name: "\(name).connections")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
@@ -19986,6 +20009,7 @@ extension Glue {
             try self.conditions?.forEach {
                 try $0.validate(name: "\(name).conditions[]")
             }
+            try self.validate(self.conditions, name: "conditions", parent: name, max: 500)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -21095,7 +21119,7 @@ extension Glue {
         public let jobDurationInHour: String?
         /// The number of bytes removed by the compaction job run.
         public let numberOfBytesCompacted: String?
-        /// The number of DPU hours consumed by the job.
+        /// The number of DPUs consumed by the job, rounded up to the nearest whole number.
         public let numberOfDpus: String?
         /// The number of files removed by the compaction job run.
         public let numberOfFilesCompacted: String?
@@ -27277,6 +27301,7 @@ extension Glue {
                 try validate($0.key, name: "defaultRunProperties.key", parent: name, min: 1)
                 try validate($0.key, name: "defaultRunProperties.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             }
+            try self.validate(self.description, name: "description", parent: name, max: 120000)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")

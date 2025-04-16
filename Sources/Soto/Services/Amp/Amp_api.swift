@@ -93,6 +93,16 @@ public struct Amp: AWSService {
             "us-east-1": "aps.us-east-1.api.aws",
             "us-east-2": "aps.us-east-2.api.aws",
             "us-west-2": "aps.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "aps-fips.us-east-1.api.aws",
+            "us-east-2": "aps-fips.us-east-2.api.aws",
+            "us-west-2": "aps-fips.us-west-2.api.aws"
+        ]),
+        [.fips]: .init(endpoints: [
+            "us-east-1": "aps-fips.us-east-1.amazonaws.com",
+            "us-east-2": "aps-fips.us-east-2.amazonaws.com",
+            "us-west-2": "aps-fips.us-west-2.amazonaws.com"
         ])
     ]}
 

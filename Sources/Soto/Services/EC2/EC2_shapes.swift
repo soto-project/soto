@@ -2894,6 +2894,9 @@ extension EC2 {
         case prefixList = "prefix-list"
         case replaceRootVolumeTask = "replace-root-volume-task"
         case reservedInstances = "reserved-instances"
+        case routeServer = "route-server"
+        case routeServerEndpoint = "route-server-endpoint"
+        case routeServerPeer = "route-server-peer"
         case routeTable = "route-table"
         case securityGroup = "security-group"
         case securityGroupRule = "security-group-rule"
@@ -2945,6 +2948,97 @@ extension EC2 {
         case createRoute = "CreateRoute"
         case createRouteTable = "CreateRouteTable"
         case enableVgwRoutePropagation = "EnableVgwRoutePropagation"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerAssociationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case associated = "associated"
+        case associating = "associating"
+        case disassociating = "disassociating"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerBfdState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case down = "down"
+        case up = "up"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerBgpState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case down = "down"
+        case up = "up"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerEndpointState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case deleteFailed = "delete-failed"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case failed = "failed"
+        case failing = "failing"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerPeerLivenessMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case bfd = "bfd"
+        case bgpKeepalive = "bgp-keepalive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerPeerState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case failed = "failed"
+        case failing = "failing"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerPersistRoutesAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "disable"
+        case enable = "enable"
+        case reset = "reset"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerPersistRoutesState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case disabling = "disabling"
+        case enabled = "enabled"
+        case enabling = "enabling"
+        case modifying = "modifying"
+        case resetting = "resetting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerPropagationState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case deleting = "deleting"
+        case pending = "pending"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerRouteInstallationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case installed = "installed"
+        case rejected = "rejected"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerRouteStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case inFib = "in-fib"
+        case inRib = "in-rib"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RouteServerState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case available = "available"
+        case deleted = "deleted"
+        case deleting = "deleting"
+        case modifying = "modifying"
+        case pending = "pending"
         public var description: String { return self.rawValue }
     }
 
@@ -3637,6 +3731,8 @@ extension EC2 {
 
     public enum VpcEncryptionControlState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
+        case creating = "creating"
+        case deleteFailed = "delete-failed"
         case deleted = "deleted"
         case deleting = "deleting"
         case enforceFailed = "enforce-failed"
@@ -5736,6 +5832,42 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case natGatewayAddresses = "natGatewayAddressSet"
             case natGatewayId = "natGatewayId"
+        }
+    }
+
+    public struct AssociateRouteServerRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The unique identifier for the route server to be associated.
+        public let routeServerId: String?
+        /// The ID of the VPC to associate with the route server.
+        public let vpcId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, routeServerId: String? = nil, vpcId: String? = nil) {
+            self.dryRun = dryRun
+            self.routeServerId = routeServerId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case routeServerId = "RouteServerId"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct AssociateRouteServerResult: AWSDecodableShape {
+        /// Information about the association between the route server and the VPC.
+        public let routeServerAssociation: RouteServerAssociation?
+
+        @inlinable
+        public init(routeServerAssociation: RouteServerAssociation? = nil) {
+            self.routeServerAssociation = routeServerAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerAssociation = "routeServerAssociation"
         }
     }
 
@@ -7919,12 +8051,14 @@ extension EC2 {
         /// 		longer available for your use.    pending - The Capacity Reservation request was successful but the capacity
         /// 		provisioning is still pending.    failed - The Capacity Reservation request has failed. A request can fail due to
         /// 		request parameters that are not valid, capacity constraints, or instance limit constraints. You
-        /// 		can view a failed request for 60 minutes.    scheduled - (Future-dated Capacity Reservations only) The
+        /// 		can view a failed request for 60 minutes.    scheduled - (Future-dated Capacity Reservations) The
         /// 		future-dated Capacity Reservation request was approved and the Capacity Reservation is scheduled
-        /// 		for delivery on the requested start date.    assessing - (Future-dated Capacity Reservations only)
-        /// 		Amazon EC2 is assessing your request for a future-dated Capacity Reservation.    delayed - (Future-dated Capacity Reservations only) Amazon EC2
+        /// 		for delivery on the requested start date.    payment-pending - (Capacity Blocks) The upfront
+        /// 	    payment has not been processed yet.    payment-failed - (Capacity Blocks) The upfront
+        /// 	    payment was not processed in the 12-hour time frame. Your Capacity Block was released.    assessing - (Future-dated Capacity Reservations)
+        /// 		Amazon EC2 is assessing your request for a future-dated Capacity Reservation.    delayed - (Future-dated Capacity Reservations) Amazon EC2
         /// 		encountered a delay in provisioning the requested future-dated Capacity Reservation. Amazon EC2 is
-        /// 		unable to deliver the requested capacity by the requested start date and time.    unsupported - (Future-dated Capacity Reservations only) Amazon EC2
+        /// 		unable to deliver the requested capacity by the requested start date and time.    unsupported - (Future-dated Capacity Reservations) Amazon EC2
         /// 		can't support the future-dated Capacity Reservation request due to capacity constraints. You can view
         /// 		unsupported requests for 30 days. The Capacity Reservation will not be delivered.
         public let state: CapacityReservationState?
@@ -9529,7 +9663,7 @@ extension EC2 {
         public var tagSpecifications: [TagSpecification]?
 
         @inlinable
-        public init(clientToken: String? = nil, copyImageTags: Bool? = nil, description: String? = nil, destinationOutpostArn: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, snapshotCopyCompletionDurationMinutes: Int64? = nil, sourceImageId: String? = nil, sourceRegion: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CopyImageRequest.idempotencyToken(), copyImageTags: Bool? = nil, description: String? = nil, destinationOutpostArn: String? = nil, dryRun: Bool? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, name: String? = nil, snapshotCopyCompletionDurationMinutes: Int64? = nil, sourceImageId: String? = nil, sourceRegion: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.copyImageTags = copyImageTags
             self.description = description
@@ -12703,6 +12837,155 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case `return` = "return"
+        }
+    }
+
+    public struct CreateRouteServerEndpointRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the route server for which to create an endpoint.
+        public let routeServerId: String?
+        /// The ID of the subnet in which to create the route server endpoint.
+        public let subnetId: String?
+        /// The tags to apply to the route server endpoint during creation.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        @inlinable
+        public init(clientToken: String? = CreateRouteServerEndpointRequest.idempotencyToken(), dryRun: Bool? = nil, routeServerId: String? = nil, subnetId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.routeServerId = routeServerId
+            self.subnetId = subnetId
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case routeServerId = "RouteServerId"
+            case subnetId = "SubnetId"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateRouteServerEndpointResult: AWSDecodableShape {
+        /// Information about the created route server endpoint.
+        public let routeServerEndpoint: RouteServerEndpoint?
+
+        @inlinable
+        public init(routeServerEndpoint: RouteServerEndpoint? = nil) {
+            self.routeServerEndpoint = routeServerEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerEndpoint = "routeServerEndpoint"
+        }
+    }
+
+    public struct CreateRouteServerPeerRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The BGP options for the peer, including ASN (Autonomous System Number) and BFD (Bidrectional Forwarding Detection) settings.
+        public let bgpOptions: RouteServerBgpOptionsRequest?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The IPv4 address of the peer device.
+        public let peerAddress: String?
+        /// The ID of the route server endpoint for which to create a peer.
+        public let routeServerEndpointId: String?
+        /// The tags to apply to the route server peer during creation.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        @inlinable
+        public init(bgpOptions: RouteServerBgpOptionsRequest? = nil, dryRun: Bool? = nil, peerAddress: String? = nil, routeServerEndpointId: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.bgpOptions = bgpOptions
+            self.dryRun = dryRun
+            self.peerAddress = peerAddress
+            self.routeServerEndpointId = routeServerEndpointId
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bgpOptions = "BgpOptions"
+            case dryRun = "DryRun"
+            case peerAddress = "PeerAddress"
+            case routeServerEndpointId = "RouteServerEndpointId"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateRouteServerPeerResult: AWSDecodableShape {
+        /// Information about the created route server peer.
+        public let routeServerPeer: RouteServerPeer?
+
+        @inlinable
+        public init(routeServerPeer: RouteServerPeer? = nil) {
+            self.routeServerPeer = routeServerPeer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerPeer = "routeServerPeer"
+        }
+    }
+
+    public struct CreateRouteServerRequest: AWSEncodableShape {
+        public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The private Autonomous System Number (ASN) for the Amazon side of the BGP session. Valid values are from 1 to 4294967295. We recommend using a private ASN in the 64512–65534 (16-bit ASN) or 4200000000–4294967294 (32-bit ASN) range.
+        public let amazonSideAsn: Int64?
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
+        public let clientToken: String?
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Indicates whether routes should be persisted after all BGP sessions are terminated.
+        public let persistRoutes: RouteServerPersistRoutesAction?
+        /// The number of minutes a route server will wait after BGP is re-established to unpersist the routes in the FIB and RIB. Value must be in the range of 1-5. Required if PersistRoutes is enabled. If you set the duration to 1 minute, then when your network appliance re-establishes BGP with route server, it has 1 minute to relearn it's adjacent network and advertise those routes to route server before route server resumes normal functionality. In most cases, 1 minute is probably sufficient. If, however, you have concerns that your BGP network may not be capable of fully re-establishing and re-learning everything in 1 minute, you can increase the duration up to 5 minutes.
+        public let persistRoutesDuration: Int64?
+        /// Indicates whether SNS notifications should be enabled for route server events. Enabling SNS notifications persists BGP status changes to an SNS topic provisioned by Amazon Web Services.
+        public let snsNotificationsEnabled: Bool?
+        /// The tags to apply to the route server during creation.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
+        public var tagSpecifications: [TagSpecification]?
+
+        @inlinable
+        public init(amazonSideAsn: Int64? = nil, clientToken: String? = CreateRouteServerRequest.idempotencyToken(), dryRun: Bool? = nil, persistRoutes: RouteServerPersistRoutesAction? = nil, persistRoutesDuration: Int64? = nil, snsNotificationsEnabled: Bool? = nil, tagSpecifications: [TagSpecification]? = nil) {
+            self.amazonSideAsn = amazonSideAsn
+            self.clientToken = clientToken
+            self.dryRun = dryRun
+            self.persistRoutes = persistRoutes
+            self.persistRoutesDuration = persistRoutesDuration
+            self.snsNotificationsEnabled = snsNotificationsEnabled
+            self.tagSpecifications = tagSpecifications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amazonSideAsn = "AmazonSideAsn"
+            case clientToken = "ClientToken"
+            case dryRun = "DryRun"
+            case persistRoutes = "PersistRoutes"
+            case persistRoutesDuration = "PersistRoutesDuration"
+            case snsNotificationsEnabled = "SnsNotificationsEnabled"
+            case tagSpecifications = "TagSpecification"
+        }
+    }
+
+    public struct CreateRouteServerResult: AWSDecodableShape {
+        /// Information about the created route server.
+        public let routeServer: RouteServer?
+
+        @inlinable
+        public init(routeServer: RouteServer? = nil) {
+            self.routeServer = routeServer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServer = "routeServer"
         }
     }
 
@@ -16832,6 +17115,102 @@ extension EC2 {
         }
     }
 
+    public struct DeleteRouteServerEndpointRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the route server endpoint to delete.
+        public let routeServerEndpointId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, routeServerEndpointId: String? = nil) {
+            self.dryRun = dryRun
+            self.routeServerEndpointId = routeServerEndpointId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case routeServerEndpointId = "RouteServerEndpointId"
+        }
+    }
+
+    public struct DeleteRouteServerEndpointResult: AWSDecodableShape {
+        /// Information about the deleted route server endpoint.
+        public let routeServerEndpoint: RouteServerEndpoint?
+
+        @inlinable
+        public init(routeServerEndpoint: RouteServerEndpoint? = nil) {
+            self.routeServerEndpoint = routeServerEndpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerEndpoint = "routeServerEndpoint"
+        }
+    }
+
+    public struct DeleteRouteServerPeerRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the route server peer to delete.
+        public let routeServerPeerId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, routeServerPeerId: String? = nil) {
+            self.dryRun = dryRun
+            self.routeServerPeerId = routeServerPeerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case routeServerPeerId = "RouteServerPeerId"
+        }
+    }
+
+    public struct DeleteRouteServerPeerResult: AWSDecodableShape {
+        /// Information about the deleted route server peer.
+        public let routeServerPeer: RouteServerPeer?
+
+        @inlinable
+        public init(routeServerPeer: RouteServerPeer? = nil) {
+            self.routeServerPeer = routeServerPeer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerPeer = "routeServerPeer"
+        }
+    }
+
+    public struct DeleteRouteServerRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the route server to delete.
+        public let routeServerId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, routeServerId: String? = nil) {
+            self.dryRun = dryRun
+            self.routeServerId = routeServerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case routeServerId = "RouteServerId"
+        }
+    }
+
+    public struct DeleteRouteServerResult: AWSDecodableShape {
+        /// Information about the deleted route server.
+        public let routeServer: RouteServer?
+
+        @inlinable
+        public init(routeServer: RouteServer? = nil) {
+            self.routeServer = routeServer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServer = "routeServer"
+        }
+    }
+
     public struct DeleteRouteTableRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -18104,7 +18483,7 @@ extension EC2 {
     public struct DeregisterInstanceTagAttributeRequest: AWSEncodableShape {
         public struct _InstanceTagKeysEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Indicates whether to deregister all tag keys in the current Region. Specify false  		to deregister all tag keys.
+        /// Indicates whether to deregister all tag keys in the current Region. Specify false to deregister all tag keys.
         public let includeAllTagsOfInstance: Bool?
         /// Information about the tag keys to deregister.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTagKeysEncoding, String>>
@@ -18454,7 +18833,7 @@ extension EC2 {
         public let allAvailabilityZones: Bool?
         /// Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The filters.    group-long-name - The long name of the zone group for the Availability Zone (for example, US West (Oregon) 1), the Local Zone (for example, for Zone group us-west-2-lax-1, it is US West (Los Angeles), or the Wavelength Zone (for example, for Zone group us-east-1-wl1, it is US East (Verizon).    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
+        /// The filters.    group-long-name - The long name of the zone group for the Availability Zone (for example, US West (Oregon) 1), the Local Zone (for example, for Zone group us-west-2-lax-1, it is US West (Los Angeles), or the Wavelength Zone (for example, for Zone group us-east-1-wl1, it is US East (Verizon).    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available | unavailable | constrained).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The IDs of the Availability Zones, Local Zones, and Wavelength Zones.
@@ -21623,7 +22002,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth  weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    dedicated-hosts-supported - Indicates whether the instance type supports Dedicated Hosts.  (true | false)    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth  weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
         @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The instance types.
@@ -24272,6 +24651,186 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case reservedInstances = "reservedInstancesSet"
+        }
+    }
+
+    public struct DescribeRouteServerEndpointsRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply to the describe request.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The IDs of the route server endpoints to describe.
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
+        public var routeServerEndpointIds: [String]?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, routeServerEndpointIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.routeServerEndpointIds = routeServerEndpointIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case routeServerEndpointIds = "RouteServerEndpointId"
+        }
+    }
+
+    public struct DescribeRouteServerEndpointsResult: AWSDecodableShape {
+        public struct _RouteServerEndpointsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the described route server endpoints.
+        @OptionalCustomCoding<EC2ArrayCoder<_RouteServerEndpointsEncoding, RouteServerEndpoint>>
+        public var routeServerEndpoints: [RouteServerEndpoint]?
+
+        @inlinable
+        public init(nextToken: String? = nil, routeServerEndpoints: [RouteServerEndpoint]? = nil) {
+            self.nextToken = nextToken
+            self.routeServerEndpoints = routeServerEndpoints
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case routeServerEndpoints = "routeServerEndpointSet"
+        }
+    }
+
+    public struct DescribeRouteServerPeersRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply to the describe request.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The IDs of the route server peers to describe.
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
+        public var routeServerPeerIds: [String]?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, routeServerPeerIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.routeServerPeerIds = routeServerPeerIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case routeServerPeerIds = "RouteServerPeerId"
+        }
+    }
+
+    public struct DescribeRouteServerPeersResult: AWSDecodableShape {
+        public struct _RouteServerPeersEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the described route server peers.
+        @OptionalCustomCoding<EC2ArrayCoder<_RouteServerPeersEncoding, RouteServerPeer>>
+        public var routeServerPeers: [RouteServerPeer]?
+
+        @inlinable
+        public init(nextToken: String? = nil, routeServerPeers: [RouteServerPeer]? = nil) {
+            self.nextToken = nextToken
+            self.routeServerPeers = routeServerPeers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case routeServerPeers = "routeServerPeerSet"
+        }
+    }
+
+    public struct DescribeRouteServersRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// One or more filters to apply to the describe request.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of results to return with a single call.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The IDs of the route servers to describe.
+        @OptionalCustomCoding<EC2StandardArrayCoder<String>>
+        public var routeServerIds: [String]?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, routeServerIds: [String]? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.routeServerIds = routeServerIds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case routeServerIds = "RouteServerId"
+        }
+    }
+
+    public struct DescribeRouteServersResult: AWSDecodableShape {
+        public struct _RouteServersEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// Information about the described route servers.
+        @OptionalCustomCoding<EC2ArrayCoder<_RouteServersEncoding, RouteServer>>
+        public var routeServers: [RouteServer]?
+
+        @inlinable
+        public init(nextToken: String? = nil, routeServers: [RouteServer]? = nil) {
+            self.nextToken = nextToken
+            self.routeServers = routeServers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case routeServers = "routeServerSet"
         }
     }
 
@@ -28618,6 +29177,42 @@ extension EC2 {
         }
     }
 
+    public struct DisableRouteServerPropagationRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the route server for which to disable propagation.
+        public let routeServerId: String?
+        /// The ID of the route table for which to disable route server propagation.
+        public let routeTableId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, routeServerId: String? = nil, routeTableId: String? = nil) {
+            self.dryRun = dryRun
+            self.routeServerId = routeServerId
+            self.routeTableId = routeTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case routeServerId = "RouteServerId"
+            case routeTableId = "RouteTableId"
+        }
+    }
+
+    public struct DisableRouteServerPropagationResult: AWSDecodableShape {
+        /// Information about the disabled route server propagation.
+        public let routeServerPropagation: RouteServerPropagation?
+
+        @inlinable
+        public init(routeServerPropagation: RouteServerPropagation? = nil) {
+            self.routeServerPropagation = routeServerPropagation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerPropagation = "routeServerPropagation"
+        }
+    }
+
     public struct DisableSerialConsoleAccessRequest: AWSEncodableShape {
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
@@ -29122,6 +29717,42 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case natGatewayAddresses = "natGatewayAddressSet"
             case natGatewayId = "natGatewayId"
+        }
+    }
+
+    public struct DisassociateRouteServerRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the route server to disassociate.
+        public let routeServerId: String?
+        /// The ID of the VPC to disassociate from the route server.
+        public let vpcId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, routeServerId: String? = nil, vpcId: String? = nil) {
+            self.dryRun = dryRun
+            self.routeServerId = routeServerId
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case routeServerId = "RouteServerId"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct DisassociateRouteServerResult: AWSDecodableShape {
+        /// Information about the disassociated route server.
+        public let routeServerAssociation: RouteServerAssociation?
+
+        @inlinable
+        public init(routeServerAssociation: RouteServerAssociation? = nil) {
+            self.routeServerAssociation = routeServerAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerAssociation = "routeServerAssociation"
         }
     }
 
@@ -30012,7 +30643,7 @@ extension EC2 {
     }
 
     public struct ElasticGpuSpecificationResponse: AWSDecodableShape {
-        /// Deprecated.  Amazon Elastic Graphics reached end of life on January 8, 2024. For  workloads that require graphics acceleration, we recommend that you use Amazon EC2 G4ad,  G4dn, or G5 instances.
+        /// Deprecated.  Amazon Elastic Graphics reached end of life on January 8, 2024.
         public let type: String?
 
         @inlinable
@@ -30134,9 +30765,10 @@ extension EC2 {
 
     public struct EnaSrdSpecificationRequest: AWSEncodableShape & AWSDecodableShape {
         /// Specifies whether ENA Express is enabled for the network interface when you
-        /// 			launch an instance from your launch template.
+        /// 			launch an instance.
         public let enaSrdEnabled: Bool?
-        /// Contains ENA Express settings for UDP network traffic in your launch template.
+        /// Contains ENA Express settings for UDP network traffic for the network interface
+        /// 	        attached to the instance.
         public let enaSrdUdpSpecification: EnaSrdUdpSpecificationRequest?
 
         @inlinable
@@ -30169,8 +30801,7 @@ extension EC2 {
     public struct EnaSrdUdpSpecificationRequest: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether UDP traffic uses ENA Express for your instance. To ensure that
         /// 			UDP traffic can use ENA Express when you launch an instance, you must also set
-        /// 			EnaSrdEnabled in the EnaSrdSpecificationRequest to true in your
-        /// 			launch template.
+        /// 			EnaSrdEnabled in the EnaSrdSpecificationRequest to true.
         public let enaSrdUdpEnabled: Bool?
 
         @inlinable
@@ -30769,6 +31400,42 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case returnValue = "returnValue"
+        }
+    }
+
+    public struct EnableRouteServerPropagationRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the route server for which to enable propagation.
+        public let routeServerId: String?
+        /// The ID of the route table to which route server will propagate routes.
+        public let routeTableId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, routeServerId: String? = nil, routeTableId: String? = nil) {
+            self.dryRun = dryRun
+            self.routeServerId = routeServerId
+            self.routeTableId = routeTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case routeServerId = "RouteServerId"
+            case routeTableId = "RouteTableId"
+        }
+    }
+
+    public struct EnableRouteServerPropagationResult: AWSDecodableShape {
+        /// Information about the enabled route server propagation.
+        public let routeServerPropagation: RouteServerPropagation?
+
+        @inlinable
+        public init(routeServerPropagation: RouteServerPropagation? = nil) {
+            self.routeServerPropagation = routeServerPropagation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerPropagation = "routeServerPropagation"
         }
     }
 
@@ -32190,7 +32857,7 @@ extension EC2 {
         /// instances
         /// built on the Nitro System. On other instances, you can achieve performance up to 32,000 IOPS. This parameter is required for io1 and io2 volumes. The default for gp3 volumes is 3,000 IOPS.
         public let iops: Int?
-        /// Identifier (key ID, key alias, key ARN, or alias ARN) of the customer managed KMS key  to use for EBS encryption. This parameter is only supported on BlockDeviceMapping objects called by RunInstances, RequestSpotFleet, and RequestSpotInstances.
+        /// Identifier (key ID, key alias, key ARN, or alias ARN) of the customer managed KMS key  to use for EBS encryption. This parameter is only supported on BlockDeviceMapping objects called by CreateFleet, RequestSpotInstances, and RunInstances.
         public let kmsKeyId: String?
         /// The ID of the snapshot.
         public let snapshotId: String?
@@ -32279,7 +32946,7 @@ extension EC2 {
 
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
-        /// The block device mapping, which defines the EBS volumes and instance store volumes to attach to the instance at launch. For more information, see Block device mappings for volumes on Amazon EC2 instances in the Amazon EC2 User Guide.
+        /// The block device mappings, which define the EBS volumes and instance store volumes to attach to the instance at launch. Supported only for fleets of type instant. For more information, see Block device mappings for volumes on Amazon EC2 instances in the Amazon EC2 User Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_BlockDeviceMappingsEncoding, BlockDeviceMappingResponse>>
         public var blockDeviceMappings: [BlockDeviceMappingResponse]?
         /// The ID of the AMI in the format ami-17characters00000. Alternatively, you can specify a Systems Manager parameter, using one of the following formats. The Systems Manager parameter will resolve to an AMI ID on launch. To reference a public parameter:    resolve:ssm:public-parameter     To reference a parameter stored in the same account:    resolve:ssm:parameter-name      resolve:ssm:parameter-name:version-number      resolve:ssm:parameter-name:label     To reference a parameter shared from another Amazon Web Services account:    resolve:ssm:parameter-ARN      resolve:ssm:parameter-ARN:version-number      resolve:ssm:parameter-ARN:label     For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide.  This parameter is only available for fleets of type instant. For fleets of type maintain and request, you must specify the AMI ID in the launch template.
@@ -32332,7 +32999,7 @@ extension EC2 {
 
         /// The Availability Zone in which to launch the instances.
         public let availabilityZone: String?
-        /// The block device mapping, which defines the EBS volumes and instance store volumes to attach to the instance at launch. For more information, see Block device mappings for volumes on Amazon EC2 instances in the Amazon EC2 User Guide. To override a block device mapping specified in the launch template:   Specify the exact same DeviceName here as specified in the launch template.   Only specify the parameters you want to change.   Any parameters you don't specify here will keep their original launch template values.   To add a new block device mapping:   Specify a DeviceName that doesn't exist in the launch template.   Specify all desired parameters here.
+        /// The block device mappings, which define the EBS volumes and instance store volumes to attach to the instance at launch. Supported only for fleets of type instant. For more information, see Block device mappings for volumes on Amazon EC2 instances in the Amazon EC2 User Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_BlockDeviceMappingsEncoding, FleetBlockDeviceMappingRequest>>
         public var blockDeviceMappings: [FleetBlockDeviceMappingRequest]?
         /// The ID of the AMI in the format ami-17characters00000. Alternatively, you can specify a Systems Manager parameter, using one of the following formats. The Systems Manager parameter will resolve to an AMI ID on launch. To reference a public parameter:    resolve:ssm:public-parameter     To reference a parameter stored in the same account:    resolve:ssm:parameter-name      resolve:ssm:parameter-name:version-number      resolve:ssm:parameter-name:label     To reference a parameter shared from another Amazon Web Services account:    resolve:ssm:parameter-ARN      resolve:ssm:parameter-ARN:version-number      resolve:ssm:parameter-ARN:label     For more information, see Use a Systems Manager parameter instead of an AMI ID in the Amazon EC2 User Guide.  This parameter is only available for fleets of type instant. For fleets of type maintain and request, you must specify the AMI ID in the launch template.
@@ -33014,12 +33681,14 @@ extension EC2 {
         /// 		longer available for your use.    pending - The Capacity Reservation request was successful but the capacity
         /// 		provisioning is still pending.    failed - The Capacity Reservation request has failed. A request can fail due to
         /// 		request parameters that are not valid, capacity constraints, or instance limit constraints. You
-        /// 		can view a failed request for 60 minutes.    scheduled - (Future-dated Capacity Reservations only) The
+        /// 		can view a failed request for 60 minutes.    scheduled - (Future-dated Capacity Reservations) The
         /// 		future-dated Capacity Reservation request was approved and the Capacity Reservation is scheduled
-        /// 		for delivery on the requested start date.    assessing - (Future-dated Capacity Reservations only)
-        /// 		Amazon EC2 is assessing your request for a future-dated Capacity Reservation.    delayed - (Future-dated Capacity Reservations only) Amazon EC2
+        /// 		for delivery on the requested start date.    payment-pending - (Capacity Blocks) The upfront
+        /// 	    payment has not been processed yet.    payment-failed - (Capacity Blocks) The upfront
+        /// 	    payment was not processed in the 12-hour time frame. Your Capacity Block was released.    assessing - (Future-dated Capacity Reservations)
+        /// 		Amazon EC2 is assessing your request for a future-dated Capacity Reservation.    delayed - (Future-dated Capacity Reservations) Amazon EC2
         /// 		encountered a delay in provisioning the requested future-dated Capacity Reservation. Amazon EC2 is
-        /// 		unable to deliver the requested capacity by the requested start date and time.    unsupported - (Future-dated Capacity Reservations only) Amazon EC2
+        /// 		unable to deliver the requested capacity by the requested start date and time.    unsupported - (Future-dated Capacity Reservations) Amazon EC2
         /// 		can't support the future-dated Capacity Reservation request due to capacity constraints. You can view
         /// 		unsupported requests for 30 days. The Capacity Reservation will not be delivered.
         public let state: CapacityReservationState?
@@ -34536,6 +35205,143 @@ extension EC2 {
             case targetConfigurationValueRollup = "targetConfigurationValueRollup"
             case targetConfigurationValueSet = "targetConfigurationValueSet"
             case validationFailureReason = "validationFailureReason"
+        }
+    }
+
+    public struct GetRouteServerAssociationsRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the route server for which to get association information.
+        public let routeServerId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, routeServerId: String? = nil) {
+            self.dryRun = dryRun
+            self.routeServerId = routeServerId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case routeServerId = "RouteServerId"
+        }
+    }
+
+    public struct GetRouteServerAssociationsResult: AWSDecodableShape {
+        public struct _RouteServerAssociationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the associations for the specified route server.
+        @OptionalCustomCoding<EC2ArrayCoder<_RouteServerAssociationsEncoding, RouteServerAssociation>>
+        public var routeServerAssociations: [RouteServerAssociation]?
+
+        @inlinable
+        public init(routeServerAssociations: [RouteServerAssociation]? = nil) {
+            self.routeServerAssociations = routeServerAssociations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerAssociations = "routeServerAssociationSet"
+        }
+    }
+
+    public struct GetRouteServerPropagationsRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the route server for which to get propagation information.
+        public let routeServerId: String?
+        /// The ID of the route table for which to get propagation information.
+        public let routeTableId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, routeServerId: String? = nil, routeTableId: String? = nil) {
+            self.dryRun = dryRun
+            self.routeServerId = routeServerId
+            self.routeTableId = routeTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case routeServerId = "RouteServerId"
+            case routeTableId = "RouteTableId"
+        }
+    }
+
+    public struct GetRouteServerPropagationsResult: AWSDecodableShape {
+        public struct _RouteServerPropagationsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Information about the route propagations for the specified route server.
+        @OptionalCustomCoding<EC2ArrayCoder<_RouteServerPropagationsEncoding, RouteServerPropagation>>
+        public var routeServerPropagations: [RouteServerPropagation]?
+
+        @inlinable
+        public init(routeServerPropagations: [RouteServerPropagation]? = nil) {
+            self.routeServerPropagations = routeServerPropagations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerPropagations = "routeServerPropagationSet"
+        }
+    }
+
+    public struct GetRouteServerRoutingDatabaseRequest: AWSEncodableShape {
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
+
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Filters to apply to the routing database query.
+        @OptionalCustomCoding<EC2ArrayCoder<_FiltersEncoding, Filter>>
+        public var filters: [Filter]?
+        /// The maximum number of routing database entries to return in a single response.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the route server for which to get the routing database.
+        public let routeServerId: String?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, routeServerId: String? = nil) {
+            self.dryRun = dryRun
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.routeServerId = routeServerId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case filters = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case routeServerId = "RouteServerId"
+        }
+    }
+
+    public struct GetRouteServerRoutingDatabaseResult: AWSDecodableShape {
+        public struct _RoutesEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// Indicates whether routes are being persisted in the routing database.
+        public let areRoutesPersisted: Bool?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The collection of routes in the route server's routing database.
+        @OptionalCustomCoding<EC2ArrayCoder<_RoutesEncoding, RouteServerRoute>>
+        public var routes: [RouteServerRoute]?
+
+        @inlinable
+        public init(areRoutesPersisted: Bool? = nil, nextToken: String? = nil, routes: [RouteServerRoute]? = nil) {
+            self.areRoutesPersisted = areRoutesPersisted
+            self.nextToken = nextToken
+            self.routes = routes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case areRoutesPersisted = "areRoutesPersisted"
+            case nextToken = "nextToken"
+            case routes = "routeSet"
         }
     }
 
@@ -37752,7 +38558,7 @@ extension EC2 {
         /// The IDs of the instances to associate with the event window. If the instance is on a Dedicated Host, you can't specify the Instance ID parameter; you must use the Dedicated Host ID parameter.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
-        /// The instance tags to associate with the event window. Any instances associated with the tags will be associated with the event window.
+        /// The instance tags to associate with the event window. Any instances associated with the tags will be associated with the event window. Note that while you can't create tag keys beginning with aws:, you can specify existing Amazon Web Services managed tag keys (with the aws: prefix) when specifying them as targets to associate with the event window.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTagsEncoding, Tag>>
         public var instanceTags: [Tag]?
 
@@ -37781,7 +38587,7 @@ extension EC2 {
         /// The IDs of the instances associated with the event window.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceIdsEncoding, String>>
         public var instanceIds: [String]?
-        /// The instance tags associated with the event window. Any instances associated with the tags will be associated with the event window.
+        /// The instance tags associated with the event window. Any instances associated with the tags will be associated with the event window. Note that while you can't create tag keys beginning with aws:, you can specify existing Amazon Web Services managed tag keys (with the aws: prefix) when specifying them as targets to associate with the event window.
         @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
@@ -38572,7 +39378,7 @@ extension EC2 {
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB?
-        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   For instance types with Inference accelerators, specify inference.   Default: Any accelerator type
+        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   Default: Any accelerator type
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
         /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
@@ -38714,7 +39520,7 @@ extension EC2 {
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest?
-        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   Default: Any accelerator type
+        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   Default: Any accelerator type
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
         /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
@@ -39092,7 +39898,7 @@ extension EC2 {
     public struct InstanceTagNotificationAttribute: AWSDecodableShape {
         public struct _InstanceTagKeysEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Indicates wheter all tag keys in the current Region are registered to appear in scheduled event notifications.  	true indicates that all tag keys in the current Region are registered.
+        /// Indicates wheter all tag keys in the current Region are registered to appear in scheduled event notifications. true indicates that all tag keys in the current Region are registered.
         public let includeAllTagsOfInstance: Bool?
         /// The registered tag keys.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTagKeysEncoding, String>>
@@ -41610,7 +42416,7 @@ extension EC2 {
         public let deleteOnTermination: Bool?
         /// A description for the network interface.
         public let description: String?
-        /// The device index for the network interface attachment. Each network interface requires a device index. If you create a launch template that includes secondary network interfaces  but not a primary network interface, then you must add a primary network interface as a  launch parameter when you launch an instance from the template.
+        /// The device index for the network interface attachment. The primary network interface has a device index of 0. Each network interface is of type interface, you must specify a device index. If you create a launch template that includes secondary  network interfaces  but not a primary network interface, then you must add a primary  network interface as a launch parameter when you launch an instance from the template.
         public let deviceIndex: Int?
         /// Configure ENA Express settings for your launch template.
         public let enaSrdSpecification: EnaSrdSpecificationRequest?
@@ -43739,7 +44545,7 @@ extension EC2 {
         public struct _BlockDeviceMappingsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _GroupsEncoding: ArrayCoderProperties { public static let member = "groupId" }
 
-        /// The name of the attribute to modify.  You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions
+        /// The name of the attribute to modify.  When changing the instance type: If the original instance type is configured for configurable bandwidth, and the desired instance type doesn't support configurable bandwidth, first set the existing bandwidth configuration to default using the ModifyInstanceNetworkPerformanceOptions operation.   You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions
         public let attribute: InstanceAttributeName?
         /// Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination  attribute for volumes that are attached to Fargate tasks. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_BlockDeviceMappingsEncoding, InstanceBlockDeviceMappingSpecification>>
@@ -44862,6 +45668,50 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case reservedInstancesModificationId = "reservedInstancesModificationId"
+        }
+    }
+
+    public struct ModifyRouteServerRequest: AWSEncodableShape {
+        /// A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// Specifies whether to persist routes after all BGP sessions are terminated.   enable: Routes will be persisted in FIB and RIB after all BGP sessions are terminated.   disable: Routes will not be persisted in FIB and RIB after all BGP sessions are terminated.   reset: If a route server has persisted routes due to all BGP sessions having ended, reset will withdraw all routes and reset route server to an empty FIB and RIB.
+        public let persistRoutes: RouteServerPersistRoutesAction?
+        /// The number of minutes a route server will wait after BGP is re-established to unpersist the routes in the FIB and RIB. Value must be in the range of 1-5. Required if PersistRoutes is enabled. If you set the duration to 1 minute, then when your network appliance re-establishes BGP with route server, it has 1 minute to relearn it's adjacent network and advertise those routes to route server before route server resumes normal functionality. In most cases, 1 minute is probably sufficient. If, however, you have concerns that your BGP network may not be capable of fully re-establishing and re-learning everything in 1 minute, you can increase the duration up to 5 minutes.
+        public let persistRoutesDuration: Int64?
+        /// The ID of the route server to modify.
+        public let routeServerId: String?
+        /// Specifies whether to enable SNS notifications for route server events. Enabling SNS notifications persists BGP status changes to an SNS topic provisioned by Amazon Web Services.
+        public let snsNotificationsEnabled: Bool?
+
+        @inlinable
+        public init(dryRun: Bool? = nil, persistRoutes: RouteServerPersistRoutesAction? = nil, persistRoutesDuration: Int64? = nil, routeServerId: String? = nil, snsNotificationsEnabled: Bool? = nil) {
+            self.dryRun = dryRun
+            self.persistRoutes = persistRoutes
+            self.persistRoutesDuration = persistRoutesDuration
+            self.routeServerId = routeServerId
+            self.snsNotificationsEnabled = snsNotificationsEnabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case persistRoutes = "PersistRoutes"
+            case persistRoutesDuration = "PersistRoutesDuration"
+            case routeServerId = "RouteServerId"
+            case snsNotificationsEnabled = "SnsNotificationsEnabled"
+        }
+    }
+
+    public struct ModifyRouteServerResult: AWSDecodableShape {
+        /// Information about the modified route server.
+        public let routeServer: RouteServer?
+
+        @inlinable
+        public init(routeServer: RouteServer? = nil) {
+            self.routeServer = routeServer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServer = "routeServer"
         }
     }
 
@@ -48436,7 +49286,7 @@ extension EC2 {
     }
 
     public struct OperatorResponse: AWSDecodableShape {
-        /// If true, the resource is managed by an service provider.
+        /// If true, the resource is managed by a service provider.
         public let managed: Bool?
         /// If managed is true, then the principal is returned. The principal is the service provider that manages the resource.
         public let principal: String?
@@ -50458,7 +51308,7 @@ extension EC2 {
     public struct RegisterInstanceTagAttributeRequest: AWSEncodableShape {
         public struct _InstanceTagKeysEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// Indicates whether to register all tag keys in the current Region. Specify true  	to register all tag keys.
+        /// Indicates whether to register all tag keys in the current Region. Specify true to register all tag keys.
         public let includeAllTagsOfInstance: Bool?
         /// The tag keys to register.
         @OptionalCustomCoding<EC2ArrayCoder<_InstanceTagKeysEncoding, String>>
@@ -51456,10 +52306,10 @@ extension EC2 {
         public let disableApiTermination: Bool?
         /// Indicates whether the instance is optimized for Amazon EBS I/O. This optimization provides dedicated throughput to Amazon EBS and an optimized configuration stack to provide optimal Amazon EBS I/O performance. This optimization isn't available with all instance types. Additional usage charges apply when using an EBS-optimized instance.
         public let ebsOptimized: Bool?
-        /// Deprecated.  Amazon Elastic Graphics reached end of life on January 8, 2024. For  workloads that require graphics acceleration, we recommend that you use Amazon EC2 G4ad,  G4dn, or G5 instances.
+        /// Deprecated.  Amazon Elastic Graphics reached end of life on January 8, 2024.
         @OptionalCustomCoding<EC2ArrayCoder<_ElasticGpuSpecificationsEncoding, ElasticGpuSpecification>>
         public var elasticGpuSpecifications: [ElasticGpuSpecification]?
-        ///  Amazon Elastic Inference is no longer available.  An elastic inference accelerator to associate with the instance. Elastic inference accelerators are a resource you can attach to your Amazon EC2 instances to accelerate your Deep Learning (DL) inference workloads. You cannot specify accelerators from different generations in the same request.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+        ///  Amazon Elastic Inference is no longer available.  An elastic inference accelerator to associate with the instance. Elastic inference accelerators are a resource you can attach to your Amazon EC2 instances to accelerate your Deep Learning (DL) inference workloads. You cannot specify accelerators from different generations in the same request.
         @OptionalCustomCoding<EC2ArrayCoder<_ElasticInferenceAcceleratorsEncoding, LaunchTemplateElasticInferenceAccelerator>>
         public var elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAccelerator]?
         /// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves. For more information, see What is Nitro Enclaves? in the Amazon Web Services Nitro Enclaves User Guide. You can't enable Amazon Web Services Nitro Enclaves and hibernation on the same instance.
@@ -52571,10 +53421,10 @@ extension EC2 {
         public let disableApiTermination: Bool?
         /// Indicates whether the instance is optimized for Amazon EBS I/O.
         public let ebsOptimized: Bool?
-        /// Deprecated.  Amazon Elastic Graphics reached end of life on January 8, 2024. For  workloads that require graphics acceleration, we recommend that you use Amazon EC2 G4ad,  G4dn, or G5 instances.
+        /// Deprecated.  Amazon Elastic Graphics reached end of life on January 8, 2024.
         @OptionalCustomCoding<EC2ArrayCoder<_ElasticGpuSpecificationsEncoding, ElasticGpuSpecificationResponse>>
         public var elasticGpuSpecifications: [ElasticGpuSpecificationResponse]?
-        ///  Amazon Elastic Inference is no longer available.  An elastic inference accelerator to associate with the instance. Elastic inference accelerators are a resource you can attach to your Amazon EC2 instances to accelerate your Deep Learning (DL) inference workloads. You cannot specify accelerators from different generations in the same request.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and will help current customers migrate their workloads to options that offer better price and performance. After April 15, 2023, new customers will not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day period are considered current customers and will be able to continue using the service.
+        ///  Amazon Elastic Inference is no longer available.  An elastic inference accelerator to associate with the instance. Elastic inference accelerators are a resource you can attach to your Amazon EC2 instances to accelerate your Deep Learning (DL) inference workloads. You cannot specify accelerators from different generations in the same request.
         @OptionalCustomCoding<EC2ArrayCoder<_ElasticInferenceAcceleratorsEncoding, LaunchTemplateElasticInferenceAcceleratorResponse>>
         public var elasticInferenceAccelerators: [LaunchTemplateElasticInferenceAcceleratorResponse]?
         /// Indicates whether the instance is enabled for Amazon Web Services Nitro Enclaves.
@@ -53279,6 +54129,346 @@ extension EC2 {
             case state = "state"
             case transitGatewayId = "transitGatewayId"
             case vpcPeeringConnectionId = "vpcPeeringConnectionId"
+        }
+    }
+
+    public struct RouteServer: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The Border Gateway Protocol (BGP) Autonomous System Number (ASN) for the appliance. Valid values are from 1 to 4294967295. We recommend using a private ASN in the 64512–65534 (16-bit ASN) or 4200000000–4294967294 (32-bit ASN) range.
+        public let amazonSideAsn: Int64?
+        /// The number of minutes a route server will wait after BGP is re-established to unpersist the routes in the FIB and RIB. Value must be in the range of 1-5. The default value is 1. Only valid if persistRoutesState is 'enabled'. If you set the duration to 1 minute, then when your network appliance re-establishes BGP with route server, it has 1 minute to relearn it's adjacent network and advertise those routes to route server before route server resumes normal functionality. In most cases, 1 minute is probably sufficient. If, however, you have concerns that your BGP network may not be capable of fully re-establishing and re-learning everything in 1 minute, you can increase the duration up to 5 minutes.
+        public let persistRoutesDuration: Int64?
+        /// The current state of route persistence for the route server.
+        public let persistRoutesState: RouteServerPersistRoutesState?
+        /// The unique identifier of the route server.
+        public let routeServerId: String?
+        /// Indicates whether SNS notifications are enabled for the route server. Enabling SNS notifications persists BGP status changes to an SNS topic provisioned by Amazon Web Services.
+        public let snsNotificationsEnabled: Bool?
+        /// The ARN of the SNS topic where notifications are published.
+        public let snsTopicArn: String?
+        /// The current state of the route server.
+        public let state: RouteServerState?
+        /// Any tags assigned to the route server.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+
+        @inlinable
+        public init(amazonSideAsn: Int64? = nil, persistRoutesDuration: Int64? = nil, persistRoutesState: RouteServerPersistRoutesState? = nil, routeServerId: String? = nil, snsNotificationsEnabled: Bool? = nil, snsTopicArn: String? = nil, state: RouteServerState? = nil, tags: [Tag]? = nil) {
+            self.amazonSideAsn = amazonSideAsn
+            self.persistRoutesDuration = persistRoutesDuration
+            self.persistRoutesState = persistRoutesState
+            self.routeServerId = routeServerId
+            self.snsNotificationsEnabled = snsNotificationsEnabled
+            self.snsTopicArn = snsTopicArn
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amazonSideAsn = "amazonSideAsn"
+            case persistRoutesDuration = "persistRoutesDuration"
+            case persistRoutesState = "persistRoutesState"
+            case routeServerId = "routeServerId"
+            case snsNotificationsEnabled = "snsNotificationsEnabled"
+            case snsTopicArn = "snsTopicArn"
+            case state = "state"
+            case tags = "tagSet"
+        }
+    }
+
+    public struct RouteServerAssociation: AWSDecodableShape {
+        /// The ID of the associated route server.
+        public let routeServerId: String?
+        /// The current state of the association.
+        public let state: RouteServerAssociationState?
+        /// The ID of the associated VPC.
+        public let vpcId: String?
+
+        @inlinable
+        public init(routeServerId: String? = nil, state: RouteServerAssociationState? = nil, vpcId: String? = nil) {
+            self.routeServerId = routeServerId
+            self.state = state
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerId = "routeServerId"
+            case state = "state"
+            case vpcId = "vpcId"
+        }
+    }
+
+    public struct RouteServerBfdStatus: AWSDecodableShape {
+        /// The operational status of the BFD session.
+        public let status: RouteServerBfdState?
+
+        @inlinable
+        public init(status: RouteServerBfdState? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct RouteServerBgpOptions: AWSDecodableShape {
+        /// The Border Gateway Protocol (BGP) Autonomous System Number (ASN) for the appliance. Valid values are from 1 to 4294967295. We recommend using a private ASN in the 64512–65534 (16-bit ASN) or 4200000000–4294967294 (32-bit ASN) range.
+        public let peerAsn: Int64?
+        /// The liveness detection protocol used for the BGP peer. The requested liveness detection protocol for the BGP peer.    bgp-keepalive: The standard BGP keep alive mechanism (RFC4271) that is stable but may take longer to fail-over in cases of network impact or router failure.    bfd: An additional Bidirectional Forwarding Detection (BFD) protocol (RFC5880) that enables fast failover by using more sensitive liveness detection.   Defaults to bgp-keepalive.
+        public let peerLivenessDetection: RouteServerPeerLivenessMode?
+
+        @inlinable
+        public init(peerAsn: Int64? = nil, peerLivenessDetection: RouteServerPeerLivenessMode? = nil) {
+            self.peerAsn = peerAsn
+            self.peerLivenessDetection = peerLivenessDetection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case peerAsn = "peerAsn"
+            case peerLivenessDetection = "peerLivenessDetection"
+        }
+    }
+
+    public struct RouteServerBgpOptionsRequest: AWSEncodableShape {
+        /// The Border Gateway Protocol (BGP) Autonomous System Number (ASN) for the appliance. Valid values are from 1 to 4294967295. We recommend using a private ASN in the 64512–65534 (16-bit ASN) or 4200000000–4294967294 (32-bit ASN) range.
+        public let peerAsn: Int64?
+        /// The requested liveness detection protocol for the BGP peer.    bgp-keepalive: The standard BGP keep alive mechanism (RFC4271) that is stable but may take longer to fail-over in cases of network impact or router failure.    bfd: An additional Bidirectional Forwarding Detection (BFD) protocol (RFC5880) that enables fast failover by using more sensitive liveness detection.   Defaults to bgp-keepalive.
+        public let peerLivenessDetection: RouteServerPeerLivenessMode?
+
+        @inlinable
+        public init(peerAsn: Int64? = nil, peerLivenessDetection: RouteServerPeerLivenessMode? = nil) {
+            self.peerAsn = peerAsn
+            self.peerLivenessDetection = peerLivenessDetection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case peerAsn = "PeerAsn"
+            case peerLivenessDetection = "PeerLivenessDetection"
+        }
+    }
+
+    public struct RouteServerBgpStatus: AWSDecodableShape {
+        /// The operational status of the BGP session. The status enables you to monitor session liveness if you lack monitoring on your router/appliance.
+        public let status: RouteServerBgpState?
+
+        @inlinable
+        public init(status: RouteServerBgpState? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
+    public struct RouteServerEndpoint: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The IP address of the Elastic network interface for the endpoint.
+        public let eniAddress: String?
+        /// The ID of the Elastic network interface for the endpoint.
+        public let eniId: String?
+        /// The reason for any failure in endpoint creation or operation.
+        public let failureReason: String?
+        /// The unique identifier of the route server endpoint.
+        public let routeServerEndpointId: String?
+        /// The ID of the route server associated with this endpoint.
+        public let routeServerId: String?
+        /// The current state of the route server endpoint.
+        public let state: RouteServerEndpointState?
+        /// The ID of the subnet to place the route server endpoint into.
+        public let subnetId: String?
+        /// Any tags assigned to the route server endpoint.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The ID of the VPC containing the endpoint.
+        public let vpcId: String?
+
+        @inlinable
+        public init(eniAddress: String? = nil, eniId: String? = nil, failureReason: String? = nil, routeServerEndpointId: String? = nil, routeServerId: String? = nil, state: RouteServerEndpointState? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+            self.eniAddress = eniAddress
+            self.eniId = eniId
+            self.failureReason = failureReason
+            self.routeServerEndpointId = routeServerEndpointId
+            self.routeServerId = routeServerId
+            self.state = state
+            self.subnetId = subnetId
+            self.tags = tags
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eniAddress = "eniAddress"
+            case eniId = "eniId"
+            case failureReason = "failureReason"
+            case routeServerEndpointId = "routeServerEndpointId"
+            case routeServerId = "routeServerId"
+            case state = "state"
+            case subnetId = "subnetId"
+            case tags = "tagSet"
+            case vpcId = "vpcId"
+        }
+    }
+
+    public struct RouteServerPeer: AWSDecodableShape {
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The current status of the BFD session with this peer.
+        public let bfdStatus: RouteServerBfdStatus?
+        /// The BGP configuration options for this peer, including ASN (Autonomous System Number) and BFD (Bidrectional Forwarding Detection) settings.
+        public let bgpOptions: RouteServerBgpOptions?
+        /// The current status of the BGP session with this peer.
+        public let bgpStatus: RouteServerBgpStatus?
+        /// The IP address of the Elastic network interface for the route server endpoint.
+        public let endpointEniAddress: String?
+        /// The ID of the Elastic network interface for the route server endpoint.
+        public let endpointEniId: String?
+        /// The reason for any failure in peer creation or operation.
+        public let failureReason: String?
+        /// The IPv4 address of the peer device.
+        public let peerAddress: String?
+        /// The ID of the route server endpoint associated with this peer.
+        public let routeServerEndpointId: String?
+        /// The ID of the route server associated with this peer.
+        public let routeServerId: String?
+        /// The unique identifier of the route server peer.
+        public let routeServerPeerId: String?
+        /// The current state of the route server peer.
+        public let state: RouteServerPeerState?
+        /// The ID of the subnet containing the route server peer.
+        public let subnetId: String?
+        /// Any tags assigned to the route server peer.
+        @OptionalCustomCoding<EC2ArrayCoder<_TagsEncoding, Tag>>
+        public var tags: [Tag]?
+        /// The ID of the VPC containing the route server peer.
+        public let vpcId: String?
+
+        @inlinable
+        public init(bfdStatus: RouteServerBfdStatus? = nil, bgpOptions: RouteServerBgpOptions? = nil, bgpStatus: RouteServerBgpStatus? = nil, endpointEniAddress: String? = nil, endpointEniId: String? = nil, failureReason: String? = nil, peerAddress: String? = nil, routeServerEndpointId: String? = nil, routeServerId: String? = nil, routeServerPeerId: String? = nil, state: RouteServerPeerState? = nil, subnetId: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+            self.bfdStatus = bfdStatus
+            self.bgpOptions = bgpOptions
+            self.bgpStatus = bgpStatus
+            self.endpointEniAddress = endpointEniAddress
+            self.endpointEniId = endpointEniId
+            self.failureReason = failureReason
+            self.peerAddress = peerAddress
+            self.routeServerEndpointId = routeServerEndpointId
+            self.routeServerId = routeServerId
+            self.routeServerPeerId = routeServerPeerId
+            self.state = state
+            self.subnetId = subnetId
+            self.tags = tags
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bfdStatus = "bfdStatus"
+            case bgpOptions = "bgpOptions"
+            case bgpStatus = "bgpStatus"
+            case endpointEniAddress = "endpointEniAddress"
+            case endpointEniId = "endpointEniId"
+            case failureReason = "failureReason"
+            case peerAddress = "peerAddress"
+            case routeServerEndpointId = "routeServerEndpointId"
+            case routeServerId = "routeServerId"
+            case routeServerPeerId = "routeServerPeerId"
+            case state = "state"
+            case subnetId = "subnetId"
+            case tags = "tagSet"
+            case vpcId = "vpcId"
+        }
+    }
+
+    public struct RouteServerPropagation: AWSDecodableShape {
+        /// The ID of the route server configured for route propagation.
+        public let routeServerId: String?
+        /// The ID of the route table configured for route server propagation.
+        public let routeTableId: String?
+        /// The current state of route propagation.
+        public let state: RouteServerPropagationState?
+
+        @inlinable
+        public init(routeServerId: String? = nil, routeTableId: String? = nil, state: RouteServerPropagationState? = nil) {
+            self.routeServerId = routeServerId
+            self.routeTableId = routeTableId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeServerId = "routeServerId"
+            case routeTableId = "routeTableId"
+            case state = "state"
+        }
+    }
+
+    public struct RouteServerRoute: AWSDecodableShape {
+        public struct _AsPathsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _RouteInstallationDetailsEncoding: ArrayCoderProperties { public static let member = "item" }
+
+        /// The AS path attributes of the BGP route.
+        @OptionalCustomCoding<EC2ArrayCoder<_AsPathsEncoding, String>>
+        public var asPaths: [String]?
+        /// The Multi-Exit Discriminator (MED) value of the BGP route.
+        public let med: Int?
+        /// The IP address for the next hop.
+        public let nextHopIp: String?
+        /// The destination CIDR block of the route.
+        public let prefix: String?
+        /// Details about the installation status of this route in route tables.
+        @OptionalCustomCoding<EC2ArrayCoder<_RouteInstallationDetailsEncoding, RouteServerRouteInstallationDetail>>
+        public var routeInstallationDetails: [RouteServerRouteInstallationDetail]?
+        /// The ID of the route server endpoint that received this route.
+        public let routeServerEndpointId: String?
+        /// The ID of the route server peer that advertised this route.
+        public let routeServerPeerId: String?
+        /// The current status of the route in the routing database. Values are in-rib or in-fib depending on if the routes are in the RIB or the FIB database. The Routing Information Base (RIB) serves as a database that stores all the routing information and network topology data collected by a router or routing system, such as routes learned from BGP peers. The RIB is constantly updated as new routing information is received or existing routes change. This ensures that the route server always has the most current view of the network topology and can make optimal routing decisions. The Forwarding Information Base (FIB) serves as a forwarding table for what route server has determined are the best-path routes in the RIB after evaluating all available routing information and policies. The FIB routes are installed on the route tables. The FIB is recomputed whenever there are changes to the RIB.
+        public let routeStatus: RouteServerRouteStatus?
+
+        @inlinable
+        public init(asPaths: [String]? = nil, med: Int? = nil, nextHopIp: String? = nil, prefix: String? = nil, routeInstallationDetails: [RouteServerRouteInstallationDetail]? = nil, routeServerEndpointId: String? = nil, routeServerPeerId: String? = nil, routeStatus: RouteServerRouteStatus? = nil) {
+            self.asPaths = asPaths
+            self.med = med
+            self.nextHopIp = nextHopIp
+            self.prefix = prefix
+            self.routeInstallationDetails = routeInstallationDetails
+            self.routeServerEndpointId = routeServerEndpointId
+            self.routeServerPeerId = routeServerPeerId
+            self.routeStatus = routeStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asPaths = "asPathSet"
+            case med = "med"
+            case nextHopIp = "nextHopIp"
+            case prefix = "prefix"
+            case routeInstallationDetails = "routeInstallationDetailSet"
+            case routeServerEndpointId = "routeServerEndpointId"
+            case routeServerPeerId = "routeServerPeerId"
+            case routeStatus = "routeStatus"
+        }
+    }
+
+    public struct RouteServerRouteInstallationDetail: AWSDecodableShape {
+        /// The current installation status of the route in the route table.
+        public let routeInstallationStatus: RouteServerRouteInstallationStatus?
+        /// The reason for the current installation status of the route.
+        public let routeInstallationStatusReason: String?
+        /// The ID of the route table where the route is being installed.
+        public let routeTableId: String?
+
+        @inlinable
+        public init(routeInstallationStatus: RouteServerRouteInstallationStatus? = nil, routeInstallationStatusReason: String? = nil, routeTableId: String? = nil) {
+            self.routeInstallationStatus = routeInstallationStatus
+            self.routeInstallationStatusReason = routeInstallationStatusReason
+            self.routeTableId = routeTableId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case routeInstallationStatus = "routeInstallationStatus"
+            case routeInstallationStatusReason = "routeInstallationStatusReason"
+            case routeTableId = "routeTableId"
         }
     }
 

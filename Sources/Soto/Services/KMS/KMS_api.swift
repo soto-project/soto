@@ -98,6 +98,7 @@ public struct KMS: AWSService {
             "ca-west-1": "kms-fips.ca-west-1.amazonaws.com",
             "eu-central-1": "kms-fips.eu-central-1.amazonaws.com",
             "eu-central-2": "kms-fips.eu-central-2.amazonaws.com",
+            "eu-isoe-west-1": "kms-fips.eu-isoe-west-1.cloud.adc-e.uk",
             "eu-north-1": "kms-fips.eu-north-1.amazonaws.com",
             "eu-south-1": "kms-fips.eu-south-1.amazonaws.com",
             "eu-south-2": "kms-fips.eu-south-2.amazonaws.com",

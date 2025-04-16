@@ -112,6 +112,7 @@ public struct ApiGatewayV2: AWSService {
     ///   - description: The description of the API.
     ///   - disableExecuteApiEndpoint: Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     ///   - disableSchemaValidation: Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
+    ///   - ipAddressType: The IP address types that can invoke the API.
     ///   - name: The name of the API.
     ///   - protocolType: The API protocol.
     ///   - routeKey: This property is part of quick create. If you don't specify a routeKey, a default route of $default is created. The $default route acts as a catch-all for any request made to your API, for a particular stage. The $default route key can't be modified. You can add routes after creating the API, and you can update the route keys of additional routes. Supported only for HTTP APIs.
@@ -128,6 +129,7 @@ public struct ApiGatewayV2: AWSService {
         description: String? = nil,
         disableExecuteApiEndpoint: Bool? = nil,
         disableSchemaValidation: Bool? = nil,
+        ipAddressType: IpAddressType? = nil,
         name: String? = nil,
         protocolType: ProtocolType? = nil,
         routeKey: String? = nil,
@@ -144,6 +146,7 @@ public struct ApiGatewayV2: AWSService {
             description: description, 
             disableExecuteApiEndpoint: disableExecuteApiEndpoint, 
             disableSchemaValidation: disableSchemaValidation, 
+            ipAddressType: ipAddressType, 
             name: name, 
             protocolType: protocolType, 
             routeKey: routeKey, 
@@ -2301,6 +2304,7 @@ public struct ApiGatewayV2: AWSService {
     ///   - description: The description of the API.
     ///   - disableExecuteApiEndpoint: Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
     ///   - disableSchemaValidation: Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
+    ///   - ipAddressType: The IP address types that can invoke your API or domain name.
     ///   - name: The name of the API.
     ///   - routeKey: This property is part of quick create. If not specified, the route created using quick create is kept. Otherwise, this value replaces the route key of the quick create route. Additional routes may still be added after the API is updated. Supported only for HTTP APIs.
     ///   - routeSelectionExpression: The route selection expression for the API. For HTTP APIs, the routeSelectionExpression must be ${request.method} ${request.path}. If not provided, this will be the default for HTTP APIs. This property is required for WebSocket APIs.
@@ -2316,6 +2320,7 @@ public struct ApiGatewayV2: AWSService {
         description: String? = nil,
         disableExecuteApiEndpoint: Bool? = nil,
         disableSchemaValidation: Bool? = nil,
+        ipAddressType: IpAddressType? = nil,
         name: String? = nil,
         routeKey: String? = nil,
         routeSelectionExpression: String? = nil,
@@ -2331,6 +2336,7 @@ public struct ApiGatewayV2: AWSService {
             description: description, 
             disableExecuteApiEndpoint: disableExecuteApiEndpoint, 
             disableSchemaValidation: disableSchemaValidation, 
+            ipAddressType: ipAddressType, 
             name: name, 
             routeKey: routeKey, 
             routeSelectionExpression: routeSelectionExpression, 

@@ -570,7 +570,7 @@ public struct CostExplorer: AWSService {
     ///
     /// Parameters:
     ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
-    ///   - filter: Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter. Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
+    ///   - filter: Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  Valid values for MatchOptions for Dimensions are EQUALS and CASE_SENSITIVE. Valid values for MatchOptions for CostCategories and Tags are EQUALS, ABSENT, and CASE_SENSITIVE. Default values are EQUALS and CASE_SENSITIVE.
     ///   - granularity: Sets the Amazon Web Services cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY.
     ///   - groupBy: You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
     ///   - metrics: Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hour or GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
@@ -667,7 +667,7 @@ public struct CostExplorer: AWSService {
     ///
     /// Parameters:
     ///   - billingViewArn: The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
-    ///   - filter: The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     LINKED_ACCOUNT_NAME     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
+    ///   - filter: The filters that you want to use to filter your forecast. The GetCostForecast API supports filtering by the following dimensions:    AZ     INSTANCE_TYPE     LINKED_ACCOUNT     OPERATION     PURCHASE_TYPE     REGION     SERVICE     USAGE_TYPE     USAGE_TYPE_GROUP     RECORD_TYPE     OPERATING_SYSTEM     TENANCY     SCOPE     PLATFORM     SUBSCRIPTION_ID     LEGAL_ENTITY_NAME     DEPLOYMENT_OPTION     DATABASE_ENGINE     INSTANCE_TYPE_FAMILY     BILLING_ENTITY     RESERVATION_ID     SAVINGS_PLAN_ARN
     ///   - granularity: How granular you want the forecast to be. You can get 3 months of DAILY forecasts or 12 months of MONTHLY forecasts. The GetCostForecast operation supports only DAILY and MONTHLY granularities.
     ///   - metric: Which metric Cost Explorer uses to create your forecast. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values for a GetCostForecast call are the following:   AMORTIZED_COST   BLENDED_COST   NET_AMORTIZED_COST   NET_UNBLENDED_COST   UNBLENDED_COST
     ///   - predictionIntervalLevel: Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
@@ -1520,7 +1520,7 @@ public struct CostExplorer: AWSService {
         return try await self.startCommitmentPurchaseAnalysis(input, logger: logger)
     }
 
-    ///  Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive) for all tag keys from para:BackfillFrom up to the when this request is made. You can request a backfill once every 24 hours.
+    ///  Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours.
     @Sendable
     @inlinable
     public func startCostAllocationTagBackfill(_ input: StartCostAllocationTagBackfillRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCostAllocationTagBackfillResponse {
@@ -1533,7 +1533,7 @@ public struct CostExplorer: AWSService {
             logger: logger
         )
     }
-    ///  Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive) for all tag keys from para:BackfillFrom up to the when this request is made. You can request a backfill once every 24 hours.
+    ///  Request a cost allocation tag backfill. This will backfill the activation status (either active or inactive) for all tag keys from para:BackfillFrom up to the time this request is made. You can request a backfill once every 24 hours.
     ///
     /// Parameters:
     ///   - backfillFrom:  The date you want the backfill to start from. The date can only be a first day of the month (a billing start date). Dates can't precede the previous twelve months, or in the future.
@@ -1802,6 +1802,129 @@ extension CostExplorer {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CostExplorer {
+    /// Return PaginatorSequence for operation ``getAnomalies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAnomaliesPaginator(
+        _ input: GetAnomaliesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAnomaliesRequest, GetAnomaliesResponse> {
+        return .init(
+            input: input,
+            command: self.getAnomalies,
+            inputKey: \GetAnomaliesRequest.nextPageToken,
+            outputKey: \GetAnomaliesResponse.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getAnomalies(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dateInterval: Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range.
+    ///   - feedback: Filters anomaly results by the feedback field on the anomaly object.
+    ///   - maxResults: The number of entries a paginated response contains.
+    ///   - monitorArn: Retrieves all of the cost anomalies detected for a specific cost anomaly monitor Amazon Resource Name (ARN).
+    ///   - totalImpact: Filters anomaly results by the total impact field on the anomaly object. For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies, with an estimated dollar impact greater than 200.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAnomaliesPaginator(
+        dateInterval: AnomalyDateInterval,
+        feedback: AnomalyFeedbackType? = nil,
+        maxResults: Int? = nil,
+        monitorArn: String? = nil,
+        totalImpact: TotalImpactFilter? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetAnomaliesRequest, GetAnomaliesResponse> {
+        let input = GetAnomaliesRequest(
+            dateInterval: dateInterval, 
+            feedback: feedback, 
+            maxResults: maxResults, 
+            monitorArn: monitorArn, 
+            totalImpact: totalImpact
+        )
+        return self.getAnomaliesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getAnomalyMonitors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAnomalyMonitorsPaginator(
+        _ input: GetAnomalyMonitorsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAnomalyMonitorsRequest, GetAnomalyMonitorsResponse> {
+        return .init(
+            input: input,
+            command: self.getAnomalyMonitors,
+            inputKey: \GetAnomalyMonitorsRequest.nextPageToken,
+            outputKey: \GetAnomalyMonitorsResponse.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getAnomalyMonitors(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The number of entries that a paginated response contains.
+    ///   - monitorArnList: A list of cost anomaly monitor ARNs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAnomalyMonitorsPaginator(
+        maxResults: Int? = nil,
+        monitorArnList: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetAnomalyMonitorsRequest, GetAnomalyMonitorsResponse> {
+        let input = GetAnomalyMonitorsRequest(
+            maxResults: maxResults, 
+            monitorArnList: monitorArnList
+        )
+        return self.getAnomalyMonitorsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``getAnomalySubscriptions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAnomalySubscriptionsPaginator(
+        _ input: GetAnomalySubscriptionsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<GetAnomalySubscriptionsRequest, GetAnomalySubscriptionsResponse> {
+        return .init(
+            input: input,
+            command: self.getAnomalySubscriptions,
+            inputKey: \GetAnomalySubscriptionsRequest.nextPageToken,
+            outputKey: \GetAnomalySubscriptionsResponse.nextPageToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``getAnomalySubscriptions(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The number of entries a paginated response contains.
+    ///   - monitorArn: Cost anomaly monitor ARNs.
+    ///   - subscriptionArnList: A list of cost anomaly subscription ARNs.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func getAnomalySubscriptionsPaginator(
+        maxResults: Int? = nil,
+        monitorArn: String? = nil,
+        subscriptionArnList: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<GetAnomalySubscriptionsRequest, GetAnomalySubscriptionsResponse> {
+        let input = GetAnomalySubscriptionsRequest(
+            maxResults: maxResults, 
+            monitorArn: monitorArn, 
+            subscriptionArnList: subscriptionArnList
+        )
+        return self.getAnomalySubscriptionsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``getSavingsPlansCoverage(_:logger:)``.
     ///
     /// - Parameters:
@@ -2012,6 +2135,43 @@ extension CostExplorer {
             maxResults: maxResults
         )
         return self.listCostCategoryDefinitionsPaginator(input, logger: logger)
+    }
+}
+
+extension CostExplorer.GetAnomaliesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.GetAnomaliesRequest {
+        return .init(
+            dateInterval: self.dateInterval,
+            feedback: self.feedback,
+            maxResults: self.maxResults,
+            monitorArn: self.monitorArn,
+            nextPageToken: token,
+            totalImpact: self.totalImpact
+        )
+    }
+}
+
+extension CostExplorer.GetAnomalyMonitorsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.GetAnomalyMonitorsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            monitorArnList: self.monitorArnList,
+            nextPageToken: token
+        )
+    }
+}
+
+extension CostExplorer.GetAnomalySubscriptionsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CostExplorer.GetAnomalySubscriptionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            monitorArn: self.monitorArn,
+            nextPageToken: token,
+            subscriptionArnList: self.subscriptionArnList
+        )
     }
 }
 

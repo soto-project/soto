@@ -3052,6 +3052,34 @@ extension Personalize {
         }
     }
 
+    public struct EventParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the event type to be considered for solution creation.
+        public let eventType: String?
+        /// The threshold of the event type. Only events with a value greater or equal to this threshold will be considered for solution creation.
+        public let eventValueThreshold: Double?
+        /// The weight of the event type. A higher weight means higher importance of the event type for the created solution.
+        public let weight: Double?
+
+        @inlinable
+        public init(eventType: String? = nil, eventValueThreshold: Double? = nil, weight: Double? = nil) {
+            self.eventType = eventType
+            self.eventValueThreshold = eventValueThreshold
+            self.weight = weight
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventType, name: "eventType", parent: name, max: 256)
+            try self.validate(self.weight, name: "weight", parent: name, max: 1.0)
+            try self.validate(self.weight, name: "weight", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventType = "eventType"
+            case eventValueThreshold = "eventValueThreshold"
+            case weight = "weight"
+        }
+    }
+
     public struct EventTracker: AWSDecodableShape {
         /// The Amazon Web Services account that owns the event tracker.
         public let accountId: String?
@@ -3124,6 +3152,27 @@ extension Personalize {
         }
     }
 
+    public struct EventsConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A list of event parameters, which includes event types and their event value thresholds and weights.
+        public let eventParametersList: [EventParameters]?
+
+        @inlinable
+        public init(eventParametersList: [EventParameters]? = nil) {
+            self.eventParametersList = eventParametersList
+        }
+
+        public func validate(name: String) throws {
+            try self.eventParametersList?.forEach {
+                try $0.validate(name: "\(name).eventParametersList[]")
+            }
+            try self.validate(self.eventParametersList, name: "eventParametersList", parent: name, max: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventParametersList = "eventParametersList"
+        }
+    }
+
     public struct FeatureTransformation: AWSDecodableShape {
         /// The creation date and time (in Unix time) of the feature transformation.
         public let creationDateTime: Date?
@@ -3169,6 +3218,7 @@ extension Personalize {
 
         public func validate(name: String) throws {
             try self.validate(self.itemName, name: "itemName", parent: name, max: 150)
+            try self.validate(self.itemName, name: "itemName", parent: name, pattern: "^[A-Za-z_][A-Za-z\\d_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4787,6 +4837,8 @@ extension Personalize {
         public let autoMLConfig: AutoMLConfig?
         /// Specifies the automatic training configuration to use.
         public let autoTrainingConfig: AutoTrainingConfig?
+        /// Describes the configuration of an event, which includes a list of event parameters. You can specify up to 10 event parameters. Events are used in solution creation.
+        public let eventsConfig: EventsConfig?
         /// Only events with a value greater than or equal to this threshold are used for training a model.
         public let eventValueThreshold: String?
         /// Lists the feature transformation parameters.
@@ -4799,10 +4851,11 @@ extension Personalize {
         public let trainingDataConfig: TrainingDataConfig?
 
         @inlinable
-        public init(algorithmHyperParameters: [String: String]? = nil, autoMLConfig: AutoMLConfig? = nil, autoTrainingConfig: AutoTrainingConfig? = nil, eventValueThreshold: String? = nil, featureTransformationParameters: [String: String]? = nil, hpoConfig: HPOConfig? = nil, optimizationObjective: OptimizationObjective? = nil, trainingDataConfig: TrainingDataConfig? = nil) {
+        public init(algorithmHyperParameters: [String: String]? = nil, autoMLConfig: AutoMLConfig? = nil, autoTrainingConfig: AutoTrainingConfig? = nil, eventsConfig: EventsConfig? = nil, eventValueThreshold: String? = nil, featureTransformationParameters: [String: String]? = nil, hpoConfig: HPOConfig? = nil, optimizationObjective: OptimizationObjective? = nil, trainingDataConfig: TrainingDataConfig? = nil) {
             self.algorithmHyperParameters = algorithmHyperParameters
             self.autoMLConfig = autoMLConfig
             self.autoTrainingConfig = autoTrainingConfig
+            self.eventsConfig = eventsConfig
             self.eventValueThreshold = eventValueThreshold
             self.featureTransformationParameters = featureTransformationParameters
             self.hpoConfig = hpoConfig
@@ -4818,6 +4871,7 @@ extension Personalize {
             try self.validate(self.algorithmHyperParameters, name: "algorithmHyperParameters", parent: name, max: 100)
             try self.autoMLConfig?.validate(name: "\(name).autoMLConfig")
             try self.autoTrainingConfig?.validate(name: "\(name).autoTrainingConfig")
+            try self.eventsConfig?.validate(name: "\(name).eventsConfig")
             try self.validate(self.eventValueThreshold, name: "eventValueThreshold", parent: name, max: 256)
             try self.featureTransformationParameters?.forEach {
                 try validate($0.key, name: "featureTransformationParameters.key", parent: name, max: 256)
@@ -4833,6 +4887,7 @@ extension Personalize {
             case algorithmHyperParameters = "algorithmHyperParameters"
             case autoMLConfig = "autoMLConfig"
             case autoTrainingConfig = "autoTrainingConfig"
+            case eventsConfig = "eventsConfig"
             case eventValueThreshold = "eventValueThreshold"
             case featureTransformationParameters = "featureTransformationParameters"
             case hpoConfig = "hpoConfig"
@@ -4877,18 +4932,23 @@ extension Personalize {
 
     public struct SolutionUpdateConfig: AWSEncodableShape & AWSDecodableShape {
         public let autoTrainingConfig: AutoTrainingConfig?
+        /// Describes the configuration of an event, which includes a list of event parameters. You can specify up to 10 event parameters. Events are used in solution creation.
+        public let eventsConfig: EventsConfig?
 
         @inlinable
-        public init(autoTrainingConfig: AutoTrainingConfig? = nil) {
+        public init(autoTrainingConfig: AutoTrainingConfig? = nil, eventsConfig: EventsConfig? = nil) {
             self.autoTrainingConfig = autoTrainingConfig
+            self.eventsConfig = eventsConfig
         }
 
         public func validate(name: String) throws {
             try self.autoTrainingConfig?.validate(name: "\(name).autoTrainingConfig")
+            try self.eventsConfig?.validate(name: "\(name).eventsConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case autoTrainingConfig = "autoTrainingConfig"
+            case eventsConfig = "eventsConfig"
         }
     }
 

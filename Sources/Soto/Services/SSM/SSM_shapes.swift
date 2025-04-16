@@ -672,6 +672,7 @@ extension SSM {
     }
 
     public enum PatchComplianceDataState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case availableSecurityUpdate = "AVAILABLE_SECURITY_UPDATE"
         case failed = "FAILED"
         case installed = "INSTALLED"
         case installedOther = "INSTALLED_OTHER"
@@ -689,6 +690,12 @@ extension SSM {
         case low = "LOW"
         case medium = "MEDIUM"
         case unspecified = "UNSPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PatchComplianceStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case compliant = "COMPLIANT"
+        case nonCompliant = "NON_COMPLIANT"
         public var description: String { return self.rawValue }
     }
 
@@ -2047,6 +2054,8 @@ extension SSM {
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
+        /// Indicates whether managed nodes for which there are available security-related patches that have not been approved by the baseline are being defined as COMPLIANT or NON_COMPLIANT. This option is specified when the CreatePatchBaseline or UpdatePatchBaseline commands are run. Applies to Windows Server managed nodes only.
+        public let availableSecurityUpdatesComplianceStatus: PatchComplianceStatus?
         public let globalFilters: PatchFilterGroup?
         /// The operating system rule used by the patch baseline override.
         public let operatingSystem: OperatingSystem?
@@ -2058,11 +2067,12 @@ extension SSM {
         public let sources: [PatchSource]?
 
         @inlinable
-        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, globalFilters: PatchFilterGroup? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, availableSecurityUpdatesComplianceStatus: PatchComplianceStatus? = nil, globalFilters: PatchFilterGroup? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
             self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+            self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
             self.globalFilters = globalFilters
             self.operatingSystem = operatingSystem
             self.rejectedPatches = rejectedPatches
@@ -2094,6 +2104,7 @@ extension SSM {
             case approvedPatches = "ApprovedPatches"
             case approvedPatchesComplianceLevel = "ApprovedPatchesComplianceLevel"
             case approvedPatchesEnableNonSecurity = "ApprovedPatchesEnableNonSecurity"
+            case availableSecurityUpdatesComplianceStatus = "AvailableSecurityUpdatesComplianceStatus"
             case globalFilters = "GlobalFilters"
             case operatingSystem = "OperatingSystem"
             case rejectedPatches = "RejectedPatches"
@@ -3391,6 +3402,8 @@ extension SSM {
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
+        /// Indicates the status you want to assign to security patches that are available but not approved because they don't meet the installation criteria specified in the patch baseline. Example scenario: Security patches that you might want installed can be skipped if you have specified a long period to wait after a patch is released before installation. If an update to the patch is released during your specified waiting period, the waiting period for installing the patch starts over. If the waiting period is too long, multiple versions of the patch could be released but never installed. Supported for Windows Server managed nodes only.
+        public let availableSecurityUpdatesComplianceStatus: PatchComplianceStatus?
         /// User-provided idempotency token.
         public let clientToken: String?
         /// A description of the patch baseline.
@@ -3411,11 +3424,12 @@ extension SSM {
         public let tags: [Tag]?
 
         @inlinable
-        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, clientToken: String? = CreatePatchBaselineRequest.idempotencyToken(), description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil, tags: [Tag]? = nil) {
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, availableSecurityUpdatesComplianceStatus: PatchComplianceStatus? = nil, clientToken: String? = CreatePatchBaselineRequest.idempotencyToken(), description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil, tags: [Tag]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
             self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+            self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
             self.clientToken = clientToken
             self.description = description
             self.globalFilters = globalFilters
@@ -3462,6 +3476,7 @@ extension SSM {
             case approvedPatches = "ApprovedPatches"
             case approvedPatchesComplianceLevel = "ApprovedPatchesComplianceLevel"
             case approvedPatchesEnableNonSecurity = "ApprovedPatchesEnableNonSecurity"
+            case availableSecurityUpdatesComplianceStatus = "AvailableSecurityUpdatesComplianceStatus"
             case clientToken = "ClientToken"
             case description = "Description"
             case globalFilters = "GlobalFilters"
@@ -5641,6 +5656,8 @@ extension SSM {
     public struct DescribePatchGroupStateResult: AWSDecodableShape {
         /// The number of managed nodes in the patch group.
         public let instances: Int?
+        /// The number of managed nodes for which security-related patches are available but not approved because because they didn't meet the patch baseline requirements. For example, an updated version of a patch might have been released before the specified auto-approval period was over. Applies to Windows Server managed nodes only.
+        public let instancesWithAvailableSecurityUpdates: Int?
         /// The number of managed nodes where patches that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
         public let instancesWithCriticalNonCompliantPatches: Int?
         /// The number of managed nodes with patches from the patch baseline that failed to install.
@@ -5665,8 +5682,9 @@ extension SSM {
         public let instancesWithUnreportedNotApplicablePatches: Int?
 
         @inlinable
-        public init(instances: Int? = nil, instancesWithCriticalNonCompliantPatches: Int? = nil, instancesWithFailedPatches: Int? = nil, instancesWithInstalledOtherPatches: Int? = nil, instancesWithInstalledPatches: Int? = nil, instancesWithInstalledPendingRebootPatches: Int? = nil, instancesWithInstalledRejectedPatches: Int? = nil, instancesWithMissingPatches: Int? = nil, instancesWithNotApplicablePatches: Int? = nil, instancesWithOtherNonCompliantPatches: Int? = nil, instancesWithSecurityNonCompliantPatches: Int? = nil, instancesWithUnreportedNotApplicablePatches: Int? = nil) {
+        public init(instances: Int? = nil, instancesWithAvailableSecurityUpdates: Int? = nil, instancesWithCriticalNonCompliantPatches: Int? = nil, instancesWithFailedPatches: Int? = nil, instancesWithInstalledOtherPatches: Int? = nil, instancesWithInstalledPatches: Int? = nil, instancesWithInstalledPendingRebootPatches: Int? = nil, instancesWithInstalledRejectedPatches: Int? = nil, instancesWithMissingPatches: Int? = nil, instancesWithNotApplicablePatches: Int? = nil, instancesWithOtherNonCompliantPatches: Int? = nil, instancesWithSecurityNonCompliantPatches: Int? = nil, instancesWithUnreportedNotApplicablePatches: Int? = nil) {
             self.instances = instances
+            self.instancesWithAvailableSecurityUpdates = instancesWithAvailableSecurityUpdates
             self.instancesWithCriticalNonCompliantPatches = instancesWithCriticalNonCompliantPatches
             self.instancesWithFailedPatches = instancesWithFailedPatches
             self.instancesWithInstalledOtherPatches = instancesWithInstalledOtherPatches
@@ -5682,6 +5700,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case instances = "Instances"
+            case instancesWithAvailableSecurityUpdates = "InstancesWithAvailableSecurityUpdates"
             case instancesWithCriticalNonCompliantPatches = "InstancesWithCriticalNonCompliantPatches"
             case instancesWithFailedPatches = "InstancesWithFailedPatches"
             case instancesWithInstalledOtherPatches = "InstancesWithInstalledOtherPatches"
@@ -7852,6 +7871,8 @@ extension SSM {
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
+        /// Indicates the compliance status of managed nodes for which security-related patches are available but were not approved. This preference is specified when the CreatePatchBaseline or UpdatePatchBaseline commands are run. Applies to Windows Server managed nodes only.
+        public let availableSecurityUpdatesComplianceStatus: PatchComplianceStatus?
         /// The ID of the retrieved patch baseline.
         public let baselineId: String?
         /// The date the patch baseline was created.
@@ -7876,11 +7897,12 @@ extension SSM {
         public let sources: [PatchSource]?
 
         @inlinable
-        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, baselineId: String? = nil, createdDate: Date? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, modifiedDate: Date? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, patchGroups: [String]? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, availableSecurityUpdatesComplianceStatus: PatchComplianceStatus? = nil, baselineId: String? = nil, createdDate: Date? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, modifiedDate: Date? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, patchGroups: [String]? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
             self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+            self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
             self.baselineId = baselineId
             self.createdDate = createdDate
             self.description = description
@@ -7899,6 +7921,7 @@ extension SSM {
             case approvedPatches = "ApprovedPatches"
             case approvedPatchesComplianceLevel = "ApprovedPatchesComplianceLevel"
             case approvedPatchesEnableNonSecurity = "ApprovedPatchesEnableNonSecurity"
+            case availableSecurityUpdatesComplianceStatus = "AvailableSecurityUpdatesComplianceStatus"
             case baselineId = "BaselineId"
             case createdDate = "CreatedDate"
             case description = "Description"
@@ -8347,6 +8370,8 @@ extension SSM {
     }
 
     public struct InstancePatchState: AWSDecodableShape {
+        /// The number of security-related patches that are available but not approved because they didn't meet the patch baseline requirements. For example, an updated version of a patch might have been released before the specified auto-approval period was over. Applies to Windows Server managed nodes only.
+        public let availableSecurityUpdateCount: Int?
         /// The ID of the patch baseline used to patch the managed node.
         public let baselineId: String
         /// The number of patches per node that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
@@ -8393,7 +8418,8 @@ extension SSM {
         public let unreportedNotApplicableCount: Int?
 
         @inlinable
-        public init(baselineId: String, criticalNonCompliantCount: Int? = nil, failedCount: Int? = nil, installedCount: Int? = nil, installedOtherCount: Int? = nil, installedPendingRebootCount: Int? = nil, installedRejectedCount: Int? = nil, installOverrideList: String? = nil, instanceId: String, lastNoRebootInstallOperationTime: Date? = nil, missingCount: Int? = nil, notApplicableCount: Int? = nil, operation: PatchOperationType, operationEndTime: Date, operationStartTime: Date, otherNonCompliantCount: Int? = nil, ownerInformation: String? = nil, patchGroup: String, rebootOption: RebootOption? = nil, securityNonCompliantCount: Int? = nil, snapshotId: String? = nil, unreportedNotApplicableCount: Int? = nil) {
+        public init(availableSecurityUpdateCount: Int? = nil, baselineId: String, criticalNonCompliantCount: Int? = nil, failedCount: Int? = nil, installedCount: Int? = nil, installedOtherCount: Int? = nil, installedPendingRebootCount: Int? = nil, installedRejectedCount: Int? = nil, installOverrideList: String? = nil, instanceId: String, lastNoRebootInstallOperationTime: Date? = nil, missingCount: Int? = nil, notApplicableCount: Int? = nil, operation: PatchOperationType, operationEndTime: Date, operationStartTime: Date, otherNonCompliantCount: Int? = nil, ownerInformation: String? = nil, patchGroup: String, rebootOption: RebootOption? = nil, securityNonCompliantCount: Int? = nil, snapshotId: String? = nil, unreportedNotApplicableCount: Int? = nil) {
+            self.availableSecurityUpdateCount = availableSecurityUpdateCount
             self.baselineId = baselineId
             self.criticalNonCompliantCount = criticalNonCompliantCount
             self.failedCount = failedCount
@@ -8419,6 +8445,7 @@ extension SSM {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availableSecurityUpdateCount = "AvailableSecurityUpdateCount"
             case baselineId = "BaselineId"
             case criticalNonCompliantCount = "CriticalNonCompliantCount"
             case failedCount = "FailedCount"
@@ -10652,9 +10679,9 @@ extension SSM {
     }
 
     public struct ModifyDocumentPermissionRequest: AWSEncodableShape {
-        /// The Amazon Web Services users that should have access to the document. The account IDs can either be a group of account IDs or All.
+        /// The Amazon Web Services users that should have access to the document. The account IDs can either be a group of account IDs or All. You must specify a value for this parameter or the AccountIdsToRemove parameter.
         public let accountIdsToAdd: [String]?
-        /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the same ID to remove, the system removes access to the document.
+        /// The Amazon Web Services users that should no longer have access to the document. The Amazon Web Services user can either be a group of account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the same ID to remove, the system removes access to the document. You must specify a value for this parameter or the AccountIdsToAdd parameter.
         public let accountIdsToRemove: [String]?
         /// The name of the document that you want to share.
         public let name: String
@@ -12335,7 +12362,7 @@ extension SSM {
         public let description: String?
         /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Use a custom key for better security. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account, which is not as secure as using a custom key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
         public let keyId: String?
-        /// The fully qualified name of the parameter that you want to create or update.  You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.  The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an Amazon Web Services Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.  The maximum length constraint of 2048 characters listed below includes 1037 characters reserved for internal use by Systems Manager. The maximum length for a parameter name that you create is 1011 characters. This includes the characters in the ARN that precede the name you specify, such as arn:aws:ssm:us-east-2:111122223333:parameter/.
+        /// The fully qualified name of the parameter that you want to create or update.  You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.  The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an Amazon Web Services Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.  The reported maximum length of 2048 characters for a parameter name includes 1037 characters that are reserved for internal use by Systems Manager. The maximum length for a parameter name that you specify is 1011 characters. This count of 1011 characters includes the characters in the ARN that precede the name you specify. This ARN length will vary depending on your partition and Region. For example, the following 45 characters count toward the 1011 character maximum for a parameter created in the US East (Ohio) Region: arn:aws:ssm:us-east-2:111122223333:parameter/.
         public let name: String
         /// Overwrite an existing parameter. The default value is false.
         public let overwrite: Bool?
@@ -15471,6 +15498,8 @@ extension SSM {
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
+        /// Indicates the status to be assigned to security patches that are available but not approved because they don't meet the installation criteria specified in the patch baseline. Example scenario: Security patches that you might want installed can be skipped if you have specified a long period to wait after a patch is released before installation. If an update to the patch is released during your specified waiting period, the waiting period for installing the patch starts over. If the waiting period is too long, multiple versions of the patch could be released but never installed. Supported for Windows Server managed nodes only.
+        public let availableSecurityUpdatesComplianceStatus: PatchComplianceStatus?
         /// The ID of the patch baseline to update.
         public let baselineId: String
         /// A description of the patch baseline.
@@ -15489,11 +15518,12 @@ extension SSM {
         public let sources: [PatchSource]?
 
         @inlinable
-        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, baselineId: String, description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, replace: Bool? = nil, sources: [PatchSource]? = nil) {
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, availableSecurityUpdatesComplianceStatus: PatchComplianceStatus? = nil, baselineId: String, description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, replace: Bool? = nil, sources: [PatchSource]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
             self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+            self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
             self.baselineId = baselineId
             self.description = description
             self.globalFilters = globalFilters
@@ -15536,6 +15566,7 @@ extension SSM {
             case approvedPatches = "ApprovedPatches"
             case approvedPatchesComplianceLevel = "ApprovedPatchesComplianceLevel"
             case approvedPatchesEnableNonSecurity = "ApprovedPatchesEnableNonSecurity"
+            case availableSecurityUpdatesComplianceStatus = "AvailableSecurityUpdatesComplianceStatus"
             case baselineId = "BaselineId"
             case description = "Description"
             case globalFilters = "GlobalFilters"
@@ -15556,6 +15587,8 @@ extension SSM {
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
         /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
+        /// Indicates the compliance status of managed nodes for which security-related patches are available but were not approved. This preference is specified when the CreatePatchBaseline or UpdatePatchBaseline commands are run. Applies to Windows Server managed nodes only.
+        public let availableSecurityUpdatesComplianceStatus: PatchComplianceStatus?
         /// The ID of the deleted patch baseline.
         public let baselineId: String?
         /// The date when the patch baseline was created.
@@ -15578,11 +15611,12 @@ extension SSM {
         public let sources: [PatchSource]?
 
         @inlinable
-        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, baselineId: String? = nil, createdDate: Date? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, modifiedDate: Date? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
+        public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, availableSecurityUpdatesComplianceStatus: PatchComplianceStatus? = nil, baselineId: String? = nil, createdDate: Date? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, modifiedDate: Date? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
             self.approvalRules = approvalRules
             self.approvedPatches = approvedPatches
             self.approvedPatchesComplianceLevel = approvedPatchesComplianceLevel
             self.approvedPatchesEnableNonSecurity = approvedPatchesEnableNonSecurity
+            self.availableSecurityUpdatesComplianceStatus = availableSecurityUpdatesComplianceStatus
             self.baselineId = baselineId
             self.createdDate = createdDate
             self.description = description
@@ -15600,6 +15634,7 @@ extension SSM {
             case approvedPatches = "ApprovedPatches"
             case approvedPatchesComplianceLevel = "ApprovedPatchesComplianceLevel"
             case approvedPatchesEnableNonSecurity = "ApprovedPatchesEnableNonSecurity"
+            case availableSecurityUpdatesComplianceStatus = "AvailableSecurityUpdatesComplianceStatus"
             case baselineId = "BaselineId"
             case createdDate = "CreatedDate"
             case description = "Description"

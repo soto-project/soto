@@ -1155,6 +1155,41 @@ public struct EC2: AWSService {
         return try await self.associateNatGatewayAddress(input, logger: logger)
     }
 
+    /// Associates a route server with a VPC to enable dynamic route updates. A route server association is the connection established between a route server and a VPC. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func associateRouteServer(_ input: AssociateRouteServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateRouteServerResult {
+        try await self.client.execute(
+            operation: "AssociateRouteServer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates a route server with a VPC to enable dynamic route updates. A route server association is the connection established between a route server and a VPC. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerId: The unique identifier for the route server to be associated.
+    ///   - vpcId: The ID of the VPC to associate with the route server.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateRouteServer(
+        dryRun: Bool? = nil,
+        routeServerId: String? = nil,
+        vpcId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateRouteServerResult {
+        let input = AssociateRouteServerRequest(
+            dryRun: dryRun, 
+            routeServerId: routeServerId, 
+            vpcId: vpcId
+        )
+        return try await self.associateRouteServer(input, logger: logger)
+    }
+
     /// Associates a subnet in your VPC or an internet gateway or virtual private gateway attached to your VPC with a route table in your VPC. This association causes traffic from the subnet or gateway to be routed according to the routes in the route table. The action returns an association ID, which you need in order to disassociate the route table later. A route table can be associated with multiple subnets. For more information, see Route tables in the Amazon VPC User Guide.
     @Sendable
     @inlinable
@@ -2400,7 +2435,7 @@ public struct EC2: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func copyImage(
-        clientToken: String? = nil,
+        clientToken: String? = CopyImageRequest.idempotencyToken(),
         copyImageTags: Bool? = nil,
         description: String? = nil,
         destinationOutpostArn: String? = nil,
@@ -4794,6 +4829,137 @@ public struct EC2: AWSService {
             vpcPeeringConnectionId: vpcPeeringConnectionId
         )
         return try await self.createRoute(input, logger: logger)
+    }
+
+    /// Creates a new route server to manage dynamic routing in a VPC. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func createRouteServer(_ input: CreateRouteServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRouteServerResult {
+        try await self.client.execute(
+            operation: "CreateRouteServer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new route server to manage dynamic routing in a VPC. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - amazonSideAsn: The private Autonomous System Number (ASN) for the Amazon side of the BGP session. Valid values are from 1 to 4294967295. We recommend using a private ASN in the 64512–65534 (16-bit ASN) or 4200000000–4294967294 (32-bit ASN) range.
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - persistRoutes: Indicates whether routes should be persisted after all BGP sessions are terminated.
+    ///   - persistRoutesDuration: The number of minutes a route server will wait after BGP is re-established to unpersist the routes in the FIB and RIB. Value must be in the range of 1-5. Required if PersistRoutes is enabled. If you set the duration to 1 minute, then when your network appliance re-establishes BGP with route server, it has 1 minute to relearn it's adjacent network and advertise those routes to route server before route server resumes normal functionality. In most cases, 1 minute is probably sufficient. If, however, you have concerns that your BGP network may not be capable of fully re-establishing and re-learning everything in 1 minute, you can increase the duration up to 5 minutes.
+    ///   - snsNotificationsEnabled: Indicates whether SNS notifications should be enabled for route server events. Enabling SNS notifications persists BGP status changes to an SNS topic provisioned by Amazon Web Services.
+    ///   - tagSpecifications: The tags to apply to the route server during creation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRouteServer(
+        amazonSideAsn: Int64? = nil,
+        clientToken: String? = CreateRouteServerRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        persistRoutes: RouteServerPersistRoutesAction? = nil,
+        persistRoutesDuration: Int64? = nil,
+        snsNotificationsEnabled: Bool? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRouteServerResult {
+        let input = CreateRouteServerRequest(
+            amazonSideAsn: amazonSideAsn, 
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            persistRoutes: persistRoutes, 
+            persistRoutesDuration: persistRoutesDuration, 
+            snsNotificationsEnabled: snsNotificationsEnabled, 
+            tagSpecifications: tagSpecifications
+        )
+        return try await self.createRouteServer(input, logger: logger)
+    }
+
+    /// Creates a new endpoint for a route server in a specified subnet. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func createRouteServerEndpoint(_ input: CreateRouteServerEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRouteServerEndpointResult {
+        try await self.client.execute(
+            operation: "CreateRouteServerEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new endpoint for a route server in a specified subnet. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerId: The ID of the route server for which to create an endpoint.
+    ///   - subnetId: The ID of the subnet in which to create the route server endpoint.
+    ///   - tagSpecifications: The tags to apply to the route server endpoint during creation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRouteServerEndpoint(
+        clientToken: String? = CreateRouteServerEndpointRequest.idempotencyToken(),
+        dryRun: Bool? = nil,
+        routeServerId: String? = nil,
+        subnetId: String? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRouteServerEndpointResult {
+        let input = CreateRouteServerEndpointRequest(
+            clientToken: clientToken, 
+            dryRun: dryRun, 
+            routeServerId: routeServerId, 
+            subnetId: subnetId, 
+            tagSpecifications: tagSpecifications
+        )
+        return try await self.createRouteServerEndpoint(input, logger: logger)
+    }
+
+    /// Creates a new BGP peer for a specified route server endpoint. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements:   Have an elastic network interface in the VPC   Support BGP (Border Gateway Protocol)   Can initiate BGP sessions   For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func createRouteServerPeer(_ input: CreateRouteServerPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateRouteServerPeerResult {
+        try await self.client.execute(
+            operation: "CreateRouteServerPeer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a new BGP peer for a specified route server endpoint. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements:   Have an elastic network interface in the VPC   Support BGP (Border Gateway Protocol)   Can initiate BGP sessions   For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - bgpOptions: The BGP options for the peer, including ASN (Autonomous System Number) and BFD (Bidrectional Forwarding Detection) settings.
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - peerAddress: The IPv4 address of the peer device.
+    ///   - routeServerEndpointId: The ID of the route server endpoint for which to create a peer.
+    ///   - tagSpecifications: The tags to apply to the route server peer during creation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createRouteServerPeer(
+        bgpOptions: RouteServerBgpOptionsRequest? = nil,
+        dryRun: Bool? = nil,
+        peerAddress: String? = nil,
+        routeServerEndpointId: String? = nil,
+        tagSpecifications: [TagSpecification]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateRouteServerPeerResult {
+        let input = CreateRouteServerPeerRequest(
+            bgpOptions: bgpOptions, 
+            dryRun: dryRun, 
+            peerAddress: peerAddress, 
+            routeServerEndpointId: routeServerEndpointId, 
+            tagSpecifications: tagSpecifications
+        )
+        return try await self.createRouteServerPeer(input, logger: logger)
     }
 
     /// Creates a route table for the specified VPC. After you create a route table, you can add routes and associate the table with a subnet. For more information, see Route tables in the
@@ -7954,6 +8120,104 @@ public struct EC2: AWSService {
         return try await self.deleteRoute(input, logger: logger)
     }
 
+    /// Deletes the specified route server. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func deleteRouteServer(_ input: DeleteRouteServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRouteServerResult {
+        try await self.client.execute(
+            operation: "DeleteRouteServer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified route server. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerId: The ID of the route server to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRouteServer(
+        dryRun: Bool? = nil,
+        routeServerId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRouteServerResult {
+        let input = DeleteRouteServerRequest(
+            dryRun: dryRun, 
+            routeServerId: routeServerId
+        )
+        return try await self.deleteRouteServer(input, logger: logger)
+    }
+
+    /// Deletes the specified route server endpoint. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers.
+    @Sendable
+    @inlinable
+    public func deleteRouteServerEndpoint(_ input: DeleteRouteServerEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRouteServerEndpointResult {
+        try await self.client.execute(
+            operation: "DeleteRouteServerEndpoint", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified route server endpoint. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerEndpointId: The ID of the route server endpoint to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRouteServerEndpoint(
+        dryRun: Bool? = nil,
+        routeServerEndpointId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRouteServerEndpointResult {
+        let input = DeleteRouteServerEndpointRequest(
+            dryRun: dryRun, 
+            routeServerEndpointId: routeServerEndpointId
+        )
+        return try await self.deleteRouteServerEndpoint(input, logger: logger)
+    }
+
+    /// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements:   Have an elastic network interface in the VPC   Support BGP (Border Gateway Protocol)   Can initiate BGP sessions
+    @Sendable
+    @inlinable
+    public func deleteRouteServerPeer(_ input: DeleteRouteServerPeerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteRouteServerPeerResult {
+        try await self.client.execute(
+            operation: "DeleteRouteServerPeer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes the specified BGP peer from a route server. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements:   Have an elastic network interface in the VPC   Support BGP (Border Gateway Protocol)   Can initiate BGP sessions
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerPeerId: The ID of the route server peer to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteRouteServerPeer(
+        dryRun: Bool? = nil,
+        routeServerPeerId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DeleteRouteServerPeerResult {
+        let input = DeleteRouteServerPeerRequest(
+            dryRun: dryRun, 
+            routeServerPeerId: routeServerPeerId
+        )
+        return try await self.deleteRouteServerPeer(input, logger: logger)
+    }
+
     /// Deletes the specified route table. You must disassociate the route table from any subnets before you can delete it. You can't delete the main route table.
     @Sendable
     @inlinable
@@ -9276,7 +9540,7 @@ public struct EC2: AWSService {
         return try await self.deprovisionPublicIpv4PoolCidr(input, logger: logger)
     }
 
-    /// Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch new instances. If you deregister an AMI that matches a Recycle Bin retention rule, the AMI is retained in the Recycle Bin for the specified retention period. For more information, see Recycle Bin in the Amazon EC2 User Guide. When you deregister an AMI, it doesn't affect any instances that you've already launched from the AMI. You'll continue to incur usage costs for those instances until you terminate them. When you deregister an Amazon EBS-backed AMI, it doesn't affect the snapshot that was created for the root volume of the instance during the AMI creation process. When you deregister an instance store-backed AMI, it doesn't affect the files that you uploaded to Amazon S3 when you created the AMI.
+    /// Deregisters the specified AMI. A deregistered AMI can't be used to launch new instances. If a deregistered EBS-backed AMI matches a Recycle Bin retention rule, it moves to the Recycle Bin for the specified retention period. It can be restored before its retention period expires, after which it is permanently deleted. If the deregistered AMI doesn't match a retention rule, it is permanently deleted immediately. For more information, see Recycle Bin in the Amazon EBS User Guide. Deregistering an AMI does not delete the following:   Instances already launched from the AMI. You'll continue to incur usage costs for the instances until you terminate them.   For EBS-backed AMIs: The snapshots that were created of the root and data volumes of the instance during AMI creation. You'll continue to incur snapshot storage costs.   For instance store-backed AMIs: The files uploaded to Amazon S3 during AMI creation. You'll continue to incur S3 storage costs.   For more information, see Deregister an Amazon EC2 AMI in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func deregisterImage(_ input: DeregisterImageRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterImageResult {
@@ -9289,7 +9553,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch new instances. If you deregister an AMI that matches a Recycle Bin retention rule, the AMI is retained in the Recycle Bin for the specified retention period. For more information, see Recycle Bin in the Amazon EC2 User Guide. When you deregister an AMI, it doesn't affect any instances that you've already launched from the AMI. You'll continue to incur usage costs for those instances until you terminate them. When you deregister an Amazon EBS-backed AMI, it doesn't affect the snapshot that was created for the root volume of the instance during the AMI creation process. When you deregister an instance store-backed AMI, it doesn't affect the files that you uploaded to Amazon S3 when you created the AMI.
+    /// Deregisters the specified AMI. A deregistered AMI can't be used to launch new instances. If a deregistered EBS-backed AMI matches a Recycle Bin retention rule, it moves to the Recycle Bin for the specified retention period. It can be restored before its retention period expires, after which it is permanently deleted. If the deregistered AMI doesn't match a retention rule, it is permanently deleted immediately. For more information, see Recycle Bin in the Amazon EBS User Guide. Deregistering an AMI does not delete the following:   Instances already launched from the AMI. You'll continue to incur usage costs for the instances until you terminate them.   For EBS-backed AMIs: The snapshots that were created of the root and data volumes of the instance during AMI creation. You'll continue to incur snapshot storage costs.   For instance store-backed AMIs: The files uploaded to Amazon S3 during AMI creation. You'll continue to incur S3 storage costs.   For more information, see Deregister an Amazon EC2 AMI in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,
@@ -9308,8 +9572,7 @@ public struct EC2: AWSService {
         return try await self.deregisterImage(input, logger: logger)
     }
 
-    /// Deregisters tag keys to prevent tags that have the specified tag keys from being included
-    /// 			in scheduled event notifications for resources in the Region.
+    /// Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region.
     @Sendable
     @inlinable
     public func deregisterInstanceEventNotificationAttributes(_ input: DeregisterInstanceEventNotificationAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterInstanceEventNotificationAttributesResult {
@@ -9322,8 +9585,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Deregisters tag keys to prevent tags that have the specified tag keys from being included
-    /// 			in scheduled event notifications for resources in the Region.
+    /// Deregisters tag keys to prevent tags that have the specified tag keys from being included in scheduled event notifications for resources in the Region.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -9614,7 +9876,7 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - allAvailabilityZones: Include all Availability Zones, Local Zones, and Wavelength Zones regardless of your opt-in status. If you do not use this parameter, the results include only the zones for the Regions where you have chosen the option to opt in.
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
-    ///   - filters: The filters.    group-long-name - The long name of the zone group for the Availability Zone (for example, US West (Oregon) 1), the Local Zone (for example, for Zone group us-west-2-lax-1, it is US West (Los Angeles), or the Wavelength Zone (for example, for Zone group us-east-1-wl1, it is US East (Verizon).    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
+    ///   - filters: The filters.    group-long-name - The long name of the zone group for the Availability Zone (for example, US West (Oregon) 1), the Local Zone (for example, for Zone group us-west-2-lax-1, it is US West (Los Angeles), or the Wavelength Zone (for example, for Zone group us-east-1-wl1, it is US East (Verizon).    group-name - The name of the zone group for the Availability Zone (for example, us-east-1-zg-1), the Local Zone (for example, us-west-2-lax-1), or the Wavelength Zone (for example, us-east-1-wl1).    message - The Zone message.    opt-in-status - The opt-in status (opted-in | not-opted-in | opt-in-not-required).    parent-zone-id - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    parent-zone-name - The ID of the zone that handles some of the Local Zone and Wavelength Zone control plane operations, such as API calls.    region-name - The name of the Region for the Zone (for example, us-east-1).    state - The state of the Availability Zone, the Local Zone, or the Wavelength Zone (available | unavailable | constrained).    zone-id - The ID of the Availability Zone (for example, use1-az1), the Local Zone (for example, usw2-lax1-az1), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-name - The name of the Availability Zone (for example, us-east-1a), the Local Zone (for example, us-west-2-lax-1a), or the Wavelength Zone (for example, us-east-1-wl1-bos-wlz-1).    zone-type - The type of zone (availability-zone |  local-zone | wavelength-zone).
     ///   - zoneIds: The IDs of the Availability Zones, Local Zones, and Wavelength Zones.
     ///   - zoneNames: The names of the Availability Zones, Local Zones, and Wavelength Zones.
     ///   - logger: Logger use during operation
@@ -11496,7 +11758,7 @@ public struct EC2: AWSService {
         return try await self.describeInstanceCreditSpecifications(input, logger: logger)
     }
 
-    /// Describes the tag keys that are registered to appear in scheduled event notifications for  	resources in the current Region.
+    /// Describes the tag keys that are registered to appear in scheduled event notifications for resources in the current Region.
     @Sendable
     @inlinable
     public func describeInstanceEventNotificationAttributes(_ input: DescribeInstanceEventNotificationAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeInstanceEventNotificationAttributesResult {
@@ -11509,7 +11771,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the tag keys that are registered to appear in scheduled event notifications for  	resources in the current Region.
+    /// Describes the tag keys that are registered to appear in scheduled event notifications for resources in the current Region.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -11753,7 +12015,7 @@ public struct EC2: AWSService {
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth  weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    dedicated-hosts-supported - Indicates whether the instance type supports Dedicated Hosts.  (true | false)    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth  weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
     ///   - instanceTypes: The instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - nextToken: The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.
@@ -13527,6 +13789,131 @@ public struct EC2: AWSService {
             reservedInstancesOfferingIds: reservedInstancesOfferingIds
         )
         return try await self.describeReservedInstancesOfferings(input, logger: logger)
+    }
+
+    /// Describes one or more route server endpoints. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func describeRouteServerEndpoints(_ input: DescribeRouteServerEndpointsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRouteServerEndpointsResult {
+        try await self.client.execute(
+            operation: "DescribeRouteServerEndpoints", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more route server endpoints. A route server endpoint is an Amazon Web Services-managed component inside a subnet that facilitates BGP (Border Gateway Protocol) connections between your route server and your BGP peers. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the describe request.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - routeServerEndpointIds: The IDs of the route server endpoints to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeRouteServerEndpoints(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        routeServerEndpointIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeRouteServerEndpointsResult {
+        let input = DescribeRouteServerEndpointsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            routeServerEndpointIds: routeServerEndpointIds
+        )
+        return try await self.describeRouteServerEndpoints(input, logger: logger)
+    }
+
+    /// Describes one or more route server peers. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements:   Have an elastic network interface in the VPC   Support BGP (Border Gateway Protocol)   Can initiate BGP sessions   For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func describeRouteServerPeers(_ input: DescribeRouteServerPeersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRouteServerPeersResult {
+        try await self.client.execute(
+            operation: "DescribeRouteServerPeers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more route server peers. A route server peer is a session between a route server endpoint and the device deployed in Amazon Web Services (such as a firewall appliance or other network security function running on an EC2 instance). The device must meet these requirements:   Have an elastic network interface in the VPC   Support BGP (Border Gateway Protocol)   Can initiate BGP sessions   For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the describe request.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - routeServerPeerIds: The IDs of the route server peers to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeRouteServerPeers(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        routeServerPeerIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeRouteServerPeersResult {
+        let input = DescribeRouteServerPeersRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            routeServerPeerIds: routeServerPeerIds
+        )
+        return try await self.describeRouteServerPeers(input, logger: logger)
+    }
+
+    /// Describes one or more route servers. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func describeRouteServers(_ input: DescribeRouteServersRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeRouteServersResult {
+        try await self.client.execute(
+            operation: "DescribeRouteServers", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Describes one or more route servers. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the describe request.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - nextToken: The token for the next page of results.
+    ///   - routeServerIds: The IDs of the route servers to describe.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeRouteServers(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        routeServerIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeRouteServersResult {
+        let input = DescribeRouteServersRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            routeServerIds: routeServerIds
+        )
+        return try await self.describeRouteServers(input, logger: logger)
     }
 
     /// Describes your route tables. The default is to describe all your route tables.  Alternatively, you can specify specific route table IDs or filter the results to include only the route tables that match specific criteria. Each subnet in your VPC must be associated with a route table. If a subnet is not explicitly associated with any route table, it is implicitly associated with the main route table. This command does not return the subnet ID for implicit associations. For more information, see Route tables in the
@@ -16533,6 +16920,43 @@ public struct EC2: AWSService {
         return try await self.disableIpamOrganizationAdminAccount(input, logger: logger)
     }
 
+    /// Disables route propagation from a route server to a specified route table. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func disableRouteServerPropagation(_ input: DisableRouteServerPropagationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableRouteServerPropagationResult {
+        try await self.client.execute(
+            operation: "DisableRouteServerPropagation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disables route propagation from a route server to a specified route table. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerId: The ID of the route server for which to disable propagation.
+    ///   - routeTableId: The ID of the route table for which to disable route server propagation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disableRouteServerPropagation(
+        dryRun: Bool? = nil,
+        routeServerId: String? = nil,
+        routeTableId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisableRouteServerPropagationResult {
+        let input = DisableRouteServerPropagationRequest(
+            dryRun: dryRun, 
+            routeServerId: routeServerId, 
+            routeTableId: routeTableId
+        )
+        return try await self.disableRouteServerPropagation(input, logger: logger)
+    }
+
     /// Disables access to the EC2 serial console of all instances for your account. By default,
     /// 			access to the EC2 serial console is disabled for your account. For more information, see
     /// 				Manage account access to the EC2 serial console in the Amazon EC2
@@ -17058,6 +17482,41 @@ public struct EC2: AWSService {
             natGatewayId: natGatewayId
         )
         return try await self.disassociateNatGatewayAddress(input, logger: logger)
+    }
+
+    /// Disassociates a route server from a VPC. A route server association is the connection established between a route server and a VPC. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func disassociateRouteServer(_ input: DisassociateRouteServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateRouteServerResult {
+        try await self.client.execute(
+            operation: "DisassociateRouteServer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates a route server from a VPC. A route server association is the connection established between a route server and a VPC. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerId: The ID of the route server to disassociate.
+    ///   - vpcId: The ID of the VPC to disassociate from the route server.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateRouteServer(
+        dryRun: Bool? = nil,
+        routeServerId: String? = nil,
+        vpcId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateRouteServerResult {
+        let input = DisassociateRouteServerRequest(
+            dryRun: dryRun, 
+            routeServerId: routeServerId, 
+            vpcId: vpcId
+        )
+        return try await self.disassociateRouteServer(input, logger: logger)
     }
 
     /// Disassociates a subnet or gateway from a route table. After you perform this action, the subnet no longer uses the routes in the route table.
@@ -17745,6 +18204,41 @@ public struct EC2: AWSService {
             dryRun: dryRun
         )
         return try await self.enableReachabilityAnalyzerOrganizationSharing(input, logger: logger)
+    }
+
+    /// Defines which route tables the route server can update with routes. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func enableRouteServerPropagation(_ input: EnableRouteServerPropagationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableRouteServerPropagationResult {
+        try await self.client.execute(
+            operation: "EnableRouteServerPropagation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Defines which route tables the route server can update with routes. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerId: The ID of the route server for which to enable propagation.
+    ///   - routeTableId: The ID of the route table to which route server will propagate routes.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func enableRouteServerPropagation(
+        dryRun: Bool? = nil,
+        routeServerId: String? = nil,
+        routeTableId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> EnableRouteServerPropagationResult {
+        let input = EnableRouteServerPropagationRequest(
+            dryRun: dryRun, 
+            routeServerId: routeServerId, 
+            routeTableId: routeTableId
+        )
+        return try await self.enableRouteServerPropagation(input, logger: logger)
     }
 
     /// Enables access to the EC2 serial console of all instances for your account. By default,
@@ -19457,6 +19951,118 @@ public struct EC2: AWSService {
             targetConfigurations: targetConfigurations
         )
         return try await self.getReservedInstancesExchangeQuote(input, logger: logger)
+    }
+
+    /// Gets information about the associations for the specified route server. A route server association is the connection established between a route server and a VPC. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func getRouteServerAssociations(_ input: GetRouteServerAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRouteServerAssociationsResult {
+        try await self.client.execute(
+            operation: "GetRouteServerAssociations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about the associations for the specified route server. A route server association is the connection established between a route server and a VPC. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerId: The ID of the route server for which to get association information.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRouteServerAssociations(
+        dryRun: Bool? = nil,
+        routeServerId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRouteServerAssociationsResult {
+        let input = GetRouteServerAssociationsRequest(
+            dryRun: dryRun, 
+            routeServerId: routeServerId
+        )
+        return try await self.getRouteServerAssociations(input, logger: logger)
+    }
+
+    /// Gets information about the route propagations for the specified route server. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
+    @Sendable
+    @inlinable
+    public func getRouteServerPropagations(_ input: GetRouteServerPropagationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRouteServerPropagationsResult {
+        try await self.client.execute(
+            operation: "GetRouteServerPropagations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about the route propagations for the specified route server. When enabled, route server propagation installs the routes in the FIB on the route table you've specified. Route server supports IPv4 and IPv6 route propagation. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - routeServerId: The ID of the route server for which to get propagation information.
+    ///   - routeTableId: The ID of the route table for which to get propagation information.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRouteServerPropagations(
+        dryRun: Bool? = nil,
+        routeServerId: String? = nil,
+        routeTableId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRouteServerPropagationsResult {
+        let input = GetRouteServerPropagationsRequest(
+            dryRun: dryRun, 
+            routeServerId: routeServerId, 
+            routeTableId: routeTableId
+        )
+        return try await self.getRouteServerPropagations(input, logger: logger)
+    }
+
+    /// Gets the routing database for the specified route server. The Routing Information Base (RIB) serves as a database that stores all the routing information and network topology data collected by a router or routing system, such as routes learned from BGP peers. The RIB is constantly updated as new routing information is received or existing routes change. This ensures that the route server always has the most current view of the network topology and can make optimal routing decisions. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
+    @Sendable
+    @inlinable
+    public func getRouteServerRoutingDatabase(_ input: GetRouteServerRoutingDatabaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetRouteServerRoutingDatabaseResult {
+        try await self.client.execute(
+            operation: "GetRouteServerRoutingDatabase", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets the routing database for the specified route server. The Routing Information Base (RIB) serves as a database that stores all the routing information and network topology data collected by a router or routing system, such as routes learned from BGP peers. The RIB is constantly updated as new routing information is received or existing routes change. This ensures that the route server always has the most current view of the network topology and can make optimal routing decisions. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: Filters to apply to the routing database query.
+    ///   - maxResults: The maximum number of routing database entries to return in a single response.
+    ///   - nextToken: The token for the next page of results.
+    ///   - routeServerId: The ID of the route server for which to get the routing database.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getRouteServerRoutingDatabase(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        routeServerId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetRouteServerRoutingDatabaseResult {
+        let input = GetRouteServerRoutingDatabaseRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            routeServerId: routeServerId
+        )
+        return try await self.getRouteServerRoutingDatabase(input, logger: logger)
     }
 
     /// Gets security groups that can be associated by the Amazon Web Services account making the request with network interfaces in the specified VPC.
@@ -21174,7 +21780,7 @@ public struct EC2: AWSService {
     /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time.  Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be stopped. For more information, see Modify a stopped instance in the Amazon EC2 User Guide.
     ///
     /// Parameters:
-    ///   - attribute: The name of the attribute to modify.  You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions
+    ///   - attribute: The name of the attribute to modify.  When changing the instance type: If the original instance type is configured for configurable bandwidth, and the desired instance type doesn't support configurable bandwidth, first set the existing bandwidth configuration to default using the ModifyInstanceNetworkPerformanceOptions operation.   You can modify the following attributes only: disableApiTermination | instanceType | kernel | ramdisk | instanceInitiatedShutdownBehavior | blockDeviceMapping | userData | sourceDestCheck | groupSet | ebsOptimized | sriovNetSupport | enaSupport | nvmeSupport | disableApiStop | enclaveOptions
     ///   - blockDeviceMappings: Modifies the DeleteOnTermination attribute for volumes that are currently attached. The volume must be owned by the caller. If no value is specified for DeleteOnTermination, the default is true and the volume is deleted when the instance is terminated. You can't modify the DeleteOnTermination  attribute for volumes that are attached to Fargate tasks. To add instance store volumes to an Amazon EBS-backed instance, you must add them when you launch the instance. For more information, see Update the block device mapping when launching an instance in the Amazon EC2 User Guide.
     ///   - disableApiStop: Indicates whether an instance is enabled for stop protection. For more information, see Enable stop protection for your instance.
     ///   - disableApiTermination: Enable or disable termination protection for the instance. If the value is true,  you can't terminate the instance using the Amazon EC2 console, command line interface, or API.  You can't enable termination protection for Spot Instances.
@@ -22140,6 +22746,49 @@ public struct EC2: AWSService {
             targetConfigurations: targetConfigurations
         )
         return try await self.modifyReservedInstances(input, logger: logger)
+    }
+
+    /// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    @Sendable
+    @inlinable
+    public func modifyRouteServer(_ input: ModifyRouteServerRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ModifyRouteServerResult {
+        try await self.client.execute(
+            operation: "ModifyRouteServer", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Modifies the configuration of an existing route server. Amazon VPC Route Server simplifies routing for traffic between workloads that are deployed within a VPC and its internet gateways. With this feature,
+    /// VPC Route Server dynamically updates VPC and internet gateway route tables with your preferred IPv4 or IPv6 routes to achieve routing fault tolerance for those workloads. This enables you to automatically reroute traffic within a VPC, which increases the manageability of VPC routing and interoperability with third-party workloads. Route server supports the follow route table types:   VPC route tables not associated with subnets   Subnet route tables   Internet gateway route tables   Route server does not support route tables associated with virtual private gateways. To propagate routes into a transit gateway route table, use Transit Gateway Connect. For more information see Dynamic routing in your VPC with VPC Route Server in the Amazon VPC User Guide.
+    ///
+    /// Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - persistRoutes: Specifies whether to persist routes after all BGP sessions are terminated.   enable: Routes will be persisted in FIB and RIB after all BGP sessions are terminated.   disable: Routes will not be persisted in FIB and RIB after all BGP sessions are terminated.   reset: If a route server has persisted routes due to all BGP sessions having ended, reset will withdraw all routes and reset route server to an empty FIB and RIB.
+    ///   - persistRoutesDuration: The number of minutes a route server will wait after BGP is re-established to unpersist the routes in the FIB and RIB. Value must be in the range of 1-5. Required if PersistRoutes is enabled. If you set the duration to 1 minute, then when your network appliance re-establishes BGP with route server, it has 1 minute to relearn it's adjacent network and advertise those routes to route server before route server resumes normal functionality. In most cases, 1 minute is probably sufficient. If, however, you have concerns that your BGP network may not be capable of fully re-establishing and re-learning everything in 1 minute, you can increase the duration up to 5 minutes.
+    ///   - routeServerId: The ID of the route server to modify.
+    ///   - snsNotificationsEnabled: Specifies whether to enable SNS notifications for route server events. Enabling SNS notifications persists BGP status changes to an SNS topic provisioned by Amazon Web Services.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func modifyRouteServer(
+        dryRun: Bool? = nil,
+        persistRoutes: RouteServerPersistRoutesAction? = nil,
+        persistRoutesDuration: Int64? = nil,
+        routeServerId: String? = nil,
+        snsNotificationsEnabled: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ModifyRouteServerResult {
+        let input = ModifyRouteServerRequest(
+            dryRun: dryRun, 
+            persistRoutes: persistRoutes, 
+            persistRoutesDuration: persistRoutesDuration, 
+            routeServerId: routeServerId, 
+            snsNotificationsEnabled: snsNotificationsEnabled
+        )
+        return try await self.modifyRouteServer(input, logger: logger)
     }
 
     /// Modifies the rules of a security group.
@@ -24260,7 +24909,7 @@ public struct EC2: AWSService {
         return try await self.registerImage(input, logger: logger)
     }
 
-    /// Registers a set of tag keys to include in scheduled event notifications for your resources.  		 To remove tags, use DeregisterInstanceEventNotificationAttributes.
+    /// Registers a set of tag keys to include in scheduled event notifications for your resources.  To remove tags, use DeregisterInstanceEventNotificationAttributes.
     @Sendable
     @inlinable
     public func registerInstanceEventNotificationAttributes(_ input: RegisterInstanceEventNotificationAttributesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RegisterInstanceEventNotificationAttributesResult {
@@ -24273,7 +24922,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Registers a set of tag keys to include in scheduled event notifications for your resources.  		 To remove tags, use DeregisterInstanceEventNotificationAttributes.
+    /// Registers a set of tag keys to include in scheduled event notifications for your resources.  To remove tags, use DeregisterInstanceEventNotificationAttributes.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -28467,7 +29116,7 @@ extension EC2 {
     ///
     /// - Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth  weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
+    ///   - filters: One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is supported  (true | false).    bare-metal - Indicates whether it is a bare metal instance type (true | false).    burstable-performance-supported - Indicates whether the instance type is a burstable performance T instance type  (true | false).    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family  (true | false).    dedicated-hosts-supported - Indicates whether the instance type supports Dedicated Hosts.  (true | false)    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MB/s.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized (supported | unsupported | default).    ebs-info.encryption-support - Indicates whether EBS encryption is supported (supported | unsupported).    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes (required | supported | unsupported).    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier  (true | false).    hibernation-supported - Indicates whether On-Demand hibernation is supported (true | false).    hypervisor - The hypervisor (nitro | xen).    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks (hdd | ssd).    instance-storage-info.encryption-support - Indicates whether data is encrypted at rest (required | supported | unsupported).    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store (required | supported | unsupported).    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage  (true | false).    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.bandwidth-weightings - For instances that support bandwidth  weighting to boost performance (default, vpc-1, ebs-1).    network-info.efa-info.maximum-efa-interfaces - The maximum number of Elastic Fabric Adapters (EFAs) per instance.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA)  (true | false).    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required (required | supported | unsupported).    network-info.encryption-in-transit-supported - Indicates whether the instance type automatically encrypts in-transit traffic between instances  (true | false).    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6  (true | false).    network-info.maximum-network-cards - The maximum number of network cards per instance.    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    nitro-enclaves-support - Indicates whether Nitro Enclaves is supported (supported | unsupported).    nitro-tpm-support - Indicates whether NitroTPM is supported (supported | unsupported).    nitro-tpm-info.supported-versions - The supported NitroTPM version (2.0).    processor-info.supported-architecture - The CPU architecture (arm64 | i386 | x86_64).    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    processor-info.supported-features - The supported CPU features (amd-sev-snp).    supported-boot-mode - The boot mode (legacy-bios | uefi).    supported-root-device-type - The root device type (ebs | instance-store).    supported-usage-class - The usage class (on-demand | spot |  capacity-block).    supported-virtualization-type - The virtualization type (hvm | paravirtual).    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".
     ///   - instanceTypes: The instance types.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output.
     ///   - logger: Logger used for logging
@@ -29953,6 +30602,135 @@ extension EC2 {
             reservedInstancesOfferingIds: reservedInstancesOfferingIds
         )
         return self.describeReservedInstancesOfferingsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeRouteServerEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeRouteServerEndpointsPaginator(
+        _ input: DescribeRouteServerEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRouteServerEndpointsRequest, DescribeRouteServerEndpointsResult> {
+        return .init(
+            input: input,
+            command: self.describeRouteServerEndpoints,
+            inputKey: \DescribeRouteServerEndpointsRequest.nextToken,
+            outputKey: \DescribeRouteServerEndpointsResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeRouteServerEndpoints(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the describe request.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - routeServerEndpointIds: The IDs of the route server endpoints to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeRouteServerEndpointsPaginator(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        routeServerEndpointIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeRouteServerEndpointsRequest, DescribeRouteServerEndpointsResult> {
+        let input = DescribeRouteServerEndpointsRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            routeServerEndpointIds: routeServerEndpointIds
+        )
+        return self.describeRouteServerEndpointsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeRouteServerPeers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeRouteServerPeersPaginator(
+        _ input: DescribeRouteServerPeersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRouteServerPeersRequest, DescribeRouteServerPeersResult> {
+        return .init(
+            input: input,
+            command: self.describeRouteServerPeers,
+            inputKey: \DescribeRouteServerPeersRequest.nextToken,
+            outputKey: \DescribeRouteServerPeersResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeRouteServerPeers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the describe request.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - routeServerPeerIds: The IDs of the route server peers to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeRouteServerPeersPaginator(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        routeServerPeerIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeRouteServerPeersRequest, DescribeRouteServerPeersResult> {
+        let input = DescribeRouteServerPeersRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            routeServerPeerIds: routeServerPeerIds
+        )
+        return self.describeRouteServerPeersPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``describeRouteServers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeRouteServersPaginator(
+        _ input: DescribeRouteServersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<DescribeRouteServersRequest, DescribeRouteServersResult> {
+        return .init(
+            input: input,
+            command: self.describeRouteServers,
+            inputKey: \DescribeRouteServersRequest.nextToken,
+            outputKey: \DescribeRouteServersResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``describeRouteServers(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
+    ///   - filters: One or more filters to apply to the describe request.
+    ///   - maxResults: The maximum number of results to return with a single call.
+    ///   - routeServerIds: The IDs of the route servers to describe.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func describeRouteServersPaginator(
+        dryRun: Bool? = nil,
+        filters: [Filter]? = nil,
+        maxResults: Int? = nil,
+        routeServerIds: [String]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<DescribeRouteServersRequest, DescribeRouteServersResult> {
+        let input = DescribeRouteServersRequest(
+            dryRun: dryRun, 
+            filters: filters, 
+            maxResults: maxResults, 
+            routeServerIds: routeServerIds
+        )
+        return self.describeRouteServersPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``describeRouteTables(_:logger:)``.
@@ -34033,6 +34811,45 @@ extension EC2.DescribeReservedInstancesOfferingsRequest: AWSPaginateToken {
             offeringType: self.offeringType,
             productDescription: self.productDescription,
             reservedInstancesOfferingIds: self.reservedInstancesOfferingIds
+        )
+    }
+}
+
+extension EC2.DescribeRouteServerEndpointsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeRouteServerEndpointsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            routeServerEndpointIds: self.routeServerEndpointIds
+        )
+    }
+}
+
+extension EC2.DescribeRouteServerPeersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeRouteServerPeersRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            routeServerPeerIds: self.routeServerPeerIds
+        )
+    }
+}
+
+extension EC2.DescribeRouteServersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeRouteServersRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            routeServerIds: self.routeServerIds
         )
     }
 }

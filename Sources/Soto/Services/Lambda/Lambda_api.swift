@@ -345,7 +345,7 @@ public struct Lambda: AWSService {
     ///   - maximumRetryAttempts: (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///   - metricsConfig: The metrics configuration for your event source. For more information, see Event source mapping metrics.
     ///   - parallelizationFactor: (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
-    ///   - provisionedPollerConfig: (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see Provisioned Mode.
+    ///   - provisionedPollerConfig: (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see provisioned mode.
     ///   - queues:  (MQ) The name of the Amazon MQ broker destination queue to consume.
     ///   - scalingConfig: (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
     ///   - selfManagedEventSource: The self-managed Apache Kafka cluster to receive records from.
@@ -2480,7 +2480,7 @@ public struct Lambda: AWSService {
     ///   - maximumRetryAttempts: (Kinesis and DynamoDB Streams only) Discard records after the specified number of retries. The default value is infinite (-1). When set to infinite (-1), failed records are retried until the record expires.
     ///   - metricsConfig: The metrics configuration for your event source. For more information, see Event source mapping metrics.
     ///   - parallelizationFactor: (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
-    ///   - provisionedPollerConfig: (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see Provisioned Mode.
+    ///   - provisionedPollerConfig: (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see provisioned mode.
     ///   - scalingConfig: (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
     ///   - sourceAccessConfigurations: An array of authentication protocols or VPC components required to secure your event source.
     ///   - tumblingWindowInSeconds: (Kinesis and DynamoDB Streams only) The duration in seconds of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds indicates no tumbling window.

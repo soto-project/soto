@@ -88,6 +88,7 @@ public struct SSO: AWSService {
         "ap-southeast-2": "portal.sso.ap-southeast-2.amazonaws.com",
         "ap-southeast-3": "portal.sso.ap-southeast-3.amazonaws.com",
         "ap-southeast-4": "portal.sso.ap-southeast-4.amazonaws.com",
+        "ap-southeast-5": "portal.sso.ap-southeast-5.amazonaws.com",
         "ca-central-1": "portal.sso.ca-central-1.amazonaws.com",
         "ca-west-1": "portal.sso.ca-west-1.amazonaws.com",
         "cn-north-1": "portal.sso.cn-north-1.amazonaws.com.cn",

@@ -370,6 +370,18 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScopePermission: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case abortMultipartUpload = "AbortMultipartUpload"
+        case deleteObject = "DeleteObject"
+        case getObject = "GetObject"
+        case getObjectAttributes = "GetObjectAttributes"
+        case listBucket = "ListBucket"
+        case listBucketMultipartUploads = "ListBucketMultipartUploads"
+        case listMultipartUploadParts = "ListMultipartUploadParts"
+        case putObject = "PutObject"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -1119,20 +1131,23 @@ extension S3Control {
         public let bucket: String
         /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required.  For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
         public let bucketAccountId: String?
-        /// The name you want to assign to this access point.
+        /// The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by --xa-s3. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
         public let name: String
         ///  The PublicAccessBlock configuration that you want to apply to the access point.
         public let publicAccessBlockConfiguration: PublicAccessBlockConfiguration?
+        /// For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is not supported for access points for general purpose buckets.
+        public let scope: Scope?
         /// If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
         public let vpcConfiguration: VpcConfiguration?
 
         @inlinable
-        public init(accountId: String, bucket: String, bucketAccountId: String? = nil, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, vpcConfiguration: VpcConfiguration? = nil) {
+        public init(accountId: String, bucket: String, bucketAccountId: String? = nil, name: String, publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil, scope: Scope? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.accountId = accountId
             self.bucket = bucket
             self.bucketAccountId = bucketAccountId
             self.name = name
             self.publicAccessBlockConfiguration = publicAccessBlockConfiguration
+            self.scope = scope
             self.vpcConfiguration = vpcConfiguration
         }
 
@@ -1145,6 +1160,7 @@ extension S3Control {
             try container.encodeIfPresent(self.bucketAccountId, forKey: .bucketAccountId)
             request.encodePath(self.name, key: "Name")
             try container.encodeIfPresent(self.publicAccessBlockConfiguration, forKey: .publicAccessBlockConfiguration)
+            try container.encodeIfPresent(self.scope, forKey: .scope)
             try container.encodeIfPresent(self.vpcConfiguration, forKey: .vpcConfiguration)
         }
 
@@ -1164,6 +1180,7 @@ extension S3Control {
             case bucket = "Bucket"
             case bucketAccountId = "BucketAccountId"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
+            case scope = "Scope"
             case vpcConfiguration = "VpcConfiguration"
         }
     }
@@ -1757,6 +1774,36 @@ extension S3Control {
         /// The Amazon Web Services account ID for the account that owns the specified access point.
         public let accountId: String
         /// The name of the access point you want to delete. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
+        public let name: String
+
+        @inlinable
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAccessPointScopeRequest: AWSEncodableShape {
+        ///  The Amazon Web Services account ID that owns the access point with the scope that you want to delete.
+        public let accountId: String
+        ///  The name of the access point with the scope that you want to delete.
         public let name: String
 
         @inlinable
@@ -3111,6 +3158,50 @@ extension S3Control {
             case networkOrigin = "NetworkOrigin"
             case publicAccessBlockConfiguration = "PublicAccessBlockConfiguration"
             case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct GetAccessPointScopeRequest: AWSEncodableShape {
+        ///  The Amazon Web Services account ID that owns the access point with the scope that you want to retrieve.
+        public let accountId: String
+        /// The name of the access point with the scope you want to retrieve.
+        public let name: String
+
+        @inlinable
+        public init(accountId: String, name: String) {
+            self.accountId = accountId
+            self.name = name
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAccessPointScopeResult: AWSDecodableShape {
+        /// The contents of the access point scope.
+        public let scope: Scope?
+
+        @inlinable
+        public init(scope: Scope? = nil) {
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scope = "Scope"
         }
     }
 
@@ -4898,6 +4989,69 @@ extension S3Control {
         }
     }
 
+    public struct ListAccessPointsForDirectoryBucketsRequest: AWSEncodableShape {
+        /// The Amazon Web Services account ID that owns the access points.
+        public let accountId: String
+        /// The name of the directory bucket associated with the access points you want to list.
+        public let directoryBucket: String?
+        /// The maximum number of access points that you would like returned in the ListAccessPointsForDirectoryBuckets response. If the directory bucket is associated with more than this number of access points, the results include the pagination token NextToken. Make another call using the NextToken to retrieve more results.
+        public let maxResults: Int?
+        ///  If NextToken is returned, there are more access points available than requested in the maxResults value. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+        public let nextToken: String?
+
+        @inlinable
+        public init(accountId: String, directoryBucket: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.directoryBucket = directoryBucket
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodeQuery(self.directoryBucket, key: "directoryBucket")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.directoryBucket, name: "directoryBucket", parent: name, max: 255)
+            try self.validate(self.directoryBucket, name: "directoryBucket", parent: name, min: 3)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAccessPointsForDirectoryBucketsResult: AWSDecodableShape {
+        public struct _AccessPointListEncoding: ArrayCoderProperties { public static let member = "AccessPoint" }
+
+        /// Contains identification and configuration information for one or more access points associated with the directory bucket.
+        @OptionalCustomCoding<ArrayCoder<_AccessPointListEncoding, AccessPoint>>
+        public var accessPointList: [AccessPoint]?
+        ///  If NextToken is returned, there are more access points available than requested in the maxResults value. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+        public let nextToken: String?
+
+        @inlinable
+        public init(accessPointList: [AccessPoint]? = nil, nextToken: String? = nil) {
+            self.accessPointList = accessPointList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointList = "AccessPointList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListAccessPointsForObjectLambdaRequest: AWSEncodableShape {
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
@@ -6022,7 +6176,7 @@ extension S3Control {
         public let accountId: String
         /// The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
         public let name: String
-        /// The policy that you want to apply to the specified access point. For more information about access point policies, see Managing data access with Amazon S3 access points in the Amazon S3 User Guide.
+        /// The policy that you want to apply to the specified access point. For more information about access point policies, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory bucekts with access points in the Amazon S3 User Guide.
         public let policy: String
 
         @inlinable
@@ -6050,6 +6204,42 @@ extension S3Control {
 
         private enum CodingKeys: String, CodingKey {
             case policy = "Policy"
+        }
+    }
+
+    public struct PutAccessPointScopeRequest: AWSEncodableShape {
+        ///  The Amazon Web Services account ID that owns the access point with scope that you want to create or replace.
+        public let accountId: String
+        /// The name of the access point with the scope that you want to create or replace.
+        public let name: String
+        /// Object prefixes, API operations, or a combination of both.
+        public let scope: Scope
+
+        @inlinable
+        public init(accountId: String, name: String, scope: Scope) {
+            self.accountId = accountId
+            self.name = name
+            self.scope = scope
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeHeader(self.accountId, key: "x-amz-account-id")
+            request.encodeHostPrefix(self.accountId, key: "AccountId")
+            request.encodePath(self.name, key: "Name")
+            try container.encode(self.scope, forKey: .scope)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 64)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scope = "Scope"
         }
     }
 
@@ -7383,6 +7573,29 @@ extension S3Control {
 
     public struct SSES3Encryption: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Scope: AWSEncodableShape & AWSDecodableShape {
+        public struct _PermissionsEncoding: ArrayCoderProperties { public static let member = "Permission" }
+        public struct _PrefixesEncoding: ArrayCoderProperties { public static let member = "Prefix" }
+
+        /// You can include one or more API operations as permissions.
+        @OptionalCustomCoding<ArrayCoder<_PermissionsEncoding, ScopePermission>>
+        public var permissions: [ScopePermission]?
+        /// You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.
+        @OptionalCustomCoding<ArrayCoder<_PrefixesEncoding, String>>
+        public var prefixes: [String]?
+
+        @inlinable
+        public init(permissions: [ScopePermission]? = nil, prefixes: [String]? = nil) {
+            self.permissions = permissions
+            self.prefixes = prefixes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
+            case prefixes = "Prefixes"
+        }
     }
 
     public struct SelectionCriteria: AWSEncodableShape & AWSDecodableShape {

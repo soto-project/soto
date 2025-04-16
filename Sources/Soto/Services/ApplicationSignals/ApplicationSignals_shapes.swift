@@ -39,6 +39,13 @@ extension ApplicationSignals {
         public var description: String { return self.rawValue }
     }
 
+    public enum MetricSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudwatchMetric = "CloudWatchMetric"
+        case serviceDependency = "ServiceDependency"
+        case serviceOperation = "ServiceOperation"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceLevelIndicatorComparisonOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case greaterThan = "GreaterThan"
         case greaterThanOrEqualTo = "GreaterThanOrEqualTo"
@@ -458,6 +465,37 @@ extension ApplicationSignals {
         public init() {}
     }
 
+    public struct DependencyConfig: AWSEncodableShape & AWSDecodableShape {
+        /// This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
+        public let dependencyKeyAttributes: [String: String]
+        /// The name of the called operation in the dependency.
+        public let dependencyOperationName: String
+
+        @inlinable
+        public init(dependencyKeyAttributes: [String: String], dependencyOperationName: String) {
+            self.dependencyKeyAttributes = dependencyKeyAttributes
+            self.dependencyOperationName = dependencyOperationName
+        }
+
+        public func validate(name: String) throws {
+            try self.dependencyKeyAttributes.forEach {
+                try validate($0.key, name: "dependencyKeyAttributes.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
+                try validate($0.value, name: "dependencyKeyAttributes[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "dependencyKeyAttributes[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "dependencyKeyAttributes[\"\($0.key)\"]", parent: name, pattern: "^[ -~]*[!-~]+[ -~]*$")
+            }
+            try self.validate(self.dependencyKeyAttributes, name: "dependencyKeyAttributes", parent: name, max: 4)
+            try self.validate(self.dependencyKeyAttributes, name: "dependencyKeyAttributes", parent: name, min: 1)
+            try self.validate(self.dependencyOperationName, name: "dependencyOperationName", parent: name, max: 255)
+            try self.validate(self.dependencyOperationName, name: "dependencyOperationName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dependencyKeyAttributes = "DependencyKeyAttributes"
+            case dependencyOperationName = "DependencyOperationName"
+        }
+    }
+
     public struct Dimension: AWSEncodableShape & AWSDecodableShape {
         /// The name of the dimension. Dimension names must contain only ASCII characters, must include  at least one non-whitespace character, and cannot start with a colon (:). ASCII control characters are not supported as part of dimension names.
         public let name: String
@@ -844,12 +882,16 @@ extension ApplicationSignals {
     }
 
     public struct ListServiceLevelObjectivesInput: AWSEncodableShape {
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public let dependencyConfig: DependencyConfig?
         /// If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.   When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
         public let includeLinkedAccounts: Bool?
         /// You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
         /// The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
         public let maxResults: Int?
+        /// Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   CloudWatch metric
+        public let metricSourceTypes: [MetricSourceType]?
         /// Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
         public let nextToken: String?
         /// The name of the operation that this SLO is associated with.
@@ -858,10 +900,12 @@ extension ApplicationSignals {
         public let sloOwnerAwsAccountId: String?
 
         @inlinable
-        public init(includeLinkedAccounts: Bool? = nil, keyAttributes: [String: String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, operationName: String? = nil, sloOwnerAwsAccountId: String? = nil) {
+        public init(dependencyConfig: DependencyConfig? = nil, includeLinkedAccounts: Bool? = nil, keyAttributes: [String: String]? = nil, maxResults: Int? = nil, metricSourceTypes: [MetricSourceType]? = nil, nextToken: String? = nil, operationName: String? = nil, sloOwnerAwsAccountId: String? = nil) {
+            self.dependencyConfig = dependencyConfig
             self.includeLinkedAccounts = includeLinkedAccounts
             self.keyAttributes = keyAttributes
             self.maxResults = maxResults
+            self.metricSourceTypes = metricSourceTypes
             self.nextToken = nextToken
             self.operationName = operationName
             self.sloOwnerAwsAccountId = sloOwnerAwsAccountId
@@ -870,15 +914,18 @@ extension ApplicationSignals {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.dependencyConfig, forKey: .dependencyConfig)
             request.encodeQuery(self.includeLinkedAccounts, key: "IncludeLinkedAccounts")
             try container.encodeIfPresent(self.keyAttributes, forKey: .keyAttributes)
             request.encodeQuery(self.maxResults, key: "MaxResults")
+            try container.encodeIfPresent(self.metricSourceTypes, forKey: .metricSourceTypes)
             request.encodeQuery(self.nextToken, key: "NextToken")
             request.encodeQuery(self.operationName, key: "OperationName")
             request.encodeQuery(self.sloOwnerAwsAccountId, key: "SloOwnerAwsAccountId")
         }
 
         public func validate(name: String) throws {
+            try self.dependencyConfig?.validate(name: "\(name).dependencyConfig")
             try self.keyAttributes?.forEach {
                 try validate($0.key, name: "keyAttributes.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, max: 1024)
@@ -889,13 +936,17 @@ extension ApplicationSignals {
             try self.validate(self.keyAttributes, name: "keyAttributes", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.metricSourceTypes, name: "metricSourceTypes", parent: name, max: 3)
+            try self.validate(self.metricSourceTypes, name: "metricSourceTypes", parent: name, min: 1)
             try self.validate(self.operationName, name: "operationName", parent: name, max: 255)
             try self.validate(self.operationName, name: "operationName", parent: name, min: 1)
             try self.validate(self.sloOwnerAwsAccountId, name: "sloOwnerAwsAccountId", parent: name, pattern: "^[0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
+            case metricSourceTypes = "MetricSourceTypes"
         }
     }
 
@@ -1311,6 +1362,8 @@ extension ApplicationSignals {
     }
 
     public struct RequestBasedServiceLevelIndicatorMetric: AWSDecodableShape {
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public let dependencyConfig: DependencyConfig?
         /// This is a string-to-string map that contains information about the type of object that this SLO is related to. It can  include the following fields.    Type designates the type of object that this SLO is related to.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
         /// If the SLO monitors either the LATENCY or AVAILABILITY metric that Application Signals  collects, this field displays which of those metrics is used.
@@ -1323,7 +1376,8 @@ extension ApplicationSignals {
         public let totalRequestCountMetric: [MetricDataQuery]
 
         @inlinable
-        public init(keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]) {
+        public init(dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]) {
+            self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
@@ -1332,6 +1386,7 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
             case metricType = "MetricType"
             case monitoredRequestCountMetric = "MonitoredRequestCountMetric"
@@ -1341,6 +1396,8 @@ extension ApplicationSignals {
     }
 
     public struct RequestBasedServiceLevelIndicatorMetricConfig: AWSEncodableShape {
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public let dependencyConfig: DependencyConfig?
         /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service  the SLO metric is related to. To do so, you must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
         /// If the SLO is to monitor either the LATENCY or AVAILABILITY metric that Application Signals  collects, use this field to specify which of those metrics is used.
@@ -1353,7 +1410,8 @@ extension ApplicationSignals {
         public let totalRequestCountMetric: [MetricDataQuery]?
 
         @inlinable
-        public init(keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries? = nil, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]? = nil) {
+        public init(dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, monitoredRequestCountMetric: MonitoredRequestCountMetricDataQueries? = nil, operationName: String? = nil, totalRequestCountMetric: [MetricDataQuery]? = nil) {
+            self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricType = metricType
             self.monitoredRequestCountMetric = monitoredRequestCountMetric
@@ -1362,6 +1420,7 @@ extension ApplicationSignals {
         }
 
         public func validate(name: String) throws {
+            try self.dependencyConfig?.validate(name: "\(name).dependencyConfig")
             try self.keyAttributes?.forEach {
                 try validate($0.key, name: "keyAttributes.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, max: 1024)
@@ -1379,6 +1438,7 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
             case metricType = "MetricType"
             case monitoredRequestCountMetric = "MonitoredRequestCountMetric"
@@ -1557,6 +1617,8 @@ extension ApplicationSignals {
     }
 
     public struct ServiceLevelIndicatorMetric: AWSDecodableShape {
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public let dependencyConfig: DependencyConfig?
         /// This is a string-to-string map that contains information about the type of object that this SLO is related to. It can  include the following fields.    Type designates the type of object that this SLO is related to.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
         /// If this SLO monitors a CloudWatch metric or the result of a CloudWatch metric math expression,  this structure includes the information about that metric or expression.
@@ -1567,7 +1629,8 @@ extension ApplicationSignals {
         public let operationName: String?
 
         @inlinable
-        public init(keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery], metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil) {
+        public init(dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery], metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil) {
+            self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
             self.metricType = metricType
@@ -1575,6 +1638,7 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
             case metricDataQueries = "MetricDataQueries"
             case metricType = "MetricType"
@@ -1583,6 +1647,8 @@ extension ApplicationSignals {
     }
 
     public struct ServiceLevelIndicatorMetricConfig: AWSEncodableShape {
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public let dependencyConfig: DependencyConfig?
         /// If this SLO is related to a metric collected by Application Signals, you must use this field to specify which service  the SLO metric is related to. To do so, you must specify at least the Type,  Name, and Environment attributes. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
         /// If this SLO monitors a CloudWatch metric or the result of a CloudWatch metric math expression,  use this structure to specify that metric or expression.
@@ -1597,7 +1663,8 @@ extension ApplicationSignals {
         public let statistic: String?
 
         @inlinable
-        public init(keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil, periodSeconds: Int? = nil, statistic: String? = nil) {
+        public init(dependencyConfig: DependencyConfig? = nil, keyAttributes: [String: String]? = nil, metricDataQueries: [MetricDataQuery]? = nil, metricType: ServiceLevelIndicatorMetricType? = nil, operationName: String? = nil, periodSeconds: Int? = nil, statistic: String? = nil) {
+            self.dependencyConfig = dependencyConfig
             self.keyAttributes = keyAttributes
             self.metricDataQueries = metricDataQueries
             self.metricType = metricType
@@ -1607,6 +1674,7 @@ extension ApplicationSignals {
         }
 
         public func validate(name: String) throws {
+            try self.dependencyConfig?.validate(name: "\(name).dependencyConfig")
             try self.keyAttributes?.forEach {
                 try validate($0.key, name: "keyAttributes.key", parent: name, pattern: "^[a-zA-Z]{1,50}$")
                 try validate($0.value, name: "keyAttributes[\"\($0.key)\"]", parent: name, max: 1024)
@@ -1628,6 +1696,7 @@ extension ApplicationSignals {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dependencyConfig = "DependencyConfig"
             case keyAttributes = "KeyAttributes"
             case metricDataQueries = "MetricDataQueries"
             case metricType = "MetricType"
@@ -1651,6 +1720,8 @@ extension ApplicationSignals {
         public let goal: Goal
         /// The time that this SLO was most recently updated. When used in a raw HTTP Query API, it is formatted as  yyyy-MM-dd'T'HH:mm:ss. For example,  2019-07-01T23:59:59.
         public let lastUpdatedTime: Date
+        /// Displays the SLI metric source type for this SLO. Supported types are:   Service operation   Service dependency   CloudWatch metric
+        public let metricSourceType: MetricSourceType?
         /// The name of this SLO.
         public let name: String
         /// A structure containing information about the performance metric that this SLO monitors, if this is a request-based SLO.
@@ -1659,7 +1730,7 @@ extension ApplicationSignals {
         public let sli: ServiceLevelIndicator?
 
         @inlinable
-        public init(arn: String, burnRateConfigurations: [BurnRateConfiguration]? = nil, createdTime: Date, description: String? = nil, evaluationType: EvaluationType? = nil, goal: Goal, lastUpdatedTime: Date, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil) {
+        public init(arn: String, burnRateConfigurations: [BurnRateConfiguration]? = nil, createdTime: Date, description: String? = nil, evaluationType: EvaluationType? = nil, goal: Goal, lastUpdatedTime: Date, metricSourceType: MetricSourceType? = nil, name: String, requestBasedSli: RequestBasedServiceLevelIndicator? = nil, sli: ServiceLevelIndicator? = nil) {
             self.arn = arn
             self.burnRateConfigurations = burnRateConfigurations
             self.createdTime = createdTime
@@ -1667,6 +1738,7 @@ extension ApplicationSignals {
             self.evaluationType = evaluationType
             self.goal = goal
             self.lastUpdatedTime = lastUpdatedTime
+            self.metricSourceType = metricSourceType
             self.name = name
             self.requestBasedSli = requestBasedSli
             self.sli = sli
@@ -1680,6 +1752,7 @@ extension ApplicationSignals {
             case evaluationType = "EvaluationType"
             case goal = "Goal"
             case lastUpdatedTime = "LastUpdatedTime"
+            case metricSourceType = "MetricSourceType"
             case name = "Name"
             case requestBasedSli = "RequestBasedSli"
             case sli = "Sli"
@@ -1773,18 +1846,27 @@ extension ApplicationSignals {
         public let arn: String
         /// The date and time that this service level objective was created. It is expressed as the number of milliseconds since Jan 1, 1970 00:00:00 UTC.
         public let createdTime: Date?
+        /// Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
+        public let dependencyConfig: DependencyConfig?
+        /// Displays whether this is a period-based SLO or a request-based SLO.
+        public let evaluationType: EvaluationType?
         /// This is a string-to-string map. It can  include the following fields.    Type designates the type of object this service level objective is for.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
         public let keyAttributes: [String: String]?
+        /// Displays the SLI metric source type for this SLO. Supported types are:   Service operation   Service dependency   CloudWatch metric
+        public let metricSourceType: MetricSourceType?
         /// The name of the service level objective.
         public let name: String
         /// If this service level objective is specific to a single operation, this  field displays the name of that operation.
         public let operationName: String?
 
         @inlinable
-        public init(arn: String, createdTime: Date? = nil, keyAttributes: [String: String]? = nil, name: String, operationName: String? = nil) {
+        public init(arn: String, createdTime: Date? = nil, dependencyConfig: DependencyConfig? = nil, evaluationType: EvaluationType? = nil, keyAttributes: [String: String]? = nil, metricSourceType: MetricSourceType? = nil, name: String, operationName: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
+            self.dependencyConfig = dependencyConfig
+            self.evaluationType = evaluationType
             self.keyAttributes = keyAttributes
+            self.metricSourceType = metricSourceType
             self.name = name
             self.operationName = operationName
         }
@@ -1792,7 +1874,10 @@ extension ApplicationSignals {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case createdTime = "CreatedTime"
+            case dependencyConfig = "DependencyConfig"
+            case evaluationType = "EvaluationType"
             case keyAttributes = "KeyAttributes"
+            case metricSourceType = "MetricSourceType"
             case name = "Name"
             case operationName = "OperationName"
         }

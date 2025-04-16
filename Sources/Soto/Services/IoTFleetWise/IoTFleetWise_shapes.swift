@@ -3658,7 +3658,7 @@ extension IoTFleetWise {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.status, name: "status", parent: name, max: 20)
-            try self.validate(self.status, name: "status", parent: name, min: 7)
+            try self.validate(self.status, name: "status", parent: name, min: 1)
             try self.validate(self.status, name: "status", parent: name, pattern: "^[A-Z_]*$")
         }
 
@@ -6099,17 +6099,20 @@ extension IoTFleetWise {
         public let stateTemplatesToAdd: [StateTemplateAssociation]?
         /// Remove state templates from the vehicle.
         public let stateTemplatesToRemove: [String]?
+        /// Change the stateTemplateUpdateStrategy of state templates already associated with the vehicle.
+        public let stateTemplatesToUpdate: [StateTemplateAssociation]?
         /// The unique ID of the vehicle to update.
         public let vehicleName: String
 
         @inlinable
-        public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, stateTemplatesToAdd: [StateTemplateAssociation]? = nil, stateTemplatesToRemove: [String]? = nil, vehicleName: String) {
+        public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, stateTemplatesToAdd: [StateTemplateAssociation]? = nil, stateTemplatesToRemove: [String]? = nil, stateTemplatesToUpdate: [StateTemplateAssociation]? = nil, vehicleName: String) {
             self.attributes = attributes
             self.attributeUpdateMode = attributeUpdateMode
             self.decoderManifestArn = decoderManifestArn
             self.modelManifestArn = modelManifestArn
             self.stateTemplatesToAdd = stateTemplatesToAdd
             self.stateTemplatesToRemove = stateTemplatesToRemove
+            self.stateTemplatesToUpdate = stateTemplatesToUpdate
             self.vehicleName = vehicleName
         }
 
@@ -6122,6 +6125,7 @@ extension IoTFleetWise {
             try container.encodeIfPresent(self.modelManifestArn, forKey: .modelManifestArn)
             try container.encodeIfPresent(self.stateTemplatesToAdd, forKey: .stateTemplatesToAdd)
             try container.encodeIfPresent(self.stateTemplatesToRemove, forKey: .stateTemplatesToRemove)
+            try container.encodeIfPresent(self.stateTemplatesToUpdate, forKey: .stateTemplatesToUpdate)
             request.encodePath(self.vehicleName, key: "vehicleName")
         }
 
@@ -6143,6 +6147,11 @@ extension IoTFleetWise {
             }
             try self.validate(self.stateTemplatesToRemove, name: "stateTemplatesToRemove", parent: name, max: 20)
             try self.validate(self.stateTemplatesToRemove, name: "stateTemplatesToRemove", parent: name, min: 1)
+            try self.stateTemplatesToUpdate?.forEach {
+                try $0.validate(name: "\(name).stateTemplatesToUpdate[]")
+            }
+            try self.validate(self.stateTemplatesToUpdate, name: "stateTemplatesToUpdate", parent: name, max: 20)
+            try self.validate(self.stateTemplatesToUpdate, name: "stateTemplatesToUpdate", parent: name, min: 1)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, max: 100)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, min: 1)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
@@ -6155,6 +6164,7 @@ extension IoTFleetWise {
             case modelManifestArn = "modelManifestArn"
             case stateTemplatesToAdd = "stateTemplatesToAdd"
             case stateTemplatesToRemove = "stateTemplatesToRemove"
+            case stateTemplatesToUpdate = "stateTemplatesToUpdate"
         }
     }
 
@@ -6171,17 +6181,20 @@ extension IoTFleetWise {
         public let stateTemplatesToAdd: [StateTemplateAssociation]?
         /// Remove existing state template associations from the vehicle.
         public let stateTemplatesToRemove: [String]?
+        /// Change the stateTemplateUpdateStrategy of state templates already associated with the vehicle.
+        public let stateTemplatesToUpdate: [StateTemplateAssociation]?
         /// The unique ID of the vehicle to update.
         public let vehicleName: String
 
         @inlinable
-        public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, stateTemplatesToAdd: [StateTemplateAssociation]? = nil, stateTemplatesToRemove: [String]? = nil, vehicleName: String) {
+        public init(attributes: [String: String]? = nil, attributeUpdateMode: UpdateMode? = nil, decoderManifestArn: String? = nil, modelManifestArn: String? = nil, stateTemplatesToAdd: [StateTemplateAssociation]? = nil, stateTemplatesToRemove: [String]? = nil, stateTemplatesToUpdate: [StateTemplateAssociation]? = nil, vehicleName: String) {
             self.attributes = attributes
             self.attributeUpdateMode = attributeUpdateMode
             self.decoderManifestArn = decoderManifestArn
             self.modelManifestArn = modelManifestArn
             self.stateTemplatesToAdd = stateTemplatesToAdd
             self.stateTemplatesToRemove = stateTemplatesToRemove
+            self.stateTemplatesToUpdate = stateTemplatesToUpdate
             self.vehicleName = vehicleName
         }
 
@@ -6203,6 +6216,11 @@ extension IoTFleetWise {
             }
             try self.validate(self.stateTemplatesToRemove, name: "stateTemplatesToRemove", parent: name, max: 20)
             try self.validate(self.stateTemplatesToRemove, name: "stateTemplatesToRemove", parent: name, min: 1)
+            try self.stateTemplatesToUpdate?.forEach {
+                try $0.validate(name: "\(name).stateTemplatesToUpdate[]")
+            }
+            try self.validate(self.stateTemplatesToUpdate, name: "stateTemplatesToUpdate", parent: name, max: 20)
+            try self.validate(self.stateTemplatesToUpdate, name: "stateTemplatesToUpdate", parent: name, min: 1)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, max: 100)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, min: 1)
             try self.validate(self.vehicleName, name: "vehicleName", parent: name, pattern: "^[a-zA-Z\\d\\-_:]+$")
@@ -6215,6 +6233,7 @@ extension IoTFleetWise {
             case modelManifestArn = "modelManifestArn"
             case stateTemplatesToAdd = "stateTemplatesToAdd"
             case stateTemplatesToRemove = "stateTemplatesToRemove"
+            case stateTemplatesToUpdate = "stateTemplatesToUpdate"
             case vehicleName = "vehicleName"
         }
     }

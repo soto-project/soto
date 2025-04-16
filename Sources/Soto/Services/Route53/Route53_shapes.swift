@@ -91,6 +91,8 @@ extension Route53 {
         case usIsoEast1 = "us-iso-east-1"
         case usIsoWest1 = "us-iso-west-1"
         case usIsobEast1 = "us-isob-east-1"
+        case usIsofEast1 = "us-isof-east-1"
+        case usIsofSouth1 = "us-isof-south-1"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }
@@ -214,6 +216,8 @@ extension Route53 {
         case saEast1 = "sa-east-1"
         case usEast1 = "us-east-1"
         case usEast2 = "us-east-2"
+        case usGovEast1 = "us-gov-east-1"
+        case usGovWest1 = "us-gov-west-1"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }
@@ -277,6 +281,8 @@ extension Route53 {
         case usIsoEast1 = "us-iso-east-1"
         case usIsoWest1 = "us-iso-west-1"
         case usIsobEast1 = "us-isob-east-1"
+        case usIsofEast1 = "us-isof-east-1"
+        case usIsofSouth1 = "us-isof-south-1"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }

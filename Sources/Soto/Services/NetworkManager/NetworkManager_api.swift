@@ -88,6 +88,14 @@ public struct NetworkManager: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "aws-global": "networkmanager.us-west-2.api.aws",
+            "aws-us-gov-global": "networkmanager.us-gov-west-1.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "aws-global": "networkmanager-fips.us-west-2.api.aws",
+            "aws-us-gov-global": "networkmanager.us-gov-west-1.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "aws-global": "networkmanager-fips.us-west-2.amazonaws.com",
             "aws-us-gov-global": "networkmanager.us-gov-west-1.amazonaws.com"

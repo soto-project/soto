@@ -26,6 +26,7 @@ extension MarketplaceEntitlementService {
     // MARK: Enums
 
     public enum GetEntitlementFilterName: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case customerAwsAccountId = "CUSTOMER_AWS_ACCOUNT_ID"
         case customerIdentifier = "CUSTOMER_IDENTIFIER"
         case dimension = "DIMENSION"
         public var description: String { return self.rawValue }
@@ -34,6 +35,8 @@ extension MarketplaceEntitlementService {
     // MARK: Shapes
 
     public struct Entitlement: AWSDecodableShape {
+        ///  The CustomerAWSAccountID parameter specifies the AWS account ID of the buyer.
+        public let customerAWSAccountId: String?
         /// The customer identifier is a handle to each unique customer in an application. Customer identifiers are obtained through the ResolveCustomer operation in AWS Marketplace Metering Service.
         public let customerIdentifier: String?
         /// The dimension for which the given entitlement applies. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
@@ -46,7 +49,8 @@ extension MarketplaceEntitlementService {
         public let value: EntitlementValue?
 
         @inlinable
-        public init(customerIdentifier: String? = nil, dimension: String? = nil, expirationDate: Date? = nil, productCode: String? = nil, value: EntitlementValue? = nil) {
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, dimension: String? = nil, expirationDate: Date? = nil, productCode: String? = nil, value: EntitlementValue? = nil) {
+            self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.expirationDate = expirationDate
@@ -55,6 +59,7 @@ extension MarketplaceEntitlementService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customerAWSAccountId = "CustomerAWSAccountId"
             case customerIdentifier = "CustomerIdentifier"
             case dimension = "Dimension"
             case expirationDate = "ExpirationDate"
@@ -90,7 +95,7 @@ extension MarketplaceEntitlementService {
     }
 
     public struct GetEntitlementsRequest: AWSEncodableShape {
-        /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.
+        /// Filter is used to return entitlements for a specific customer or for a specific dimension. Filters are described as keys mapped to a lists of values. Filtered requests are unioned for each value in the value list, and then intersected for each filter key.  CustomerIdentifier and CustomerAWSAccountID are mutually exclusive. You can't specify both in the same request.
         public let filter: [GetEntitlementFilterName: [String]]?
         /// The maximum number of items to retrieve from the GetEntitlements operation. For pagination, use the NextToken field in subsequent calls to GetEntitlements.
         public let maxResults: Int?

@@ -705,6 +705,13 @@ extension SageMaker {
         case mlG6Xlarge = "ml.g6.xlarge"
         case mlGr64Xlarge = "ml.gr6.4xlarge"
         case mlGr68Xlarge = "ml.gr6.8xlarge"
+        case mlI3En12Xlarge = "ml.i3en.12xlarge"
+        case mlI3En24Xlarge = "ml.i3en.24xlarge"
+        case mlI3En2Xlarge = "ml.i3en.2xlarge"
+        case mlI3En3Xlarge = "ml.i3en.3xlarge"
+        case mlI3En6Xlarge = "ml.i3en.6xlarge"
+        case mlI3EnLarge = "ml.i3en.large"
+        case mlI3EnXlarge = "ml.i3en.xlarge"
         case mlM512Xlarge = "ml.m5.12xlarge"
         case mlM516Xlarge = "ml.m5.16xlarge"
         case mlM524Xlarge = "ml.m5.24xlarge"
@@ -722,6 +729,15 @@ extension SageMaker {
         case mlM6I8Xlarge = "ml.m6i.8xlarge"
         case mlM6ILarge = "ml.m6i.large"
         case mlM6IXlarge = "ml.m6i.xlarge"
+        case mlM7I12Xlarge = "ml.m7i.12xlarge"
+        case mlM7I16Xlarge = "ml.m7i.16xlarge"
+        case mlM7I24Xlarge = "ml.m7i.24xlarge"
+        case mlM7I2Xlarge = "ml.m7i.2xlarge"
+        case mlM7I48Xlarge = "ml.m7i.48xlarge"
+        case mlM7I4Xlarge = "ml.m7i.4xlarge"
+        case mlM7I8Xlarge = "ml.m7i.8xlarge"
+        case mlM7ILarge = "ml.m7i.large"
+        case mlM7IXlarge = "ml.m7i.xlarge"
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
@@ -736,6 +752,15 @@ extension SageMaker {
         case mlR6I8Xlarge = "ml.r6i.8xlarge"
         case mlR6ILarge = "ml.r6i.large"
         case mlR6IXlarge = "ml.r6i.xlarge"
+        case mlR7I12Xlarge = "ml.r7i.12xlarge"
+        case mlR7I16Xlarge = "ml.r7i.16xlarge"
+        case mlR7I24Xlarge = "ml.r7i.24xlarge"
+        case mlR7I2Xlarge = "ml.r7i.2xlarge"
+        case mlR7I48Xlarge = "ml.r7i.48xlarge"
+        case mlR7I4Xlarge = "ml.r7i.4xlarge"
+        case mlR7I8Xlarge = "ml.r7i.8xlarge"
+        case mlR7ILarge = "ml.r7i.large"
+        case mlR7IXlarge = "ml.r7i.xlarge"
         case mlT32Xlarge = "ml.t3.2xlarge"
         case mlT3Large = "ml.t3.large"
         case mlT3Medium = "ml.t3.medium"
@@ -1915,6 +1940,14 @@ extension SageMaker {
         case mlG648Xlarge = "ml.g6.48xlarge"
         case mlG64Xlarge = "ml.g6.4xlarge"
         case mlG68Xlarge = "ml.g6.8xlarge"
+        case mlG6E12Xlarge = "ml.g6e.12xlarge"
+        case mlG6E16Xlarge = "ml.g6e.16xlarge"
+        case mlG6E24Xlarge = "ml.g6e.24xlarge"
+        case mlG6E2Xlarge = "ml.g6e.2xlarge"
+        case mlG6E48Xlarge = "ml.g6e.48xlarge"
+        case mlG6E4Xlarge = "ml.g6e.4xlarge"
+        case mlG6E8Xlarge = "ml.g6e.8xlarge"
+        case mlG6EXlarge = "ml.g6e.xlarge"
         case mlG6Xlarge = "ml.g6.xlarge"
         case mlInf224Xlarge = "ml.inf2.24xlarge"
         case mlInf248Xlarge = "ml.inf2.48xlarge"
@@ -2021,6 +2054,14 @@ extension SageMaker {
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
         case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC6I12Xlarge = "ml.c6i.12xlarge"
+        case mlC6I16Xlarge = "ml.c6i.16xlarge"
+        case mlC6I24Xlarge = "ml.c6i.24xlarge"
+        case mlC6I2Xlarge = "ml.c6i.2xlarge"
+        case mlC6I32Xlarge = "ml.c6i.32xlarge"
+        case mlC6I4Xlarge = "ml.c6i.4xlarge"
+        case mlC6I8Xlarge = "ml.c6i.8xlarge"
+        case mlC6IXlarge = "ml.c6i.xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
         case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
@@ -2035,6 +2076,22 @@ extension SageMaker {
         case mlG54Xlarge = "ml.g5.4xlarge"
         case mlG58Xlarge = "ml.g5.8xlarge"
         case mlG5Xlarge = "ml.g5.xlarge"
+        case mlG612Xlarge = "ml.g6.12xlarge"
+        case mlG616Xlarge = "ml.g6.16xlarge"
+        case mlG624Xlarge = "ml.g6.24xlarge"
+        case mlG62Xlarge = "ml.g6.2xlarge"
+        case mlG648Xlarge = "ml.g6.48xlarge"
+        case mlG64Xlarge = "ml.g6.4xlarge"
+        case mlG68Xlarge = "ml.g6.8xlarge"
+        case mlG6E12Xlarge = "ml.g6e.12xlarge"
+        case mlG6E16Xlarge = "ml.g6e.16xlarge"
+        case mlG6E24Xlarge = "ml.g6e.24xlarge"
+        case mlG6E2Xlarge = "ml.g6e.2xlarge"
+        case mlG6E48Xlarge = "ml.g6e.48xlarge"
+        case mlG6E4Xlarge = "ml.g6e.4xlarge"
+        case mlG6E8Xlarge = "ml.g6e.8xlarge"
+        case mlG6EXlarge = "ml.g6e.xlarge"
+        case mlG6Xlarge = "ml.g6.xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -2046,6 +2103,15 @@ extension SageMaker {
         case mlM54Xlarge = "ml.m5.4xlarge"
         case mlM5Large = "ml.m5.large"
         case mlM5Xlarge = "ml.m5.xlarge"
+        case mlM6I12Xlarge = "ml.m6i.12xlarge"
+        case mlM6I16Xlarge = "ml.m6i.16xlarge"
+        case mlM6I24Xlarge = "ml.m6i.24xlarge"
+        case mlM6I2Xlarge = "ml.m6i.2xlarge"
+        case mlM6I32Xlarge = "ml.m6i.32xlarge"
+        case mlM6I4Xlarge = "ml.m6i.4xlarge"
+        case mlM6I8Xlarge = "ml.m6i.8xlarge"
+        case mlM6ILarge = "ml.m6i.large"
+        case mlM6IXlarge = "ml.m6i.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
         case mlP28Xlarge = "ml.p2.8xlarge"
         case mlP2Xlarge = "ml.p2.xlarge"
@@ -2464,6 +2530,12 @@ extension SageMaker {
     public enum RedshiftResultFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case csv = "CSV"
         case parquet = "PARQUET"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Relation: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case equalTo = "EqualTo"
+        case greaterThanOrEqualTo = "GreaterThanOrEqualTo"
         public var description: String { return self.rawValue }
     }
 
@@ -7616,6 +7688,8 @@ extension SageMaker {
         public let appType: AppType?
         /// The domain ID.
         public let domainId: String?
+        ///  Indicates whether the application is launched in recovery mode.
+        public let recoveryMode: Bool?
         /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.  The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
         public let resourceSpec: ResourceSpec?
         /// The name of the space. If this value is not set, then UserProfileName must be set.
@@ -7626,10 +7700,11 @@ extension SageMaker {
         public let userProfileName: String?
 
         @inlinable
-        public init(appName: String? = nil, appType: AppType? = nil, domainId: String? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, tags: [Tag]? = nil, userProfileName: String? = nil) {
+        public init(appName: String? = nil, appType: AppType? = nil, domainId: String? = nil, recoveryMode: Bool? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, tags: [Tag]? = nil, userProfileName: String? = nil) {
             self.appName = appName
             self.appType = appType
             self.domainId = domainId
+            self.recoveryMode = recoveryMode
             self.resourceSpec = resourceSpec
             self.spaceName = spaceName
             self.tags = tags
@@ -7656,6 +7731,7 @@ extension SageMaker {
             case appName = "AppName"
             case appType = "AppType"
             case domainId = "DomainId"
+            case recoveryMode = "RecoveryMode"
             case resourceSpec = "ResourceSpec"
             case spaceName = "SpaceName"
             case tags = "Tags"
@@ -10680,12 +10756,15 @@ extension SageMaker {
         public let onCreate: [NotebookInstanceLifecycleHook]?
         /// A shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
         public let onStart: [NotebookInstanceLifecycleHook]?
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(notebookInstanceLifecycleConfigName: String? = nil, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil) {
+        public init(notebookInstanceLifecycleConfigName: String? = nil, onCreate: [NotebookInstanceLifecycleHook]? = nil, onStart: [NotebookInstanceLifecycleHook]? = nil, tags: [Tag]? = nil) {
             self.notebookInstanceLifecycleConfigName = notebookInstanceLifecycleConfigName
             self.onCreate = onCreate
             self.onStart = onStart
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -10699,12 +10778,17 @@ extension SageMaker {
                 try $0.validate(name: "\(name).onStart[]")
             }
             try self.validate(self.onStart, name: "onStart", parent: name, max: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case notebookInstanceLifecycleConfigName = "NotebookInstanceLifecycleConfigName"
             case onCreate = "OnCreate"
             case onStart = "OnStart"
+            case tags = "Tags"
         }
     }
 
@@ -10883,6 +10967,8 @@ extension SageMaker {
         public let enableIamSessionBasedIdentity: Bool?
         /// The ARN of the IAM role that the partner application uses.
         public let executionRoleArn: String?
+        /// SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a customer managed key.
+        public let kmsKeyId: String?
         /// Maintenance configuration settings for the SageMaker Partner AI App.
         public let maintenanceConfig: PartnerAppMaintenanceConfig?
         /// The name to give the SageMaker Partner AI App.
@@ -10895,12 +10981,13 @@ extension SageMaker {
         public let type: PartnerAppType?
 
         @inlinable
-        public init(applicationConfig: PartnerAppConfig? = nil, authType: PartnerAppAuthType? = nil, clientToken: String? = CreatePartnerAppRequest.idempotencyToken(), enableIamSessionBasedIdentity: Bool? = nil, executionRoleArn: String? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, tags: [Tag]? = nil, tier: String? = nil, type: PartnerAppType? = nil) {
+        public init(applicationConfig: PartnerAppConfig? = nil, authType: PartnerAppAuthType? = nil, clientToken: String? = CreatePartnerAppRequest.idempotencyToken(), enableIamSessionBasedIdentity: Bool? = nil, executionRoleArn: String? = nil, kmsKeyId: String? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, tags: [Tag]? = nil, tier: String? = nil, type: PartnerAppType? = nil) {
             self.applicationConfig = applicationConfig
             self.authType = authType
             self.clientToken = clientToken
             self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
             self.executionRoleArn = executionRoleArn
+            self.kmsKeyId = kmsKeyId
             self.maintenanceConfig = maintenanceConfig
             self.name = name
             self.tags = tags
@@ -10916,6 +11003,8 @@ extension SageMaker {
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, max: 2048)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, min: 20)
             try self.validate(self.executionRoleArn, name: "executionRoleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
             try self.maintenanceConfig?.validate(name: "\(name).maintenanceConfig")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -10934,6 +11023,7 @@ extension SageMaker {
             case clientToken = "ClientToken"
             case enableIamSessionBasedIdentity = "EnableIamSessionBasedIdentity"
             case executionRoleArn = "ExecutionRoleArn"
+            case kmsKeyId = "KmsKeyId"
             case maintenanceConfig = "MaintenanceConfig"
             case name = "Name"
             case tags = "Tags"
@@ -11191,12 +11281,12 @@ extension SageMaker {
     public struct CreateProcessingJobRequest: AWSEncodableShape {
         /// Configures the processing job to run a specified Docker container image.
         public let appSpecification: AppSpecification?
-        /// The environment variables to set in the Docker container. Up to  100 key and values entries in the map are supported.
+        /// The environment variables to set in the Docker container. Up to 100 key and values entries in the map are supported.
         public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
-        /// Networking options for a processing job, such as whether to allow inbound and  outbound network calls to and from processing containers, and the VPC subnets and  security groups to use for VPC-enabled processing jobs.
+        /// Networking options for a processing job, such as whether to allow inbound and outbound network calls to and from processing containers, and the VPC subnets and security groups to use for VPC-enabled processing jobs.
         public let networkConfig: NetworkConfig?
-        /// An array of inputs configuring the data to download into the  processing container.
+        /// An array of inputs configuring the data to download into the processing container.
         public let processingInputs: [ProcessingInput]?
         ///  The name of the processing job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
         public let processingJobName: String?
@@ -14600,6 +14690,8 @@ extension SageMaker {
         public let lastHealthCheckTimestamp: Date?
         /// The timestamp of the last user's activity. LastUserActivityTimestamp is also updated when SageMaker AI performs health checks without user activity. As a result, this value is set to the same value as LastHealthCheckTimestamp.
         public let lastUserActivityTimestamp: Date?
+        ///  Indicates whether the application is launched in recovery mode.
+        public let recoveryMode: Bool?
         /// The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.
         public let resourceSpec: ResourceSpec?
         /// The name of the space. If this value is not set, then UserProfileName must be set.
@@ -14610,7 +14702,7 @@ extension SageMaker {
         public let userProfileName: String?
 
         @inlinable
-        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, builtInLifecycleConfigArn: String? = nil, creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
+        public init(appArn: String? = nil, appName: String? = nil, appType: AppType? = nil, builtInLifecycleConfigArn: String? = nil, creationTime: Date? = nil, domainId: String? = nil, failureReason: String? = nil, lastHealthCheckTimestamp: Date? = nil, lastUserActivityTimestamp: Date? = nil, recoveryMode: Bool? = nil, resourceSpec: ResourceSpec? = nil, spaceName: String? = nil, status: AppStatus? = nil, userProfileName: String? = nil) {
             self.appArn = appArn
             self.appName = appName
             self.appType = appType
@@ -14620,6 +14712,7 @@ extension SageMaker {
             self.failureReason = failureReason
             self.lastHealthCheckTimestamp = lastHealthCheckTimestamp
             self.lastUserActivityTimestamp = lastUserActivityTimestamp
+            self.recoveryMode = recoveryMode
             self.resourceSpec = resourceSpec
             self.spaceName = spaceName
             self.status = status
@@ -14636,6 +14729,7 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case lastHealthCheckTimestamp = "LastHealthCheckTimestamp"
             case lastUserActivityTimestamp = "LastUserActivityTimestamp"
+            case recoveryMode = "RecoveryMode"
             case resourceSpec = "ResourceSpec"
             case spaceName = "SpaceName"
             case status = "Status"
@@ -18487,6 +18581,10 @@ extension SageMaker {
         public let error: ErrorInfo?
         /// The ARN of the IAM role associated with the SageMaker Partner AI App.
         public let executionRoleArn: String?
+        /// The Amazon Web Services KMS customer managed key used to encrypt the data at rest associated with SageMaker Partner AI Apps.
+        public let kmsKeyId: String?
+        /// The time that the SageMaker Partner AI App was last modified.
+        public let lastModifiedTime: Date?
         /// Maintenance configuration settings for the SageMaker Partner AI App.
         public let maintenanceConfig: PartnerAppMaintenanceConfig?
         /// The name of the SageMaker Partner AI App.
@@ -18501,7 +18599,7 @@ extension SageMaker {
         public let version: String?
 
         @inlinable
-        public init(applicationConfig: PartnerAppConfig? = nil, arn: String? = nil, authType: PartnerAppAuthType? = nil, baseUrl: String? = nil, creationTime: Date? = nil, enableIamSessionBasedIdentity: Bool? = nil, error: ErrorInfo? = nil, executionRoleArn: String? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, status: PartnerAppStatus? = nil, tier: String? = nil, type: PartnerAppType? = nil, version: String? = nil) {
+        public init(applicationConfig: PartnerAppConfig? = nil, arn: String? = nil, authType: PartnerAppAuthType? = nil, baseUrl: String? = nil, creationTime: Date? = nil, enableIamSessionBasedIdentity: Bool? = nil, error: ErrorInfo? = nil, executionRoleArn: String? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, maintenanceConfig: PartnerAppMaintenanceConfig? = nil, name: String? = nil, status: PartnerAppStatus? = nil, tier: String? = nil, type: PartnerAppType? = nil, version: String? = nil) {
             self.applicationConfig = applicationConfig
             self.arn = arn
             self.authType = authType
@@ -18510,6 +18608,8 @@ extension SageMaker {
             self.enableIamSessionBasedIdentity = enableIamSessionBasedIdentity
             self.error = error
             self.executionRoleArn = executionRoleArn
+            self.kmsKeyId = kmsKeyId
+            self.lastModifiedTime = lastModifiedTime
             self.maintenanceConfig = maintenanceConfig
             self.name = name
             self.status = status
@@ -18527,6 +18627,8 @@ extension SageMaker {
             case enableIamSessionBasedIdentity = "EnableIamSessionBasedIdentity"
             case error = "Error"
             case executionRoleArn = "ExecutionRoleArn"
+            case kmsKeyId = "KmsKeyId"
+            case lastModifiedTime = "LastModifiedTime"
             case maintenanceConfig = "MaintenanceConfig"
             case name = "Name"
             case status = "Status"
@@ -35185,7 +35287,7 @@ extension SageMaker {
     }
 
     public struct ProcessingFeatureStoreOutput: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the Amazon SageMaker FeatureGroup to use as the destination for processing job output. Note that your  processing script is responsible for putting records into your Feature Store.
+        /// The name of the Amazon SageMaker FeatureGroup to use as the destination for processing job output. Note that your processing script is responsible for putting records into your Feature Store.
         public let featureGroupName: String?
 
         @inlinable
@@ -35415,7 +35517,7 @@ extension SageMaker {
     }
 
     public struct ProcessingOutputConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, alias of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the processing job output. KmsKeyId can be an ID of a KMS key, ARN of a KMS key, or alias of a KMS key. The KmsKeyId is applied to all outputs.
         public let kmsKeyId: String?
         /// An array of outputs configuring the data to upload from the processing container.
         public let outputs: [ProcessingOutput]?
@@ -35460,15 +35562,15 @@ extension SageMaker {
     }
 
     public struct ProcessingS3Input: AWSEncodableShape & AWSDecodableShape {
-        /// The local path in your container where you want Amazon SageMaker to write input data to.  LocalPath is an absolute path to the input data and must begin with  /opt/ml/processing/. LocalPath is a required  parameter when AppManaged is False (default).
+        /// The local path in your container where you want Amazon SageMaker to write input data to. LocalPath is an absolute path to the input data and must begin with /opt/ml/processing/. LocalPath is a required parameter when AppManaged is False (default).
         public let localPath: String?
-        /// Whether to GZIP-decompress the data in Amazon S3 as it is streamed into the processing  container. Gzip can only be used when Pipe mode is  specified as the S3InputMode. In Pipe mode, Amazon SageMaker streams input  data from the source directly to your container without using the EBS volume.
+        /// Whether to GZIP-decompress the data in Amazon S3 as it is streamed into the processing container. Gzip can only be used when Pipe mode is specified as the S3InputMode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your container without using the EBS volume.
         public let s3CompressionType: ProcessingS3CompressionType?
-        /// Whether to distribute the data from Amazon S3 to all processing instances with  FullyReplicated, or whether the data from Amazon S3 is shared by Amazon S3 key,  downloading one shard of data to each processing instance.
+        /// Whether to distribute the data from Amazon S3 to all processing instances with FullyReplicated, or whether the data from Amazon S3 is shared by Amazon S3 key, downloading one shard of data to each processing instance.
         public let s3DataDistributionType: ProcessingS3DataDistributionType?
         /// Whether you use an S3Prefix or a ManifestFile for the data type. If you choose S3Prefix, S3Uri identifies a key name prefix. Amazon SageMaker uses all objects with the specified key name prefix for the processing job. If you choose ManifestFile, S3Uri identifies an object that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for the processing job.
         public let s3DataType: ProcessingS3DataType?
-        /// Whether to use File or Pipe input mode. In File mode, Amazon SageMaker copies the data  from the input source onto the local ML storage volume before starting your processing  container. This is the most commonly used input mode. In Pipe mode, Amazon SageMaker  streams input data from the source directly to your processing container into named  pipes without using the ML storage volume.
+        /// Whether to use File or Pipe input mode. In File mode, Amazon SageMaker copies the data from the input source onto the local ML storage volume before starting your processing container. This is the most commonly used input mode. In Pipe mode, Amazon SageMaker streams input data from the source directly to your processing container into named pipes without using the ML storage volume.
         public let s3InputMode: ProcessingS3InputMode?
         /// The URI of the Amazon S3 prefix Amazon SageMaker downloads data required to run a processing job.
         public let s3Uri: String?
@@ -35501,7 +35603,7 @@ extension SageMaker {
     }
 
     public struct ProcessingS3Output: AWSEncodableShape & AWSDecodableShape {
-        /// The local path of a directory where you want Amazon SageMaker to upload its contents to Amazon S3.  LocalPath is an absolute path to a directory containing output files.  This directory will be created by the platform and exist when your container's  entrypoint is invoked.
+        /// The local path of a directory where you want Amazon SageMaker to upload its contents to Amazon S3. LocalPath is an absolute path to a directory containing output files. This directory will be created by the platform and exist when your container's entrypoint is invoked.
         public let localPath: String?
         /// Whether to upload the results of the processing job continuously or after the job completes.
         public let s3UploadMode: ProcessingS3UploadMode?
@@ -37904,7 +38006,7 @@ extension SageMaker {
     }
 
     public struct SearchRequest: AWSEncodableShape {
-        ///  A cross account filter option. When the value is "CrossAccount" the  search results will only include resources made discoverable to you from other  accounts. When the value is "SameAccount" or null the  search results will only include resources from your account. Default is  null. For more information on searching for resources made  discoverable to your account, see  Search discoverable resources in the SageMaker Developer Guide. The maximum number of ResourceCatalogs viewable is 1000.
+        ///  A cross account filter option. When the value is "CrossAccount" the search results will only include resources made discoverable to you from other accounts. When the value is "SameAccount" or null the search results will only include resources from your account. Default is null. For more information on searching for resources made discoverable to your account, see  Search discoverable resources in the SageMaker Developer Guide. The maximum number of ResourceCatalogs viewable is 1000.
         public let crossAccountFilterOption: CrossAccountFilterOption?
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -37966,16 +38068,20 @@ extension SageMaker {
         public let nextToken: String?
         /// A list of SearchRecord objects.
         public let results: [SearchRecord]?
+        /// The total number of matching results.
+        public let totalHits: TotalHits?
 
         @inlinable
-        public init(nextToken: String? = nil, results: [SearchRecord]? = nil) {
+        public init(nextToken: String? = nil, results: [SearchRecord]? = nil, totalHits: TotalHits? = nil) {
             self.nextToken = nextToken
             self.results = results
+            self.totalHits = totalHits
         }
 
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case results = "Results"
+            case totalHits = "TotalHits"
         }
     }
 
@@ -40017,6 +40123,24 @@ extension SageMaker {
         }
     }
 
+    public struct TotalHits: AWSDecodableShape {
+        /// Indicates the relationship between the returned Value and the actual total number of matching results. Possible values are:    EqualTo: The Value is the exact count of matching results.    GreaterThanOrEqualTo: The Value is a lower bound of the actual count of matching results.
+        public let relation: Relation?
+        /// The total number of matching results. This value may be exact or an estimate, depending on the Relation field.
+        public let value: Int64?
+
+        @inlinable
+        public init(relation: Relation? = nil, value: Int64? = nil) {
+            self.relation = relation
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case relation = "Relation"
+            case value = "Value"
+        }
+    }
+
     public struct TrackingServerSummary: AWSDecodableShape {
         /// The creation time of a listed tracking server.
         public let creationTime: Date?
@@ -40954,18 +41078,24 @@ extension SageMaker {
         public let instanceCount: Int?
         /// The ML compute instance type for the transform job. If you are using built-in algorithms to transform moderately sized datasets, we recommend using ml.m4.xlarge or ml.m5.largeinstance types.
         public let instanceType: TransformInstanceType?
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions.  al2-ami-sagemaker-batch-gpu-470    Accelerator: GPU   NVIDIA driver version: 470    al2-ami-sagemaker-batch-gpu-535    Accelerator: GPU   NVIDIA driver version: 535
+        public let transformAmiVersion: String?
         /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume attached to the ML compute instance(s) that run the batch transform job.  Certain Nitro-based instances include local storage, dependent on the instance type. Local storage volumes are encrypted using a hardware module on the instance. You can't request a VolumeKmsKeyId when using an instance type with local storage. For a list of instance types that support local instance storage, see Instance Store Volumes. For more information about local instance storage encryption, see SSD Instance Store Volumes.   The VolumeKmsKeyId can be any of the following formats:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let volumeKmsKeyId: String?
 
         @inlinable
-        public init(instanceCount: Int? = nil, instanceType: TransformInstanceType? = nil, volumeKmsKeyId: String? = nil) {
+        public init(instanceCount: Int? = nil, instanceType: TransformInstanceType? = nil, transformAmiVersion: String? = nil, volumeKmsKeyId: String? = nil) {
             self.instanceCount = instanceCount
             self.instanceType = instanceType
+            self.transformAmiVersion = transformAmiVersion
             self.volumeKmsKeyId = volumeKmsKeyId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 1)
+            try self.validate(self.transformAmiVersion, name: "transformAmiVersion", parent: name, max: 63)
+            try self.validate(self.transformAmiVersion, name: "transformAmiVersion", parent: name, min: 1)
+            try self.validate(self.transformAmiVersion, name: "transformAmiVersion", parent: name, pattern: "^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$")
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_-]*$")
         }
@@ -40973,6 +41103,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case instanceCount = "InstanceCount"
             case instanceType = "InstanceType"
+            case transformAmiVersion = "TransformAmiVersion"
             case volumeKmsKeyId = "VolumeKmsKeyId"
         }
     }

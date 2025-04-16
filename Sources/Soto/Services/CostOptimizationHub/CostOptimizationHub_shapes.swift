@@ -78,6 +78,7 @@ extension CostOptimizationHub {
 
     public enum ResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case computeSavingsPlans = "ComputeSavingsPlans"
+        case dynamoDbReservedCapacity = "DynamoDbReservedCapacity"
         case ebsVolume = "EbsVolume"
         case ec2AutoScalingGroup = "Ec2AutoScalingGroup"
         case ec2Instance = "Ec2Instance"
@@ -86,6 +87,7 @@ extension CostOptimizationHub {
         case ecsService = "EcsService"
         case elastiCacheReservedInstances = "ElastiCacheReservedInstances"
         case lambdaFunction = "LambdaFunction"
+        case memoryDbReservedInstances = "MemoryDbReservedInstances"
         case openSearchReservedInstances = "OpenSearchReservedInstances"
         case rdsDbInstance = "RdsDbInstance"
         case rdsDbInstanceStorage = "RdsDbInstanceStorage"
@@ -121,6 +123,8 @@ extension CostOptimizationHub {
     public enum ResourceDetails: AWSDecodableShape, Sendable {
         /// The Compute Savings Plans recommendation details.
         case computeSavingsPlans(ComputeSavingsPlans)
+        /// The DynamoDB reserved capacity recommendation details.
+        case dynamoDbReservedCapacity(DynamoDbReservedCapacity)
         /// The Amazon Elastic Block Store volume recommendation details.
         case ebsVolume(EbsVolume)
         /// The EC2 Auto Scaling group recommendation details.
@@ -137,6 +141,8 @@ extension CostOptimizationHub {
         case elastiCacheReservedInstances(ElastiCacheReservedInstances)
         /// The Lambda function recommendation details.
         case lambdaFunction(LambdaFunction)
+        /// The MemoryDB reserved instances recommendation details.
+        case memoryDbReservedInstances(MemoryDbReservedInstances)
         /// The OpenSearch reserved instances recommendation details.
         case openSearchReservedInstances(OpenSearchReservedInstances)
         /// The DB instance recommendation details.
@@ -163,6 +169,9 @@ extension CostOptimizationHub {
             case .computeSavingsPlans:
                 let value = try container.decode(ComputeSavingsPlans.self, forKey: .computeSavingsPlans)
                 self = .computeSavingsPlans(value)
+            case .dynamoDbReservedCapacity:
+                let value = try container.decode(DynamoDbReservedCapacity.self, forKey: .dynamoDbReservedCapacity)
+                self = .dynamoDbReservedCapacity(value)
             case .ebsVolume:
                 let value = try container.decode(EbsVolume.self, forKey: .ebsVolume)
                 self = .ebsVolume(value)
@@ -187,6 +196,9 @@ extension CostOptimizationHub {
             case .lambdaFunction:
                 let value = try container.decode(LambdaFunction.self, forKey: .lambdaFunction)
                 self = .lambdaFunction(value)
+            case .memoryDbReservedInstances:
+                let value = try container.decode(MemoryDbReservedInstances.self, forKey: .memoryDbReservedInstances)
+                self = .memoryDbReservedInstances(value)
             case .openSearchReservedInstances:
                 let value = try container.decode(OpenSearchReservedInstances.self, forKey: .openSearchReservedInstances)
                 self = .openSearchReservedInstances(value)
@@ -210,6 +222,7 @@ extension CostOptimizationHub {
 
         private enum CodingKeys: String, CodingKey {
             case computeSavingsPlans = "computeSavingsPlans"
+            case dynamoDbReservedCapacity = "dynamoDbReservedCapacity"
             case ebsVolume = "ebsVolume"
             case ec2AutoScalingGroup = "ec2AutoScalingGroup"
             case ec2Instance = "ec2Instance"
@@ -218,6 +231,7 @@ extension CostOptimizationHub {
             case ecsService = "ecsService"
             case elastiCacheReservedInstances = "elastiCacheReservedInstances"
             case lambdaFunction = "lambdaFunction"
+            case memoryDbReservedInstances = "memoryDbReservedInstances"
             case openSearchReservedInstances = "openSearchReservedInstances"
             case rdsDbInstance = "rdsDbInstance"
             case rdsDbInstanceStorage = "rdsDbInstanceStorage"
@@ -318,7 +332,7 @@ extension CostOptimizationHub {
     }
 
     public struct ComputeSavingsPlansConfiguration: AWSDecodableShape {
-        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
+        /// The account scope for which you want recommendations. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: String?
         /// The hourly commitment for the Savings Plans type.
         public let hourlyCommitment: String?
@@ -354,6 +368,69 @@ extension CostOptimizationHub {
 
         private enum CodingKeys: String, CodingKey {
             case dbInstanceClass = "dbInstanceClass"
+        }
+    }
+
+    public struct DynamoDbReservedCapacity: AWSDecodableShape {
+        /// The DynamoDB reserved capacity configuration used for recommendations.
+        public let configuration: DynamoDbReservedCapacityConfiguration?
+        public let costCalculation: ReservedInstancesCostCalculation?
+
+        @inlinable
+        public init(configuration: DynamoDbReservedCapacityConfiguration? = nil, costCalculation: ReservedInstancesCostCalculation? = nil) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case costCalculation = "costCalculation"
+        }
+    }
+
+    public struct DynamoDbReservedCapacityConfiguration: AWSDecodableShape {
+        /// The account scope for which you want recommendations.
+        public let accountScope: String?
+        /// The capacity unit of the recommended reservation.
+        public let capacityUnits: String?
+        /// How much purchasing this reserved capacity costs you on a monthly basis.
+        public let monthlyRecurringCost: String?
+        /// The number of reserved capacity units that Amazon Web Services recommends that you purchase.
+        public let numberOfCapacityUnitsToPurchase: String?
+        /// The payment option for the commitment.
+        public let paymentOption: String?
+        /// The Amazon Web Services Region of the commitment.
+        public let reservedInstancesRegion: String?
+        /// The service for which you want recommendations.
+        public let service: String?
+        /// The reserved capacity recommendation term in years.
+        public let term: String?
+        /// How much purchasing this reserved capacity costs you upfront.
+        public let upfrontCost: String?
+
+        @inlinable
+        public init(accountScope: String? = nil, capacityUnits: String? = nil, monthlyRecurringCost: String? = nil, numberOfCapacityUnitsToPurchase: String? = nil, paymentOption: String? = nil, reservedInstancesRegion: String? = nil, service: String? = nil, term: String? = nil, upfrontCost: String? = nil) {
+            self.accountScope = accountScope
+            self.capacityUnits = capacityUnits
+            self.monthlyRecurringCost = monthlyRecurringCost
+            self.numberOfCapacityUnitsToPurchase = numberOfCapacityUnitsToPurchase
+            self.paymentOption = paymentOption
+            self.reservedInstancesRegion = reservedInstancesRegion
+            self.service = service
+            self.term = term
+            self.upfrontCost = upfrontCost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountScope = "accountScope"
+            case capacityUnits = "capacityUnits"
+            case monthlyRecurringCost = "monthlyRecurringCost"
+            case numberOfCapacityUnitsToPurchase = "numberOfCapacityUnitsToPurchase"
+            case paymentOption = "paymentOption"
+            case reservedInstancesRegion = "reservedInstancesRegion"
+            case service = "service"
+            case term = "term"
+            case upfrontCost = "upfrontCost"
         }
     }
 
@@ -492,7 +569,7 @@ extension CostOptimizationHub {
     }
 
     public struct Ec2InstanceSavingsPlansConfiguration: AWSDecodableShape {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public let accountScope: String?
         /// The hourly commitment for the Savings Plans type.
         public let hourlyCommitment: String?
@@ -544,7 +621,7 @@ extension CostOptimizationHub {
     }
 
     public struct Ec2ReservedInstancesConfiguration: AWSDecodableShape {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public let accountScope: String?
         /// Determines whether the recommendation is for a current generation instance.
         public let currentGeneration: String?
@@ -552,7 +629,7 @@ extension CostOptimizationHub {
         public let instanceFamily: String?
         /// The type of instance that Amazon Web Services recommends.
         public let instanceType: String?
-        /// How much purchasing reserved instances costs you on a monthly basis.
+        /// How much purchasing these reserved instances costs you on a monthly basis.
         public let monthlyRecurringCost: String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public let normalizedUnitsToPurchase: String?
@@ -566,7 +643,7 @@ extension CostOptimizationHub {
         public let platform: String?
         /// The Amazon Web Services Region of the commitment.
         public let reservedInstancesRegion: String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
         public let service: String?
         /// Determines whether the recommendation is size flexible.
         public let sizeFlexEligible: Bool?
@@ -668,7 +745,7 @@ extension CostOptimizationHub {
     }
 
     public struct ElastiCacheReservedInstancesConfiguration: AWSDecodableShape {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public let accountScope: String?
         /// Determines whether the recommendation is for a current generation instance.
         public let currentGeneration: String?
@@ -676,7 +753,7 @@ extension CostOptimizationHub {
         public let instanceFamily: String?
         /// The type of instance that Amazon Web Services recommends.
         public let instanceType: String?
-        /// How much purchasing reserved instances costs you on a monthly basis.
+        /// How much purchasing these reserved instances costs you on a monthly basis.
         public let monthlyRecurringCost: String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public let normalizedUnitsToPurchase: String?
@@ -686,7 +763,7 @@ extension CostOptimizationHub {
         public let paymentOption: String?
         /// The Amazon Web Services Region of the commitment.
         public let reservedInstancesRegion: String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
         public let service: String?
         /// Determines whether the recommendation is size flexible.
         public let sizeFlexEligible: Bool?
@@ -752,7 +829,7 @@ extension CostOptimizationHub {
     }
 
     public struct Filter: AWSEncodableShape {
-        /// The account that the recommendation is for.
+        /// The account to which the recommendation applies.
         public let accountIds: [String]?
         /// The type of action you can take by adopting the recommendation.
         public let actionTypes: [ActionType]?
@@ -866,7 +943,7 @@ extension CostOptimizationHub {
     }
 
     public struct GetRecommendationResponse: AWSDecodableShape {
-        /// The account that the recommendation is for.
+        /// The account to which the recommendation applies.
         public let accountId: String?
         /// The type of action you can take by adopting the recommendation.
         public let actionType: ActionType?
@@ -1192,6 +1269,85 @@ extension CostOptimizationHub {
         }
     }
 
+    public struct MemoryDbReservedInstances: AWSDecodableShape {
+        /// The MemoryDB reserved instances configuration used for recommendations.
+        public let configuration: MemoryDbReservedInstancesConfiguration?
+        public let costCalculation: ReservedInstancesCostCalculation?
+
+        @inlinable
+        public init(configuration: MemoryDbReservedInstancesConfiguration? = nil, costCalculation: ReservedInstancesCostCalculation? = nil) {
+            self.configuration = configuration
+            self.costCalculation = costCalculation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
+            case costCalculation = "costCalculation"
+        }
+    }
+
+    public struct MemoryDbReservedInstancesConfiguration: AWSDecodableShape {
+        /// The account scope for which you want recommendations.
+        public let accountScope: String?
+        /// Determines whether the recommendation is for a current generation instance.
+        public let currentGeneration: String?
+        /// The instance family of the recommended reservation.
+        public let instanceFamily: String?
+        /// The type of instance that Amazon Web Services recommends.
+        public let instanceType: String?
+        /// How much purchasing these reserved instances costs you on a monthly basis.
+        public let monthlyRecurringCost: String?
+        /// The number of normalized units that Amazon Web Services recommends that you purchase.
+        public let normalizedUnitsToPurchase: String?
+        /// The number of instances that Amazon Web Services recommends that you purchase.
+        public let numberOfInstancesToPurchase: String?
+        /// The payment option for the commitment.
+        public let paymentOption: String?
+        /// The Amazon Web Services Region of the commitment.
+        public let reservedInstancesRegion: String?
+        /// The service for which you want recommendations.
+        public let service: String?
+        /// Determines whether the recommendation is size flexible.
+        public let sizeFlexEligible: Bool?
+        /// The reserved instances recommendation term in years.
+        public let term: String?
+        /// How much purchasing these reserved instances costs you upfront.
+        public let upfrontCost: String?
+
+        @inlinable
+        public init(accountScope: String? = nil, currentGeneration: String? = nil, instanceFamily: String? = nil, instanceType: String? = nil, monthlyRecurringCost: String? = nil, normalizedUnitsToPurchase: String? = nil, numberOfInstancesToPurchase: String? = nil, paymentOption: String? = nil, reservedInstancesRegion: String? = nil, service: String? = nil, sizeFlexEligible: Bool? = nil, term: String? = nil, upfrontCost: String? = nil) {
+            self.accountScope = accountScope
+            self.currentGeneration = currentGeneration
+            self.instanceFamily = instanceFamily
+            self.instanceType = instanceType
+            self.monthlyRecurringCost = monthlyRecurringCost
+            self.normalizedUnitsToPurchase = normalizedUnitsToPurchase
+            self.numberOfInstancesToPurchase = numberOfInstancesToPurchase
+            self.paymentOption = paymentOption
+            self.reservedInstancesRegion = reservedInstancesRegion
+            self.service = service
+            self.sizeFlexEligible = sizeFlexEligible
+            self.term = term
+            self.upfrontCost = upfrontCost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountScope = "accountScope"
+            case currentGeneration = "currentGeneration"
+            case instanceFamily = "instanceFamily"
+            case instanceType = "instanceType"
+            case monthlyRecurringCost = "monthlyRecurringCost"
+            case normalizedUnitsToPurchase = "normalizedUnitsToPurchase"
+            case numberOfInstancesToPurchase = "numberOfInstancesToPurchase"
+            case paymentOption = "paymentOption"
+            case reservedInstancesRegion = "reservedInstancesRegion"
+            case service = "service"
+            case sizeFlexEligible = "sizeFlexEligible"
+            case term = "term"
+            case upfrontCost = "upfrontCost"
+        }
+    }
+
     public struct MixedInstanceConfiguration: AWSDecodableShape {
         /// The instance type of the configuration.
         public let type: String?
@@ -1225,13 +1381,13 @@ extension CostOptimizationHub {
     }
 
     public struct OpenSearchReservedInstancesConfiguration: AWSDecodableShape {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public let accountScope: String?
         /// Determines whether the recommendation is for a current generation instance.
         public let currentGeneration: String?
         /// The type of instance that Amazon Web Services recommends.
         public let instanceType: String?
-        /// How much purchasing reserved instances costs you on a monthly basis.
+        /// How much purchasing these reserved instances costs you on a monthly basis.
         public let monthlyRecurringCost: String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public let normalizedUnitsToPurchase: String?
@@ -1241,7 +1397,7 @@ extension CostOptimizationHub {
         public let paymentOption: String?
         /// The Amazon Web Services Region of the commitment.
         public let reservedInstancesRegion: String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
         public let service: String?
         /// Determines whether the recommendation is size flexible.
         public let sizeFlexEligible: Bool?
@@ -1393,7 +1549,7 @@ extension CostOptimizationHub {
     }
 
     public struct RdsReservedInstancesConfiguration: AWSDecodableShape {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public let accountScope: String?
         /// Determines whether the recommendation is for a current generation instance.
         public let currentGeneration: String?
@@ -1419,7 +1575,7 @@ extension CostOptimizationHub {
         public let paymentOption: String?
         /// The Amazon Web Services Region of the commitment.
         public let reservedInstancesRegion: String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
         public let service: String?
         /// Determines whether the recommendation is size flexible.
         public let sizeFlexEligible: Bool?
@@ -1471,7 +1627,7 @@ extension CostOptimizationHub {
     }
 
     public struct Recommendation: AWSDecodableShape {
-        /// The account that the recommendation is for.
+        /// The account to which the recommendation applies.
         public let accountId: String?
         /// The type of tasks that can be carried out by this action.
         public let actionType: String?
@@ -1605,7 +1761,7 @@ extension CostOptimizationHub {
     }
 
     public struct RedshiftReservedInstancesConfiguration: AWSDecodableShape {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public let accountScope: String?
         /// Determines whether the recommendation is for a current generation instance.
         public let currentGeneration: String?
@@ -1613,7 +1769,7 @@ extension CostOptimizationHub {
         public let instanceFamily: String?
         /// The type of instance that Amazon Web Services recommends.
         public let instanceType: String?
-        /// How much purchasing reserved instances costs you on a monthly basis.
+        /// How much purchasing these reserved instances costs you on a monthly basis.
         public let monthlyRecurringCost: String?
         /// The number of normalized units that Amazon Web Services recommends that you purchase.
         public let normalizedUnitsToPurchase: String?
@@ -1623,7 +1779,7 @@ extension CostOptimizationHub {
         public let paymentOption: String?
         /// The Amazon Web Services Region of the commitment.
         public let reservedInstancesRegion: String?
-        /// The service that you want your recommendations for.
+        /// The service for which you want recommendations.
         public let service: String?
         /// Determines whether the recommendation is size flexible.
         public let sizeFlexEligible: Bool?
@@ -1786,7 +1942,7 @@ extension CostOptimizationHub {
     }
 
     public struct SageMakerSavingsPlansConfiguration: AWSDecodableShape {
-        /// The account scope that you want your recommendations for.
+        /// The account scope for which you want recommendations.
         public let accountScope: String?
         /// The hourly commitment for the Savings Plans type.
         public let hourlyCommitment: String?

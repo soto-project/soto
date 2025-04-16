@@ -462,9 +462,9 @@ extension DirectConnect {
     }
 
     public struct AssociatedCoreNetwork: AWSDecodableShape {
-        /// the ID of the Direct Connect attachment
+        /// the ID of the Direct Connect gateway attachment.
         public let attachmentId: String?
-        /// The ID of the Cloud WAN core network.
+        /// The ID of the Cloud WAN core network that the Direct Connect gateway is associated to.
         public let id: String?
         /// The account owner of the Cloud WAN core network.
         public let ownerAccount: String?
@@ -643,7 +643,7 @@ extension DirectConnect {
     }
 
     public struct ConfirmPrivateVirtualInterfaceResponse: AWSDecodableShape {
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    testing: A virtual interface is in this state immediately after calling StartBgpFailoverTest and remains in this state during the duration of the test.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
 
         @inlinable
@@ -671,7 +671,7 @@ extension DirectConnect {
     }
 
     public struct ConfirmPublicVirtualInterfaceResponse: AWSDecodableShape {
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    testing: A virtual interface is in this state immediately after calling StartBgpFailoverTest and remains in this state during the duration of the test.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
 
         @inlinable
@@ -703,7 +703,7 @@ extension DirectConnect {
     }
 
     public struct ConfirmTransitVirtualInterfaceResponse: AWSDecodableShape {
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    testing: A virtual interface is in this state immediately after calling StartBgpFailoverTest and remains in this state during the duration of the test.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
 
         @inlinable
@@ -994,16 +994,27 @@ extension DirectConnect {
         public let amazonSideAsn: Int64?
         /// The name of the Direct Connect gateway.
         public let directConnectGatewayName: String
+        /// The key-value pair tags associated with the request.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(amazonSideAsn: Int64? = nil, directConnectGatewayName: String) {
+        public init(amazonSideAsn: Int64? = nil, directConnectGatewayName: String, tags: [Tag]? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.directConnectGatewayName = directConnectGatewayName
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case amazonSideAsn = "amazonSideAsn"
             case directConnectGatewayName = "directConnectGatewayName"
+            case tags = "tags"
         }
     }
 
@@ -1420,7 +1431,7 @@ extension DirectConnect {
     }
 
     public struct DeleteVirtualInterfaceResponse: AWSDecodableShape {
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    testing: A virtual interface is in this state immediately after calling StartBgpFailoverTest and remains in this state during the duration of the test.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
 
         @inlinable
@@ -1906,15 +1917,18 @@ extension DirectConnect {
         public let ownerAccount: String?
         /// The error message if the state of an object failed to advance.
         public let stateChangeError: String?
+        /// Information about a tag.
+        public let tags: [Tag]?
 
         @inlinable
-        public init(amazonSideAsn: Int64? = nil, directConnectGatewayId: String? = nil, directConnectGatewayName: String? = nil, directConnectGatewayState: DirectConnectGatewayState? = nil, ownerAccount: String? = nil, stateChangeError: String? = nil) {
+        public init(amazonSideAsn: Int64? = nil, directConnectGatewayId: String? = nil, directConnectGatewayName: String? = nil, directConnectGatewayState: DirectConnectGatewayState? = nil, ownerAccount: String? = nil, stateChangeError: String? = nil, tags: [Tag]? = nil) {
             self.amazonSideAsn = amazonSideAsn
             self.directConnectGatewayId = directConnectGatewayId
             self.directConnectGatewayName = directConnectGatewayName
             self.directConnectGatewayState = directConnectGatewayState
             self.ownerAccount = ownerAccount
             self.stateChangeError = stateChangeError
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1924,13 +1938,14 @@ extension DirectConnect {
             case directConnectGatewayState = "directConnectGatewayState"
             case ownerAccount = "ownerAccount"
             case stateChangeError = "stateChangeError"
+            case tags = "tags"
         }
     }
 
     public struct DirectConnectGatewayAssociation: AWSDecodableShape {
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
-        /// The ID of the Cloud WAN core network associated with the Direct Connect attachment.
+        /// The ID of the Cloud WAN core network associated with the Direct Connect gateway attachment.
         public let associatedCoreNetwork: AssociatedCoreNetwork?
         /// Information about the associated gateway.
         public let associatedGateway: AssociatedGateway?
@@ -3252,7 +3267,7 @@ extension DirectConnect {
         public let virtualInterfaceId: String?
         /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
         public let virtualInterfaceName: String?
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    testing: A virtual interface is in this state immediately after calling StartBgpFailoverTest and remains in this state during the duration of the test.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
         /// The type of virtual interface. The possible values are private, public and transit.
         public let virtualInterfaceType: String?

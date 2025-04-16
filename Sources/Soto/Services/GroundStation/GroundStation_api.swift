@@ -972,16 +972,19 @@ public struct GroundStation: AWSService {
     /// Parameters:
     ///   - agentDetails: Detailed information about the agent being registered.
     ///   - discoveryData: Data for associating an agent with the capabilities it is managing.
+    ///   - tags: Tags assigned to an Agent.
     ///   - logger: Logger use during operation
     @inlinable
     public func registerAgent(
         agentDetails: AgentDetails,
         discoveryData: DiscoveryData,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> RegisterAgentResponse {
         let input = RegisterAgentRequest(
             agentDetails: agentDetails, 
-            discoveryData: discoveryData
+            discoveryData: discoveryData, 
+            tags: tags
         )
         return try await self.registerAgent(input, logger: logger)
     }

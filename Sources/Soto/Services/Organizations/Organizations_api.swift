@@ -81,6 +81,7 @@ public struct Organizations: AWSService {
         "aws-cn-global": "organizations.cn-northwest-1.amazonaws.com.cn",
         "aws-global": "organizations.us-east-1.amazonaws.com",
         "aws-iso-b-global": "organizations.us-isob-east-1.sc2s.sgov.gov",
+        "aws-iso-e-global": "organizations.eu-isoe-west-1.cloud.adc-e.uk",
         "aws-iso-f-global": "organizations.us-isof-south-1.csp.hci.ic.gov",
         "aws-iso-global": "organizations.us-iso-east-1.c2s.ic.gov",
         "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"
@@ -92,6 +93,7 @@ public struct Organizations: AWSService {
         .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
         .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
         .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+        .awsisoe: (endpoint: "aws-iso-e-global", region: .euisoewest1),
         .awsisof: (endpoint: "aws-iso-f-global", region: .usisofsouth1),
         .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
     ]}

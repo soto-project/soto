@@ -79,6 +79,34 @@ public struct TranscribeStreaming: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "transcribestreaming.af-south-1.api.aws",
+            "ap-northeast-1": "transcribestreaming.ap-northeast-1.api.aws",
+            "ap-northeast-2": "transcribestreaming.ap-northeast-2.api.aws",
+            "ap-south-1": "transcribestreaming.ap-south-1.api.aws",
+            "ap-southeast-1": "transcribestreaming.ap-southeast-1.api.aws",
+            "ap-southeast-2": "transcribestreaming.ap-southeast-2.api.aws",
+            "ca-central-1": "transcribestreaming.ca-central-1.api.aws",
+            "cn-north-1": "transcribestreaming.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "transcribestreaming.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "transcribestreaming.eu-central-1.api.aws",
+            "eu-west-1": "transcribestreaming.eu-west-1.api.aws",
+            "eu-west-2": "transcribestreaming.eu-west-2.api.aws",
+            "sa-east-1": "transcribestreaming.sa-east-1.api.aws",
+            "us-east-1": "transcribestreaming.us-east-1.api.aws",
+            "us-east-2": "transcribestreaming.us-east-2.api.aws",
+            "us-gov-east-1": "transcribestreaming.us-gov-east-1.api.aws",
+            "us-gov-west-1": "transcribestreaming.us-gov-west-1.api.aws",
+            "us-west-2": "transcribestreaming.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "ca-central-1": "transcribestreaming-fips.ca-central-1.api.aws",
+            "us-east-1": "transcribestreaming-fips.us-east-1.api.aws",
+            "us-east-2": "transcribestreaming-fips.us-east-2.api.aws",
+            "us-gov-east-1": "transcribestreaming-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "transcribestreaming-fips.us-gov-west-1.api.aws",
+            "us-west-2": "transcribestreaming-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "transcribestreaming-fips.ca-central-1.amazonaws.com",
             "us-east-1": "transcribestreaming-fips.us-east-1.amazonaws.com",

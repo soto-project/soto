@@ -81,6 +81,7 @@ public struct Route53: AWSService {
         "aws-cn-global": "route53.amazonaws.com.cn",
         "aws-global": "route53.amazonaws.com",
         "aws-iso-b-global": "route53.sc2s.sgov.gov",
+        "aws-iso-e-global": "route53.cloud.adc-e.uk",
         "aws-iso-f-global": "route53.csp.hci.ic.gov",
         "aws-iso-global": "route53.c2s.ic.gov",
         "aws-us-gov-global": "route53.us-gov.amazonaws.com"
@@ -92,6 +93,7 @@ public struct Route53: AWSService {
         .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
         .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
         .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+        .awsisoe: (endpoint: "aws-iso-e-global", region: .euisoewest1),
         .awsisof: (endpoint: "aws-iso-f-global", region: .usisofsouth1),
         .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)
     ]}
@@ -2639,7 +2641,7 @@ public struct Route53: AWSService {
     /// 						contains.  If you specify Name but not Type  The results begin with the first resource record set in the list whose
     /// 						name is greater than or equal to Name.  If you specify Type but not Name  Amazon Route 53 returns the InvalidInput error.  If you specify both Name and Type  The results begin with the first resource record set in the list whose
     /// 						name is greater than or equal to Name, and whose type is
-    /// 						greater than or equal to Type.    Resource record sets that are PENDING  This action returns the most current version of the records. This includes records
+    /// 						greater than or equal to Type.  Type is only used to sort between records with the same record Name.     Resource record sets that are PENDING  This action returns the most current version of the records. This includes records
     /// 			that are PENDING, and that are not yet available on all Route 53 DNS
     /// 			servers.  Changing resource record sets  To ensure that you get an accurate listing of the resource record sets for a hosted
     /// 			zone at a point in time, do not submit a ChangeResourceRecordSets request
@@ -2675,7 +2677,7 @@ public struct Route53: AWSService {
     /// 						contains.  If you specify Name but not Type  The results begin with the first resource record set in the list whose
     /// 						name is greater than or equal to Name.  If you specify Type but not Name  Amazon Route 53 returns the InvalidInput error.  If you specify both Name and Type  The results begin with the first resource record set in the list whose
     /// 						name is greater than or equal to Name, and whose type is
-    /// 						greater than or equal to Type.    Resource record sets that are PENDING  This action returns the most current version of the records. This includes records
+    /// 						greater than or equal to Type.  Type is only used to sort between records with the same record Name.     Resource record sets that are PENDING  This action returns the most current version of the records. This includes records
     /// 			that are PENDING, and that are not yet available on all Route 53 DNS
     /// 			servers.  Changing resource record sets  To ensure that you get an accurate listing of the resource record sets for a hosted
     /// 			zone at a point in time, do not submit a ChangeResourceRecordSets request

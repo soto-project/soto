@@ -418,27 +418,33 @@ public struct ApplicationSignals: AWSService {
     /// Returns a list of SLOs created in this account.
     ///
     /// Parameters:
+    ///   - dependencyConfig: Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
     ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.   When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
     ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
+    ///   - metricSourceTypes: Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   CloudWatch metric
     ///   - nextToken: Include this value, if it was returned by the previous operation, to get the next set of service level objectives.
     ///   - operationName: The name of the operation that this SLO is associated with.
     ///   - sloOwnerAwsAccountId: SLO's Amazon Web Services account ID.
     ///   - logger: Logger use during operation
     @inlinable
     public func listServiceLevelObjectives(
+        dependencyConfig: DependencyConfig? = nil,
         includeLinkedAccounts: Bool? = nil,
         keyAttributes: [String: String]? = nil,
         maxResults: Int? = nil,
+        metricSourceTypes: [MetricSourceType]? = nil,
         nextToken: String? = nil,
         operationName: String? = nil,
         sloOwnerAwsAccountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ListServiceLevelObjectivesOutput {
         let input = ListServiceLevelObjectivesInput(
+            dependencyConfig: dependencyConfig, 
             includeLinkedAccounts: includeLinkedAccounts, 
             keyAttributes: keyAttributes, 
             maxResults: maxResults, 
+            metricSourceTypes: metricSourceTypes, 
             nextToken: nextToken, 
             operationName: operationName, 
             sloOwnerAwsAccountId: sloOwnerAwsAccountId
@@ -852,25 +858,31 @@ extension ApplicationSignals {
     /// Return PaginatorSequence for operation ``listServiceLevelObjectives(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - dependencyConfig: Identifies the dependency using the DependencyKeyAttributes and DependencyOperationName.
     ///   - includeLinkedAccounts: If you are using this operation in a monitoring account, specify true to include SLO from source accounts in the returned data.   When you are monitoring an account, you can use Amazon Web Services account ID in KeyAttribute filter for service source account and SloOwnerawsaccountID for SLO source account with IncludeLinkedAccounts to filter the returned data to only a single source account.
     ///   - keyAttributes: You can use this optional field to specify which services you want to retrieve SLO information for. This is a string-to-string map. It can  include the following fields.    Type designates the type of object this is.    ResourceType specifies the type of the resource. This field is used only when the value of the Type field is Resource or AWS::Resource.    Name specifies the name of the object. This is used only if the value of the Type field is Service, RemoteService, or AWS::Service.    Identifier identifies the resource objects of this resource.  This is used only if the value of the Type field is Resource or AWS::Resource.    Environment specifies the location where this object is hosted, or what it belongs to.
     ///   - maxResults: The maximum number of results to return in one operation. If you omit this parameter, the default of 50 is used.
+    ///   - metricSourceTypes: Use this optional field to only include SLOs with the specified metric source types in the output. Supported types are:   Service operation   Service dependency   CloudWatch metric
     ///   - operationName: The name of the operation that this SLO is associated with.
     ///   - sloOwnerAwsAccountId: SLO's Amazon Web Services account ID.
     ///   - logger: Logger used for logging
     @inlinable
     public func listServiceLevelObjectivesPaginator(
+        dependencyConfig: DependencyConfig? = nil,
         includeLinkedAccounts: Bool? = nil,
         keyAttributes: [String: String]? = nil,
         maxResults: Int? = nil,
+        metricSourceTypes: [MetricSourceType]? = nil,
         operationName: String? = nil,
         sloOwnerAwsAccountId: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<ListServiceLevelObjectivesInput, ListServiceLevelObjectivesOutput> {
         let input = ListServiceLevelObjectivesInput(
+            dependencyConfig: dependencyConfig, 
             includeLinkedAccounts: includeLinkedAccounts, 
             keyAttributes: keyAttributes, 
             maxResults: maxResults, 
+            metricSourceTypes: metricSourceTypes, 
             operationName: operationName, 
             sloOwnerAwsAccountId: sloOwnerAwsAccountId
         )
@@ -1008,9 +1020,11 @@ extension ApplicationSignals.ListServiceLevelObjectivesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> ApplicationSignals.ListServiceLevelObjectivesInput {
         return .init(
+            dependencyConfig: self.dependencyConfig,
             includeLinkedAccounts: self.includeLinkedAccounts,
             keyAttributes: self.keyAttributes,
             maxResults: self.maxResults,
+            metricSourceTypes: self.metricSourceTypes,
             nextToken: token,
             operationName: self.operationName,
             sloOwnerAwsAccountId: self.sloOwnerAwsAccountId

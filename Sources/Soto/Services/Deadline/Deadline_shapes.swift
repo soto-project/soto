@@ -278,6 +278,12 @@ extension Deadline {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchTermMatchingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case contains = "CONTAINS"
+        case fuzzyMatch = "FUZZY_MATCH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceManagedFleetOperatingSystemFamily: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case linux = "LINUX"
         case windows = "WINDOWS"
@@ -1233,10 +1239,10 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
         /// The task ID.
-        public let taskId: String
+        public let taskId: String?
 
         @inlinable
-        public init(parameters: [String: TaskParameterValue], stepId: String, taskId: String) {
+        public init(parameters: [String: TaskParameterValue], stepId: String, taskId: String? = nil) {
             self.parameters = parameters
             self.stepId = stepId
             self.taskId = taskId
@@ -2276,7 +2282,7 @@ extension Deadline {
         public let maxWorkerCount: Int?
         /// The parameters for the job.
         public let parameters: [String: JobParameter]?
-        /// The priority of the job on a scale of 0 to 100. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
+        /// The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
         public let priority: Int
         /// The ID of the queue that the job is submitted to.
         public let queueId: String
@@ -2594,7 +2600,7 @@ extension Deadline {
         public let clientToken: String?
         /// The farm ID of the farm to connect to the environment.
         public let farmId: String
-        /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority. If two environments share the same priority value, the environment created first takes higher priority.
+        /// Sets the priority of the environments in the queue from 0 to 10,000, where 0 is the highest priority (activated first and deactivated last). If two environments share the same priority value, the environment created first takes higher priority.
         public let priority: Int
         /// The queue ID to connect the queue and environment.
         public let queueId: String
@@ -5134,7 +5140,7 @@ extension Deadline {
         /// The date and time the resource ended running.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endedAt: Date?
-        /// The exit code to exit the session.
+        /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
         public let processExitCode: Int?
         /// The message that communicates the progress of the session action.
         public let progressMessage: String?
@@ -8817,11 +8823,14 @@ extension Deadline {
     }
 
     public struct SearchTermFilterExpression: AWSEncodableShape {
+        /// Specifies how Deadline Cloud matches your search term in the results. If you don't specify a matchType the default is FUZZY_MATCH.    FUZZY_MATCH - Matches if a portion of the search term is found in the result.    CONTAINS - Matches if the exact search term is contained in the result.
+        public let matchType: SearchTermMatchingType?
         /// The term to search for.
         public let searchTerm: String
 
         @inlinable
-        public init(searchTerm: String) {
+        public init(matchType: SearchTermMatchingType? = nil, searchTerm: String) {
+            self.matchType = matchType
             self.searchTerm = searchTerm
         }
 
@@ -8831,6 +8840,7 @@ extension Deadline {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case matchType = "matchType"
             case searchTerm = "searchTerm"
         }
     }
@@ -9771,10 +9781,10 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
         /// The task ID.
-        public let taskId: String
+        public let taskId: String?
 
         @inlinable
-        public init(parameters: [String: TaskParameterValue], stepId: String, taskId: String) {
+        public init(parameters: [String: TaskParameterValue], stepId: String, taskId: String? = nil) {
             self.parameters = parameters
             self.stepId = stepId
             self.taskId = taskId
@@ -9791,10 +9801,10 @@ extension Deadline {
         /// The step ID.
         public let stepId: String
         /// The task ID.
-        public let taskId: String
+        public let taskId: String?
 
         @inlinable
-        public init(stepId: String, taskId: String) {
+        public init(stepId: String, taskId: String? = nil) {
             self.stepId = stepId
             self.taskId = taskId
         }
@@ -10993,7 +11003,7 @@ extension Deadline {
         /// The date and time the resource ended running.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var endedAt: Date?
-        /// The process exit code.
+        /// The process exit code. The default Deadline Cloud worker agent converts unsigned 32-bit exit codes to signed 32-bit exit codes.
         public let processExitCode: Int?
         /// A message to indicate the progress of the updated session action.
         public let progressMessage: String?

@@ -3330,6 +3330,9 @@ extension ChimeSDKVoice {
         /// The phone number order creation time stamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
+        /// The Firm Order Commitment (FOC) date for phone number porting orders. This field is null if a phone number order is not a porting order.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var focDate: Date?
         /// The ordered phone number details, such as the phone number in E.164 format  and the phone number status.
         public let orderedPhoneNumbers: [OrderedPhoneNumber]?
         /// The type of phone number being ordered, local or toll-free.
@@ -3345,8 +3348,9 @@ extension ChimeSDKVoice {
         public var updatedTimestamp: Date?
 
         @inlinable
-        public init(createdTimestamp: Date? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, orderType: PhoneNumberOrderType? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: Date? = nil) {
+        public init(createdTimestamp: Date? = nil, focDate: Date? = nil, orderedPhoneNumbers: [OrderedPhoneNumber]? = nil, orderType: PhoneNumberOrderType? = nil, phoneNumberOrderId: String? = nil, productType: PhoneNumberProductType? = nil, status: PhoneNumberOrderStatus? = nil, updatedTimestamp: Date? = nil) {
             self.createdTimestamp = createdTimestamp
+            self.focDate = focDate
             self.orderedPhoneNumbers = orderedPhoneNumbers
             self.orderType = orderType
             self.phoneNumberOrderId = phoneNumberOrderId
@@ -3357,6 +3361,7 @@ extension ChimeSDKVoice {
 
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
+            case focDate = "FocDate"
             case orderedPhoneNumbers = "OrderedPhoneNumbers"
             case orderType = "OrderType"
             case phoneNumberOrderId = "PhoneNumberOrderId"

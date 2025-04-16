@@ -541,6 +541,7 @@ public struct Outposts: AWSService {
     /// Gets the instance types that an Outpost can support in InstanceTypeCapacity. This will generally include instance types that are not currently configured and therefore cannot be launched with the current Outpost capacity configuration.
     ///
     /// Parameters:
+    ///   - assetId: The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
     ///   - maxResults: 
     ///   - nextToken: 
     ///   - orderId: The ID for the Amazon Web Services Outposts order.
@@ -548,6 +549,7 @@ public struct Outposts: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func getOutpostSupportedInstanceTypes(
+        assetId: String? = nil,
         maxResults: Int? = nil,
         nextToken: String? = nil,
         orderId: String? = nil,
@@ -555,6 +557,7 @@ public struct Outposts: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> GetOutpostSupportedInstanceTypesOutput {
         let input = GetOutpostSupportedInstanceTypesInput(
+            assetId: assetId, 
             maxResults: maxResults, 
             nextToken: nextToken, 
             orderId: orderId, 
@@ -991,6 +994,7 @@ public struct Outposts: AWSService {
     /// Starts the specified capacity task. You can have one active capacity task for each order and each Outpost.
     ///
     /// Parameters:
+    ///   - assetId: The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
     ///   - dryRun: You can request a dry run to determine if the instance type and instance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
     ///   - instancePools: The instance pools specified in the capacity task.
     ///   - instancesToExclude: List of user-specified running instances that must not be stopped in order to free up the capacity needed to run the capacity task.
@@ -1000,6 +1004,7 @@ public struct Outposts: AWSService {
     ///   - logger: Logger use during operation
     @inlinable
     public func startCapacityTask(
+        assetId: String? = nil,
         dryRun: Bool? = nil,
         instancePools: [InstanceTypeCapacity],
         instancesToExclude: InstancesToExclude? = nil,
@@ -1009,6 +1014,7 @@ public struct Outposts: AWSService {
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> StartCapacityTaskOutput {
         let input = StartCapacityTaskInput(
+            assetId: assetId, 
             dryRun: dryRun, 
             instancePools: instancePools, 
             instancesToExclude: instancesToExclude, 
@@ -1360,18 +1366,21 @@ extension Outposts {
     /// Return PaginatorSequence for operation ``getOutpostSupportedInstanceTypes(_:logger:)``.
     ///
     /// - Parameters:
+    ///   - assetId: The ID of the Outpost asset. An Outpost asset can be a single server within an Outposts rack or an Outposts server configuration.
     ///   - maxResults: 
     ///   - orderId: The ID for the Amazon Web Services Outposts order.
     ///   - outpostIdentifier: The ID or ARN of the Outpost.
     ///   - logger: Logger used for logging
     @inlinable
     public func getOutpostSupportedInstanceTypesPaginator(
+        assetId: String? = nil,
         maxResults: Int? = nil,
         orderId: String? = nil,
         outpostIdentifier: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) -> AWSClient.PaginatorSequence<GetOutpostSupportedInstanceTypesInput, GetOutpostSupportedInstanceTypesOutput> {
         let input = GetOutpostSupportedInstanceTypesInput(
+            assetId: assetId, 
             maxResults: maxResults, 
             orderId: orderId, 
             outpostIdentifier: outpostIdentifier
@@ -1733,6 +1742,7 @@ extension Outposts.GetOutpostSupportedInstanceTypesInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> Outposts.GetOutpostSupportedInstanceTypesInput {
         return .init(
+            assetId: self.assetId,
             maxResults: self.maxResults,
             nextToken: token,
             orderId: self.orderId,

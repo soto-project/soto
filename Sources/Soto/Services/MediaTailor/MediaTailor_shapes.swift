@@ -38,6 +38,56 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum AdsInteractionExcludeEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case adMarkerFound = "AD_MARKER_FOUND"
+        case beaconFired = "BEACON_FIRED"
+        case emptyVastResponse = "EMPTY_VAST_RESPONSE"
+        case emptyVmapResponse = "EMPTY_VMAP_RESPONSE"
+        case errorAdsInvalidResponse = "ERROR_ADS_INVALID_RESPONSE"
+        case errorAdsIo = "ERROR_ADS_IO"
+        case errorAdsResponseParse = "ERROR_ADS_RESPONSE_PARSE"
+        case errorAdsResponseUnknownRootElement = "ERROR_ADS_RESPONSE_UNKNOWN_ROOT_ELEMENT"
+        case errorAdsTimeout = "ERROR_ADS_TIMEOUT"
+        case errorDisallowedHost = "ERROR_DISALLOWED_HOST"
+        case errorFiringBeaconFailed = "ERROR_FIRING_BEACON_FAILED"
+        case errorPersonalizationDisabled = "ERROR_PERSONALIZATION_DISABLED"
+        case errorUnknown = "ERROR_UNKNOWN"
+        case errorUnknownHost = "ERROR_UNKNOWN_HOST"
+        case errorVastInvalidMediaFile = "ERROR_VAST_INVALID_MEDIA_FILE"
+        case errorVastInvalidVastAdTagUri = "ERROR_VAST_INVALID_VAST_AD_TAG_URI"
+        case errorVastMissingCreatives = "ERROR_VAST_MISSING_CREATIVES"
+        case errorVastMissingImpression = "ERROR_VAST_MISSING_IMPRESSION"
+        case errorVastMissingMediafiles = "ERROR_VAST_MISSING_MEDIAFILES"
+        case errorVastMissingOverlays = "ERROR_VAST_MISSING_OVERLAYS"
+        case errorVastMultipleLinear = "ERROR_VAST_MULTIPLE_LINEAR"
+        case errorVastMultipleTrackingEvents = "ERROR_VAST_MULTIPLE_TRACKING_EVENTS"
+        case errorVastRedirectEmptyResponse = "ERROR_VAST_REDIRECT_EMPTY_RESPONSE"
+        case errorVastRedirectFailed = "ERROR_VAST_REDIRECT_FAILED"
+        case errorVastRedirectMultipleVast = "ERROR_VAST_REDIRECT_MULTIPLE_VAST"
+        case filledAvail = "FILLED_AVAIL"
+        case filledOverlayAvail = "FILLED_OVERLAY_AVAIL"
+        case interstitialVodFailure = "INTERSTITIAL_VOD_FAILURE"
+        case interstitialVodSuccess = "INTERSTITIAL_VOD_SUCCESS"
+        case makingAdsRequest = "MAKING_ADS_REQUEST"
+        case modifiedTargetUrl = "MODIFIED_TARGET_URL"
+        case nonAdMarkerFound = "NON_AD_MARKER_FOUND"
+        case redirectedVastResponse = "REDIRECTED_VAST_RESPONSE"
+        case vastRedirect = "VAST_REDIRECT"
+        case vastResponse = "VAST_RESPONSE"
+        case vodTimeBasedAvailPlanSuccess = "VOD_TIME_BASED_AVAIL_PLAN_SUCCESS"
+        case vodTimeBasedAvailPlanVastResponseForOffset = "VOD_TIME_BASED_AVAIL_PLAN_VAST_RESPONSE_FOR_OFFSET"
+        case vodTimeBasedAvailPlanWarningNoAdvertisements = "VOD_TIME_BASED_AVAIL_PLAN_WARNING_NO_ADVERTISEMENTS"
+        case warningNoAdvertisements = "WARNING_NO_ADVERTISEMENTS"
+        case warningUrlVariableSubstitutionFailed = "WARNING_URL_VARIABLE_SUBSTITUTION_FAILED"
+        case warningVpaidAdDropped = "WARNING_VPAID_AD_DROPPED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AdsInteractionPublishOptInEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case rawAdsResponse = "RAW_ADS_RESPONSE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AlertCategory: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case info = "INFO"
         case playbackWarning = "PLAYBACK_WARNING"
@@ -71,6 +121,42 @@ extension MediaTailor {
     public enum LoggingStrategy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case legacyCloudwatch = "LEGACY_CLOUDWATCH"
         case vendedLogs = "VENDED_LOGS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManifestServiceExcludeEventType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case configSecurityError = "CONFIG_SECURITY_ERROR"
+        case configSyntaxError = "CONFIG_SYNTAX_ERROR"
+        case connectionError = "CONNECTION_ERROR"
+        case errorAdsInterpolation = "ERROR_ADS_INTERPOLATION"
+        case errorBumperEndInterpolation = "ERROR_BUMPER_END_INTERPOLATION"
+        case errorBumperStartInterpolation = "ERROR_BUMPER_START_INTERPOLATION"
+        case errorCdnAdSegmentInterpolation = "ERROR_CDN_AD_SEGMENT_INTERPOLATION"
+        case errorCdnContentSegmentInterpolation = "ERROR_CDN_CONTENT_SEGMENT_INTERPOLATION"
+        case errorLivePreRollAdsInterpolation = "ERROR_LIVE_PRE_ROLL_ADS_INTERPOLATION"
+        case errorOriginPrefixInterpolation = "ERROR_ORIGIN_PREFIX_INTERPOLATION"
+        case errorProfileNameInterpolation = "ERROR_PROFILE_NAME_INTERPOLATION"
+        case errorSlateAdUrlInterpolation = "ERROR_SLATE_AD_URL_INTERPOLATION"
+        case generatedManifest = "GENERATED_MANIFEST"
+        case hostDisallowed = "HOST_DISALLOWED"
+        case incompatibleHlsVersion = "INCOMPATIBLE_HLS_VERSION"
+        case invalidSinglePeriodDashManifest = "INVALID_SINGLE_PERIOD_DASH_MANIFEST"
+        case ioError = "IO_ERROR"
+        case lastPeriodMissingAudio = "LAST_PERIOD_MISSING_AUDIO"
+        case lastPeriodMissingAudioWarning = "LAST_PERIOD_MISSING_AUDIO_WARNING"
+        case manifestError = "MANIFEST_ERROR"
+        case noMasterOrMediaPlaylist = "NO_MASTER_OR_MEDIA_PLAYLIST"
+        case noMasterPlaylist = "NO_MASTER_PLAYLIST"
+        case noMediaPlaylist = "NO_MEDIA_PLAYLIST"
+        case originManifest = "ORIGIN_MANIFEST"
+        case parsingError = "PARSING_ERROR"
+        case scte35ParsingError = "SCTE35_PARSING_ERROR"
+        case sessionInitialized = "SESSION_INITIALIZED"
+        case timeoutError = "TIMEOUT_ERROR"
+        case trackingResponse = "TRACKING_RESPONSE"
+        case unknownError = "UNKNOWN_ERROR"
+        case unknownHost = "UNKNOWN_HOST"
+        case unsupportedSinglePeriodDashManifest = "UNSUPPORTED_SINGLE_PERIOD_DASH_MANIFEST"
         public var description: String { return self.rawValue }
     }
 
@@ -204,7 +290,7 @@ extension MediaTailor {
     }
 
     public struct AdConditioningConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS.  TRANSCODE indicates that MediaTailor must transcode the ads.  NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow.  For more information about ad conditioning see https://docs.aws.amazon.com/precondition-ads.html.
+        /// For ads that have media files with streaming delivery and supported file extensions, indicates what transcoding action MediaTailor takes when it first receives these ads from the ADS.  TRANSCODE indicates that MediaTailor must transcode the ads.  NONE indicates that you have already transcoded the ads outside of MediaTailor and don't need them transcoded as part of the ad insertion workflow.  For more information about ad conditioning see Using preconditioned ads in the Elemental MediaTailor user guide.
         public let streamingMediaFileConditioning: StreamingMediaFileConditioning
 
         @inlinable
@@ -228,6 +314,24 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct AdsInteractionLog: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
+        public let excludeEventTypes: [AdsInteractionExcludeEventType]?
+        /// Indicates that MediaTailor emits RAW_ADS_RESPONSE logs for playback sessions that are initialized with this configuration.
+        public let publishOptInEventTypes: [AdsInteractionPublishOptInEventType]?
+
+        @inlinable
+        public init(excludeEventTypes: [AdsInteractionExcludeEventType]? = nil, publishOptInEventTypes: [AdsInteractionPublishOptInEventType]? = nil) {
+            self.excludeEventTypes = excludeEventTypes
+            self.publishOptInEventTypes = publishOptInEventTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeEventTypes = "ExcludeEventTypes"
+            case publishOptInEventTypes = "PublishOptInEventTypes"
         }
     }
 
@@ -512,44 +616,60 @@ extension MediaTailor {
     }
 
     public struct ConfigureLogsForPlaybackConfigurationRequest: AWSEncodableShape {
+        /// The event types that MediaTailor emits in logs for interactions with the ADS.
+        public let adsInteractionLog: AdsInteractionLog?
         /// The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to  send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in Enable logging from AWS services, Logging that requires additional permissions [V2].
         public let enabledLoggingStrategies: [LoggingStrategy]?
+        /// The event types that MediaTailor emits in logs for interactions with the origin server.
+        public let manifestServiceInteractionLog: ManifestServiceInteractionLog?
         /// The percentage of session logs that MediaTailor sends to your CloudWatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
         public let percentEnabled: Int
         /// The name of the playback configuration.
         public let playbackConfigurationName: String
 
         @inlinable
-        public init(enabledLoggingStrategies: [LoggingStrategy]? = nil, percentEnabled: Int = 0, playbackConfigurationName: String) {
+        public init(adsInteractionLog: AdsInteractionLog? = nil, enabledLoggingStrategies: [LoggingStrategy]? = nil, manifestServiceInteractionLog: ManifestServiceInteractionLog? = nil, percentEnabled: Int = 0, playbackConfigurationName: String) {
+            self.adsInteractionLog = adsInteractionLog
             self.enabledLoggingStrategies = enabledLoggingStrategies
+            self.manifestServiceInteractionLog = manifestServiceInteractionLog
             self.percentEnabled = percentEnabled
             self.playbackConfigurationName = playbackConfigurationName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adsInteractionLog = "AdsInteractionLog"
             case enabledLoggingStrategies = "EnabledLoggingStrategies"
+            case manifestServiceInteractionLog = "ManifestServiceInteractionLog"
             case percentEnabled = "PercentEnabled"
             case playbackConfigurationName = "PlaybackConfigurationName"
         }
     }
 
     public struct ConfigureLogsForPlaybackConfigurationResponse: AWSDecodableShape {
+        /// The event types that MediaTailor emits in logs for interactions with the ADS.
+        public let adsInteractionLog: AdsInteractionLog?
         /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
         public let enabledLoggingStrategies: [LoggingStrategy]?
+        /// The event types that MediaTailor emits in logs for interactions with the origin server.
+        public let manifestServiceInteractionLog: ManifestServiceInteractionLog?
         /// The percentage of session logs that MediaTailor sends to your Cloudwatch Logs account.
         public let percentEnabled: Int
         /// The name of the playback configuration.
         public let playbackConfigurationName: String?
 
         @inlinable
-        public init(enabledLoggingStrategies: [LoggingStrategy]? = nil, percentEnabled: Int, playbackConfigurationName: String? = nil) {
+        public init(adsInteractionLog: AdsInteractionLog? = nil, enabledLoggingStrategies: [LoggingStrategy]? = nil, manifestServiceInteractionLog: ManifestServiceInteractionLog? = nil, percentEnabled: Int, playbackConfigurationName: String? = nil) {
+            self.adsInteractionLog = adsInteractionLog
             self.enabledLoggingStrategies = enabledLoggingStrategies
+            self.manifestServiceInteractionLog = manifestServiceInteractionLog
             self.percentEnabled = percentEnabled
             self.playbackConfigurationName = playbackConfigurationName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adsInteractionLog = "AdsInteractionLog"
             case enabledLoggingStrategies = "EnabledLoggingStrategies"
+            case manifestServiceInteractionLog = "ManifestServiceInteractionLog"
             case percentEnabled = "PercentEnabled"
             case playbackConfigurationName = "PlaybackConfigurationName"
         }
@@ -2495,19 +2615,27 @@ extension MediaTailor {
     }
 
     public struct LogConfiguration: AWSDecodableShape {
+        /// Settings for customizing what events are included in logs for interactions with the ad decision server (ADS).
+        public let adsInteractionLog: AdsInteractionLog?
         /// The method used for collecting logs from AWS Elemental MediaTailor. LEGACY_CLOUDWATCH indicates that MediaTailor is sending logs directly to Amazon CloudWatch Logs. VENDED_LOGS indicates that MediaTailor is sending logs to CloudWatch, which then vends the logs to your destination of choice. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream.
         public let enabledLoggingStrategies: [LoggingStrategy]?
+        /// Settings for customizing what events are included in logs for interactions with the origin server.
+        public let manifestServiceInteractionLog: ManifestServiceInteractionLog?
         /// The percentage of session logs that MediaTailor sends to your configured log destination. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
         public let percentEnabled: Int
 
         @inlinable
-        public init(enabledLoggingStrategies: [LoggingStrategy]? = nil, percentEnabled: Int) {
+        public init(adsInteractionLog: AdsInteractionLog? = nil, enabledLoggingStrategies: [LoggingStrategy]? = nil, manifestServiceInteractionLog: ManifestServiceInteractionLog? = nil, percentEnabled: Int) {
+            self.adsInteractionLog = adsInteractionLog
             self.enabledLoggingStrategies = enabledLoggingStrategies
+            self.manifestServiceInteractionLog = manifestServiceInteractionLog
             self.percentEnabled = percentEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
+            case adsInteractionLog = "AdsInteractionLog"
             case enabledLoggingStrategies = "EnabledLoggingStrategies"
+            case manifestServiceInteractionLog = "ManifestServiceInteractionLog"
             case percentEnabled = "PercentEnabled"
         }
     }
@@ -2537,6 +2665,20 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adMarkerPassthrough = "AdMarkerPassthrough"
+        }
+    }
+
+    public struct ManifestServiceInteractionLog: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates that MediaTailor won't emit the selected events in the logs for playback sessions that are initialized with this configuration.
+        public let excludeEventTypes: [ManifestServiceExcludeEventType]?
+
+        @inlinable
+        public init(excludeEventTypes: [ManifestServiceExcludeEventType]? = nil) {
+            self.excludeEventTypes = excludeEventTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case excludeEventTypes = "ExcludeEventTypes"
         }
     }
 

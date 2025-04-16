@@ -35,7 +35,7 @@ extension MarketplaceMetering {
     // MARK: Shapes
 
     public struct BatchMeterUsageRequest: AWSEncodableShape {
-        /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
+        /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
         /// The set of UsageRecords to submit. BatchMeterUsage accepts up to 25 UsageRecords at a time.
         public let usageRecords: [UsageRecord]
@@ -63,7 +63,7 @@ extension MarketplaceMetering {
     }
 
     public struct BatchMeterUsageResult: AWSDecodableShape {
-        /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by AWS Marketplace Metering Service or were invalid. Invalid records should be fixed before being resubmitted.
+        /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by Amazon Web Services Marketplace Metering Service or were invalid. Invalid records should be fixed before being resubmitted.
         public let results: [UsageRecordResult]?
         /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
         public let unprocessedRecords: [UsageRecord]?
@@ -83,9 +83,9 @@ extension MarketplaceMetering {
     public struct MeterUsageRequest: AWSEncodableShape {
         /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified.
         public let dryRun: Bool?
-        /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
+        /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
-        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
+        /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to six hours in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: Date
         /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the UsageQuantity of the MeterUsage request, and each UsageAllocation must have a unique set of tags (include no tags).
         public let usageAllocations: [UsageAllocation]?
@@ -147,9 +147,9 @@ extension MarketplaceMetering {
     public struct RegisterUsageRequest: AWSEncodableShape {
         /// (Optional) To scope down the registration to a specific running software instance and guard against replay attacks.
         public let nonce: String?
-        /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
+        /// Product code is used to uniquely identify a product in Amazon Web Services Marketplace. The product code should be the same as the one used during the publishing of a new product.
         public let productCode: String
-        /// Public Key Version provided by AWS Marketplace
+        /// Public Key Version provided by Amazon Web Services Marketplace
         public let publicKeyVersion: Int
 
         @inlinable
@@ -212,7 +212,7 @@ extension MarketplaceMetering {
     }
 
     public struct ResolveCustomerResult: AWSDecodableShape {
-        /// The CustomerAWSAccountId provides the AWS account ID associated with the CustomerIdentifier for the individual customer.
+        /// The CustomerAWSAccountId provides the Amazon Web Services account ID associated with the CustomerIdentifier for the individual customer.
         public let customerAWSAccountId: String?
         /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
         public let customerIdentifier: String?
@@ -289,9 +289,11 @@ extension MarketplaceMetering {
     }
 
     public struct UsageRecord: AWSEncodableShape & AWSDecodableShape {
+        ///  The CustomerAWSAccountID parameter specifies the AWS account ID of the buyer.
+        public let customerAWSAccountId: String?
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
-        public let customerIdentifier: String
-        /// During the process of registering a product on AWS Marketplace, dimensions are specified. These represent different units of value in your application.
+        public let customerIdentifier: String?
+        /// During the process of registering a product on Amazon Web Services Marketplace, dimensions are specified. These represent different units of value in your application.
         public let dimension: String
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
         public let quantity: Int?
@@ -301,7 +303,8 @@ extension MarketplaceMetering {
         public let usageAllocations: [UsageAllocation]?
 
         @inlinable
-        public init(customerIdentifier: String, dimension: String, quantity: Int? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, dimension: String, quantity: Int? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
+            self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.dimension = dimension
             self.quantity = quantity
@@ -310,9 +313,11 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.customerAWSAccountId, name: "customerAWSAccountId", parent: name, max: 255)
+            try self.validate(self.customerAWSAccountId, name: "customerAWSAccountId", parent: name, min: 1)
+            try self.validate(self.customerAWSAccountId, name: "customerAWSAccountId", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, max: 255)
-            try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, min: 1)
-            try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, pattern: "^[\\s\\S]+$")
+            try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.dimension, name: "dimension", parent: name, max: 255)
             try self.validate(self.dimension, name: "dimension", parent: name, min: 1)
             try self.validate(self.dimension, name: "dimension", parent: name, pattern: "^[\\s\\S]+$")
@@ -326,6 +331,7 @@ extension MarketplaceMetering {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customerAWSAccountId = "CustomerAWSAccountId"
             case customerIdentifier = "CustomerIdentifier"
             case dimension = "Dimension"
             case quantity = "Quantity"
@@ -337,7 +343,7 @@ extension MarketplaceMetering {
     public struct UsageRecordResult: AWSDecodableShape {
         /// The MeteringRecordId is a unique identifier for this metering event.
         public let meteringRecordId: String?
-        /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not able to use your product. The UsageRecord was not honored. There are three causes for this result:   The customer identifier is invalid.   The customer identifier provided in the metering record does not have an active agreement or subscription with this product. Future UsageRecords for this customer will fail until the customer subscribes to your product.   The customer's AWS account was suspended.      DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.
+        /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not able to use your product. The UsageRecord was not honored. There are three causes for this result:   The customer identifier is invalid.   The customer identifier provided in the metering record does not have an active agreement or subscription with this product. Future UsageRecords for this customer will fail until the customer subscribes to your product.   The customer's Amazon Web Services account was suspended.      DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.
         public let status: UsageRecordResultStatus?
         /// The UsageRecord that was part of the BatchMeterUsage request.
         public let usageRecord: UsageRecord?
@@ -407,27 +413,27 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
     public static var duplicateRequestException: Self { .init(.duplicateRequestException) }
     /// The submitted registration token has expired. This can happen if the buyer's browser takes too long to redirect to your page, the buyer has resubmitted the registration token, or your application has held on to the registration token for too long. Your SaaS registration website should redeem this token as soon as it is submitted by the buyer's browser.
     public static var expiredTokenException: Self { .init(.expiredTokenException) }
-    /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
+    /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the Amazon Web Services forums.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
     /// You have metered usage for a CustomerIdentifier that does not exist.
     public static var invalidCustomerIdentifierException: Self { .init(.invalidCustomerIdentifierException) }
-    /// The endpoint being called is in a AWS Region different from your EC2 instance, ECS task, or EKS pod. The Region of the Metering Service endpoint and the AWS Region of the resource must match.
+    /// The endpoint being called is in a Amazon Web Services Region different from your EC2 instance, ECS task, or EKS pod. The Region of the Metering Service endpoint and the Amazon Web Services Region of the resource must match.
     public static var invalidEndpointRegionException: Self { .init(.invalidEndpointRegionException) }
     /// The product code passed does not match the product code used for publishing the product.
     public static var invalidProductCodeException: Self { .init(.invalidProductCodeException) }
     /// Public Key version is invalid.
     public static var invalidPublicKeyVersionException: Self { .init(.invalidPublicKeyVersionException) }
-    ///  RegisterUsage must be called in the same AWS Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
+    ///  RegisterUsage must be called in the same Amazon Web Services Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
     public static var invalidRegionException: Self { .init(.invalidRegionException) }
     /// The tag is invalid, or the number of tags is greater than 5.
     public static var invalidTagException: Self { .init(.invalidTagException) }
     /// Registration token is invalid.
     public static var invalidTokenException: Self { .init(.invalidTokenException) }
-    /// The usage allocation objects are invalid, or the number of allocations is greater than 500 for a single usage record.
+    /// Sum of allocated usage quantities is not equal to the usage quantity.
     public static var invalidUsageAllocationsException: Self { .init(.invalidUsageAllocationsException) }
     /// The usage dimension does not match one of the UsageDimensions associated with products.
     public static var invalidUsageDimensionException: Self { .init(.invalidUsageDimensionException) }
-    /// AWS Marketplace does not support metering usage from the underlying platform. Currently, Amazon ECS, Amazon EKS, and AWS Fargate are supported.
+    /// Amazon Web Services Marketplace does not support metering usage from the underlying platform. Currently, Amazon ECS, Amazon EKS, and Fargate are supported.
     public static var platformNotSupportedException: Self { .init(.platformNotSupportedException) }
     /// The calls to the API are throttled.
     public static var throttlingException: Self { .init(.throttlingException) }

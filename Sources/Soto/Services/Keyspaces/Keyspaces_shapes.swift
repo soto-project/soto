@@ -282,7 +282,7 @@ extension Keyspaces {
     public struct CreateKeyspaceRequest: AWSEncodableShape {
         /// The name of the keyspace to be created.
         public let keyspaceName: String
-        ///  The replication specification of the keyspace includes:    replicationStrategy - the required value is SINGLE_REGION or  MULTI_REGION.    regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where  the keyspace is going to be replicated in. The maximum number of supported replication Regions including the current Region is six.
+        ///  The replication specification of the keyspace includes:    replicationStrategy - the required value is SINGLE_REGION or  MULTI_REGION.    regionList - if the replicationStrategy is MULTI_REGION, the regionList requires the current Region and at least one additional Amazon Web Services Region where  the keyspace is going to be replicated in.
         public let replicationSpecification: ReplicationSpecification?
         /// A list of key-value pair tags to be attached to the keyspace. For more information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon Keyspaces Developer Guide.
         public let tags: [Tag]?
@@ -1244,7 +1244,7 @@ extension Keyspaces {
     }
 
     public struct ReplicationSpecification: AWSEncodableShape {
-        ///  The regionList can contain up to six Amazon Web Services Regions where the keyspace is replicated in.
+        ///  The regionList contains the Amazon Web Services Regions where the keyspace is replicated in.
         public let regionList: [String]?
         ///  The replicationStrategy of a keyspace, the required value is SINGLE_REGION or  MULTI_REGION.
         public let replicationStrategy: Rs
@@ -1260,7 +1260,6 @@ extension Keyspaces {
                 try validate($0, name: "regionList[]", parent: name, max: 25)
                 try validate($0, name: "regionList[]", parent: name, min: 2)
             }
-            try self.validate(self.regionList, name: "regionList", parent: name, max: 6)
             try self.validate(self.regionList, name: "regionList", parent: name, min: 2)
         }
 

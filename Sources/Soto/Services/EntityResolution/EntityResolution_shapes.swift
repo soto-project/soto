@@ -242,7 +242,7 @@ extension EntityResolution {
 
         public func validate(name: String) throws {
             try self.uniqueIds.forEach {
-                try validate($0, name: "uniqueIds[]", parent: name, max: 760)
+                try validate($0, name: "uniqueIds[]", parent: name, max: 780)
                 try validate($0, name: "uniqueIds[]", parent: name, min: 1)
                 try validate($0, name: "uniqueIds[]", parent: name, pattern: "^[a-zA-Z_0-9-+=/,]*$")
             }
@@ -1567,15 +1567,18 @@ extension EntityResolution {
         public let totalMappedTargetRecords: Int?
         /// The total number of records that were processed.
         public let totalRecordsProcessed: Int?
+        /// The number of records remaining after loading and aggregating duplicate records. Duplicates are determined by the field marked as UNIQUE_ID in your schema mapping - records sharing the same value in this field are considered duplicates. For example, if you specified "customer_id" as a UNIQUE_ID field and had three records with the same customer_id value, they would count as one unique record in this metric.
+        public let uniqueRecordsLoaded: Int?
 
         @inlinable
-        public init(inputRecords: Int? = nil, recordsNotProcessed: Int? = nil, totalMappedRecords: Int? = nil, totalMappedSourceRecords: Int? = nil, totalMappedTargetRecords: Int? = nil, totalRecordsProcessed: Int? = nil) {
+        public init(inputRecords: Int? = nil, recordsNotProcessed: Int? = nil, totalMappedRecords: Int? = nil, totalMappedSourceRecords: Int? = nil, totalMappedTargetRecords: Int? = nil, totalRecordsProcessed: Int? = nil, uniqueRecordsLoaded: Int? = nil) {
             self.inputRecords = inputRecords
             self.recordsNotProcessed = recordsNotProcessed
             self.totalMappedRecords = totalMappedRecords
             self.totalMappedSourceRecords = totalMappedSourceRecords
             self.totalMappedTargetRecords = totalMappedTargetRecords
             self.totalRecordsProcessed = totalRecordsProcessed
+            self.uniqueRecordsLoaded = uniqueRecordsLoaded
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1585,6 +1588,7 @@ extension EntityResolution {
             case totalMappedSourceRecords = "totalMappedSourceRecords"
             case totalMappedTargetRecords = "totalMappedTargetRecords"
             case totalRecordsProcessed = "totalRecordsProcessed"
+            case uniqueRecordsLoaded = "uniqueRecordsLoaded"
         }
     }
 
@@ -2474,7 +2478,7 @@ extension EntityResolution {
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 255)
-            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z_0-9- \\t]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z_0-9- ]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2790,7 +2794,7 @@ extension EntityResolution {
         public func validate(name: String) throws {
             try self.matchingKeys.forEach {
                 try validate($0, name: "matchingKeys[]", parent: name, max: 255)
-                try validate($0, name: "matchingKeys[]", parent: name, pattern: "^[a-zA-Z_0-9- \\t]*$")
+                try validate($0, name: "matchingKeys[]", parent: name, pattern: "^[a-zA-Z_0-9- ]*$")
             }
         }
 
@@ -2831,15 +2835,15 @@ extension EntityResolution {
     public struct SchemaInputAttribute: AWSEncodableShape & AWSDecodableShape {
         /// A string containing the field name.
         public let fieldName: String
-        /// A string that instructs Entity Resolution to combine several columns into a unified column with the identical attribute type.  For example, when working with columns such as first_name, middle_name, and last_name, assigning them a common groupName will prompt Entity Resolution to concatenate them into a single value.
+        /// A string that instructs Entity Resolution to combine several columns into a unified column with the identical attribute type.  For example, when working with columns such as NAME_FIRST, NAME_MIDDLE, and NAME_LAST, assigning them a common groupName will prompt Entity Resolution to concatenate them into a single value.
         public let groupName: String?
-        ///  Indicates if the column values are hashed in the schema input. If the value is set to TRUE, the column values are hashed. If the value is set to FALSE, the column values are cleartext.
+        ///  Indicates if the column values are hashed in the schema input.  If the value is set to TRUE, the column values are hashed.  If the value is set to FALSE, the column values are cleartext.
         public let hashed: Bool?
         /// A key that allows grouping of multiple input attributes into a unified matching group.  For example, consider a scenario where the source table contains various addresses, such as business_address and shipping_address.  By assigning a matchKey called address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no matchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
         public let matchKey: String?
         /// The subtype of the attribute, selected from a list of values.
         public let subType: String?
-        /// The type of the attribute, selected from a list of values.
+        /// The type of the attribute, selected from a list of values.  Normalization is only supported for NAME, ADDRESS, PHONE, and EMAIL_ADDRESS.  If you want to normalize NAME_FIRST, NAME_MIDDLE, and NAME_LAST, you must group them by assigning them to the NAME groupName.  If you want to normalize ADDRESS_STREET1, ADDRESS_STREET2, ADDRESS_STREET3, ADDRESS_CITY, ADDRESS_STATE, ADDRESS_COUNTRY, and ADDRESS_POSTALCODE, you must group them by assigning them to the ADDRESS groupName.  If you want to normalize PHONE_NUMBER and PHONE_COUNTRYCODE, you must group them by assigning them to the PHONE groupName.
         public let type: SchemaAttributeType
 
         @inlinable
@@ -2854,13 +2858,13 @@ extension EntityResolution {
 
         public func validate(name: String) throws {
             try self.validate(self.fieldName, name: "fieldName", parent: name, max: 255)
-            try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "^[a-zA-Z_0-9- \\t]*$")
+            try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "^[a-zA-Z_0-9- ]*$")
             try self.validate(self.groupName, name: "groupName", parent: name, max: 255)
-            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z_0-9- \\t]*$")
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[a-zA-Z_0-9- ]*$")
             try self.validate(self.matchKey, name: "matchKey", parent: name, max: 255)
-            try self.validate(self.matchKey, name: "matchKey", parent: name, pattern: "^[a-zA-Z_0-9- \\t]*$")
+            try self.validate(self.matchKey, name: "matchKey", parent: name, pattern: "^[a-zA-Z_0-9- ]*$")
             try self.validate(self.subType, name: "subType", parent: name, max: 255)
-            try self.validate(self.subType, name: "subType", parent: name, pattern: "^[a-zA-Z_0-9- \\t]*$")
+            try self.validate(self.subType, name: "subType", parent: name, pattern: "^[a-zA-Z_0-9- ]*$")
         }
 
         private enum CodingKeys: String, CodingKey {

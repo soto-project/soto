@@ -169,6 +169,7 @@ extension Transcribe {
         case viVn = "vi-VN"
         case woSn = "wo-SN"
         case zhCn = "zh-CN"
+        case zhHk = "zh-HK"
         case zhTw = "zh-TW"
         case zuZa = "zu-ZA"
         public var description: String { return self.rawValue }

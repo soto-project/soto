@@ -194,6 +194,14 @@ extension GameLift {
         case c5a8Xlarge = "c5a.8xlarge"
         case c5aLarge = "c5a.large"
         case c5aXlarge = "c5a.xlarge"
+        case c5ad12Xlarge = "c5ad.12xlarge"
+        case c5ad16Xlarge = "c5ad.16xlarge"
+        case c5ad24Xlarge = "c5ad.24xlarge"
+        case c5ad2Xlarge = "c5ad.2xlarge"
+        case c5ad4Xlarge = "c5ad.4xlarge"
+        case c5ad8Xlarge = "c5ad.8xlarge"
+        case c5adLarge = "c5ad.large"
+        case c5adXlarge = "c5ad.xlarge"
         case c5d12Xlarge = "c5d.12xlarge"
         case c5d18Xlarge = "c5d.18xlarge"
         case c5d24Xlarge = "c5d.24xlarge"
@@ -202,10 +210,18 @@ extension GameLift {
         case c5d9Xlarge = "c5d.9xlarge"
         case c5dLarge = "c5d.large"
         case c5dXlarge = "c5d.xlarge"
+        case c5n18Xlarge = "c5n.18xlarge"
+        case c5n2Xlarge = "c5n.2xlarge"
+        case c5n4Xlarge = "c5n.4xlarge"
+        case c5n9Xlarge = "c5n.9xlarge"
+        case c5nLarge = "c5n.large"
+        case c5nXlarge = "c5n.xlarge"
         case c6a12Xlarge = "c6a.12xlarge"
         case c6a16Xlarge = "c6a.16xlarge"
         case c6a24Xlarge = "c6a.24xlarge"
         case c6a2Xlarge = "c6a.2xlarge"
+        case c6a32Xlarge = "c6a.32xlarge"
+        case c6a48Xlarge = "c6a.48xlarge"
         case c6a4Xlarge = "c6a.4xlarge"
         case c6a8Xlarge = "c6a.8xlarge"
         case c6aLarge = "c6a.large"
@@ -218,6 +234,14 @@ extension GameLift {
         case c6gLarge = "c6g.large"
         case c6gMedium = "c6g.medium"
         case c6gXlarge = "c6g.xlarge"
+        case c6gd12Xlarge = "c6gd.12xlarge"
+        case c6gd16Xlarge = "c6gd.16xlarge"
+        case c6gd2Xlarge = "c6gd.2xlarge"
+        case c6gd4Xlarge = "c6gd.4xlarge"
+        case c6gd8Xlarge = "c6gd.8xlarge"
+        case c6gdLarge = "c6gd.large"
+        case c6gdMedium = "c6gd.medium"
+        case c6gdXlarge = "c6gd.xlarge"
         case c6gn12Xlarge = "c6gn.12xlarge"
         case c6gn16Xlarge = "c6gn.16xlarge"
         case c6gn2Xlarge = "c6gn.2xlarge"
@@ -230,10 +254,40 @@ extension GameLift {
         case c6i16Xlarge = "c6i.16xlarge"
         case c6i24Xlarge = "c6i.24xlarge"
         case c6i2Xlarge = "c6i.2xlarge"
+        case c6i32Xlarge = "c6i.32xlarge"
         case c6i4Xlarge = "c6i.4xlarge"
         case c6i8Xlarge = "c6i.8xlarge"
         case c6iLarge = "c6i.large"
         case c6iXlarge = "c6i.xlarge"
+        case c6id12Xlarge = "c6id.12xlarge"
+        case c6id16Xlarge = "c6id.16xlarge"
+        case c6id24Xlarge = "c6id.24xlarge"
+        case c6id2Xlarge = "c6id.2xlarge"
+        case c6id32Xlarge = "c6id.32xlarge"
+        case c6id4Xlarge = "c6id.4xlarge"
+        case c6id8Xlarge = "c6id.8xlarge"
+        case c6idLarge = "c6id.large"
+        case c6idXlarge = "c6id.xlarge"
+        case c6in12Xlarge = "c6in.12xlarge"
+        case c6in16Xlarge = "c6in.16xlarge"
+        case c6in24Xlarge = "c6in.24xlarge"
+        case c6in2Xlarge = "c6in.2xlarge"
+        case c6in32Xlarge = "c6in.32xlarge"
+        case c6in4Xlarge = "c6in.4xlarge"
+        case c6in8Xlarge = "c6in.8xlarge"
+        case c6inLarge = "c6in.large"
+        case c6inXlarge = "c6in.xlarge"
+        case c7a12Xlarge = "c7a.12xlarge"
+        case c7a16Xlarge = "c7a.16xlarge"
+        case c7a24Xlarge = "c7a.24xlarge"
+        case c7a2Xlarge = "c7a.2xlarge"
+        case c7a32Xlarge = "c7a.32xlarge"
+        case c7a48Xlarge = "c7a.48xlarge"
+        case c7a4Xlarge = "c7a.4xlarge"
+        case c7a8Xlarge = "c7a.8xlarge"
+        case c7aLarge = "c7a.large"
+        case c7aMedium = "c7a.medium"
+        case c7aXlarge = "c7a.xlarge"
         case c7g12Xlarge = "c7g.12xlarge"
         case c7g16Xlarge = "c7g.16xlarge"
         case c7g2Xlarge = "c7g.2xlarge"
@@ -242,6 +296,41 @@ extension GameLift {
         case c7gLarge = "c7g.large"
         case c7gMedium = "c7g.medium"
         case c7gXlarge = "c7g.xlarge"
+        case c7gd12Xlarge = "c7gd.12xlarge"
+        case c7gd16Xlarge = "c7gd.16xlarge"
+        case c7gd2Xlarge = "c7gd.2xlarge"
+        case c7gd4Xlarge = "c7gd.4xlarge"
+        case c7gd8Xlarge = "c7gd.8xlarge"
+        case c7gdLarge = "c7gd.large"
+        case c7gdMedium = "c7gd.medium"
+        case c7gdXlarge = "c7gd.xlarge"
+        case c7gn12Xlarge = "c7gn.12xlarge"
+        case c7gn16Xlarge = "c7gn.16xlarge"
+        case c7gn2Xlarge = "c7gn.2xlarge"
+        case c7gn4Xlarge = "c7gn.4xlarge"
+        case c7gn8Xlarge = "c7gn.8xlarge"
+        case c7gnLarge = "c7gn.large"
+        case c7gnMedium = "c7gn.medium"
+        case c7gnXlarge = "c7gn.xlarge"
+        case c7i12Xlarge = "c7i.12xlarge"
+        case c7i16Xlarge = "c7i.16xlarge"
+        case c7i24Xlarge = "c7i.24xlarge"
+        case c7i2Xlarge = "c7i.2xlarge"
+        case c7i48Xlarge = "c7i.48xlarge"
+        case c7i4Xlarge = "c7i.4xlarge"
+        case c7i8Xlarge = "c7i.8xlarge"
+        case c7iLarge = "c7i.large"
+        case c7iXlarge = "c7i.xlarge"
+        case c8g12Xlarge = "c8g.12xlarge"
+        case c8g16Xlarge = "c8g.16xlarge"
+        case c8g24Xlarge = "c8g.24xlarge"
+        case c8g2Xlarge = "c8g.2xlarge"
+        case c8g48Xlarge = "c8g.48xlarge"
+        case c8g4Xlarge = "c8g.4xlarge"
+        case c8g8Xlarge = "c8g.8xlarge"
+        case c8gLarge = "c8g.large"
+        case c8gMedium = "c8g.medium"
+        case c8gXlarge = "c8g.xlarge"
         case g5g16Xlarge = "g5g.16xlarge"
         case g5g2Xlarge = "g5g.2xlarge"
         case g5g4Xlarge = "g5g.4xlarge"
@@ -252,6 +341,7 @@ extension GameLift {
         case m3Medium = "m3.medium"
         case m3Xlarge = "m3.xlarge"
         case m410Xlarge = "m4.10xlarge"
+        case m416Xlarge = "m4.16xlarge"
         case m42Xlarge = "m4.2xlarge"
         case m44Xlarge = "m4.4xlarge"
         case m4Large = "m4.large"
@@ -272,6 +362,48 @@ extension GameLift {
         case m5a8Xlarge = "m5a.8xlarge"
         case m5aLarge = "m5a.large"
         case m5aXlarge = "m5a.xlarge"
+        case m5ad12Xlarge = "m5ad.12xlarge"
+        case m5ad16Xlarge = "m5ad.16xlarge"
+        case m5ad24Xlarge = "m5ad.24xlarge"
+        case m5ad2Xlarge = "m5ad.2xlarge"
+        case m5ad4Xlarge = "m5ad.4xlarge"
+        case m5ad8Xlarge = "m5ad.8xlarge"
+        case m5adLarge = "m5ad.large"
+        case m5adXlarge = "m5ad.xlarge"
+        case m5d12Xlarge = "m5d.12xlarge"
+        case m5d16Xlarge = "m5d.16xlarge"
+        case m5d24Xlarge = "m5d.24xlarge"
+        case m5d2Xlarge = "m5d.2xlarge"
+        case m5d4Xlarge = "m5d.4xlarge"
+        case m5d8Xlarge = "m5d.8xlarge"
+        case m5dLarge = "m5d.large"
+        case m5dXlarge = "m5d.xlarge"
+        case m5dn12Xlarge = "m5dn.12xlarge"
+        case m5dn16Xlarge = "m5dn.16xlarge"
+        case m5dn24Xlarge = "m5dn.24xlarge"
+        case m5dn2Xlarge = "m5dn.2xlarge"
+        case m5dn4Xlarge = "m5dn.4xlarge"
+        case m5dn8Xlarge = "m5dn.8xlarge"
+        case m5dnLarge = "m5dn.large"
+        case m5dnXlarge = "m5dn.xlarge"
+        case m5n12Xlarge = "m5n.12xlarge"
+        case m5n16Xlarge = "m5n.16xlarge"
+        case m5n24Xlarge = "m5n.24xlarge"
+        case m5n2Xlarge = "m5n.2xlarge"
+        case m5n4Xlarge = "m5n.4xlarge"
+        case m5n8Xlarge = "m5n.8xlarge"
+        case m5nLarge = "m5n.large"
+        case m5nXlarge = "m5n.xlarge"
+        case m6a12Xlarge = "m6a.12xlarge"
+        case m6a16Xlarge = "m6a.16xlarge"
+        case m6a24Xlarge = "m6a.24xlarge"
+        case m6a2Xlarge = "m6a.2xlarge"
+        case m6a32Xlarge = "m6a.32xlarge"
+        case m6a48Xlarge = "m6a.48xlarge"
+        case m6a4Xlarge = "m6a.4xlarge"
+        case m6a8Xlarge = "m6a.8xlarge"
+        case m6aLarge = "m6a.large"
+        case m6aXlarge = "m6a.xlarge"
         case m6g12Xlarge = "m6g.12xlarge"
         case m6g16Xlarge = "m6g.16xlarge"
         case m6g2Xlarge = "m6g.2xlarge"
@@ -280,6 +412,61 @@ extension GameLift {
         case m6gLarge = "m6g.large"
         case m6gMedium = "m6g.medium"
         case m6gXlarge = "m6g.xlarge"
+        case m6gd12Xlarge = "m6gd.12xlarge"
+        case m6gd16Xlarge = "m6gd.16xlarge"
+        case m6gd2Xlarge = "m6gd.2xlarge"
+        case m6gd4Xlarge = "m6gd.4xlarge"
+        case m6gd8Xlarge = "m6gd.8xlarge"
+        case m6gdLarge = "m6gd.large"
+        case m6gdMedium = "m6gd.medium"
+        case m6gdXlarge = "m6gd.xlarge"
+        case m6i12Xlarge = "m6i.12xlarge"
+        case m6i16Xlarge = "m6i.16xlarge"
+        case m6i24Xlarge = "m6i.24xlarge"
+        case m6i2Xlarge = "m6i.2xlarge"
+        case m6i32Xlarge = "m6i.32xlarge"
+        case m6i4Xlarge = "m6i.4xlarge"
+        case m6i8Xlarge = "m6i.8xlarge"
+        case m6iLarge = "m6i.large"
+        case m6iXlarge = "m6i.xlarge"
+        case m6id12Xlarge = "m6id.12xlarge"
+        case m6id16Xlarge = "m6id.16xlarge"
+        case m6id24Xlarge = "m6id.24xlarge"
+        case m6id2Xlarge = "m6id.2xlarge"
+        case m6id32Xlarge = "m6id.32xlarge"
+        case m6id4Xlarge = "m6id.4xlarge"
+        case m6id8Xlarge = "m6id.8xlarge"
+        case m6idLarge = "m6id.large"
+        case m6idXlarge = "m6id.xlarge"
+        case m6idn12Xlarge = "m6idn.12xlarge"
+        case m6idn16Xlarge = "m6idn.16xlarge"
+        case m6idn24Xlarge = "m6idn.24xlarge"
+        case m6idn2Xlarge = "m6idn.2xlarge"
+        case m6idn32Xlarge = "m6idn.32xlarge"
+        case m6idn4Xlarge = "m6idn.4xlarge"
+        case m6idn8Xlarge = "m6idn.8xlarge"
+        case m6idnLarge = "m6idn.large"
+        case m6idnXlarge = "m6idn.xlarge"
+        case m6in12Xlarge = "m6in.12xlarge"
+        case m6in16Xlarge = "m6in.16xlarge"
+        case m6in24Xlarge = "m6in.24xlarge"
+        case m6in2Xlarge = "m6in.2xlarge"
+        case m6in32Xlarge = "m6in.32xlarge"
+        case m6in4Xlarge = "m6in.4xlarge"
+        case m6in8Xlarge = "m6in.8xlarge"
+        case m6inLarge = "m6in.large"
+        case m6inXlarge = "m6in.xlarge"
+        case m7a12Xlarge = "m7a.12xlarge"
+        case m7a16Xlarge = "m7a.16xlarge"
+        case m7a24Xlarge = "m7a.24xlarge"
+        case m7a2Xlarge = "m7a.2xlarge"
+        case m7a32Xlarge = "m7a.32xlarge"
+        case m7a48Xlarge = "m7a.48xlarge"
+        case m7a4Xlarge = "m7a.4xlarge"
+        case m7a8Xlarge = "m7a.8xlarge"
+        case m7aLarge = "m7a.large"
+        case m7aMedium = "m7a.medium"
+        case m7aXlarge = "m7a.xlarge"
         case m7g12Xlarge = "m7g.12xlarge"
         case m7g16Xlarge = "m7g.16xlarge"
         case m7g2Xlarge = "m7g.2xlarge"
@@ -288,6 +475,33 @@ extension GameLift {
         case m7gLarge = "m7g.large"
         case m7gMedium = "m7g.medium"
         case m7gXlarge = "m7g.xlarge"
+        case m7gd12Xlarge = "m7gd.12xlarge"
+        case m7gd16Xlarge = "m7gd.16xlarge"
+        case m7gd2Xlarge = "m7gd.2xlarge"
+        case m7gd4Xlarge = "m7gd.4xlarge"
+        case m7gd8Xlarge = "m7gd.8xlarge"
+        case m7gdLarge = "m7gd.large"
+        case m7gdMedium = "m7gd.medium"
+        case m7gdXlarge = "m7gd.xlarge"
+        case m7i12Xlarge = "m7i.12xlarge"
+        case m7i16Xlarge = "m7i.16xlarge"
+        case m7i24Xlarge = "m7i.24xlarge"
+        case m7i2Xlarge = "m7i.2xlarge"
+        case m7i48Xlarge = "m7i.48xlarge"
+        case m7i4Xlarge = "m7i.4xlarge"
+        case m7i8Xlarge = "m7i.8xlarge"
+        case m7iLarge = "m7i.large"
+        case m7iXlarge = "m7i.xlarge"
+        case m8g12Xlarge = "m8g.12xlarge"
+        case m8g16Xlarge = "m8g.16xlarge"
+        case m8g24Xlarge = "m8g.24xlarge"
+        case m8g2Xlarge = "m8g.2xlarge"
+        case m8g48Xlarge = "m8g.48xlarge"
+        case m8g4Xlarge = "m8g.4xlarge"
+        case m8g8Xlarge = "m8g.8xlarge"
+        case m8gLarge = "m8g.large"
+        case m8gMedium = "m8g.medium"
+        case m8gXlarge = "m8g.xlarge"
         case r32Xlarge = "r3.2xlarge"
         case r34Xlarge = "r3.4xlarge"
         case r38Xlarge = "r3.8xlarge"
@@ -315,6 +529,14 @@ extension GameLift {
         case r5a8Xlarge = "r5a.8xlarge"
         case r5aLarge = "r5a.large"
         case r5aXlarge = "r5a.xlarge"
+        case r5ad12Xlarge = "r5ad.12xlarge"
+        case r5ad16Xlarge = "r5ad.16xlarge"
+        case r5ad24Xlarge = "r5ad.24xlarge"
+        case r5ad2Xlarge = "r5ad.2xlarge"
+        case r5ad4Xlarge = "r5ad.4xlarge"
+        case r5ad8Xlarge = "r5ad.8xlarge"
+        case r5adLarge = "r5ad.large"
+        case r5adXlarge = "r5ad.xlarge"
         case r5d12Xlarge = "r5d.12xlarge"
         case r5d16Xlarge = "r5d.16xlarge"
         case r5d24Xlarge = "r5d.24xlarge"
@@ -323,6 +545,32 @@ extension GameLift {
         case r5d8Xlarge = "r5d.8xlarge"
         case r5dLarge = "r5d.large"
         case r5dXlarge = "r5d.xlarge"
+        case r5dn12Xlarge = "r5dn.12xlarge"
+        case r5dn16Xlarge = "r5dn.16xlarge"
+        case r5dn24Xlarge = "r5dn.24xlarge"
+        case r5dn2Xlarge = "r5dn.2xlarge"
+        case r5dn4Xlarge = "r5dn.4xlarge"
+        case r5dn8Xlarge = "r5dn.8xlarge"
+        case r5dnLarge = "r5dn.large"
+        case r5dnXlarge = "r5dn.xlarge"
+        case r5n12Xlarge = "r5n.12xlarge"
+        case r5n16Xlarge = "r5n.16xlarge"
+        case r5n24Xlarge = "r5n.24xlarge"
+        case r5n2Xlarge = "r5n.2xlarge"
+        case r5n4Xlarge = "r5n.4xlarge"
+        case r5n8Xlarge = "r5n.8xlarge"
+        case r5nLarge = "r5n.large"
+        case r5nXlarge = "r5n.xlarge"
+        case r6a12Xlarge = "r6a.12xlarge"
+        case r6a16Xlarge = "r6a.16xlarge"
+        case r6a24Xlarge = "r6a.24xlarge"
+        case r6a2Xlarge = "r6a.2xlarge"
+        case r6a32Xlarge = "r6a.32xlarge"
+        case r6a48Xlarge = "r6a.48xlarge"
+        case r6a4Xlarge = "r6a.4xlarge"
+        case r6a8Xlarge = "r6a.8xlarge"
+        case r6aLarge = "r6a.large"
+        case r6aXlarge = "r6a.xlarge"
         case r6g12Xlarge = "r6g.12xlarge"
         case r6g16Xlarge = "r6g.16xlarge"
         case r6g2Xlarge = "r6g.2xlarge"
@@ -331,6 +579,61 @@ extension GameLift {
         case r6gLarge = "r6g.large"
         case r6gMedium = "r6g.medium"
         case r6gXlarge = "r6g.xlarge"
+        case r6gd12Xlarge = "r6gd.12xlarge"
+        case r6gd16Xlarge = "r6gd.16xlarge"
+        case r6gd2Xlarge = "r6gd.2xlarge"
+        case r6gd4Xlarge = "r6gd.4xlarge"
+        case r6gd8Xlarge = "r6gd.8xlarge"
+        case r6gdLarge = "r6gd.large"
+        case r6gdMedium = "r6gd.medium"
+        case r6gdXlarge = "r6gd.xlarge"
+        case r6i12Xlarge = "r6i.12xlarge"
+        case r6i16Xlarge = "r6i.16xlarge"
+        case r6i24Xlarge = "r6i.24xlarge"
+        case r6i2Xlarge = "r6i.2xlarge"
+        case r6i32Xlarge = "r6i.32xlarge"
+        case r6i4Xlarge = "r6i.4xlarge"
+        case r6i8Xlarge = "r6i.8xlarge"
+        case r6iLarge = "r6i.large"
+        case r6iXlarge = "r6i.xlarge"
+        case r6id12Xlarge = "r6id.12xlarge"
+        case r6id16Xlarge = "r6id.16xlarge"
+        case r6id24Xlarge = "r6id.24xlarge"
+        case r6id2Xlarge = "r6id.2xlarge"
+        case r6id32Xlarge = "r6id.32xlarge"
+        case r6id4Xlarge = "r6id.4xlarge"
+        case r6id8Xlarge = "r6id.8xlarge"
+        case r6idLarge = "r6id.large"
+        case r6idXlarge = "r6id.xlarge"
+        case r6idn12Xlarge = "r6idn.12xlarge"
+        case r6idn16Xlarge = "r6idn.16xlarge"
+        case r6idn24Xlarge = "r6idn.24xlarge"
+        case r6idn2Xlarge = "r6idn.2xlarge"
+        case r6idn32Xlarge = "r6idn.32xlarge"
+        case r6idn4Xlarge = "r6idn.4xlarge"
+        case r6idn8Xlarge = "r6idn.8xlarge"
+        case r6idnLarge = "r6idn.large"
+        case r6idnXlarge = "r6idn.xlarge"
+        case r6in12Xlarge = "r6in.12xlarge"
+        case r6in16Xlarge = "r6in.16xlarge"
+        case r6in24Xlarge = "r6in.24xlarge"
+        case r6in2Xlarge = "r6in.2xlarge"
+        case r6in32Xlarge = "r6in.32xlarge"
+        case r6in4Xlarge = "r6in.4xlarge"
+        case r6in8Xlarge = "r6in.8xlarge"
+        case r6inLarge = "r6in.large"
+        case r6inXlarge = "r6in.xlarge"
+        case r7a12Xlarge = "r7a.12xlarge"
+        case r7a16Xlarge = "r7a.16xlarge"
+        case r7a24Xlarge = "r7a.24xlarge"
+        case r7a2Xlarge = "r7a.2xlarge"
+        case r7a32Xlarge = "r7a.32xlarge"
+        case r7a48Xlarge = "r7a.48xlarge"
+        case r7a4Xlarge = "r7a.4xlarge"
+        case r7a8Xlarge = "r7a.8xlarge"
+        case r7aLarge = "r7a.large"
+        case r7aMedium = "r7a.medium"
+        case r7aXlarge = "r7a.xlarge"
         case r7g12Xlarge = "r7g.12xlarge"
         case r7g16Xlarge = "r7g.16xlarge"
         case r7g2Xlarge = "r7g.2xlarge"
@@ -339,6 +642,33 @@ extension GameLift {
         case r7gLarge = "r7g.large"
         case r7gMedium = "r7g.medium"
         case r7gXlarge = "r7g.xlarge"
+        case r7gd12Xlarge = "r7gd.12xlarge"
+        case r7gd16Xlarge = "r7gd.16xlarge"
+        case r7gd2Xlarge = "r7gd.2xlarge"
+        case r7gd4Xlarge = "r7gd.4xlarge"
+        case r7gd8Xlarge = "r7gd.8xlarge"
+        case r7gdLarge = "r7gd.large"
+        case r7gdMedium = "r7gd.medium"
+        case r7gdXlarge = "r7gd.xlarge"
+        case r7i12Xlarge = "r7i.12xlarge"
+        case r7i16Xlarge = "r7i.16xlarge"
+        case r7i24Xlarge = "r7i.24xlarge"
+        case r7i2Xlarge = "r7i.2xlarge"
+        case r7i48Xlarge = "r7i.48xlarge"
+        case r7i4Xlarge = "r7i.4xlarge"
+        case r7i8Xlarge = "r7i.8xlarge"
+        case r7iLarge = "r7i.large"
+        case r7iXlarge = "r7i.xlarge"
+        case r8g12Xlarge = "r8g.12xlarge"
+        case r8g16Xlarge = "r8g.16xlarge"
+        case r8g24Xlarge = "r8g.24xlarge"
+        case r8g2Xlarge = "r8g.2xlarge"
+        case r8g48Xlarge = "r8g.48xlarge"
+        case r8g4Xlarge = "r8g.4xlarge"
+        case r8g8Xlarge = "r8g.8xlarge"
+        case r8gLarge = "r8g.large"
+        case r8gMedium = "r8g.medium"
+        case r8gXlarge = "r8g.xlarge"
         case t2Large = "t2.large"
         case t2Medium = "t2.medium"
         case t2Micro = "t2.micro"
@@ -932,7 +1262,7 @@ extension GameLift {
         public let creationTime: Date?
         /// A descriptive label that is associated with a build. Build names do not need to be unique. It can be set using CreateBuild or UpdateBuild.
         public let name: String?
-        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// Operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// The Amazon GameLift Server SDK version used to develop your game server.
         public let serverSdkVersion: String?
@@ -1078,7 +1408,7 @@ extension GameLift {
         public let ipAddress: String?
         /// The name of the custom location you added to the fleet that this compute resource resides in.
         public let location: String?
-        /// The type of operating system on the compute resource.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The type of operating system on the compute resource.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// The Amazon EC2 instance type that the fleet uses. For registered computes in an Amazon GameLift Anywhere fleet, this property is empty.
         public let type: EC2InstanceType?
@@ -1343,7 +1673,7 @@ extension GameLift {
         public let gameServerContainerDefinition: GameServerContainerDefinition?
         /// A descriptive identifier for the container group definition. The name value is unique in an Amazon Web Services Region.
         public let name: String?
-        /// The platform that all containers in the container group definition run on.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The platform that all containers in the container group definition run on.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: ContainerOperatingSystem?
         /// Current status of the container group definition resource. Values include:    COPYING -- Amazon GameLift is in the process of making copies of all container images that are defined in the group. While in this state, the resource can't be used to create a container fleet.    READY -- Amazon GameLift has copied the registry images for all containers that are defined in the group. You can use a container group definition in this status to create a container fleet.     FAILED -- Amazon GameLift failed to create a valid container group definition resource. For more details on the cause of the failure, see StatusReason. A container group definition resource in failed status will be deleted within a few minutes.
         public let status: ContainerGroupDefinitionStatus?
@@ -1597,7 +1927,7 @@ extension GameLift {
     public struct CreateBuildInput: AWSEncodableShape {
         /// A descriptive label that is associated with a build. Build names do not need to be unique. You can change this value later.
         public let name: String?
-        /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The operating system that your game server binaries run on. This value determines the type of fleet resources that you use for this build. If your game build contains multiple executables, they all must run on the same operating system. You must specify a valid operating system in this request. There is no default value. You can't change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// A server SDK version you used when integrating your game server build with Amazon GameLift. For more information see Integrate games with custom game servers. By default Amazon GameLift sets this value to 4.0.2.
         public let serverSdkVersion: String?
@@ -1794,7 +2124,7 @@ extension GameLift {
         public let gameServerContainerDefinition: GameServerContainerDefinitionInput?
         /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
         public let name: String?
-        /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Default value: AMAZON_LINUX_2023   Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The platform that all containers in the group use. Containers in a group must run on the same operating system. Default value: AMAZON_LINUX_2023   Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: ContainerOperatingSystem?
         /// One or more definition for support containers in this group. You can define a support container in any type of container group. You can pass in your container definitions as a JSON file.
         public let supportContainerDefinitions: [SupportContainerDefinitionInput]?
@@ -1879,7 +2209,7 @@ extension GameLift {
         public let computeType: ComputeType?
         /// A description for the fleet.
         public let description: String?
-        /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call  https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings to set it before players can connect to game sessions.  As a best practice, we recommend  opening ports for remote access only when you need them and closing them when you're finished.  For Realtime Servers fleets, Amazon GameLift automatically sets TCP and UDP ranges.
+        /// The IP address ranges and port settings that allow inbound traffic to access game server processes and other processes on this fleet. Set this parameter for managed EC2 fleets. You can leave this parameter empty when creating the fleet, but you must call  https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetPortSettings to set it before players can connect to game sessions.  As a best practice, we recommend  opening ports for remote access only when you need them and closing them when you're finished.  For Amazon GameLift Realtime fleets, Amazon GameLift automatically sets TCP and UDP ranges.
         public let ec2InboundPermissions: [IpPermission]?
         /// The Amazon GameLift-supported Amazon EC2 instance type to use with managed EC2 fleets. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See Amazon Elastic Compute Cloud Instance Types for detailed descriptions of Amazon EC2 instance types.
         public let ec2InstanceType: EC2InstanceType?
@@ -2291,7 +2621,7 @@ extension GameLift {
         public let priorityConfiguration: PriorityConfiguration?
         /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference.
         public let tags: [Tag]?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. If you don't specify a request timeout, the queue uses a default value.
         public let timeoutInSeconds: Int?
 
         @inlinable
@@ -3362,7 +3692,7 @@ extension GameLift {
     }
 
     public struct DescribeComputeInput: AWSEncodableShape {
-        /// The unique identifier of the compute resource to retrieve properties for. For an Anywhere fleet compute, use the registered compute name. For an EC2 fleet instance, use the instance ID.
+        /// The unique identifier of the compute resource to retrieve properties for. For a managed container fleet or Anywhere fleet, use a compute name. For an EC2 fleet, use an instance ID. To retrieve a fleet's compute identifiers, call ListCompute.
         public let computeName: String?
         /// A unique identifier for the fleet that the compute belongs to. You can use either the fleet ID or ARN value.
         public let fleetId: String?
@@ -4889,7 +5219,7 @@ extension GameLift {
     public struct Event: AWSDecodableShape {
         /// The number of times that this event occurred.
         public let count: Int64?
-        /// The type of event being logged.   Fleet state transition events:    FLEET_CREATED -- A fleet resource was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. Amazon GameLift is downloading the compressed build and running install scripts.   FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING. Amazon GameLift has successfully installed build and is now validating the build files.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING. Amazon GameLift has successfully verified the build files and is now launching a fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING. Amazon GameLift is launching a game server process on the fleet instance and is testing its connectivity with the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.   FLEET_STATE_ERROR -- The Fleet's status changed to ERROR. Describe the fleet event message for more details.    Fleet creation events (ordered by fleet creation activity):    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD -- The game server build was successfully downloaded to an instance, and Amazon GameLiftis now extracting the build files from the uploaded build. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER -- The game server build files were successfully extracted, and Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_COMPLETED_INSTALLER -- The game server build files were successfully installed and validation of the installation will begin soon.   FLEET_CREATION_FAILED_INSTALLER -- The installed failed while attempting to install the build files. This event indicates that the failure occurred before Amazon GameLift could start validation.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.   FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the runtime configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_VALIDATION_TIMED_OUT -- Validation of the fleet at the end of creation timed out. Try fleet creation again.   FLEET_ACTIVATION_FAILED -- The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. For more information, see Debug Fleet Creation Issues.   FLEET_ACTIVATION_FAILED_NO_INSTANCES -- Fleet creation was not able to obtain any instances based on the input fleet attributes. Try again at a different time or choose a different combination of fleet attributes such as fleet type, instance type, etc.   FLEET_INITIALIZATION_FAILED -- A generic exception occurred during fleet creation. Describe the fleet event message for more details.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your Amazon Web Services account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your Amazon Web Services account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:    INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.   INSTANCE_RECYCLED -- A spot instance was determined to have a high risk  of interruption and is scheduled to be recycled once it has no active  game sessions.    Server process events:    SERVER_PROCESS_INVALID_PATH -- The game server executable or script could not be found based on the Fleet runtime configuration. Check that the launch path is correct based on the operating system of the Fleet.   SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected (5 minutes). Check your game session log to see why InitSDK() was not called in time.   SERVER_PROCESS_PROCESS_READY_TIMEOUT -- The server process did not call ProcessReady() within the time expected  (5 minutes) after calling InitSDK(). Check your game session log to see why ProcessReady() was not called in time.   SERVER_PROCESS_CRASHED -- The server process exited without calling ProcessEnding(). Check your game session log to see why ProcessEnding() was not called.   SERVER_PROCESS_TERMINATED_UNHEALTHY -- The server process did not report a valid health check for too long and was therefore terminated by GameLift. Check your game session log to see if the thread became stuck processing a synchronous task for too long.   SERVER_PROCESS_FORCE_TERMINATED -- The server process did not exit cleanly within the time expected after OnProcessTerminate() was sent. Check your game session log to see why termination took longer than expected.   SERVER_PROCESS_PROCESS_EXIT_TIMEOUT -- The server process did not exit cleanly within the time expected (30 seconds) after calling ProcessEnding(). Check your game session log to see why termination took longer than expected.    Game session events:    GAME_SESSION_ACTIVATION_TIMEOUT -- GameSession failed to activate within the expected time. Check your game session log to see why ActivateGameSession() took longer to complete than expected.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.   GENERIC_EVENT -- An unspecified event has occurred.
+        /// The type of event being logged.   Fleet state transition events:    FLEET_CREATED -- A fleet resource was successfully created with a status of NEW. Event messaging includes the fleet ID.   FLEET_STATE_DOWNLOADING -- Fleet status changed from NEW to DOWNLOADING. Amazon GameLift is downloading the compressed build and running install scripts.   FLEET_STATE_VALIDATING -- Fleet status changed from DOWNLOADING to VALIDATING. Amazon GameLift has successfully installed build and is now validating the build files.   FLEET_STATE_BUILDING -- Fleet status changed from VALIDATING to BUILDING. Amazon GameLift has successfully verified the build files and is now launching a fleet instance.   FLEET_STATE_ACTIVATING -- Fleet status changed from BUILDING to ACTIVATING. Amazon GameLift is launching a game server process on the fleet instance and is testing its connectivity with the Amazon GameLift service.   FLEET_STATE_ACTIVE -- The fleet's status changed from ACTIVATING to ACTIVE. The fleet is now ready to host game sessions.   FLEET_STATE_ERROR -- The Fleet's status changed to ERROR. Describe the fleet event message for more details.    Fleet creation events (ordered by fleet creation activity):    FLEET_BINARY_DOWNLOAD_FAILED -- The build failed to download to the fleet instance.   FLEET_CREATION_EXTRACTING_BUILD -- The game server build was successfully downloaded to an instance, and Amazon GameLiftis now extracting the build files from the uploaded build. Failure at this stage prevents a fleet from moving to ACTIVE status. Logs for this stage display a list of the files that are extracted and saved on the instance. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_RUNNING_INSTALLER -- The game server build files were successfully extracted, and Amazon GameLift is now running the build's install script (if one is included). Failure in this stage prevents a fleet from moving to ACTIVE status. Logs for this stage list the installation steps and whether or not the install completed successfully. Access the logs by using the URL in PreSignedLogUrl.   FLEET_CREATION_COMPLETED_INSTALLER -- The game server build files were successfully installed and validation of the installation will begin soon.   FLEET_CREATION_FAILED_INSTALLER -- The installed failed while attempting to install the build files. This event indicates that the failure occurred before Amazon GameLift could start validation.    FLEET_CREATION_VALIDATING_RUNTIME_CONFIG -- The build process was successful, and the GameLift is now verifying that the game server launch paths, which are specified in the fleet's runtime configuration, exist. If any listed launch path exists, Amazon GameLift tries to launch a game server process and waits for the process to report ready. Failures in this stage prevent a fleet from moving to ACTIVE status. Logs for this stage list the launch paths in the runtime configuration and indicate whether each is found. Access the logs by using the URL in PreSignedLogUrl.   FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND -- Validation of the runtime configuration failed because the executable specified in a launch path does not exist on the instance.   FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE -- Validation of the runtime configuration failed because the executable specified in a launch path failed to run on the fleet instance.   FLEET_VALIDATION_TIMED_OUT -- Validation of the fleet at the end of creation timed out. Try fleet creation again.   FLEET_ACTIVATION_FAILED -- The fleet failed to successfully complete one of the steps in the fleet activation process. This event code indicates that the game build was successfully downloaded to a fleet instance, built, and validated, but was not able to start a server process. For more information, see Debug Fleet Creation Issues.   FLEET_ACTIVATION_FAILED_NO_INSTANCES -- Fleet creation was not able to obtain any instances based on the input fleet attributes. Try again at a different time or choose a different combination of fleet attributes such as fleet type, instance type, etc.   FLEET_INITIALIZATION_FAILED -- A generic exception occurred during fleet creation. Describe the fleet event message for more details.    VPC peering events:    FLEET_VPC_PEERING_SUCCEEDED -- A VPC peering connection has been established between the VPC for an Amazon GameLift fleet and a VPC in your Amazon Web Services account.   FLEET_VPC_PEERING_FAILED -- A requested VPC peering connection has failed. Event details and status information provide additional detail. A common reason for peering failure is that the two VPCs have overlapping CIDR blocks of IPv4 addresses. To resolve this, change the CIDR block for the VPC in your Amazon Web Services account. For more information on VPC peering failures, see https://docs.aws.amazon.com/AmazonVPC/latest/PeeringGuide/invalid-peering-configurations.html    FLEET_VPC_PEERING_DELETED -- A VPC peering connection has been successfully deleted.    Spot instance events:    INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.   INSTANCE_RECYCLED -- A spot instance was determined to have a high risk  of interruption and is scheduled to be recycled once it has no active  game sessions.    Server process events:    SERVER_PROCESS_INVALID_PATH -- The game server executable or script could not be found based on the Fleet runtime configuration. Check that the launch path is correct based on the operating system of the Fleet.   SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT -- The server process did not call InitSDK() within the time expected (5 minutes). Check your game session log to see why InitSDK() was not called in time. This event is not emitted for managed container fleets and Anywhere fleets unless they're deployed with the Amazon GameLift Agent.   SERVER_PROCESS_PROCESS_READY_TIMEOUT -- The server process did not call ProcessReady() within the time expected  (5 minutes) after calling InitSDK(). Check your game session log to see why ProcessReady() was not called in time.   SERVER_PROCESS_CRASHED -- The server process exited without calling ProcessEnding(). Check your game session log to see why ProcessEnding() was not called.   SERVER_PROCESS_TERMINATED_UNHEALTHY -- The server process did not report a valid health check for too long and was therefore terminated by GameLift. Check your game session log to see if the thread became stuck processing a synchronous task for too long.   SERVER_PROCESS_FORCE_TERMINATED -- The server process did not exit cleanly within the time expected after OnProcessTerminate() was sent. Check your game session log to see why termination took longer than expected.   SERVER_PROCESS_PROCESS_EXIT_TIMEOUT -- The server process did not exit cleanly within the time expected (30 seconds) after calling ProcessEnding(). Check your game session log to see why termination took longer than expected.    Game session events:    GAME_SESSION_ACTIVATION_TIMEOUT -- GameSession failed to activate within the expected time. Check your game session log to see why ActivateGameSession() took longer to complete than expected.    Other fleet events:    FLEET_SCALING_EVENT -- A change was made to the fleet's capacity settings (desired instances, minimum/maximum scaling limits). Event messaging includes the new capacity settings.   FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED -- A change was made to the fleet's game session protection policy setting. Event messaging includes both the old and new policy setting.    FLEET_DELETED -- A request to delete a fleet was initiated.   GENERIC_EVENT -- An unspecified event has occurred.
         public let eventCode: EventCode?
         /// A unique identifier for a fleet event.
         public let eventId: String?
@@ -4983,7 +5313,7 @@ extension GameLift {
         public let name: String?
         /// The type of game session protection to set on all new instances that are started in the fleet. This attribute is used with fleets where ComputeType is EC2.    NoProtection -- The game session can be terminated during a scale-down event.    FullProtection -- If the game session is in an ACTIVE status, it cannot be terminated during a scale-down event.
         public let newGameSessionProtectionPolicy: ProtectionPolicy?
-        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The operating system of the fleet's computing resources. A fleet's operating system is determined by the OS of the build or script that is deployed on this fleet. This attribute is used with fleets where ComputeType is EC2.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         public let resourceCreationLimitPolicy: ResourceCreationLimitPolicy?
         ///  The Amazon Resource Name (ARN) associated with the GameLift script resource that is deployed on instances in this fleet. In a GameLift script ARN, the resource ID matches the ScriptId value.
@@ -5686,7 +6016,7 @@ extension GameLift {
         public let playerLatencies: [PlayerLatency]?
         /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value isn't final until placement status is FULFILLED.
         public let port: Int?
-        /// A prioritized list of locations to use with a game session placement request and instructions on how to use it. This list overrides a queue's prioritized location list for a single game session placement request only. The list can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). The fallback strategy instructs Amazon GameLift to use the override list for the first placement attempt only or for all placement attempts.
+        /// An alternative priority list of locations that's included with a game session placement request. When provided, the list overrides a queue's location order list for this game session placement request only. The list might include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). The fallback strategy tells Amazon GameLift what action to take (if any) in the event that it failed to place a new game session.
         public let priorityConfigurationOverride: PriorityConfigurationOverride?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public let startTime: Date?
@@ -5808,7 +6138,7 @@ extension GameLift {
     }
 
     public struct GetComputeAccessInput: AWSEncodableShape {
-        /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet compute, use the instance ID.  Use https://docs.aws.amazon.com/gamelift/latest/apireference/API_ListCompute.html to retrieve compute identifiers.
+        /// A unique identifier for the compute resource that you want to connect to. For an EC2 fleet, use an instance ID. For a managed container fleet, use a compute name. You can retrieve a fleet's compute names by calling ListCompute.
         public let computeName: String?
         /// A unique identifier for the fleet that holds the compute resource that you want to connect to. You can use either the fleet ID or ARN value.
         public let fleetId: String?
@@ -6019,7 +6349,7 @@ extension GameLift {
         public let ipAddress: String?
         /// The fleet location of the instance, expressed as an Amazon Web Services Region code, such as us-west-2.
         public let location: String?
-        /// Operating system that is running on this EC2 instance.   Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// Operating system that is running on this EC2 instance.   Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in  the Amazon Linux 2 FAQs.  For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: OperatingSystem?
         /// Current status of the instance. Possible statuses include the following:    PENDING -- The instance is in the process of being created and launching server processes as defined in the fleet's run-time configuration.     ACTIVE -- The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING -- The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.
         public let status: InstanceStatus?
@@ -6914,7 +7244,7 @@ extension GameLift {
     }
 
     public struct LogConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of log collection to use for a fleet.    CLOUDWATCH -- (default value) Send logs to an Amazon CloudWatch log group that you define. Each container emits a log stream, which is organized in the log group.     S3 -- Store logs in an Amazon S3 bucket that you define.    NONE -- Don't collect container logs.
+        /// The type of log collection to use for a fleet.    CLOUDWATCH -- (default value) Send logs to an Amazon CloudWatch log group that you define. Each container emits a log stream, which is organized in the log group.     S3 -- Store logs in an Amazon S3 bucket that you define. This bucket must reside in the fleet's home Amazon Web Services Region.    NONE -- Don't collect container logs.
         public let logDestination: LogDestination?
         /// If log destination is CLOUDWATCH, logs are sent to the specified log group in Amazon CloudWatch.
         public let logGroupArn: String?
@@ -7291,7 +7621,7 @@ extension GameLift {
     public struct PriorityConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The prioritization order to use for fleet locations, when the PriorityOrder property includes LOCATION. Locations can include Amazon Web Services Region codes (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see  Amazon GameLift service locations.
         public let locationOrder: [String]?
-        /// A custom sequence to use when prioritizing where to place new game sessions. Each priority type is listed once.    LATENCY -- Amazon GameLift prioritizes locations where the average player latency is lowest. Player latency data is provided in each game session placement request.    COST -- Amazon GameLift prioritizes destinations with the lowest current hosting costs. Cost is evaluated based on the location, instance type, and fleet type (Spot or On-Demand) of each destination in the queue.    DESTINATION -- Amazon GameLift prioritizes based on the list order of destinations in the queue configuration.    LOCATION -- Amazon GameLift prioritizes based on the provided order of locations, as defined in LocationOrder.
+        /// A custom sequence to use when prioritizing where to place new game sessions. Each priority type is listed once.    LATENCY -- Amazon GameLift prioritizes locations where the average player latency is lowest. Player latency data is provided in each game session placement request.    COST -- Amazon GameLift prioritizes queue destinations with the lowest current hosting costs. Cost is evaluated based on the destination's location, instance type, and fleet type (Spot or On-Demand).    DESTINATION -- Amazon GameLift prioritizes based on the list order of destinations in the queue configuration.    LOCATION -- Amazon GameLift prioritizes based on the provided order of locations, as defined in LocationOrder.
         public let priorityOrder: [PriorityType]?
 
         @inlinable
@@ -7321,7 +7651,7 @@ extension GameLift {
     public struct PriorityConfigurationOverride: AWSEncodableShape & AWSDecodableShape {
         /// A prioritized list of hosting locations. The list can include Amazon Web Services Regions (such as us-west-2), local zones, and custom locations (for Anywhere fleets). Each location must be listed only once. For details, see  Amazon GameLift service locations.
         public let locationOrder: [String]?
-        /// Instructions for how to use the override list if the first round of placement attempts fails. The first round is a failure if  Amazon GameLift searches all listed locations, in all of the queue's destinations, without finding an available hosting resource for a new game session. Valid strategies include:     DEFAULT_AFTER_SINGLE_PASS -- After the first round of placement attempts, discard the override list and use the queue's default location priority list. Continue to use the queue's default list until the placement request times out.    NONE -- Continue to use the override list for all rounds of placement attempts until the placement request times out.
+        /// Instructions for how to proceed if placement fails in every location on the priority override list. Valid strategies include:     DEFAULT_AFTER_SINGLE_PASS -- After attempting to place a new game session in every location on the priority override list, try to place a game session in queue's other locations. This is the default behavior.    NONE -- Limit placements to locations on the priority override list only.
         public let placementFallbackStrategy: PlacementFallbackStrategy?
 
         @inlinable
@@ -8056,7 +8386,7 @@ extension GameLift {
         public let placementId: String?
         /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions. This information is used to try to place the new game session where it can offer the best possible gameplay experience for the players.
         public let playerLatencies: [PlayerLatency]?
-        /// A prioritized list of locations to use for the game session placement and instructions on how to use it. This list overrides a queue's prioritized location list for this game session placement request only. You can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). Choose a fallback strategy to instruct Amazon GameLift to use the override list for the first placement attempt only or for all placement attempts.
+        /// A prioritized list of locations to use for the game session placement and instructions on how to use it. This list overrides a queue's prioritized location list for this game session placement request only. You can include Amazon Web Services Regions, local zones, and custom locations (for Anywhere fleets). You can choose to limit placements to locations on the override list only, or you can prioritize locations on the override list first and then fall back to the queue's other locations if needed. Choose a fallback strategy to use in the event that Amazon GameLift fails to place a game session in any of the locations on the priority override list.
         public let priorityConfigurationOverride: PriorityConfigurationOverride?
 
         @inlinable
@@ -8877,7 +9207,7 @@ extension GameLift {
         public let gameServerContainerDefinition: GameServerContainerDefinitionInput?
         /// A descriptive identifier for the container group definition. The name value must be unique in an Amazon Web Services Region.
         public let name: String?
-        /// The platform that all containers in the group use. Containers in a group must run on the same operating system.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK version 5.
+        /// The platform that all containers in the group use. Containers in a group must run on the same operating system.  Amazon Linux 2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on AL2 and use server SDK version 4.x for Amazon GameLift, first update the game server build to server SDK 5.x, and then deploy to AL2023 instances. See  Migrate to server SDK version 5.
         public let operatingSystem: ContainerOperatingSystem?
         /// The container group definition version to update. The new version starts with values from the source version, and then updates values included in this request.
         public let sourceVersionNumber: Int?
@@ -9502,7 +9832,7 @@ extension GameLift {
     public struct UpdateRuntimeConfigurationInput: AWSEncodableShape {
         /// A unique identifier for the fleet to update runtime configuration for. You can use either the fleet ID or ARN value.
         public let fleetId: String?
-        /// Instructions for launching server processes on fleet computes. Server processes run either a custom game build executable or a Realtime Servers script. The runtime configuration lists the types of server processes to run, how to launch them, and the number of processes to run concurrently.
+        /// Instructions for launching server processes on fleet computes. Server processes run either a custom game build executable or a Amazon GameLift Realtime script. The runtime configuration lists the types of server processes to run, how to launch them, and the number of processes to run concurrently.
         public let runtimeConfiguration: RuntimeConfiguration?
 
         @inlinable
