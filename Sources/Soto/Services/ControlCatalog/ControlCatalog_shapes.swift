@@ -38,6 +38,14 @@ extension ControlCatalog {
         public var description: String { return self.rawValue }
     }
 
+    public enum ControlSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
+        case low = "LOW"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AssociatedDomainSummary: AWSDecodableShape {
@@ -151,22 +159,38 @@ extension ControlCatalog {
     public struct ControlSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the control.
         public let arn: String
+        /// An enumerated type, with the following possible values:
+        public let behavior: ControlBehavior?
+        /// A timestamp that notes the time when the control was released (start of its life) as a governance capability in Amazon Web Services.
+        public let createTime: Date?
         /// A description of the control, as it may appear in the console. Describes the functionality of the control.
         public let description: String
+        /// An object of type ImplementationSummary that describes how the control is implemented.
+        public let implementation: ImplementationSummary?
         /// The display name of the control.
         public let name: String
+        /// An enumerated type, with the following possible values:
+        public let severity: ControlSeverity?
 
         @inlinable
-        public init(arn: String, description: String, name: String) {
+        public init(arn: String, behavior: ControlBehavior? = nil, createTime: Date? = nil, description: String, implementation: ImplementationSummary? = nil, name: String, severity: ControlSeverity? = nil) {
             self.arn = arn
+            self.behavior = behavior
+            self.createTime = createTime
             self.description = description
+            self.implementation = implementation
             self.name = name
+            self.severity = severity
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case behavior = "Behavior"
+            case createTime = "CreateTime"
             case description = "Description"
+            case implementation = "Implementation"
             case name = "Name"
+            case severity = "Severity"
         }
     }
 
@@ -245,6 +269,8 @@ extension ControlCatalog {
         public let arn: String
         /// A term that identifies the control's functional behavior. One of Preventive, Detective, Proactive
         public let behavior: ControlBehavior
+        /// A timestamp that notes the time when the control was released (start of its life) as a governance capability in Amazon Web Services.
+        public let createTime: Date?
         /// A description of what the control does.
         public let description: String
         /// Returns information about the control, as an ImplementationDetails object that shows the underlying implementation type for a control.
@@ -254,39 +280,67 @@ extension ControlCatalog {
         /// Returns an array of ControlParameter objects that specify the parameters a control supports. An empty list is returned for controls that don’t support parameters.
         public let parameters: [ControlParameter]?
         public let regionConfiguration: RegionConfiguration
+        /// An enumerated type, with the following possible values:
+        public let severity: ControlSeverity?
 
         @inlinable
-        public init(arn: String, behavior: ControlBehavior, description: String, implementation: ImplementationDetails? = nil, name: String, parameters: [ControlParameter]? = nil, regionConfiguration: RegionConfiguration) {
+        public init(arn: String, behavior: ControlBehavior, createTime: Date? = nil, description: String, implementation: ImplementationDetails? = nil, name: String, parameters: [ControlParameter]? = nil, regionConfiguration: RegionConfiguration, severity: ControlSeverity? = nil) {
             self.arn = arn
             self.behavior = behavior
+            self.createTime = createTime
             self.description = description
             self.implementation = implementation
             self.name = name
             self.parameters = parameters
             self.regionConfiguration = regionConfiguration
+            self.severity = severity
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case behavior = "Behavior"
+            case createTime = "CreateTime"
             case description = "Description"
             case implementation = "Implementation"
             case name = "Name"
             case parameters = "Parameters"
             case regionConfiguration = "RegionConfiguration"
+            case severity = "Severity"
         }
     }
 
     public struct ImplementationDetails: AWSDecodableShape {
+        /// A service-specific identifier for the control, assigned by the service that implemented the control. For example, this identifier could be an Amazon Web Services Config Rule ID or a Security Hub Control ID.
+        public let identifier: String?
         /// A string that describes a control's implementation type.
         public let type: String
 
         @inlinable
-        public init(type: String) {
+        public init(identifier: String? = nil, type: String) {
+            self.identifier = identifier
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+            case type = "Type"
+        }
+    }
+
+    public struct ImplementationSummary: AWSDecodableShape {
+        /// The identifier originally assigned by the Amazon Web Services service that implements the control. For example, CODEPIPELINE_DEPLOYMENT_COUNT_CHECK.
+        public let identifier: String?
+        /// A string that represents the Amazon Web Services service that implements this control. For example, a value of AWS::Config::ConfigRule indicates that the control is implemented by Amazon Web Services Config, and AWS::SecurityHub::SecurityControl indicates implementation by Amazon Web Services Security Hub.
+        public let type: String
+
+        @inlinable
+        public init(identifier: String? = nil, type: String) {
+            self.identifier = identifier
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
             case type = "Type"
         }
     }

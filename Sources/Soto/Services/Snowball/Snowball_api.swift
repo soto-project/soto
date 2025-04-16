@@ -101,6 +101,8 @@ public struct Snowball: AWSService {
             "sa-east-1": "snowball.sa-east-1.api.aws",
             "us-east-1": "snowball.us-east-1.api.aws",
             "us-east-2": "snowball.us-east-2.api.aws",
+            "us-gov-east-1": "snowball.us-gov-east-1.api.aws",
+            "us-gov-west-1": "snowball.us-gov-west-1.api.aws",
             "us-west-1": "snowball.us-west-1.api.aws",
             "us-west-2": "snowball.us-west-2.api.aws"
         ]),
@@ -126,6 +128,8 @@ public struct Snowball: AWSService {
             "sa-east-1": "snowball-fips.sa-east-1.api.aws",
             "us-east-1": "snowball-fips.us-east-1.api.aws",
             "us-east-2": "snowball-fips.us-east-2.api.aws",
+            "us-gov-east-1": "snowball-fips.us-gov-east-1.api.aws",
+            "us-gov-west-1": "snowball-fips.us-gov-west-1.api.aws",
             "us-west-1": "snowball-fips.us-west-1.api.aws",
             "us-west-2": "snowball-fips.us-west-2.api.aws"
         ]),

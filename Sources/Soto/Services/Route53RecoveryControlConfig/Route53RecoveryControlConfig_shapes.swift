@@ -25,6 +25,12 @@ import Foundation
 extension Route53RecoveryControlConfig {
     // MARK: Enums
 
+    public enum NetworkType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "DUALSTACK"
+        case ipv4 = "IPV4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case and = "AND"
         case atleast = "ATLEAST"
@@ -121,16 +127,19 @@ extension Route53RecoveryControlConfig {
         public let clusterEndpoints: [ClusterEndpoint]?
         /// The name of the cluster.
         public let name: String?
+        /// The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK.
+        public let networkType: NetworkType?
         /// The Amazon Web Services account ID of the cluster owner.
         public let owner: String?
         /// Deployment status of a resource. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public let status: Status?
 
         @inlinable
-        public init(clusterArn: String? = nil, clusterEndpoints: [ClusterEndpoint]? = nil, name: String? = nil, owner: String? = nil, status: Status? = nil) {
+        public init(clusterArn: String? = nil, clusterEndpoints: [ClusterEndpoint]? = nil, name: String? = nil, networkType: NetworkType? = nil, owner: String? = nil, status: Status? = nil) {
             self.clusterArn = clusterArn
             self.clusterEndpoints = clusterEndpoints
             self.name = name
+            self.networkType = networkType
             self.owner = owner
             self.status = status
         }
@@ -139,6 +148,7 @@ extension Route53RecoveryControlConfig {
             case clusterArn = "ClusterArn"
             case clusterEndpoints = "ClusterEndpoints"
             case name = "Name"
+            case networkType = "NetworkType"
             case owner = "Owner"
             case status = "Status"
         }
@@ -205,13 +215,16 @@ extension Route53RecoveryControlConfig {
         public let clientToken: String?
         /// The name of the cluster.
         public let clusterName: String?
+        /// The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK.
+        public let networkType: NetworkType?
         /// The tags associated with the cluster.
         public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateClusterRequest.idempotencyToken(), clusterName: String? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateClusterRequest.idempotencyToken(), clusterName: String? = nil, networkType: NetworkType? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterName = clusterName
+            self.networkType = networkType
             self.tags = tags
         }
 
@@ -231,6 +244,7 @@ extension Route53RecoveryControlConfig {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case clusterName = "ClusterName"
+            case networkType = "NetworkType"
             case tags = "Tags"
         }
     }
@@ -1244,6 +1258,44 @@ extension Route53RecoveryControlConfig {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateClusterRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The network type of the cluster. NetworkType can be one of the following: IPV4, DUALSTACK.
+        public let networkType: NetworkType?
+
+        @inlinable
+        public init(clusterArn: String? = nil, networkType: NetworkType? = nil) {
+            self.clusterArn = clusterArn
+            self.networkType = networkType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, max: 256)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, min: 1)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
+            case networkType = "NetworkType"
+        }
+    }
+
+    public struct UpdateClusterResponse: AWSDecodableShape {
+        /// The cluster that was updated.
+        public let cluster: Cluster?
+
+        @inlinable
+        public init(cluster: Cluster? = nil) {
+            self.cluster = cluster
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cluster = "Cluster"
+        }
     }
 
     public struct UpdateControlPanelRequest: AWSEncodableShape {

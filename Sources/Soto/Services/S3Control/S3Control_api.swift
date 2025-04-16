@@ -341,7 +341,7 @@ public struct S3Control: AWSService {
         return try await self.createAccessGrantsLocation(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Creates an access point and associates it with the specified bucket. For more information, see Managing Data Access with Amazon S3 Access Points in the Amazon S3 User Guide.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints
+    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
     @Sendable
     @inlinable
     public func createAccessPoint(_ input: CreateAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateAccessPointResult {
@@ -355,14 +355,15 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Creates an access point and associates it with the specified bucket. For more information, see Managing Data Access with Amazon S3 Access Points in the Amazon S3 User Guide.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints
+    /// Creates an access point and associates it to a specified bucket. For more information, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.   S3 on Outposts only supports VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint     ListAccessPoints     ListAccessPointsForDirectoryBuckets
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access point.
     ///   - bucket: The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     ///   - bucketAccountId: The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required.  For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
-    ///   - name: The name you want to assign to this access point.
+    ///   - name: The name you want to assign to this access point. For directory buckets, the access point name must consist of a base name that you provide and suffix that includes the ZoneID (Amazon Web Services Availability Zone or Local Zone) of your bucket location, followed by --xa-s3. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.
     ///   - publicAccessBlockConfiguration:  The PublicAccessBlock configuration that you want to apply to the access point.
+    ///   - scope: For directory buckets, you can filter access control to specific prefixes, API operations, or a combination of both. For more information, see Managing access to shared datasets in directory buckets with access points in the Amazon S3 User Guide.  Scope is not supported for access points for general purpose buckets.
     ///   - vpcConfiguration: If you include this field, Amazon S3 restricts access to this access point to requests from the specified virtual private cloud (VPC).  This is required for creating an access point for Amazon S3 on Outposts buckets.
     ///   - logger: Logger use during operation
     @inlinable
@@ -372,6 +373,7 @@ public struct S3Control: AWSService {
         bucketAccountId: String? = nil,
         name: String,
         publicAccessBlockConfiguration: PublicAccessBlockConfiguration? = nil,
+        scope: Scope? = nil,
         vpcConfiguration: VpcConfiguration? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateAccessPointResult {
@@ -381,6 +383,7 @@ public struct S3Control: AWSService {
             bucketAccountId: bucketAccountId, 
             name: name, 
             publicAccessBlockConfiguration: publicAccessBlockConfiguration, 
+            scope: scope, 
             vpcConfiguration: vpcConfiguration
         )
         return try await self.createAccessPoint(input, logger: logger)
@@ -736,7 +739,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessGrantsLocation(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint     GetAccessPoint     ListAccessPoints
+    /// Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint     GetAccessPoint     ListAccessPoints
     @Sendable
     @inlinable
     public func deleteAccessPoint(_ input: DeleteAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -750,7 +753,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint     GetAccessPoint     ListAccessPoints
+    /// Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPoint:    CreateAccessPoint     GetAccessPoint     ListAccessPoints
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access point.
@@ -802,7 +805,7 @@ public struct S3Control: AWSService {
         return try await self.deleteAccessPointForObjectLambda(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
+    /// Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
     @Sendable
     @inlinable
     public func deleteAccessPointPolicy(_ input: DeleteAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -816,7 +819,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
+    /// Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified access point.
@@ -866,6 +869,38 @@ public struct S3Control: AWSService {
             name: name
         )
         return try await self.deleteAccessPointPolicyForObjectLambda(input, logger: logger)
+    }
+
+    ///  Deletes an existing access point scope for a directory bucket.  When you delete the scope of an access point, all prefixes and permissions are deleted.  To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see REST error responses.
+    @Sendable
+    @inlinable
+    public func deleteAccessPointScope(_ input: DeleteAccessPointScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteAccessPointScope", 
+            path: "/v20180820/accesspoint/{Name}/scope", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Deletes an existing access point scope for a directory bucket.  When you delete the scope of an access point, all prefixes and permissions are deleted.  To use this operation, you must have the permission to perform the s3express:DeleteAccessPointScope action. For information about REST API errors, see REST error responses.
+    ///
+    /// Parameters:
+    ///   - accountId:  The Amazon Web Services account ID that owns the access point with the scope that you want to delete.
+    ///   - name:  The name of the access point with the scope that you want to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteAccessPointScope(
+        accountId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteAccessPointScopeRequest(
+            accountId: accountId, 
+            name: name
+        )
+        return try await self.deleteAccessPointScope(input, logger: logger)
     }
 
     ///  This action deletes an Amazon S3 on Outposts bucket. To delete an S3 bucket, see DeleteBucket in the Amazon S3 API Reference.   Deletes the Amazon S3 on Outposts bucket. All objects (including all object versions and delete markers) in the bucket must be deleted before the bucket itself can be deleted. For more information, see Using Amazon S3 on Outposts in Amazon S3 User Guide. All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.  Related Resources     CreateBucket     GetBucket     DeleteObject
@@ -1486,7 +1521,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessGrantsLocation(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
+    /// Returns configuration information about the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
     @Sendable
     @inlinable
     public func getAccessPoint(_ input: GetAccessPointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointResult {
@@ -1500,7 +1535,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns configuration information about the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
+    /// Returns configuration information about the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for the account that owns the specified access point.
@@ -1585,7 +1620,7 @@ public struct S3Control: AWSService {
         return try await self.getAccessPointForObjectLambda(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy
+    /// Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy
     @Sendable
     @inlinable
     public func getAccessPointPolicy(_ input: GetAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointPolicyResult {
@@ -1599,7 +1634,7 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy
+    /// Returns the access point policy associated with the specified access point. The following actions are related to GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy
     ///
     /// Parameters:
     ///   - accountId: The account ID for the account that owns the specified access point.
@@ -1715,6 +1750,38 @@ public struct S3Control: AWSService {
             name: name
         )
         return try await self.getAccessPointPolicyStatusForObjectLambda(input, logger: logger)
+    }
+
+    ///  Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see REST error responses.
+    @Sendable
+    @inlinable
+    public func getAccessPointScope(_ input: GetAccessPointScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessPointScopeResult {
+        try await self.client.execute(
+            operation: "GetAccessPointScope", 
+            path: "/v20180820/accesspoint/{Name}/scope", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    ///  Returns the access point scope for a directory bucket. To use this operation, you must have the permission to perform the s3express:GetAccessPointScope action. For information about REST API errors, see REST error responses.
+    ///
+    /// Parameters:
+    ///   - accountId:  The Amazon Web Services account ID that owns the access point with the scope that you want to retrieve.
+    ///   - name: The name of the access point with the scope you want to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccessPointScope(
+        accountId: String,
+        name: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccessPointScopeResult {
+        let input = GetAccessPointScopeRequest(
+            accountId: accountId, 
+            name: name
+        )
+        return try await self.getAccessPointScope(input, logger: logger)
     }
 
     /// Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user of the Amazon Web Services account that owns the Outposts bucket, the calling identity must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to the Outposts bucket owner's account in order to use this action. Only users from Outposts bucket owner account with the right permissions can perform actions on an Outposts bucket.  If you don't have s3-outposts:GetBucket permissions or you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section.    PutObject     CreateBucket     DeleteBucket
@@ -2419,6 +2486,44 @@ public struct S3Control: AWSService {
         return try await self.listAccessPoints(input, logger: logger)
     }
 
+    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see ListAccesspoints. To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see REST error responses.
+    @Sendable
+    @inlinable
+    public func listAccessPointsForDirectoryBuckets(_ input: ListAccessPointsForDirectoryBucketsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListAccessPointsForDirectoryBucketsResult {
+        try await self.client.execute(
+            operation: "ListAccessPointsForDirectoryBuckets", 
+            path: "/v20180820/accesspointfordirectory", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of the access points that are owned by the Amazon Web Services account and that are associated with the specified directory bucket. To list access points for general purpose buckets, see ListAccesspoints. To use this operation, you must have the permission to perform the s3express:ListAccessPointsForDirectoryBuckets action. For information about REST API errors, see REST error responses.
+    ///
+    /// Parameters:
+    ///   - accountId: The Amazon Web Services account ID that owns the access points.
+    ///   - directoryBucket: The name of the directory bucket associated with the access points you want to list.
+    ///   - maxResults: The maximum number of access points that you would like returned in the ListAccessPointsForDirectoryBuckets response. If the directory bucket is associated with more than this number of access points, the results include the pagination token NextToken. Make another call using the NextToken to retrieve more results.
+    ///   - nextToken:  If NextToken is returned, there are more access points available than requested in the maxResults value. The value of NextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listAccessPointsForDirectoryBuckets(
+        accountId: String,
+        directoryBucket: String? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListAccessPointsForDirectoryBucketsResult {
+        let input = ListAccessPointsForDirectoryBucketsRequest(
+            accountId: accountId, 
+            directoryBucket: directoryBucket, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listAccessPointsForDirectoryBuckets(input, logger: logger)
+    }
+
     ///  This operation is not supported by directory buckets.  Returns some or all (up to 1,000) access points associated with the Object Lambda Access Point per call. If there are more access points than what can be returned in one call, the response will include a continuation token that you can use to list the additional access points. The following actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda
     @Sendable
     @inlinable
@@ -2784,7 +2889,7 @@ public struct S3Control: AWSService {
         return try await self.putAccessPointConfigurationForObjectLambda(input, logger: logger)
     }
 
-    ///  This operation is not supported by directory buckets.  Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy     DeleteAccessPointPolicy
+    /// Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy     DeleteAccessPointPolicy
     @Sendable
     @inlinable
     public func putAccessPointPolicy(_ input: PutAccessPointPolicyRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -2798,12 +2903,12 @@ public struct S3Control: AWSService {
             logger: logger
         )
     }
-    ///  This operation is not supported by directory buckets.  Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy     DeleteAccessPointPolicy
+    /// Associates an access policy with the specified access point. Each access point can have only one policy, so a request made to this API replaces any existing policy associated with the specified access point.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy     DeleteAccessPointPolicy
     ///
     /// Parameters:
     ///   - accountId: The Amazon Web Services account ID for owner of the bucket associated with the specified access point.
     ///   - name: The name of the access point that you want to associate with the specified policy. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must  specify the ARN of the access point accessed in the format arn:aws:s3-outposts:::outpost//accesspoint/. For example, to access the access point reports-ap through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap. The value must be URL encoded.
-    ///   - policy: The policy that you want to apply to the specified access point. For more information about access point policies, see Managing data access with Amazon S3 access points in the Amazon S3 User Guide.
+    ///   - policy: The policy that you want to apply to the specified access point. For more information about access point policies, see Managing access to shared datasets in general purpose buckets with access points or Managing access to shared datasets in directory bucekts with access points in the Amazon S3 User Guide.
     ///   - logger: Logger use during operation
     @inlinable
     public func putAccessPointPolicy(
@@ -2854,6 +2959,41 @@ public struct S3Control: AWSService {
             policy: policy
         )
         return try await self.putAccessPointPolicyForObjectLambda(input, logger: logger)
+    }
+
+    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both.  You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.  To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see REST error responses.
+    @Sendable
+    @inlinable
+    public func putAccessPointScope(_ input: PutAccessPointScopeRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutAccessPointScope", 
+            path: "/v20180820/accesspoint/{Name}/scope", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates or replaces the access point scope for a directory bucket. You can use the access point scope to restrict access to specific prefixes, API operations, or a combination of both.  You can specify any amount of prefixes, but the total length of characters of all prefixes must be less than 256 bytes in size.  To use this operation, you must have the permission to perform the s3express:PutAccessPointScope action. For information about REST API errors, see REST error responses.
+    ///
+    /// Parameters:
+    ///   - accountId:  The Amazon Web Services account ID that owns the access point with scope that you want to create or replace.
+    ///   - name: The name of the access point with the scope that you want to create or replace.
+    ///   - scope: Object prefixes, API operations, or a combination of both.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAccessPointScope(
+        accountId: String,
+        name: String,
+        scope: Scope,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutAccessPointScopeRequest(
+            accountId: accountId, 
+            name: name, 
+            scope: scope
+        )
+        return try await self.putAccessPointScope(input, logger: logger)
     }
 
     ///  This action puts a lifecycle configuration to an Amazon S3 on Outposts bucket. To put a lifecycle configuration to an S3 bucket, see PutBucketLifecycleConfiguration in the Amazon S3 API Reference.   Creates a new lifecycle configuration for the S3 on Outposts bucket or replaces an existing lifecycle configuration. Outposts buckets only support lifecycle configurations that delete/expire objects after a certain period of time and abort incomplete multipart uploads.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The following actions are related to PutBucketLifecycleConfiguration:    GetBucketLifecycleConfiguration     DeleteBucketLifecycleConfiguration
@@ -3660,6 +3800,46 @@ extension S3Control {
         return self.listAccessPointsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listAccessPointsForDirectoryBuckets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccessPointsForDirectoryBucketsPaginator(
+        _ input: ListAccessPointsForDirectoryBucketsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListAccessPointsForDirectoryBucketsRequest, ListAccessPointsForDirectoryBucketsResult> {
+        return .init(
+            input: input,
+            command: self.listAccessPointsForDirectoryBuckets,
+            inputKey: \ListAccessPointsForDirectoryBucketsRequest.nextToken,
+            outputKey: \ListAccessPointsForDirectoryBucketsResult.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listAccessPointsForDirectoryBuckets(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - accountId: The Amazon Web Services account ID that owns the access points.
+    ///   - directoryBucket: The name of the directory bucket associated with the access points you want to list.
+    ///   - maxResults: The maximum number of access points that you would like returned in the ListAccessPointsForDirectoryBuckets response. If the directory bucket is associated with more than this number of access points, the results include the pagination token NextToken. Make another call using the NextToken to retrieve more results.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listAccessPointsForDirectoryBucketsPaginator(
+        accountId: String,
+        directoryBucket: String? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListAccessPointsForDirectoryBucketsRequest, ListAccessPointsForDirectoryBucketsResult> {
+        let input = ListAccessPointsForDirectoryBucketsRequest(
+            accountId: accountId, 
+            directoryBucket: directoryBucket, 
+            maxResults: maxResults
+        )
+        return self.listAccessPointsForDirectoryBucketsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listAccessPointsForObjectLambda(_:logger:)``.
     ///
     /// - Parameters:
@@ -3961,6 +4141,18 @@ extension S3Control.ListAccessGrantsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             permission: self.permission
+        )
+    }
+}
+
+extension S3Control.ListAccessPointsForDirectoryBucketsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> S3Control.ListAccessPointsForDirectoryBucketsRequest {
+        return .init(
+            accountId: self.accountId,
+            directoryBucket: self.directoryBucket,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

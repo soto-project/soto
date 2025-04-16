@@ -204,6 +204,12 @@ extension QBusiness {
         public var description: String { return self.rawValue }
     }
 
+    public enum HallucinationReductionControl: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case awsIamIdc = "AWS_IAM_IDC"
         case awsIamIdpOidc = "AWS_IAM_IDP_OIDC"
@@ -401,6 +407,12 @@ extension QBusiness {
     public enum SubscriptionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case qBusiness = "Q_BUSINESS"
         case qLite = "Q_LITE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SystemMessageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case groundedResponse = "GROUNDED_RESPONSE"
+        case response = "RESPONSE"
         public var description: String { return self.rawValue }
     }
 
@@ -4647,6 +4659,8 @@ extension QBusiness {
         public let blockedPhrases: BlockedPhrasesConfiguration?
         /// The configuration details for CREATOR_MODE.
         public let creatorModeConfiguration: AppliedCreatorModeConfiguration?
+        ///  The hallucination reduction settings for your application.
+        public let hallucinationReductionConfiguration: HallucinationReductionConfiguration?
         /// If the maxResults response was incomplete because there is more data to retrieve, Amazon Q Business returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Q Business chat controls configured.
         public let nextToken: String?
         ///  The chat response orchestration settings for your application.  Chat orchestration is optimized to work for English language content. For more details on language support in Amazon Q Business, see Supported languages.
@@ -4657,9 +4671,10 @@ extension QBusiness {
         public let topicConfigurations: [TopicConfiguration]?
 
         @inlinable
-        public init(blockedPhrases: BlockedPhrasesConfiguration? = nil, creatorModeConfiguration: AppliedCreatorModeConfiguration? = nil, nextToken: String? = nil, orchestrationConfiguration: AppliedOrchestrationConfiguration? = nil, responseScope: ResponseScope? = nil, topicConfigurations: [TopicConfiguration]? = nil) {
+        public init(blockedPhrases: BlockedPhrasesConfiguration? = nil, creatorModeConfiguration: AppliedCreatorModeConfiguration? = nil, hallucinationReductionConfiguration: HallucinationReductionConfiguration? = nil, nextToken: String? = nil, orchestrationConfiguration: AppliedOrchestrationConfiguration? = nil, responseScope: ResponseScope? = nil, topicConfigurations: [TopicConfiguration]? = nil) {
             self.blockedPhrases = blockedPhrases
             self.creatorModeConfiguration = creatorModeConfiguration
+            self.hallucinationReductionConfiguration = hallucinationReductionConfiguration
             self.nextToken = nextToken
             self.orchestrationConfiguration = orchestrationConfiguration
             self.responseScope = responseScope
@@ -4669,6 +4684,7 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case blockedPhrases = "blockedPhrases"
             case creatorModeConfiguration = "creatorModeConfiguration"
+            case hallucinationReductionConfiguration = "hallucinationReductionConfiguration"
             case nextToken = "nextToken"
             case orchestrationConfiguration = "orchestrationConfiguration"
             case responseScope = "responseScope"
@@ -5537,6 +5553,20 @@ extension QBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case groupName = "groupName"
+        }
+    }
+
+    public struct HallucinationReductionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Controls whether hallucination reduction has been enabled or disabled for your application. The default status is DISABLED.
+        public let hallucinationReductionControl: HallucinationReductionControl?
+
+        @inlinable
+        public init(hallucinationReductionControl: HallucinationReductionControl? = nil) {
+            self.hallucinationReductionControl = hallucinationReductionControl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hallucinationReductionControl = "hallucinationReductionControl"
         }
     }
 
@@ -8064,14 +8094,17 @@ extension QBusiness {
         public let systemMessage: String?
         /// The identifier of an AI-generated message in a TextOutputEvent.
         public let systemMessageId: String?
+        /// The type of AI-generated message in a TextOutputEvent. Amazon Q Business currently supports two types of messages:    RESPONSE - The Amazon Q Business system response.    GROUNDED_RESPONSE - The corrected, hallucination-reduced, response returned by Amazon Q Business. Available only if hallucination reduction is supported and configured for the application and detected in the end user chat query by Amazon Q Business.
+        public let systemMessageType: SystemMessageType?
         /// The identifier of an end user message in a TextOutputEvent.
         public let userMessageId: String?
 
         @inlinable
-        public init(conversationId: String? = nil, systemMessage: String? = nil, systemMessageId: String? = nil, userMessageId: String? = nil) {
+        public init(conversationId: String? = nil, systemMessage: String? = nil, systemMessageId: String? = nil, systemMessageType: SystemMessageType? = nil, userMessageId: String? = nil) {
             self.conversationId = conversationId
             self.systemMessage = systemMessage
             self.systemMessageId = systemMessageId
+            self.systemMessageType = systemMessageType
             self.userMessageId = userMessageId
         }
 
@@ -8079,6 +8112,7 @@ extension QBusiness {
             case conversationId = "conversationId"
             case systemMessage = "systemMessage"
             case systemMessageId = "systemMessageId"
+            case systemMessageType = "systemMessageType"
             case userMessageId = "userMessageId"
         }
     }
@@ -8295,6 +8329,8 @@ extension QBusiness {
         public let clientToken: String?
         /// The configuration details for CREATOR_MODE.
         public let creatorModeConfiguration: CreatorModeConfiguration?
+        ///  The hallucination reduction settings for your application.
+        public let hallucinationReductionConfiguration: HallucinationReductionConfiguration?
         ///  The chat response orchestration settings for your application.
         public let orchestrationConfiguration: OrchestrationConfiguration?
         /// The response scope configured for your application. This determines whether your application uses its retrieval augmented generation (RAG) system to generate answers only from your enterprise data, or also uses the large language models (LLM) knowledge to respons to end user questions in chat.
@@ -8305,11 +8341,12 @@ extension QBusiness {
         public let topicConfigurationsToDelete: [TopicConfiguration]?
 
         @inlinable
-        public init(applicationId: String, blockedPhrasesConfigurationUpdate: BlockedPhrasesConfigurationUpdate? = nil, clientToken: String? = UpdateChatControlsConfigurationRequest.idempotencyToken(), creatorModeConfiguration: CreatorModeConfiguration? = nil, orchestrationConfiguration: OrchestrationConfiguration? = nil, responseScope: ResponseScope? = nil, topicConfigurationsToCreateOrUpdate: [TopicConfiguration]? = nil, topicConfigurationsToDelete: [TopicConfiguration]? = nil) {
+        public init(applicationId: String, blockedPhrasesConfigurationUpdate: BlockedPhrasesConfigurationUpdate? = nil, clientToken: String? = UpdateChatControlsConfigurationRequest.idempotencyToken(), creatorModeConfiguration: CreatorModeConfiguration? = nil, hallucinationReductionConfiguration: HallucinationReductionConfiguration? = nil, orchestrationConfiguration: OrchestrationConfiguration? = nil, responseScope: ResponseScope? = nil, topicConfigurationsToCreateOrUpdate: [TopicConfiguration]? = nil, topicConfigurationsToDelete: [TopicConfiguration]? = nil) {
             self.applicationId = applicationId
             self.blockedPhrasesConfigurationUpdate = blockedPhrasesConfigurationUpdate
             self.clientToken = clientToken
             self.creatorModeConfiguration = creatorModeConfiguration
+            self.hallucinationReductionConfiguration = hallucinationReductionConfiguration
             self.orchestrationConfiguration = orchestrationConfiguration
             self.responseScope = responseScope
             self.topicConfigurationsToCreateOrUpdate = topicConfigurationsToCreateOrUpdate
@@ -8323,6 +8360,7 @@ extension QBusiness {
             try container.encodeIfPresent(self.blockedPhrasesConfigurationUpdate, forKey: .blockedPhrasesConfigurationUpdate)
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
             try container.encodeIfPresent(self.creatorModeConfiguration, forKey: .creatorModeConfiguration)
+            try container.encodeIfPresent(self.hallucinationReductionConfiguration, forKey: .hallucinationReductionConfiguration)
             try container.encodeIfPresent(self.orchestrationConfiguration, forKey: .orchestrationConfiguration)
             try container.encodeIfPresent(self.responseScope, forKey: .responseScope)
             try container.encodeIfPresent(self.topicConfigurationsToCreateOrUpdate, forKey: .topicConfigurationsToCreateOrUpdate)
@@ -8350,6 +8388,7 @@ extension QBusiness {
             case blockedPhrasesConfigurationUpdate = "blockedPhrasesConfigurationUpdate"
             case clientToken = "clientToken"
             case creatorModeConfiguration = "creatorModeConfiguration"
+            case hallucinationReductionConfiguration = "hallucinationReductionConfiguration"
             case orchestrationConfiguration = "orchestrationConfiguration"
             case responseScope = "responseScope"
             case topicConfigurationsToCreateOrUpdate = "topicConfigurationsToCreateOrUpdate"

@@ -288,18 +288,21 @@ public struct VerifiedPermissions: AWSService {
     ///
     /// Parameters:
     ///   - clientToken: Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
+    ///   - deletionProtection: Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
     ///   - description: Descriptive text that you can provide to help with identification  of the current policy store.
     ///   - validationSettings: Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode.  We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore. Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on.
     ///   - logger: Logger use during operation
     @inlinable
     public func createPolicyStore(
         clientToken: String? = CreatePolicyStoreInput.idempotencyToken(),
+        deletionProtection: DeletionProtection? = nil,
         description: String? = nil,
         validationSettings: ValidationSettings,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreatePolicyStoreOutput {
         let input = CreatePolicyStoreInput(
             clientToken: clientToken, 
+            deletionProtection: deletionProtection, 
             description: description, 
             validationSettings: validationSettings
         )
@@ -978,18 +981,21 @@ public struct VerifiedPermissions: AWSService {
     /// Modifies the validation setting for a policy store.  Verified Permissions is  eventually consistent . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// Parameters:
+    ///   - deletionProtection: Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore, this parameter is unchanged unless explicitly included in the call.
     ///   - description: Descriptive text that you can provide to help with identification  of the current policy store.
     ///   - policyStoreId: Specifies the ID of the policy store that you want to update
     ///   - validationSettings: A structure that defines the validation settings that want to enable for the policy store.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePolicyStore(
+        deletionProtection: DeletionProtection? = nil,
         description: String? = nil,
         policyStoreId: String,
         validationSettings: ValidationSettings,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePolicyStoreOutput {
         let input = UpdatePolicyStoreInput(
+            deletionProtection: deletionProtection, 
             description: description, 
             policyStoreId: policyStoreId, 
             validationSettings: validationSettings

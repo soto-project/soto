@@ -577,7 +577,7 @@ public struct EntityResolution: AWSService {
         return try await self.getIdNamespace(input, logger: logger)
     }
 
-    /// Returns the corresponding Match ID of a customer record if the record has been processed.
+    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow or ML matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
     @Sendable
     @inlinable
     public func getMatchId(_ input: GetMatchIdInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetMatchIdOutput {
@@ -590,7 +590,7 @@ public struct EntityResolution: AWSService {
             logger: logger
         )
     }
-    /// Returns the corresponding Match ID of a customer record if the record has been processed.
+    /// Returns the corresponding Match ID of a customer record if the record has been processed in a rule-based matching workflow or ML matching workflow. You can call this API as a dry run of an incremental load on the rule-based matching workflow.
     ///
     /// Parameters:
     ///   - applyNormalization: Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.

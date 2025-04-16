@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS CleanRooms service.
 ///
-/// Welcome to the Clean Rooms API Reference. Clean Rooms is an Amazon Web Services service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can query and receive results can get insights into the collective datasets without either party getting access to the other party's raw data. To learn more about Clean Rooms concepts, procedures, and best practices, see the Clean Rooms User Guide. To learn more about SQL commands, functions, and conditions supported in Clean Rooms, see the Clean Rooms SQL Reference.
+/// Welcome to the Clean Rooms API Reference. Clean Rooms is an Amazon Web Services service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can run queries and jobs and receive results can get insights into the collective datasets without either party getting access to the other party's raw data. To learn more about Clean Rooms concepts, procedures, and best practices, see the Clean Rooms User Guide. To learn more about SQL commands, functions, and conditions supported in Clean Rooms, see the Clean Rooms SQL Reference.
 public struct CleanRooms: AWSService {
     // MARK: Member variables
 
@@ -78,6 +78,24 @@ public struct CleanRooms: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "ap-northeast-1": "cleanrooms.ap-northeast-1.api.aws",
+            "ap-northeast-2": "cleanrooms.ap-northeast-2.api.aws",
+            "ap-southeast-1": "cleanrooms.ap-southeast-1.api.aws",
+            "ap-southeast-2": "cleanrooms.ap-southeast-2.api.aws",
+            "eu-central-1": "cleanrooms.eu-central-1.api.aws",
+            "eu-north-1": "cleanrooms.eu-north-1.api.aws",
+            "eu-west-1": "cleanrooms.eu-west-1.api.aws",
+            "eu-west-2": "cleanrooms.eu-west-2.api.aws",
+            "us-east-1": "cleanrooms.us-east-1.api.aws",
+            "us-east-2": "cleanrooms.us-east-2.api.aws",
+            "us-west-2": "cleanrooms.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "cleanrooms-fips.us-east-1.api.aws",
+            "us-east-2": "cleanrooms-fips.us-east-2.api.aws",
+            "us-west-2": "cleanrooms-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "cleanrooms-fips.us-east-1.amazonaws.com",
             "us-east-2": "cleanrooms-fips.us-east-2.amazonaws.com",
@@ -204,6 +222,7 @@ public struct CleanRooms: AWSService {
     ///   - format: The format of the analysis template.
     ///   - membershipIdentifier: The identifier for a membership resource.
     ///   - name: The name of the analysis template.
+    ///   - schema: 
     ///   - source: The information in the analysis template. Currently supports text, the query text for the analysis template.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     ///   - logger: Logger use during operation
@@ -214,6 +233,7 @@ public struct CleanRooms: AWSService {
         format: AnalysisFormat,
         membershipIdentifier: String,
         name: String,
+        schema: AnalysisSchema? = nil,
         source: AnalysisSource,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -224,6 +244,7 @@ public struct CleanRooms: AWSService {
             format: format, 
             membershipIdentifier: membershipIdentifier, 
             name: name, 
+            schema: schema, 
             source: source, 
             tags: tags
         )
@@ -249,13 +270,14 @@ public struct CleanRooms: AWSService {
     ///   - analyticsEngine:  The analytics engine.
     ///   - creatorDisplayName: The display name of the collaboration creator.
     ///   - creatorMemberAbilities: The abilities granted to the collaboration creator.
-    ///   - creatorMLMemberAbilities: The ML abilities granted to the collaboration creator. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+    ///   - creatorMLMemberAbilities: The ML abilities granted to the collaboration creator.
     ///   - creatorPaymentConfiguration: The collaboration creator's payment responsibilities set by the collaboration creator.  If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer.
     ///   - dataEncryptionMetadata: The settings for client-side encryption with Cryptographic Computing for Clean Rooms.
     ///   - description: A description of the collaboration provided by the collaboration owner.
+    ///   - jobLogStatus: Specifies whether job logs are enabled for this collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration; those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - members: A list of initial members, not including the creator. This list is immutable.
     ///   - name: The display name for a collaboration.
-    ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the collaboration.
+    ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     ///   - logger: Logger use during operation
     @inlinable
@@ -267,6 +289,7 @@ public struct CleanRooms: AWSService {
         creatorPaymentConfiguration: PaymentConfiguration? = nil,
         dataEncryptionMetadata: DataEncryptionMetadata? = nil,
         description: String,
+        jobLogStatus: CollaborationJobLogStatus? = nil,
         members: [MemberSpecification],
         name: String,
         queryLogStatus: CollaborationQueryLogStatus,
@@ -281,6 +304,7 @@ public struct CleanRooms: AWSService {
             creatorPaymentConfiguration: creatorPaymentConfiguration, 
             dataEncryptionMetadata: dataEncryptionMetadata, 
             description: description, 
+            jobLogStatus: jobLogStatus, 
             members: members, 
             name: name, 
             queryLogStatus: queryLogStatus, 
@@ -350,9 +374,10 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - allowedColumns: The columns of the underlying table that can be used by collaborations or analysis rules.
-    ///   - analysisMethod: The analysis method for the configured tables. The only valid value is currently `DIRECT_QUERY`.
+    ///   - analysisMethod: The analysis method allowed for the configured tables.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
     ///   - description: A description for the configured table.
     ///   - name: The name of the configured table.
+    ///   - selectedAnalysisMethods:  The analysis methods to enable for the configured table.  When configured, you must specify at least two analysis methods.
     ///   - tableReference: A reference to the table being configured.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     ///   - logger: Logger use during operation
@@ -362,6 +387,7 @@ public struct CleanRooms: AWSService {
         analysisMethod: AnalysisMethod,
         description: String? = nil,
         name: String,
+        selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil,
         tableReference: TableReference,
         tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -371,6 +397,7 @@ public struct CleanRooms: AWSService {
             analysisMethod: analysisMethod, 
             description: description, 
             name: name, 
+            selectedAnalysisMethods: selectedAnalysisMethods, 
             tableReference: tableReference, 
             tags: tags
         )
@@ -599,15 +626,19 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: The unique ID for the associated collaboration.
+    ///   - defaultJobResultConfiguration: The default job result configuration that determines how job results are  protected and managed within this membership. This configuration applies to all  jobs.
     ///   - defaultResultConfiguration: The default protected query result configuration as specified by the member who can receive results.
+    ///   - jobLogStatus: An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - paymentConfiguration: The payment responsibilities accepted by the collaboration member. Not required if the collaboration member has the member ability to run queries.  Required if the collaboration member doesn't have the member ability to run queries but is configured as a payer by the collaboration creator.
-    ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the membership.
+    ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     ///   - logger: Logger use during operation
     @inlinable
     public func createMembership(
         collaborationIdentifier: String,
+        defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil,
         defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil,
+        jobLogStatus: MembershipJobLogStatus? = nil,
         paymentConfiguration: MembershipPaymentConfiguration? = nil,
         queryLogStatus: MembershipQueryLogStatus,
         tags: [String: String]? = nil,
@@ -615,7 +646,9 @@ public struct CleanRooms: AWSService {
     ) async throws -> CreateMembershipOutput {
         let input = CreateMembershipInput(
             collaborationIdentifier: collaborationIdentifier, 
+            defaultJobResultConfiguration: defaultJobResultConfiguration, 
             defaultResultConfiguration: defaultResultConfiguration, 
+            jobLogStatus: jobLogStatus, 
             paymentConfiguration: paymentConfiguration, 
             queryLogStatus: queryLogStatus, 
             tags: tags
@@ -1516,6 +1549,38 @@ public struct CleanRooms: AWSService {
         return try await self.getPrivacyBudgetTemplate(input, logger: logger)
     }
 
+    /// Returns job processing metadata.
+    @Sendable
+    @inlinable
+    public func getProtectedJob(_ input: GetProtectedJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetProtectedJobOutput {
+        try await self.client.execute(
+            operation: "GetProtectedJob", 
+            path: "/memberships/{membershipIdentifier}/protectedJobs/{protectedJobIdentifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns job processing metadata.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier:  The identifier for a membership in a protected job instance.
+    ///   - protectedJobIdentifier:  The identifier for the protected job instance.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getProtectedJob(
+        membershipIdentifier: String,
+        protectedJobIdentifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetProtectedJobOutput {
+        let input = GetProtectedJobInput(
+            membershipIdentifier: membershipIdentifier, 
+            protectedJobIdentifier: protectedJobIdentifier
+        )
+        return try await self.getProtectedJob(input, logger: logger)
+    }
+
     /// Returns query processing metadata.
     @Sendable
     @inlinable
@@ -2178,6 +2243,44 @@ public struct CleanRooms: AWSService {
         return try await self.listPrivacyBudgets(input, logger: logger)
     }
 
+    /// Lists protected jobs, sorted by most recent job.
+    @Sendable
+    @inlinable
+    public func listProtectedJobs(_ input: ListProtectedJobsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListProtectedJobsOutput {
+        try await self.client.execute(
+            operation: "ListProtectedJobs", 
+            path: "/memberships/{membershipIdentifier}/protectedJobs", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists protected jobs, sorted by most recent job.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of results that are returned for an API request call.  The service chooses a default number if you don't set one. The service might  return a `nextToken` even if the `maxResults` value has not been met.
+    ///   - membershipIdentifier: The identifier for the membership in the collaboration.
+    ///   - nextToken: The pagination token that's used to fetch the next set of results.
+    ///   - status: A filter on the status of the protected job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listProtectedJobs(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        nextToken: String? = nil,
+        status: ProtectedJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListProtectedJobsOutput {
+        let input = ListProtectedJobsInput(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            nextToken: nextToken, 
+            status: status
+        )
+        return try await self.listProtectedJobs(input, logger: logger)
+    }
+
     /// Lists protected queries, sorted by the most recent query.
     @Sendable
     @inlinable
@@ -2347,6 +2450,44 @@ public struct CleanRooms: AWSService {
         return try await self.previewPrivacyImpact(input, logger: logger)
     }
 
+    /// Creates a protected job that is started by Clean Rooms.
+    @Sendable
+    @inlinable
+    public func startProtectedJob(_ input: StartProtectedJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartProtectedJobOutput {
+        try await self.client.execute(
+            operation: "StartProtectedJob", 
+            path: "/memberships/{membershipIdentifier}/protectedJobs", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a protected job that is started by Clean Rooms.
+    ///
+    /// Parameters:
+    ///   - jobParameters:  The job parameters.
+    ///   - membershipIdentifier: A unique identifier for the membership to run this job against.  Currently accepts a membership ID.
+    ///   - resultConfiguration: The details needed to write the job results.
+    ///   - type:  The type of protected job to start.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startProtectedJob(
+        jobParameters: ProtectedJobParameters,
+        membershipIdentifier: String,
+        resultConfiguration: ProtectedJobResultConfigurationInput? = nil,
+        type: ProtectedJobType,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartProtectedJobOutput {
+        let input = StartProtectedJobInput(
+            jobParameters: jobParameters, 
+            membershipIdentifier: membershipIdentifier, 
+            resultConfiguration: resultConfiguration, 
+            type: type
+        )
+        return try await self.startProtectedJob(input, logger: logger)
+    }
+
     /// Creates a protected query that is started by Clean Rooms.
     @Sendable
     @inlinable
@@ -2503,18 +2644,21 @@ public struct CleanRooms: AWSService {
     /// Updates collaboration metadata and can only be called by the collaboration owner.
     ///
     /// Parameters:
+    ///   - analyticsEngine: The analytics engine.
     ///   - collaborationIdentifier: The identifier for the collaboration.
     ///   - description: A description of the collaboration.
     ///   - name: A human-readable identifier provided by the collaboration owner. Display names are not unique.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateCollaboration(
+        analyticsEngine: AnalyticsEngine? = nil,
         collaborationIdentifier: String,
         description: String? = nil,
         name: String? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateCollaborationOutput {
         let input = UpdateCollaborationInput(
+            analyticsEngine: analyticsEngine, 
             collaborationIdentifier: collaborationIdentifier, 
             description: description, 
             name: name
@@ -2576,21 +2720,27 @@ public struct CleanRooms: AWSService {
     /// Updates a configured table.
     ///
     /// Parameters:
+    ///   - analysisMethod:  The analysis method for the configured table.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
     ///   - configuredTableIdentifier: The identifier for the configured table to update. Currently accepts the configured table ID.
     ///   - description: A new description for the configured table.
     ///   - name: A new name for the configured table.
+    ///   - selectedAnalysisMethods:  The selected analysis methods for the table configuration update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateConfiguredTable(
+        analysisMethod: AnalysisMethod? = nil,
         configuredTableIdentifier: String,
         description: String? = nil,
         name: String? = nil,
+        selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConfiguredTableOutput {
         let input = UpdateConfiguredTableInput(
+            analysisMethod: analysisMethod, 
             configuredTableIdentifier: configuredTableIdentifier, 
             description: description, 
-            name: name
+            name: name, 
+            selectedAnalysisMethods: selectedAnalysisMethods
         )
         return try await self.updateConfiguredTable(input, logger: logger)
     }
@@ -2801,19 +2951,25 @@ public struct CleanRooms: AWSService {
     /// Updates a membership.
     ///
     /// Parameters:
+    ///   - defaultJobResultConfiguration:  The default job result configuration.
     ///   - defaultResultConfiguration: The default protected query result configuration as specified by the member who can receive results.
+    ///   - jobLogStatus: An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - membershipIdentifier: The unique identifier of the membership.
-    ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the membership.
+    ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateMembership(
+        defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil,
         defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil,
+        jobLogStatus: MembershipJobLogStatus? = nil,
         membershipIdentifier: String,
         queryLogStatus: MembershipQueryLogStatus? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateMembershipOutput {
         let input = UpdateMembershipInput(
+            defaultJobResultConfiguration: defaultJobResultConfiguration, 
             defaultResultConfiguration: defaultResultConfiguration, 
+            jobLogStatus: jobLogStatus, 
             membershipIdentifier: membershipIdentifier, 
             queryLogStatus: queryLogStatus
         )
@@ -2856,6 +3012,41 @@ public struct CleanRooms: AWSService {
             privacyBudgetType: privacyBudgetType
         )
         return try await self.updatePrivacyBudgetTemplate(input, logger: logger)
+    }
+
+    /// Updates the processing of a currently running job.
+    @Sendable
+    @inlinable
+    public func updateProtectedJob(_ input: UpdateProtectedJobInput, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateProtectedJobOutput {
+        try await self.client.execute(
+            operation: "UpdateProtectedJob", 
+            path: "/memberships/{membershipIdentifier}/protectedJobs/{protectedJobIdentifier}", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the processing of a currently running job.
+    ///
+    /// Parameters:
+    ///   - membershipIdentifier: The identifier for a member of a protected job instance.
+    ///   - protectedJobIdentifier:  The identifier of the protected job to update.
+    ///   - targetStatus: The target status of a protected job. Used to update the execution status  of a currently running job.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateProtectedJob(
+        membershipIdentifier: String,
+        protectedJobIdentifier: String,
+        targetStatus: TargetProtectedJobStatus,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateProtectedJobOutput {
+        let input = UpdateProtectedJobInput(
+            membershipIdentifier: membershipIdentifier, 
+            protectedJobIdentifier: protectedJobIdentifier, 
+            targetStatus: targetStatus
+        )
+        return try await self.updateProtectedJob(input, logger: logger)
     }
 
     /// Updates the processing of a currently running query.
@@ -3246,6 +3437,46 @@ extension CleanRooms {
         return self.listPrivacyBudgetsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listProtectedJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProtectedJobsPaginator(
+        _ input: ListProtectedJobsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListProtectedJobsInput, ListProtectedJobsOutput> {
+        return .init(
+            input: input,
+            command: self.listProtectedJobs,
+            inputKey: \ListProtectedJobsInput.nextToken,
+            outputKey: \ListProtectedJobsOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listProtectedJobs(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of results that are returned for an API request call.  The service chooses a default number if you don't set one. The service might  return a `nextToken` even if the `maxResults` value has not been met.
+    ///   - membershipIdentifier: The identifier for the membership in the collaboration.
+    ///   - status: A filter on the status of the protected job.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listProtectedJobsPaginator(
+        maxResults: Int? = nil,
+        membershipIdentifier: String,
+        status: ProtectedJobStatus? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListProtectedJobsInput, ListProtectedJobsOutput> {
+        let input = ListProtectedJobsInput(
+            maxResults: maxResults, 
+            membershipIdentifier: membershipIdentifier, 
+            status: status
+        )
+        return self.listProtectedJobsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listProtectedQueries(_:logger:)``.
     ///
     /// - Parameters:
@@ -3384,6 +3615,18 @@ extension CleanRooms.ListPrivacyBudgetsInput: AWSPaginateToken {
             membershipIdentifier: self.membershipIdentifier,
             nextToken: token,
             privacyBudgetType: self.privacyBudgetType
+        )
+    }
+}
+
+extension CleanRooms.ListProtectedJobsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CleanRooms.ListProtectedJobsInput {
+        return .init(
+            maxResults: self.maxResults,
+            membershipIdentifier: self.membershipIdentifier,
+            nextToken: token,
+            status: self.status
         )
     }
 }

@@ -2866,7 +2866,7 @@
                 "KmsKeyId": {
                     "target": "com.amazonaws.sagemaker#KmsKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data generated from\n            an Athena query execution.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker\n            uses to encrypt data generated from an Athena query execution.</p>"
                     }
                 },
                 "OutputFormat": {
@@ -7715,6 +7715,156 @@
                     "traits": {
                         "smithy.api#enumValue": "ml.r6i.32xlarge"
                     }
+                },
+                "ML_I3EN_LARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.i3en.large"
+                    }
+                },
+                "ML_I3EN_XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.i3en.xlarge"
+                    }
+                },
+                "ML_I3EN_2XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.i3en.2xlarge"
+                    }
+                },
+                "ML_I3EN_3XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.i3en.3xlarge"
+                    }
+                },
+                "ML_I3EN_6XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.i3en.6xlarge"
+                    }
+                },
+                "ML_I3EN_12XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.i3en.12xlarge"
+                    }
+                },
+                "ML_I3EN_24XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.i3en.24xlarge"
+                    }
+                },
+                "ML_M7I_LARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m7i.large"
+                    }
+                },
+                "ML_M7I_XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m7i.xlarge"
+                    }
+                },
+                "ML_M7I_2XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m7i.2xlarge"
+                    }
+                },
+                "ML_M7I_4XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m7i.4xlarge"
+                    }
+                },
+                "ML_M7I_8XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m7i.8xlarge"
+                    }
+                },
+                "ML_M7I_12XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m7i.12xlarge"
+                    }
+                },
+                "ML_M7I_16XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m7i.16xlarge"
+                    }
+                },
+                "ML_M7I_24XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m7i.24xlarge"
+                    }
+                },
+                "ML_M7I_48XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m7i.48xlarge"
+                    }
+                },
+                "ML_R7I_LARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.r7i.large"
+                    }
+                },
+                "ML_R7I_XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.r7i.xlarge"
+                    }
+                },
+                "ML_R7I_2XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.r7i.2xlarge"
+                    }
+                },
+                "ML_R7I_4XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.r7i.4xlarge"
+                    }
+                },
+                "ML_R7I_8XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.r7i.8xlarge"
+                    }
+                },
+                "ML_R7I_12XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.r7i.12xlarge"
+                    }
+                },
+                "ML_R7I_16XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.r7i.16xlarge"
+                    }
+                },
+                "ML_R7I_24XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.r7i.24xlarge"
+                    }
+                },
+                "ML_R7I_48XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.r7i.48xlarge"
+                    }
                 }
             }
         },
@@ -9845,6 +9995,12 @@
                     "target": "com.amazonaws.sagemaker#ResourceSpec",
                     "traits": {
                         "smithy.api#documentation": "<p>The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image\n      created on the instance.</p>\n         <note>\n            <p>The value of <code>InstanceType</code> passed as part of the <code>ResourceSpec</code>\n        in the <code>CreateApp</code> call overrides the value passed as part of the\n          <code>ResourceSpec</code> configured for the user profile or the domain. If\n          <code>InstanceType</code> is not specified in any of those three <code>ResourceSpec</code>\n        values for a <code>KernelGateway</code> app, the <code>CreateApp</code> call fails with a\n        request validation error.</p>\n         </note>"
+                    }
+                },
+                "RecoveryMode": {
+                    "target": "com.amazonaws.sagemaker#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      Indicates whether the application is launched in recovery mode.\n    </p>"
                     }
                 }
             },
@@ -13741,6 +13897,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A shell script that runs every time you start a notebook instance, including when you\n            create the notebook instance. The shell script must be a base64-encoded string.</p>"
                     }
+                },
+                "Tags": {
+                    "target": "com.amazonaws.sagemaker#TagList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An array of key-value pairs. You can use tags to categorize your Amazon Web Services\n            resources in different ways, for example, by purpose, owner, or environment. For more\n            information, see <a href=\"https://docs.aws.amazon.com/tag-editor/latest/userguide/tagging.html\">Tagging Amazon Web Services Resources</a>.</p>"
+                    }
                 }
             },
             "traits": {
@@ -13996,6 +14158,12 @@
                         "smithy.api#clientOptional": {},
                         "smithy.api#documentation": "<p>The ARN of the IAM role that the partner application uses.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "KmsKeyId": {
+                    "target": "com.amazonaws.sagemaker#KmsKeyId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a\n         customer managed key.</p>"
                     }
                 },
                 "MaintenanceConfig": {
@@ -14385,7 +14553,7 @@
                 "ProcessingInputs": {
                     "target": "com.amazonaws.sagemaker#ProcessingInputs",
                     "traits": {
-                        "smithy.api#documentation": "<p>An array of inputs configuring the data to download into the \n            processing container.</p>"
+                        "smithy.api#documentation": "<p>An array of inputs configuring the data to download into the processing\n            container.</p>"
                     }
                 },
                 "ProcessingOutputConfig": {
@@ -14398,7 +14566,7 @@
                     "target": "com.amazonaws.sagemaker#ProcessingJobName",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p> The name of the processing job. The name must be unique within an Amazon Web Services Region in the\n            Amazon Web Services account.</p>",
+                        "smithy.api#documentation": "<p> The name of the processing job. The name must be unique within an Amazon Web Services\n            Region in the Amazon Web Services account.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -14427,13 +14595,13 @@
                 "Environment": {
                     "target": "com.amazonaws.sagemaker#ProcessingEnvironmentMap",
                     "traits": {
-                        "smithy.api#documentation": "<p>The environment variables to set in the Docker container. Up to \n            100 key and values entries in the map are supported.</p>"
+                        "smithy.api#documentation": "<p>The environment variables to set in the Docker container. Up to 100 key and values\n            entries in the map are supported.</p>"
                     }
                 },
                 "NetworkConfig": {
                     "target": "com.amazonaws.sagemaker#NetworkConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>Networking options for a processing job, such as whether to allow inbound and \n            outbound network calls to and from processing containers, and the VPC subnets and \n            security groups to use for VPC-enabled processing jobs.</p>"
+                        "smithy.api#documentation": "<p>Networking options for a processing job, such as whether to allow inbound and outbound\n            network calls to and from processing containers, and the VPC subnets and security groups\n            to use for VPC-enabled processing jobs.</p>"
                     }
                 },
                 "RoleArn": {
@@ -14447,7 +14615,7 @@
                 "Tags": {
                     "target": "com.amazonaws.sagemaker#TagList",
                     "traits": {
-                        "smithy.api#documentation": "<p>(Optional) An array of key-value pairs. For more information, see <a href=\"https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL\">Using Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost Management\n                User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>(Optional) An array of key-value pairs. For more information, see <a href=\"https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL\">Using Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and\n                Cost Management User Guide</i>.</p>"
                     }
                 },
                 "ExperimentConfig": {
@@ -14994,7 +15162,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Starts a transform job. A transform job uses a trained model to get inferences on a\n            dataset and saves these results to an Amazon S3 location that you specify.</p>\n         <p>To perform batch transformations, you create a transform job and use the data that you\n            have readily available.</p>\n         <p>In the request body, you provide the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>TransformJobName</code> - Identifies the transform job. The name must be\n                    unique within an Amazon Web Services Region in an Amazon Web Services account.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ModelName</code> - Identifies the model to use. <code>ModelName</code>\n                    must be the name of an existing Amazon SageMaker model in the same Amazon Web Services Region and Amazon Web Services\n\t\t    account. For information on creating a model, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModel.html\">CreateModel</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TransformInput</code> - Describes the dataset to be transformed and the\n                    Amazon S3 location where it is stored.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TransformOutput</code> - Identifies the Amazon S3 location where you want\n                    Amazon SageMaker to save the results from the transform job.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TransformResources</code> - Identifies the ML compute instances for the\n                    transform job.</p>\n            </li>\n         </ul>\n         <p>For more information about how batch transformation works, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform.html\">Batch\n                Transform</a>.</p>"
+                "smithy.api#documentation": "<p>Starts a transform job. A transform job uses a trained model to get inferences on a\n            dataset and saves these results to an Amazon S3 location that you specify.</p>\n         <p>To perform batch transformations, you create a transform job and use the data that you\n            have readily available.</p>\n         <p>In the request body, you provide the following:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>TransformJobName</code> - Identifies the transform job. The name must be\n                    unique within an Amazon Web Services Region in an Amazon Web Services account.</p>\n            </li>\n            <li>\n               <p>\n                  <code>ModelName</code> - Identifies the model to use. <code>ModelName</code>\n                    must be the name of an existing Amazon SageMaker model in the same Amazon Web Services Region and Amazon Web Services\n\t\t    account. For information on creating a model, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateModel.html\">CreateModel</a>.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TransformInput</code> - Describes the dataset to be transformed and the\n                    Amazon S3 location where it is stored.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TransformOutput</code> - Identifies the Amazon S3 location where you want\n                    Amazon SageMaker to save the results from the transform job.</p>\n            </li>\n            <li>\n               <p>\n                  <code>TransformResources</code> - Identifies the ML compute instances and AMI\n                    image versions for the transform job.</p>\n            </li>\n         </ul>\n         <p>For more information about how batch transformation works, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/batch-transform.html\">Batch\n                Transform</a>.</p>"
             }
         },
         "com.amazonaws.sagemaker#CreateTransformJobRequest": {
@@ -16140,24 +16308,24 @@
                 "LocalPath": {
                     "target": "com.amazonaws.sagemaker#ProcessingLocalPath",
                     "traits": {
-                        "smithy.api#documentation": "<p>The local path where you want Amazon SageMaker to download the Dataset Definition inputs to run a\n            processing job. <code>LocalPath</code> is an absolute path to the input data. This is a required\n            parameter when <code>AppManaged</code> is <code>False</code> (default).</p>"
+                        "smithy.api#documentation": "<p>The local path where you want Amazon SageMaker to download the Dataset Definition inputs to run a\n            processing job. <code>LocalPath</code> is an absolute path to the input data. This is a\n            required parameter when <code>AppManaged</code> is <code>False</code> (default).</p>"
                     }
                 },
                 "DataDistributionType": {
                     "target": "com.amazonaws.sagemaker#DataDistributionType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Whether the generated dataset is <code>FullyReplicated</code> or\n            <code>ShardedByS3Key</code> (default).</p>"
+                        "smithy.api#documentation": "<p>Whether the generated dataset is <code>FullyReplicated</code> or\n                <code>ShardedByS3Key</code> (default).</p>"
                     }
                 },
                 "InputMode": {
                     "target": "com.amazonaws.sagemaker#InputMode",
                     "traits": {
-                        "smithy.api#documentation": "<p>Whether to use <code>File</code> or <code>Pipe</code> input mode. In <code>File</code> (default) mode,\n            Amazon SageMaker copies the data from the input source onto the local Amazon Elastic Block Store\n            (Amazon EBS) volumes before starting your training algorithm. This is the most commonly used\n            input mode. In <code>Pipe</code> mode, Amazon SageMaker streams input data from the source directly to your\n            algorithm without using the EBS volume.</p>"
+                        "smithy.api#documentation": "<p>Whether to use <code>File</code> or <code>Pipe</code> input mode. In <code>File</code>\n            (default) mode, Amazon SageMaker copies the data from the input source onto the local Amazon Elastic\n            Block Store (Amazon EBS) volumes before starting your training algorithm. This is the\n            most commonly used input mode. In <code>Pipe</code> mode, Amazon SageMaker streams input data from\n            the source directly to your algorithm without using the EBS volume.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Configuration for Dataset Definition inputs. The Dataset Definition input must specify\n            exactly one of either <code>AthenaDatasetDefinition</code> or <code>RedshiftDatasetDefinition</code>\n            types.</p>"
+                "smithy.api#documentation": "<p>Configuration for Dataset Definition inputs. The Dataset Definition input must specify\n            exactly one of either <code>AthenaDatasetDefinition</code> or\n                <code>RedshiftDatasetDefinition</code> types.</p>"
             }
         },
         "com.amazonaws.sagemaker#DebugHookConfig": {
@@ -19262,6 +19430,12 @@
                     "target": "com.amazonaws.sagemaker#AppStatus",
                     "traits": {
                         "smithy.api#documentation": "<p>The status.</p>"
+                    }
+                },
+                "RecoveryMode": {
+                    "target": "com.amazonaws.sagemaker#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>\n      Indicates whether the application is launched in recovery mode.\n    </p>"
                     }
                 },
                 "LastHealthCheckTimestamp": {
@@ -25523,10 +25697,22 @@
                         "smithy.api#documentation": "<p>The time that the SageMaker Partner AI App was created.</p>"
                     }
                 },
+                "LastModifiedTime": {
+                    "target": "com.amazonaws.sagemaker#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The time that the SageMaker Partner AI App was last modified.</p>"
+                    }
+                },
                 "ExecutionRoleArn": {
                     "target": "com.amazonaws.sagemaker#RoleArn",
                     "traits": {
                         "smithy.api#documentation": "<p>The ARN of the IAM role associated with the SageMaker Partner AI App.</p>"
+                    }
+                },
+                "KmsKeyId": {
+                    "target": "com.amazonaws.sagemaker#KmsKeyId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Web Services KMS customer managed key used to encrypt the data at rest associated with SageMaker Partner AI Apps.</p>"
                     }
                 },
                 "BaseUrl": {
@@ -25928,7 +26114,7 @@
                     "target": "com.amazonaws.sagemaker#ProcessingJobName",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The name of the processing job. The name must be unique within an Amazon Web Services Region in the\n            Amazon Web Services account.</p>",
+                        "smithy.api#documentation": "<p>The name of the processing job. The name must be unique within an Amazon Web Services\n            Region in the Amazon Web Services account.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -25956,7 +26142,7 @@
                     "target": "com.amazonaws.sagemaker#ProcessingJobName",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The name of the processing job. The name must be unique within an Amazon Web Services Region in the\n            Amazon Web Services account.</p>",
+                        "smithy.api#documentation": "<p>The name of the processing job. The name must be unique within an Amazon Web Services\n            Region in the Amazon Web Services account.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -31513,25 +31699,25 @@
                     "target": "com.amazonaws.sagemaker#ResourcePropertyName",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>A resource property name. For example, <code>TrainingJobName</code>. For\n      valid property names, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SearchRecord.html\">SearchRecord</a>.\n      You must specify a valid property for the resource.</p>",
+                        "smithy.api#documentation": "<p>A resource property name. For example, <code>TrainingJobName</code>. For valid property\n      names, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_SearchRecord.html\">SearchRecord</a>. You must\n      specify a valid property for the resource.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "Operator": {
                     "target": "com.amazonaws.sagemaker#Operator",
                     "traits": {
-                        "smithy.api#documentation": "<p>A Boolean binary operator that is used to evaluate the filter. The operator field\n      contains one of the following values:</p>\n         <dl>\n            <dt>Equals</dt>\n            <dd>\n               <p>The value of <code>Name</code> equals <code>Value</code>.</p>\n            </dd>\n            <dt>NotEquals</dt>\n            <dd>\n               <p>The value of <code>Name</code> doesn't equal <code>Value</code>.</p>\n            </dd>\n            <dt>Exists</dt>\n            <dd>\n               <p>The <code>Name</code> property exists.</p>\n            </dd>\n            <dt>NotExists</dt>\n            <dd>\n               <p>The <code>Name</code> property does not exist.</p>\n            </dd>\n            <dt>GreaterThan</dt>\n            <dd>\n               <p>The value of <code>Name</code> is greater than <code>Value</code>.\n            Not supported for text properties.</p>\n            </dd>\n            <dt>GreaterThanOrEqualTo</dt>\n            <dd>\n               <p>The value of <code>Name</code> is greater than or equal to <code>Value</code>.\n            Not supported for text properties.</p>\n            </dd>\n            <dt>LessThan</dt>\n            <dd>\n               <p>The value of <code>Name</code> is less than <code>Value</code>.\n            Not supported for text properties.</p>\n            </dd>\n            <dt>LessThanOrEqualTo</dt>\n            <dd>\n               <p>The value of <code>Name</code> is less than or equal to <code>Value</code>.\n            Not supported for text properties.</p>\n            </dd>\n            <dt>In</dt>\n            <dd>\n               <p>The value of <code>Name</code> is one of the comma delimited strings in\n            <code>Value</code>. Only supported for text properties.</p>\n            </dd>\n            <dt>Contains</dt>\n            <dd>\n               <p>The value of <code>Name</code> contains the string <code>Value</code>.\n            Only supported for text properties.</p>\n               <p>A <code>SearchExpression</code> can include the <code>Contains</code> operator\n            multiple times when the value of <code>Name</code> is one of the following:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>Experiment.DisplayName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Experiment.ExperimentName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Experiment.Tags</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Trial.DisplayName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Trial.TrialName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Trial.Tags</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.DisplayName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.TrialComponentName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.Tags</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.InputArtifacts</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.OutputArtifacts</code>\n                     </p>\n                  </li>\n               </ul>\n               <p>A <code>SearchExpression</code> can include only one <code>Contains</code> operator\n            for all other values of <code>Name</code>. In these cases, if you include multiple\n            <code>Contains</code> operators in the <code>SearchExpression</code>, the result is\n            the following error message: \"<code>'CONTAINS' operator usage limit of 1\n            exceeded.</code>\"</p>\n            </dd>\n         </dl>"
+                        "smithy.api#documentation": "<p>A Boolean binary operator that is used to evaluate the filter. The operator field contains\n      one of the following values:</p>\n         <dl>\n            <dt>Equals</dt>\n            <dd>\n               <p>The value of <code>Name</code> equals <code>Value</code>.</p>\n            </dd>\n            <dt>NotEquals</dt>\n            <dd>\n               <p>The value of <code>Name</code> doesn't equal <code>Value</code>.</p>\n            </dd>\n            <dt>Exists</dt>\n            <dd>\n               <p>The <code>Name</code> property exists.</p>\n            </dd>\n            <dt>NotExists</dt>\n            <dd>\n               <p>The <code>Name</code> property does not exist.</p>\n            </dd>\n            <dt>GreaterThan</dt>\n            <dd>\n               <p>The value of <code>Name</code> is greater than <code>Value</code>. Not supported for\n            text properties.</p>\n            </dd>\n            <dt>GreaterThanOrEqualTo</dt>\n            <dd>\n               <p>The value of <code>Name</code> is greater than or equal to <code>Value</code>. Not\n            supported for text properties.</p>\n            </dd>\n            <dt>LessThan</dt>\n            <dd>\n               <p>The value of <code>Name</code> is less than <code>Value</code>. Not supported for\n            text properties.</p>\n            </dd>\n            <dt>LessThanOrEqualTo</dt>\n            <dd>\n               <p>The value of <code>Name</code> is less than or equal to <code>Value</code>. Not\n            supported for text properties.</p>\n            </dd>\n            <dt>In</dt>\n            <dd>\n               <p>The value of <code>Name</code> is one of the comma delimited strings in\n              <code>Value</code>. Only supported for text properties.</p>\n            </dd>\n            <dt>Contains</dt>\n            <dd>\n               <p>The value of <code>Name</code> contains the string <code>Value</code>. Only\n            supported for text properties.</p>\n               <p>A <code>SearchExpression</code> can include the <code>Contains</code> operator\n            multiple times when the value of <code>Name</code> is one of the following:</p>\n               <ul>\n                  <li>\n                     <p>\n                        <code>Experiment.DisplayName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Experiment.ExperimentName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Experiment.Tags</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Trial.DisplayName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Trial.TrialName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>Trial.Tags</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.DisplayName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.TrialComponentName</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.Tags</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.InputArtifacts</code>\n                     </p>\n                  </li>\n                  <li>\n                     <p>\n                        <code>TrialComponent.OutputArtifacts</code>\n                     </p>\n                  </li>\n               </ul>\n               <p>A <code>SearchExpression</code> can include only one <code>Contains</code> operator\n            for all other values of <code>Name</code>. In these cases, if you include multiple\n              <code>Contains</code> operators in the <code>SearchExpression</code>, the result is\n            the following error message: \"<code>'CONTAINS' operator usage limit of 1\n              exceeded.</code>\"</p>\n            </dd>\n         </dl>"
                     }
                 },
                 "Value": {
                     "target": "com.amazonaws.sagemaker#FilterValue",
                     "traits": {
-                        "smithy.api#documentation": "<p>A value used with <code>Name</code> and <code>Operator</code> to determine which\n        resources satisfy the filter's condition. For numerical properties, <code>Value</code>\n        must be an integer or floating-point decimal. For timestamp properties,\n        <code>Value</code> must be an ISO 8601 date-time string of the following format:\n        <code>YYYY-mm-dd'T'HH:MM:SS</code>.</p>"
+                        "smithy.api#documentation": "<p>A value used with <code>Name</code> and <code>Operator</code> to determine which resources\n      satisfy the filter's condition. For numerical properties, <code>Value</code> must be an\n      integer or floating-point decimal. For timestamp properties, <code>Value</code> must be an ISO\n      8601 date-time string of the following format: <code>YYYY-mm-dd'T'HH:MM:SS</code>.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A conditional statement for a search expression that includes a resource property, a\n      Boolean operator, and a value. Resources that match the statement are returned in the\n      results from the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html\">Search</a> API.</p>\n         <p>If you specify a <code>Value</code>, but not an <code>Operator</code>, SageMaker uses the\n      equals operator.</p>\n         <p>In search, there are several property types:</p>\n         <dl>\n            <dt>Metrics</dt>\n            <dd>\n               <p>To define a metric filter, enter a value using the form\n            <code>\"Metrics.<name>\"</code>, where <code><name></code> is\n            a metric name. For example, the following filter searches for training jobs\n            with an <code>\"accuracy\"</code> metric greater than\n            <code>\"0.9\"</code>:</p>\n               <p>\n                  <code>{</code>\n               </p>\n               <p>\n                  <code>\"Name\": \"Metrics.accuracy\",</code>\n               </p>\n               <p>\n                  <code>\"Operator\": \"GreaterThan\",</code>\n               </p>\n               <p>\n                  <code>\"Value\": \"0.9\"</code>\n               </p>\n               <p>\n                  <code>}</code>\n               </p>\n            </dd>\n            <dt>HyperParameters</dt>\n            <dd>\n               <p>To define a hyperparameter filter, enter a value with the form\n            <code>\"HyperParameters.<name>\"</code>. Decimal hyperparameter\n            values are treated as a decimal in a comparison if the specified\n            <code>Value</code> is also a decimal value. If the specified\n            <code>Value</code> is an integer, the decimal hyperparameter values are\n            treated as integers. For example, the following filter is satisfied by\n            training jobs with a <code>\"learning_rate\"</code> hyperparameter that is\n            less than <code>\"0.5\"</code>:</p>\n               <p>\n                  <code> {</code>\n               </p>\n               <p>\n                  <code> \"Name\": \"HyperParameters.learning_rate\",</code>\n               </p>\n               <p>\n                  <code> \"Operator\": \"LessThan\",</code>\n               </p>\n               <p>\n                  <code> \"Value\": \"0.5\"</code>\n               </p>\n               <p>\n                  <code> }</code>\n               </p>\n            </dd>\n            <dt>Tags</dt>\n            <dd>\n               <p>To define a tag filter, enter a value with the form\n            <code>Tags.<key></code>.</p>\n            </dd>\n         </dl>"
+                "smithy.api#documentation": "<p>A conditional statement for a search expression that includes a resource property, a\n      Boolean operator, and a value. Resources that match the statement are returned in the results\n      from the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html\">Search</a> API.</p>\n         <p>If you specify a <code>Value</code>, but not an <code>Operator</code>, SageMaker uses the\n      equals operator.</p>\n         <p>In search, there are several property types:</p>\n         <dl>\n            <dt>Metrics</dt>\n            <dd>\n               <p>To define a metric filter, enter a value using the form\n              <code>\"Metrics.<name>\"</code>, where <code><name></code> is a metric name.\n            For example, the following filter searches for training jobs with an\n              <code>\"accuracy\"</code> metric greater than <code>\"0.9\"</code>:</p>\n               <p>\n                  <code>{</code>\n               </p>\n               <p>\n                  <code>\"Name\": \"Metrics.accuracy\",</code>\n               </p>\n               <p>\n                  <code>\"Operator\": \"GreaterThan\",</code>\n               </p>\n               <p>\n                  <code>\"Value\": \"0.9\"</code>\n               </p>\n               <p>\n                  <code>}</code>\n               </p>\n            </dd>\n            <dt>HyperParameters</dt>\n            <dd>\n               <p>To define a hyperparameter filter, enter a value with the form\n              <code>\"HyperParameters.<name>\"</code>. Decimal hyperparameter values are treated\n            as a decimal in a comparison if the specified <code>Value</code> is also a decimal\n            value. If the specified <code>Value</code> is an integer, the decimal hyperparameter\n            values are treated as integers. For example, the following filter is satisfied by\n            training jobs with a <code>\"learning_rate\"</code> hyperparameter that is less than\n              <code>\"0.5\"</code>:</p>\n               <p>\n                  <code> {</code>\n               </p>\n               <p>\n                  <code> \"Name\": \"HyperParameters.learning_rate\",</code>\n               </p>\n               <p>\n                  <code> \"Operator\": \"LessThan\",</code>\n               </p>\n               <p>\n                  <code> \"Value\": \"0.5\"</code>\n               </p>\n               <p>\n                  <code> }</code>\n               </p>\n            </dd>\n            <dt>Tags</dt>\n            <dd>\n               <p>To define a tag filter, enter a value with the form\n            <code>Tags.<key></code>.</p>\n            </dd>\n         </dl>"
             }
         },
         "com.amazonaws.sagemaker#FilterList": {
@@ -32304,7 +32490,7 @@
                 "target": "com.amazonaws.sagemaker#GetSearchSuggestionsResponse"
             },
             "traits": {
-                "smithy.api#documentation": "<p>An auto-complete API for the search functionality in the SageMaker console. It returns\n      suggestions of possible matches for the property name to use in <code>Search</code>\n      queries. Provides suggestions for <code>HyperParameters</code>, <code>Tags</code>, and\n      <code>Metrics</code>.</p>"
+                "smithy.api#documentation": "<p>An auto-complete API for the search functionality in the SageMaker console. It returns\n      suggestions of possible matches for the property name to use in <code>Search</code> queries.\n      Provides suggestions for <code>HyperParameters</code>, <code>Tags</code>, and\n        <code>Metrics</code>.</p>"
             }
         },
         "com.amazonaws.sagemaker#GetSearchSuggestionsRequest": {
@@ -32335,7 +32521,7 @@
                 "PropertyNameSuggestions": {
                     "target": "com.amazonaws.sagemaker#PropertyNameSuggestionList",
                     "traits": {
-                        "smithy.api#documentation": "<p>A list of property names for a <code>Resource</code> that match a\n      <code>SuggestionQuery</code>.</p>"
+                        "smithy.api#documentation": "<p>A list of property names for a <code>Resource</code> that match a\n        <code>SuggestionQuery</code>.</p>"
                     }
                 }
             },
@@ -39696,7 +39882,13 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Retrieves the list of instances (also called <i>nodes</i> interchangeably)\n         in a SageMaker HyperPod cluster.</p>"
+                "smithy.api#documentation": "<p>Retrieves the list of instances (also called <i>nodes</i> interchangeably)\n         in a SageMaker HyperPod cluster.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "ClusterNodeSummaries",
+                    "pageSize": "MaxResults"
+                }
             }
         },
         "com.amazonaws.sagemaker#ListClusterNodesRequest": {
@@ -39763,9 +39955,7 @@
                 "NextToken": {
                     "target": "com.amazonaws.sagemaker#NextToken",
                     "traits": {
-                        "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The next token specified for listing instances in a SageMaker HyperPod cluster.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>The next token specified for listing instances in a SageMaker HyperPod cluster.</p>"
                     }
                 },
                 "ClusterNodeSummaries": {
@@ -39890,7 +40080,13 @@
                 "target": "com.amazonaws.sagemaker#ListClustersResponse"
             },
             "traits": {
-                "smithy.api#documentation": "<p>Retrieves the list of SageMaker HyperPod clusters.</p>"
+                "smithy.api#documentation": "<p>Retrieves the list of SageMaker HyperPod clusters.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "items": "ClusterSummaries",
+                    "pageSize": "MaxResults"
+                }
             }
         },
         "com.amazonaws.sagemaker#ListClustersRequest": {
@@ -39955,9 +40151,7 @@
                 "NextToken": {
                     "target": "com.amazonaws.sagemaker#NextToken",
                     "traits": {
-                        "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>If the result of the previous <code>ListClusters</code> request was truncated, the\n         response includes a <code>NextToken</code>. To retrieve the next set of clusters, use the\n         token in the next request.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>If the result of the previous <code>ListClusters</code> request was truncated, the\n         response includes a <code>NextToken</code>. To retrieve the next set of clusters, use the\n         token in the next request.</p>"
                     }
                 },
                 "ClusterSummaries": {
@@ -51544,7 +51738,7 @@
                     "target": "com.amazonaws.sagemaker#ResourcePropertyName",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The name of the property to use in the nested filters. The value must match a listed property name,\n      such as <code>InputDataConfig</code>.</p>",
+                        "smithy.api#documentation": "<p>The name of the property to use in the nested filters. The value must match a listed\n      property name, such as <code>InputDataConfig</code>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -51552,13 +51746,13 @@
                     "target": "com.amazonaws.sagemaker#FilterList",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>A list of filters. Each filter acts on a property. Filters must contain at least one\n      <code>Filters</code> value. For example, a <code>NestedFilters</code> call might\n      include a filter on the <code>PropertyName</code> parameter of the\n      <code>InputDataConfig</code> property:\n      <code>InputDataConfig.DataSource.S3DataSource.S3Uri</code>.</p>",
+                        "smithy.api#documentation": "<p>A list of filters. Each filter acts on a property. Filters must contain at least one\n        <code>Filters</code> value. For example, a <code>NestedFilters</code> call might include a\n      filter on the <code>PropertyName</code> parameter of the <code>InputDataConfig</code>\n      property: <code>InputDataConfig.DataSource.S3DataSource.S3Uri</code>.</p>",
                         "smithy.api#required": {}
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A list of nested <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Filter.html\">Filter</a> objects. A resource must satisfy the conditions\n      of all filters to be included in the results returned from the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html\">Search</a> API.</p>\n         <p>For example, to filter on a training job's <code>InputDataConfig</code> property with a\n      specific channel name and <code>S3Uri</code> prefix, define the following filters:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>'{Name:\"InputDataConfig.ChannelName\", \"Operator\":\"Equals\", \"Value\":\"train\"}',</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>'{Name:\"InputDataConfig.DataSource.S3DataSource.S3Uri\", \"Operator\":\"Contains\",\n            \"Value\":\"mybucket/catdata\"}'</code>\n               </p>\n            </li>\n         </ul>"
+                "smithy.api#documentation": "<p>A list of nested <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Filter.html\">Filter</a> objects. A resource must\n      satisfy the conditions of all filters to be included in the results returned from the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_Search.html\">Search</a>\n      API.</p>\n         <p>For example, to filter on a training job's <code>InputDataConfig</code> property with a\n      specific channel name and <code>S3Uri</code> prefix, define the following filters:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>'{Name:\"InputDataConfig.ChannelName\", \"Operator\":\"Equals\", \"Value\":\"train\"}',</code>\n               </p>\n            </li>\n            <li>\n               <p>\n                  <code>'{Name:\"InputDataConfig.DataSource.S3DataSource.S3Uri\", \"Operator\":\"Contains\",\n            \"Value\":\"mybucket/catdata\"}'</code>\n               </p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.sagemaker#NestedFiltersList": {
@@ -51579,7 +51773,7 @@
                 "EnableInterContainerTrafficEncryption": {
                     "target": "com.amazonaws.sagemaker#Boolean",
                     "traits": {
-                        "smithy.api#documentation": "<p>Whether to encrypt all communications between distributed processing jobs. Choose\n            <code>True</code> to encrypt communications. Encryption provides greater security for distributed\n            processing jobs, but the processing might take longer.</p>"
+                        "smithy.api#documentation": "<p>Whether to encrypt all communications between distributed processing jobs. Choose\n                <code>True</code> to encrypt communications. Encryption provides greater security\n            for distributed processing jobs, but the processing might take longer.</p>"
                     }
                 },
                 "EnableNetworkIsolation": {
@@ -52718,6 +52912,54 @@
                     "target": "smithy.api#Unit",
                     "traits": {
                         "smithy.api#enumValue": "ml.g6.48xlarge"
+                    }
+                },
+                "ML_G6E_XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.xlarge"
+                    }
+                },
+                "ML_G6E_2XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.2xlarge"
+                    }
+                },
+                "ML_G6E_4XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.4xlarge"
+                    }
+                },
+                "ML_G6E_8XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.8xlarge"
+                    }
+                },
+                "ML_G6E_12XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.12xlarge"
+                    }
+                },
+                "ML_G6E_16XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.16xlarge"
+                    }
+                },
+                "ML_G6E_24XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.24xlarge"
+                    }
+                },
+                "ML_G6E_48XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.48xlarge"
                     }
                 },
                 "ML_INF2_XLARGE": {
@@ -54708,14 +54950,14 @@
                     "target": "com.amazonaws.sagemaker#ProcessingVolumeSizeInGB",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The size of the ML storage volume in gigabytes that you want to provision. You must\n            specify sufficient ML storage for your scenario.</p>\n         <note>\n            <p>Certain Nitro-based instances include local storage with a fixed total size,\n                dependent on the instance type. When using these instances for processing, Amazon SageMaker mounts\n                the local instance storage instead of Amazon EBS gp2 storage. You can't request a\n                <code>VolumeSizeInGB</code> greater than the total size of the local instance\n                storage.</p>\n            <p>For a list of instance types that support local instance storage, including the\n                total size per instance type, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes\">Instance Store Volumes</a>.</p>\n         </note>",
+                        "smithy.api#documentation": "<p>The size of the ML storage volume in gigabytes that you want to provision. You must\n            specify sufficient ML storage for your scenario.</p>\n         <note>\n            <p>Certain Nitro-based instances include local storage with a fixed total size,\n                dependent on the instance type. When using these instances for processing, Amazon SageMaker\n                mounts the local instance storage instead of Amazon EBS gp2 storage. You can't request a\n                    <code>VolumeSizeInGB</code> greater than the total size of the local instance\n                storage.</p>\n            <p>For a list of instance types that support local instance storage, including the\n                total size per instance type, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes\">Instance Store Volumes</a>.</p>\n         </note>",
                         "smithy.api#required": {}
                     }
                 },
                 "VolumeKmsKeyId": {
                     "target": "com.amazonaws.sagemaker#KmsKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data on the\n            storage volume attached to the ML compute instance(s) that run the processing job.\n        </p>\n         <note>\n            <p>Certain Nitro-based instances include local storage, dependent on the instance\n                type. Local storage volumes are encrypted using a hardware module on the instance.\n                You can't request a <code>VolumeKmsKeyId</code> when using an instance type with\n                local storage.</p>\n            <p>For a list of instance types that support local instance storage, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes\">Instance Store Volumes</a>.</p>\n            <p>For more information about local instance storage encryption, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html\">SSD\n                Instance Store Volumes</a>.</p>\n         </note>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker\n            uses to encrypt data on the storage volume attached to the ML compute instance(s) that\n            run the processing job. </p>\n         <note>\n            <p>Certain Nitro-based instances include local storage, dependent on the instance\n                type. Local storage volumes are encrypted using a hardware module on the instance.\n                You can't request a <code>VolumeKmsKeyId</code> when using an instance type with\n                local storage.</p>\n            <p>For a list of instance types that support local instance storage, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes\">Instance Store Volumes</a>.</p>\n            <p>For more information about local instance storage encryption, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html\">SSD\n                    Instance Store Volumes</a>.</p>\n         </note>"
                     }
                 }
             },
@@ -54765,7 +55007,7 @@
                     "target": "com.amazonaws.sagemaker#FeatureGroupName",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The name of the Amazon SageMaker FeatureGroup to use as the destination for processing job output. Note that your \n            processing script is responsible for putting records into your Feature Store.</p>",
+                        "smithy.api#documentation": "<p>The name of the Amazon SageMaker FeatureGroup to use as the destination for processing job output.\n            Note that your processing script is responsible for putting records into your Feature\n            Store.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -54788,13 +55030,13 @@
                 "AppManaged": {
                     "target": "com.amazonaws.sagemaker#AppManaged",
                     "traits": {
-                        "smithy.api#documentation": "<p>When <code>True</code>, input operations such as data download are managed natively by the\n            processing job application. When <code>False</code> (default), input operations are managed by Amazon SageMaker.</p>"
+                        "smithy.api#documentation": "<p>When <code>True</code>, input operations such as data download are managed natively by\n            the processing job application. When <code>False</code> (default), input operations are\n            managed by Amazon SageMaker.</p>"
                     }
                 },
                 "S3Input": {
                     "target": "com.amazonaws.sagemaker#ProcessingS3Input",
                     "traits": {
-                        "smithy.api#documentation": "<p>Configuration for downloading input data from Amazon S3 into the processing container.</p>"
+                        "smithy.api#documentation": "<p>Configuration for downloading input data from Amazon S3 into the processing\n            container.</p>"
                     }
                 },
                 "DatasetDefinition": {
@@ -54805,7 +55047,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The inputs for a processing job. The processing input must specify exactly one of either\n            <code>S3Input</code> or <code>DatasetDefinition</code> types.</p>"
+                "smithy.api#documentation": "<p>The inputs for a processing job. The processing input must specify exactly one of\n            either <code>S3Input</code> or <code>DatasetDefinition</code> types.</p>"
             }
         },
         "com.amazonaws.sagemaker#ProcessingInputs": {
@@ -55191,6 +55433,204 @@
                     "traits": {
                         "smithy.api#enumValue": "ml.r5d.24xlarge"
                     }
+                },
+                "ML_G6_XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6.xlarge"
+                    }
+                },
+                "ML_G6_2XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6.2xlarge"
+                    }
+                },
+                "ML_G6_4XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6.4xlarge"
+                    }
+                },
+                "ML_G6_8XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6.8xlarge"
+                    }
+                },
+                "ML_G6_12XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6.12xlarge"
+                    }
+                },
+                "ML_G6_16XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6.16xlarge"
+                    }
+                },
+                "ML_G6_24XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6.24xlarge"
+                    }
+                },
+                "ML_G6_48XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6.48xlarge"
+                    }
+                },
+                "ML_G6E_XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.xlarge"
+                    }
+                },
+                "ML_G6E_2XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.2xlarge"
+                    }
+                },
+                "ML_G6E_4XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.4xlarge"
+                    }
+                },
+                "ML_G6E_8XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.8xlarge"
+                    }
+                },
+                "ML_G6E_12XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.12xlarge"
+                    }
+                },
+                "ML_G6E_16XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.16xlarge"
+                    }
+                },
+                "ML_G6E_24XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.24xlarge"
+                    }
+                },
+                "ML_G6E_48XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.g6e.48xlarge"
+                    }
+                },
+                "ML_M6I_LARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m6i.large"
+                    }
+                },
+                "ML_M6I_XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m6i.xlarge"
+                    }
+                },
+                "ML_M6I_2XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m6i.2xlarge"
+                    }
+                },
+                "ML_M6I_4XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m6i.4xlarge"
+                    }
+                },
+                "ML_M6I_8XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m6i.8xlarge"
+                    }
+                },
+                "ML_M6I_12XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m6i.12xlarge"
+                    }
+                },
+                "ML_M6I_16XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m6i.16xlarge"
+                    }
+                },
+                "ML_M6I_24XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m6i.24xlarge"
+                    }
+                },
+                "ML_M6I_32XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.m6i.32xlarge"
+                    }
+                },
+                "ML_C6I_XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.c6i.xlarge"
+                    }
+                },
+                "ML_C6I_2XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.c6i.2xlarge"
+                    }
+                },
+                "ML_C6I_4XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.c6i.4xlarge"
+                    }
+                },
+                "ML_C6I_8XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.c6i.8xlarge"
+                    }
+                },
+                "ML_C6I_12XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.c6i.12xlarge"
+                    }
+                },
+                "ML_C6I_16XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.c6i.16xlarge"
+                    }
+                },
+                "ML_C6I_24XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.c6i.24xlarge"
+                    }
+                },
+                "ML_C6I_32XLARGE": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "ml.c6i.32xlarge"
+                    }
                 }
             }
         },
@@ -55254,7 +55694,7 @@
                 "ExitMessage": {
                     "target": "com.amazonaws.sagemaker#ExitMessage",
                     "traits": {
-                        "smithy.api#documentation": "<p>A string, up to one KB in size, that contains metadata from the processing\n            container when the processing job exits.</p>"
+                        "smithy.api#documentation": "<p>A string, up to one KB in size, that contains metadata from the processing container\n            when the processing job exits.</p>"
                     }
                 },
                 "FailureReason": {
@@ -55296,7 +55736,7 @@
                 "AutoMLJobArn": {
                     "target": "com.amazonaws.sagemaker#AutoMLJobArn",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the AutoML job associated with this processing job.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the AutoML job associated with this processing\n            job.</p>"
                     }
                 },
                 "TrainingJobArn": {
@@ -55308,12 +55748,12 @@
                 "Tags": {
                     "target": "com.amazonaws.sagemaker#TagList",
                     "traits": {
-                        "smithy.api#documentation": "<p>An array of key-value pairs. For more information, see <a href=\"https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL\">Using Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and Cost Management\n                User Guide</i>.</p>"
+                        "smithy.api#documentation": "<p>An array of key-value pairs. For more information, see <a href=\"https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html#allocation-whatURL\">Using Cost Allocation Tags</a> in the <i>Amazon Web Services Billing and\n                Cost Management User Guide</i>.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>An Amazon SageMaker processing job that is used to analyze data and evaluate models. For more information,\n            see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/processing-job.html\">Process\n                Data and Evaluate Models</a>.</p>"
+                "smithy.api#documentation": "<p>An Amazon SageMaker processing job that is used to analyze data and evaluate models. For more\n            information, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/processing-job.html\">Process Data and Evaluate\n                Models</a>.</p>"
             }
         },
         "com.amazonaws.sagemaker#ProcessingJobArn": {
@@ -55500,12 +55940,12 @@
                 "AppManaged": {
                     "target": "com.amazonaws.sagemaker#AppManaged",
                     "traits": {
-                        "smithy.api#documentation": "<p>When <code>True</code>, output operations such as data upload are managed natively by the\n            processing job application. When <code>False</code> (default), output operations are managed by\n            Amazon SageMaker.</p>"
+                        "smithy.api#documentation": "<p>When <code>True</code>, output operations such as data upload are managed natively by\n            the processing job application. When <code>False</code> (default), output operations are\n            managed by Amazon SageMaker.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Describes the results of a processing job. The processing output must specify exactly one of\n            either <code>S3Output</code> or <code>FeatureStoreOutput</code> types.</p>"
+                "smithy.api#documentation": "<p>Describes the results of a processing job. The processing output must specify exactly\n            one of either <code>S3Output</code> or <code>FeatureStoreOutput</code> types.</p>"
             }
         },
         "com.amazonaws.sagemaker#ProcessingOutputConfig": {
@@ -55515,14 +55955,14 @@
                     "target": "com.amazonaws.sagemaker#ProcessingOutputs",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>An array of outputs configuring the data to upload from the processing container.</p>",
+                        "smithy.api#documentation": "<p>An array of outputs configuring the data to upload from the processing\n            container.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "KmsKeyId": {
                     "target": "com.amazonaws.sagemaker#KmsKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the processing\n            job output. <code>KmsKeyId</code> can be an ID of a KMS key, ARN of a KMS key, alias of\n            a KMS key, or alias of a KMS key. The <code>KmsKeyId</code> is applied to all\n            outputs.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker\n            uses to encrypt the processing job output. <code>KmsKeyId</code> can be an ID of a KMS\n            key, ARN of a KMS key, or alias of a KMS key. The <code>KmsKeyId</code> is applied to\n            all outputs.</p>"
                     }
                 }
             },
@@ -55616,45 +56056,45 @@
                     "target": "com.amazonaws.sagemaker#S3Uri",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The URI of the Amazon S3 prefix Amazon SageMaker downloads data required to run a processing job.</p>",
+                        "smithy.api#documentation": "<p>The URI of the Amazon S3 prefix Amazon SageMaker downloads data required to run a processing\n            job.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "LocalPath": {
                     "target": "com.amazonaws.sagemaker#ProcessingLocalPath",
                     "traits": {
-                        "smithy.api#documentation": "<p>The local path in your container where you want Amazon SageMaker to write input data to. \n            <code>LocalPath</code> is an absolute path to the input data and must begin with \n            <code>/opt/ml/processing/</code>. <code>LocalPath</code> is a required \n            parameter when <code>AppManaged</code> is <code>False</code> (default).</p>"
+                        "smithy.api#documentation": "<p>The local path in your container where you want Amazon SageMaker to write input data to.\n                <code>LocalPath</code> is an absolute path to the input data and must begin with\n                <code>/opt/ml/processing/</code>. <code>LocalPath</code> is a required parameter\n            when <code>AppManaged</code> is <code>False</code> (default).</p>"
                     }
                 },
                 "S3DataType": {
                     "target": "com.amazonaws.sagemaker#ProcessingS3DataType",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>Whether you use an <code>S3Prefix</code> or a <code>ManifestFile</code> for\n            the data type. If you choose <code>S3Prefix</code>, <code>S3Uri</code> identifies a key\n            name prefix. Amazon SageMaker uses all objects with the specified key name prefix for the processing\n            job. If you choose <code>ManifestFile</code>, <code>S3Uri</code> identifies an object\n            that is a manifest file containing a list of object keys that you want Amazon SageMaker to use for\n            the processing job.</p>",
+                        "smithy.api#documentation": "<p>Whether you use an <code>S3Prefix</code> or a <code>ManifestFile</code> for the data\n            type. If you choose <code>S3Prefix</code>, <code>S3Uri</code> identifies a key name\n            prefix. Amazon SageMaker uses all objects with the specified key name prefix for the processing job.\n            If you choose <code>ManifestFile</code>, <code>S3Uri</code> identifies an object that is\n            a manifest file containing a list of object keys that you want Amazon SageMaker to use for the\n            processing job.</p>",
                         "smithy.api#required": {}
                     }
                 },
                 "S3InputMode": {
                     "target": "com.amazonaws.sagemaker#ProcessingS3InputMode",
                     "traits": {
-                        "smithy.api#documentation": "<p>Whether to use <code>File</code> or <code>Pipe</code> input mode. In File mode, Amazon SageMaker copies the data \n            from the input source onto the local ML storage volume before starting your processing \n            container. This is the most commonly used input mode. In <code>Pipe</code> mode, Amazon SageMaker \n            streams input data from the source directly to your processing container into named \n            pipes without using the ML storage volume.</p>"
+                        "smithy.api#documentation": "<p>Whether to use <code>File</code> or <code>Pipe</code> input mode. In File mode, Amazon SageMaker\n            copies the data from the input source onto the local ML storage volume before starting\n            your processing container. This is the most commonly used input mode. In\n                <code>Pipe</code> mode, Amazon SageMaker streams input data from the source directly to your\n            processing container into named pipes without using the ML storage volume.</p>"
                     }
                 },
                 "S3DataDistributionType": {
                     "target": "com.amazonaws.sagemaker#ProcessingS3DataDistributionType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Whether to distribute the data from Amazon S3 to all processing instances with \n            <code>FullyReplicated</code>, or whether the data from Amazon S3 is shared by Amazon S3 key, \n            downloading one shard of data to each processing instance.</p>"
+                        "smithy.api#documentation": "<p>Whether to distribute the data from Amazon S3 to all processing instances with\n                <code>FullyReplicated</code>, or whether the data from Amazon S3 is shared by Amazon S3 key,\n            downloading one shard of data to each processing instance.</p>"
                     }
                 },
                 "S3CompressionType": {
                     "target": "com.amazonaws.sagemaker#ProcessingS3CompressionType",
                     "traits": {
-                        "smithy.api#documentation": "<p>Whether to GZIP-decompress the data in Amazon S3 as it is streamed into the processing \n            container. <code>Gzip</code> can only be used when <code>Pipe</code> mode is \n            specified as the <code>S3InputMode</code>. In <code>Pipe</code> mode, Amazon SageMaker streams input \n            data from the source directly to your container without using the EBS volume.</p>"
+                        "smithy.api#documentation": "<p>Whether to GZIP-decompress the data in Amazon S3 as it is streamed into the processing\n            container. <code>Gzip</code> can only be used when <code>Pipe</code> mode is specified\n            as the <code>S3InputMode</code>. In <code>Pipe</code> mode, Amazon SageMaker streams input data from\n            the source directly to your container without using the EBS volume.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Configuration for downloading input data from Amazon S3 into the processing container.</p>"
+                "smithy.api#documentation": "<p>Configuration for downloading input data from Amazon S3 into the processing\n            container.</p>"
             }
         },
         "com.amazonaws.sagemaker#ProcessingS3InputMode": {
@@ -55688,7 +56128,7 @@
                 "LocalPath": {
                     "target": "com.amazonaws.sagemaker#ProcessingLocalPath",
                     "traits": {
-                        "smithy.api#documentation": "<p>The local path of a directory where you want Amazon SageMaker to upload its contents to Amazon S3. \n            <code>LocalPath</code> is an absolute path to a directory containing output files. \n            This directory will be created by the platform and exist when your container's \n            entrypoint is invoked.</p>"
+                        "smithy.api#documentation": "<p>The local path of a directory where you want Amazon SageMaker to upload its contents to Amazon S3.\n                <code>LocalPath</code> is an absolute path to a directory containing output files.\n            This directory will be created by the platform and exist when your container's\n            entrypoint is invoked.</p>"
                     }
                 },
                 "S3UploadMode": {
@@ -55734,7 +56174,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Configures conditions under which the processing job should be stopped, such as how long \n            the processing job has been running. After the condition is met, the processing job is stopped.</p>"
+                "smithy.api#documentation": "<p>Configures conditions under which the processing job should be stopped, such as how\n            long the processing job has been running. After the condition is met, the processing job\n            is stopped.</p>"
             }
         },
         "com.amazonaws.sagemaker#ProcessingVolumeSizeInGB": {
@@ -58097,7 +58537,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A property name returned from a <code>GetSearchSuggestions</code> call that specifies\n      a value in the <code>PropertyNameQuery</code> field.</p>"
+                "smithy.api#documentation": "<p>A property name returned from a <code>GetSearchSuggestions</code> call that specifies a\n      value in the <code>PropertyNameQuery</code> field.</p>"
             }
         },
         "com.amazonaws.sagemaker#PropertyNameSuggestionList": {
@@ -59428,7 +59868,7 @@
                     "target": "com.amazonaws.sagemaker#RoleArn",
                     "traits": {
                         "smithy.api#clientOptional": {},
-                        "smithy.api#documentation": "<p>The IAM role attached to your Redshift cluster that Amazon SageMaker uses to generate datasets.</p>",
+                        "smithy.api#documentation": "<p>The IAM role attached to your Redshift cluster that Amazon SageMaker uses to generate\n            datasets.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -59443,7 +59883,7 @@
                 "KmsKeyId": {
                     "target": "com.amazonaws.sagemaker#KmsKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt data from a\n            Redshift execution.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker\n            uses to encrypt data from a Redshift execution.</p>"
                     }
                 },
                 "OutputFormat": {
@@ -59610,6 +60050,23 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Metadata for a register model job step.</p>"
+            }
+        },
+        "com.amazonaws.sagemaker#Relation": {
+            "type": "enum",
+            "members": {
+                "EQUAL_TO": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "EqualTo"
+                    }
+                },
+                "GREATER_THAN_OR_EQUAL_TO": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "GreaterThanOrEqualTo"
+                    }
+                }
             }
         },
         "com.amazonaws.sagemaker#ReleaseNotes": {
@@ -62458,7 +62915,7 @@
                                                                 }
                                                             ],
                                                             "endpoint": {
-                                                                "url": "https://api.sagemaker.{Region}.amazonaws.com",
+                                                                "url": "https://api-fips.sagemaker.{Region}.amazonaws.com",
                                                                 "properties": {},
                                                                 "headers": {}
                                                             },
@@ -62993,7 +63450,7 @@
                             "documentation": "For region us-gov-west-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker.us-gov-west-1.amazonaws.com"
+                                    "url": "https://api-fips.sagemaker.us-gov-west-1.amazonaws.com"
                                 }
                             },
                             "params": {
@@ -63019,7 +63476,7 @@
                             "documentation": "For region us-gov-east-1 with FIPS enabled and DualStack disabled",
                             "expect": {
                                 "endpoint": {
-                                    "url": "https://api.sagemaker.us-gov-east-1.amazonaws.com"
+                                    "url": "https://api-fips.sagemaker.us-gov-east-1.amazonaws.com"
                                 }
                             },
                             "params": {
@@ -63555,7 +64012,7 @@
                 "target": "com.amazonaws.sagemaker#SearchResponse"
             },
             "traits": {
-                "smithy.api#documentation": "<p>Finds SageMaker resources that match a search query. Matching resources are returned\n      as a list of <code>SearchRecord</code> objects in the response. You can sort the search\n      results by any resource property in a ascending or descending order.</p>\n         <p>You can query against the following value types: numeric, text, Boolean, and\n      timestamp.</p>\n         <note>\n            <p>The Search API may provide access to otherwise restricted data. See <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/api-permissions-reference.html\">Amazon SageMaker \n      API Permissions: Actions, Permissions, and Resources Reference</a> for more\n        information.</p>\n         </note>",
+                "smithy.api#documentation": "<p>Finds SageMaker resources that match a search query. Matching resources are returned as a list\n      of <code>SearchRecord</code> objects in the response. You can sort the search results by any\n      resource property in a ascending or descending order.</p>\n         <p>You can query against the following value types: numeric, text, Boolean, and\n      timestamp.</p>\n         <note>\n            <p>The Search API may provide access to otherwise restricted data. See <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/api-permissions-reference.html\">Amazon SageMaker API\n          Permissions: Actions, Permissions, and Resources Reference</a> for more\n        information.</p>\n         </note>",
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
@@ -63588,12 +64045,12 @@
                 "Operator": {
                     "target": "com.amazonaws.sagemaker#BooleanOperator",
                     "traits": {
-                        "smithy.api#documentation": "<p>A Boolean operator used to evaluate the search expression. If you want every\n      conditional statement in all lists to be satisfied for the entire search expression to\n      be true, specify <code>And</code>. If only a single conditional statement needs to be\n      true for the entire search expression to be true, specify <code>Or</code>. The default\n      value is <code>And</code>.</p>"
+                        "smithy.api#documentation": "<p>A Boolean operator used to evaluate the search expression. If you want every conditional\n      statement in all lists to be satisfied for the entire search expression to be true, specify\n        <code>And</code>. If only a single conditional statement needs to be true for the entire\n      search expression to be true, specify <code>Or</code>. The default value is\n      <code>And</code>.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>A multi-expression that searches for the specified resource or resources in a search. All resource\n      objects that satisfy the expression's condition are included in the search results. You must specify at\n      least one subexpression, filter, or nested filter. A <code>SearchExpression</code> can contain up to\n      twenty elements.</p>\n         <p>A <code>SearchExpression</code> contains the following components:</p>\n         <ul>\n            <li>\n               <p>A list of <code>Filter</code> objects. Each filter defines a simple Boolean\n          expression comprised of a resource property name, Boolean operator, and\n          value.</p>\n            </li>\n            <li>\n               <p>A list of <code>NestedFilter</code> objects. Each nested filter defines a list\n          of Boolean expressions using a list of resource properties. A nested filter is\n          satisfied if a single object in the list satisfies all Boolean\n          expressions.</p>\n            </li>\n            <li>\n               <p>A list of <code>SearchExpression</code> objects. A search expression object\n          can be nested in a list of search expression objects.</p>\n            </li>\n            <li>\n               <p>A Boolean operator: <code>And</code> or <code>Or</code>.</p>\n            </li>\n         </ul>"
+                "smithy.api#documentation": "<p>A multi-expression that searches for the specified resource or resources in a search. All\n      resource objects that satisfy the expression's condition are included in the search results.\n      You must specify at least one subexpression, filter, or nested filter. A\n        <code>SearchExpression</code> can contain up to twenty elements.</p>\n         <p>A <code>SearchExpression</code> contains the following components:</p>\n         <ul>\n            <li>\n               <p>A list of <code>Filter</code> objects. Each filter defines a simple Boolean expression\n          comprised of a resource property name, Boolean operator, and value.</p>\n            </li>\n            <li>\n               <p>A list of <code>NestedFilter</code> objects. Each nested filter defines a list of\n          Boolean expressions using a list of resource properties. A nested filter is satisfied if a\n          single object in the list satisfies all Boolean expressions.</p>\n            </li>\n            <li>\n               <p>A list of <code>SearchExpression</code> objects. A search expression object can be\n          nested in a list of search expression objects.</p>\n            </li>\n            <li>\n               <p>A Boolean operator: <code>And</code> or <code>Or</code>.</p>\n            </li>\n         </ul>"
             }
         },
         "com.amazonaws.sagemaker#SearchExpressionList": {
@@ -63699,25 +64156,25 @@
                 "SearchExpression": {
                     "target": "com.amazonaws.sagemaker#SearchExpression",
                     "traits": {
-                        "smithy.api#documentation": "<p>A Boolean conditional statement. Resources must satisfy this condition to be\n      included in search results. You must provide at least one subexpression, filter, or\n      nested filter. The maximum number of recursive <code>SubExpressions</code>,\n      <code>NestedFilters</code>, and <code>Filters</code> that can be included in a\n      <code>SearchExpression</code> object is 50.</p>"
+                        "smithy.api#documentation": "<p>A Boolean conditional statement. Resources must satisfy this condition to be included in\n      search results. You must provide at least one subexpression, filter, or nested filter. The\n      maximum number of recursive <code>SubExpressions</code>, <code>NestedFilters</code>, and\n        <code>Filters</code> that can be included in a <code>SearchExpression</code> object is\n      50.</p>"
                     }
                 },
                 "SortBy": {
                     "target": "com.amazonaws.sagemaker#ResourcePropertyName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The name of the resource property used to sort the <code>SearchResults</code>. The\n      default is <code>LastModifiedTime</code>.</p>"
+                        "smithy.api#documentation": "<p>The name of the resource property used to sort the <code>SearchResults</code>. The default\n      is <code>LastModifiedTime</code>.</p>"
                     }
                 },
                 "SortOrder": {
                     "target": "com.amazonaws.sagemaker#SearchSortOrder",
                     "traits": {
-                        "smithy.api#documentation": "<p>How <code>SearchResults</code> are ordered. Valid values are <code>Ascending</code> or\n      <code>Descending</code>. The default is <code>Descending</code>.</p>"
+                        "smithy.api#documentation": "<p>How <code>SearchResults</code> are ordered. Valid values are <code>Ascending</code> or\n        <code>Descending</code>. The default is <code>Descending</code>.</p>"
                     }
                 },
                 "NextToken": {
                     "target": "com.amazonaws.sagemaker#NextToken",
                     "traits": {
-                        "smithy.api#documentation": "<p>If more than <code>MaxResults</code> resources match the specified\n      <code>SearchExpression</code>, the response includes a\n      <code>NextToken</code>. The <code>NextToken</code> can be passed to the next\n      <code>SearchRequest</code> to continue retrieving results.</p>"
+                        "smithy.api#documentation": "<p>If more than <code>MaxResults</code> resources match the specified\n        <code>SearchExpression</code>, the response includes a <code>NextToken</code>. The\n        <code>NextToken</code> can be passed to the next <code>SearchRequest</code> to continue\n      retrieving results.</p>"
                     }
                 },
                 "MaxResults": {
@@ -63729,13 +64186,13 @@
                 "CrossAccountFilterOption": {
                     "target": "com.amazonaws.sagemaker#CrossAccountFilterOption",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      A cross account filter option. When the value is <code>\"CrossAccount\"</code> the \n      search results will only include resources made discoverable to you from other \n      accounts. When the value is <code>\"SameAccount\"</code> or <code>null</code> the \n      search results will only include resources from your account. Default is \n      <code>null</code>. For more information on searching for resources made \n      discoverable to your account, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-cross-account-discoverability-use.html\">\n        Search discoverable resources</a> in the SageMaker Developer Guide.\n      The maximum number of <code>ResourceCatalog</code>s viewable is 1000.\n    </p>"
+                        "smithy.api#documentation": "<p> A cross account filter option. When the value is <code>\"CrossAccount\"</code> the search\n      results will only include resources made discoverable to you from other accounts. When the\n      value is <code>\"SameAccount\"</code> or <code>null</code> the search results will only include\n      resources from your account. Default is <code>null</code>. For more information on searching\n      for resources made discoverable to your account, see <a href=\"https://docs.aws.amazon.com/sagemaker/latest/dg/feature-store-cross-account-discoverability-use.html\"> Search\n        discoverable resources</a> in the SageMaker Developer Guide. The maximum number of\n        <code>ResourceCatalog</code>s viewable is 1000. </p>"
                     }
                 },
                 "VisibilityConditions": {
                     "target": "com.amazonaws.sagemaker#VisibilityConditionsList",
                     "traits": {
-                        "smithy.api#documentation": "<p>\n      Limits the results of your search request to the resources that you can access.\n    </p>"
+                        "smithy.api#documentation": "<p> Limits the results of your search request to the resources that you can access. </p>"
                     }
                 }
             },
@@ -63756,6 +64213,12 @@
                     "target": "com.amazonaws.sagemaker#NextToken",
                     "traits": {
                         "smithy.api#documentation": "<p>If the result of the previous <code>Search</code> request was truncated, the response\n      includes a NextToken. To retrieve the next set of results, use the token in the next\n      request.</p>"
+                    }
+                },
+                "TotalHits": {
+                    "target": "com.amazonaws.sagemaker#TotalHits",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The total number of matching results.</p>"
                     }
                 }
             },
@@ -63837,7 +64300,9 @@
                 "DurationHours": {
                     "target": "com.amazonaws.sagemaker#TrainingPlanDurationHoursInput",
                     "traits": {
-                        "smithy.api#documentation": "<p>The desired duration in hours for the training plan offerings.</p>"
+                        "smithy.api#clientOptional": {},
+                        "smithy.api#documentation": "<p>The desired duration in hours for the training plan offerings.</p>",
+                        "smithy.api#required": {}
                     }
                 },
                 "TargetResources": {
@@ -66835,12 +67300,12 @@
                 "PropertyNameQuery": {
                     "target": "com.amazonaws.sagemaker#PropertyNameQuery",
                     "traits": {
-                        "smithy.api#documentation": "<p>Defines a property name hint. Only property\n      names that begin with the specified hint are included in the response.</p>"
+                        "smithy.api#documentation": "<p>Defines a property name hint. Only property names that begin with the specified hint are\n      included in the response.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Specified in the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_GetSearchSuggestions.html\">GetSearchSuggestions</a> request.\n      Limits the property names that are included in the response.</p>"
+                "smithy.api#documentation": "<p>Specified in the <a href=\"https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_GetSearchSuggestions.html\">GetSearchSuggestions</a> request. Limits the property names that are included in the\n      response.</p>"
             }
         },
         "com.amazonaws.sagemaker#SynthesizedJsonHumanLoopActivationConditions": {
@@ -67943,6 +68408,26 @@
                     "min": 1,
                     "max": 256
                 }
+            }
+        },
+        "com.amazonaws.sagemaker#TotalHits": {
+            "type": "structure",
+            "members": {
+                "Value": {
+                    "target": "com.amazonaws.sagemaker#Long",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The total number of matching results. This value may be exact or an estimate, depending on\n      the <code>Relation</code> field.</p>"
+                    }
+                },
+                "Relation": {
+                    "target": "com.amazonaws.sagemaker#Relation",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Indicates the relationship between the returned <code>Value</code> and the actual total\n      number of matching results. Possible values are:</p>\n         <ul>\n            <li>\n               <p>\n                  <code>EqualTo</code>: The <code>Value</code> is the exact count of matching\n          results.</p>\n            </li>\n            <li>\n               <p>\n                  <code>GreaterThanOrEqualTo</code>: The <code>Value</code> is a lower bound of the\n          actual count of matching results.</p>\n            </li>\n         </ul>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Represents the total number of matching results and indicates how accurate that count\n      is.</p>\n         <p>The <code>Value</code> field provides the count, which may be exact or estimated. The\n        <code>Relation</code> field indicates whether it's an exact figure or a lower bound. This\n      helps understand the full scope of search results, especially when dealing with large result\n      sets.</p>"
             }
         },
         "com.amazonaws.sagemaker#TotalInstanceCount": {
@@ -70089,6 +70574,16 @@
                 }
             }
         },
+        "com.amazonaws.sagemaker#TransformAmiVersion": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 63
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$"
+            }
+        },
         "com.amazonaws.sagemaker#TransformDataSource": {
             "type": "structure",
             "members": {
@@ -71163,6 +71658,12 @@
                     "target": "com.amazonaws.sagemaker#KmsKeyId",
                     "traits": {
                         "smithy.api#documentation": "<p>The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt model data on the storage volume\n            attached to the ML compute instance(s) that run the batch transform job.</p>\n         <note>\n            <p>Certain Nitro-based instances include local storage, dependent on the instance\n                type. Local storage volumes are encrypted using a hardware module on the instance.\n                You can't request a <code>VolumeKmsKeyId</code> when using an instance type with\n                local storage.</p>\n            <p>For a list of instance types that support local instance storage, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/InstanceStorage.html#instance-store-volumes\">Instance Store Volumes</a>.</p>\n            <p>For more information about local instance storage encryption, see <a href=\"https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ssd-instance-store.html\">SSD\n                Instance Store Volumes</a>.</p>\n         </note>\n         <p>\n            The <code>VolumeKmsKeyId</code> can be any of the following formats:</p>\n         <ul>\n            <li>\n               <p>Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>\n               </p>\n            </li>\n            <li>\n               <p>Key ARN:\n                        <code>arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>\n               </p>\n            </li>\n            <li>\n               <p>Alias name: <code>alias/ExampleAlias</code>\n               </p>\n            </li>\n            <li>\n               <p>Alias name ARN:\n                        <code>arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias</code>\n               </p>\n            </li>\n         </ul>"
+                    }
+                },
+                "TransformAmiVersion": {
+                    "target": "com.amazonaws.sagemaker#TransformAmiVersion",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies an option from a collection of preconfigured Amazon Machine Image (AMI)\n            images. Each image is configured by Amazon Web Services with a set of software and driver\n            versions.</p>\n         <dl>\n            <dt>al2-ami-sagemaker-batch-gpu-470</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>Accelerator: GPU</p>\n                  </li>\n                  <li>\n                     <p>NVIDIA driver version: 470</p>\n                  </li>\n               </ul>\n            </dd>\n            <dt>al2-ami-sagemaker-batch-gpu-535</dt>\n            <dd>\n               <ul>\n                  <li>\n                     <p>Accelerator: GPU</p>\n                  </li>\n                  <li>\n                     <p>NVIDIA driver version: 535</p>\n                  </li>\n               </ul>\n            </dd>\n         </dl>"
                     }
                 }
             },
@@ -75876,7 +76377,7 @@
                 "Key": {
                     "target": "com.amazonaws.sagemaker#VisibilityConditionsKey",
                     "traits": {
-                        "smithy.api#documentation": "<p>The key that specifies the tag that you're using to filter the search results. It must be in the following format: <code>Tags.<key></code>.</p>"
+                        "smithy.api#documentation": "<p>The key that specifies the tag that you're using to filter the search results. It must be\n      in the following format: <code>Tags.<key></code>.</p>"
                     }
                 },
                 "Value": {
@@ -75887,7 +76388,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The list of key-value pairs used to filter your search results. If a search result contains a key from your list, it is included in the final search response if the value associated with the key in the result matches the value you specified. \n      If the value doesn't match, the result is excluded from the search response. Any resources that don't have a key from the list that you've provided will also be included in the search response.</p>"
+                "smithy.api#documentation": "<p>The list of key-value pairs used to filter your search results. If a search result\n      contains a key from your list, it is included in the final search response if the value\n      associated with the key in the result matches the value you specified. If the value doesn't\n      match, the result is excluded from the search response. Any resources that don't have a key\n      from the list that you've provided will also be included in the search response.</p>"
             }
         },
         "com.amazonaws.sagemaker#VisibilityConditionsKey": {

@@ -25,6 +25,19 @@ import Foundation
 extension SESv2 {
     // MARK: Enums
 
+    public enum AttachmentContentDisposition: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case attachment = "ATTACHMENT"
+        case inline = "INLINE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttachmentContentTransferEncoding: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case base64 = "BASE64"
+        case quotedPrintable = "QUOTED_PRINTABLE"
+        case sevenBit = "SEVEN_BIT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case rejectMessage = "REJECT_MESSAGE"
         case useDefaultValue = "USE_DEFAULT_VALUE"
@@ -417,6 +430,53 @@ extension SESv2 {
 
         private enum CodingKeys: String, CodingKey {
             case archiveArn = "ArchiveArn"
+        }
+    }
+
+    public struct Attachment: AWSEncodableShape {
+        ///  A brief description of the attachment content.
+        public let contentDescription: String?
+        ///  A standard descriptor indicating how the attachment should be rendered in the email. Supported values: ATTACHMENT or INLINE.
+        public let contentDisposition: AttachmentContentDisposition?
+        ///  Unique identifier for the attachment, used for referencing attachments with INLINE disposition in HTML content.
+        public let contentId: String?
+        ///  Specifies how the attachment is encoded. Supported values: BASE64, QUOTED_PRINTABLE, SEVEN_BIT.
+        public let contentTransferEncoding: AttachmentContentTransferEncoding?
+        ///  The MIME type of the attachment.  Example: application/pdf, image/jpeg
+        public let contentType: String?
+        /// The file name for the attachment as it will appear in the email. Amazon SES restricts certain file extensions. To ensure attachments are accepted, check the Unsupported attachment types in the Amazon SES Developer Guide.
+        public let fileName: String
+        ///  The raw data of the attachment. It needs to be base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.
+        public let rawContent: AWSBase64Data
+
+        @inlinable
+        public init(contentDescription: String? = nil, contentDisposition: AttachmentContentDisposition? = nil, contentId: String? = nil, contentTransferEncoding: AttachmentContentTransferEncoding? = nil, contentType: String? = nil, fileName: String, rawContent: AWSBase64Data) {
+            self.contentDescription = contentDescription
+            self.contentDisposition = contentDisposition
+            self.contentId = contentId
+            self.contentTransferEncoding = contentTransferEncoding
+            self.contentType = contentType
+            self.fileName = fileName
+            self.rawContent = rawContent
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contentDescription, name: "contentDescription", parent: name, max: 1000)
+            try self.validate(self.contentId, name: "contentId", parent: name, max: 78)
+            try self.validate(self.contentId, name: "contentId", parent: name, min: 1)
+            try self.validate(self.contentType, name: "contentType", parent: name, max: 78)
+            try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
+            try self.validate(self.fileName, name: "fileName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentDescription = "ContentDescription"
+            case contentDisposition = "ContentDisposition"
+            case contentId = "ContentId"
+            case contentTransferEncoding = "ContentTransferEncoding"
+            case contentType = "ContentType"
+            case fileName = "FileName"
+            case rawContent = "RawContent"
         }
     }
 
@@ -2017,7 +2077,7 @@ extension SESv2 {
     public struct EmailContent: AWSEncodableShape {
         /// The raw email message. The message has to meet the following criteria:   The message has to contain a header and a body, separated by one blank line.   All of the required header fields must be present in the message.   Each part of a multipart MIME message must be formatted properly.   If you include attachments, they must be in a file format that the Amazon SES API v2 supports.    The raw data of the message needs to base64-encoded if you are accessing Amazon SES directly through the HTTPS interface. If you are accessing Amazon SES using an Amazon Web Services SDK, the SDK takes care of the base 64-encoding for you.   If any of the MIME parts in your message contain content that is outside of the 7-bit ASCII character range, you should encode that content to ensure that recipients' email clients render the message properly.   The length of any single line of text in the message can't exceed 1,000 characters. This restriction is defined in RFC 5321.
         public let raw: RawMessage?
-        /// The simple email message. The message consists of a subject and a message body.
+        /// The simple email message. The message consists of a subject, message body and attachments list.
         public let simple: Message?
         /// The template to use for the email message.
         public let template: Template?
@@ -4287,6 +4347,8 @@ extension SESv2 {
     }
 
     public struct Message: AWSEncodableShape {
+        ///  The List of attachments to include in your email. All recipients will receive the same attachments.
+        public let attachments: [Attachment]?
         /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
         public let body: Body
         /// The list of message headers that will be added to the email message.
@@ -4295,13 +4357,17 @@ extension SESv2 {
         public let subject: Content
 
         @inlinable
-        public init(body: Body, headers: [MessageHeader]? = nil, subject: Content) {
+        public init(attachments: [Attachment]? = nil, body: Body, headers: [MessageHeader]? = nil, subject: Content) {
+            self.attachments = attachments
             self.body = body
             self.headers = headers
             self.subject = subject
         }
 
         public func validate(name: String) throws {
+            try self.attachments?.forEach {
+                try $0.validate(name: "\(name).attachments[]")
+            }
             try self.headers?.forEach {
                 try $0.validate(name: "\(name).headers[]")
             }
@@ -4309,6 +4375,7 @@ extension SESv2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attachments = "Attachments"
             case body = "Body"
             case headers = "Headers"
             case subject = "Subject"
@@ -5851,6 +5918,8 @@ extension SESv2 {
     }
 
     public struct Template: AWSEncodableShape {
+        ///  The List of attachments to include in your email. All recipients will receive the same attachments.
+        public let attachments: [Attachment]?
         /// The list of message headers that will be added to the email message.
         public let headers: [MessageHeader]?
         /// The Amazon Resource Name (ARN) of the template.
@@ -5863,7 +5932,8 @@ extension SESv2 {
         public let templateName: String?
 
         @inlinable
-        public init(headers: [MessageHeader]? = nil, templateArn: String? = nil, templateContent: EmailTemplateContent? = nil, templateData: String? = nil, templateName: String? = nil) {
+        public init(attachments: [Attachment]? = nil, headers: [MessageHeader]? = nil, templateArn: String? = nil, templateContent: EmailTemplateContent? = nil, templateData: String? = nil, templateName: String? = nil) {
+            self.attachments = attachments
             self.headers = headers
             self.templateArn = templateArn
             self.templateContent = templateContent
@@ -5872,6 +5942,9 @@ extension SESv2 {
         }
 
         public func validate(name: String) throws {
+            try self.attachments?.forEach {
+                try $0.validate(name: "\(name).attachments[]")
+            }
             try self.headers?.forEach {
                 try $0.validate(name: "\(name).headers[]")
             }
@@ -5881,6 +5954,7 @@ extension SESv2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attachments = "Attachments"
             case headers = "Headers"
             case templateArn = "TemplateArn"
             case templateContent = "TemplateContent"

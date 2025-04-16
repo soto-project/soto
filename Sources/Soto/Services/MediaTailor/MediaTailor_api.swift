@@ -127,19 +127,25 @@ public struct MediaTailor: AWSService {
     /// Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
     ///
     /// Parameters:
+    ///   - adsInteractionLog: The event types that MediaTailor emits in logs for interactions with the ADS.
     ///   - enabledLoggingStrategies: The method used for collecting logs from AWS Elemental MediaTailor. To configure MediaTailor to send logs directly to Amazon CloudWatch Logs, choose LEGACY_CLOUDWATCH. To configure MediaTailor to  send logs to CloudWatch, which then vends the logs to your destination of choice, choose VENDED_LOGS. Supported destinations are CloudWatch Logs log group, Amazon S3 bucket, and Amazon Data Firehose stream. To use vended logs, you must configure the delivery destination in Amazon CloudWatch, as described in Enable logging from AWS services, Logging that requires additional permissions [V2].
+    ///   - manifestServiceInteractionLog: The event types that MediaTailor emits in logs for interactions with the origin server.
     ///   - percentEnabled: The percentage of session logs that MediaTailor sends to your CloudWatch Logs account. For example, if your playback configuration has 1000 sessions and percentEnabled is set to 60, MediaTailor sends logs for 600 of the sessions to CloudWatch Logs. MediaTailor decides at random which of the playback configuration sessions to send logs for. If you want to view logs for a specific session, you can use the debug log mode. Valid values: 0 - 100
     ///   - playbackConfigurationName: The name of the playback configuration.
     ///   - logger: Logger use during operation
     @inlinable
     public func configureLogsForPlaybackConfiguration(
+        adsInteractionLog: AdsInteractionLog? = nil,
         enabledLoggingStrategies: [LoggingStrategy]? = nil,
+        manifestServiceInteractionLog: ManifestServiceInteractionLog? = nil,
         percentEnabled: Int = 0,
         playbackConfigurationName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ConfigureLogsForPlaybackConfigurationResponse {
         let input = ConfigureLogsForPlaybackConfigurationRequest(
+            adsInteractionLog: adsInteractionLog, 
             enabledLoggingStrategies: enabledLoggingStrategies, 
+            manifestServiceInteractionLog: manifestServiceInteractionLog, 
             percentEnabled: percentEnabled, 
             playbackConfigurationName: playbackConfigurationName
         )

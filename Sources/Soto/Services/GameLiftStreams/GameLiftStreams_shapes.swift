@@ -122,8 +122,8 @@ extension GameLiftStreams {
     // MARK: Shapes
 
     public struct AddStreamGroupLocationsInput: AWSEncodableShape {
-        ///  A stream group to add the specified locations to.   This value is a
-        /// 	Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Format example: 1AB2C3De4.
+        ///  A stream group to add the specified locations to.  This value is a
+        /// 	Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Format example: sg-1AB2C3De4.
         public let identifier: String
         ///  A set of one or more locations and the streaming capacity for each location.
         public let locationConfigurations: [LocationConfiguration]
@@ -159,7 +159,7 @@ extension GameLiftStreams {
 
     public struct AddStreamGroupLocationsOutput: AWSDecodableShape {
         /// This value is the
-        /// 	Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Format example: 1AB2C3De4.
+        /// 	Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Format example: sg-1AB2C3De4.
         public let identifier: String
         /// This value is
         /// 	set of locations, including their name, current status, and capacities.
@@ -191,11 +191,11 @@ extension GameLiftStreams {
         public let createdAt: Date?
         /// A human-readable label for the application. You can edit this value.
         public let description: String?
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let id: String?
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
-        ///  A set of configuration settings to run the application on a stream group. This configures the operating system, and can include compatibility layers and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS(Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment?
         /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. See StatusReason for more information.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public let status: ApplicationStatus?
@@ -223,9 +223,9 @@ extension GameLiftStreams {
     }
 
     public struct AssociateApplicationsInput: AWSEncodableShape {
-        /// A set of applications to associate with the stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// A set of applications to associate with the stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let applicationIdentifiers: [String]
-        /// A stream group to associate to the applications. This value is a  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// A stream group to associate to the applications. This value is a  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let identifier: String
 
         @inlinable
@@ -260,9 +260,9 @@ extension GameLiftStreams {
     }
 
     public struct AssociateApplicationsOutput: AWSDecodableShape {
-        /// A set of applications that are associated to the stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// A set of applications that are associated to the stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let applicationArns: [String]?
-        /// A stream group that is associated to the applications. This value is a  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// A stream group that is associated to the applications. This value is a  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let arn: String?
 
         @inlinable
@@ -278,11 +278,11 @@ extension GameLiftStreams {
     }
 
     public struct CreateApplicationInput: AWSEncodableShape {
-        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Use the following format for the URI: s3://[bucket name]/[prefix].  Required if you specify one or more LogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.
+        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.
         public let applicationLogOutputUri: String?
-        /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log locations. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri  at the end of a stream session. To retrieve stored log files, call GetStreamSession  and get the LogFileLocationUri.
+        /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri  at the end of a stream session. To retrieve stored log files, call GetStreamSession  and get the LogFileLocationUri.
         public let applicationLogPaths: [String]?
-        /// The location of the content that you want to stream. Enter the URI of an Amazon S3 location (bucket name and prefixes) that contains your content. Use the following format for the URI: s3://[bucket name]/[prefix]. The location can have a multi-level prefix structure, but it must include all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location. This value is immutable. To designate a different content location, create a new application.  The S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region.
+        /// The location of the content that you want to stream. Enter an Amazon S3 URI to a bucket that contains your game or other application. The location can have a multi-level prefix structure, but it must include all the files needed to run the content. Amazon GameLift Streams copies everything under the specified location. This value is immutable. To designate a different content location, create a new application.  The Amazon S3 bucket and the Amazon GameLift Streams application must be in the same Amazon Web Services Region.
         public let applicationSourceUri: String
         ///  A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
         public let clientToken: String?
@@ -290,9 +290,9 @@ extension GameLiftStreams {
         public let description: String
         /// The path and file name of the executable file that launches the content for streaming. Enter a path value that is relative to the location set in ApplicationSourceUri.
         public let executablePath: String
-        /// A set of configuration settings to run the application on a stream group. This configures the operating system, and can include compatibility layers and other drivers. A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS(Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        /// Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers. A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment
-        /// A list of labels to assign to the new application resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. See  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. You can use TagResource to add tags, UntagResource to remove tags, and ListTagsForResource to view tags on existing resources. The maximum tag limit might be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
+        /// A list of labels to assign to the new application resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. See  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. You can use TagResource to add tags, UntagResource to remove tags, and ListTagsForResource to view tags on existing resources.
         public let tags: [String: String]?
 
         @inlinable
@@ -347,7 +347,7 @@ extension GameLiftStreams {
     }
 
     public struct CreateApplicationOutput: AWSDecodableShape {
-        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Use the following format for the URI: s3://[bucket name]/[prefix].  Required if you specify one or more LogPaths.
+        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.
         public let applicationLogOutputUri: String?
         /// Locations of log files that your content generates during a stream session.  Amazon GameLift Streams uploads log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri  at the end of a stream session. To retrieve stored log files, call GetStreamSession  and get the LogFileLocationUri.
         public let applicationLogPaths: [String]?
@@ -363,13 +363,13 @@ extension GameLiftStreams {
         public let description: String?
         /// The path and file name of the executable file that launches the content for streaming.
         public let executablePath: String?
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let id: String?
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         /// A set of replication statuses for each location.
         public let replicationStatuses: [ReplicationStatus]?
-        ///  A set of configuration settings to run the application on a stream group. This configures the operating system, and can include compatibility layers and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS(Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment?
         /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. See StatusReason for more information.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public let status: ApplicationStatus?
@@ -421,9 +421,9 @@ extension GameLiftStreams {
         public let description: String
         ///  A set of one or more locations and the streaming capacity for each location.
         public let locationConfigurations: [LocationConfiguration]?
-        /// The target stream quality for sessions that are hosted in this stream group. Set a stream class that is appropriate to the type of content that you're streaming. Stream class determines the type of computing resources Amazon GameLift Streams uses and impacts the cost of streaming. The following options are available:  A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.x builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.2 and 5.3 builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for sessions that are hosted in this stream group. Set a stream class that is appropriate to the type of content that you're streaming. Stream class determines the type of computing resources Amazon GameLift Streams uses and impacts the cost of streaming. The following options are available:  A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass
-        /// A list of labels to assign to the new stream group resource. Tags are developer-defined key-value pairs. It is useful to tag Amazon Web Services resources for resource management, access management, and cost allocation. See  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. You can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags on existing resources. The maximum tag limit might be lower than stated. See the Amazon Web Services  for actual tagging limits.
+        /// A list of labels to assign to the new stream group resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management and cost allocation. See  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. You can use TagResource to add tags, UntagResource to remove tags, and ListTagsForResource to view tags on existing resources.
         public let tags: [String: String]?
 
         @inlinable
@@ -473,15 +473,15 @@ extension GameLiftStreams {
     public struct CreateStreamGroupOutput: AWSDecodableShape {
         /// An Amazon Resource Name (ARN) that is assigned to the stream group resource and that uniquely identifies the group across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamgroup/[resource ID].
         public let arn: String
-        ///  A set of applications that this stream group is associated to. You can stream any of these applications by using this stream group.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify application resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6.
+        ///  A set of applications that this stream group is associated to. You can stream any of these applications by using this stream group.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify application resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
         public let associatedApplications: [String]?
         /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let createdAt: Date?
-        /// The Amazon GameLift Streams application that is associated with this stream group.
+        /// The default Amazon GameLift Streams application that is associated with this stream group.
         public let defaultApplication: DefaultApplication?
         /// A descriptive label for the stream group.
         public let description: String?
-        /// A unique ID value that is assigned to the resource when it's created. Format example: 1AB2C3De4.
+        /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
         public let id: String?
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
@@ -499,7 +499,7 @@ extension GameLiftStreams {
         public let status: StreamGroupStatus?
         ///  A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:     internalError: The request can't process right now bcause of an issue with the server. Try again later. Reach out to the Amazon GameLift Streams team for more help.     noAvailableInstances: Amazon GameLift Streams does not currently have enough available On-Demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
         public let statusReason: StreamGroupStatusReason?
-        /// The target stream quality for the stream group. A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.x builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.2 and 5.3 builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for the stream group. A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass?
 
         @inlinable
@@ -535,8 +535,8 @@ extension GameLiftStreams {
     public struct CreateStreamSessionConnectionInput: AWSEncodableShape {
         ///  A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
         public let clientToken: String?
-        ///  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
-        ///   The stream group that you want to run this stream session with. The stream group must be in ACTIVE status and have idle stream capacity.
+        ///  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
+        ///  The stream group that you want to run this stream session with. The stream group must be in ACTIVE status and have idle stream capacity.
         public let identifier: String
         /// A WebRTC ICE offer string to use when initializing a WebRTC connection. The offer is a very long JSON string. Provide the string as a text value in quotes. The offer must be newly generated, not the same offer provided to StartStreamSession.
         public let signalRequest: String
@@ -594,9 +594,9 @@ extension GameLiftStreams {
     }
 
     public struct DefaultApplication: AWSDecodableShape {
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// An  Amazon Resource Name (ARN) that uniquely identifies the application resource. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
         public let arn: String?
-        /// The default application of the stream group. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An ID that uniquely identifies the application resource. For example: a-9ZY8X7Wv6.
         public let id: String?
 
         @inlinable
@@ -612,7 +612,7 @@ extension GameLiftStreams {
     }
 
     public struct DeleteApplicationInput: AWSEncodableShape {
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let identifier: String
 
         @inlinable
@@ -636,7 +636,7 @@ extension GameLiftStreams {
     }
 
     public struct DeleteStreamGroupInput: AWSEncodableShape {
-        /// The unique ID value of the stream group resource to delete. Format example: 1AB2C3De4.
+        /// The unique ID value of the stream group resource to delete. Format example: sg-1AB2C3De4.
         public let identifier: String
 
         @inlinable
@@ -660,9 +660,9 @@ extension GameLiftStreams {
     }
 
     public struct DisassociateApplicationsInput: AWSEncodableShape {
-        /// A set of applications that you want to disassociate from the stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// A set of applications that you want to disassociate from the stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let applicationIdentifiers: [String]
-        /// A stream group to disassociate these applications from. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// A stream group to disassociate these applications from. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let identifier: String
 
         @inlinable
@@ -697,9 +697,9 @@ extension GameLiftStreams {
     }
 
     public struct DisassociateApplicationsOutput: AWSDecodableShape {
-        /// A set of applications that are disassociated from this stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// A set of applications that are disassociated from this stream group. This value is a  set of either Amazon Resource Names (ARN) or IDs that uniquely identify application resources. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let applicationArns: [String]?
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let arn: String?
 
         @inlinable
@@ -715,7 +715,7 @@ extension GameLiftStreams {
     }
 
     public struct ExportFilesMetadata: AWSDecodableShape {
-        ///  The S3 bucket URI where Amazon GameLift Streams uploaded the set of compressed exported files for a stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with  a .zip file extension.  Example 1: If you provide an S3 URI called s3://MyBucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location.  Example 2: If you provide an S3 URI called s3://MyBucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://MyBucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
+        ///  The S3 bucket URI where Amazon GameLift Streams uploaded the set of compressed exported files for a stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with a .zip file extension. Example 1: If you provide an S3 URI called s3://MyBucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location.  Example 2: If you provide an S3 URI called s3://MyBucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://MyBucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
         public let outputUri: String?
         /// The result of the ExportStreamSessionFiles operation.
         public let status: ExportFilesStatus?
@@ -737,9 +737,9 @@ extension GameLiftStreams {
     }
 
     public struct ExportStreamSessionFilesInput: AWSEncodableShape {
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let identifier: String
-        ///  The S3 bucket URI where Amazon GameLift Streams uploads the set of compressed exported files for this stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with  a .zip file extension.  Example 1: If you provide an S3 URI called s3://MyBucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location.  Example 2: If you provide an S3 URI called s3://MyBucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://MyBucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
+        ///  The S3 bucket URI where Amazon GameLift Streams uploads the set of compressed exported files for this stream session. Amazon GameLift Streams generates a ZIP file name based on the stream session metadata. Alternatively, you can provide a custom file name with a .zip file extension. Example 1: If you provide an S3 URI called s3://MyBucket/MyGame_Session1.zip, then Amazon GameLift Streams will save the files at that location.  Example 2: If you provide an S3 URI called s3://MyBucket/MyGameSessions_ExportedFiles/, then Amazon GameLift Streams will save the files at s3://MyBucket/MyGameSessions_ExportedFiles/YYYYMMDD-HHMMSS-appId-sg-Id-sessionId.zip or another similar name.
         public let outputUri: String
         /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
         public let streamSessionIdentifier: String
@@ -780,7 +780,7 @@ extension GameLiftStreams {
     }
 
     public struct GetApplicationInput: AWSEncodableShape {
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let identifier: String
 
         @inlinable
@@ -804,7 +804,7 @@ extension GameLiftStreams {
     }
 
     public struct GetApplicationOutput: AWSDecodableShape {
-        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Use the following format for the URI: s3://[bucket name]/[prefix].  Required if you specify one or more LogPaths.
+        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.
         public let applicationLogOutputUri: String?
         /// Locations of log files that your content generates during a stream session.  Amazon GameLift Streams uploads log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri  at the end of a stream session. To retrieve stored log files, call GetStreamSession  and get the LogFileLocationUri.
         public let applicationLogPaths: [String]?
@@ -812,7 +812,7 @@ extension GameLiftStreams {
         public let applicationSourceUri: String?
         /// An Amazon Resource Name (ARN) that's assigned to an application resource and uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:application/[resource ID].
         public let arn: String
-        ///  A set of stream groups that this application is associated with. You can use any of these stream groups to stream your application.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify stream group resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4.
+        ///  A set of stream groups that this application is associated with. You can use any of these stream groups to stream your application.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify stream group resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4.
         public let associatedStreamGroups: [String]?
         /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let createdAt: Date?
@@ -820,13 +820,13 @@ extension GameLiftStreams {
         public let description: String?
         /// The path and file name of the executable file that launches the content for streaming.
         public let executablePath: String?
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let id: String?
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         /// A set of replication statuses for each location.
         public let replicationStatuses: [ReplicationStatus]?
-        ///  A set of configuration settings to run the application on a stream group. This configures the operating system, and can include compatibility layers and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS(Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment?
         /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. See StatusReason for more information.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public let status: ApplicationStatus?
@@ -870,7 +870,7 @@ extension GameLiftStreams {
     }
 
     public struct GetStreamGroupInput: AWSEncodableShape {
-        /// The unique ID value of the stream group resource to retrieve. Format example: 1AB2C3De4.
+        /// The unique ID value of the stream group resource to retrieve. Format example: sg-1AB2C3De4.
         public let identifier: String
 
         @inlinable
@@ -896,15 +896,15 @@ extension GameLiftStreams {
     public struct GetStreamGroupOutput: AWSDecodableShape {
         /// An Amazon Resource Name (ARN) that is assigned to the stream group resource and that uniquely identifies the group across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamgroup/[resource ID].
         public let arn: String
-        ///  A set of applications that this stream group is associated to. You can stream any of these applications by using this stream group.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify application resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6.
+        ///  A set of applications that this stream group is associated to. You can stream any of these applications by using this stream group.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify application resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
         public let associatedApplications: [String]?
         /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let createdAt: Date?
-        /// The Amazon GameLift Streams application that is associated with this stream group.
+        /// The default Amazon GameLift Streams application that is associated with this stream group.
         public let defaultApplication: DefaultApplication?
         /// A descriptive label for the stream group.
         public let description: String?
-        /// A unique ID value that is assigned to the resource when it's created. Format example: 1AB2C3De4.
+        /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
         public let id: String?
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
@@ -922,7 +922,7 @@ extension GameLiftStreams {
         public let status: StreamGroupStatus?
         ///  A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:     internalError: The request can't process right now bcause of an issue with the server. Try again later. Reach out to the Amazon GameLift Streams team for more help.     noAvailableInstances: Amazon GameLift Streams does not currently have enough available On-Demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
         public let statusReason: StreamGroupStatusReason?
-        /// The target stream quality for the stream group. A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.x builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.2 and 5.3 builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for the stream group. A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass?
 
         @inlinable
@@ -956,7 +956,7 @@ extension GameLiftStreams {
     }
 
     public struct GetStreamSessionInput: AWSEncodableShape {
-        /// The stream group that runs this stream session. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// The stream group that runs this stream session. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let identifier: String
         /// An  Amazon Resource Name (ARN) that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
         public let streamSessionIdentifier: String
@@ -991,7 +991,7 @@ extension GameLiftStreams {
         public let additionalEnvironmentVariables: [String: String]?
         /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client.  AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes.  AdditionalEnvironmentVariables passes data using environment variables; while  AdditionalLaunchArgs passes data using command-line arguments.
         public let additionalLaunchArgs: [String]?
-        /// The application streaming in this session. This value is an  Amazon Resource Name (ARN) that uniquely identifies the application resource. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6.
+        /// The application streaming in this session. This value is an  Amazon Resource Name (ARN) that uniquely identifies the application resource. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
         public let applicationArn: String?
         /// The Amazon Resource Name (ARN) assigned to the stream session resource. When combined with the stream group ARN, this value uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[resource ID].
         public let arn: String?
@@ -1007,9 +1007,7 @@ extension GameLiftStreams {
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         /// The location where Amazon GameLift Streams is hosting the stream session.
-        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, see
-        /// 	the Regions and quotas section in the Amazon GameLift Streams Developer Guide
-        /// .
+        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
         public let location: String?
         /// Access location for log files that your content generates during a stream session. These log files are uploaded to cloud storage location at the end of a stream session. The Amazon GameLift Streams application resource defines which log files to upload.
         public let logFileLocationUri: String?
@@ -1329,9 +1327,7 @@ extension GameLiftStreams {
     public struct LocationConfiguration: AWSEncodableShape {
         ///  The streaming capacity that is allocated and ready to handle stream requests without delay. You pay for this capacity whether it's in use or not. Best for quickest time from streaming request to streaming session.
         public let alwaysOnCapacity: Int?
-        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, see
-        /// 	the Regions and quotas section in the Amazon GameLift Streams Developer Guide
-        /// .
+        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
         public let locationName: String
         ///  The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).
         public let onDemandCapacity: Int?
@@ -1365,9 +1361,7 @@ extension GameLiftStreams {
         public let alwaysOnCapacity: Int?
         /// This value is the amount of allocated capacity that is not currently streaming. It represents the stream group's availability to respond to new stream requests, but not including on-demand capacity.
         public let idleCapacity: Int?
-        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, see
-        /// 	the Regions and quotas section in the Amazon GameLift Streams Developer Guide
-        /// .
+        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
         public let locationName: String?
         ///  The streaming capacity that Amazon GameLift Streams can allocate in response to stream requests, and then de-allocate when the session has terminated. This offers a cost control measure at the expense of a greater startup time (typically under 5 minutes).
         public let onDemandCapacity: Int?
@@ -1407,14 +1401,10 @@ extension GameLiftStreams {
     }
 
     public struct RemoveStreamGroupLocationsInput: AWSEncodableShape {
-        ///  A stream group to remove the specified locations from.    This value is a
-        /// 	Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Format example: 1AB2C3De4.
-        ///
+        ///  A stream group to remove the specified locations from.  This value is a
+        /// 	Amazon Resource Name (ARN) that uniquely identifies the stream group resource. Format example: sg-1AB2C3De4.
         public let identifier: String
-        ///  A set of locations to remove this stream group.    A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, see
-        /// 	the Regions and quotas section in the Amazon GameLift Streams Developer Guide
-        /// .
-        ///
+        ///  A set of locations to remove this stream group.  A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
         public let locations: [String]
 
         @inlinable
@@ -1442,9 +1432,7 @@ extension GameLiftStreams {
     }
 
     public struct ReplicationStatus: AWSDecodableShape {
-        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, see
-        /// 	the Regions and quotas section in the Amazon GameLift Streams Developer Guide
-        /// .
+        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
         public let location: String?
         /// The current status of the replication process.
         public let status: ReplicationStatusType?
@@ -1489,7 +1477,7 @@ extension GameLiftStreams {
         public let additionalEnvironmentVariables: [String: String]?
         /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client.  AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes.  AdditionalEnvironmentVariables passes data using environment variables; while  AdditionalLaunchArgs passes data using command-line arguments.
         public let additionalLaunchArgs: [String]?
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let applicationIdentifier: String
         ///  A unique identifier that represents a client request. The request is idempotent, which ensures that an API request completes only once. When users send a request, Amazon GameLift Streams automatically populates this field.
         public let clientToken: String?
@@ -1497,12 +1485,9 @@ extension GameLiftStreams {
         public let connectionTimeoutSeconds: Int?
         /// A human-readable label for the stream session. You can update this value later.
         public let description: String?
-        /// The stream group to run this stream session with. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// The stream group to run this stream session with. This value is an  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let identifier: String
-        ///  A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location.   This value is A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, see
-        /// 	the Regions and quotas section in the Amazon GameLift Streams Developer Guide
-        /// .
-        ///
+        ///  A list of locations, in order of priority, where you want Amazon GameLift Streams to start a stream from. Amazon GameLift Streams selects the location with the next available capacity to start a single stream session in. If this value is empty, Amazon GameLift Streams attempts to start a stream session in the primary location.  This value is A set of location names. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
         public let locations: [String]?
         /// The data transport protocol to use for the stream session.
         public let `protocol`: `Protocol`
@@ -1596,7 +1581,7 @@ extension GameLiftStreams {
         public let additionalEnvironmentVariables: [String: String]?
         /// A list of CLI arguments that are sent to the streaming server when a stream session launches. You can use this to configure the application or stream session details. You can also provide custom arguments that Amazon GameLift Streams passes to your game client.  AdditionalEnvironmentVariables and AdditionalLaunchArgs have similar purposes.  AdditionalEnvironmentVariables passes data using environment variables; while  AdditionalLaunchArgs passes data using command-line arguments.
         public let additionalLaunchArgs: [String]?
-        /// An  Amazon Resource Name (ARN) that uniquely identifies the application resource. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) that uniquely identifies the application resource. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
         public let applicationArn: String?
         /// The Amazon Resource Name (ARN) assigned to the stream session resource. When combined with the stream group ARN, this value uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamsession/[resource ID].
         public let arn: String?
@@ -1612,9 +1597,7 @@ extension GameLiftStreams {
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         ///  The location where Amazon GameLift Streams is streaming your application from.
-        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, see
-        /// 	the Regions and quotas section in the Amazon GameLift Streams Developer Guide
-        /// .
+        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
         public let location: String?
         /// Access location for log files that your content generates during a stream session. These log files are uploaded to cloud storage location at the end of a stream session. The Amazon GameLift Streams application resource defines which log files to upload.
         public let logFileLocationUri: String?
@@ -1686,7 +1669,7 @@ extension GameLiftStreams {
     }
 
     public struct StreamGroupSummary: AWSDecodableShape {
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let arn: String
         /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let createdAt: Date?
@@ -1694,13 +1677,13 @@ extension GameLiftStreams {
         public let defaultApplication: DefaultApplication?
         /// A descriptive label for the stream group.
         public let description: String?
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let id: String?
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         /// The current status of the stream group resource. Possible statuses include the following:    ACTIVATING: The stream group is deploying and isn't ready to host streams.      ACTIVE: The stream group is ready to host streams.     ACTIVE_WITH_ERRORS: One or more locations in the stream group are in an error state. Verify the details of individual locations and remove any locations which are in error.     ERROR: An error occurred when the stream group deployed. See StatusReason for more information.     DELETING: Amazon GameLift Streams is in the process of deleting the stream group.     UPDATING_LOCATIONS: One or more locations in the stream group are in the process of updating (either activating or deleting).
         public let status: StreamGroupStatus?
-        /// The target stream quality for the stream group.  A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.x builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.2 and 5.3 builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for the stream group.  A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass?
 
         @inlinable
@@ -1728,7 +1711,7 @@ extension GameLiftStreams {
     }
 
     public struct StreamSessionSummary: AWSDecodableShape {
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let applicationArn: String?
         /// An  Amazon Resource Name (ARN) that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
         /// .
@@ -1741,9 +1724,7 @@ extension GameLiftStreams {
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         /// The location where Amazon GameLift Streams is hosting the stream session.
-        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, see
-        /// 	the Regions and quotas section in the Amazon GameLift Streams Developer Guide
-        /// .
+        /// 	A location's name. For example, us-east-1. For a complete list of locations that Amazon GameLift Streams supports, refer to Regions and quotas in the Amazon GameLift Streams Developer Guide.
         public let location: String?
         /// The data transfer protocol in use with the stream session.
         public let `protocol`: `Protocol`?
@@ -1820,7 +1801,7 @@ extension GameLiftStreams {
     }
 
     public struct TerminateStreamSessionInput: AWSEncodableShape {
-        ///  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        ///  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         ///  The stream group that runs this stream session.
         public let identifier: String
         ///  Amazon Resource Name (ARN) that uniquely identifies the stream session resource. Format example: 1AB2C3De4.
@@ -1889,13 +1870,13 @@ extension GameLiftStreams {
     }
 
     public struct UpdateApplicationInput: AWSEncodableShape {
-        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Use the following format for the URI: s3://[bucket name]/[prefix].  Required if you specify one or more LogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.
+        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.  The log bucket must have permissions that give Amazon GameLift Streams access to write the log files. For more information, see Getting Started in the Amazon GameLift Streams Developer Guide.
         public let applicationLogOutputUri: String?
-        /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log locations. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri  at the end of a stream session. To retrieve stored log files, call GetStreamSession  and get the LogFileLocationUri.
+        /// Locations of log files that your content generates during a stream session. Enter path values that are relative to the ApplicationSourceUri location. You can specify up to 10 log paths. Amazon GameLift Streams uploads designated log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri  at the end of a stream session. To retrieve stored log files, call GetStreamSession  and get the LogFileLocationUri.
         public let applicationLogPaths: [String]?
         /// A human-readable label for the application.
         public let description: String?
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let identifier: String
 
         @inlinable
@@ -1938,7 +1919,7 @@ extension GameLiftStreams {
     }
 
     public struct UpdateApplicationOutput: AWSDecodableShape {
-        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Use the following format for the URI: s3://[bucket name]/[prefix].  Required if you specify one or more LogPaths.
+        /// An Amazon S3 URI to a bucket where you would like Amazon GameLift Streams to save application logs. Required if you specify one or more ApplicationLogPaths.
         public let applicationLogOutputUri: String?
         /// Locations of log files that your content generates during a stream session.  Amazon GameLift Streams uploads log files to the Amazon S3 bucket that you specify in ApplicationLogOutputUri  at the end of a stream session. To retrieve stored log files, call GetStreamSession  and get the LogFileLocationUri.
         public let applicationLogPaths: [String]?
@@ -1946,7 +1927,7 @@ extension GameLiftStreams {
         public let applicationSourceUri: String?
         /// An Amazon Resource Name (ARN) that's assigned to an application resource and uniquely identifies it across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:application/[resource ID].
         public let arn: String
-        ///  A set of stream groups that this application is associated with. You can use any of these stream groups to stream your application.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify stream group resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4.
+        ///  A set of stream groups that this application is associated with. You can use any of these stream groups to stream your application.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify stream group resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4.
         public let associatedStreamGroups: [String]?
         /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let createdAt: Date?
@@ -1954,13 +1935,13 @@ extension GameLiftStreams {
         public let description: String?
         /// The path and file name of the executable file that launches the content for streaming.
         public let executablePath: String?
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6 or ID-9ZY8X7Wv6.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the application resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6 or ID-a-9ZY8X7Wv6.
         public let id: String?
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
         /// A set of replication statuses for each location.
         public let replicationStatuses: [ReplicationStatus]?
-        ///  A set of configuration settings to run the application on a stream group. This configures the operating system, and can include compatibility layers and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS(Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
+        ///  Configuration settings that identify the operating system for an application resource. This can also include a compatibility layer and other drivers.  A runtime environment can be one of the following:    For Linux applications     Ubuntu 22.04 LTS (Type=UBUNTU, Version=22_04_LTS)       For Windows applications    Microsoft Windows Server 2022 Base (Type=WINDOWS, Version=2022)   Proton 8.0-5 (Type=PROTON, Version=20241007)   Proton 8.0-2c (Type=PROTON, Version=20230704)
         public let runtimeEnvironment: RuntimeEnvironment?
         /// The current status of the application resource. Possible statuses include the following:    INITIALIZED: Amazon GameLift Streams has received the request and is initiating the work flow to create an application.     PROCESSING: The create application work flow is in process. Amazon GameLift Streams is copying the content and caching for future deployment in a stream group.    READY: The application is ready to deploy in a stream group.    ERROR: An error occurred when setting up the application. See StatusReason for more information.    DELETING: Amazon GameLift Streams is in the process of deleting the application.
         public let status: ApplicationStatus?
@@ -2006,7 +1987,7 @@ extension GameLiftStreams {
     public struct UpdateStreamGroupInput: AWSEncodableShape {
         /// A descriptive label for the stream group.
         public let description: String?
-        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/1AB2C3De4 or ID-1AB2C3De4.
+        /// An  Amazon Resource Name (ARN) or ID that uniquely identifies the stream group resource. Format example: ARN-arn:aws:gameliftstreams:us-west-2:123456789012:streamgroup/sg-1AB2C3De4 or ID-sg-1AB2C3De4.
         public let identifier: String
         ///  A set of one or more locations and the streaming capacity for each location.
         public let locationConfigurations: [LocationConfiguration]?
@@ -2049,15 +2030,15 @@ extension GameLiftStreams {
     public struct UpdateStreamGroupOutput: AWSDecodableShape {
         /// An Amazon Resource Name (ARN) that is assigned to the stream group resource and that uniquely identifies the group across all Amazon Web Services Regions. Format is arn:aws:gameliftstreams:[AWS Region]:[AWS account]:streamgroup/[resource ID].
         public let arn: String
-        ///  A set of applications that this stream group is associated with. You can stream any of these applications with the stream group.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify application resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/9ZY8X7Wv6.
+        ///  A set of applications that this stream group is associated with. You can stream any of these applications with the stream group.  This value is a  set of Amazon Resource Names (ARNs) that uniquely identify application resources. Format example: arn:aws:gameliftstreams:us-west-2:123456789012:application/a-9ZY8X7Wv6.
         public let associatedApplications: [String]?
         /// A timestamp that indicates when this resource was created. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let createdAt: Date?
-        /// The Amazon GameLift Streams application that is associated with this stream group.
+        /// The default Amazon GameLift Streams application that is associated with this stream group.
         public let defaultApplication: DefaultApplication?
         /// A descriptive label for the stream group.
         public let description: String?
-        /// A unique ID value that is assigned to the resource when it's created. Format example: 1AB2C3De4.
+        /// A unique ID value that is assigned to the resource when it's created. Format example: sg-1AB2C3De4.
         public let id: String?
         /// A timestamp that indicates when this resource  was last updated. Timestamps are expressed using in ISO8601 format, such as: 2022-12-27T22:29:40+00:00 (UTC).
         public let lastUpdatedAt: Date?
@@ -2075,7 +2056,7 @@ extension GameLiftStreams {
         public let status: StreamGroupStatus?
         ///  A short description of the reason that the stream group is in ERROR status. The possible reasons can be one of the following:     internalError: The request can't process right now bcause of an issue with the server. Try again later. Reach out to the Amazon GameLift Streams team for more help.     noAvailableInstances: Amazon GameLift Streams does not currently have enough available On-Demand capacity to fulfill your request. Wait a few minutes and retry the request as capacity can shift frequently. You can also try to make the request using a different stream class or in another region.
         public let statusReason: StreamGroupStatusReason?
-        /// The target stream quality for the stream group. A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.x builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with most Unreal Engine 5.2 and 5.3 builds, 32-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
+        /// The target stream quality for the stream group. A stream class can be one of the following:     gen5n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen5n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 12 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen5n_ultra (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Uses dedicated NVIDIA A10G Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 24 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_win2022 (NVIDIA, ultra) Supports applications with extremely high 3D scene complexity. Runs applications on Microsoft Windows Server 2022 Base and supports DirectX 12. Compatible with Unreal Engine versions up through 5.4, 32 and 64-bit applications, and anti-cheat technology. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session       gen4n_high (NVIDIA, high) Supports applications with moderate to high 3D scene complexity. Uses NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 4 vCPUs, 16 GB RAM, 8 GB VRAM   Tenancy: Supports up to 2 concurrent stream sessions       gen4n_ultra (NVIDIA, ultra) Supports applications with high 3D scene complexity. Uses dedicated NVIDIA T4 Tensor GPU.   Reference resolution: 1080p   Reference frame rate: 60 fps   Workload specifications: 8 vCPUs, 32 GB RAM, 16 GB VRAM   Tenancy: Supports 1 concurrent stream session
         public let streamClass: StreamClass?
 
         @inlinable
@@ -2153,7 +2134,7 @@ public struct GameLiftStreamsErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling. Retry the request after the suggested wait time.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// One or more parameter values in the request fail to satisfy the specified constraints.  Correct the invalid parameter values before retrying the request.
+    /// One or more parameter values in the request fail to satisfy the specified constraints. Correct the invalid parameter values before retrying the request.
     public static var validationException: Self { .init(.validationException) }
 }
 

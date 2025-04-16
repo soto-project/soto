@@ -32,6 +32,11 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum CachePointType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case `default` = "default"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConversationRole: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assistant = "assistant"
         case user = "user"
@@ -85,6 +90,7 @@ extension BedrockRuntime {
 
     public enum GuardrailContentPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case blocked = "BLOCKED"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -137,6 +143,12 @@ extension BedrockRuntime {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailOutputScope: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case full = "FULL"
+        case interventions = "INTERVENTIONS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailPiiEntityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case address = "ADDRESS"
         case age = "AGE"
@@ -175,6 +187,7 @@ extension BedrockRuntime {
     public enum GuardrailSensitiveInformationPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case anonymized = "ANONYMIZED"
         case blocked = "BLOCKED"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -186,6 +199,7 @@ extension BedrockRuntime {
 
     public enum GuardrailTopicPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case blocked = "BLOCKED"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -197,11 +211,13 @@ extension BedrockRuntime {
     public enum GuardrailTrace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "disabled"
         case enabled = "enabled"
+        case enabledFull = "enabled_full"
         public var description: String { return self.rawValue }
     }
 
     public enum GuardrailWordPolicyAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case blocked = "BLOCKED"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -249,6 +265,7 @@ extension BedrockRuntime {
     public enum Trace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        case enabledFull = "ENABLED_FULL"
         public var description: String { return self.rawValue }
     }
 
@@ -266,6 +283,8 @@ extension BedrockRuntime {
     }
 
     public enum ContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// CachePoint to include in the message.
+        case cachePoint(CachePointBlock)
         /// A document to include in the message.
         case document(DocumentBlock)
         /// Contains the content to assess with the guardrail. If you don't specify guardContent in a call to the Converse API, the guardrail (if passed in the Converse API) assesses the entire message. For more information, see  Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
@@ -294,6 +313,9 @@ extension BedrockRuntime {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .cachePoint:
+                let value = try container.decode(CachePointBlock.self, forKey: .cachePoint)
+                self = .cachePoint(value)
             case .document:
                 let value = try container.decode(DocumentBlock.self, forKey: .document)
                 self = .document(value)
@@ -324,6 +346,8 @@ extension BedrockRuntime {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .cachePoint(let value):
+                try container.encode(value, forKey: .cachePoint)
             case .document(let value):
                 try container.encode(value, forKey: .document)
             case .guardContent(let value):
@@ -357,6 +381,7 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cachePoint = "cachePoint"
             case document = "document"
             case guardContent = "guardContent"
             case image = "image"
@@ -553,6 +578,67 @@ extension BedrockRuntime {
         }
     }
 
+    public enum InvokeModelWithBidirectionalStreamOutput: AWSDecodableShape, Sendable {
+        /// The speech chunk that was provided as output from the invocation step.
+        case chunk(BidirectionalOutputPayloadPart)
+        /// The request encountered an unknown internal error.
+        case internalServerException(InternalServerException)
+        /// The request encountered an error with the model stream.
+        case modelStreamErrorException(ModelStreamErrorException)
+        /// The connection was closed because a request was not received within the timeout period.
+        case modelTimeoutException(ModelTimeoutException)
+        /// The request has failed due to a temporary failure of the server.
+        case serviceUnavailableException(ServiceUnavailableException)
+        /// The request was denied due to request throttling.
+        case throttlingException(ThrottlingException)
+        /// The input fails to satisfy the constraints specified by an Amazon Web Services service.
+        case validationException(ValidationException)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .chunk:
+                let value = try container.decode(BidirectionalOutputPayloadPart.self, forKey: .chunk)
+                self = .chunk(value)
+            case .internalServerException:
+                let value = try container.decode(InternalServerException.self, forKey: .internalServerException)
+                self = .internalServerException(value)
+            case .modelStreamErrorException:
+                let value = try container.decode(ModelStreamErrorException.self, forKey: .modelStreamErrorException)
+                self = .modelStreamErrorException(value)
+            case .modelTimeoutException:
+                let value = try container.decode(ModelTimeoutException.self, forKey: .modelTimeoutException)
+                self = .modelTimeoutException(value)
+            case .serviceUnavailableException:
+                let value = try container.decode(ServiceUnavailableException.self, forKey: .serviceUnavailableException)
+                self = .serviceUnavailableException(value)
+            case .throttlingException:
+                let value = try container.decode(ThrottlingException.self, forKey: .throttlingException)
+                self = .throttlingException(value)
+            case .validationException:
+                let value = try container.decode(ValidationException.self, forKey: .validationException)
+                self = .validationException(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chunk = "chunk"
+            case internalServerException = "internalServerException"
+            case modelStreamErrorException = "modelStreamErrorException"
+            case modelTimeoutException = "modelTimeoutException"
+            case serviceUnavailableException = "serviceUnavailableException"
+            case throttlingException = "throttlingException"
+            case validationException = "validationException"
+        }
+    }
+
     public enum ReasoningContentBlock: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// The reasoning that the model used to return the output.
         case reasoningText(ReasoningTextBlock)
@@ -693,6 +779,8 @@ extension BedrockRuntime {
     }
 
     public enum SystemContentBlock: AWSEncodableShape, Sendable {
+        /// CachePoint to include in the system prompt.
+        case cachePoint(CachePointBlock)
         /// A content block to assess with the guardrail. Use with the Converse or ConverseStream API operations.  For more information, see Use a guardrail with the Converse API in the Amazon Bedrock User Guide.
         case guardContent(GuardrailConverseContentBlock)
         /// A system prompt for the model.
@@ -701,6 +789,8 @@ extension BedrockRuntime {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .cachePoint(let value):
+                try container.encode(value, forKey: .cachePoint)
             case .guardContent(let value):
                 try container.encode(value, forKey: .guardContent)
             case .text(let value):
@@ -718,8 +808,40 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cachePoint = "cachePoint"
             case guardContent = "guardContent"
             case text = "text"
+        }
+    }
+
+    public enum Tool: AWSEncodableShape, Sendable {
+        /// CachePoint to include in the tool configuration.
+        case cachePoint(CachePointBlock)
+        /// The specfication for the tool.
+        case toolSpec(ToolSpecification)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .cachePoint(let value):
+                try container.encode(value, forKey: .cachePoint)
+            case .toolSpec(let value):
+                try container.encode(value, forKey: .toolSpec)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .toolSpec(let value):
+                try value.validate(name: "\(name).toolSpec")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cachePoint = "cachePoint"
+            case toolSpec = "toolSpec"
         }
     }
 
@@ -896,14 +1018,17 @@ extension BedrockRuntime {
         public let guardrailIdentifier: String
         /// The guardrail version used in the request to apply the guardrail.
         public let guardrailVersion: String
+        /// Specifies the scope of the output that you get in the response. Set to FULL to return the entire output, including any detected and non-detected entries in the response for enhanced debugging. Note that the full output scope doesn't apply to word filters or regex in sensitive information filters. It does apply to all other filtering policies, including sensitive information with filters that can detect personally identifiable information (PII).
+        public let outputScope: GuardrailOutputScope?
         /// The source of data used in the request to apply the guardrail.
         public let source: GuardrailContentSource
 
         @inlinable
-        public init(content: [GuardrailContentBlock], guardrailIdentifier: String, guardrailVersion: String, source: GuardrailContentSource) {
+        public init(content: [GuardrailContentBlock], guardrailIdentifier: String, guardrailVersion: String, outputScope: GuardrailOutputScope? = nil, source: GuardrailContentSource) {
             self.content = content
             self.guardrailIdentifier = guardrailIdentifier
             self.guardrailVersion = guardrailVersion
+            self.outputScope = outputScope
             self.source = source
         }
 
@@ -913,6 +1038,7 @@ extension BedrockRuntime {
             try container.encode(self.content, forKey: .content)
             request.encodePath(self.guardrailIdentifier, key: "guardrailIdentifier")
             request.encodePath(self.guardrailVersion, key: "guardrailVersion")
+            try container.encodeIfPresent(self.outputScope, forKey: .outputScope)
             try container.encode(self.source, forKey: .source)
         }
 
@@ -924,6 +1050,7 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case content = "content"
+            case outputScope = "outputScope"
             case source = "source"
         }
     }
@@ -931,6 +1058,8 @@ extension BedrockRuntime {
     public struct ApplyGuardrailResponse: AWSDecodableShape {
         /// The action taken in the response from the guardrail.
         public let action: GuardrailAction
+        /// The reason for the action taken when harmful content is detected.
+        public let actionReason: String?
         /// The assessment details in the response from the guardrail.
         public let assessments: [GuardrailAssessment]
         /// The guardrail coverage details in the apply guardrail response.
@@ -941,8 +1070,9 @@ extension BedrockRuntime {
         public let usage: GuardrailUsage
 
         @inlinable
-        public init(action: GuardrailAction, assessments: [GuardrailAssessment], guardrailCoverage: GuardrailCoverage? = nil, outputs: [GuardrailOutputContent], usage: GuardrailUsage) {
+        public init(action: GuardrailAction, actionReason: String? = nil, assessments: [GuardrailAssessment], guardrailCoverage: GuardrailCoverage? = nil, outputs: [GuardrailOutputContent], usage: GuardrailUsage) {
             self.action = action
+            self.actionReason = actionReason
             self.assessments = assessments
             self.guardrailCoverage = guardrailCoverage
             self.outputs = outputs
@@ -951,6 +1081,7 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case actionReason = "actionReason"
             case assessments = "assessments"
             case guardrailCoverage = "guardrailCoverage"
             case outputs = "outputs"
@@ -1041,6 +1172,52 @@ extension BedrockRuntime {
 
     public struct AutoToolChoice: AWSEncodableShape {
         public init() {}
+    }
+
+    public struct BidirectionalInputPayloadPart: AWSEncodableShape {
+        /// The audio content for the bidirectional input.
+        public let bytes: AWSBase64Data?
+
+        @inlinable
+        public init(bytes: AWSBase64Data? = nil) {
+            self.bytes = bytes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bytes, name: "bytes", parent: name, max: 1000000)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "bytes"
+        }
+    }
+
+    public struct BidirectionalOutputPayloadPart: AWSDecodableShape {
+        /// The speech output of the bidirectional stream.
+        public let bytes: AWSBase64Data?
+
+        @inlinable
+        public init(bytes: AWSBase64Data? = nil) {
+            self.bytes = bytes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytes = "bytes"
+        }
+    }
+
+    public struct CachePointBlock: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the type of cache point within the CachePointBlock.
+        public let type: CachePointType
+
+        @inlinable
+        public init(type: CachePointType) {
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "type"
+        }
     }
 
     public struct ContentBlockDeltaEvent: AWSDecodableShape {
@@ -1575,15 +1752,18 @@ extension BedrockRuntime {
         public let action: GuardrailContentPolicyAction
         /// The guardrail confidence.
         public let confidence: GuardrailContentFilterConfidence
+        /// Indicates whether content that breaches the guardrail configuration is detected.
+        public let detected: Bool?
         /// The filter strength setting for the guardrail content filter.
         public let filterStrength: GuardrailContentFilterStrength?
         /// The guardrail type.
         public let type: GuardrailContentFilterType
 
         @inlinable
-        public init(action: GuardrailContentPolicyAction, confidence: GuardrailContentFilterConfidence, filterStrength: GuardrailContentFilterStrength? = nil, type: GuardrailContentFilterType) {
+        public init(action: GuardrailContentPolicyAction, confidence: GuardrailContentFilterConfidence, detected: Bool? = nil, filterStrength: GuardrailContentFilterStrength? = nil, type: GuardrailContentFilterType) {
             self.action = action
             self.confidence = confidence
+            self.detected = detected
             self.filterStrength = filterStrength
             self.type = type
         }
@@ -1591,6 +1771,7 @@ extension BedrockRuntime {
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case confidence = "confidence"
+            case detected = "detected"
             case filterStrength = "filterStrength"
             case type = "type"
         }
@@ -1613,6 +1794,8 @@ extension BedrockRuntime {
     public struct GuardrailContextualGroundingFilter: AWSDecodableShape {
         /// The action performed by the guardrails contextual grounding filter.
         public let action: GuardrailContextualGroundingPolicyAction
+        /// Indicates whether content that fails the contextual grounding evaluation (grounding or relevance score less than the corresponding threshold) was detected.
+        public let detected: Bool?
         /// The score generated by contextual grounding filter.
         public let score: Double
         /// The threshold used by contextual grounding filter to determine whether the content is grounded or not.
@@ -1621,8 +1804,9 @@ extension BedrockRuntime {
         public let type: GuardrailContextualGroundingFilterType
 
         @inlinable
-        public init(action: GuardrailContextualGroundingPolicyAction, score: Double, threshold: Double, type: GuardrailContextualGroundingFilterType) {
+        public init(action: GuardrailContextualGroundingPolicyAction, detected: Bool? = nil, score: Double, threshold: Double, type: GuardrailContextualGroundingFilterType) {
             self.action = action
+            self.detected = detected
             self.score = score
             self.threshold = threshold
             self.type = type
@@ -1630,6 +1814,7 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case detected = "detected"
             case score = "score"
             case threshold = "threshold"
             case type = "type"
@@ -1707,17 +1892,21 @@ extension BedrockRuntime {
     public struct GuardrailCustomWord: AWSDecodableShape {
         /// The action for the custom word.
         public let action: GuardrailWordPolicyAction
+        /// Indicates whether custom word content that breaches the guardrail configuration is detected.
+        public let detected: Bool?
         /// The match for the custom word.
         public let match: String
 
         @inlinable
-        public init(action: GuardrailWordPolicyAction, match: String) {
+        public init(action: GuardrailWordPolicyAction, detected: Bool? = nil, match: String) {
             self.action = action
+            self.detected = detected
             self.match = match
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case detected = "detected"
             case match = "match"
         }
     }
@@ -1783,20 +1972,24 @@ extension BedrockRuntime {
     public struct GuardrailManagedWord: AWSDecodableShape {
         /// The action for the managed word.
         public let action: GuardrailWordPolicyAction
+        /// Indicates whether managed word content that breaches the guardrail configuration is detected.
+        public let detected: Bool?
         /// The match for the managed word.
         public let match: String
         /// The type for the managed word.
         public let type: GuardrailManagedWordType
 
         @inlinable
-        public init(action: GuardrailWordPolicyAction, match: String, type: GuardrailManagedWordType) {
+        public init(action: GuardrailWordPolicyAction, detected: Bool? = nil, match: String, type: GuardrailManagedWordType) {
             self.action = action
+            self.detected = detected
             self.match = match
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case detected = "detected"
             case match = "match"
             case type = "type"
         }
@@ -1819,20 +2012,24 @@ extension BedrockRuntime {
     public struct GuardrailPiiEntityFilter: AWSDecodableShape {
         /// The PII entity filter action.
         public let action: GuardrailSensitiveInformationPolicyAction
+        /// Indicates whether personally identifiable information (PII) that breaches the guardrail configuration is detected.
+        public let detected: Bool?
         /// The PII entity filter match.
         public let match: String
         /// The PII entity filter type.
         public let type: GuardrailPiiEntityType
 
         @inlinable
-        public init(action: GuardrailSensitiveInformationPolicyAction, match: String, type: GuardrailPiiEntityType) {
+        public init(action: GuardrailSensitiveInformationPolicyAction, detected: Bool? = nil, match: String, type: GuardrailPiiEntityType) {
             self.action = action
+            self.detected = detected
             self.match = match
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case detected = "detected"
             case match = "match"
             case type = "type"
         }
@@ -1841,6 +2038,8 @@ extension BedrockRuntime {
     public struct GuardrailRegexFilter: AWSDecodableShape {
         /// The region filter action.
         public let action: GuardrailSensitiveInformationPolicyAction
+        /// Indicates whether custom regex entities that breach the guardrail configuration are detected.
+        public let detected: Bool?
         /// The regesx filter match.
         public let match: String?
         /// The regex filter name.
@@ -1849,8 +2048,9 @@ extension BedrockRuntime {
         public let regex: String?
 
         @inlinable
-        public init(action: GuardrailSensitiveInformationPolicyAction, match: String? = nil, name: String? = nil, regex: String? = nil) {
+        public init(action: GuardrailSensitiveInformationPolicyAction, detected: Bool? = nil, match: String? = nil, name: String? = nil, regex: String? = nil) {
             self.action = action
+            self.detected = detected
             self.match = match
             self.name = name
             self.regex = regex
@@ -1858,6 +2058,7 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case detected = "detected"
             case match = "match"
             case name = "name"
             case regex = "regex"
@@ -1953,20 +2154,24 @@ extension BedrockRuntime {
     public struct GuardrailTopic: AWSDecodableShape {
         /// The action the guardrail should take when it intervenes on a topic.
         public let action: GuardrailTopicPolicyAction
+        /// Indicates whether topic content that breaches the guardrail configuration is detected.
+        public let detected: Bool?
         /// The name for the guardrail.
         public let name: String
         /// The type behavior that the guardrail should perform when the model detects the topic.
         public let type: GuardrailTopicType
 
         @inlinable
-        public init(action: GuardrailTopicPolicyAction, name: String, type: GuardrailTopicType) {
+        public init(action: GuardrailTopicPolicyAction, detected: Bool? = nil, name: String, type: GuardrailTopicType) {
             self.action = action
+            self.detected = detected
             self.name = name
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case detected = "detected"
             case name = "name"
             case type = "type"
         }
@@ -1987,6 +2192,8 @@ extension BedrockRuntime {
     }
 
     public struct GuardrailTraceAssessment: AWSDecodableShape {
+        /// Provides the reason for the action taken when harmful content is detected.
+        public let actionReason: String?
         /// The input assessment.
         public let inputAssessment: [String: GuardrailAssessment]?
         /// The output from the model.
@@ -1995,13 +2202,15 @@ extension BedrockRuntime {
         public let outputAssessments: [String: [GuardrailAssessment]]?
 
         @inlinable
-        public init(inputAssessment: [String: GuardrailAssessment]? = nil, modelOutput: [String]? = nil, outputAssessments: [String: [GuardrailAssessment]]? = nil) {
+        public init(actionReason: String? = nil, inputAssessment: [String: GuardrailAssessment]? = nil, modelOutput: [String]? = nil, outputAssessments: [String: [GuardrailAssessment]]? = nil) {
+            self.actionReason = actionReason
             self.inputAssessment = inputAssessment
             self.modelOutput = modelOutput
             self.outputAssessments = outputAssessments
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionReason = "actionReason"
             case inputAssessment = "inputAssessment"
             case modelOutput = "modelOutput"
             case outputAssessments = "outputAssessments"
@@ -2009,6 +2218,8 @@ extension BedrockRuntime {
     }
 
     public struct GuardrailUsage: AWSDecodableShape {
+        /// The content policy image units processed by the guardrail.
+        public let contentPolicyImageUnits: Int?
         /// The content policy units processed by the guardrail.
         public let contentPolicyUnits: Int
         /// The contextual grounding policy units processed by the guardrail.
@@ -2023,7 +2234,8 @@ extension BedrockRuntime {
         public let wordPolicyUnits: Int
 
         @inlinable
-        public init(contentPolicyUnits: Int, contextualGroundingPolicyUnits: Int, sensitiveInformationPolicyFreeUnits: Int, sensitiveInformationPolicyUnits: Int, topicPolicyUnits: Int, wordPolicyUnits: Int) {
+        public init(contentPolicyImageUnits: Int? = nil, contentPolicyUnits: Int, contextualGroundingPolicyUnits: Int, sensitiveInformationPolicyFreeUnits: Int, sensitiveInformationPolicyUnits: Int, topicPolicyUnits: Int, wordPolicyUnits: Int) {
+            self.contentPolicyImageUnits = contentPolicyImageUnits
             self.contentPolicyUnits = contentPolicyUnits
             self.contextualGroundingPolicyUnits = contextualGroundingPolicyUnits
             self.sensitiveInformationPolicyFreeUnits = sensitiveInformationPolicyFreeUnits
@@ -2033,6 +2245,7 @@ extension BedrockRuntime {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case contentPolicyImageUnits = "contentPolicyImageUnits"
             case contentPolicyUnits = "contentPolicyUnits"
             case contextualGroundingPolicyUnits = "contextualGroundingPolicyUnits"
             case sensitiveInformationPolicyFreeUnits = "sensitiveInformationPolicyFreeUnits"
@@ -2201,6 +2414,52 @@ extension BedrockRuntime {
             self.body = try container.decode(AWSHTTPBody.self)
             self.contentType = try response.decodeHeader(String.self, key: "Content-Type")
             self.performanceConfigLatency = try response.decodeHeaderIfPresent(PerformanceConfigLatency.self, key: "X-Amzn-Bedrock-PerformanceConfig-Latency")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct InvokeModelWithBidirectionalStreamRequest: AWSEncodableShape {
+        /// The prompt and inference parameters in the format specified in the BidirectionalInputPayloadPart in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
+        public let body: AWSEventStream<InvokeModelWithBidirectionalStreamInput>
+        /// The model ID or ARN of the model ID to use. Currently, only amazon.nova-sonic-v1:0 is supported.
+        public let modelId: String
+
+        @inlinable
+        public init(body: AWSEventStream<InvokeModelWithBidirectionalStreamInput>, modelId: String) {
+            self.body = body
+            self.modelId = modelId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            try container.encode(self.body)
+            request.encodePath(self.modelId, key: "modelId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
+            try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}/[a-z0-9]{12})|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|(([0-9a-zA-Z][_-]?)+)|([a-zA-Z0-9-:.]+)$|(^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:[0-9]{12}:prompt/[0-9a-zA-Z]{10}(?::[0-9]{1,5})?))$|(^arn:aws:sagemaker:[a-z0-9-]+:[0-9]{12}:endpoint/[a-zA-Z0-9-]+$)|(^arn:aws(-[^:]+)?:bedrock:([0-9a-z-]{1,20}):([0-9]{12}):(default-)?prompt-router/[a-zA-Z0-9-:.]+$)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct InvokeModelWithBidirectionalStreamResponse: AWSDecodableShape {
+        public static let _options: AWSShapeOptions = [.rawPayload]
+        /// Streaming response from the model in the format specified by the BidirectionalOutputPayloadPart header.
+        public let body: AWSEventStream<InvokeModelWithBidirectionalStreamOutput>
+
+        @inlinable
+        public init(body: AWSEventStream<InvokeModelWithBidirectionalStreamOutput>) {
+            self.body = body
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.body = try container.decode(AWSEventStream<InvokeModelWithBidirectionalStreamOutput>.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2686,6 +2945,10 @@ extension BedrockRuntime {
     }
 
     public struct TokenUsage: AWSDecodableShape {
+        /// The number of input tokens read from the cache for the request.
+        public let cacheReadInputTokens: Int?
+        /// The number of input tokens written to the cache for the request.
+        public let cacheWriteInputTokens: Int?
         /// The number of tokens sent in the request to the model.
         public let inputTokens: Int
         /// The number of tokens that the model generated for the request.
@@ -2694,13 +2957,17 @@ extension BedrockRuntime {
         public let totalTokens: Int
 
         @inlinable
-        public init(inputTokens: Int, outputTokens: Int, totalTokens: Int) {
+        public init(cacheReadInputTokens: Int? = nil, cacheWriteInputTokens: Int? = nil, inputTokens: Int, outputTokens: Int, totalTokens: Int) {
+            self.cacheReadInputTokens = cacheReadInputTokens
+            self.cacheWriteInputTokens = cacheWriteInputTokens
             self.inputTokens = inputTokens
             self.outputTokens = outputTokens
             self.totalTokens = totalTokens
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheReadInputTokens = "cacheReadInputTokens"
+            case cacheWriteInputTokens = "cacheWriteInputTokens"
             case inputTokens = "inputTokens"
             case outputTokens = "outputTokens"
             case totalTokens = "totalTokens"
@@ -2992,6 +3259,24 @@ extension BedrockRuntime {
         }
     }
 
+    public struct InvokeModelWithBidirectionalStreamInput: AWSEncodableShape {
+        /// The audio chunk that is used as input for the invocation step.
+        public let chunk: BidirectionalInputPayloadPart?
+
+        @inlinable
+        public init(chunk: BidirectionalInputPayloadPart? = nil) {
+            self.chunk = chunk
+        }
+
+        public func validate(name: String) throws {
+            try self.chunk?.validate(name: "\(name).chunk")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case chunk = "chunk"
+        }
+    }
+
     public struct PromptVariableValues: AWSEncodableShape {
         /// The text value that the variable maps to.
         public let text: String?
@@ -3003,24 +3288,6 @@ extension BedrockRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case text = "text"
-        }
-    }
-
-    public struct Tool: AWSEncodableShape {
-        /// The specfication for the tool.
-        public let toolSpec: ToolSpecification?
-
-        @inlinable
-        public init(toolSpec: ToolSpecification? = nil) {
-            self.toolSpec = toolSpec
-        }
-
-        public func validate(name: String) throws {
-            try self.toolSpec?.validate(name: "\(name).toolSpec")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case toolSpec = "toolSpec"
         }
     }
 

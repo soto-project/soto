@@ -436,8 +436,8 @@ extension PCS {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 40)
-            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
-            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(?!pcs_)^(?![A-Za-z0-9]{10}$)[A-Za-z][A-Za-z0-9-]+$")
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 3)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(?!pcs_)^[A-Za-z][A-Za-z0-9-]+$")
             try self.networking.validate(name: "\(name).networking")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -520,10 +520,10 @@ extension PCS {
             try self.validate(self.amiId, name: "amiId", parent: name, pattern: "^ami-[a-z0-9]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
             try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, max: 25)
-            try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, min: 1)
-            try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, pattern: "^(?!pcs_)^(?![A-Za-z0-9]{10}$)[A-Za-z][A-Za-z0-9-]+$")
+            try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, min: 3)
+            try self.validate(self.computeNodeGroupName, name: "computeNodeGroupName", parent: name, pattern: "^(?!pcs_)^[A-Za-z][A-Za-z0-9-]+$")
             try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/.{1,128}$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -588,10 +588,10 @@ extension PCS {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
             try self.validate(self.queueName, name: "queueName", parent: name, max: 25)
-            try self.validate(self.queueName, name: "queueName", parent: name, min: 1)
-            try self.validate(self.queueName, name: "queueName", parent: name, pattern: "^(?!pcs_)^(?![A-Za-z0-9]{10}$)[A-Za-z][A-Za-z0-9-]+$")
+            try self.validate(self.queueName, name: "queueName", parent: name, min: 3)
+            try self.validate(self.queueName, name: "queueName", parent: name, pattern: "^(?!pcs_)^[A-Za-z][A-Za-z0-9-]+$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -656,7 +656,7 @@ extension PCS {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -687,8 +687,8 @@ extension PCS {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
-            try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,25})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
+            try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -720,8 +720,8 @@ extension PCS {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
-            try self.validate(self.queueIdentifier, name: "queueIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,25})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
+            try self.validate(self.queueIdentifier, name: "queueIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -789,7 +789,7 @@ extension PCS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -824,8 +824,8 @@ extension PCS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
-            try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,25})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
+            try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -860,8 +860,8 @@ extension PCS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
-            try self.validate(self.queueIdentifier, name: "queueIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,25})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
+            try self.validate(self.queueIdentifier, name: "queueIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -958,7 +958,7 @@ extension PCS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1004,7 +1004,7 @@ extension PCS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1214,7 +1214,7 @@ extension PCS {
             try self.validate(self.bootstrapId, name: "bootstrapId", parent: name, max: 1000)
             try self.validate(self.bootstrapId, name: "bootstrapId", parent: name, min: 1)
             try self.validate(self.bootstrapId, name: "bootstrapId", parent: name, pattern: "^[\\S]+$")
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1548,8 +1548,8 @@ extension PCS {
             try self.validate(self.amiId, name: "amiId", parent: name, pattern: "^ami-[a-z0-9]+$")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
-            try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,25})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
+            try self.validate(self.computeNodeGroupIdentifier, name: "computeNodeGroupIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
             try self.validate(self.iamInstanceProfileArn, name: "iamInstanceProfileArn", parent: name, pattern: "^arn:aws([a-zA-Z-]{0,10})?:iam::[0-9]{12}:instance-profile/.{1,128}$")
         }
 
@@ -1616,8 +1616,8 @@ extension PCS {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 8)
-            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,40})$")
-            try self.validate(self.queueIdentifier, name: "queueIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{1,25})$")
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,40})$")
+            try self.validate(self.queueIdentifier, name: "queueIdentifier", parent: name, pattern: "^(pcs_[a-zA-Z0-9]+|[A-Za-z][A-Za-z0-9-]{2,25})$")
         }
 
         private enum CodingKeys: String, CodingKey {

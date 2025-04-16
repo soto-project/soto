@@ -632,7 +632,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.getBillScenario(input, logger: logger)
     }
 
-    ///  Retrieves the current preferences for the Amazon Web Services Cost Explorer service.
+    ///  Retrieves the current preferences for Pricing Calculator.
     @Sendable
     @inlinable
     public func getPreferences(_ input: GetPreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetPreferencesResponse {
@@ -645,7 +645,7 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Retrieves the current preferences for the Amazon Web Services Cost Explorer service.
+    ///  Retrieves the current preferences for Pricing Calculator.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1230,7 +1230,7 @@ public struct BCMPricingCalculator: AWSService {
         return try await self.updateBillScenario(input, logger: logger)
     }
 
-    ///  Updates the preferences for the Amazon Web Services Cost Explorer service.
+    ///  Updates the preferences for Pricing Calculator.
     @Sendable
     @inlinable
     public func updatePreferences(_ input: UpdatePreferencesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdatePreferencesResponse {
@@ -1243,21 +1243,24 @@ public struct BCMPricingCalculator: AWSService {
             logger: logger
         )
     }
-    ///  Updates the preferences for the Amazon Web Services Cost Explorer service.
+    ///  Updates the preferences for Pricing Calculator.
     ///
     /// Parameters:
     ///   - managementAccountRateTypeSelections:  The updated preferred rate types for the management account.
     ///   - memberAccountRateTypeSelections:  The updated preferred rate types for member accounts.
+    ///   - standaloneAccountRateTypeSelections:  The updated preferred rate types for a standalone account.
     ///   - logger: Logger use during operation
     @inlinable
     public func updatePreferences(
         managementAccountRateTypeSelections: [RateType]? = nil,
         memberAccountRateTypeSelections: [RateType]? = nil,
+        standaloneAccountRateTypeSelections: [RateType]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdatePreferencesResponse {
         let input = UpdatePreferencesRequest(
             managementAccountRateTypeSelections: managementAccountRateTypeSelections, 
-            memberAccountRateTypeSelections: memberAccountRateTypeSelections
+            memberAccountRateTypeSelections: memberAccountRateTypeSelections, 
+            standaloneAccountRateTypeSelections: standaloneAccountRateTypeSelections
         )
         return try await self.updatePreferences(input, logger: logger)
     }

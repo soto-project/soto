@@ -116,6 +116,11 @@ extension MailManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum IngressIpv6Attribute: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case senderIpv6 = "SENDER_IPV6"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IngressPointStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case closed = "CLOSED"
@@ -166,6 +171,12 @@ extension MailManager {
     public enum IngressTlsProtocolOperator: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case `is` = "IS"
         case minimumTlsVersion = "MINIMUM_TLS_VERSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IpType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualStack = "DUAL_STACK"
+        case ipv4 = "IPV4"
         public var description: String { return self.rawValue }
     }
 
@@ -440,11 +451,113 @@ extension MailManager {
         }
     }
 
+    public enum IngressStringToEvaluate: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The structure type for a string condition stating the Add On ARN and its returned value.
+        case analysis(IngressAnalysis)
+        /// The enum type representing the allowed attribute types for a string condition.
+        case attribute(IngressStringEmailAttribute)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .analysis:
+                let value = try container.decode(IngressAnalysis.self, forKey: .analysis)
+                self = .analysis(value)
+            case .attribute:
+                let value = try container.decode(IngressStringEmailAttribute.self, forKey: .attribute)
+                self = .attribute(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .analysis(let value):
+                try container.encode(value, forKey: .analysis)
+            case .attribute(let value):
+                try container.encode(value, forKey: .attribute)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .analysis(let value):
+                try value.validate(name: "\(name).analysis")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysis = "Analysis"
+            case attribute = "Attribute"
+        }
+    }
+
+    public enum NetworkConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Specifies the network configuration for the private ingress point.
+        case privateNetworkConfiguration(PrivateNetworkConfiguration)
+        /// Specifies the network configuration for the public ingress point.
+        case publicNetworkConfiguration(PublicNetworkConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .privateNetworkConfiguration:
+                let value = try container.decode(PrivateNetworkConfiguration.self, forKey: .privateNetworkConfiguration)
+                self = .privateNetworkConfiguration(value)
+            case .publicNetworkConfiguration:
+                let value = try container.decode(PublicNetworkConfiguration.self, forKey: .publicNetworkConfiguration)
+                self = .publicNetworkConfiguration(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .privateNetworkConfiguration(let value):
+                try container.encode(value, forKey: .privateNetworkConfiguration)
+            case .publicNetworkConfiguration(let value):
+                try container.encode(value, forKey: .publicNetworkConfiguration)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .privateNetworkConfiguration(let value):
+                try value.validate(name: "\(name).privateNetworkConfiguration")
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privateNetworkConfiguration = "PrivateNetworkConfiguration"
+            case publicNetworkConfiguration = "PublicNetworkConfiguration"
+        }
+    }
+
     public enum PolicyCondition: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// This represents a boolean type condition matching on the incoming mail. It performs the boolean operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'.
         case booleanExpression(IngressBooleanExpression)
         /// This represents an IP based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'.
         case ipExpression(IngressIpv4Expression)
+        /// This represents an IPv6 based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'.
+        case ipv6Expression(IngressIpv6Expression)
         /// This represents a string based condition matching on the incoming mail. It performs the string operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'.
         case stringExpression(IngressStringExpression)
         /// This represents a TLS based condition matching on the incoming mail. It performs the operation configured in 'Operator' and evaluates the 'Protocol' object against the 'Value'.
@@ -466,6 +579,9 @@ extension MailManager {
             case .ipExpression:
                 let value = try container.decode(IngressIpv4Expression.self, forKey: .ipExpression)
                 self = .ipExpression(value)
+            case .ipv6Expression:
+                let value = try container.decode(IngressIpv6Expression.self, forKey: .ipv6Expression)
+                self = .ipv6Expression(value)
             case .stringExpression:
                 let value = try container.decode(IngressStringExpression.self, forKey: .stringExpression)
                 self = .stringExpression(value)
@@ -482,6 +598,8 @@ extension MailManager {
                 try container.encode(value, forKey: .booleanExpression)
             case .ipExpression(let value):
                 try container.encode(value, forKey: .ipExpression)
+            case .ipv6Expression(let value):
+                try container.encode(value, forKey: .ipv6Expression)
             case .stringExpression(let value):
                 try container.encode(value, forKey: .stringExpression)
             case .tlsExpression(let value):
@@ -495,6 +613,10 @@ extension MailManager {
                 try value.validate(name: "\(name).booleanExpression")
             case .ipExpression(let value):
                 try value.validate(name: "\(name).ipExpression")
+            case .ipv6Expression(let value):
+                try value.validate(name: "\(name).ipv6Expression")
+            case .stringExpression(let value):
+                try value.validate(name: "\(name).stringExpression")
             default:
                 break
             }
@@ -503,6 +625,7 @@ extension MailManager {
         private enum CodingKeys: String, CodingKey {
             case booleanExpression = "BooleanExpression"
             case ipExpression = "IpExpression"
+            case ipv6Expression = "Ipv6Expression"
             case stringExpression = "StringExpression"
             case tlsExpression = "TlsExpression"
         }
@@ -679,6 +802,8 @@ extension MailManager {
     }
 
     public enum RuleBooleanToEvaluate: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Add On ARN and its returned value to evaluate in a boolean condition expression.
+        case analysis(Analysis)
         /// The boolean type representing the allowed attribute types for an email.
         case attribute(RuleBooleanEmailAttribute)
         /// The structure representing the address lists and address list attribute that will be used in evaluation of boolean expression.
@@ -694,6 +819,9 @@ extension MailManager {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .analysis:
+                let value = try container.decode(Analysis.self, forKey: .analysis)
+                self = .analysis(value)
             case .attribute:
                 let value = try container.decode(RuleBooleanEmailAttribute.self, forKey: .attribute)
                 self = .attribute(value)
@@ -706,6 +834,8 @@ extension MailManager {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .analysis(let value):
+                try container.encode(value, forKey: .analysis)
             case .attribute(let value):
                 try container.encode(value, forKey: .attribute)
             case .isInAddressList(let value):
@@ -715,6 +845,8 @@ extension MailManager {
 
         public func validate(name: String) throws {
             switch self {
+            case .analysis(let value):
+                try value.validate(name: "\(name).analysis")
             case .isInAddressList(let value):
                 try value.validate(name: "\(name).isInAddressList")
             default:
@@ -723,6 +855,7 @@ extension MailManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analysis = "Analysis"
             case attribute = "Attribute"
             case isInAddressList = "IsInAddressList"
         }
@@ -819,6 +952,8 @@ extension MailManager {
     }
 
     public enum RuleStringToEvaluate: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// The Add On ARN and its returned value to evaluate in a string condition expression.
+        case analysis(Analysis)
         /// The email attribute to evaluate in a string condition expression.
         case attribute(RuleStringEmailAttribute)
         /// The email MIME X-Header attribute to evaluate in a string condition expression.
@@ -834,6 +969,9 @@ extension MailManager {
                 throw DecodingError.dataCorrupted(context)
             }
             switch key {
+            case .analysis:
+                let value = try container.decode(Analysis.self, forKey: .analysis)
+                self = .analysis(value)
             case .attribute:
                 let value = try container.decode(RuleStringEmailAttribute.self, forKey: .attribute)
                 self = .attribute(value)
@@ -846,6 +984,8 @@ extension MailManager {
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
+            case .analysis(let value):
+                try container.encode(value, forKey: .analysis)
             case .attribute(let value):
                 try container.encode(value, forKey: .attribute)
             case .mimeHeaderAttribute(let value):
@@ -855,6 +995,8 @@ extension MailManager {
 
         public func validate(name: String) throws {
             switch self {
+            case .analysis(let value):
+                try value.validate(name: "\(name).analysis")
             case .mimeHeaderAttribute(let value):
                 try self.validate(value, name: "mimeHeaderAttribute", parent: name, pattern: "^X-[a-zA-Z0-9-]{1,256}$")
             default:
@@ -863,6 +1005,7 @@ extension MailManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analysis = "Analysis"
             case attribute = "Attribute"
             case mimeHeaderAttribute = "MimeHeaderAttribute"
         }
@@ -1067,7 +1210,7 @@ extension MailManager {
             try self.validate(self.analyzer, name: "analyzer", parent: name, pattern: "^[a-zA-Z0-9:_/+=,@.#-]+$")
             try self.validate(self.resultField, name: "resultField", parent: name, max: 256)
             try self.validate(self.resultField, name: "resultField", parent: name, min: 1)
-            try self.validate(self.resultField, name: "resultField", parent: name, pattern: "^[\\sa-zA-Z0-9_]+$")
+            try self.validate(self.resultField, name: "resultField", parent: name, pattern: "^(addon\\.)?[\\sa-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1464,6 +1607,8 @@ extension MailManager {
         public let ingressPointConfiguration: IngressPointConfiguration?
         /// A user friendly name for an ingress endpoint resource.
         public let ingressPointName: String
+        /// Specifies the network configuration for the ingress point. This allows you to create an IPv4-only, Dual-Stack, or PrivateLink type of ingress point. If not specified, the default network type is IPv4-only.
+        public let networkConfiguration: NetworkConfiguration?
         /// The identifier of an existing rule set that you attach to an ingress endpoint resource.
         public let ruleSetId: String
         /// The tags used to organize, track, or control access for the resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
@@ -1474,10 +1619,11 @@ extension MailManager {
         public let type: IngressPointType
 
         @inlinable
-        public init(clientToken: String? = CreateIngressPointRequest.idempotencyToken(), ingressPointConfiguration: IngressPointConfiguration? = nil, ingressPointName: String, ruleSetId: String, tags: [Tag]? = nil, trafficPolicyId: String, type: IngressPointType) {
+        public init(clientToken: String? = CreateIngressPointRequest.idempotencyToken(), ingressPointConfiguration: IngressPointConfiguration? = nil, ingressPointName: String, networkConfiguration: NetworkConfiguration? = nil, ruleSetId: String, tags: [Tag]? = nil, trafficPolicyId: String, type: IngressPointType) {
             self.clientToken = clientToken
             self.ingressPointConfiguration = ingressPointConfiguration
             self.ingressPointName = ingressPointName
+            self.networkConfiguration = networkConfiguration
             self.ruleSetId = ruleSetId
             self.tags = tags
             self.trafficPolicyId = trafficPolicyId
@@ -1491,6 +1637,7 @@ extension MailManager {
             try self.validate(self.ingressPointName, name: "ingressPointName", parent: name, max: 63)
             try self.validate(self.ingressPointName, name: "ingressPointName", parent: name, min: 3)
             try self.validate(self.ingressPointName, name: "ingressPointName", parent: name, pattern: "^[A-Za-z0-9_\\-]+$")
+            try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
             try self.validate(self.ruleSetId, name: "ruleSetId", parent: name, max: 100)
             try self.validate(self.ruleSetId, name: "ruleSetId", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1505,6 +1652,7 @@ extension MailManager {
             case clientToken = "ClientToken"
             case ingressPointConfiguration = "IngressPointConfiguration"
             case ingressPointName = "IngressPointName"
+            case networkConfiguration = "NetworkConfiguration"
             case ruleSetId = "RuleSetId"
             case tags = "Tags"
             case trafficPolicyId = "TrafficPolicyId"
@@ -2587,6 +2735,8 @@ extension MailManager {
         public let ingressPointName: String
         /// The timestamp of when the ingress endpoint was last updated.
         public let lastUpdatedTimestamp: Date?
+        /// The network configuration for the ingress point.
+        public let networkConfiguration: NetworkConfiguration?
         /// The identifier of a rule set resource associated with the ingress endpoint.
         public let ruleSetId: String?
         /// The status of the ingress endpoint resource.
@@ -2597,7 +2747,7 @@ extension MailManager {
         public let type: IngressPointType?
 
         @inlinable
-        public init(aRecord: String? = nil, createdTimestamp: Date? = nil, ingressPointArn: String? = nil, ingressPointAuthConfiguration: IngressPointAuthConfiguration? = nil, ingressPointId: String, ingressPointName: String, lastUpdatedTimestamp: Date? = nil, ruleSetId: String? = nil, status: IngressPointStatus? = nil, trafficPolicyId: String? = nil, type: IngressPointType? = nil) {
+        public init(aRecord: String? = nil, createdTimestamp: Date? = nil, ingressPointArn: String? = nil, ingressPointAuthConfiguration: IngressPointAuthConfiguration? = nil, ingressPointId: String, ingressPointName: String, lastUpdatedTimestamp: Date? = nil, networkConfiguration: NetworkConfiguration? = nil, ruleSetId: String? = nil, status: IngressPointStatus? = nil, trafficPolicyId: String? = nil, type: IngressPointType? = nil) {
             self.aRecord = aRecord
             self.createdTimestamp = createdTimestamp
             self.ingressPointArn = ingressPointArn
@@ -2605,6 +2755,7 @@ extension MailManager {
             self.ingressPointId = ingressPointId
             self.ingressPointName = ingressPointName
             self.lastUpdatedTimestamp = lastUpdatedTimestamp
+            self.networkConfiguration = networkConfiguration
             self.ruleSetId = ruleSetId
             self.status = status
             self.trafficPolicyId = trafficPolicyId
@@ -2619,6 +2770,7 @@ extension MailManager {
             case ingressPointId = "IngressPointId"
             case ingressPointName = "IngressPointName"
             case lastUpdatedTimestamp = "LastUpdatedTimestamp"
+            case networkConfiguration = "NetworkConfiguration"
             case ruleSetId = "RuleSetId"
             case status = "Status"
             case trafficPolicyId = "TrafficPolicyId"
@@ -2934,7 +3086,7 @@ extension MailManager {
             try self.validate(self.analyzer, name: "analyzer", parent: name, pattern: "^[a-zA-Z0-9:_/+=,@.#-]+$")
             try self.validate(self.resultField, name: "resultField", parent: name, max: 256)
             try self.validate(self.resultField, name: "resultField", parent: name, min: 1)
-            try self.validate(self.resultField, name: "resultField", parent: name, pattern: "^[\\sa-zA-Z0-9_]+$")
+            try self.validate(self.resultField, name: "resultField", parent: name, pattern: "^(addon\\.)?[\\sa-zA-Z0-9_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2983,6 +3135,35 @@ extension MailManager {
         public func validate(name: String) throws {
             try self.values.forEach {
                 try validate($0, name: "values[]", parent: name, pattern: "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/([0-9]|[12][0-9]|3[0-2])$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluate = "Evaluate"
+            case `operator` = "Operator"
+            case values = "Values"
+        }
+    }
+
+    public struct IngressIpv6Expression: AWSEncodableShape & AWSDecodableShape {
+        /// The left hand side argument of an IPv6 condition expression.
+        public let evaluate: IngressIpv6ToEvaluate
+        /// The matching operator for an IPv6 condition expression.
+        public let `operator`: IngressIpOperator
+        /// The right hand side argument of an IPv6 condition expression.
+        public let values: [String]
+
+        @inlinable
+        public init(evaluate: IngressIpv6ToEvaluate, operator: IngressIpOperator, values: [String]) {
+            self.evaluate = evaluate
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 49)
+                try validate($0, name: "values[]", parent: name, pattern: "^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:))\\/(12[0-8]|1[0-1][0-9]|[1-9][0-9]|[0-9])$")
             }
         }
 
@@ -3099,6 +3280,10 @@ extension MailManager {
             self.evaluate = evaluate
             self.`operator` = `operator`
             self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.evaluate.validate(name: "\(name).evaluate")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3824,6 +4009,38 @@ extension MailManager {
         }
     }
 
+    public struct PrivateNetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the VPC endpoint to associate with this private ingress point.
+        public let vpcEndpointId: String
+
+        @inlinable
+        public init(vpcEndpointId: String) {
+            self.vpcEndpointId = vpcEndpointId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcEndpointId, name: "vpcEndpointId", parent: name, pattern: "^vpce-[a-zA-Z0-9]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcEndpointId = "VpcEndpointId"
+        }
+    }
+
+    public struct PublicNetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IP address type for the public ingress point. Valid values are IPV4 and DUAL_STACK.
+        public let ipType: IpType
+
+        @inlinable
+        public init(ipType: IpType) {
+            self.ipType = ipType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipType = "IpType"
+        }
+    }
+
     public struct RegisterMemberToAddressListRequest: AWSEncodableShape {
         /// The address to be added to the address list.
         public let address: String
@@ -4120,9 +4337,9 @@ extension MailManager {
 
         public func validate(name: String) throws {
             try self.values.forEach {
-                try validate($0, name: "values[]", parent: name, max: 18)
+                try validate($0, name: "values[]", parent: name, max: 43)
                 try validate($0, name: "values[]", parent: name, min: 1)
-                try validate($0, name: "values[]", parent: name, pattern: "^(([0-9]|.|/)*)$")
+                try validate($0, name: "values[]", parent: name, pattern: "^(([0-9]|.|:|/)*)$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 10)
             try self.validate(self.values, name: "values", parent: name, min: 1)
@@ -5024,12 +5241,12 @@ extension MailManager {
         }
     }
 
-    public struct IngressStringToEvaluate: AWSEncodableShape & AWSDecodableShape {
-        /// The enum type representing the allowed attribute types for a string condition.
-        public let attribute: IngressStringEmailAttribute?
+    public struct IngressIpv6ToEvaluate: AWSEncodableShape & AWSDecodableShape {
+        /// An enum type representing the allowed attribute types for an IPv6 condition.
+        public let attribute: IngressIpv6Attribute?
 
         @inlinable
-        public init(attribute: IngressStringEmailAttribute? = nil) {
+        public init(attribute: IngressIpv6Attribute? = nil) {
             self.attribute = attribute
         }
 

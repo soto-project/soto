@@ -77,6 +77,7 @@ public struct CostOptimizationHub: AWSService {
 
     /// custom endpoints for regions
     static var serviceEndpoints: [String: String] {[
+        "eu-isoe-west-1": "cost-optimization-hub.eu-isoe-west-1.cloud.adc-e.uk",
         "us-east-1": "cost-optimization-hub.us-east-1.amazonaws.com",
         "us-isof-south-1": "cost-optimization-hub.us-isof-south-1.csp.hci.ic.gov"
     ]}

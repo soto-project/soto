@@ -147,6 +147,12 @@ extension APIGateway {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpAddressType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case dualstack = "dualstack"
+        case ipv4 = "ipv4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LocationStatusType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case documented = "DOCUMENTED"
         case undocumented = "UNDOCUMENTED"
@@ -856,7 +862,7 @@ extension APIGateway {
         public let certificatePrivateKey: String?
         /// The name of the DomainName resource.
         public let domainName: String
-        /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
+        /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
         public let endpointConfiguration: EndpointConfiguration?
         public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
         /// The ARN of the public certificate issued by ACM to validate ownership of your custom domain. Only required when configuring mutual TLS and using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
@@ -1020,7 +1026,7 @@ extension APIGateway {
         public let description: String?
         /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint
         public let disableExecuteApiEndpoint: Bool?
-        /// The endpoint configuration of this RestApi showing the endpoint types of the API.
+        /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
         public let endpointConfiguration: EndpointConfiguration?
         /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
         public let minimumCompressionSize: Int?
@@ -1936,7 +1942,7 @@ extension APIGateway {
         public let domainNameStatus: DomainNameStatus?
         /// An optional text message containing detailed information about status of the DomainName migration.
         public let domainNameStatusMessage: String?
-        /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
+        /// The endpoint configuration of this DomainName showing the endpoint types and IP address types of the domain name.
         public let endpointConfiguration: EndpointConfiguration?
         /// A stringified JSON policy document that applies to the API Gateway Management service for this DomainName. This policy document controls access for access association sources to create domain name access associations with this DomainName. Supported only for private custom domain names.
         public let managementPolicy: String?
@@ -2076,18 +2082,22 @@ extension APIGateway {
     }
 
     public struct EndpointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The IP address types that can invoke an API (RestApi) or a DomainName. Use ipv4 to allow only IPv4 addresses to invoke an API or DomainName, or use dualstack to allow both IPv4 and IPv6 addresses to invoke an API or a DomainName. For the PRIVATE endpoint type, only dualstack is supported.
+        public let ipAddressType: IpAddressType?
         /// A list of endpoint types of an API (RestApi) or its custom domain name (DomainName). For an edge-optimized API and its custom domain name, the endpoint type is "EDGE". For a regional API and its custom domain name, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
         public let types: [EndpointType]?
         /// A list of VpcEndpointIds of an API (RestApi) against which to create Route53 ALIASes. It is only supported for PRIVATE endpoint type.
         public let vpcEndpointIds: [String]?
 
         @inlinable
-        public init(types: [EndpointType]? = nil, vpcEndpointIds: [String]? = nil) {
+        public init(ipAddressType: IpAddressType? = nil, types: [EndpointType]? = nil, vpcEndpointIds: [String]? = nil) {
+            self.ipAddressType = ipAddressType
             self.types = types
             self.vpcEndpointIds = vpcEndpointIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case ipAddressType = "ipAddressType"
             case types = "types"
             case vpcEndpointIds = "vpcEndpointIds"
         }
@@ -4355,7 +4365,7 @@ extension APIGateway {
         public let description: String?
         /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
         public let disableExecuteApiEndpoint: Bool?
-        /// The endpoint configuration of this RestApi showing the endpoint types of the API.
+        /// The endpoint configuration of this RestApi showing the endpoint types and IP address types of the API.
         public let endpointConfiguration: EndpointConfiguration?
         /// The API's identifier. This identifier is unique across all of your APIs in API Gateway.
         public let id: String?

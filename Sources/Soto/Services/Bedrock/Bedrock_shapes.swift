@@ -90,6 +90,12 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailContentFilterAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case block = "BLOCK"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailContentFilterType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hate = "HATE"
         case insults = "INSULTS"
@@ -97,6 +103,12 @@ extension Bedrock {
         case promptAttack = "PROMPT_ATTACK"
         case sexual = "SEXUAL"
         case violence = "VIOLENCE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailContextualGroundingAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case block = "BLOCK"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -163,6 +175,7 @@ extension Bedrock {
     public enum GuardrailSensitiveInformationAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case anonymize = "ANONYMIZE"
         case block = "BLOCK"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -176,8 +189,20 @@ extension Bedrock {
         public var description: String { return self.rawValue }
     }
 
+    public enum GuardrailTopicAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case block = "BLOCK"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GuardrailTopicType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case deny = "DENY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GuardrailWordAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case block = "BLOCK"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -431,6 +456,106 @@ extension Bedrock {
         }
     }
 
+    public enum EvaluationModelConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Defines the Amazon Bedrock model or inference profile and inference parameters you want used.
+        case bedrockModel(EvaluationBedrockModel)
+        /// Defines the model used to generate inference response data for a model evaluation job where you provide your own inference response data.
+        case precomputedInferenceSource(EvaluationPrecomputedInferenceSource)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .bedrockModel:
+                let value = try container.decode(EvaluationBedrockModel.self, forKey: .bedrockModel)
+                self = .bedrockModel(value)
+            case .precomputedInferenceSource:
+                let value = try container.decode(EvaluationPrecomputedInferenceSource.self, forKey: .precomputedInferenceSource)
+                self = .precomputedInferenceSource(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .bedrockModel(let value):
+                try container.encode(value, forKey: .bedrockModel)
+            case .precomputedInferenceSource(let value):
+                try container.encode(value, forKey: .precomputedInferenceSource)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .bedrockModel(let value):
+                try value.validate(name: "\(name).bedrockModel")
+            case .precomputedInferenceSource(let value):
+                try value.validate(name: "\(name).precomputedInferenceSource")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockModel = "bedrockModel"
+            case precomputedInferenceSource = "precomputedInferenceSource"
+        }
+    }
+
+    public enum EvaluationPrecomputedRagSourceConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// A summary of a RAG source used for a retrieve-and-generate Knowledge Base evaluation job where you provide your own inference response data.
+        case retrieveAndGenerateSourceConfig(EvaluationPrecomputedRetrieveAndGenerateSourceConfig)
+        /// A summary of a RAG source used for a retrieve-only Knowledge Base evaluation job where you provide your own inference response data.
+        case retrieveSourceConfig(EvaluationPrecomputedRetrieveSourceConfig)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .retrieveAndGenerateSourceConfig:
+                let value = try container.decode(EvaluationPrecomputedRetrieveAndGenerateSourceConfig.self, forKey: .retrieveAndGenerateSourceConfig)
+                self = .retrieveAndGenerateSourceConfig(value)
+            case .retrieveSourceConfig:
+                let value = try container.decode(EvaluationPrecomputedRetrieveSourceConfig.self, forKey: .retrieveSourceConfig)
+                self = .retrieveSourceConfig(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .retrieveAndGenerateSourceConfig(let value):
+                try container.encode(value, forKey: .retrieveAndGenerateSourceConfig)
+            case .retrieveSourceConfig(let value):
+                try container.encode(value, forKey: .retrieveSourceConfig)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .retrieveAndGenerateSourceConfig(let value):
+                try value.validate(name: "\(name).retrieveAndGenerateSourceConfig")
+            case .retrieveSourceConfig(let value):
+                try value.validate(name: "\(name).retrieveSourceConfig")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case retrieveAndGenerateSourceConfig = "retrieveAndGenerateSourceConfig"
+            case retrieveSourceConfig = "retrieveSourceConfig"
+        }
+    }
+
     public enum KnowledgeBaseConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
         /// Contains configuration details for retrieving information from a knowledge base and generating responses.
         case retrieveAndGenerateConfig(RetrieveAndGenerateConfiguration)
@@ -478,6 +603,56 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case retrieveAndGenerateConfig = "retrieveAndGenerateConfig"
             case retrieveConfig = "retrieveConfig"
+        }
+    }
+
+    public enum RAGConfig: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Contains configuration details for knowledge base retrieval and response generation.
+        case knowledgeBaseConfig(KnowledgeBaseConfig)
+        /// Contains configuration details about the RAG source used to generate inference response data for a Knowledge Base evaluation job.
+        case precomputedRagSourceConfig(EvaluationPrecomputedRagSourceConfig)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .knowledgeBaseConfig:
+                let value = try container.decode(KnowledgeBaseConfig.self, forKey: .knowledgeBaseConfig)
+                self = .knowledgeBaseConfig(value)
+            case .precomputedRagSourceConfig:
+                let value = try container.decode(EvaluationPrecomputedRagSourceConfig.self, forKey: .precomputedRagSourceConfig)
+                self = .precomputedRagSourceConfig(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .knowledgeBaseConfig(let value):
+                try container.encode(value, forKey: .knowledgeBaseConfig)
+            case .precomputedRagSourceConfig(let value):
+                try container.encode(value, forKey: .precomputedRagSourceConfig)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .knowledgeBaseConfig(let value):
+                try value.validate(name: "\(name).knowledgeBaseConfig")
+            case .precomputedRagSourceConfig(let value):
+                try value.validate(name: "\(name).precomputedRagSourceConfig")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case knowledgeBaseConfig = "knowledgeBaseConfig"
+            case precomputedRagSourceConfig = "precomputedRagSourceConfig"
         }
     }
 
@@ -849,7 +1024,7 @@ extension Bedrock {
         public func validate(name: String) throws {
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
-            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}::foundation-model/[a-z0-9-]{1,63}[.]{1}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}$|(^[a-z0-9-]+[.][a-z0-9-]+([.][a-z0-9-]+)*(:[a-z0-9-]+)?$)|^[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)$")
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:inference-profile/(([a-z-]{2,8}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))))$|(^[a-z0-9-]+[.][a-z0-9-]+([.][a-z0-9-]+)*(:[a-z0-9-]+)?$)|^[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([a-z0-9-]{1,63}[.]){0,2}[a-z0-9-]{1,63}([:][a-z0-9-]{1,63}){0,2}(/[a-z0-9]{12}|)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1612,7 +1787,7 @@ extension Bedrock {
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9]{1,63}(-*[a-zA-Z0-9\\+\\-\\.]){0,63}$")
             try self.validate(self.modelId, name: "modelId", parent: name, max: 2048)
             try self.validate(self.modelId, name: "modelId", parent: name, min: 1)
-            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-:]{1,63}/[a-z0-9]{12}$)|(:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}$)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$")
+            try self.validate(self.modelId, name: "modelId", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:(([0-9]{12}:custom-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-:]{1,63}/[a-z0-9]{12}$)|(:foundation-model/([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$)|([0-9]{12}:(inference-profile|application-inference-profile)/[a-zA-Z0-9-:.]+$)))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.]?[a-z0-9-]{1,63})([:][a-z0-9-]{1,63}){0,2})|(([0-9a-zA-Z][_-]?)+)$")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::([0-9]{12})?:role/.+$")
@@ -1825,6 +2000,24 @@ extension Bedrock {
             case modelArn = "modelArn"
             case modelName = "modelName"
             case ownerAccountId = "ownerAccountId"
+        }
+    }
+
+    public struct CustomModelUnits: AWSDecodableShape {
+        /// The number of custom model units used to host a model copy.
+        public let customModelUnitsPerModelCopy: Int?
+        /// The version of the custom model unit. Use to determine the billing rate for the custom model unit.
+        public let customModelUnitsVersion: String?
+
+        @inlinable
+        public init(customModelUnitsPerModelCopy: Int? = nil, customModelUnitsVersion: String? = nil) {
+            self.customModelUnitsPerModelCopy = customModelUnitsPerModelCopy
+            self.customModelUnitsVersion = customModelUnitsVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customModelUnitsPerModelCopy = "customModelUnitsPerModelCopy"
+            case customModelUnitsVersion = "customModelUnitsVersion"
         }
     }
 
@@ -2096,7 +2289,7 @@ extension Bedrock {
             try self.validate(self.inferenceParams, name: "inferenceParams", parent: name, min: 1)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, max: 2048)
             try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, min: 1)
-            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:application-inference-profile/[a-z0-9]{12})|([0-9]{12}:inference-profile/(([a-z-]{2,8}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([0-9]{12}:default-prompt-router/[a-zA-Z0-9-:.]+)))|(([a-z]{2}[.]{1})([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|arn:aws(-[^:]+)?:sagemaker:[a-z0-9-]{1,20}:[0-9]{12}:endpoint/[a-z0-9-]{1,63}$")
+            try self.validate(self.modelIdentifier, name: "modelIdentifier", parent: name, pattern: "^(arn:aws(-[^:]+)?:bedrock:[a-z0-9-]{1,20}:((:foundation-model/[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|([0-9]{12}:provisioned-model/[a-z0-9]{12})|([0-9]{12}:imported-model/[a-z0-9]{12})|([0-9]{12}:application-inference-profile/[a-z0-9]{12})|([0-9]{12}:inference-profile/(([a-z-]{2,8}.)[a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([0-9]{12}:(default-prompt-router|prompt-router)/[a-zA-Z0-9-:.]+)))|(([a-z]{2}[.]{1})([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63})))|([a-z0-9-]{1,63}[.]{1}[a-z0-9-]{1,63}([.:]?[a-z0-9-]{1,63}))|arn:aws(-[^:]+)?:sagemaker:[a-z0-9-]{1,20}:[0-9]{12}:endpoint/[a-z0-9-]{1,63}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2164,6 +2357,42 @@ extension Bedrock {
         }
     }
 
+    public struct EvaluationInferenceConfigSummary: AWSDecodableShape {
+        /// A summary of the models used in an Amazon Bedrock model evaluation job. These resources can be models in Amazon Bedrock or models outside of Amazon Bedrock that you use to generate your own inference response data.
+        public let modelConfigSummary: EvaluationModelConfigSummary?
+        /// A summary of the RAG resources used in an Amazon Bedrock Knowledge Base evaluation job. These resources can be Knowledge Bases in Amazon Bedrock or RAG sources outside of Amazon Bedrock that you use to generate your own inference response data.
+        public let ragConfigSummary: EvaluationRagConfigSummary?
+
+        @inlinable
+        public init(modelConfigSummary: EvaluationModelConfigSummary? = nil, ragConfigSummary: EvaluationRagConfigSummary? = nil) {
+            self.modelConfigSummary = modelConfigSummary
+            self.ragConfigSummary = ragConfigSummary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelConfigSummary = "modelConfigSummary"
+            case ragConfigSummary = "ragConfigSummary"
+        }
+    }
+
+    public struct EvaluationModelConfigSummary: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs) of the models used for the evaluation job.
+        public let bedrockModelIdentifiers: [String]?
+        /// A label that identifies the models used for a model evaluation job where you provide your own inference response data.
+        public let precomputedInferenceSourceIdentifiers: [String]?
+
+        @inlinable
+        public init(bedrockModelIdentifiers: [String]? = nil, precomputedInferenceSourceIdentifiers: [String]? = nil) {
+            self.bedrockModelIdentifiers = bedrockModelIdentifiers
+            self.precomputedInferenceSourceIdentifiers = precomputedInferenceSourceIdentifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockModelIdentifiers = "bedrockModelIdentifiers"
+            case precomputedInferenceSourceIdentifiers = "precomputedInferenceSourceIdentifiers"
+        }
+    }
+
     public struct EvaluationOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon S3 URI where the results of the evaluation job are saved.
         public let s3Uri: String
@@ -2184,6 +2413,84 @@ extension Bedrock {
         }
     }
 
+    public struct EvaluationPrecomputedInferenceSource: AWSEncodableShape & AWSDecodableShape {
+        /// A label that identifies a model used in a model evaluation job where you provide your own inference response data.
+        public let inferenceSourceIdentifier: String
+
+        @inlinable
+        public init(inferenceSourceIdentifier: String) {
+            self.inferenceSourceIdentifier = inferenceSourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.inferenceSourceIdentifier, name: "inferenceSourceIdentifier", parent: name, max: 256)
+            try self.validate(self.inferenceSourceIdentifier, name: "inferenceSourceIdentifier", parent: name, min: 1)
+            try self.validate(self.inferenceSourceIdentifier, name: "inferenceSourceIdentifier", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9._-]){0,255}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inferenceSourceIdentifier = "inferenceSourceIdentifier"
+        }
+    }
+
+    public struct EvaluationPrecomputedRetrieveAndGenerateSourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A label that identifies the RAG source used for a retrieve-and-generate Knowledge Base evaluation job where you provide your own inference response data.
+        public let ragSourceIdentifier: String
+
+        @inlinable
+        public init(ragSourceIdentifier: String) {
+            self.ragSourceIdentifier = ragSourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ragSourceIdentifier, name: "ragSourceIdentifier", parent: name, max: 256)
+            try self.validate(self.ragSourceIdentifier, name: "ragSourceIdentifier", parent: name, min: 1)
+            try self.validate(self.ragSourceIdentifier, name: "ragSourceIdentifier", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9._-]){0,255}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ragSourceIdentifier = "ragSourceIdentifier"
+        }
+    }
+
+    public struct EvaluationPrecomputedRetrieveSourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A label that identifies the RAG source used for a retrieve-only Knowledge Base evaluation job where you provide your own inference response data.
+        public let ragSourceIdentifier: String
+
+        @inlinable
+        public init(ragSourceIdentifier: String) {
+            self.ragSourceIdentifier = ragSourceIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ragSourceIdentifier, name: "ragSourceIdentifier", parent: name, max: 256)
+            try self.validate(self.ragSourceIdentifier, name: "ragSourceIdentifier", parent: name, min: 1)
+            try self.validate(self.ragSourceIdentifier, name: "ragSourceIdentifier", parent: name, pattern: "^[a-zA-Z0-9]([a-zA-Z0-9._-]){0,255}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ragSourceIdentifier = "ragSourceIdentifier"
+        }
+    }
+
+    public struct EvaluationRagConfigSummary: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs) of the Knowledge Base resources used for a Knowledge Base evaluation job where Amazon Bedrock invokes the Knowledge Base for you.
+        public let bedrockKnowledgeBaseIdentifiers: [String]?
+        /// A label that identifies the RAG sources used for a Knowledge Base evaluation job where you provide your own inference response data.
+        public let precomputedRagSourceIdentifiers: [String]?
+
+        @inlinable
+        public init(bedrockKnowledgeBaseIdentifiers: [String]? = nil, precomputedRagSourceIdentifiers: [String]? = nil) {
+            self.bedrockKnowledgeBaseIdentifiers = bedrockKnowledgeBaseIdentifiers
+            self.precomputedRagSourceIdentifiers = precomputedRagSourceIdentifiers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bedrockKnowledgeBaseIdentifiers = "bedrockKnowledgeBaseIdentifiers"
+            case precomputedRagSourceIdentifiers = "precomputedRagSourceIdentifiers"
+        }
+    }
+
     public struct EvaluationSummary: AWSDecodableShape {
         /// Specifies whether the evaluation job is for evaluating a model or evaluating a knowledge base (retrieval and response generation).
         public let applicationType: ApplicationType?
@@ -2194,6 +2501,8 @@ extension Bedrock {
         public let evaluationTaskTypes: [EvaluationTaskType]
         /// The Amazon Resource Names (ARNs) of the models used to compute the metrics for a knowledge base evaluation job.
         public let evaluatorModelIdentifiers: [String]?
+        /// Identifies the models, Knowledge Bases, or other RAG sources evaluated in a model or Knowledge Base evaluation job.
+        public let inferenceConfigSummary: EvaluationInferenceConfigSummary?
         /// The Amazon Resource Name (ARN) of the evaluation job.
         public let jobArn: String
         /// The name for the evaluation job.
@@ -2208,11 +2517,28 @@ extension Bedrock {
         public let status: EvaluationJobStatus
 
         @inlinable
-        public init(applicationType: ApplicationType? = nil, creationTime: Date, evaluationTaskTypes: [EvaluationTaskType], evaluatorModelIdentifiers: [String]? = nil, jobArn: String, jobName: String, jobType: EvaluationJobType, modelIdentifiers: [String]? = nil, ragIdentifiers: [String]? = nil, status: EvaluationJobStatus) {
+        public init(applicationType: ApplicationType? = nil, creationTime: Date, evaluationTaskTypes: [EvaluationTaskType], evaluatorModelIdentifiers: [String]? = nil, inferenceConfigSummary: EvaluationInferenceConfigSummary? = nil, jobArn: String, jobName: String, jobType: EvaluationJobType, status: EvaluationJobStatus) {
             self.applicationType = applicationType
             self.creationTime = creationTime
             self.evaluationTaskTypes = evaluationTaskTypes
             self.evaluatorModelIdentifiers = evaluatorModelIdentifiers
+            self.inferenceConfigSummary = inferenceConfigSummary
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.jobType = jobType
+            self.modelIdentifiers = nil
+            self.ragIdentifiers = nil
+            self.status = status
+        }
+
+        @available(*, deprecated, message: "Members modelIdentifiers, ragIdentifiers have been deprecated")
+        @inlinable
+        public init(applicationType: ApplicationType? = nil, creationTime: Date, evaluationTaskTypes: [EvaluationTaskType], evaluatorModelIdentifiers: [String]? = nil, inferenceConfigSummary: EvaluationInferenceConfigSummary? = nil, jobArn: String, jobName: String, jobType: EvaluationJobType, modelIdentifiers: [String]? = nil, ragIdentifiers: [String]? = nil, status: EvaluationJobStatus) {
+            self.applicationType = applicationType
+            self.creationTime = creationTime
+            self.evaluationTaskTypes = evaluationTaskTypes
+            self.evaluatorModelIdentifiers = evaluatorModelIdentifiers
+            self.inferenceConfigSummary = inferenceConfigSummary
             self.jobArn = jobArn
             self.jobName = jobName
             self.jobType = jobType
@@ -2226,6 +2552,7 @@ extension Bedrock {
             case creationTime = "creationTime"
             case evaluationTaskTypes = "evaluationTaskTypes"
             case evaluatorModelIdentifiers = "evaluatorModelIdentifiers"
+            case inferenceConfigSummary = "inferenceConfigSummary"
             case jobArn = "jobArn"
             case jobName = "jobName"
             case jobType = "jobType"
@@ -2867,6 +3194,8 @@ extension Bedrock {
         /// Creation time of the imported model.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationTime: Date?
+        /// Information about the hardware utilization for a single copy of the model.
+        public let customModelUnits: CustomModelUnits?
         /// Specifies if the imported model supports converse.
         public let instructSupported: Bool?
         /// Job Amazon Resource Name (ARN) associated with the imported model.
@@ -2885,8 +3214,9 @@ extension Bedrock {
         public let modelName: String?
 
         @inlinable
-        public init(creationTime: Date? = nil, instructSupported: Bool? = nil, jobArn: String? = nil, jobName: String? = nil, modelArchitecture: String? = nil, modelArn: String? = nil, modelDataSource: ModelDataSource? = nil, modelKmsKeyArn: String? = nil, modelName: String? = nil) {
+        public init(creationTime: Date? = nil, customModelUnits: CustomModelUnits? = nil, instructSupported: Bool? = nil, jobArn: String? = nil, jobName: String? = nil, modelArchitecture: String? = nil, modelArn: String? = nil, modelDataSource: ModelDataSource? = nil, modelKmsKeyArn: String? = nil, modelName: String? = nil) {
             self.creationTime = creationTime
+            self.customModelUnits = customModelUnits
             self.instructSupported = instructSupported
             self.jobArn = jobArn
             self.jobName = jobName
@@ -2899,6 +3229,7 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case creationTime = "creationTime"
+            case customModelUnits = "customModelUnits"
             case instructSupported = "instructSupported"
             case jobArn = "jobArn"
             case jobName = "jobName"
@@ -3605,10 +3936,18 @@ extension Bedrock {
     }
 
     public struct GuardrailContentFilter: AWSDecodableShape {
+        /// The action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailContentFilterAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
         /// The input modalities selected for the guardrail content filter.
         public let inputModalities: [GuardrailModality]?
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         public let inputStrength: GuardrailFilterStrength
+        /// The action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailContentFilterAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// The output modalities selected for the guardrail content filter.
         public let outputModalities: [GuardrailModality]?
         /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
@@ -3617,17 +3956,25 @@ extension Bedrock {
         public let type: GuardrailContentFilterType
 
         @inlinable
-        public init(inputModalities: [GuardrailModality]? = nil, inputStrength: GuardrailFilterStrength, outputModalities: [GuardrailModality]? = nil, outputStrength: GuardrailFilterStrength, type: GuardrailContentFilterType) {
+        public init(inputAction: GuardrailContentFilterAction? = nil, inputEnabled: Bool? = nil, inputModalities: [GuardrailModality]? = nil, inputStrength: GuardrailFilterStrength, outputAction: GuardrailContentFilterAction? = nil, outputEnabled: Bool? = nil, outputModalities: [GuardrailModality]? = nil, outputStrength: GuardrailFilterStrength, type: GuardrailContentFilterType) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.inputModalities = inputModalities
             self.inputStrength = inputStrength
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.outputModalities = outputModalities
             self.outputStrength = outputStrength
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
             case inputModalities = "inputModalities"
             case inputStrength = "inputStrength"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case outputModalities = "outputModalities"
             case outputStrength = "outputStrength"
             case type = "type"
@@ -3635,10 +3982,18 @@ extension Bedrock {
     }
 
     public struct GuardrailContentFilterConfig: AWSEncodableShape {
+        /// Specifies the action to take when harmful content is detected. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailContentFilterAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
         /// The input modalities selected for the guardrail content filter configuration.
         public let inputModalities: [GuardrailModality]?
         /// The strength of the content filter to apply to prompts. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
         public let inputStrength: GuardrailFilterStrength
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailContentFilterAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// The output modalities selected for the guardrail content filter configuration.
         public let outputModalities: [GuardrailModality]?
         /// The strength of the content filter to apply to model responses. As you increase the filter strength, the likelihood of filtering harmful content increases and the probability of seeing harmful content in your application reduces.
@@ -3647,9 +4002,13 @@ extension Bedrock {
         public let type: GuardrailContentFilterType
 
         @inlinable
-        public init(inputModalities: [GuardrailModality]? = nil, inputStrength: GuardrailFilterStrength, outputModalities: [GuardrailModality]? = nil, outputStrength: GuardrailFilterStrength, type: GuardrailContentFilterType) {
+        public init(inputAction: GuardrailContentFilterAction? = nil, inputEnabled: Bool? = nil, inputModalities: [GuardrailModality]? = nil, inputStrength: GuardrailFilterStrength, outputAction: GuardrailContentFilterAction? = nil, outputEnabled: Bool? = nil, outputModalities: [GuardrailModality]? = nil, outputStrength: GuardrailFilterStrength, type: GuardrailContentFilterType) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.inputModalities = inputModalities
             self.inputStrength = inputStrength
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.outputModalities = outputModalities
             self.outputStrength = outputStrength
             self.type = type
@@ -3663,8 +4022,12 @@ extension Bedrock {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
             case inputModalities = "inputModalities"
             case inputStrength = "inputStrength"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case outputModalities = "outputModalities"
             case outputStrength = "outputStrength"
             case type = "type"
@@ -3708,36 +4071,52 @@ extension Bedrock {
     }
 
     public struct GuardrailContextualGroundingFilter: AWSDecodableShape {
+        /// The action to take when content fails the contextual grounding evaluation. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let action: GuardrailContextualGroundingAction?
+        /// Indicates whether contextual grounding is enabled for evaluation. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let enabled: Bool?
         /// The threshold details for the guardrails contextual grounding filter.
         public let threshold: Double
         /// The filter type details for the guardrails contextual grounding filter.
         public let type: GuardrailContextualGroundingFilterType
 
         @inlinable
-        public init(threshold: Double, type: GuardrailContextualGroundingFilterType) {
+        public init(action: GuardrailContextualGroundingAction? = nil, enabled: Bool? = nil, threshold: Double, type: GuardrailContextualGroundingFilterType) {
+            self.action = action
+            self.enabled = enabled
             self.threshold = threshold
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case enabled = "enabled"
             case threshold = "threshold"
             case type = "type"
         }
     }
 
     public struct GuardrailContextualGroundingFilterConfig: AWSEncodableShape {
+        /// Specifies the action to take when content fails the contextual grounding evaluation. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let action: GuardrailContextualGroundingAction?
+        /// Specifies whether to enable contextual grounding evaluation. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let enabled: Bool?
         /// The threshold details for the guardrails contextual grounding filter.
         public let threshold: Double
         /// The filter details for the guardrails contextual grounding filter.
         public let type: GuardrailContextualGroundingFilterType
 
         @inlinable
-        public init(threshold: Double, type: GuardrailContextualGroundingFilterType) {
+        public init(action: GuardrailContextualGroundingAction? = nil, enabled: Bool? = nil, threshold: Double, type: GuardrailContextualGroundingFilterType) {
+            self.action = action
+            self.enabled = enabled
             self.threshold = threshold
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case enabled = "enabled"
             case threshold = "threshold"
             case type = "type"
         }
@@ -3776,29 +4155,61 @@ extension Bedrock {
     }
 
     public struct GuardrailManagedWords: AWSDecodableShape {
+        /// The action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
+        /// The action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// ManagedWords$type The managed word type that was configured for the guardrail. (For now, we only offer profanity word list)
         public let type: GuardrailManagedWordsType
 
         @inlinable
-        public init(type: GuardrailManagedWordsType) {
+        public init(inputAction: GuardrailWordAction? = nil, inputEnabled: Bool? = nil, outputAction: GuardrailWordAction? = nil, outputEnabled: Bool? = nil, type: GuardrailManagedWordsType) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case type = "type"
         }
     }
 
     public struct GuardrailManagedWordsConfig: AWSEncodableShape {
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// The managed word type to configure for the guardrail.
         public let type: GuardrailManagedWordsType
 
         @inlinable
-        public init(type: GuardrailManagedWordsType) {
+        public init(inputAction: GuardrailWordAction? = nil, inputEnabled: Bool? = nil, outputAction: GuardrailWordAction? = nil, outputEnabled: Bool? = nil, type: GuardrailManagedWordsType) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case type = "type"
         }
     }
@@ -3806,17 +4217,33 @@ extension Bedrock {
     public struct GuardrailPiiEntity: AWSDecodableShape {
         /// The configured guardrail action when PII entity is detected.
         public let action: GuardrailSensitiveInformationAction
+        /// The action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    ANONYMIZE – Mask the content and replace it with identifier tags.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
+        /// The action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    ANONYMIZE – Mask the content and replace it with identifier tags.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// The type of PII entity. For example, Social Security Number.
         public let type: GuardrailPiiEntityType
 
         @inlinable
-        public init(action: GuardrailSensitiveInformationAction, type: GuardrailPiiEntityType) {
+        public init(action: GuardrailSensitiveInformationAction, inputAction: GuardrailSensitiveInformationAction? = nil, inputEnabled: Bool? = nil, outputAction: GuardrailSensitiveInformationAction? = nil, outputEnabled: Bool? = nil, type: GuardrailPiiEntityType) {
             self.action = action
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case type = "type"
         }
     }
@@ -3824,17 +4251,33 @@ extension Bedrock {
     public struct GuardrailPiiEntityConfig: AWSEncodableShape {
         /// Configure guardrail action when the PII entity is detected.
         public let action: GuardrailSensitiveInformationAction
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    ANONYMIZE – Mask the content and replace it with identifier tags.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    ANONYMIZE – Mask the content and replace it with identifier tags.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// Configure guardrail type when the PII entity is detected. The following PIIs are used to block or mask sensitive information:    General     ADDRESS  A physical address, such as "100 Main Street, Anytown, USA"  or "Suite #12, Building 123". An address can include information  such as the street, building, location, city, state, country, county,  zip code, precinct, and neighborhood.     AGE  An individual's age, including the quantity and unit of time. For  example, in the phrase "I am 40 years old," Guardrails recognizes "40 years"  as an age.     NAME  An individual's name. This entity type does not include titles, such as  Dr., Mr., Mrs., or Miss. guardrails doesn't apply this entity type to names that  are part of organizations or addresses. For example, guardrails recognizes  the "John Doe Organization" as an organization, and it recognizes "Jane Doe  Street" as an address.     EMAIL  An email address, such as marymajor@email.com.    PHONE  A phone number. This entity type also includes fax and pager numbers.     USERNAME  A user name that identifies an account, such as a login name, screen name,  nick name, or handle.     PASSWORD  An alphanumeric string that is used as a password, such as  "*very20special#pass*".     DRIVER_ID  The number assigned to a driver's license, which is an official  document permitting an individual to operate one or more motorized  vehicles on a public road. A driver's license number consists of  alphanumeric characters.     LICENSE_PLATE  A license plate for a vehicle is issued by the state or country where  the vehicle is registered. The format for passenger vehicles is typically  five to eight digits, consisting of upper-case letters and numbers. The  format varies depending on the location of the issuing state or country.     VEHICLE_IDENTIFICATION_NUMBER  A Vehicle Identification Number (VIN) uniquely identifies a vehicle.  VIN content and format are defined in the ISO 3779 specification.  Each country has specific codes and formats for VINs.       Finance     CREDIT_DEBIT_CARD_CVV  A three-digit card verification code (CVV) that is present on VISA,  MasterCard, and Discover credit and debit cards. For American Express  credit or debit cards, the CVV is a four-digit numeric code.     CREDIT_DEBIT_CARD_EXPIRY  The expiration date for a credit or debit card. This number is usually  four digits long and is often formatted as month/year or  MM/YY. Guardrails recognizes expiration dates such as  01/21, 01/2021, and Jan 2021.     CREDIT_DEBIT_CARD_NUMBER  The number for a credit or debit card. These numbers can vary from 13 to 16  digits in length. However, Amazon Comprehend also recognizes credit or debit  card numbers when only the last four digits are present.     PIN  A four-digit personal identification number (PIN) with which you can  access your bank account.     INTERNATIONAL_BANK_ACCOUNT_NUMBER  An International Bank Account Number has specific formats in each country.  For more information, see www.iban.com/structure.    SWIFT_CODE  A SWIFT code is a standard format of Bank Identifier Code (BIC) used to specify  a particular bank or branch. Banks use these codes for money transfers such as  international wire transfers. SWIFT codes consist of eight or 11 characters. The 11-digit codes refer to specific  branches, while eight-digit codes (or 11-digit codes ending in 'XXX') refer to the  head or primary office.      IT     IP_ADDRESS  An IPv4 address, such as 198.51.100.0.     MAC_ADDRESS  A media access control (MAC) address is a unique identifier  assigned to a network interface controller (NIC).     URL  A web address, such as www.example.com.     AWS_ACCESS_KEY  A unique identifier that's associated with a secret access key;  you use the access key ID and secret access key to sign programmatic  Amazon Web Services requests cryptographically.     AWS_SECRET_KEY  A unique identifier that's associated with an access key. You use the  access key ID and secret access key to sign programmatic Amazon Web Services  requests cryptographically.       USA specific     US_BANK_ACCOUNT_NUMBER  A US bank account number, which is typically 10 to 12 digits long.                                    US_BANK_ROUTING_NUMBER  A US bank account routing number. These are typically nine digits long,                                      US_INDIVIDUAL_TAX_IDENTIFICATION_NUMBER  A US Individual Taxpayer Identification Number (ITIN) is a nine-digit number  that starts with a "9" and contain a "7" or "8" as the fourth digit. An ITIN  can be formatted with a space or a dash after the third and forth digits.     US_PASSPORT_NUMBER  A US passport number. Passport numbers range from six to nine alphanumeric  characters.     US_SOCIAL_SECURITY_NUMBER  A US Social Security Number (SSN) is a nine-digit number that is issued to  US citizens, permanent residents, and temporary working residents.                                        Canada specific     CA_HEALTH_NUMBER  A Canadian Health Service Number is a 10-digit unique identifier,  required for individuals to access healthcare benefits.     CA_SOCIAL_INSURANCE_NUMBER  A Canadian Social Insurance Number (SIN) is a nine-digit unique identifier,  required for individuals to access government programs and benefits. The SIN is formatted as three groups of three digits, such as  123-456-789. A SIN can be validated through a simple  check-digit process called the Luhn algorithm.      UK Specific     UK_NATIONAL_HEALTH_SERVICE_NUMBER  A UK National Health Service Number is a 10-17 digit number,  such as 485 777 3456. The current system formats the 10-digit  number with spaces after the third and sixth digits. The final digit is an  error-detecting checksum.    UK_NATIONAL_INSURANCE_NUMBER  A UK National Insurance Number (NINO) provides individuals with access to National  Insurance (social security) benefits. It is also used for some purposes in the UK  tax system. The number is nine digits long and starts with two letters, followed by six  numbers and one letter. A NINO can be formatted with a space or a dash after  the two letters and after the second, forth, and sixth digits.    UK_UNIQUE_TAXPAYER_REFERENCE_NUMBER  A UK Unique Taxpayer Reference (UTR) is a 10-digit number that identifies a taxpayer or a business.       Custom     Regex filter - You can use a regular expressions to define patterns for a guardrail to recognize and act upon such as serial number, booking ID etc..
         public let type: GuardrailPiiEntityType
 
         @inlinable
-        public init(action: GuardrailSensitiveInformationAction, type: GuardrailPiiEntityType) {
+        public init(action: GuardrailSensitiveInformationAction, inputAction: GuardrailSensitiveInformationAction? = nil, inputEnabled: Bool? = nil, outputAction: GuardrailSensitiveInformationAction? = nil, outputEnabled: Bool? = nil, type: GuardrailPiiEntityType) {
             self.action = action
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case type = "type"
         }
     }
@@ -3844,23 +4287,39 @@ extension Bedrock {
         public let action: GuardrailSensitiveInformationAction
         /// The description of the regular expression for the guardrail.
         public let description: String?
+        /// The action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
         /// The name of the regular expression for the guardrail.
         public let name: String
+        /// The action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailSensitiveInformationAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// The pattern of the regular expression configured for the guardrail.
         public let pattern: String
 
         @inlinable
-        public init(action: GuardrailSensitiveInformationAction, description: String? = nil, name: String, pattern: String) {
+        public init(action: GuardrailSensitiveInformationAction, description: String? = nil, inputAction: GuardrailSensitiveInformationAction? = nil, inputEnabled: Bool? = nil, name: String, outputAction: GuardrailSensitiveInformationAction? = nil, outputEnabled: Bool? = nil, pattern: String) {
             self.action = action
             self.description = description
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.pattern = pattern
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case description = "description"
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
             case name = "name"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case pattern = "pattern"
         }
     }
@@ -3870,23 +4329,39 @@ extension Bedrock {
         public let action: GuardrailSensitiveInformationAction
         /// The description of the regular expression to configure for the guardrail.
         public let description: String?
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
         /// The name of the regular expression to configure for the guardrail.
         public let name: String
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailSensitiveInformationAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// The regular expression pattern to configure for the guardrail.
         public let pattern: String
 
         @inlinable
-        public init(action: GuardrailSensitiveInformationAction, description: String? = nil, name: String, pattern: String) {
+        public init(action: GuardrailSensitiveInformationAction, description: String? = nil, inputAction: GuardrailSensitiveInformationAction? = nil, inputEnabled: Bool? = nil, name: String, outputAction: GuardrailSensitiveInformationAction? = nil, outputEnabled: Bool? = nil, pattern: String) {
             self.action = action
             self.description = description
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.pattern = pattern
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "action"
             case description = "description"
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
             case name = "name"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case pattern = "pattern"
         }
     }
@@ -3982,23 +4457,39 @@ extension Bedrock {
         public let definition: String
         /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
         public let examples: [String]?
+        /// The action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailTopicAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
         /// The name of the topic to deny.
         public let name: String
+        /// The action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailTopicAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// Specifies to deny the topic.
         public let type: GuardrailTopicType?
 
         @inlinable
-        public init(definition: String, examples: [String]? = nil, name: String, type: GuardrailTopicType? = nil) {
+        public init(definition: String, examples: [String]? = nil, inputAction: GuardrailTopicAction? = nil, inputEnabled: Bool? = nil, name: String, outputAction: GuardrailTopicAction? = nil, outputEnabled: Bool? = nil, type: GuardrailTopicType? = nil) {
             self.definition = definition
             self.examples = examples
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
             case examples = "examples"
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
             case name = "name"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case type = "type"
         }
     }
@@ -4008,16 +4499,28 @@ extension Bedrock {
         public let definition: String
         /// A list of prompts, each of which is an example of a prompt that can be categorized as belonging to the topic.
         public let examples: [String]?
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailTopicAction?
+        /// Specifies whether to enable guardrail evaluation on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
         /// The name of the topic to deny.
         public let name: String
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailTopicAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// Specifies to deny the topic.
         public let type: GuardrailTopicType
 
         @inlinable
-        public init(definition: String, examples: [String]? = nil, name: String, type: GuardrailTopicType) {
+        public init(definition: String, examples: [String]? = nil, inputAction: GuardrailTopicAction? = nil, inputEnabled: Bool? = nil, name: String, outputAction: GuardrailTopicAction? = nil, outputEnabled: Bool? = nil, type: GuardrailTopicType) {
             self.definition = definition
             self.examples = examples
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
             self.name = name
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.type = type
         }
 
@@ -4037,7 +4540,11 @@ extension Bedrock {
         private enum CodingKeys: String, CodingKey {
             case definition = "definition"
             case examples = "examples"
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
             case name = "name"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case type = "type"
         }
     }
@@ -4079,29 +4586,61 @@ extension Bedrock {
     }
 
     public struct GuardrailWord: AWSDecodableShape {
+        /// The action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the input. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
+        /// The action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailWordAction?
+        /// Indicates whether guardrail evaluation is enabled on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// Text of the word configured for the guardrail to block.
         public let text: String
 
         @inlinable
-        public init(text: String) {
+        public init(inputAction: GuardrailWordAction? = nil, inputEnabled: Bool? = nil, outputAction: GuardrailWordAction? = nil, outputEnabled: Bool? = nil, text: String) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.text = text
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case text = "text"
         }
     }
 
     public struct GuardrailWordConfig: AWSEncodableShape {
+        /// Specifies the action to take when harmful content is detected in the input. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let inputAction: GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the intput. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let inputEnabled: Bool?
+        /// Specifies the action to take when harmful content is detected in the output. Supported values include:    BLOCK – Block the content and replace it with blocked messaging.    NONE – Take no action but return detection information in the trace response.
+        public let outputAction: GuardrailWordAction?
+        /// Specifies whether to enable guardrail evaluation on the output. When disabled, you aren't charged for the evaluation. The evaluation doesn't appear in the response.
+        public let outputEnabled: Bool?
         /// Text of the word configured for the guardrail to block.
         public let text: String
 
         @inlinable
-        public init(text: String) {
+        public init(inputAction: GuardrailWordAction? = nil, inputEnabled: Bool? = nil, outputAction: GuardrailWordAction? = nil, outputEnabled: Bool? = nil, text: String) {
+            self.inputAction = inputAction
+            self.inputEnabled = inputEnabled
+            self.outputAction = outputAction
+            self.outputEnabled = outputEnabled
             self.text = text
         }
 
         private enum CodingKeys: String, CodingKey {
+            case inputAction = "inputAction"
+            case inputEnabled = "inputEnabled"
+            case outputAction = "outputAction"
+            case outputEnabled = "outputEnabled"
             case text = "text"
         }
     }
@@ -6936,24 +7475,6 @@ extension Bedrock {
         }
     }
 
-    public struct EvaluationModelConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Defines the Amazon Bedrock model or inference profile and inference parameters you want used.
-        public let bedrockModel: EvaluationBedrockModel?
-
-        @inlinable
-        public init(bedrockModel: EvaluationBedrockModel? = nil) {
-            self.bedrockModel = bedrockModel
-        }
-
-        public func validate(name: String) throws {
-            try self.bedrockModel?.validate(name: "\(name).bedrockModel")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case bedrockModel = "bedrockModel"
-        }
-    }
-
     public struct EvaluatorModelConfig: AWSEncodableShape & AWSDecodableShape {
         /// The evaluator model used in knowledge base evaluation job or in model evaluation job that use a model as judge. This model computes all evaluation related metrics.
         public let bedrockEvaluatorModels: [BedrockEvaluatorModel]?
@@ -7067,24 +7588,6 @@ extension Bedrock {
 
         private enum CodingKeys: String, CodingKey {
             case s3OutputDataConfig = "s3OutputDataConfig"
-        }
-    }
-
-    public struct RAGConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Contains configuration details for knowledge base retrieval and response generation.
-        public let knowledgeBaseConfig: KnowledgeBaseConfig?
-
-        @inlinable
-        public init(knowledgeBaseConfig: KnowledgeBaseConfig? = nil) {
-            self.knowledgeBaseConfig = knowledgeBaseConfig
-        }
-
-        public func validate(name: String) throws {
-            try self.knowledgeBaseConfig?.validate(name: "\(name).knowledgeBaseConfig")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case knowledgeBaseConfig = "knowledgeBaseConfig"
         }
     }
 }

@@ -935,7 +935,7 @@ public struct MediaConvert: AWSService {
         return try await self.listVersions(input, logger: logger)
     }
 
-    /// The Probe operation analyzes the provided media file and returns comprehensive metadata about its container format, tracks, and any encountered errors.
+    /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
     @Sendable
     @inlinable
     public func probe(_ input: ProbeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ProbeResponse {
@@ -948,10 +948,10 @@ public struct MediaConvert: AWSService {
             logger: logger
         )
     }
-    /// The Probe operation analyzes the provided media file and returns comprehensive metadata about its container format, tracks, and any encountered errors.
+    /// Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
     ///
     /// Parameters:
-    ///   - inputFiles: The list of input media files to be probed.
+    ///   - inputFiles: Specify a media file to probe.
     ///   - logger: Logger use during operation
     @inlinable
     public func probe(

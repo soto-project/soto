@@ -1042,9 +1042,9 @@ extension OpenSearch {
     }
 
     public struct AppConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specify the item to configure, such as admin role for the OpenSearch Application.
+        /// The configuration item to set, such as the admin role for the OpenSearch application.
         public let key: AppConfigType?
-        /// Specifies the value to configure for the key, such as an IAM user ARN.
+        /// The value assigned to the configuration key, such as an IAM user ARN.
         public let value: String?
 
         @inlinable
@@ -1066,17 +1066,17 @@ extension OpenSearch {
 
     public struct ApplicationSummary: AWSDecodableShape {
         public let arn: String?
-        /// Timestamp at which an OpenSearch Application was created.
+        /// The timestamp when an OpenSearch application was created.
         public let createdAt: Date?
-        /// Endpoint URL of an OpenSearch Application.
+        /// The endpoint URL of an OpenSearch application.
         public let endpoint: String?
-        /// Unique identifier for an OpenSearch application.
+        /// The unique identifier of an OpenSearch application.
         public let id: String?
-        /// Timestamp at which an OpenSearch Application was last updated.
+        /// The timestamp of the last update to an OpenSearch application.
         public let lastUpdatedAt: Date?
-        /// Name of an OpenSearch Application.
+        /// The name of an OpenSearch application.
         public let name: String?
-        /// Status of an OpenSearch Application. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+        /// The current status of an OpenSearch application. Possible values: CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
         public let status: ApplicationStatus?
 
         @inlinable
@@ -1923,15 +1923,15 @@ extension OpenSearch {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
-        /// Configurations of the OpenSearch Application, inlcuding admin configuration.
+        /// Configuration settings for the OpenSearch application, including administrative options.
         public let appConfigs: [AppConfig]?
-        /// A unique client idempotency token. It will be auto generated if not provided.
+        /// Unique, case-sensitive identifier to ensure idempotency of the request.
         public let clientToken: String?
-        /// Data sources to be associated with the OpenSearch Application.
+        /// The data sources to link to the OpenSearch application.
         public let dataSources: [DataSource]?
-        /// Settings of IAM Identity Center for the OpenSearch Application.
+        /// Configuration settings for integrating Amazon Web Services IAM Identity Center with the OpenSearch application.
         public let iamIdentityCenterOptions: IamIdentityCenterOptionsInput?
-        /// Name of the OpenSearch Appication to create. Application names are unique across the applications owned by an account within an Amazon Web Services Region.
+        /// The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account.
         public let name: String
         public let tagList: [Tag]?
 
@@ -1975,18 +1975,18 @@ extension OpenSearch {
     }
 
     public struct CreateApplicationResponse: AWSDecodableShape {
-        /// Configurations of the OpenSearch Application, inlcuding admin configuration.
+        /// Configuration settings for the OpenSearch application, including administrative options.
         public let appConfigs: [AppConfig]?
         public let arn: String?
-        /// Timestamp when the OpenSearch Application was created.
+        /// The timestamp indicating when the OpenSearch application was created.
         public let createdAt: Date?
-        /// Data sources associated with the created OpenSearch Application.
+        /// The data sources linked to the OpenSearch application.
         public let dataSources: [DataSource]?
-        /// Settings of IAM Identity Center for the created OpenSearch Application.
+        /// The IAM Identity Center settings configured for the OpenSearch application.
         public let iamIdentityCenterOptions: IamIdentityCenterOptions?
-        /// Unique identifier for the created OpenSearch Application.
+        /// The unique identifier assigned to the OpenSearch application.
         public let id: String?
-        /// Name of the created OpenSearch Application.
+        /// The name of the OpenSearch application.
         public let name: String?
         public let tagList: [Tag]?
 
@@ -2039,7 +2039,7 @@ extension OpenSearch {
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch Service domains.
         public let engineVersion: String?
-        /// Options for IAM Identity Center Option control for the domain.
+        /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
         public let identityCenterOptions: IdentityCenterOptionsInput?
         /// Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
         public let ipAddressType: IPAddressType?
@@ -2400,7 +2400,7 @@ extension OpenSearch {
     }
 
     public struct DeleteApplicationRequest: AWSEncodableShape {
-        /// Unique identifier for the OpenSearch Application that you want to delete.
+        /// The unique identifier of the OpenSearch application to delete.
         public let id: String
 
         @inlinable
@@ -3573,7 +3573,7 @@ extension OpenSearch {
         public let encryptionAtRestOptions: EncryptionAtRestOptionsStatus?
         /// The OpenSearch or Elasticsearch version that the domain is running.
         public let engineVersion: VersionStatus?
-        /// Container for IAM Identity Center Option control for the domain.
+        /// Configuration options for enabling and managing IAM Identity Center integration within a domain.
         public let identityCenterOptions: IdentityCenterOptionsStatus?
         /// Choose either dual stack or IPv4 as your IP address type.  Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
         public let ipAddressType: IPAddressTypeStatus?
@@ -3786,13 +3786,13 @@ extension OpenSearch {
         public let nodeId: String?
         /// Indicates if the node is active or in standby.
         public let nodeStatus: NodeStatus?
-        /// Indicates whether the nodes is a data, master, or ultrawarm node.
+        /// Indicates whether the nodes is a data, master, or UltraWarm node.
         public let nodeType: NodeType?
         /// The storage size of the node, in GiB.
         public let storageSize: String?
         /// Indicates if the node has EBS or instance storage.
         public let storageType: String?
-        /// If the nodes has EBS storage, indicates if the volume type is GP2 or GP3. Only applicable for data nodes.
+        /// If the nodes has EBS storage, indicates if the volume type is gp2 or gp3. Only applicable for data nodes.
         public let storageVolumeType: VolumeType?
 
         @inlinable
@@ -3918,7 +3918,7 @@ extension OpenSearch {
         public let endpointV2: String?
         /// Version of OpenSearch or Elasticsearch that the domain is running, in the format Elasticsearch_X.Y or OpenSearch_X.Y.
         public let engineVersion: String?
-        /// Container for IAM Identity Center Option control for the domain.
+        /// Configuration options for controlling IAM Identity Center integration within a domain.
         public let identityCenterOptions: IdentityCenterOptions?
         /// The type of IP addresses supported by the endpoint for the domain.
         public let ipAddressType: IPAddressType?
@@ -4243,7 +4243,7 @@ extension OpenSearch {
     }
 
     public struct GetApplicationRequest: AWSEncodableShape {
-        /// Unique identifier of the checked OpenSearch Application.
+        /// The unique identifier of the OpenSearch application to retrieve.
         public let id: String
 
         @inlinable
@@ -4265,24 +4265,24 @@ extension OpenSearch {
     }
 
     public struct GetApplicationResponse: AWSDecodableShape {
-        /// App configurations of the checked OpenSearch Application.
+        /// The configuration settings of the OpenSearch application.
         public let appConfigs: [AppConfig]?
         public let arn: String?
-        /// Timestamp at which the checked OpenSearch Application was created.
+        /// The timestamp when the OpenSearch application was created.
         public let createdAt: Date?
-        /// Associated data sources to the checked OpenSearch Application.
+        /// The data sources associated with the OpenSearch application.
         public let dataSources: [DataSource]?
-        /// Endpoint URL of the checked OpenSearch Application.
+        /// The endpoint URL of the OpenSearch application.
         public let endpoint: String?
-        /// IAM Identity Center settings for the checked OpenSearch Application.
+        /// The IAM Identity Center settings configured for the OpenSearch application.
         public let iamIdentityCenterOptions: IamIdentityCenterOptions?
-        /// Unique identifier of the checked OpenSearch Application.
+        /// The unique identifier of the OpenSearch application.
         public let id: String?
-        /// Timestamp at which the checked OpenSearch Application was last updated.
+        /// The timestamp of the last update to the OpenSearch application.
         public let lastUpdatedAt: Date?
-        /// Name of the checked OpenSearch Application.
+        /// The name of the OpenSearch application.
         public let name: String?
-        /// Current status of the checked OpenSearch Application. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+        /// The current status of the OpenSearch application. Possible values: CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
         public let status: ApplicationStatus?
 
         @inlinable
@@ -4695,11 +4695,11 @@ extension OpenSearch {
     }
 
     public struct IamIdentityCenterOptions: AWSDecodableShape {
-        /// IAM Identity Center is enabled for the OpenSearch Application.
+        /// Indicates whether IAM Identity Center is enabled for the OpenSearch Application.
         public let enabled: Bool?
         public let iamIdentityCenterApplicationArn: String?
         public let iamIdentityCenterInstanceArn: String?
-        /// Amazon Resource Name of the IAM Identity Center's Application created for the OpenSearch Application after enabling IAM Identity Center.
+        /// The Amazon Resource Name (ARN) of the IAM role assigned to the IAM Identity Center application for the OpenSearch Application.
         public let iamRoleForIdentityCenterApplicationArn: String?
 
         @inlinable
@@ -4719,10 +4719,10 @@ extension OpenSearch {
     }
 
     public struct IamIdentityCenterOptionsInput: AWSEncodableShape {
-        /// Enable/disable settings for IAM Identity Center.
+        /// Specifies whether IAM Identity Center is enabled or disabled.
         public let enabled: Bool?
         public let iamIdentityCenterInstanceArn: String?
-        /// Amazon Resource Name of IAM Identity Center's application.
+        /// The ARN of the IAM role associated with the IAM Identity Center application.
         public let iamRoleForIdentityCenterApplicationArn: String?
 
         @inlinable
@@ -4749,17 +4749,17 @@ extension OpenSearch {
     }
 
     public struct IdentityCenterOptions: AWSDecodableShape {
-        /// True to enable IAM Identity Center for API access in Amazon OpenSearch Service.
+        /// Indicates whether IAM Identity Center is enabled for the application.
         public let enabledAPIAccess: Bool?
-        /// The ARN for IAM Identity Center Application which will integrate with Amazon OpenSearch Service.
+        /// The ARN of the IAM Identity Center application that integrates with Amazon OpenSearch Service.
         public let identityCenterApplicationARN: String?
-        /// The ARN for IAM Identity Center Instance.
+        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
         public let identityCenterInstanceARN: String?
-        /// The ID of IAM Identity Store.
+        /// The identifier of the IAM Identity Store.
         public let identityStoreId: String?
-        /// Specify the attribute that contains the backend role (groupName, groupID) of IAM Identity Center
+        /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
         public let rolesKey: RolesKeyIdCOption?
-        /// Specify the attribute that contains the subject (username, userID, email) of IAM Identity Center.
+        /// Specifies the attribute that contains the subject identifier (such as username, user ID, or email) in IAM Identity Center.
         public let subjectKey: SubjectKeyIdCOption?
 
         @inlinable
@@ -4783,13 +4783,13 @@ extension OpenSearch {
     }
 
     public struct IdentityCenterOptionsInput: AWSEncodableShape {
-        /// True to enable IAM Identity Center for API access in Amazon OpenSearch Service.
+        /// Indicates whether IAM Identity Center is enabled for API access in Amazon OpenSearch Service.
         public let enabledAPIAccess: Bool?
-        /// The ARN for IAM Identity Center Instance which will be used for IAM Identity Center Application creation.
+        /// The ARN of the IAM Identity Center instance used to create an OpenSearch UI application that uses IAM Identity Center for authentication.
         public let identityCenterInstanceARN: String?
-        /// Specify the attribute that contains the backend role (groupName, groupID) of IAM Identity Center
+        /// Specifies the attribute that contains the backend role identifier (such as group name or group ID) in IAM Identity Center.
         public let rolesKey: RolesKeyIdCOption?
-        /// Specify the attribute that contains the subject (username, userID, email) of IAM Identity Center.
+        /// Specifies the attribute that contains the subject identifier (such as username, user ID, or email) in IAM Identity Center.
         public let subjectKey: SubjectKeyIdCOption?
 
         @inlinable
@@ -4815,9 +4815,9 @@ extension OpenSearch {
     }
 
     public struct IdentityCenterOptionsStatus: AWSDecodableShape {
-        /// Container for IAM Identity Center Options settings.
+        /// Configuration settings for IAM Identity Center integration.
         public let options: IdentityCenterOptions
-        /// The status of IAM Identity Center Options settings for a domain.
+        /// The status of IAM Identity Center configuration settings for a domain.
         public let status: OptionStatus
 
         @inlinable
@@ -5062,7 +5062,7 @@ extension OpenSearch {
     public struct ListApplicationsRequest: AWSEncodableShape {
         public let maxResults: Int?
         public let nextToken: String?
-        /// OpenSearch Application Status can be used as filters for the listing request. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+        /// Filters the list of OpenSearch applications by status. Possible values: CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
         public let statuses: [ApplicationStatus]?
 
         @inlinable
@@ -5088,7 +5088,7 @@ extension OpenSearch {
     }
 
     public struct ListApplicationsResponse: AWSDecodableShape {
-        /// Summary of the OpenSearch Applications, including ID, ARN, name, endpoint, status, create time and last update time.
+        /// Summarizes OpenSearch applications, including ID, ARN, name, endpoint, status, creation time, and last update time.
         public let applicationSummaries: [ApplicationSummary]?
         public let nextToken: String?
 
@@ -5832,11 +5832,11 @@ extension OpenSearch {
     }
 
     public struct NodeConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The number of nodes of a particular node type in the cluster.
+        /// The number of nodes of a specific type within the cluster.
         public let count: Int?
-        /// A boolean that indicates whether a particular node type is enabled or not.
+        /// A boolean value indicating whether a specific node type is active or inactive.
         public let enabled: Bool?
-        /// The instance type of a particular node type in the cluster.
+        /// The instance type of a particular node within the cluster.
         public let type: OpenSearchPartitionInstanceType?
 
         @inlinable
@@ -5854,9 +5854,9 @@ extension OpenSearch {
     }
 
     public struct NodeOption: AWSEncodableShape & AWSDecodableShape {
-        /// Container for specifying configuration of any node type.
+        /// Configuration options for defining the setup of any node type.
         public let nodeConfig: NodeConfig?
-        /// Container for node type like coordinating.
+        /// Defines the type of node, such as coordinating nodes.
         public let nodeType: NodeOptionsNodeType?
 
         @inlinable
@@ -6115,13 +6115,13 @@ extension OpenSearch {
         public let lastUpdatedAt: Date?
         /// User-specified description of the package.
         public let packageDescription: String?
-        /// Package Encryption Options for a package.
+        /// Encryption options for a package.
         public let packageEncryptionOptions: PackageEncryptionOptions?
         /// The unique identifier of the package.
         public let packageID: String?
         /// The user-specified name of the package.
         public let packageName: String?
-        /// The owner of the package who is allowed to create/update a package and add users to the package scope.
+        /// The owner of the package who is allowed to create and update a package and add users to the package scope.
         public let packageOwner: String?
         /// The current status of the package. The available options are AVAILABLE, COPYING, COPY_FAILED, VALIDATNG, VALIDATION_FAILED, DELETING, and DELETE_FAILED.
         public let packageStatus: PackageStatus?
@@ -6175,7 +6175,7 @@ extension OpenSearch {
         public let associationConfiguration: PackageAssociationConfiguration?
         /// Internal ID of the package that you want to associate with a domain.
         public let packageID: String
-        /// List of package IDs that must be associated with the domain with or before the package can be associated.
+        /// List of package IDs that must be linked to the domain before or simultaneously with the package association.
         public let prerequisitePackageIDList: [String]?
 
         @inlinable
@@ -6201,9 +6201,9 @@ extension OpenSearch {
     }
 
     public struct PackageEncryptionOptions: AWSEncodableShape & AWSDecodableShape {
-        /// This indicates whether encryption is enabled for the package.
+        /// Whether encryption is enabled for the package.
         public let encryptionEnabled: Bool
-        ///  KMS key ID for encrypting the package.
+        /// KMS key ID for encrypting the package.
         public let kmsKeyIdentifier: String?
 
         @inlinable
@@ -6250,7 +6250,7 @@ extension OpenSearch {
     }
 
     public struct PackageVendingOptions: AWSEncodableShape & AWSDecodableShape {
-        /// This indicates whether vending is enabled for the package to determine if package can be used by other users.
+        /// Indicates whether the package vending feature is enabled, allowing the package to be used by other users.
         public let vendingEnabled: Bool
 
         @inlinable
@@ -7099,11 +7099,11 @@ extension OpenSearch {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
-        /// Configurations to be changed for the OpenSearch Application.
+        /// The configuration settings to modify for the OpenSearch application.
         public let appConfigs: [AppConfig]?
-        /// Data sources to be associated with the OpenSearch Application.
+        /// The data sources to associate with the OpenSearch application.
         public let dataSources: [DataSource]?
-        /// Unique identifier of the OpenSearch Application to be updated.
+        /// The unique identifier for the OpenSearch application to be updated.
         public let id: String
 
         @inlinable
@@ -7139,20 +7139,20 @@ extension OpenSearch {
     }
 
     public struct UpdateApplicationResponse: AWSDecodableShape {
-        /// Configurations for the updated OpenSearch Application.
+        /// The configuration settings for the updated OpenSearch application.
         public let appConfigs: [AppConfig]?
         public let arn: String?
-        /// Timestamp at which the OpenSearch Application was created.
+        /// The timestamp when the OpenSearch application was originally created.
         public let createdAt: Date?
-        /// Data sources associated with the updated OpenSearch Application.
+        /// The data sources associated with the updated OpenSearch application.
         public let dataSources: [DataSource]?
-        /// IAM Identity Center settings for the updated OpenSearch Application.
+        /// The IAM Identity Center configuration for the updated OpenSearch application.
         public let iamIdentityCenterOptions: IamIdentityCenterOptions?
-        /// Unique identifier of the updated OpenSearch Application.
+        /// The unique identifier of the updated OpenSearch application.
         public let id: String?
-        /// Timestamp at which the OpenSearch Application was last updated.
+        /// The timestamp when the OpenSearch application was last updated.
         public let lastUpdatedAt: Date?
-        /// Name of the updated OpenSearch Application.
+        /// The name of the updated OpenSearch application.
         public let name: String?
 
         @inlinable

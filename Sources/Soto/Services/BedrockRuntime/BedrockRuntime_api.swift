@@ -98,6 +98,7 @@ public struct BedrockRuntime: AWSService {
     ///   - content: The content details used in the request to apply the guardrail.
     ///   - guardrailIdentifier: The guardrail identifier used in the request to apply the guardrail.
     ///   - guardrailVersion: The guardrail version used in the request to apply the guardrail.
+    ///   - outputScope: Specifies the scope of the output that you get in the response. Set to FULL to return the entire output, including any detected and non-detected entries in the response for enhanced debugging. Note that the full output scope doesn't apply to word filters or regex in sensitive information filters. It does apply to all other filtering policies, including sensitive information with filters that can detect personally identifiable information (PII).
     ///   - source: The source of data used in the request to apply the guardrail.
     ///   - logger: Logger use during operation
     @inlinable
@@ -105,6 +106,7 @@ public struct BedrockRuntime: AWSService {
         content: [GuardrailContentBlock],
         guardrailIdentifier: String,
         guardrailVersion: String,
+        outputScope: GuardrailOutputScope? = nil,
         source: GuardrailContentSource,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> ApplyGuardrailResponse {
@@ -112,6 +114,7 @@ public struct BedrockRuntime: AWSService {
             content: content, 
             guardrailIdentifier: guardrailIdentifier, 
             guardrailVersion: guardrailVersion, 
+            outputScope: outputScope, 
             source: source
         )
         return try await self.applyGuardrail(input, logger: logger)
@@ -312,6 +315,38 @@ public struct BedrockRuntime: AWSService {
             trace: trace
         )
         return try await self.invokeModel(input, logger: logger)
+    }
+
+    /// Invoke the specified Amazon Bedrock model to run inference using the bidirectional stream. The response is returned in a stream that remains open for 8 minutes. A single session can contain multiple prompts and responses from the model. The prompts to the model are provided as audio files and the model's responses are spoken back to the user and transcribed. It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
+    @Sendable
+    @inlinable
+    public func invokeModelWithBidirectionalStream(_ input: InvokeModelWithBidirectionalStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeModelWithBidirectionalStreamResponse {
+        try await self.client.execute(
+            operation: "InvokeModelWithBidirectionalStream", 
+            path: "/model/{modelId}/invoke-with-bidirectional-stream", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Invoke the specified Amazon Bedrock model to run inference using the bidirectional stream. The response is returned in a stream that remains open for 8 minutes. A single session can contain multiple prompts and responses from the model. The prompts to the model are provided as audio files and the model's responses are spoken back to the user and transcribed. It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
+    ///
+    /// Parameters:
+    ///   - body: The prompt and inference parameters in the format specified in the BidirectionalInputPayloadPart in the header. You must provide the body in JSON format. To see the format and content of the request and response bodies for different models, refer to Inference parameters. For more information, see Run inference in the Bedrock User Guide.
+    ///   - modelId: The model ID or ARN of the model ID to use. Currently, only amazon.nova-sonic-v1:0 is supported.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func invokeModelWithBidirectionalStream(
+        body: AWSEventStream<InvokeModelWithBidirectionalStreamInput>,
+        modelId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> InvokeModelWithBidirectionalStreamResponse {
+        let input = InvokeModelWithBidirectionalStreamRequest(
+            body: body, 
+            modelId: modelId
+        )
+        return try await self.invokeModelWithBidirectionalStream(input, logger: logger)
     }
 
     /// Invoke the specified Amazon Bedrock model to run inference using the prompt and inference parameters provided in the request body. The response is returned in a stream. To see if a model supports streaming, call GetFoundationModel and check the responseStreamingSupported field in the response.  The CLI doesn't support streaming operations in Amazon Bedrock, including InvokeModelWithResponseStream.  For example code, see Invoke model with streaming code example in the Amazon Bedrock User Guide.  This operation requires permissions to perform the bedrock:InvokeModelWithResponseStream action.   To deny all inference access to resources that you specify in the modelId field, you need to deny access to the bedrock:InvokeModel and bedrock:InvokeModelWithResponseStream actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.   For troubleshooting some of the common errors you might encounter when using the InvokeModelWithResponseStream API,  see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide

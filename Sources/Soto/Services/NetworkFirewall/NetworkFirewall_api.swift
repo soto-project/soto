@@ -597,6 +597,41 @@ public struct NetworkFirewall: AWSService {
         return try await self.describeFirewallPolicy(input, logger: logger)
     }
 
+    /// Returns key information about a specific flow operation.
+    @Sendable
+    @inlinable
+    public func describeFlowOperation(_ input: DescribeFlowOperationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlowOperationResponse {
+        try await self.client.execute(
+            operation: "DescribeFlowOperation", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns key information about a specific flow operation.
+    ///
+    /// Parameters:
+    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
+    ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeFlowOperation(
+        availabilityZone: String? = nil,
+        firewallArn: String,
+        flowOperationId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeFlowOperationResponse {
+        let input = DescribeFlowOperationRequest(
+            availabilityZone: availabilityZone, 
+            firewallArn: firewallArn, 
+            flowOperationId: flowOperationId
+        )
+        return try await self.describeFlowOperation(input, logger: logger)
+    }
+
     /// Returns the logging configuration for the specified firewall.
     @Sendable
     @inlinable
@@ -947,6 +982,92 @@ public struct NetworkFirewall: AWSService {
         return try await self.listFirewalls(input, logger: logger)
     }
 
+    /// Returns the results of a specific flow operation.  Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
+    /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
+    @Sendable
+    @inlinable
+    public func listFlowOperationResults(_ input: ListFlowOperationResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowOperationResultsResponse {
+        try await self.client.execute(
+            operation: "ListFlowOperationResults", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns the results of a specific flow operation.  Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
+    /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
+    ///
+    /// Parameters:
+    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
+    ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFlowOperationResults(
+        availabilityZone: String? = nil,
+        firewallArn: String,
+        flowOperationId: String,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFlowOperationResultsResponse {
+        let input = ListFlowOperationResultsRequest(
+            availabilityZone: availabilityZone, 
+            firewallArn: firewallArn, 
+            flowOperationId: flowOperationId, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listFlowOperationResults(input, logger: logger)
+    }
+
+    /// Returns a list of all flow operations ran in a specific firewall.  You can optionally narrow the request scope by specifying the operation type or Availability Zone associated with a firewall's flow operations.   Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
+    /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
+    @Sendable
+    @inlinable
+    public func listFlowOperations(_ input: ListFlowOperationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowOperationsResponse {
+        try await self.client.execute(
+            operation: "ListFlowOperations", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a list of all flow operations ran in a specific firewall.  You can optionally narrow the request scope by specifying the operation type or Availability Zone associated with a firewall's flow operations.   Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
+    /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
+    ///
+    /// Parameters:
+    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
+    ///   - flowOperationType: An optional string that defines whether any or all operation types are returned.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - nextToken: When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listFlowOperations(
+        availabilityZone: String? = nil,
+        firewallArn: String,
+        flowOperationType: FlowOperationType? = nil,
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListFlowOperationsResponse {
+        let input = ListFlowOperationsRequest(
+            availabilityZone: availabilityZone, 
+            firewallArn: firewallArn, 
+            flowOperationType: flowOperationType, 
+            maxResults: maxResults, 
+            nextToken: nextToken
+        )
+        return try await self.listFlowOperations(input, logger: logger)
+    }
+
     /// Retrieves the metadata for the rule groups that you have defined. Depending on your setting for max results and the number of rule groups, a single call might not return the full list.
     @Sendable
     @inlinable
@@ -1120,6 +1241,84 @@ public struct NetworkFirewall: AWSService {
             firewallName: firewallName
         )
         return try await self.startAnalysisReport(input, logger: logger)
+    }
+
+    /// Begins capturing the flows in a firewall, according to the filters you define.  Captures are similar, but not identical to snapshots. Capture operations provide visibility into flows that are not closed and are tracked by a firewall's flow table.  Unlike snapshots, captures are a time-boxed view.  A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
+    /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.   To avoid encountering operation limits, you should avoid starting captures with broad filters, like wide IP ranges.  Instead, we recommend you define more specific criteria with FlowFilters, like narrow IP ranges, ports, or protocols.
+    @Sendable
+    @inlinable
+    public func startFlowCapture(_ input: StartFlowCaptureRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFlowCaptureResponse {
+        try await self.client.execute(
+            operation: "StartFlowCapture", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Begins capturing the flows in a firewall, according to the filters you define.  Captures are similar, but not identical to snapshots. Capture operations provide visibility into flows that are not closed and are tracked by a firewall's flow table.  Unlike snapshots, captures are a time-boxed view.  A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
+    /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.   To avoid encountering operation limits, you should avoid starting captures with broad filters, like wide IP ranges.  Instead, we recommend you define more specific criteria with FlowFilters, like narrow IP ranges, ports, or protocols.
+    ///
+    /// Parameters:
+    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
+    ///   - flowFilters: Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - minimumFlowAgeInSeconds: The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startFlowCapture(
+        availabilityZone: String? = nil,
+        firewallArn: String,
+        flowFilters: [FlowFilter],
+        minimumFlowAgeInSeconds: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartFlowCaptureResponse {
+        let input = StartFlowCaptureRequest(
+            availabilityZone: availabilityZone, 
+            firewallArn: firewallArn, 
+            flowFilters: flowFilters, 
+            minimumFlowAgeInSeconds: minimumFlowAgeInSeconds
+        )
+        return try await self.startFlowCapture(input, logger: logger)
+    }
+
+    /// Begins the flushing of traffic from the firewall, according to the filters you define.  When the operation starts, impacted flows are temporarily marked as timed out before the Suricata engine prunes,  or flushes, the flows from the firewall table.  While the flush completes, impacted flows are processed as midstream traffic. This may result in a  temporary increase in midstream traffic metrics. We recommend that you double check your stream exception policy  before you perform a flush operation.
+    @Sendable
+    @inlinable
+    public func startFlowFlush(_ input: StartFlowFlushRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFlowFlushResponse {
+        try await self.client.execute(
+            operation: "StartFlowFlush", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Begins the flushing of traffic from the firewall, according to the filters you define.  When the operation starts, impacted flows are temporarily marked as timed out before the Suricata engine prunes,  or flushes, the flows from the firewall table.  While the flush completes, impacted flows are processed as midstream traffic. This may result in a  temporary increase in midstream traffic metrics. We recommend that you double check your stream exception policy  before you perform a flush operation.
+    ///
+    /// Parameters:
+    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
+    ///   - flowFilters: Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - minimumFlowAgeInSeconds: The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startFlowFlush(
+        availabilityZone: String? = nil,
+        firewallArn: String,
+        flowFilters: [FlowFilter],
+        minimumFlowAgeInSeconds: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartFlowFlushResponse {
+        let input = StartFlowFlushRequest(
+            availabilityZone: availabilityZone, 
+            firewallArn: firewallArn, 
+            flowFilters: flowFilters, 
+            minimumFlowAgeInSeconds: minimumFlowAgeInSeconds
+        )
+        return try await self.startFlowFlush(input, logger: logger)
     }
 
     /// Adds the specified tags to the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
@@ -1765,6 +1964,92 @@ extension NetworkFirewall {
         return self.listFirewallsPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listFlowOperationResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowOperationResultsPaginator(
+        _ input: ListFlowOperationResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowOperationResultsRequest, ListFlowOperationResultsResponse> {
+        return .init(
+            input: input,
+            command: self.listFlowOperationResults,
+            inputKey: \ListFlowOperationResultsRequest.nextToken,
+            outputKey: \ListFlowOperationResultsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFlowOperationResults(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
+    ///   - flowOperationId: A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowOperationResultsPaginator(
+        availabilityZone: String? = nil,
+        firewallArn: String,
+        flowOperationId: String,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFlowOperationResultsRequest, ListFlowOperationResultsResponse> {
+        let input = ListFlowOperationResultsRequest(
+            availabilityZone: availabilityZone, 
+            firewallArn: firewallArn, 
+            flowOperationId: flowOperationId, 
+            maxResults: maxResults
+        )
+        return self.listFlowOperationResultsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listFlowOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowOperationsPaginator(
+        _ input: ListFlowOperationsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListFlowOperationsRequest, ListFlowOperationsResponse> {
+        return .init(
+            input: input,
+            command: self.listFlowOperations,
+            inputKey: \ListFlowOperationsRequest.nextToken,
+            outputKey: \ListFlowOperationsResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listFlowOperations(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - availabilityZone: The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+    ///   - firewallArn: The Amazon Resource Name (ARN) of the firewall.
+    ///   - flowOperationType: An optional string that defines whether any or all operation types are returned.
+    ///   - maxResults: The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listFlowOperationsPaginator(
+        availabilityZone: String? = nil,
+        firewallArn: String,
+        flowOperationType: FlowOperationType? = nil,
+        maxResults: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListFlowOperationsRequest, ListFlowOperationsResponse> {
+        let input = ListFlowOperationsRequest(
+            availabilityZone: availabilityZone, 
+            firewallArn: firewallArn, 
+            flowOperationType: flowOperationType, 
+            maxResults: maxResults
+        )
+        return self.listFlowOperationsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listRuleGroups(_:logger:)``.
     ///
     /// - Parameters:
@@ -1922,6 +2207,32 @@ extension NetworkFirewall.ListFirewallsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             vpcIds: self.vpcIds
+        )
+    }
+}
+
+extension NetworkFirewall.ListFlowOperationResultsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListFlowOperationResultsRequest {
+        return .init(
+            availabilityZone: self.availabilityZone,
+            firewallArn: self.firewallArn,
+            flowOperationId: self.flowOperationId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension NetworkFirewall.ListFlowOperationsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListFlowOperationsRequest {
+        return .init(
+            availabilityZone: self.availabilityZone,
+            firewallArn: self.firewallArn,
+            flowOperationType: self.flowOperationType,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

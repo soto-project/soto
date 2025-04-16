@@ -706,7 +706,7 @@ extension EventBridge {
     }
 
     public struct ConnectivityResourceConfigurationArn: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource configuration for the resource endpoint.
+        /// The Amazon Resource Name (ARN) of the Amazon VPC Lattice resource configuration for the resource endpoint.
         public let resourceConfigurationArn: String
 
         @inlinable
@@ -826,15 +826,18 @@ extension EventBridge {
         public let eventPattern: String?
         /// The ARN of the event bus that sends events to the archive.
         public let eventSourceArn: String
+        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see Identify and view keys in the Key Management Service Developer Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
+        public let kmsKeyIdentifier: String?
         /// The number of days to retain events for. Default value is 0. If set to 0, events are retained indefinitely
         public let retentionDays: Int?
 
         @inlinable
-        public init(archiveName: String, description: String? = nil, eventPattern: String? = nil, eventSourceArn: String, retentionDays: Int? = nil) {
+        public init(archiveName: String, description: String? = nil, eventPattern: String? = nil, eventSourceArn: String, kmsKeyIdentifier: String? = nil, retentionDays: Int? = nil) {
             self.archiveName = archiveName
             self.description = description
             self.eventPattern = eventPattern
             self.eventSourceArn = eventSourceArn
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.retentionDays = retentionDays
         }
 
@@ -847,6 +850,9 @@ extension EventBridge {
             try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4096)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:.+\\/.+$")
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^[a-zA-Z0-9_\\-/:]*$")
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
         }
 
@@ -855,6 +861,7 @@ extension EventBridge {
             case description = "Description"
             case eventPattern = "EventPattern"
             case eventSourceArn = "EventSourceArn"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case retentionDays = "RetentionDays"
         }
     }
@@ -1045,7 +1052,7 @@ extension EventBridge {
         public let authParameters: CreateConnectionAuthRequestParameters
         /// A description for the connection to create.
         public let description: String?
-        /// For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
+        /// For connections to private APIs, the parameters to use for invoking the API. For more information, see Connecting to private APIs in the  Amazon EventBridge User Guide .
         public let invocationConnectivityParameters: ConnectivityResourceParameters?
         /// The name for the connection to create.
         public let name: String
@@ -1199,7 +1206,7 @@ extension EventBridge {
         public let description: String?
         /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
         public let eventSourceName: String?
-        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Managing keys in the Key Management Service Developer Guide.   Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:   You call  CreateArchive on an event bus set to use a customer managed key for encryption.   You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with an archives or schema discovery enabled.   To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if you call  CreateDiscoverer on an event bus set to use a customer managed key for encryption. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
         public let kmsKeyIdentifier: String?
         /// The name of the new event bus.  Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
         public let name: String
@@ -1223,6 +1230,7 @@ extension EventBridge {
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, min: 1)
             try self.validate(self.eventSourceName, name: "eventSourceName", parent: name, pattern: "^aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}$")
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^[a-zA-Z0-9_\\-/:]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[/\\.\\-_A-Za-z0-9]+$")
@@ -1701,6 +1709,8 @@ extension EventBridge {
         public let eventPattern: String?
         /// The ARN of the event source associated with the archive.
         public let eventSourceArn: String?
+        /// The identifier of the KMS customer managed key for EventBridge to use to encrypt this archive, if one has been specified. For more information, see Encrypting archives in the Amazon EventBridge User Guide.
+        public let kmsKeyIdentifier: String?
         /// The number of days to retain events for in the archive.
         public let retentionDays: Int?
         /// The size of the archive in bytes.
@@ -1711,7 +1721,7 @@ extension EventBridge {
         public let stateReason: String?
 
         @inlinable
-        public init(archiveArn: String? = nil, archiveName: String? = nil, creationTime: Date? = nil, description: String? = nil, eventCount: Int64? = nil, eventPattern: String? = nil, eventSourceArn: String? = nil, retentionDays: Int? = nil, sizeBytes: Int64? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
+        public init(archiveArn: String? = nil, archiveName: String? = nil, creationTime: Date? = nil, description: String? = nil, eventCount: Int64? = nil, eventPattern: String? = nil, eventSourceArn: String? = nil, kmsKeyIdentifier: String? = nil, retentionDays: Int? = nil, sizeBytes: Int64? = nil, state: ArchiveState? = nil, stateReason: String? = nil) {
             self.archiveArn = archiveArn
             self.archiveName = archiveName
             self.creationTime = creationTime
@@ -1719,6 +1729,7 @@ extension EventBridge {
             self.eventCount = eventCount
             self.eventPattern = eventPattern
             self.eventSourceArn = eventSourceArn
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.retentionDays = retentionDays
             self.sizeBytes = sizeBytes
             self.state = state
@@ -1733,6 +1744,7 @@ extension EventBridge {
             case eventCount = "EventCount"
             case eventPattern = "EventPattern"
             case eventSourceArn = "EventSourceArn"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case retentionDays = "RetentionDays"
             case sizeBytes = "SizeBytes"
             case state = "State"
@@ -1775,7 +1787,7 @@ extension EventBridge {
     }
 
     public struct DescribeConnectionResourceParameters: AWSDecodableShape {
-        /// For connections to private APIs, the Amazon Resource Name (ARN) of the resource association EventBridge created between the connection and the private API's resource configuration.
+        /// For connections to private APIs, the Amazon Resource Name (ARN) of the resource association EventBridge created between the connection and the private API's resource configuration. For more information, see  Managing service network resource associations for connections in the  Amazon EventBridge User Guide .
         public let resourceAssociationArn: String
         /// The Amazon Resource Name (ARN) of the resource configuration for the private API.
         public let resourceConfigurationArn: String
@@ -1805,7 +1817,7 @@ extension EventBridge {
         public let creationTime: Date?
         /// The description for the connection retrieved.
         public let description: String?
-        /// For connections to private resource endpoints. The parameters EventBridge uses to invoke the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
+        /// For connections to private APIs The parameters EventBridge uses to invoke the resource endpoint. For more information, see Connecting to private APIs in the  Amazon EventBridge User Guide .
         public let invocationConnectivityParameters: DescribeConnectionConnectivityParameters?
         /// A time stamp for the time that the connection was last authorized.
         public let lastAuthorizedTime: Date?
@@ -2731,6 +2743,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:.+\\/.+$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 48)
@@ -3102,6 +3115,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:.+\\/.+$")
             try self.validate(self.limit, name: "limit", parent: name, max: 100)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
@@ -4279,9 +4293,9 @@ extension EventBridge {
     }
 
     public struct SageMakerPipelineParameter: AWSEncodableShape & AWSDecodableShape {
-        /// Name of parameter to start execution of a SageMaker Model Building Pipeline.
+        /// Name of parameter to start execution of a SageMaker AI Model Building Pipeline.
         public let name: String
-        /// Value of parameter to start execution of a SageMaker Model Building Pipeline.
+        /// Value of parameter to start execution of a SageMaker AI Model Building Pipeline.
         public let value: String
 
         @inlinable
@@ -4304,7 +4318,7 @@ extension EventBridge {
     }
 
     public struct SageMakerPipelineParameters: AWSEncodableShape & AWSDecodableShape {
-        /// List of Parameter names and values for SageMaker Model Building Pipeline execution.
+        /// List of Parameter names and values for SageMaker AI Model Building Pipeline execution.
         public let pipelineParameterList: [SageMakerPipelineParameter]?
 
         @inlinable
@@ -4392,6 +4406,7 @@ extension EventBridge {
             try self.destination.validate(name: "\(name).destination")
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
+            try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "^arn:aws([a-z]|\\-)*:events:([a-z]|\\d|\\-)*:([0-9]{12})?:.+\\/.+$")
             try self.validate(self.replayName, name: "replayName", parent: name, max: 64)
             try self.validate(self.replayName, name: "replayName", parent: name, min: 1)
             try self.validate(self.replayName, name: "replayName", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
@@ -4518,7 +4533,7 @@ extension EventBridge {
         public let roleArn: String?
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
         public let runCommandParameters: RunCommandParameters?
-        /// Contains the SageMaker Model Building Pipeline parameters to start execution of a SageMaker Model Building Pipeline. If you specify a SageMaker Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
+        /// Contains the SageMaker AI Model Building Pipeline parameters to start execution of a SageMaker AI Model Building Pipeline. If you specify a SageMaker AI Model Building Pipeline as a target, you can use this to specify parameters to start a pipeline execution based on EventBridge events.
         public let sageMakerPipelineParameters: SageMakerPipelineParameters?
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public let sqsParameters: SqsParameters?
@@ -4737,14 +4752,17 @@ extension EventBridge {
         public let description: String?
         /// The event pattern to use to filter events sent to the archive.
         public let eventPattern: String?
+        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this archive. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the archive. For more information, see Identify and view keys in the Key Management Service Developer Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
+        public let kmsKeyIdentifier: String?
         /// The number of days to retain events in the archive.
         public let retentionDays: Int?
 
         @inlinable
-        public init(archiveName: String, description: String? = nil, eventPattern: String? = nil, retentionDays: Int? = nil) {
+        public init(archiveName: String, description: String? = nil, eventPattern: String? = nil, kmsKeyIdentifier: String? = nil, retentionDays: Int? = nil) {
             self.archiveName = archiveName
             self.description = description
             self.eventPattern = eventPattern
+            self.kmsKeyIdentifier = kmsKeyIdentifier
             self.retentionDays = retentionDays
         }
 
@@ -4755,6 +4773,8 @@ extension EventBridge {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4096)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^[a-zA-Z0-9_\\-/:]*$")
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
         }
 
@@ -4762,6 +4782,7 @@ extension EventBridge {
             case archiveName = "ArchiveName"
             case description = "Description"
             case eventPattern = "EventPattern"
+            case kmsKeyIdentifier = "KmsKeyIdentifier"
             case retentionDays = "RetentionDays"
         }
     }
@@ -4952,7 +4973,7 @@ extension EventBridge {
         public let authParameters: UpdateConnectionAuthRequestParameters?
         /// A description for the connection.
         public let description: String?
-        /// For connections to private resource endpoints, the parameters to use for invoking the resource endpoint. For more information, see Connecting to private resources in the  Amazon EventBridge User Guide .
+        /// For connections to private APIs, the parameters to use for invoking the API. For more information, see Connecting to private APIs in the  Amazon EventBridge User Guide .
         public let invocationConnectivityParameters: ConnectivityResourceParameters?
         /// The name of the connection to update.
         public let name: String
@@ -5116,7 +5137,7 @@ extension EventBridge {
         public let deadLetterConfig: DeadLetterConfig?
         /// The event bus description.
         public let description: String?
-        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Managing keys in the Key Management Service Developer Guide.   Archives and schema discovery are not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:   You call  CreateArchive on an event bus set to use a customer managed key for encryption.   You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with an archives or schema discovery enabled.   To enable archives or schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Data encryption in EventBridge in the Amazon EventBridge User Guide.
+        /// The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if you call  CreateDiscoverer on an event bus set to use a customer managed key for encryption. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
         public let kmsKeyIdentifier: String?
         /// The name of the event bus.
         public let name: String?
@@ -5133,6 +5154,7 @@ extension EventBridge {
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, max: 2048)
+            try self.validate(self.kmsKeyIdentifier, name: "kmsKeyIdentifier", parent: name, pattern: "^[a-zA-Z0-9_\\-/:]*$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[/\\.\\-_A-Za-z0-9]+$")
@@ -5214,7 +5236,7 @@ public struct EventBridgeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have the necessary permissons for this action.
+    /// You do not have the necessary permissions for this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// There is concurrent modification on a rule, target, archive, or replay.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }

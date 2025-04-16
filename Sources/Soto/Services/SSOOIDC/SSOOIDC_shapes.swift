@@ -63,6 +63,20 @@ extension SSOOIDC {
         }
     }
 
+    public struct AwsAdditionalDetails: AWSDecodableShape {
+        /// STS context assertion that carries a user identifier to the Amazon Web Services service that it calls and can be used to obtain an identity-enhanced IAM role session. This value corresponds to the sts:identity_context claim in the ID token.
+        public let identityContext: String?
+
+        @inlinable
+        public init(identityContext: String? = nil) {
+            self.identityContext = identityContext
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityContext = "identityContext"
+        }
+    }
+
     public struct CreateTokenRequest: AWSEncodableShape {
         /// The unique identifier string for the client or application. This value comes from the result of the RegisterClient API.
         public let clientId: String
@@ -196,6 +210,8 @@ extension SSOOIDC {
     public struct CreateTokenWithIAMResponse: AWSDecodableShape {
         /// A bearer token to access Amazon Web Services accounts and applications assigned to a user.
         public let accessToken: String?
+        /// A structure containing information from the idToken. Only the identityContext is in it, which is a value extracted from the idToken. This provides direct access to identity information without requiring JWT parsing.
+        public let awsAdditionalDetails: AwsAdditionalDetails?
         /// Indicates the time in seconds when an access token will expire.
         public let expiresIn: Int?
         /// A JSON Web Token (JWT) that identifies the user associated with the issued access token.
@@ -210,8 +226,9 @@ extension SSOOIDC {
         public let tokenType: String?
 
         @inlinable
-        public init(accessToken: String? = nil, expiresIn: Int? = nil, idToken: String? = nil, issuedTokenType: String? = nil, refreshToken: String? = nil, scope: [String]? = nil, tokenType: String? = nil) {
+        public init(accessToken: String? = nil, awsAdditionalDetails: AwsAdditionalDetails? = nil, expiresIn: Int? = nil, idToken: String? = nil, issuedTokenType: String? = nil, refreshToken: String? = nil, scope: [String]? = nil, tokenType: String? = nil) {
             self.accessToken = accessToken
+            self.awsAdditionalDetails = awsAdditionalDetails
             self.expiresIn = expiresIn
             self.idToken = idToken
             self.issuedTokenType = issuedTokenType
@@ -222,6 +239,7 @@ extension SSOOIDC {
 
         private enum CodingKeys: String, CodingKey {
             case accessToken = "accessToken"
+            case awsAdditionalDetails = "awsAdditionalDetails"
             case expiresIn = "expiresIn"
             case idToken = "idToken"
             case issuedTokenType = "issuedTokenType"

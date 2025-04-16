@@ -37,6 +37,12 @@ extension VerifiedPermissions {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeletionProtection: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OpenIdIssuer: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cognito = "COGNITO"
         public var description: String { return self.rawValue }
@@ -1328,14 +1334,17 @@ extension VerifiedPermissions {
     public struct CreatePolicyStoreInput: AWSEncodableShape {
         /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
         public let clientToken: String?
+        /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
+        public let deletionProtection: DeletionProtection?
         /// Descriptive text that you can provide to help with identification  of the current policy store.
         public let description: String?
         /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode.  We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore. Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on.
         public let validationSettings: ValidationSettings
 
         @inlinable
-        public init(clientToken: String? = CreatePolicyStoreInput.idempotencyToken(), description: String? = nil, validationSettings: ValidationSettings) {
+        public init(clientToken: String? = CreatePolicyStoreInput.idempotencyToken(), deletionProtection: DeletionProtection? = nil, description: String? = nil, validationSettings: ValidationSettings) {
             self.clientToken = clientToken
+            self.deletionProtection = deletionProtection
             self.description = description
             self.validationSettings = validationSettings
         }
@@ -1349,6 +1358,7 @@ extension VerifiedPermissions {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case deletionProtection = "deletionProtection"
             case description = "description"
             case validationSettings = "validationSettings"
         }
@@ -1839,6 +1849,8 @@ extension VerifiedPermissions {
         /// The date and time that the policy store was originally created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
+        /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
+        public let deletionProtection: DeletionProtection?
         /// Descriptive text that you can provide to help with identification  of the current policy store.
         public let description: String?
         /// The date and time that the policy store was last updated.
@@ -1850,9 +1862,10 @@ extension VerifiedPermissions {
         public let validationSettings: ValidationSettings
 
         @inlinable
-        public init(arn: String, createdDate: Date, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, validationSettings: ValidationSettings) {
+        public init(arn: String, createdDate: Date, deletionProtection: DeletionProtection? = nil, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, validationSettings: ValidationSettings) {
             self.arn = arn
             self.createdDate = createdDate
+            self.deletionProtection = deletionProtection
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
             self.policyStoreId = policyStoreId
@@ -1862,6 +1875,7 @@ extension VerifiedPermissions {
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case createdDate = "createdDate"
+            case deletionProtection = "deletionProtection"
             case description = "description"
             case lastUpdatedDate = "lastUpdatedDate"
             case policyStoreId = "policyStoreId"
@@ -3483,6 +3497,8 @@ extension VerifiedPermissions {
     }
 
     public struct UpdatePolicyStoreInput: AWSEncodableShape {
+        /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore, this parameter is unchanged unless explicitly included in the call.
+        public let deletionProtection: DeletionProtection?
         /// Descriptive text that you can provide to help with identification  of the current policy store.
         public let description: String?
         /// Specifies the ID of the policy store that you want to update
@@ -3491,7 +3507,8 @@ extension VerifiedPermissions {
         public let validationSettings: ValidationSettings
 
         @inlinable
-        public init(description: String? = nil, policyStoreId: String, validationSettings: ValidationSettings) {
+        public init(deletionProtection: DeletionProtection? = nil, description: String? = nil, policyStoreId: String, validationSettings: ValidationSettings) {
+            self.deletionProtection = deletionProtection
             self.description = description
             self.policyStoreId = policyStoreId
             self.validationSettings = validationSettings
@@ -3505,6 +3522,7 @@ extension VerifiedPermissions {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deletionProtection = "deletionProtection"
             case description = "description"
             case policyStoreId = "policyStoreId"
             case validationSettings = "validationSettings"
@@ -3688,6 +3706,7 @@ public struct VerifiedPermissionsErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case invalidStateException = "InvalidStateException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
@@ -3718,6 +3737,8 @@ public struct VerifiedPermissionsErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// The request failed because of an internal error. Try your request again later
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The policy store can't be deleted because deletion protection is enabled. To delete this policy store, disable deletion protection.
+    public static var invalidStateException: Self { .init(.invalidStateException) }
     /// The request failed because it references a resource that doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The request failed because it would cause a service quota to be exceeded.

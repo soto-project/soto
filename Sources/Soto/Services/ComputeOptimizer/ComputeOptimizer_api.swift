@@ -93,6 +93,7 @@ public struct ComputeOptimizer: AWSService {
         "cn-northwest-1": "compute-optimizer.cn-northwest-1.amazonaws.com.cn",
         "eu-central-1": "compute-optimizer.eu-central-1.amazonaws.com",
         "eu-central-2": "compute-optimizer.eu-central-2.amazonaws.com",
+        "eu-isoe-west-1": "compute-optimizer.eu-isoe-west-1.cloud.adc-e.uk",
         "eu-north-1": "compute-optimizer.eu-north-1.amazonaws.com",
         "eu-south-1": "compute-optimizer.eu-south-1.amazonaws.com",
         "eu-south-2": "compute-optimizer.eu-south-2.amazonaws.com",

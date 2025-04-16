@@ -889,7 +889,7 @@ public struct Amplify: AWSService {
         return try await self.listApps(input, logger: logger)
     }
 
-    /// Returns a list of artifacts for a specified app, branch, and job.
+    /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the GetJob API. For more information about Amplify testing support, see Setting up end-to-end Cypress tests for your Amplify application in the Amplify Hosting User Guide.
     @Sendable
     @inlinable
     public func listArtifacts(_ input: ListArtifactsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListArtifactsResult {
@@ -902,7 +902,7 @@ public struct Amplify: AWSService {
             logger: logger
         )
     }
-    /// Returns a list of artifacts for a specified app, branch, and job.
+    /// Returns a list of end-to-end testing artifacts for a specified app, branch, and job. To return the build artifacts, use the GetJob API. For more information about Amplify testing support, see Setting up end-to-end Cypress tests for your Amplify application in the Amplify Hosting User Guide.
     ///
     /// Parameters:
     ///   - appId: The unique ID for an Amplify app.

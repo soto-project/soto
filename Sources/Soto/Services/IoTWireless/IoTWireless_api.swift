@@ -24,7 +24,8 @@ import Foundation
 
 /// Service object for interacting with AWS IoTWireless service.
 ///
-/// AWS IoT Wireless provides bi-directional communication between internet-connected wireless devices and the AWS Cloud. To onboard both LoRaWAN and Sidewalk devices to AWS IoT, use the IoT Wireless API. These wireless devices use the Low Power Wide Area Networking (LPWAN) communication protocol to communicate with AWS IoT. Using the API, you can perform create, read, update, and delete operations for your wireless devices, gateways, destinations, and profiles. After onboarding your devices, you can use the API operations to set log levels and monitor your devices with CloudWatch. You can also use the API operations to create multicast groups and schedule a multicast session for sending a downlink message to devices in the group. By using Firmware Updates Over-The-Air (FUOTA) API operations, you can create a FUOTA task and schedule a session to update the firmware of individual devices or an entire group of devices in a multicast group. To connect to the AWS IoT Wireless Service, use the Service endpoints as described in IoT Wireless Service endpoints in the AWS General Reference.
+/// AWS IoT Wireless provides bi-directional communication between internet-connected wireless devices and the AWS Cloud. To onboard both LoRaWAN and Sidewalk devices to AWS IoT, use the IoT Wireless API. These wireless devices use the Low Power Wide Area Networking (LPWAN) communication protocol to communicate with AWS IoT.  Using the API, you can perform create, read, update, and delete operations for your wireless devices, gateways, destinations, and profiles. After onboarding your devices, you can use the API operations to set log levels and monitor your devices with CloudWatch. You can also use the API operations to create multicast groups and schedule a multicast session for sending a downlink message to devices in the group. By using Firmware Updates Over-The-Air (FUOTA) API operations, you can create a FUOTA task and schedule a session to update the firmware of individual devices or an entire group of devices in a multicast group. To connect to the AWS IoT Wireless Service, use the Service endpoints as described in IoT  Wireless Service endpoints. You can use both IPv4 and IPv6 protocols to connect to the endpoints and send requests to the AWS IoT Wireless service. For more information, see Using
+/// 			IPv6 with AWS IoT Wireless.
 public struct IoTWireless: AWSService {
     // MARK: Member variables
 
@@ -675,7 +676,7 @@ public struct IoTWireless: AWSService {
         return try await self.createWirelessDevice(input, logger: logger)
     }
 
-    /// Provisions a wireless gateway.  When provisioning a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters  within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
+    /// Provisions a wireless gateway.  When provisioning a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     @Sendable
     @inlinable
     public func createWirelessGateway(_ input: CreateWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateWirelessGatewayResponse {
@@ -688,7 +689,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Provisions a wireless gateway.  When provisioning a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters  within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
+    /// Provisions a wireless gateway.  When provisioning a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     ///
     /// Parameters:
     ///   - clientRequestToken: Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see Ensuring idempotency in Amazon EC2 API requests.
@@ -876,7 +877,7 @@ public struct IoTWireless: AWSService {
         return try await self.deleteFuotaTask(input, logger: logger)
     }
 
-    /// Deletes a multicast group if it is not in use by a fuota task.
+    /// Deletes a multicast group if it is not in use by a FUOTA task.
     @Sendable
     @inlinable
     public func deleteMulticastGroup(_ input: DeleteMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteMulticastGroupResponse {
@@ -889,7 +890,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Deletes a multicast group if it is not in use by a fuota task.
+    /// Deletes a multicast group if it is not in use by a FUOTA task.
     ///
     /// Parameters:
     ///   - id: 
@@ -1056,7 +1057,7 @@ public struct IoTWireless: AWSService {
         return try await self.deleteWirelessDeviceImportTask(input, logger: logger)
     }
 
-    /// Deletes a wireless gateway.  When deleting a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters  within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
+    /// Deletes a wireless gateway.  When deleting a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     @Sendable
     @inlinable
     public func deleteWirelessGateway(_ input: DeleteWirelessGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteWirelessGatewayResponse {
@@ -1069,7 +1070,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Deletes a wireless gateway.  When deleting a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters  within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
+    /// Deletes a wireless gateway.  When deleting a wireless gateway, you might run into duplication errors for the following reasons.   If you specify a GatewayEui value that already exists.   If you used a ClientRequestToken with the same parameters within the last 10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     ///
     /// Parameters:
     ///   - id: The ID of the resource to delete.
@@ -1207,7 +1208,7 @@ public struct IoTWireless: AWSService {
         return try await self.disassociateAwsAccountFromPartnerAccount(input, logger: logger)
     }
 
-    /// Disassociates a multicast group from a fuota task.
+    /// Disassociates a multicast group from a FUOTA task.
     @Sendable
     @inlinable
     public func disassociateMulticastGroupFromFuotaTask(_ input: DisassociateMulticastGroupFromFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateMulticastGroupFromFuotaTaskResponse {
@@ -1220,7 +1221,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Disassociates a multicast group from a fuota task.
+    /// Disassociates a multicast group from a FUOTA task.
     ///
     /// Parameters:
     ///   - id: 
@@ -1503,7 +1504,7 @@ public struct IoTWireless: AWSService {
         return try await self.getFuotaTask(input, logger: logger)
     }
 
-    /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
+    /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log options.
     @Sendable
     @inlinable
     public func getLogLevelsByResourceTypes(_ input: GetLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetLogLevelsByResourceTypesResponse {
@@ -1516,7 +1517,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Returns current default log levels or log levels by resource types. Based on resource types, log levels can be for wireless device log options or wireless gateway log options.
+    /// Returns current default log levels or log levels by resource types. Based on the resource type, log levels can be returned for wireless device, wireless gateway, or FUOTA task log options.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -1847,7 +1848,7 @@ public struct IoTWireless: AWSService {
         return try await self.getResourceEventConfiguration(input, logger: logger)
     }
 
-    /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device, wireless gateway or fuota task.
+    /// Fetches the log-level override, if any, for a given resource ID and resource type..
     @Sendable
     @inlinable
     public func getResourceLogLevel(_ input: GetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetResourceLogLevelResponse {
@@ -1860,11 +1861,11 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Fetches the log-level override, if any, for a given resource-ID and resource-type. It can be used for a wireless device, wireless gateway or fuota task.
+    /// Fetches the log-level override, if any, for a given resource ID and resource type..
     ///
     /// Parameters:
     ///   - resourceIdentifier: 
-    ///   - resourceType: The type of the resource, which can be WirelessDevice, WirelessGateway or FuotaTask.
+    ///   - resourceType: The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     ///   - logger: Logger use during operation
     @inlinable
     public func getResourceLogLevel(
@@ -1927,7 +1928,7 @@ public struct IoTWireless: AWSService {
     /// Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol or LoRaWAN Network Server (LNS) connections.
     ///
     /// Parameters:
-    ///   - serviceType: The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint or CLAIM for the global endpoint.
+    ///   - serviceType: The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint.
     ///   - logger: Logger use during operation
     @inlinable
     public func getServiceEndpoint(
@@ -2440,7 +2441,7 @@ public struct IoTWireless: AWSService {
         return try await self.listMulticastGroups(input, logger: logger)
     }
 
-    /// List all multicast groups associated with a fuota task.
+    /// List all multicast groups associated with a FUOTA task.
     @Sendable
     @inlinable
     public func listMulticastGroupsByFuotaTask(_ input: ListMulticastGroupsByFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListMulticastGroupsByFuotaTaskResponse {
@@ -2453,7 +2454,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// List all multicast groups associated with a fuota task.
+    /// List all multicast groups associated with a FUOTA task.
     ///
     /// Parameters:
     ///   - id: 
@@ -2864,7 +2865,7 @@ public struct IoTWireless: AWSService {
         return try await self.putPositionConfiguration(input, logger: logger)
     }
 
-    /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
+    /// Sets the log-level override for a resource ID and resource type. A limit of 200 log level override can be set per account.
     @Sendable
     @inlinable
     public func putResourceLogLevel(_ input: PutResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PutResourceLogLevelResponse {
@@ -2877,12 +2878,12 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Sets the log-level override for a resource-ID and resource-type. This option can be specified for a wireless gateway or a wireless device. A limit of 200 log level override can be set per account.
+    /// Sets the log-level override for a resource ID and resource type. A limit of 200 log level override can be set per account.
     ///
     /// Parameters:
     ///   - logLevel: 
     ///   - resourceIdentifier: 
-    ///   - resourceType: The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
+    ///   - resourceType: The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     ///   - logger: Logger use during operation
     @inlinable
     public func putResourceLogLevel(
@@ -2899,7 +2900,7 @@ public struct IoTWireless: AWSService {
         return try await self.putResourceLogLevel(input, logger: logger)
     }
 
-    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and fuota tasks.
+    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and FUOTA tasks.
     @Sendable
     @inlinable
     public func resetAllResourceLogLevels(_ input: ResetAllResourceLogLevelsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetAllResourceLogLevelsResponse {
@@ -2912,7 +2913,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and fuota tasks.
+    /// Removes the log-level overrides for all resources; wireless devices, wireless gateways, and FUOTA tasks.
     ///
     /// Parameters:
     ///   - logger: Logger use during operation
@@ -2925,7 +2926,7 @@ public struct IoTWireless: AWSService {
         return try await self.resetAllResourceLogLevels(input, logger: logger)
     }
 
-    /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device, a wireless gateway, or a fuota task.
+    /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gateway, or a FUOTA task.
     @Sendable
     @inlinable
     public func resetResourceLogLevel(_ input: ResetResourceLogLevelRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ResetResourceLogLevelResponse {
@@ -2938,11 +2939,11 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Removes the log-level override, if any, for a specific resource-ID and resource-type. It can be used for a wireless device, a wireless gateway, or a fuota task.
+    /// Removes the log-level override, if any, for a specific resource ID and resource type. It can be used for a wireless device, a wireless gateway, or a FUOTA task.
     ///
     /// Parameters:
     ///   - resourceIdentifier: 
-    ///   - resourceType: The type of the resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
+    ///   - resourceType: The type of resource, which can be WirelessDevice, WirelessGateway, or FuotaTask.
     ///   - logger: Logger use during operation
     @inlinable
     public func resetResourceLogLevel(
@@ -3474,7 +3475,7 @@ public struct IoTWireless: AWSService {
         return try await self.updateFuotaTask(input, logger: logger)
     }
 
-    /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
+    /// Set default log level, or log levels by resource types. This can be for wireless device, wireless gateway, or FUOTA task log options, and is used to control the log messages that'll be displayed in CloudWatch.
     @Sendable
     @inlinable
     public func updateLogLevelsByResourceTypes(_ input: UpdateLogLevelsByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateLogLevelsByResourceTypesResponse {
@@ -3487,7 +3488,7 @@ public struct IoTWireless: AWSService {
             logger: logger
         )
     }
-    /// Set default log level, or log levels by resource types. This can be for wireless device log options or wireless gateways log options and is used to control the log messages that'll be displayed in CloudWatch.
+    /// Set default log level, or log levels by resource types. This can be for wireless device, wireless gateway, or FUOTA task log options, and is used to control the log messages that'll be displayed in CloudWatch.
     ///
     /// Parameters:
     ///   - defaultLogLevel: 

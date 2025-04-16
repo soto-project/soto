@@ -34,8 +34,10 @@ extension EKS {
         case al2X8664 = "AL2_x86_64"
         case al2X8664GPU = "AL2_x86_64_GPU"
         case bottlerocketArm64 = "BOTTLEROCKET_ARM_64"
+        case bottlerocketArm64Fips = "BOTTLEROCKET_ARM_64_FIPS"
         case bottlerocketArm64Nvidia = "BOTTLEROCKET_ARM_64_NVIDIA"
         case bottlerocketX8664 = "BOTTLEROCKET_x86_64"
+        case bottlerocketX8664FIPS = "BOTTLEROCKET_x86_64_FIPS"
         case bottlerocketX8664NVIDIA = "BOTTLEROCKET_x86_64_NVIDIA"
         case custom = "CUSTOM"
         case windowsCORE2019X8664 = "WINDOWS_CORE_2019_x86_64"
@@ -339,6 +341,7 @@ extension EKS {
         case podIdentityAssociations = "PodIdentityAssociations"
         case publicAccessCidrs = "PublicAccessCidrs"
         case releaseVersion = "ReleaseVersion"
+        case remoteNetworkConfig = "RemoteNetworkConfig"
         case resolveConflicts = "ResolveConflicts"
         case securityGroups = "SecurityGroups"
         case serviceAccountRoleArn = "ServiceAccountRoleArn"
@@ -371,6 +374,7 @@ extension EKS {
         case disassociateIdentityProviderConfig = "DisassociateIdentityProviderConfig"
         case endpointAccessUpdate = "EndpointAccessUpdate"
         case loggingUpdate = "LoggingUpdate"
+        case remoteNetworkConfigUpdate = "RemoteNetworkConfigUpdate"
         case upgradePolicyUpdate = "UpgradePolicyUpdate"
         case versionUpdate = "VersionUpdate"
         case vpcConfigUpdate = "VpcConfigUpdate"
@@ -1036,7 +1040,7 @@ extension EKS {
         public let outpostConfig: OutpostConfigResponse?
         /// The platform version of your Amazon EKS cluster. For more information about clusters deployed on the Amazon Web Services Cloud, see Platform versions in the  Amazon EKS User Guide . For more information about local clusters deployed on an Outpost, see Amazon EKS local cluster platform versions in the  Amazon EKS User Guide .
         public let platformVersion: String?
-        /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+        /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
         public let remoteNetworkConfig: RemoteNetworkConfigResponse?
         /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC considerations and Cluster security group considerations in the Amazon EKS User Guide.
         public let resourcesVpcConfig: VpcConfigResponse?
@@ -1545,7 +1549,7 @@ extension EKS {
         public let name: String
         /// An object representing the configuration of your local Amazon EKS cluster on an Amazon Web Services Outpost. Before creating a local cluster on an Outpost, review Local clusters for Amazon EKS on Amazon Web Services Outposts in the Amazon EKS User Guide. This object isn't available for creating Amazon EKS clusters on the Amazon Web Services cloud.
         public let outpostConfig: OutpostConfigRequest?
-        /// The configuration in the cluster for EKS Hybrid Nodes. You can't change or update this configuration after the cluster is created.
+        /// The configuration in the cluster for EKS Hybrid Nodes. You can add, change, or remove this configuration after the cluster is created.
         public let remoteNetworkConfig: RemoteNetworkConfigRequest?
         /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
         public let resourcesVpcConfig: VpcConfigRequest
@@ -2943,8 +2947,7 @@ extension EKS {
         public let licenseArns: [String]?
         /// The number of licenses included in a subscription. Valid values are between 1 and 100.
         public let licenseQuantity: Int?
-        /// Includes all of the claims in the license token necessary to validate the license for
-        /// 	    extended support.
+        /// Includes all of the claims in the license token necessary to validate the license for extended support.
         public let licenses: [License]?
         /// The type of licenses included in the subscription. Valid value is CLUSTER. With the CLUSTER license type, each license covers support for a single EKS Anywhere cluster.
         public let licenseType: EksAnywhereSubscriptionLicenseType?
@@ -3452,6 +3455,23 @@ extension EKS {
             case message = "message"
             case nodegroupName = "nodegroupName"
             case subscriptionId = "subscriptionId"
+        }
+    }
+
+    public struct InvalidStateException: AWSErrorShape {
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        public let message: String?
+
+        @inlinable
+        public init(clusterName: String? = nil, message: String? = nil) {
+            self.clusterName = clusterName
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case message = "message"
         }
     }
 
@@ -5097,6 +5117,23 @@ extension EKS {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        /// The Amazon EKS cluster associated with the exception.
+        public let clusterName: String?
+        public let message: String?
+
+        @inlinable
+        public init(clusterName: String? = nil, message: String? = nil) {
+            self.clusterName = clusterName
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName = "clusterName"
+            case message = "message"
+        }
+    }
+
     public struct UnsupportedAvailabilityZoneException: AWSErrorShape {
         /// The Amazon EKS cluster associated with the exception.
         public let clusterName: String?
@@ -5347,6 +5384,7 @@ extension EKS {
         public let logging: Logging?
         /// The name of the Amazon EKS cluster to update.
         public let name: String
+        public let remoteNetworkConfig: RemoteNetworkConfigRequest?
         public let resourcesVpcConfig: VpcConfigRequest?
         /// Update the configuration of the block storage capability of your EKS Auto Mode cluster. For example, enable the capability.
         public let storageConfig: StorageConfigRequest?
@@ -5356,13 +5394,14 @@ extension EKS {
         public let zonalShiftConfig: ZonalShiftConfigRequest?
 
         @inlinable
-        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, resourcesVpcConfig: VpcConfigRequest? = nil, storageConfig: StorageConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
+        public init(accessConfig: UpdateAccessConfigRequest? = nil, clientRequestToken: String? = UpdateClusterConfigRequest.idempotencyToken(), computeConfig: ComputeConfigRequest? = nil, kubernetesNetworkConfig: KubernetesNetworkConfigRequest? = nil, logging: Logging? = nil, name: String, remoteNetworkConfig: RemoteNetworkConfigRequest? = nil, resourcesVpcConfig: VpcConfigRequest? = nil, storageConfig: StorageConfigRequest? = nil, upgradePolicy: UpgradePolicyRequest? = nil, zonalShiftConfig: ZonalShiftConfigRequest? = nil) {
             self.accessConfig = accessConfig
             self.clientRequestToken = clientRequestToken
             self.computeConfig = computeConfig
             self.kubernetesNetworkConfig = kubernetesNetworkConfig
             self.logging = logging
             self.name = name
+            self.remoteNetworkConfig = remoteNetworkConfig
             self.resourcesVpcConfig = resourcesVpcConfig
             self.storageConfig = storageConfig
             self.upgradePolicy = upgradePolicy
@@ -5378,10 +5417,15 @@ extension EKS {
             try container.encodeIfPresent(self.kubernetesNetworkConfig, forKey: .kubernetesNetworkConfig)
             try container.encodeIfPresent(self.logging, forKey: .logging)
             request.encodePath(self.name, key: "name")
+            try container.encodeIfPresent(self.remoteNetworkConfig, forKey: .remoteNetworkConfig)
             try container.encodeIfPresent(self.resourcesVpcConfig, forKey: .resourcesVpcConfig)
             try container.encodeIfPresent(self.storageConfig, forKey: .storageConfig)
             try container.encodeIfPresent(self.upgradePolicy, forKey: .upgradePolicy)
             try container.encodeIfPresent(self.zonalShiftConfig, forKey: .zonalShiftConfig)
+        }
+
+        public func validate(name: String) throws {
+            try self.remoteNetworkConfig?.validate(name: "\(name).remoteNetworkConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5390,6 +5434,7 @@ extension EKS {
             case computeConfig = "computeConfig"
             case kubernetesNetworkConfig = "kubernetesNetworkConfig"
             case logging = "logging"
+            case remoteNetworkConfig = "remoteNetworkConfig"
             case resourcesVpcConfig = "resourcesVpcConfig"
             case storageConfig = "storageConfig"
             case upgradePolicy = "upgradePolicy"
@@ -5414,14 +5459,17 @@ extension EKS {
         /// A unique, case-sensitive identifier that you provide to ensure
         /// the idempotency of the request.
         public let clientRequestToken: String?
+        /// Set this value to true to override upgrade-blocking readiness checks when updating a cluster.
+        public let force: Bool?
         /// The name of the Amazon EKS cluster to update.
         public let name: String
         /// The desired Kubernetes version following a successful update.
         public let version: String
 
         @inlinable
-        public init(clientRequestToken: String? = UpdateClusterVersionRequest.idempotencyToken(), name: String, version: String) {
+        public init(clientRequestToken: String? = UpdateClusterVersionRequest.idempotencyToken(), force: Bool? = nil, name: String, version: String) {
             self.clientRequestToken = clientRequestToken
+            self.force = force
             self.name = name
             self.version = version
         }
@@ -5430,12 +5478,14 @@ extension EKS {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
             try container.encodeIfPresent(self.clientRequestToken, forKey: .clientRequestToken)
+            try container.encodeIfPresent(self.force, forKey: .force)
             request.encodePath(self.name, key: "name")
             try container.encode(self.version, forKey: .version)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "clientRequestToken"
+            case force = "force"
             case version = "version"
         }
     }
@@ -5888,6 +5938,7 @@ public struct EKSErrorType: AWSErrorType {
         case clientException = "ClientException"
         case invalidParameterException = "InvalidParameterException"
         case invalidRequestException = "InvalidRequestException"
+        case invalidStateException = "InvalidStateException"
         case notFoundException = "NotFoundException"
         case resourceInUseException = "ResourceInUseException"
         case resourceLimitExceededException = "ResourceLimitExceededException"
@@ -5895,6 +5946,7 @@ public struct EKSErrorType: AWSErrorType {
         case resourcePropagationDelayException = "ResourcePropagationDelayException"
         case serverException = "ServerException"
         case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
         case unsupportedAvailabilityZoneException = "UnsupportedAvailabilityZoneException"
     }
 
@@ -5926,6 +5978,8 @@ public struct EKSErrorType: AWSErrorType {
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// The request is invalid given the state of the cluster. Check the state of the cluster and the associated operations.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// Amazon EKS detected upgrade readiness issues. Call the  ListInsights API to view detected upgrade blocking issues. Pass the  force flag when updating to override upgrade readiness errors.
+    public static var invalidStateException: Self { .init(.invalidStateException) }
     /// A service resource associated with the request could not be found. Clients should not retry such requests.
     public static var notFoundException: Self { .init(.notFoundException) }
     /// The specified resource is in use.
@@ -5940,6 +5994,8 @@ public struct EKSErrorType: AWSErrorType {
     public static var serverException: Self { .init(.serverException) }
     /// The service is unavailable. Back off and retry the operation.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request or operation couldn't be performed because a service is throttling requests.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// At least one of your specified cluster subnets is in an Availability Zone that does not support Amazon EKS. The exception output specifies the supported Availability Zones for your account, from which you can choose subnets for your cluster.
     public static var unsupportedAvailabilityZoneException: Self { .init(.unsupportedAvailabilityZoneException) }
 }
@@ -5949,10 +6005,12 @@ extension EKSErrorType: AWSServiceErrorType {
         "ClientException": EKS.ClientException.self,
         "InvalidParameterException": EKS.InvalidParameterException.self,
         "InvalidRequestException": EKS.InvalidRequestException.self,
+        "InvalidStateException": EKS.InvalidStateException.self,
         "ResourceInUseException": EKS.ResourceInUseException.self,
         "ResourceLimitExceededException": EKS.ResourceLimitExceededException.self,
         "ResourceNotFoundException": EKS.ResourceNotFoundException.self,
         "ServerException": EKS.ServerException.self,
+        "ThrottlingException": EKS.ThrottlingException.self,
         "UnsupportedAvailabilityZoneException": EKS.UnsupportedAvailabilityZoneException.self
     ]
 }

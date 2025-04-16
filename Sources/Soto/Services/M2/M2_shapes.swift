@@ -219,6 +219,41 @@ extension M2 {
         }
     }
 
+    public enum DataSetExportConfig: AWSEncodableShape, Sendable {
+        /// The data sets.
+        case dataSets([DataSetExportItem])
+        /// The Amazon S3 location of the data sets.
+        case s3Location(String)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .dataSets(let value):
+                try container.encode(value, forKey: .dataSets)
+            case .s3Location(let value):
+                try container.encode(value, forKey: .s3Location)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .dataSets(let value):
+                try value.forEach {
+                    try $0.validate(name: "\(name).dataSets[]")
+                }
+                try self.validate(value, name: "dataSets", parent: name, max: 1024)
+                try self.validate(value, name: "dataSets", parent: name, min: 1)
+            default:
+                break
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSets = "dataSets"
+            case s3Location = "s3Location"
+        }
+    }
+
     public enum DataSetImportConfig: AWSEncodableShape, Sendable {
         /// The data sets.
         case dataSets([DataSetImportItem])
@@ -767,6 +802,64 @@ extension M2 {
         }
     }
 
+    public struct CreateDataSetExportTaskRequest: AWSEncodableShape {
+        /// The unique identifier of the application for which you want to export data sets.
+        public let applicationId: String
+        /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create a data set export. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
+        public let clientToken: String?
+        /// The data set export task configuration.
+        public let exportConfig: DataSetExportConfig
+        /// The identifier of a customer managed key.
+        public let kmsKeyId: String?
+
+        @inlinable
+        public init(applicationId: String, clientToken: String? = CreateDataSetExportTaskRequest.idempotencyToken(), exportConfig: DataSetExportConfig, kmsKeyId: String? = nil) {
+            self.applicationId = applicationId
+            self.clientToken = clientToken
+            self.exportConfig = exportConfig
+            self.kmsKeyId = kmsKeyId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encode(self.exportConfig, forKey: .exportConfig)
+            try container.encodeIfPresent(self.kmsKeyId, forKey: .kmsKeyId)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.exportConfig.validate(name: "\(name).exportConfig")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 256)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[a-zA-Z0-9:/_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case exportConfig = "exportConfig"
+            case kmsKeyId = "kmsKeyId"
+        }
+    }
+
+    public struct CreateDataSetExportTaskResponse: AWSDecodableShape {
+        /// The task identifier. This operation is asynchronous. Use this identifier with the GetDataSetExportTask operation to obtain the status of this task.
+        public let taskId: String
+
+        @inlinable
+        public init(taskId: String) {
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case taskId = "taskId"
+        }
+    }
+
     public struct CreateDataSetImportTaskRequest: AWSEncodableShape {
         /// The unique identifier of the application for which you want to import data sets.
         public let applicationId: String
@@ -1014,6 +1107,85 @@ extension M2 {
             case recordLength = "recordLength"
             case relativePath = "relativePath"
             case storageType = "storageType"
+        }
+    }
+
+    public struct DataSetExportItem: AWSEncodableShape {
+        /// The data set.
+        public let datasetName: String
+        /// The location of the data set.
+        public let externalLocation: ExternalLocation
+
+        @inlinable
+        public init(datasetName: String, externalLocation: ExternalLocation) {
+            self.datasetName = datasetName
+            self.externalLocation = externalLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^\\S{1,200}$")
+            try self.externalLocation.validate(name: "\(name).externalLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetName = "datasetName"
+            case externalLocation = "externalLocation"
+        }
+    }
+
+    public struct DataSetExportSummary: AWSDecodableShape {
+        /// The number of data set exports that have failed.
+        public let failed: Int
+        /// The number of data set exports that are in progress.
+        public let inProgress: Int
+        /// The number of data set exports that are pending.
+        public let pending: Int
+        /// The number of data set exports that have succeeded.
+        public let succeeded: Int
+        /// The total number of data set exports.
+        public let total: Int
+
+        @inlinable
+        public init(failed: Int, inProgress: Int, pending: Int, succeeded: Int, total: Int) {
+            self.failed = failed
+            self.inProgress = inProgress
+            self.pending = pending
+            self.succeeded = succeeded
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failed = "failed"
+            case inProgress = "inProgress"
+            case pending = "pending"
+            case succeeded = "succeeded"
+            case total = "total"
+        }
+    }
+
+    public struct DataSetExportTask: AWSDecodableShape {
+        /// The status of the data set export task.
+        public let status: DataSetTaskLifecycle
+        /// If dataset exports failed, the failure reason will show here.
+        public let statusReason: String?
+        /// A summary of the data set export task.
+        public let summary: DataSetExportSummary
+        /// The identifier of the data set export task.
+        public let taskId: String
+
+        @inlinable
+        public init(status: DataSetTaskLifecycle, statusReason: String? = nil, summary: DataSetExportSummary, taskId: String) {
+            self.status = status
+            self.statusReason = statusReason
+            self.summary = summary
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+            case statusReason = "statusReason"
+            case summary = "summary"
+            case taskId = "taskId"
         }
     }
 
@@ -1794,6 +1966,63 @@ extension M2 {
         }
     }
 
+    public struct GetDataSetExportTaskRequest: AWSEncodableShape {
+        /// The application identifier.
+        public let applicationId: String
+        /// The task identifier returned by the CreateDataSetExportTask operation.
+        public let taskId: String
+
+        @inlinable
+        public init(applicationId: String, taskId: String) {
+            self.applicationId = applicationId
+            self.taskId = taskId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodePath(self.taskId, key: "taskId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
+            try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^\\S{1,80}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDataSetExportTaskResponse: AWSDecodableShape {
+        /// The identifier of a customer managed key used for exported data set encryption.
+        public let kmsKeyArn: String?
+        /// The status of the task.
+        public let status: DataSetTaskLifecycle
+        /// If dataset export failed, the failure reason will show here.
+        public let statusReason: String?
+        /// A summary of the status of the task.
+        public let summary: DataSetExportSummary?
+        /// The task identifier.
+        public let taskId: String
+
+        @inlinable
+        public init(kmsKeyArn: String? = nil, status: DataSetTaskLifecycle, statusReason: String? = nil, summary: DataSetExportSummary? = nil, taskId: String) {
+            self.kmsKeyArn = kmsKeyArn
+            self.status = status
+            self.statusReason = statusReason
+            self.summary = summary
+            self.taskId = taskId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn = "kmsKeyArn"
+            case status = "status"
+            case statusReason = "statusReason"
+            case summary = "summary"
+            case taskId = "taskId"
+        }
+    }
+
     public struct GetDataSetImportTaskRequest: AWSEncodableShape {
         /// The application identifier.
         public let applicationId: String
@@ -2088,6 +2317,12 @@ extension M2 {
         public let procStepName: String?
         /// The number of a procedure step.
         public let procStepNumber: Int?
+        /// A registered step-level checkpoint identifier that can be used for restarting an Amazon Web Services Blu Age application batch job.
+        public let stepCheckpoint: Int?
+        /// The step-level checkpoint status for an Amazon Web Services Blu Age application batch job.
+        public let stepCheckpointStatus: String?
+        /// The step-level checkpoint status for an Amazon Web Services Blu Age application batch job.
+        public let stepCheckpointTime: Date?
         /// The condition code of a step.
         public let stepCondCode: String?
         /// The name of a step.
@@ -2098,9 +2333,12 @@ extension M2 {
         public let stepRestartable: Bool?
 
         @inlinable
-        public init(procStepName: String? = nil, procStepNumber: Int? = nil, stepCondCode: String? = nil, stepName: String? = nil, stepNumber: Int? = nil, stepRestartable: Bool? = nil) {
+        public init(procStepName: String? = nil, procStepNumber: Int? = nil, stepCheckpoint: Int? = nil, stepCheckpointStatus: String? = nil, stepCheckpointTime: Date? = nil, stepCondCode: String? = nil, stepName: String? = nil, stepNumber: Int? = nil, stepRestartable: Bool? = nil) {
             self.procStepName = procStepName
             self.procStepNumber = procStepNumber
+            self.stepCheckpoint = stepCheckpoint
+            self.stepCheckpointStatus = stepCheckpointStatus
+            self.stepCheckpointTime = stepCheckpointTime
             self.stepCondCode = stepCondCode
             self.stepName = stepName
             self.stepNumber = stepNumber
@@ -2110,6 +2348,9 @@ extension M2 {
         private enum CodingKeys: String, CodingKey {
             case procStepName = "procStepName"
             case procStepNumber = "procStepNumber"
+            case stepCheckpoint = "stepCheckpoint"
+            case stepCheckpointStatus = "stepCheckpointStatus"
+            case stepCheckpointTime = "stepCheckpointTime"
             case stepCondCode = "stepCondCode"
             case stepName = "stepName"
             case stepNumber = "stepNumber"
@@ -2122,15 +2363,21 @@ extension M2 {
         public let fromProcStep: String?
         /// The step name that a batch job was restarted from.
         public let fromStep: String
+        /// The step-level checkpoint timestamp (creation or last modification) for an Amazon Web Services Blu Age application batch job.
+        public let skip: Bool?
+        /// Skip selected step and issue a restart from immediate successor step for an Amazon Web Services Blu Age application batch job.
+        public let stepCheckpoint: Int?
         /// The procedure step name that a batch job was restarted to.
         public let toProcStep: String?
         /// The step name that a batch job was restarted to.
         public let toStep: String?
 
         @inlinable
-        public init(fromProcStep: String? = nil, fromStep: String, toProcStep: String? = nil, toStep: String? = nil) {
+        public init(fromProcStep: String? = nil, fromStep: String, skip: Bool? = nil, stepCheckpoint: Int? = nil, toProcStep: String? = nil, toStep: String? = nil) {
             self.fromProcStep = fromProcStep
             self.fromStep = fromStep
+            self.skip = skip
+            self.stepCheckpoint = stepCheckpoint
             self.toProcStep = toProcStep
             self.toStep = toStep
         }
@@ -2138,6 +2385,8 @@ extension M2 {
         private enum CodingKeys: String, CodingKey {
             case fromProcStep = "fromProcStep"
             case fromStep = "fromStep"
+            case skip = "skip"
+            case stepCheckpoint = "stepCheckpoint"
             case toProcStep = "toProcStep"
             case toStep = "toStep"
         }
@@ -2430,6 +2679,57 @@ extension M2 {
 
         private enum CodingKeys: String, CodingKey {
             case batchJobSteps = "batchJobSteps"
+        }
+    }
+
+    public struct ListDataSetExportHistoryRequest: AWSEncodableShape {
+        /// The unique identifier of the application.
+        public let applicationId: String
+        /// The maximum number of objects to return.
+        public let maxResults: Int?
+        /// A pagination token returned from a previous call to this operation. This specifies the next item to return. To return to the beginning of the  list, exclude this parameter.
+        public let nextToken: String?
+
+        @inlinable
+        public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.applicationId = applicationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^\\S{1,80}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 2000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S{1,2000}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDataSetExportHistoryResponse: AWSDecodableShape {
+        /// The data set export tasks.
+        public let dataSetExportTasks: [DataSetExportTask]
+        /// If there are more items to return, this contains a token  that is passed to a subsequent call to this operation to retrieve the next set of items.
+        public let nextToken: String?
+
+        @inlinable
+        public init(dataSetExportTasks: [DataSetExportTask], nextToken: String? = nil) {
+            self.dataSetExportTasks = dataSetExportTasks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSetExportTasks = "dataSetExportTasks"
+            case nextToken = "nextToken"
         }
     }
 

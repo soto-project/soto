@@ -27326,7 +27326,7 @@ extension SecurityHub {
         public let enabledByDefault: Bool?
         /// The name of the standard.
         public let name: String?
-        /// The ARN of a standard.
+        /// The ARN of the standard.
         public let standardsArn: String?
         /// Provides details about the management of a standard.
         public let standardsManagedBy: StandardsManagedBy?
@@ -27586,17 +27586,17 @@ extension SecurityHub {
     }
 
     public struct StandardsSubscription: AWSDecodableShape {
-        /// The ARN of a standard.
+        /// The ARN of the standard.
         public let standardsArn: String?
-        /// Indicates whether the controls associated with this standards subscription can be viewed and updated. The values are as follows:    READY_FOR_UPDATES - Controls associated with this standards subscription can be viewed and updated.    NOT_READY_FOR_UPDATES - Controls associated with this standards subscription cannot be retrieved or updated yet. Security Hub is still processing a request to create the controls.
+        /// Specifies whether you can retrieve information about and configure individual controls that apply to the standard. Possible values are:    READY_FOR_UPDATES - Controls in the standard can be retrieved and configured.    NOT_READY_FOR_UPDATES - Controls in the standard cannot be retrieved or configured.
         public let standardsControlsUpdatable: StandardsControlsUpdatable?
         /// A key-value pair of input for the standard.
         public let standardsInput: [String: String]?
-        /// The status of the standard subscription. The status values are as follows:    PENDING - Standard is in the process of being enabled.    READY - Standard is enabled.    INCOMPLETE - Standard could not be enabled completely. Some controls may not be available.    DELETING - Standard is in the process of being disabled.    FAILED - Standard could not be disabled.
+        /// The status of your subscription to the standard. Possible values are:    PENDING - The standard is in the process of being enabled. Or the standard is already  enabled and Security Hub is adding new controls to the standard.    READY - The standard is enabled.    INCOMPLETE - The standard could not be enabled completely. One or more errors (StandardsStatusReason)  occurred when Security Hub attempted to enable the standard.    DELETING - The standard is in the process of being disabled.    FAILED - The standard could not be disabled. One or more errors (StandardsStatusReason)  occurred when Security Hub attempted to disable the standard.
         public let standardsStatus: StandardsStatus?
         /// The reason for the current status.
         public let standardsStatusReason: StandardsStatusReason?
-        /// The ARN of a resource that represents your subscription to a supported standard.
+        /// The ARN of the resource that represents your subscription to the standard.
         public let standardsSubscriptionArn: String?
 
         @inlinable

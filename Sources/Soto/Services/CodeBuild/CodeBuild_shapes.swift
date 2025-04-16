@@ -106,6 +106,11 @@ extension CodeBuild {
         public var description: String { return self.rawValue }
     }
 
+    public enum CommandType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case shell = "SHELL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComputeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case attributeBasedCompute = "ATTRIBUTE_BASED_COMPUTE"
         case buildGeneral12Xlarge = "BUILD_GENERAL1_2XLARGE"
@@ -138,6 +143,7 @@ extension CodeBuild {
         case windowsContainer = "WINDOWS_CONTAINER"
         case windowsEc2 = "WINDOWS_EC2"
         case windowsServer2019Container = "WINDOWS_SERVER_2019_CONTAINER"
+        case windowsServer2022Container = "WINDOWS_SERVER_2022_CONTAINER"
         public var description: String { return self.rawValue }
     }
 
@@ -568,6 +574,51 @@ extension CodeBuild {
         }
     }
 
+    public struct BatchGetCommandExecutionsInput: AWSEncodableShape {
+        /// A comma separated list of commandExecutionIds.
+        public let commandExecutionIds: [String]
+        /// A sandboxId or sandboxArn.
+        public let sandboxId: String
+
+        @inlinable
+        public init(commandExecutionIds: [String], sandboxId: String) {
+            self.commandExecutionIds = commandExecutionIds
+            self.sandboxId = sandboxId
+        }
+
+        public func validate(name: String) throws {
+            try self.commandExecutionIds.forEach {
+                try validate($0, name: "commandExecutionIds[]", parent: name, min: 1)
+            }
+            try self.validate(self.commandExecutionIds, name: "commandExecutionIds", parent: name, max: 100)
+            try self.validate(self.commandExecutionIds, name: "commandExecutionIds", parent: name, min: 1)
+            try self.validate(self.sandboxId, name: "sandboxId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandExecutionIds = "commandExecutionIds"
+            case sandboxId = "sandboxId"
+        }
+    }
+
+    public struct BatchGetCommandExecutionsOutput: AWSDecodableShape {
+        /// Information about the requested command executions.
+        public let commandExecutions: [CommandExecution]?
+        /// The IDs of command executions for which information could not be found.
+        public let commandExecutionsNotFound: [String]?
+
+        @inlinable
+        public init(commandExecutions: [CommandExecution]? = nil, commandExecutionsNotFound: [String]? = nil) {
+            self.commandExecutions = commandExecutions
+            self.commandExecutionsNotFound = commandExecutionsNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandExecutions = "commandExecutions"
+            case commandExecutionsNotFound = "commandExecutionsNotFound"
+        }
+    }
+
     public struct BatchGetFleetsInput: AWSEncodableShape {
         /// The names or ARNs of the compute fleets.
         public let names: [String]
@@ -725,6 +776,44 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case reports = "reports"
             case reportsNotFound = "reportsNotFound"
+        }
+    }
+
+    public struct BatchGetSandboxesInput: AWSEncodableShape {
+        /// A comma separated list of sandboxIds or sandboxArns.
+        public let ids: [String]
+
+        @inlinable
+        public init(ids: [String]) {
+            self.ids = ids
+        }
+
+        public func validate(name: String) throws {
+            try self.ids.forEach {
+                try validate($0, name: "ids[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+        }
+    }
+
+    public struct BatchGetSandboxesOutput: AWSDecodableShape {
+        /// Information about the requested sandboxes.
+        public let sandboxes: [Sandbox]?
+        /// The IDs of sandboxes for which information could not be found.
+        public let sandboxesNotFound: [String]?
+
+        @inlinable
+        public init(sandboxes: [Sandbox]? = nil, sandboxesNotFound: [String]? = nil) {
+            self.sandboxes = sandboxes
+            self.sandboxesNotFound = sandboxesNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sandboxes = "sandboxes"
+            case sandboxesNotFound = "sandboxesNotFound"
         }
     }
 
@@ -1347,6 +1436,67 @@ extension CodeBuild {
             case lineCoveragePercentage = "lineCoveragePercentage"
             case linesCovered = "linesCovered"
             case linesMissed = "linesMissed"
+        }
+    }
+
+    public struct CommandExecution: AWSDecodableShape {
+        /// The command that needs to be executed.
+        public let command: String?
+        /// When the command execution process ended, expressed in Unix time format.
+        public let endTime: Date?
+        /// The exit code to return upon completion.
+        public let exitCode: String?
+        /// The ID of the command execution.
+        public let id: String?
+        public let logs: LogsLocation?
+        /// A sandboxArn.
+        public let sandboxArn: String?
+        /// A sandboxId.
+        public let sandboxId: String?
+        /// The text written by the command to stderr.
+        public let standardErrContent: String?
+        /// The text written by the command to stdout.
+        public let standardOutputContent: String?
+        /// When the command execution process started, expressed in Unix time format.
+        public let startTime: Date?
+        /// The status of the command execution.
+        public let status: String?
+        /// When the command execution process was initially submitted, expressed in Unix time format.
+        public let submitTime: Date?
+        /// The command type.
+        public let type: CommandType?
+
+        @inlinable
+        public init(command: String? = nil, endTime: Date? = nil, exitCode: String? = nil, id: String? = nil, logs: LogsLocation? = nil, sandboxArn: String? = nil, sandboxId: String? = nil, standardErrContent: String? = nil, standardOutputContent: String? = nil, startTime: Date? = nil, status: String? = nil, submitTime: Date? = nil, type: CommandType? = nil) {
+            self.command = command
+            self.endTime = endTime
+            self.exitCode = exitCode
+            self.id = id
+            self.logs = logs
+            self.sandboxArn = sandboxArn
+            self.sandboxId = sandboxId
+            self.standardErrContent = standardErrContent
+            self.standardOutputContent = standardOutputContent
+            self.startTime = startTime
+            self.status = status
+            self.submitTime = submitTime
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "command"
+            case endTime = "endTime"
+            case exitCode = "exitCode"
+            case id = "id"
+            case logs = "logs"
+            case sandboxArn = "sandboxArn"
+            case sandboxId = "sandboxId"
+            case standardErrContent = "standardErrContent"
+            case standardOutputContent = "standardOutputContent"
+            case startTime = "startTime"
+            case status = "status"
+            case submitTime = "submitTime"
+            case type = "type"
         }
     }
 
@@ -2623,6 +2773,56 @@ extension CodeBuild {
         }
     }
 
+    public struct ListCommandExecutionsForSandboxInput: AWSEncodableShape {
+        /// The maximum number of sandbox records to be retrieved.
+        public let maxResults: Int?
+        /// The next token, if any, to get paginated results. You will get this value from previous execution of list sandboxes.
+        public let nextToken: String?
+        /// A sandboxId or sandboxArn.
+        public let sandboxId: String
+        /// The order in which sandbox records should be retrieved.
+        public let sortOrder: SortOrderType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sandboxId: String, sortOrder: SortOrderType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sandboxId = sandboxId
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.sandboxId, name: "sandboxId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sandboxId = "sandboxId"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListCommandExecutionsForSandboxOutput: AWSDecodableShape {
+        /// Information about the requested command executions.
+        public let commandExecutions: [CommandExecution]?
+        /// Information about the next token to get paginated results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(commandExecutions: [CommandExecution]? = nil, nextToken: String? = nil) {
+            self.commandExecutions = commandExecutions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandExecutions = "commandExecutions"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListCuratedEnvironmentImagesInput: AWSEncodableShape {
         public init() {}
     }
@@ -2882,6 +3082,101 @@ extension CodeBuild {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case reports = "reports"
+        }
+    }
+
+    public struct ListSandboxesForProjectInput: AWSEncodableShape {
+        /// The maximum number of sandbox records to be retrieved.
+        public let maxResults: Int?
+        /// The next token, if any, to get paginated results. You will get this value from previous execution of list sandboxes.
+        public let nextToken: String?
+        /// The CodeBuild project name.
+        public let projectName: String
+        /// The order in which sandbox records should be retrieved.
+        public let sortOrder: SortOrderType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, projectName: String, sortOrder: SortOrderType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.projectName = projectName
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case projectName = "projectName"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListSandboxesForProjectOutput: AWSDecodableShape {
+        /// Information about the requested sandbox IDs.
+        public let ids: [String]?
+        /// Information about the next token to get paginated results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ids: [String]? = nil, nextToken: String? = nil) {
+            self.ids = ids
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListSandboxesInput: AWSEncodableShape {
+        /// The maximum number of sandbox records to be retrieved.
+        public let maxResults: Int?
+        /// The next token, if any, to get paginated results. You will get this value from previous execution of list sandboxes.
+        public let nextToken: String?
+        /// The order in which sandbox records should be retrieved.
+        public let sortOrder: SortOrderType?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sortOrder: SortOrderType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sortOrder = "sortOrder"
+        }
+    }
+
+    public struct ListSandboxesOutput: AWSDecodableShape {
+        /// Information about the requested sandbox IDs.
+        public let ids: [String]?
+        /// Information about the next token to get paginated results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(ids: [String]? = nil, nextToken: String? = nil) {
+            self.ids = ids
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "ids"
+            case nextToken = "nextToken"
         }
     }
 
@@ -3326,6 +3621,8 @@ extension CodeBuild {
     }
 
     public struct ProjectCache: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the scope of the cache. You can use this namespace to share a cache across  multiple projects. For more information, see Cache sharing  between projects in the CodeBuild User Guide.
+        public let cacheNamespace: String?
         /// Information about the cache location:     NO_CACHE or LOCAL: This value is ignored.    S3: This is the S3 bucket name/prefix.
         public let location: String?
         /// An array of strings that specify the local cache modes. You can use one or more local cache modes at the same time. This is only used for LOCAL cache types. Possible values are:  LOCAL_SOURCE_CACHE  Caches Git metadata for primary and secondary sources. After the cache is created, subsequent builds pull only the change between commits. This mode is a good choice for projects with a clean working directory and a source that is a large Git repository. If you choose this option and your project does not use a Git repository (GitHub, GitHub Enterprise, or Bitbucket), the option is ignored.   LOCAL_DOCKER_LAYER_CACHE  Caches existing Docker layers. This mode is a good choice for projects that build or pull large Docker images. It can prevent the performance issues caused by pulling large Docker images down from the network.     You can use a Docker layer cache in the Linux environment only.    The privileged flag must be set so that your project has the required Docker permissions.    You should consider the security implications before you use a Docker layer cache.      LOCAL_CUSTOM_CACHE  Caches directories you specify in the buildspec file. This mode is a good choice if your build scenario is not suited to one of the other three local cache modes. If you use a custom cache:    Only directories can be specified for caching. You cannot specify individual files.    Symlinks are used to reference cached directories.    Cached directories are linked to your build before it downloads its project sources. Cached items are overridden if a source item has the same name. Directories are specified using cache paths in the buildspec file.
@@ -3334,13 +3631,15 @@ extension CodeBuild {
         public let type: CacheType
 
         @inlinable
-        public init(location: String? = nil, modes: [CacheMode]? = nil, type: CacheType) {
+        public init(cacheNamespace: String? = nil, location: String? = nil, modes: [CacheMode]? = nil, type: CacheType) {
+            self.cacheNamespace = cacheNamespace
             self.location = location
             self.modes = modes
             self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheNamespace = "cacheNamespace"
             case location = "location"
             case modes = "modes"
             case type = "type"
@@ -3942,6 +4241,192 @@ extension CodeBuild {
         }
     }
 
+    public struct SSMSession: AWSDecodableShape {
+        /// The ID of the session.
+        public let sessionId: String?
+        /// A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the node.
+        public let streamUrl: String?
+        /// An encrypted token value containing session and caller information.
+        public let tokenValue: String?
+
+        @inlinable
+        public init(sessionId: String? = nil, streamUrl: String? = nil, tokenValue: String? = nil) {
+            self.sessionId = sessionId
+            self.streamUrl = streamUrl
+            self.tokenValue = tokenValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "sessionId"
+            case streamUrl = "streamUrl"
+            case tokenValue = "tokenValue"
+        }
+    }
+
+    public struct Sandbox: AWSDecodableShape {
+        /// The ARN of the sandbox.
+        public let arn: String?
+        /// The current session for the sandbox.
+        public let currentSession: SandboxSession?
+        /// The Key Management Service customer master key (CMK) to be used for encrypting the sandbox output artifacts.
+        public let encryptionKey: String?
+        /// When the sandbox process ended, expressed in Unix time format.
+        public let endTime: Date?
+        public let environment: ProjectEnvironment?
+        ///  An array of ProjectFileSystemLocation objects for a CodeBuild build project. A ProjectFileSystemLocation object  specifies the identifier, location, mountOptions,  mountPoint, and type of a file system created using Amazon Elastic File System.
+        public let fileSystemLocations: [ProjectFileSystemLocation]?
+        /// The ID of the sandbox.
+        public let id: String?
+        public let logConfig: LogsConfig?
+        /// The CodeBuild project name.
+        public let projectName: String?
+        /// The number of minutes a sandbox is allowed to be queued before it times out.
+        public let queuedTimeoutInMinutes: Int?
+        /// When the sandbox process was initially requested, expressed in Unix time format.
+        public let requestTime: Date?
+        ///  An array of ProjectSource objects.
+        public let secondarySources: [ProjectSource]?
+        ///  An array of ProjectSourceVersion objects.
+        public let secondarySourceVersions: [ProjectSourceVersion]?
+        /// The name of a service role used for this sandbox.
+        public let serviceRole: String?
+        public let source: ProjectSource?
+        /// Any version identifier for the version of the sandbox to be built.
+        public let sourceVersion: String?
+        /// When the sandbox process started, expressed in Unix time format.
+        public let startTime: Date?
+        /// The status of the sandbox.
+        public let status: String?
+        /// How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to wait before timing out this sandbox if it does not get marked as completed.
+        public let timeoutInMinutes: Int?
+        public let vpcConfig: VpcConfig?
+
+        @inlinable
+        public init(arn: String? = nil, currentSession: SandboxSession? = nil, encryptionKey: String? = nil, endTime: Date? = nil, environment: ProjectEnvironment? = nil, fileSystemLocations: [ProjectFileSystemLocation]? = nil, id: String? = nil, logConfig: LogsConfig? = nil, projectName: String? = nil, queuedTimeoutInMinutes: Int? = nil, requestTime: Date? = nil, secondarySources: [ProjectSource]? = nil, secondarySourceVersions: [ProjectSourceVersion]? = nil, serviceRole: String? = nil, source: ProjectSource? = nil, sourceVersion: String? = nil, startTime: Date? = nil, status: String? = nil, timeoutInMinutes: Int? = nil, vpcConfig: VpcConfig? = nil) {
+            self.arn = arn
+            self.currentSession = currentSession
+            self.encryptionKey = encryptionKey
+            self.endTime = endTime
+            self.environment = environment
+            self.fileSystemLocations = fileSystemLocations
+            self.id = id
+            self.logConfig = logConfig
+            self.projectName = projectName
+            self.queuedTimeoutInMinutes = queuedTimeoutInMinutes
+            self.requestTime = requestTime
+            self.secondarySources = secondarySources
+            self.secondarySourceVersions = secondarySourceVersions
+            self.serviceRole = serviceRole
+            self.source = source
+            self.sourceVersion = sourceVersion
+            self.startTime = startTime
+            self.status = status
+            self.timeoutInMinutes = timeoutInMinutes
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case currentSession = "currentSession"
+            case encryptionKey = "encryptionKey"
+            case endTime = "endTime"
+            case environment = "environment"
+            case fileSystemLocations = "fileSystemLocations"
+            case id = "id"
+            case logConfig = "logConfig"
+            case projectName = "projectName"
+            case queuedTimeoutInMinutes = "queuedTimeoutInMinutes"
+            case requestTime = "requestTime"
+            case secondarySources = "secondarySources"
+            case secondarySourceVersions = "secondarySourceVersions"
+            case serviceRole = "serviceRole"
+            case source = "source"
+            case sourceVersion = "sourceVersion"
+            case startTime = "startTime"
+            case status = "status"
+            case timeoutInMinutes = "timeoutInMinutes"
+            case vpcConfig = "vpcConfig"
+        }
+    }
+
+    public struct SandboxSession: AWSDecodableShape {
+        /// The current phase for the sandbox.
+        public let currentPhase: String?
+        /// When the sandbox session ended, expressed in Unix time format.
+        public let endTime: Date?
+        /// The ID of the sandbox session.
+        public let id: String?
+        public let logs: LogsLocation?
+        public let networkInterface: NetworkInterface?
+        ///  An array of SandboxSessionPhase objects.
+        public let phases: [SandboxSessionPhase]?
+        /// An identifier for the version of this sandbox's source code.
+        public let resolvedSourceVersion: String?
+        /// When the sandbox session started, expressed in Unix time format.
+        public let startTime: Date?
+        /// The status of the sandbox session.
+        public let status: String?
+
+        @inlinable
+        public init(currentPhase: String? = nil, endTime: Date? = nil, id: String? = nil, logs: LogsLocation? = nil, networkInterface: NetworkInterface? = nil, phases: [SandboxSessionPhase]? = nil, resolvedSourceVersion: String? = nil, startTime: Date? = nil, status: String? = nil) {
+            self.currentPhase = currentPhase
+            self.endTime = endTime
+            self.id = id
+            self.logs = logs
+            self.networkInterface = networkInterface
+            self.phases = phases
+            self.resolvedSourceVersion = resolvedSourceVersion
+            self.startTime = startTime
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentPhase = "currentPhase"
+            case endTime = "endTime"
+            case id = "id"
+            case logs = "logs"
+            case networkInterface = "networkInterface"
+            case phases = "phases"
+            case resolvedSourceVersion = "resolvedSourceVersion"
+            case startTime = "startTime"
+            case status = "status"
+        }
+    }
+
+    public struct SandboxSessionPhase: AWSDecodableShape {
+        ///  An array of PhaseContext objects.
+        public let contexts: [PhaseContext]?
+        /// How long, in seconds, between the starting and ending times of the sandbox's phase.
+        public let durationInSeconds: Int64?
+        /// When the sandbox phase ended, expressed in Unix time format.
+        public let endTime: Date?
+        /// The current status of the sandbox phase. Valid values include:  FAILED  The sandbox phase failed.  FAULT  The sandbox phase faulted.  IN_PROGRESS  The sandbox phase is still in progress.  STOPPED  The sandbox phase stopped.  SUCCEEDED  The sandbox phase succeeded.  TIMED_OUT  The sandbox phase timed out.
+        public let phaseStatus: StatusType?
+        /// The name of the sandbox phase.
+        public let phaseType: String?
+        /// When the sandbox phase started, expressed in Unix time format.
+        public let startTime: Date?
+
+        @inlinable
+        public init(contexts: [PhaseContext]? = nil, durationInSeconds: Int64? = nil, endTime: Date? = nil, phaseStatus: StatusType? = nil, phaseType: String? = nil, startTime: Date? = nil) {
+            self.contexts = contexts
+            self.durationInSeconds = durationInSeconds
+            self.endTime = endTime
+            self.phaseStatus = phaseStatus
+            self.phaseType = phaseType
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contexts = "contexts"
+            case durationInSeconds = "durationInSeconds"
+            case endTime = "endTime"
+            case phaseStatus = "phaseStatus"
+            case phaseType = "phaseType"
+            case startTime = "startTime"
+        }
+    }
+
     public struct ScalingConfigurationInput: AWSEncodableShape {
         /// The maximum number of instances in the ﬂeet when auto-scaling.
         public let maxCapacity: Int?
@@ -4410,6 +4895,115 @@ extension CodeBuild {
         }
     }
 
+    public struct StartCommandExecutionInput: AWSEncodableShape {
+        /// The command that needs to be executed.
+        public let command: String
+        /// A sandboxId or sandboxArn.
+        public let sandboxId: String
+        /// The command type.
+        public let type: CommandType?
+
+        @inlinable
+        public init(command: String, sandboxId: String, type: CommandType? = nil) {
+            self.command = command
+            self.sandboxId = sandboxId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.command, name: "command", parent: name, min: 1)
+            try self.validate(self.sandboxId, name: "sandboxId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "command"
+            case sandboxId = "sandboxId"
+            case type = "type"
+        }
+    }
+
+    public struct StartCommandExecutionOutput: AWSDecodableShape {
+        /// Information about the requested command executions.
+        public let commandExecution: CommandExecution?
+
+        @inlinable
+        public init(commandExecution: CommandExecution? = nil) {
+            self.commandExecution = commandExecution
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commandExecution = "commandExecution"
+        }
+    }
+
+    public struct StartSandboxConnectionInput: AWSEncodableShape {
+        /// A sandboxId or sandboxArn.
+        public let sandboxId: String
+
+        @inlinable
+        public init(sandboxId: String) {
+            self.sandboxId = sandboxId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sandboxId, name: "sandboxId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sandboxId = "sandboxId"
+        }
+    }
+
+    public struct StartSandboxConnectionOutput: AWSDecodableShape {
+        /// Information about the Session Manager session.
+        public let ssmSession: SSMSession?
+
+        @inlinable
+        public init(ssmSession: SSMSession? = nil) {
+            self.ssmSession = ssmSession
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ssmSession = "ssmSession"
+        }
+    }
+
+    public struct StartSandboxInput: AWSEncodableShape {
+        /// A unique client token.
+        public let idempotencyToken: String?
+        /// The CodeBuild project name.
+        public let projectName: String?
+
+        @inlinable
+        public init(idempotencyToken: String? = nil, projectName: String? = nil) {
+            self.idempotencyToken = idempotencyToken
+            self.projectName = projectName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.projectName, name: "projectName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idempotencyToken = "idempotencyToken"
+            case projectName = "projectName"
+        }
+    }
+
+    public struct StartSandboxOutput: AWSDecodableShape {
+        /// Information about the requested sandbox.
+        public let sandbox: Sandbox?
+
+        @inlinable
+        public init(sandbox: Sandbox? = nil) {
+            self.sandbox = sandbox
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sandbox = "sandbox"
+        }
+    }
+
     public struct StopBuildBatchInput: AWSEncodableShape {
         /// The identifier of the batch build to stop.
         public let id: String
@@ -4470,6 +5064,38 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case build = "build"
+        }
+    }
+
+    public struct StopSandboxInput: AWSEncodableShape {
+        /// Information about the requested sandbox ID.
+        public let id: String
+
+        @inlinable
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+        }
+    }
+
+    public struct StopSandboxOutput: AWSDecodableShape {
+        /// Information about the requested sandbox.
+        public let sandbox: Sandbox?
+
+        @inlinable
+        public init(sandbox: Sandbox? = nil) {
+            self.sandbox = sandbox
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sandbox = "sandbox"
         }
     }
 
@@ -5083,6 +5709,7 @@ extension CodeBuild {
 public struct CodeBuildErrorType: AWSErrorType {
     enum Code: String {
         case accountLimitExceededException = "AccountLimitExceededException"
+        case accountSuspendedException = "AccountSuspendedException"
         case invalidInputException = "InvalidInputException"
         case oAuthProviderException = "OAuthProviderException"
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
@@ -5109,6 +5736,8 @@ public struct CodeBuildErrorType: AWSErrorType {
 
     /// An Amazon Web Services service limit was exceeded for the calling Amazon Web Services account.
     public static var accountLimitExceededException: Self { .init(.accountLimitExceededException) }
+    /// The CodeBuild access has been suspended for the calling Amazon Web Services account.
+    public static var accountSuspendedException: Self { .init(.accountSuspendedException) }
     /// The input value that was provided is not valid.
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// There was a problem with the underlying OAuth provider.

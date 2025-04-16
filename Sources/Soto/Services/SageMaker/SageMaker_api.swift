@@ -94,6 +94,7 @@ public struct SageMaker: AWSService {
             "ap-southeast-3": "api-fips.sagemaker.ap-southeast-3.amazonaws.com",
             "ap-southeast-4": "api-fips.sagemaker.ap-southeast-4.amazonaws.com",
             "ap-southeast-5": "api-fips.sagemaker.ap-southeast-5.amazonaws.com",
+            "ap-southeast-7": "api-fips.sagemaker.ap-southeast-7.amazonaws.com",
             "ca-central-1": "api-fips.sagemaker.ca-central-1.amazonaws.com",
             "ca-west-1": "api-fips.sagemaker.ca-west-1.amazonaws.com",
             "eu-central-1": "api-fips.sagemaker.eu-central-1.amazonaws.com",
@@ -107,6 +108,7 @@ public struct SageMaker: AWSService {
             "il-central-1": "api-fips.sagemaker.il-central-1.amazonaws.com",
             "me-central-1": "api-fips.sagemaker.me-central-1.amazonaws.com",
             "me-south-1": "api-fips.sagemaker.me-south-1.amazonaws.com",
+            "mx-central-1": "api-fips.sagemaker.mx-central-1.amazonaws.com",
             "sa-east-1": "api-fips.sagemaker.sa-east-1.amazonaws.com",
             "us-east-1": "api-fips.sagemaker.us-east-1.amazonaws.com",
             "us-east-2": "api-fips.sagemaker.us-east-2.amazonaws.com",
@@ -395,6 +397,7 @@ public struct SageMaker: AWSService {
     ///   - appName: The name of the app.
     ///   - appType: The type of app.
     ///   - domainId: The domain ID.
+    ///   - recoveryMode:  Indicates whether the application is launched in recovery mode.
     ///   - resourceSpec: The instance type and the Amazon Resource Name (ARN) of the SageMaker AI image created on the instance.  The value of InstanceType passed as part of the ResourceSpec in the CreateApp call overrides the value passed as part of the ResourceSpec configured for the user profile or the domain. If InstanceType is not specified in any of those three ResourceSpec values for a KernelGateway app, the CreateApp call fails with a request validation error.
     ///   - spaceName: The name of the space. If this value is not set, then UserProfileName must be set.
     ///   - tags: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
@@ -405,6 +408,7 @@ public struct SageMaker: AWSService {
         appName: String? = nil,
         appType: AppType? = nil,
         domainId: String? = nil,
+        recoveryMode: Bool? = nil,
         resourceSpec: ResourceSpec? = nil,
         spaceName: String? = nil,
         tags: [Tag]? = nil,
@@ -415,6 +419,7 @@ public struct SageMaker: AWSService {
             appName: appName, 
             appType: appType, 
             domainId: domainId, 
+            recoveryMode: recoveryMode, 
             resourceSpec: resourceSpec, 
             spaceName: spaceName, 
             tags: tags, 
@@ -2488,18 +2493,21 @@ public struct SageMaker: AWSService {
     ///   - notebookInstanceLifecycleConfigName: The name of the lifecycle configuration.
     ///   - onCreate: A shell script that runs only once, when you create a notebook instance. The shell script must be a base64-encoded string.
     ///   - onStart: A shell script that runs every time you start a notebook instance, including when you create the notebook instance. The shell script must be a base64-encoded string.
+    ///   - tags: An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
     ///   - logger: Logger use during operation
     @inlinable
     public func createNotebookInstanceLifecycleConfig(
         notebookInstanceLifecycleConfigName: String? = nil,
         onCreate: [NotebookInstanceLifecycleHook]? = nil,
         onStart: [NotebookInstanceLifecycleHook]? = nil,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateNotebookInstanceLifecycleConfigOutput {
         let input = CreateNotebookInstanceLifecycleConfigInput(
             notebookInstanceLifecycleConfigName: notebookInstanceLifecycleConfigName, 
             onCreate: onCreate, 
-            onStart: onStart
+            onStart: onStart, 
+            tags: tags
         )
         return try await self.createNotebookInstanceLifecycleConfig(input, logger: logger)
     }
@@ -2581,6 +2589,7 @@ public struct SageMaker: AWSService {
     ///   - clientToken: A unique token that guarantees that the call to this API is idempotent.
     ///   - enableIamSessionBasedIdentity: When set to TRUE, the SageMaker Partner AI App sets the Amazon Web Services IAM session name or the authenticated IAM user as the identity of the SageMaker Partner AI App user.
     ///   - executionRoleArn: The ARN of the IAM role that the partner application uses.
+    ///   - kmsKeyId: SageMaker Partner AI Apps uses Amazon Web Services KMS to encrypt data at rest using an Amazon Web Services managed key by default. For more control, specify a customer managed key.
     ///   - maintenanceConfig: Maintenance configuration settings for the SageMaker Partner AI App.
     ///   - name: The name to give the SageMaker Partner AI App.
     ///   - tags: Each tag consists of a key and an optional value. Tag keys must be unique per resource.
@@ -2594,6 +2603,7 @@ public struct SageMaker: AWSService {
         clientToken: String? = CreatePartnerAppRequest.idempotencyToken(),
         enableIamSessionBasedIdentity: Bool? = nil,
         executionRoleArn: String? = nil,
+        kmsKeyId: String? = nil,
         maintenanceConfig: PartnerAppMaintenanceConfig? = nil,
         name: String? = nil,
         tags: [Tag]? = nil,
@@ -2607,6 +2617,7 @@ public struct SageMaker: AWSService {
             clientToken: clientToken, 
             enableIamSessionBasedIdentity: enableIamSessionBasedIdentity, 
             executionRoleArn: executionRoleArn, 
+            kmsKeyId: kmsKeyId, 
             maintenanceConfig: maintenanceConfig, 
             name: name, 
             tags: tags, 
@@ -2832,10 +2843,10 @@ public struct SageMaker: AWSService {
     ///
     /// Parameters:
     ///   - appSpecification: Configures the processing job to run a specified Docker container image.
-    ///   - environment: The environment variables to set in the Docker container. Up to  100 key and values entries in the map are supported.
+    ///   - environment: The environment variables to set in the Docker container. Up to 100 key and values entries in the map are supported.
     ///   - experimentConfig: 
-    ///   - networkConfig: Networking options for a processing job, such as whether to allow inbound and  outbound network calls to and from processing containers, and the VPC subnets and  security groups to use for VPC-enabled processing jobs.
-    ///   - processingInputs: An array of inputs configuring the data to download into the  processing container.
+    ///   - networkConfig: Networking options for a processing job, such as whether to allow inbound and outbound network calls to and from processing containers, and the VPC subnets and security groups to use for VPC-enabled processing jobs.
+    ///   - processingInputs: An array of inputs configuring the data to download into the processing container.
     ///   - processingJobName:  The name of the processing job. The name must be unique within an Amazon Web Services Region in the Amazon Web Services account.
     ///   - processingOutputConfig: Output configuration for the processing job.
     ///   - processingResources: Identifies the resources, ML compute instances, and ML storage volumes to deploy for a processing job. In distributed training, you specify more than one instance.
@@ -3134,7 +3145,7 @@ public struct SageMaker: AWSService {
     }
 
     /// Starts a transform job. A transform job uses a trained model to get inferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following:    TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.    ModelName - Identifies the model to use. ModelName must be the name of an existing Amazon SageMaker model in the same Amazon Web Services Region and Amazon Web Services
-    /// 		    account. For information on creating a model, see CreateModel.    TransformInput - Describes the dataset to be transformed and the Amazon S3 location where it is stored.    TransformOutput - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.    TransformResources - Identifies the ML compute instances for the transform job.   For more information about how batch transformation works, see Batch Transform.
+    /// 		    account. For information on creating a model, see CreateModel.    TransformInput - Describes the dataset to be transformed and the Amazon S3 location where it is stored.    TransformOutput - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.    TransformResources - Identifies the ML compute instances and AMI image versions for the transform job.   For more information about how batch transformation works, see Batch Transform.
     @Sendable
     @inlinable
     public func createTransformJob(_ input: CreateTransformJobRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateTransformJobResponse {
@@ -3148,7 +3159,7 @@ public struct SageMaker: AWSService {
         )
     }
     /// Starts a transform job. A transform job uses a trained model to get inferences on a dataset and saves these results to an Amazon S3 location that you specify. To perform batch transformations, you create a transform job and use the data that you have readily available. In the request body, you provide the following:    TransformJobName - Identifies the transform job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.    ModelName - Identifies the model to use. ModelName must be the name of an existing Amazon SageMaker model in the same Amazon Web Services Region and Amazon Web Services
-    /// 		    account. For information on creating a model, see CreateModel.    TransformInput - Describes the dataset to be transformed and the Amazon S3 location where it is stored.    TransformOutput - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.    TransformResources - Identifies the ML compute instances for the transform job.   For more information about how batch transformation works, see Batch Transform.
+    /// 		    account. For information on creating a model, see CreateModel.    TransformInput - Describes the dataset to be transformed and the Amazon S3 location where it is stored.    TransformOutput - Identifies the Amazon S3 location where you want Amazon SageMaker to save the results from the transform job.    TransformResources - Identifies the ML compute instances and AMI image versions for the transform job.   For more information about how batch transformation works, see Batch Transform.
     ///
     /// Parameters:
     ///   - batchStrategy: Specifies the number of records to include in a mini-batch for an HTTP inference request. A record is a single unit of input data that inference can be made on. For example, a single line in a CSV file is a record.  To enable the batch strategy, you must set the SplitType property to Line, RecordIO, or TFRecord. To use only one record when making an HTTP invocation request to a container, set BatchStrategy to SingleRecord and SplitType to Line. To fit as many records in a mini-batch as can fit within the MaxPayloadInMB limit, set BatchStrategy to MultiRecord and SplitType to Line.
@@ -11682,7 +11693,7 @@ public struct SageMaker: AWSService {
         return try await self.retryPipelineExecution(input, logger: logger)
     }
 
-    /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.  The Search API may provide access to otherwise restricted data. See Amazon SageMaker  API Permissions: Actions, Permissions, and Resources Reference for more information.
+    /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.  The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Resources Reference for more information.
     @Sendable
     @inlinable
     public func search(_ input: SearchRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> SearchResponse {
@@ -11695,10 +11706,10 @@ public struct SageMaker: AWSService {
             logger: logger
         )
     }
-    /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.  The Search API may provide access to otherwise restricted data. See Amazon SageMaker  API Permissions: Actions, Permissions, and Resources Reference for more information.
+    /// Finds SageMaker resources that match a search query. Matching resources are returned as a list of SearchRecord objects in the response. You can sort the search results by any resource property in a ascending or descending order. You can query against the following value types: numeric, text, Boolean, and timestamp.  The Search API may provide access to otherwise restricted data. See Amazon SageMaker API Permissions: Actions, Permissions, and Resources Reference for more information.
     ///
     /// Parameters:
-    ///   - crossAccountFilterOption:  A cross account filter option. When the value is "CrossAccount" the  search results will only include resources made discoverable to you from other  accounts. When the value is "SameAccount" or null the  search results will only include resources from your account. Default is  null. For more information on searching for resources made  discoverable to your account, see  Search discoverable resources in the SageMaker Developer Guide. The maximum number of ResourceCatalogs viewable is 1000.
+    ///   - crossAccountFilterOption:  A cross account filter option. When the value is "CrossAccount" the search results will only include resources made discoverable to you from other accounts. When the value is "SameAccount" or null the search results will only include resources from your account. Default is null. For more information on searching for resources made discoverable to your account, see  Search discoverable resources in the SageMaker Developer Guide. The maximum number of ResourceCatalogs viewable is 1000.
     ///   - maxResults: The maximum number of results to return.
     ///   - nextToken: If more than MaxResults resources match the specified SearchExpression, the response includes a NextToken. The NextToken can be passed to the next SearchRequest to continue retrieving results.
     ///   - resource: The name of the SageMaker resource to search for.
@@ -14762,6 +14773,58 @@ extension SageMaker {
         return self.listCandidatesForAutoMLJobPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listClusterNodes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterNodesPaginator(
+        _ input: ListClusterNodesRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListClusterNodesRequest, ListClusterNodesResponse> {
+        return .init(
+            input: input,
+            command: self.listClusterNodes,
+            inputKey: \ListClusterNodesRequest.nextToken,
+            outputKey: \ListClusterNodesResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listClusterNodes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - clusterName: The string name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster in which you want to retrieve the list of nodes.
+    ///   - creationTimeAfter: A filter that returns nodes in a SageMaker HyperPod cluster created after the specified time. Timestamps are formatted according to the ISO 8601 standard.  Acceptable formats include:    YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example, 2014-10-01T20:30:00.000Z     YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example, 2014-10-01T12:30:00.000-08:00     YYYY-MM-DD, for example, 2014-10-01    Unix time in seconds, for example, 1412195400. This is also referred to as Unix Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC.   For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
+    ///   - creationTimeBefore: A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
+    ///   - instanceGroupNameContains: A filter that returns the instance groups whose name contain a specified string.
+    ///   - maxResults: The maximum number of nodes to return in the response.
+    ///   - sortBy: The field by which to sort results. The default value is CREATION_TIME.
+    ///   - sortOrder: The sort order for results. The default value is Ascending.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClusterNodesPaginator(
+        clusterName: String? = nil,
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        instanceGroupNameContains: String? = nil,
+        maxResults: Int? = nil,
+        sortBy: ClusterSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListClusterNodesRequest, ListClusterNodesResponse> {
+        let input = ListClusterNodesRequest(
+            clusterName: clusterName, 
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            instanceGroupNameContains: instanceGroupNameContains, 
+            maxResults: maxResults, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder
+        )
+        return self.listClusterNodesPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listClusterSchedulerConfigs(_:logger:)``.
     ///
     /// - Parameters:
@@ -14815,6 +14878,58 @@ extension SageMaker {
             status: status
         )
         return self.listClusterSchedulerConfigsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listClusters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClustersPaginator(
+        _ input: ListClustersRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListClustersRequest, ListClustersResponse> {
+        return .init(
+            input: input,
+            command: self.listClusters,
+            inputKey: \ListClustersRequest.nextToken,
+            outputKey: \ListClustersResponse.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listClusters(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - creationTimeAfter: Set a start time for the time range during which you want to list SageMaker HyperPod clusters. Timestamps are formatted according to the ISO 8601 standard.  Acceptable formats include:    YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example, 2014-10-01T20:30:00.000Z     YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example, 2014-10-01T12:30:00.000-08:00     YYYY-MM-DD, for example, 2014-10-01    Unix time in seconds, for example, 1412195400. This is also referred to as Unix Epoch time and represents the number of seconds since midnight, January 1, 1970 UTC.   For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
+    ///   - creationTimeBefore: Set an end time for the time range during which you want to list SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod cluster created before the specified time. The acceptable formats are the same as the timestamp formats for CreationTimeAfter. For more information about the timestamp format, see Timestamp in the Amazon Web Services Command Line Interface User Guide.
+    ///   - maxResults: Set the maximum number of SageMaker HyperPod clusters to list.
+    ///   - nameContains: Set the maximum number of instances to print in the list.
+    ///   - sortBy: The field by which to sort results. The default value is CREATION_TIME.
+    ///   - sortOrder: The sort order for results. The default value is Ascending.
+    ///   - trainingPlanArn: The Amazon Resource Name (ARN); of the training plan to filter clusters by. For more information about reserving GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listClustersPaginator(
+        creationTimeAfter: Date? = nil,
+        creationTimeBefore: Date? = nil,
+        maxResults: Int? = nil,
+        nameContains: String? = nil,
+        sortBy: ClusterSortBy? = nil,
+        sortOrder: SortOrder? = nil,
+        trainingPlanArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListClustersRequest, ListClustersResponse> {
+        let input = ListClustersRequest(
+            creationTimeAfter: creationTimeAfter, 
+            creationTimeBefore: creationTimeBefore, 
+            maxResults: maxResults, 
+            nameContains: nameContains, 
+            sortBy: sortBy, 
+            sortOrder: sortOrder, 
+            trainingPlanArn: trainingPlanArn
+        )
+        return self.listClustersPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listCodeRepositories(_:logger:)``.
@@ -18283,7 +18398,7 @@ extension SageMaker {
     /// Return PaginatorSequence for operation ``search(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - crossAccountFilterOption:  A cross account filter option. When the value is "CrossAccount" the  search results will only include resources made discoverable to you from other  accounts. When the value is "SameAccount" or null the  search results will only include resources from your account. Default is  null. For more information on searching for resources made  discoverable to your account, see  Search discoverable resources in the SageMaker Developer Guide. The maximum number of ResourceCatalogs viewable is 1000.
+    ///   - crossAccountFilterOption:  A cross account filter option. When the value is "CrossAccount" the search results will only include resources made discoverable to you from other accounts. When the value is "SameAccount" or null the search results will only include resources from your account. Default is null. For more information on searching for resources made discoverable to your account, see  Search discoverable resources in the SageMaker Developer Guide. The maximum number of ResourceCatalogs viewable is 1000.
     ///   - maxResults: The maximum number of results to return.
     ///   - resource: The name of the SageMaker resource to search for.
     ///   - searchExpression: A Boolean conditional statement. Resources must satisfy this condition to be included in search results. You must provide at least one subexpression, filter, or nested filter. The maximum number of recursive SubExpressions, NestedFilters, and Filters that can be included in a SearchExpression object is 50.
@@ -18459,6 +18574,22 @@ extension SageMaker.ListCandidatesForAutoMLJobRequest: AWSPaginateToken {
     }
 }
 
+extension SageMaker.ListClusterNodesRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListClusterNodesRequest {
+        return .init(
+            clusterName: self.clusterName,
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            instanceGroupNameContains: self.instanceGroupNameContains,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension SageMaker.ListClusterSchedulerConfigsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> SageMaker.ListClusterSchedulerConfigsRequest {
@@ -18472,6 +18603,22 @@ extension SageMaker.ListClusterSchedulerConfigsRequest: AWSPaginateToken {
             sortBy: self.sortBy,
             sortOrder: self.sortOrder,
             status: self.status
+        )
+    }
+}
+
+extension SageMaker.ListClustersRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListClustersRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter,
+            creationTimeBefore: self.creationTimeBefore,
+            maxResults: self.maxResults,
+            nameContains: self.nameContains,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            trainingPlanArn: self.trainingPlanArn
         )
     }
 }

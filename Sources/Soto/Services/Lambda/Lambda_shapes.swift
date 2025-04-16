@@ -210,6 +210,7 @@ extension Lambda {
         case ruby27 = "ruby2.7"
         case ruby32 = "ruby3.2"
         case ruby33 = "ruby3.3"
+        case ruby34 = "ruby3.4"
         public var description: String { return self.rawValue }
     }
 
@@ -969,7 +970,7 @@ extension Lambda {
         public let metricsConfig: EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
-        /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see Provisioned Mode.
+        /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see provisioned mode.
         public let provisionedPollerConfig: ProvisionedPollerConfig?
         ///  (MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
@@ -1923,7 +1924,7 @@ extension Lambda {
         public let metricsConfig: EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process concurrently from each shard. The default value is 1.
         public let parallelizationFactor: Int?
-        /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see Provisioned Mode.
+        /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see provisioned mode.
         public let provisionedPollerConfig: ProvisionedPollerConfig?
         ///  (Amazon MQ) The name of the Amazon MQ broker destination queue to consume.
         public let queues: [String]?
@@ -5769,7 +5770,7 @@ extension Lambda {
         public let metricsConfig: EventSourceMappingMetricsConfig?
         /// (Kinesis and DynamoDB Streams only) The number of batches to process from each shard concurrently.
         public let parallelizationFactor: Int?
-        /// (Amazon MSK and self-managed Apache Kafka only) The Provisioned Mode configuration for the event source. For more information, see Provisioned Mode.
+        /// (Amazon MSK and self-managed Apache Kafka only) The provisioned mode configuration for the event source. For more information, see provisioned mode.
         public let provisionedPollerConfig: ProvisionedPollerConfig?
         /// (Amazon SQS only) The scaling configuration for the event source. For more information, see Configuring maximum concurrency for Amazon SQS event sources.
         public let scalingConfig: ScalingConfig?
@@ -6388,7 +6389,7 @@ public struct LambdaErrorType: AWSErrorType {
     public static var invalidCodeSignatureException: Self { .init(.invalidCodeSignatureException) }
     /// One of the parameters in the request is not valid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
-    /// The request body could not be parsed as JSON.
+    /// The request body could not be parsed as JSON, or a request header is invalid. For example, the 'x-amzn-RequestId' header is not a valid UUID string.
     public static var invalidRequestContentException: Self { .init(.invalidRequestContentException) }
     /// The runtime or runtime version specified is not supported.
     public static var invalidRuntimeException: Self { .init(.invalidRuntimeException) }

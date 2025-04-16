@@ -178,6 +178,38 @@ public struct CodeBuild: AWSService {
         return try await self.batchGetBuilds(input, logger: logger)
     }
 
+    /// Gets information about the command executions.
+    @Sendable
+    @inlinable
+    public func batchGetCommandExecutions(_ input: BatchGetCommandExecutionsInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetCommandExecutionsOutput {
+        try await self.client.execute(
+            operation: "BatchGetCommandExecutions", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about the command executions.
+    ///
+    /// Parameters:
+    ///   - commandExecutionIds: A comma separated list of commandExecutionIds.
+    ///   - sandboxId: A sandboxId or sandboxArn.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetCommandExecutions(
+        commandExecutionIds: [String],
+        sandboxId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetCommandExecutionsOutput {
+        let input = BatchGetCommandExecutionsInput(
+            commandExecutionIds: commandExecutionIds, 
+            sandboxId: sandboxId
+        )
+        return try await self.batchGetCommandExecutions(input, logger: logger)
+    }
+
     /// Gets information about one or more compute fleets.
     @Sendable
     @inlinable
@@ -292,6 +324,35 @@ public struct CodeBuild: AWSService {
             reportArns: reportArns
         )
         return try await self.batchGetReports(input, logger: logger)
+    }
+
+    /// Gets information about the sandbox status.
+    @Sendable
+    @inlinable
+    public func batchGetSandboxes(_ input: BatchGetSandboxesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> BatchGetSandboxesOutput {
+        try await self.client.execute(
+            operation: "BatchGetSandboxes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about the sandbox status.
+    ///
+    /// Parameters:
+    ///   - ids: A comma separated list of sandboxIds or sandboxArns.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func batchGetSandboxes(
+        ids: [String],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> BatchGetSandboxesOutput {
+        let input = BatchGetSandboxesInput(
+            ids: ids
+        )
+        return try await self.batchGetSandboxes(input, logger: logger)
     }
 
     /// Creates a compute fleet.
@@ -1130,6 +1191,44 @@ public struct CodeBuild: AWSService {
         return try await self.listBuildsForProject(input, logger: logger)
     }
 
+    /// Gets a list of command executions for a sandbox.
+    @Sendable
+    @inlinable
+    public func listCommandExecutionsForSandbox(_ input: ListCommandExecutionsForSandboxInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListCommandExecutionsForSandboxOutput {
+        try await self.client.execute(
+            operation: "ListCommandExecutionsForSandbox", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a list of command executions for a sandbox.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of sandbox records to be retrieved.
+    ///   - nextToken: The next token, if any, to get paginated results. You will get this value from previous execution of list sandboxes.
+    ///   - sandboxId: A sandboxId or sandboxArn.
+    ///   - sortOrder: The order in which sandbox records should be retrieved.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listCommandExecutionsForSandbox(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sandboxId: String,
+        sortOrder: SortOrderType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListCommandExecutionsForSandboxOutput {
+        let input = ListCommandExecutionsForSandboxInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sandboxId: sandboxId, 
+            sortOrder: sortOrder
+        )
+        return try await self.listCommandExecutionsForSandbox(input, logger: logger)
+    }
+
     /// Gets information about Docker images that are managed by CodeBuild.
     @Sendable
     @inlinable
@@ -1344,6 +1443,79 @@ public struct CodeBuild: AWSService {
             sortOrder: sortOrder
         )
         return try await self.listReportsForReportGroup(input, logger: logger)
+    }
+
+    /// Gets a list of sandboxes.
+    @Sendable
+    @inlinable
+    public func listSandboxes(_ input: ListSandboxesInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSandboxesOutput {
+        try await self.client.execute(
+            operation: "ListSandboxes", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a list of sandboxes.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of sandbox records to be retrieved.
+    ///   - nextToken: The next token, if any, to get paginated results. You will get this value from previous execution of list sandboxes.
+    ///   - sortOrder: The order in which sandbox records should be retrieved.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSandboxes(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        sortOrder: SortOrderType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSandboxesOutput {
+        let input = ListSandboxesInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            sortOrder: sortOrder
+        )
+        return try await self.listSandboxes(input, logger: logger)
+    }
+
+    /// Gets a list of sandboxes for a given project.
+    @Sendable
+    @inlinable
+    public func listSandboxesForProject(_ input: ListSandboxesForProjectInput, logger: Logger = AWSClient.loggingDisabled) async throws -> ListSandboxesForProjectOutput {
+        try await self.client.execute(
+            operation: "ListSandboxesForProject", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets a list of sandboxes for a given project.
+    ///
+    /// Parameters:
+    ///   - maxResults: The maximum number of sandbox records to be retrieved.
+    ///   - nextToken: The next token, if any, to get paginated results. You will get this value from previous execution of list sandboxes.
+    ///   - projectName: The CodeBuild project name.
+    ///   - sortOrder: The order in which sandbox records should be retrieved.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listSandboxesForProject(
+        maxResults: Int? = nil,
+        nextToken: String? = nil,
+        projectName: String,
+        sortOrder: SortOrderType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListSandboxesForProjectOutput {
+        let input = ListSandboxesForProjectInput(
+            maxResults: maxResults, 
+            nextToken: nextToken, 
+            projectName: projectName, 
+            sortOrder: sortOrder
+        )
+        return try await self.listSandboxesForProject(input, logger: logger)
     }
 
     ///  Gets a list of projects that are shared with other Amazon Web Services accounts or users.
@@ -1791,6 +1963,102 @@ public struct CodeBuild: AWSService {
         return try await self.startBuildBatch(input, logger: logger)
     }
 
+    /// Starts a command execution.
+    @Sendable
+    @inlinable
+    public func startCommandExecution(_ input: StartCommandExecutionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartCommandExecutionOutput {
+        try await self.client.execute(
+            operation: "StartCommandExecution", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a command execution.
+    ///
+    /// Parameters:
+    ///   - command: The command that needs to be executed.
+    ///   - sandboxId: A sandboxId or sandboxArn.
+    ///   - type: The command type.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startCommandExecution(
+        command: String,
+        sandboxId: String,
+        type: CommandType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartCommandExecutionOutput {
+        let input = StartCommandExecutionInput(
+            command: command, 
+            sandboxId: sandboxId, 
+            type: type
+        )
+        return try await self.startCommandExecution(input, logger: logger)
+    }
+
+    /// Starts a sandbox.
+    @Sendable
+    @inlinable
+    public func startSandbox(_ input: StartSandboxInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSandboxOutput {
+        try await self.client.execute(
+            operation: "StartSandbox", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a sandbox.
+    ///
+    /// Parameters:
+    ///   - idempotencyToken: A unique client token.
+    ///   - projectName: The CodeBuild project name.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startSandbox(
+        idempotencyToken: String? = nil,
+        projectName: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartSandboxOutput {
+        let input = StartSandboxInput(
+            idempotencyToken: idempotencyToken, 
+            projectName: projectName
+        )
+        return try await self.startSandbox(input, logger: logger)
+    }
+
+    /// Starts a sandbox connection.
+    @Sendable
+    @inlinable
+    public func startSandboxConnection(_ input: StartSandboxConnectionInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StartSandboxConnectionOutput {
+        try await self.client.execute(
+            operation: "StartSandboxConnection", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts a sandbox connection.
+    ///
+    /// Parameters:
+    ///   - sandboxId: A sandboxId or sandboxArn.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startSandboxConnection(
+        sandboxId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartSandboxConnectionOutput {
+        let input = StartSandboxConnectionInput(
+            sandboxId: sandboxId
+        )
+        return try await self.startSandboxConnection(input, logger: logger)
+    }
+
     /// Attempts to stop running a build.
     @Sendable
     @inlinable
@@ -1847,6 +2115,35 @@ public struct CodeBuild: AWSService {
             id: id
         )
         return try await self.stopBuildBatch(input, logger: logger)
+    }
+
+    /// Stops a sandbox.
+    @Sendable
+    @inlinable
+    public func stopSandbox(_ input: StopSandboxInput, logger: Logger = AWSClient.loggingDisabled) async throws -> StopSandboxOutput {
+        try await self.client.execute(
+            operation: "StopSandbox", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops a sandbox.
+    ///
+    /// Parameters:
+    ///   - id: Information about the requested sandbox ID.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopSandbox(
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopSandboxOutput {
+        let input = StopSandboxInput(
+            id: id
+        )
+        return try await self.stopSandbox(input, logger: logger)
     }
 
     /// Updates a compute fleet.
@@ -2371,6 +2668,46 @@ extension CodeBuild {
         return self.listBuildsForProjectPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCommandExecutionsForSandbox(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCommandExecutionsForSandboxPaginator(
+        _ input: ListCommandExecutionsForSandboxInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput> {
+        return .init(
+            input: input,
+            command: self.listCommandExecutionsForSandbox,
+            inputKey: \ListCommandExecutionsForSandboxInput.nextToken,
+            outputKey: \ListCommandExecutionsForSandboxOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCommandExecutionsForSandbox(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of sandbox records to be retrieved.
+    ///   - sandboxId: A sandboxId or sandboxArn.
+    ///   - sortOrder: The order in which sandbox records should be retrieved.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCommandExecutionsForSandboxPaginator(
+        maxResults: Int? = nil,
+        sandboxId: String,
+        sortOrder: SortOrderType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCommandExecutionsForSandboxInput, ListCommandExecutionsForSandboxOutput> {
+        let input = ListCommandExecutionsForSandboxInput(
+            maxResults: maxResults, 
+            sandboxId: sandboxId, 
+            sortOrder: sortOrder
+        )
+        return self.listCommandExecutionsForSandboxPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listFleets(_:logger:)``.
     ///
     /// - Parameters:
@@ -2571,6 +2908,83 @@ extension CodeBuild {
         return self.listReportsForReportGroupPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listSandboxes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSandboxesPaginator(
+        _ input: ListSandboxesInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSandboxesInput, ListSandboxesOutput> {
+        return .init(
+            input: input,
+            command: self.listSandboxes,
+            inputKey: \ListSandboxesInput.nextToken,
+            outputKey: \ListSandboxesOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSandboxes(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of sandbox records to be retrieved.
+    ///   - sortOrder: The order in which sandbox records should be retrieved.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSandboxesPaginator(
+        maxResults: Int? = nil,
+        sortOrder: SortOrderType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSandboxesInput, ListSandboxesOutput> {
+        let input = ListSandboxesInput(
+            maxResults: maxResults, 
+            sortOrder: sortOrder
+        )
+        return self.listSandboxesPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listSandboxesForProject(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSandboxesForProjectPaginator(
+        _ input: ListSandboxesForProjectInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListSandboxesForProjectInput, ListSandboxesForProjectOutput> {
+        return .init(
+            input: input,
+            command: self.listSandboxesForProject,
+            inputKey: \ListSandboxesForProjectInput.nextToken,
+            outputKey: \ListSandboxesForProjectOutput.nextToken,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listSandboxesForProject(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - maxResults: The maximum number of sandbox records to be retrieved.
+    ///   - projectName: The CodeBuild project name.
+    ///   - sortOrder: The order in which sandbox records should be retrieved.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listSandboxesForProjectPaginator(
+        maxResults: Int? = nil,
+        projectName: String,
+        sortOrder: SortOrderType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListSandboxesForProjectInput, ListSandboxesForProjectOutput> {
+        let input = ListSandboxesForProjectInput(
+            maxResults: maxResults, 
+            projectName: projectName, 
+            sortOrder: sortOrder
+        )
+        return self.listSandboxesForProjectPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listSharedProjects(_:logger:)``.
     ///
     /// - Parameters:
@@ -2725,6 +3139,18 @@ extension CodeBuild.ListBuildsInput: AWSPaginateToken {
     }
 }
 
+extension CodeBuild.ListCommandExecutionsForSandboxInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CodeBuild.ListCommandExecutionsForSandboxInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            sandboxId: self.sandboxId,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
 extension CodeBuild.ListFleetsInput: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CodeBuild.ListFleetsInput {
@@ -2778,6 +3204,29 @@ extension CodeBuild.ListReportsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> CodeBuild.ListReportsInput {
         return .init(
             filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension CodeBuild.ListSandboxesForProjectInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CodeBuild.ListSandboxesForProjectInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            projectName: self.projectName,
+            sortOrder: self.sortOrder
+        )
+    }
+}
+
+extension CodeBuild.ListSandboxesInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CodeBuild.ListSandboxesInput {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token,
             sortOrder: self.sortOrder

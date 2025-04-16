@@ -472,6 +472,7 @@ extension DataZone {
     }
 
     public enum RuleAction: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case createListingChangeSet = "CREATE_LISTING_CHANGE_SET"
         case createSubscriptionRequest = "CREATE_SUBSCRIPTION_REQUEST"
         public var description: String { return self.rawValue }
     }
@@ -6463,7 +6464,7 @@ extension DataZone {
             try self.authorizedPrincipals.forEach {
                 try validate($0, name: "authorizedPrincipals[]", parent: name, pattern: "^[a-zA-Z0-9:/._-]*$")
             }
-            try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, max: 10)
+            try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, max: 20)
             try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, min: 1)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")
@@ -17602,18 +17603,22 @@ extension DataZone {
     }
 
     public struct SingleSignOn: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the IDC instance.
+        public let idcInstanceArn: String?
         /// The type of single sign-on in Amazon DataZone.
         public let type: AuthType?
         /// The single sign-on user assignment in Amazon DataZone.
         public let userAssignment: UserAssignment?
 
         @inlinable
-        public init(type: AuthType? = nil, userAssignment: UserAssignment? = nil) {
+        public init(idcInstanceArn: String? = nil, type: AuthType? = nil, userAssignment: UserAssignment? = nil) {
+            self.idcInstanceArn = idcInstanceArn
             self.type = type
             self.userAssignment = userAssignment
         }
 
         private enum CodingKeys: String, CodingKey {
+            case idcInstanceArn = "idcInstanceArn"
             case type = "type"
             case userAssignment = "userAssignment"
         }
@@ -20603,7 +20608,7 @@ extension DataZone {
             try self.authorizedPrincipals?.forEach {
                 try validate($0, name: "authorizedPrincipals[]", parent: name, pattern: "^[a-zA-Z0-9:/._-]*$")
             }
-            try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, max: 10)
+            try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, max: 20)
             try self.validate(self.authorizedPrincipals, name: "authorizedPrincipals", parent: name, min: 1)
             try self.validate(self.domainIdentifier, name: "domainIdentifier", parent: name, pattern: "^dzd[-_][a-zA-Z0-9_-]{1,36}$")
             try self.validate(self.environmentIdentifier, name: "environmentIdentifier", parent: name, pattern: "^[a-zA-Z0-9_-]{1,36}$")

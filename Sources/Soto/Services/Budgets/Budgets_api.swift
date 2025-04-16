@@ -79,8 +79,10 @@ public struct Budgets: AWSService {
         "aws-cn-global": "budgets.amazonaws.com.cn",
         "aws-global": "budgets.amazonaws.com",
         "aws-iso-b-global": "budgets.global.sc2s.sgov.gov",
+        "aws-iso-e-global": "budgets.global.cloud.adc-e.uk",
         "aws-iso-f-global": "budgets.global.csp.hci.ic.gov",
         "aws-iso-global": "budgets.c2s.ic.gov",
+        "eu-isoe-west-1": "budgets.global.cloud.adc-e.uk",
         "us-iso-east-1": "budgets.c2s.ic.gov",
         "us-isob-east-1": "budgets.global.sc2s.sgov.gov",
         "us-isof-south-1": "budgets.global.csp.hci.ic.gov"
@@ -92,6 +94,7 @@ public struct Budgets: AWSService {
         .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1),
         .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1),
         .awsisob: (endpoint: "aws-iso-b-global", region: .usisobeast1),
+        .awsisoe: (endpoint: "aws-iso-e-global", region: .euisoewest1),
         .awsisof: (endpoint: "aws-iso-f-global", region: .usisofsouth1)
     ]}
 

@@ -1258,7 +1258,7 @@ extension QConnect {
         public let assistantId: String
         /// The description of the AI Prompt.
         public let description: String?
-        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0.
         public let modelId: String
         /// The time the AI Prompt was last modified.
         public let modifiedTime: Date?
@@ -1332,7 +1332,7 @@ extension QConnect {
         public let assistantId: String
         /// The description of the AI Prompt.
         public let description: String?
-        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1.
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0.
         public let modelId: String
         /// The time the AI Prompt was last modified.
         public let modifiedTime: Date?
@@ -1517,7 +1517,7 @@ extension QConnect {
         public let associationConfigurations: [AssociationConfiguration]?
         /// The AI Prompt identifier for the Intent Labeling prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public let intentLabelingGenerationAIPromptId: String?
-        /// The locale to which specifies the language and region settings that determine the response language for QueryAssistant.  Changing this locale to anything other than en_US will turn off recommendations triggered by contact transcripts for agent assistance, as this feature is not supported in multiple languages.
+        /// The locale to which specifies the language and region settings that determine the response language for QueryAssistant.  Changing this locale to anything other than en_US, en_GB, or en_AU will turn off recommendations triggered by contact transcripts for agent assistance, as this feature is not supported in multiple languages.
         public let locale: String?
         /// The AI Prompt identifier for the Query Reformulation prompt used by the ANSWER_RECOMMENDATION AI Agent.
         public let queryReformulationAIPromptId: String?
@@ -2550,7 +2550,7 @@ extension QConnect {
         public let clientToken: String?
         /// The description of the AI Prompt.
         public let description: String?
-        /// The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1
+        /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0
         public let modelId: String
         /// The name of the AI Prompt.
         public let name: String

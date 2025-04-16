@@ -1192,12 +1192,14 @@ extension AppSync {
         public let description: String?
         /// The domain name.
         public let domainName: String
+        public let tags: [String: String]?
 
         @inlinable
-        public init(certificateArn: String, description: String? = nil, domainName: String) {
+        public init(certificateArn: String, description: String? = nil, domainName: String, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.description = description
             self.domainName = domainName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1209,12 +1211,22 @@ extension AppSync {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*[\\w\\d-]*\\.)?([\\w\\d-]+\\.)+[\\w\\d-]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[ a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\w+-=\\.:/@]*$")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificateArn = "certificateArn"
             case description = "description"
             case domainName = "domainName"
+            case tags = "tags"
         }
     }
 
@@ -2199,16 +2211,21 @@ extension AppSync {
         public let description: String?
         /// The domain name.
         public let domainName: String?
+        /// The Amazon Resource Name (ARN) of the domain name.
+        public let domainNameArn: String?
         /// The ID of your Amazon Route 53 hosted zone.
         public let hostedZoneId: String?
+        public let tags: [String: String]?
 
         @inlinable
-        public init(appsyncDomainName: String? = nil, certificateArn: String? = nil, description: String? = nil, domainName: String? = nil, hostedZoneId: String? = nil) {
+        public init(appsyncDomainName: String? = nil, certificateArn: String? = nil, description: String? = nil, domainName: String? = nil, domainNameArn: String? = nil, hostedZoneId: String? = nil, tags: [String: String]? = nil) {
             self.appsyncDomainName = appsyncDomainName
             self.certificateArn = certificateArn
             self.description = description
             self.domainName = domainName
+            self.domainNameArn = domainNameArn
             self.hostedZoneId = hostedZoneId
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2216,7 +2233,9 @@ extension AppSync {
             case certificateArn = "certificateArn"
             case description = "description"
             case domainName = "domainName"
+            case domainNameArn = "domainNameArn"
             case hostedZoneId = "hostedZoneId"
+            case tags = "tags"
         }
     }
 

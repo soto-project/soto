@@ -28,6 +28,7 @@ extension StorageGateway {
     public enum ActiveDirectoryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case accessDenied = "ACCESS_DENIED"
         case detached = "DETACHED"
+        case insufficientPermissions = "INSUFFICIENT_PERMISSIONS"
         case joined = "JOINED"
         case joining = "JOINING"
         case networkError = "NETWORK_ERROR"
@@ -3019,7 +3020,7 @@ extension StorageGateway {
 
         public func validate(name: String) throws {
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
@@ -3071,7 +3072,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
 
@@ -3124,7 +3125,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
@@ -3223,7 +3224,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.vtlDeviceARNs?.forEach {
                 try validate($0, name: "vtlDeviceARNs[]", parent: name, max: 500)
@@ -3796,7 +3797,7 @@ extension StorageGateway {
     }
 
     public struct JoinDomainOutput: AWSDecodableShape {
-        /// Indicates the status of the gateway as a member of the Active Directory domain.  This field is only used as part of a JoinDomain request. It is not affected by Active Directory connectivity changes that occur after the JoinDomain request succeeds.     ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.    DETACHED: Indicates that gateway is not joined to a domain.    JOINED: Indicates that the gateway has successfully joined a domain.    JOINING: Indicates that a JoinDomain operation is in progress.    NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.    TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.    UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.
+        /// Indicates the status of the gateway as a member of the Active Directory domain.  This field is only used as part of a JoinDomain request. It is not affected by Active Directory connectivity changes that occur after the JoinDomain request succeeds.     ACCESS_DENIED: Indicates that the JoinDomain operation failed due to an authentication error.    DETACHED: Indicates that gateway is not joined to a domain.    JOINED: Indicates that the gateway has successfully joined a domain.    JOINING: Indicates that a JoinDomain operation is in progress.    INSUFFICIENT_PERMISSIONS: Indicates that the JoinDomain operation failed because the specified user lacks the necessary permissions to join the domain.    NETWORK_ERROR: Indicates that JoinDomain operation failed due to a network or connectivity error.    TIMEOUT: Indicates that the JoinDomain operation failed because the operation didn't complete within the allotted time.    UNKNOWN_ERROR: Indicates that the JoinDomain operation failed due to another type of error.
         public let activeDirectoryStatus: ActiveDirectoryStatus?
         /// The unique Amazon Resource Name (ARN) of the gateway that joined the domain.
         public let gatewayARN: String?
@@ -3855,7 +3856,7 @@ extension StorageGateway {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
 
@@ -3901,7 +3902,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
 
@@ -3952,7 +3953,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
 
@@ -3999,7 +4000,7 @@ extension StorageGateway {
 
         public func validate(name: String) throws {
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
 
@@ -4079,7 +4080,7 @@ extension StorageGateway {
 
         public func validate(name: String) throws {
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 500)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 50)
@@ -4131,7 +4132,7 @@ extension StorageGateway {
 
         public func validate(name: String) throws {
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.poolARNs?.forEach {
                 try validate($0, name: "poolARNs[]", parent: name, max: 500)
@@ -4180,7 +4181,7 @@ extension StorageGateway {
 
         public func validate(name: String) throws {
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
             try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
@@ -4300,7 +4301,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
-            try self.validate(self.marker, name: "marker", parent: name, max: 1000)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
         }
 
@@ -5140,7 +5141,7 @@ extension StorageGateway {
     }
 
     public struct StartCacheReportInput: AWSEncodableShape {
-        /// The Amazon Web Services Region of the Amazon S3 bucket associated with the file share for which you want to generate the cache report.
+        /// The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report.
         public let bucketRegion: String
         /// A unique identifier that you use to ensure idempotent report generation if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request.
         public let clientToken: String
@@ -5149,7 +5150,7 @@ extension StorageGateway {
         public let fileShareARN: String
         /// The list of filters and parameters that determine which files are included in the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
         public let inclusionFilters: [CacheReportFilter]?
-        /// The ARN of the Amazon S3 bucket where the cache report will be saved.  We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
+        /// The ARN of the Amazon S3 bucket where you want to save the cache report.  We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
         public let locationARN: String
         /// The ARN of the IAM role used when saving the cache report to Amazon S3.
         public let role: String

@@ -543,6 +543,7 @@ public struct QuickSight: AWSService {
     ///   - rowLevelPermissionDataSet: The row-level security configuration for the data that you want to create.
     ///   - rowLevelPermissionTagConfiguration: The configuration of tags on a dataset to set row-level security. Row-level security tags are currently supported for anonymous embedding only.
     ///   - tags: Contains a map of the key-value pairs for the resource tag or tags assigned to the dataset.
+    ///   - useAs: The usage of the dataset. RLS_RULES must be specified for RLS permission datasets.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDataSet(
@@ -563,6 +564,7 @@ public struct QuickSight: AWSService {
         rowLevelPermissionDataSet: RowLevelPermissionDataSet? = nil,
         rowLevelPermissionTagConfiguration: RowLevelPermissionTagConfiguration? = nil,
         tags: [Tag]? = nil,
+        useAs: DataSetUseAs? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDataSetResponse {
         let input = CreateDataSetRequest(
@@ -582,7 +584,8 @@ public struct QuickSight: AWSService {
             physicalTableMap: physicalTableMap, 
             rowLevelPermissionDataSet: rowLevelPermissionDataSet, 
             rowLevelPermissionTagConfiguration: rowLevelPermissionTagConfiguration, 
-            tags: tags
+            tags: tags, 
+            useAs: useAs
         )
         return try await self.createDataSet(input, logger: logger)
     }
@@ -912,7 +915,7 @@ public struct QuickSight: AWSService {
         return try await self.createIngestion(input, logger: logger)
     }
 
-    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
+    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web ServicesSupport.
     @Sendable
     @inlinable
     public func createNamespace(_ input: CreateNamespaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateNamespaceResponse {
@@ -925,7 +928,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web Services Support.
+    /// (Enterprise edition only) Creates a new namespace for you to use with Amazon QuickSight. A namespace allows you to isolate the Amazon QuickSight users and groups that are registered for that namespace. Users that access the namespace can share assets only with other users or groups in the same namespace. They can't see users and groups in other namespaces. You can create a namespace after your Amazon Web Services account is subscribed to Amazon QuickSight. The namespace must be unique within the Amazon Web Services account. By default, there is a limit of 100 namespaces per Amazon Web Services account. To increase your limit, create a ticket with Amazon Web ServicesSupport.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID for the Amazon Web Services account that you want to create the Amazon QuickSight namespace in.
@@ -5606,7 +5609,7 @@ public struct QuickSight: AWSService {
         return try await self.listVPCConnections(input, logger: logger)
     }
 
-    /// Predicts existing visuals or generates new visuals to answer a given query.
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
     @Sendable
     @inlinable
     public func predictQAResults(_ input: PredictQAResultsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PredictQAResultsResponse {
@@ -5619,7 +5622,7 @@ public struct QuickSight: AWSService {
             logger: logger
         )
     }
-    /// Predicts existing visuals or generates new visuals to answer a given query.
+    /// Predicts existing visuals or generates new visuals to answer a given query. This API uses trusted identity propagation to ensure that an end user is authenticated and receives the embed URL that is specific to that user. The IAM Identity Center application that the user has logged into needs to have trusted Identity Propagation enabled for Amazon QuickSight with the scope value set to quicksight:read. Before you use this action, make sure that you have configured the relevant Amazon QuickSight resource and permissions. We recommend enabling the QSearchStatus API to unlock the full potential of PredictQnA. When QSearchStatus is enabled, it first checks the specified dashboard for any existing visuals that match the question. If no matching visuals are found, PredictQnA uses generative Q&A to provide an answer. To update the QSearchStatus, see UpdateQuickSightQSearchConfiguration.
     ///
     /// Parameters:
     ///   - awsAccountId: The ID of the Amazon Web Services account that the user wants to execute Predict QA results in.

@@ -635,6 +635,8 @@ extension BedrockAgentRuntime {
     public enum FlowTrace: AWSDecodableShape, Sendable {
         /// Contains information about an output from a condition node.
         case conditionNodeResultTrace(FlowTraceConditionNodeResultEvent)
+        /// Contains information about an action (operation) called by a node. For more information, see Track each step in your prompt flow by viewing its trace in Amazon Bedrock.
+        case nodeActionTrace(FlowTraceNodeActionEvent)
         /// Contains information about the input into a node.
         case nodeInputTrace(FlowTraceNodeInputEvent)
         /// Contains information about the output from a node.
@@ -653,6 +655,9 @@ extension BedrockAgentRuntime {
             case .conditionNodeResultTrace:
                 let value = try container.decode(FlowTraceConditionNodeResultEvent.self, forKey: .conditionNodeResultTrace)
                 self = .conditionNodeResultTrace(value)
+            case .nodeActionTrace:
+                let value = try container.decode(FlowTraceNodeActionEvent.self, forKey: .nodeActionTrace)
+                self = .nodeActionTrace(value)
             case .nodeInputTrace:
                 let value = try container.decode(FlowTraceNodeInputEvent.self, forKey: .nodeInputTrace)
                 self = .nodeInputTrace(value)
@@ -664,6 +669,7 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case conditionNodeResultTrace = "conditionNodeResultTrace"
+            case nodeActionTrace = "nodeActionTrace"
             case nodeInputTrace = "nodeInputTrace"
             case nodeOutputTrace = "nodeOutputTrace"
         }
@@ -2922,6 +2928,37 @@ extension BedrockAgentRuntime {
 
         private enum CodingKeys: String, CodingKey {
             case trace = "trace"
+        }
+    }
+
+    public struct FlowTraceNodeActionEvent: AWSDecodableShape {
+        /// The name of the node that called the operation.
+        public let nodeName: String
+        /// The name of the operation that the node called.
+        public let operationName: String
+        /// The ID of the request that the node made to the operation.
+        public let requestId: String
+        /// The name of the service that the node called.
+        public let serviceName: String
+        /// The date and time that the operation was called.
+        @CustomCoding<ISO8601DateCoder>
+        public var timestamp: Date
+
+        @inlinable
+        public init(nodeName: String, operationName: String, requestId: String, serviceName: String, timestamp: Date) {
+            self.nodeName = nodeName
+            self.operationName = operationName
+            self.requestId = requestId
+            self.serviceName = serviceName
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeName = "nodeName"
+            case operationName = "operationName"
+            case requestId = "requestId"
+            case serviceName = "serviceName"
+            case timestamp = "timestamp"
         }
     }
 
@@ -6674,7 +6711,7 @@ extension BedrockAgentRuntime {
     }
 
     public struct StreamingConfigurations: AWSEncodableShape {
-        ///  The guardrail interval to apply as response is generated.
+        ///  The guardrail interval to apply as response is generated. By default, the guardrail interval is set to 50 characters. If a larger interval is specified, the response will be generated in larger chunks with fewer ApplyGuardrail calls. The following examples show the response generated for Hello, I am an agent input string.  Example response in chunks: Interval set to 3 characters   'Hel', 'lo, ','I am', ' an', ' Age', 'nt'  Each chunk has at least 3 characters except for the last chunk  Example response in chunks: Interval set to 20 or more characters   Hello, I am an Agent
         public let applyGuardrailInterval: Int?
         ///  Specifies whether to enable streaming for the final response. This is set to false by default.
         public let streamFinalResponse: Bool?

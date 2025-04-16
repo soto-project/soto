@@ -134,6 +134,9 @@ public struct Glacier: AWSService {
             "us-east-2": "glacier-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "glacier.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "glacier.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "glacier-fips.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "glacier-fips.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "glacier-fips.us-isob-east-1.sc2s.sgov.gov",
             "us-west-1": "glacier-fips.us-west-1.amazonaws.com",
             "us-west-2": "glacier-fips.us-west-2.amazonaws.com"
         ])

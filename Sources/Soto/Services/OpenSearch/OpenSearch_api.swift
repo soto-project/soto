@@ -435,7 +435,7 @@ public struct OpenSearch: AWSService {
         return try await self.cancelServiceSoftwareUpdate(input, logger: logger)
     }
 
-    /// Creates an OpenSearch Application.
+    /// Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
     @Sendable
     @inlinable
     public func createApplication(_ input: CreateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateApplicationResponse {
@@ -448,14 +448,14 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Creates an OpenSearch Application.
+    /// Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
     ///
     /// Parameters:
-    ///   - appConfigs: Configurations of the OpenSearch Application, inlcuding admin configuration.
-    ///   - clientToken: A unique client idempotency token. It will be auto generated if not provided.
-    ///   - dataSources: Data sources to be associated with the OpenSearch Application.
-    ///   - iamIdentityCenterOptions: Settings of IAM Identity Center for the OpenSearch Application.
-    ///   - name: Name of the OpenSearch Appication to create. Application names are unique across the applications owned by an account within an Amazon Web Services Region.
+    ///   - appConfigs: Configuration settings for the OpenSearch application, including administrative options.
+    ///   - clientToken: Unique, case-sensitive identifier to ensure idempotency of the request.
+    ///   - dataSources: The data sources to link to the OpenSearch application.
+    ///   - iamIdentityCenterOptions: Configuration settings for integrating Amazon Web Services IAM Identity Center with the OpenSearch application.
+    ///   - name: The unique name of the OpenSearch application. Names must be unique within an Amazon Web Services Region for each account.
     ///   - tagList: 
     ///   - logger: Logger use during operation
     @inlinable
@@ -507,7 +507,7 @@ public struct OpenSearch: AWSService {
     ///   - ebsOptions: Container for the parameters required to enable EBS-based storage for an OpenSearch Service domain.
     ///   - encryptionAtRestOptions: Key-value pairs to enable encryption at rest.
     ///   - engineVersion: String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch Service domains.
-    ///   - identityCenterOptions: Options for IAM Identity Center Option control for the domain.
+    ///   - identityCenterOptions: Configuration options for enabling and managing IAM Identity Center integration within a domain.
     ///   - ipAddressType: Specify either dual stack or IPv4 as your IP address type. Dual stack allows you to share domain resources across IPv4 and IPv6 address types, and is the recommended option.  If you set your IP address type to dual stack, you can't change your address type later.
     ///   - logPublishingOptions: Key-value pairs to configure log publishing.
     ///   - nodeToNodeEncryptionOptions: Enables node-to-node encryption.
@@ -694,7 +694,7 @@ public struct OpenSearch: AWSService {
         return try await self.createVpcEndpoint(input, logger: logger)
     }
 
-    /// Deletes an existing OpenSearch Application.
+    /// Deletes a specified OpenSearch application.
     @Sendable
     @inlinable
     public func deleteApplication(_ input: DeleteApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteApplicationResponse {
@@ -707,10 +707,10 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Deletes an existing OpenSearch Application.
+    /// Deletes a specified OpenSearch application.
     ///
     /// Parameters:
-    ///   - id: Unique identifier for the OpenSearch Application that you want to delete.
+    ///   - id: The unique identifier of the OpenSearch application to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteApplication(
@@ -1479,7 +1479,7 @@ public struct OpenSearch: AWSService {
         return try await self.dissociatePackages(input, logger: logger)
     }
 
-    /// Check the configuration and status of an existing OpenSearch Application.
+    /// Retrieves the configuration and status of an existing OpenSearch application.
     @Sendable
     @inlinable
     public func getApplication(_ input: GetApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetApplicationResponse {
@@ -1492,10 +1492,10 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Check the configuration and status of an existing OpenSearch Application.
+    /// Retrieves the configuration and status of an existing OpenSearch application.
     ///
     /// Parameters:
-    ///   - id: Unique identifier of the checked OpenSearch Application.
+    ///   - id: The unique identifier of the OpenSearch application to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
     public func getApplication(
@@ -1729,7 +1729,7 @@ public struct OpenSearch: AWSService {
         return try await self.getUpgradeStatus(input, logger: logger)
     }
 
-    /// List all OpenSearch Applications under your account.
+    /// Lists all OpenSearch applications under your account.
     @Sendable
     @inlinable
     public func listApplications(_ input: ListApplicationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListApplicationsResponse {
@@ -1742,12 +1742,12 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// List all OpenSearch Applications under your account.
+    /// Lists all OpenSearch applications under your account.
     ///
     /// Parameters:
     ///   - maxResults: 
     ///   - nextToken: 
-    ///   - statuses: OpenSearch Application Status can be used as filters for the listing request. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+    ///   - statuses: Filters the list of OpenSearch applications by status. Possible values: CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
     ///   - logger: Logger use during operation
     @inlinable
     public func listApplications(
@@ -2396,7 +2396,7 @@ public struct OpenSearch: AWSService {
         return try await self.startServiceSoftwareUpdate(input, logger: logger)
     }
 
-    /// Update the OpenSearch Application.
+    /// Updates the configuration and settings of an existing OpenSearch application.
     @Sendable
     @inlinable
     public func updateApplication(_ input: UpdateApplicationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateApplicationResponse {
@@ -2409,12 +2409,12 @@ public struct OpenSearch: AWSService {
             logger: logger
         )
     }
-    /// Update the OpenSearch Application.
+    /// Updates the configuration and settings of an existing OpenSearch application.
     ///
     /// Parameters:
-    ///   - appConfigs: Configurations to be changed for the OpenSearch Application.
-    ///   - dataSources: Data sources to be associated with the OpenSearch Application.
-    ///   - id: Unique identifier of the OpenSearch Application to be updated.
+    ///   - appConfigs: The configuration settings to modify for the OpenSearch application.
+    ///   - dataSources: The data sources to associate with the OpenSearch application.
+    ///   - id: The unique identifier for the OpenSearch application to be updated.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateApplication(
@@ -3121,7 +3121,7 @@ extension OpenSearch {
     ///
     /// - Parameters:
     ///   - maxResults: 
-    ///   - statuses: OpenSearch Application Status can be used as filters for the listing request. Possible values are CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
+    ///   - statuses: Filters the list of OpenSearch applications by status. Possible values: CREATING, UPDATING, DELETING, FAILED, ACTIVE, and DELETED.
     ///   - logger: Logger used for logging
     @inlinable
     public func listApplicationsPaginator(

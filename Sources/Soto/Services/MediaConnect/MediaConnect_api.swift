@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS MediaConnect service.
 ///
-/// API for AWS Elemental MediaConnect
+/// Welcome to the Elemental MediaConnect API reference.  MediaConnect is a service that lets you ingest live video content into the cloud and distribute it to destinations all over the world, both inside and outside the Amazon Web Services cloud. This API reference provides descriptions, syntax, and usage examples for each of the actions and data types that are supported by MediaConnect.  Use the following links to get started with the MediaConnect API:    Actions: An alphabetical list of all MediaConnect API operations.    Data types: An alphabetical list of all MediaConnect data types.    Common parameters: Parameters that all operations can use.    Common errors: Client and server errors that all operations can return.
 public struct MediaConnect: AWSService {
     // MARK: Member variables
 
@@ -78,7 +78,7 @@ public struct MediaConnect: AWSService {
 
     // MARK: API Calls
 
-    /// Adds outputs to an existing bridge.
+    ///  Adds outputs to an existing bridge.
     @Sendable
     @inlinable
     public func addBridgeOutputs(_ input: AddBridgeOutputsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddBridgeOutputsResponse {
@@ -91,11 +91,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Adds outputs to an existing bridge.
+    ///  Adds outputs to an existing bridge.
     ///
     /// Parameters:
-    ///   - bridgeArn: The ARN of the bridge that you want to update.
-    ///   - outputs: The outputs that you want to add to this bridge.
+    ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update.
+    ///   - outputs:  The outputs that you want to add to this bridge.
     ///   - logger: Logger use during operation
     @inlinable
     public func addBridgeOutputs(
@@ -110,7 +110,7 @@ public struct MediaConnect: AWSService {
         return try await self.addBridgeOutputs(input, logger: logger)
     }
 
-    /// Adds sources to an existing bridge.
+    ///  Adds sources to an existing bridge.
     @Sendable
     @inlinable
     public func addBridgeSources(_ input: AddBridgeSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddBridgeSourcesResponse {
@@ -123,11 +123,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Adds sources to an existing bridge.
+    ///  Adds sources to an existing bridge.
     ///
     /// Parameters:
-    ///   - bridgeArn: The ARN of the bridge that you want to update.
-    ///   - sources: The sources that you want to add to this bridge.
+    ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update.
+    ///   - sources:  The sources that you want to add to this bridge.
     ///   - logger: Logger use during operation
     @inlinable
     public func addBridgeSources(
@@ -142,7 +142,7 @@ public struct MediaConnect: AWSService {
         return try await self.addBridgeSources(input, logger: logger)
     }
 
-    /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
+    ///  Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
     @Sendable
     @inlinable
     public func addFlowMediaStreams(_ input: AddFlowMediaStreamsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddFlowMediaStreamsResponse {
@@ -155,11 +155,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
+    ///  Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
     ///
     /// Parameters:
-    ///   - flowArn: The Amazon Resource Name (ARN) of the flow.
-    ///   - mediaStreams: The media streams that you want to add to the flow.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow.
+    ///   - mediaStreams:  The media streams that you want to add to the flow.
     ///   - logger: Logger use during operation
     @inlinable
     public func addFlowMediaStreams(
@@ -174,7 +174,7 @@ public struct MediaConnect: AWSService {
         return try await self.addFlowMediaStreams(input, logger: logger)
     }
 
-    /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
+    ///  Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     @Sendable
     @inlinable
     public func addFlowOutputs(_ input: AddFlowOutputsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddFlowOutputsResponse {
@@ -187,11 +187,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
+    ///  Adds outputs to an existing flow. You can create up to 50 outputs per flow.
     ///
     /// Parameters:
-    ///   - flowArn: The flow that you want to add outputs to.
-    ///   - outputs: A list of outputs that you want to add.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to add outputs to.
+    ///   - outputs:  A list of outputs that you want to add to the flow.
     ///   - logger: Logger use during operation
     @inlinable
     public func addFlowOutputs(
@@ -206,7 +206,7 @@ public struct MediaConnect: AWSService {
         return try await self.addFlowOutputs(input, logger: logger)
     }
 
-    /// Adds Sources to flow
+    ///  Adds sources to a flow.
     @Sendable
     @inlinable
     public func addFlowSources(_ input: AddFlowSourcesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddFlowSourcesResponse {
@@ -219,11 +219,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Adds Sources to flow
+    ///  Adds sources to a flow.
     ///
     /// Parameters:
-    ///   - flowArn: The flow that you want to mutate.
-    ///   - sources: A list of sources that you want to add.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to update.
+    ///   - sources:  A list of sources that you want to add to the flow.
     ///   - logger: Logger use during operation
     @inlinable
     public func addFlowSources(
@@ -238,7 +238,7 @@ public struct MediaConnect: AWSService {
         return try await self.addFlowSources(input, logger: logger)
     }
 
-    /// Adds VPC interfaces to flow
+    ///  Adds VPC interfaces to a flow.
     @Sendable
     @inlinable
     public func addFlowVpcInterfaces(_ input: AddFlowVpcInterfacesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AddFlowVpcInterfacesResponse {
@@ -251,11 +251,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Adds VPC interfaces to flow
+    ///  Adds VPC interfaces to a flow.
     ///
     /// Parameters:
-    ///   - flowArn: The flow that you want to mutate.
-    ///   - vpcInterfaces: A list of VPC interfaces that you want to add.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to update.
+    ///   - vpcInterfaces:  A list of VPC interfaces that you want to add to the flow.
     ///   - logger: Logger use during operation
     @inlinable
     public func addFlowVpcInterfaces(
@@ -270,7 +270,7 @@ public struct MediaConnect: AWSService {
         return try await self.addFlowVpcInterfaces(input, logger: logger)
     }
 
-    /// Creates a new bridge. The request must include one source.
+    ///  Creates a new bridge. The request must include one source.
     @Sendable
     @inlinable
     public func createBridge(_ input: CreateBridgeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateBridgeResponse {
@@ -283,16 +283,16 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Creates a new bridge. The request must include one source.
+    ///  Creates a new bridge. The request must include one source.
     ///
     /// Parameters:
-    ///   - egressGatewayBridge: Create a bridge with the egress bridge type. An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
-    ///   - ingressGatewayBridge: Create a bridge with the ingress bridge type. An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
-    ///   - name: The name of the bridge. This name can not be modified after the bridge is created.
-    ///   - outputs: The outputs that you want to add to this bridge.
-    ///   - placementArn: The bridge placement Amazon Resource Number (ARN).
-    ///   - sourceFailoverConfig: The settings for source failover.
-    ///   - sources: The sources that you want to add to this bridge.
+    ///   - egressGatewayBridge: An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
+    ///   - ingressGatewayBridge: An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
+    ///   - name:  The name of the bridge. This name can not be modified after the bridge is created.
+    ///   - outputs:  The outputs that you want to add to this bridge.
+    ///   - placementArn:  The bridge placement Amazon Resource Number (ARN).
+    ///   - sourceFailoverConfig:  The settings for source failover.
+    ///   - sources:  The sources that you want to add to this bridge.
     ///   - logger: Logger use during operation
     @inlinable
     public func createBridge(
@@ -317,7 +317,7 @@ public struct MediaConnect: AWSService {
         return try await self.createBridge(input, logger: logger)
     }
 
-    /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
+    ///  Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     @Sendable
     @inlinable
     public func createFlow(_ input: CreateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateFlowResponse {
@@ -330,28 +330,32 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
+    ///  Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
     ///
     /// Parameters:
-    ///   - availabilityZone: The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
-    ///   - entitlements: The entitlements that you want to grant on a flow.
-    ///   - maintenance: 
-    ///   - mediaStreams: The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
-    ///   - name: The name of the flow.
-    ///   - outputs: The outputs that you want to add to this flow.
-    ///   - source: 
-    ///   - sourceFailoverConfig: 
-    ///   - sourceMonitoringConfig: 
-    ///   - sources: 
-    ///   - vpcInterfaces: The VPC interfaces you want on the flow.
+    ///   - availabilityZone:  The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
+    ///   - entitlements:  The entitlements that you want to grant on a flow.
+    ///   - flowSize:  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+    ///   - maintenance:  The maintenance settings you want to use for the flow.
+    ///   - mediaStreams:  The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
+    ///   - name:  The name of the flow.
+    ///   - ndiConfig:  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    ///   - outputs:  The outputs that you want to add to this flow.
+    ///   - source:  The settings for the source that you want to use for the new flow.
+    ///   - sourceFailoverConfig:  The settings for source failover.
+    ///   - sourceMonitoringConfig: The settings for source monitoring.
+    ///   - sources: The sources that are assigned to the flow.
+    ///   - vpcInterfaces:  The VPC interfaces you want on the flow.
     ///   - logger: Logger use during operation
     @inlinable
     public func createFlow(
         availabilityZone: String? = nil,
         entitlements: [GrantEntitlementRequest]? = nil,
+        flowSize: FlowSize? = nil,
         maintenance: AddMaintenance? = nil,
         mediaStreams: [AddMediaStreamRequest]? = nil,
         name: String? = nil,
+        ndiConfig: NdiConfig? = nil,
         outputs: [AddOutputRequest]? = nil,
         source: SetSourceRequest? = nil,
         sourceFailoverConfig: FailoverConfig? = nil,
@@ -363,9 +367,11 @@ public struct MediaConnect: AWSService {
         let input = CreateFlowRequest(
             availabilityZone: availabilityZone, 
             entitlements: entitlements, 
+            flowSize: flowSize, 
             maintenance: maintenance, 
             mediaStreams: mediaStreams, 
             name: name, 
+            ndiConfig: ndiConfig, 
             outputs: outputs, 
             source: source, 
             sourceFailoverConfig: sourceFailoverConfig, 
@@ -376,7 +382,7 @@ public struct MediaConnect: AWSService {
         return try await self.createFlow(input, logger: logger)
     }
 
-    /// Creates a new gateway. The request must include at least one network (up to 4).
+    ///  Creates a new gateway. The request must include at least one network (up to four).
     @Sendable
     @inlinable
     public func createGateway(_ input: CreateGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateGatewayResponse {
@@ -389,12 +395,12 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Creates a new gateway. The request must include at least one network (up to 4).
+    ///  Creates a new gateway. The request must include at least one network (up to four).
     ///
     /// Parameters:
-    ///   - egressCidrBlocks: The range of IP addresses that are allowed to contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-    ///   - name: The name of the gateway. This name can not be modified after the gateway is created.
-    ///   - networks: The list of networks that you want to add.
+    ///   - egressCidrBlocks:  The range of IP addresses that are allowed to contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+    ///   - name:  The name of the gateway. This name can not be modified after the gateway is created.
+    ///   - networks:  The list of networks that you want to add to the gateway.
     ///   - logger: Logger use during operation
     @inlinable
     public func createGateway(
@@ -411,7 +417,7 @@ public struct MediaConnect: AWSService {
         return try await self.createGateway(input, logger: logger)
     }
 
-    /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
+    ///  Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
     @Sendable
     @inlinable
     public func deleteBridge(_ input: DeleteBridgeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteBridgeResponse {
@@ -424,10 +430,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
+    ///  Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
     ///
     /// Parameters:
-    ///   - bridgeArn: The ARN of the bridge that you want to delete.
+    ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteBridge(
@@ -440,7 +446,7 @@ public struct MediaConnect: AWSService {
         return try await self.deleteBridge(input, logger: logger)
     }
 
-    /// Deletes a flow. Before you can delete a flow, you must stop the flow.
+    ///  Deletes a flow. Before you can delete a flow, you must stop the flow.
     @Sendable
     @inlinable
     public func deleteFlow(_ input: DeleteFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteFlowResponse {
@@ -453,10 +459,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a flow. Before you can delete a flow, you must stop the flow.
+    ///  Deletes a flow. Before you can delete a flow, you must stop the flow.
     ///
     /// Parameters:
-    ///   - flowArn: The ARN of the flow that you want to delete.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteFlow(
@@ -469,7 +475,7 @@ public struct MediaConnect: AWSService {
         return try await self.deleteFlow(input, logger: logger)
     }
 
-    /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
+    ///  Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
     @Sendable
     @inlinable
     public func deleteGateway(_ input: DeleteGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteGatewayResponse {
@@ -482,10 +488,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
+    ///  Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
     ///
     /// Parameters:
-    ///   - gatewayArn: The ARN of the gateway that you want to delete.
+    ///   - gatewayArn:  The Amazon Resource Name (ARN) of the gateway that you want to delete.
     ///   - logger: Logger use during operation
     @inlinable
     public func deleteGateway(
@@ -498,7 +504,7 @@ public struct MediaConnect: AWSService {
         return try await self.deleteGateway(input, logger: logger)
     }
 
-    /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
+    ///  Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
     @Sendable
     @inlinable
     public func deregisterGatewayInstance(_ input: DeregisterGatewayInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeregisterGatewayInstanceResponse {
@@ -511,11 +517,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
+    ///  Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
     ///
     /// Parameters:
-    ///   - force: Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
-    ///   - gatewayInstanceArn: The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister.
+    ///   - force:  Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
+    ///   - gatewayInstanceArn:  The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister.
     ///   - logger: Logger use during operation
     @inlinable
     public func deregisterGatewayInstance(
@@ -530,7 +536,7 @@ public struct MediaConnect: AWSService {
         return try await self.deregisterGatewayInstance(input, logger: logger)
     }
 
-    /// Displays the details of a bridge.
+    ///  Displays the details of a bridge.
     @Sendable
     @inlinable
     public func describeBridge(_ input: DescribeBridgeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeBridgeResponse {
@@ -543,10 +549,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays the details of a bridge.
+    ///  Displays the details of a bridge.
     ///
     /// Parameters:
-    ///   - bridgeArn: The ARN of the bridge that you want to describe.
+    ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to describe.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeBridge(
@@ -559,7 +565,7 @@ public struct MediaConnect: AWSService {
         return try await self.describeBridge(input, logger: logger)
     }
 
-    /// Displays the details of a flow. The response includes the flow ARN, name, and Availability Zone, as well as details about the source, outputs, and entitlements.
+    ///  Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
     @Sendable
     @inlinable
     public func describeFlow(_ input: DescribeFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlowResponse {
@@ -572,10 +578,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays the details of a flow. The response includes the flow ARN, name, and Availability Zone, as well as details about the source, outputs, and entitlements.
+    ///  Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
     ///
     /// Parameters:
-    ///   - flowArn: The ARN of the flow that you want to describe.
+    ///   - flowArn:  The ARN of the flow that you want to describe.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeFlow(
@@ -588,7 +594,7 @@ public struct MediaConnect: AWSService {
         return try await self.describeFlow(input, logger: logger)
     }
 
-    /// Displays details of the flow's source stream. The response contains information about the contents of the stream and its programs.
+    ///  The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
     @Sendable
     @inlinable
     public func describeFlowSourceMetadata(_ input: DescribeFlowSourceMetadataRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlowSourceMetadataResponse {
@@ -601,10 +607,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays details of the flow's source stream. The response contains information about the contents of the stream and its programs.
+    ///  The DescribeFlowSourceMetadata API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
     ///
     /// Parameters:
-    ///   - flowArn: The Amazon Resource Name (ARN) of the flow.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeFlowSourceMetadata(
@@ -617,7 +623,7 @@ public struct MediaConnect: AWSService {
         return try await self.describeFlowSourceMetadata(input, logger: logger)
     }
 
-    /// Displays the thumbnail details of a flow's source stream.
+    /// Describes the thumbnail for the flow source.
     @Sendable
     @inlinable
     public func describeFlowSourceThumbnail(_ input: DescribeFlowSourceThumbnailRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeFlowSourceThumbnailResponse {
@@ -630,10 +636,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays the thumbnail details of a flow's source stream.
+    /// Describes the thumbnail for the flow source.
     ///
     /// Parameters:
-    ///   - flowArn: The Amazon Resource Name (ARN) of the flow.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeFlowSourceThumbnail(
@@ -646,7 +652,7 @@ public struct MediaConnect: AWSService {
         return try await self.describeFlowSourceThumbnail(input, logger: logger)
     }
 
-    /// Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR blocks, as well as details about the networks.
+    ///  Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
     @Sendable
     @inlinable
     public func describeGateway(_ input: DescribeGatewayRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayResponse {
@@ -659,10 +665,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR blocks, as well as details about the networks.
+    ///  Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
     ///
     /// Parameters:
-    ///   - gatewayArn: The Amazon Resource Name (ARN) of the gateway that you want to describe.
+    ///   - gatewayArn:  The ARN of the gateway that you want to describe.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeGateway(
@@ -675,7 +681,7 @@ public struct MediaConnect: AWSService {
         return try await self.describeGateway(input, logger: logger)
     }
 
-    /// Displays the details of an instance.
+    ///  Displays the details of an instance.
     @Sendable
     @inlinable
     public func describeGatewayInstance(_ input: DescribeGatewayInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeGatewayInstanceResponse {
@@ -688,10 +694,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays the details of an instance.
+    ///  Displays the details of an instance.
     ///
     /// Parameters:
-    ///   - gatewayInstanceArn: The Amazon Resource Name (ARN) of the gateway instance that you want to describe.
+    ///   - gatewayInstanceArn:  The Amazon Resource Name (ARN) of the gateway instance that you want to describe.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeGatewayInstance(
@@ -704,7 +710,7 @@ public struct MediaConnect: AWSService {
         return try await self.describeGatewayInstance(input, logger: logger)
     }
 
-    /// Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
+    ///  Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
     @Sendable
     @inlinable
     public func describeOffering(_ input: DescribeOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeOfferingResponse {
@@ -717,10 +723,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
+    ///  Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
     ///
     /// Parameters:
-    ///   - offeringArn: The Amazon Resource Name (ARN) of the offering.
+    ///   - offeringArn:  The ARN of the offering.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeOffering(
@@ -733,7 +739,7 @@ public struct MediaConnect: AWSService {
         return try await self.describeOffering(input, logger: logger)
     }
 
-    /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
+    ///  Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
     @Sendable
     @inlinable
     public func describeReservation(_ input: DescribeReservationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeReservationResponse {
@@ -746,10 +752,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
+    ///  Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
     ///
     /// Parameters:
-    ///   - reservationArn: The Amazon Resource Name (ARN) of the reservation.
+    ///   - reservationArn: The Amazon Resource Name (ARN) of the offering.
     ///   - logger: Logger use during operation
     @inlinable
     public func describeReservation(
@@ -762,7 +768,7 @@ public struct MediaConnect: AWSService {
         return try await self.describeReservation(input, logger: logger)
     }
 
-    /// Grants entitlements to an existing flow.
+    ///  Grants entitlements to an existing flow.
     @Sendable
     @inlinable
     public func grantFlowEntitlements(_ input: GrantFlowEntitlementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GrantFlowEntitlementsResponse {
@@ -775,11 +781,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Grants entitlements to an existing flow.
+    ///  Grants entitlements to an existing flow.
     ///
     /// Parameters:
-    ///   - entitlements: The list of entitlements that you want to grant.
-    ///   - flowArn: The flow that you want to grant entitlements on.
+    ///   - entitlements:  The list of entitlements that you want to grant.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to grant entitlements on.
     ///   - logger: Logger use during operation
     @inlinable
     public func grantFlowEntitlements(
@@ -794,7 +800,7 @@ public struct MediaConnect: AWSService {
         return try await self.grantFlowEntitlements(input, logger: logger)
     }
 
-    /// Displays a list of bridges that are associated with this account and an optionally specified Arn. This request returns a paginated result.
+    ///  Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
     @Sendable
     @inlinable
     public func listBridges(_ input: ListBridgesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListBridgesResponse {
@@ -807,12 +813,12 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays a list of bridges that are associated with this account and an optionally specified Arn. This request returns a paginated result.
+    ///  Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
     ///
     /// Parameters:
-    ///   - filterArn: Filter the list results to display only the bridges associated with the selected Amazon Resource Name (ARN).
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    ///   - nextToken: The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+    ///   - filterArn:  Filter the list results to display only the bridges associated with the selected ARN.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - nextToken:  The token that identifies the batch of results that you want to see.  For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listBridges(
@@ -829,7 +835,7 @@ public struct MediaConnect: AWSService {
         return try await self.listBridges(input, logger: logger)
     }
 
-    /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
+    ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
     @Sendable
     @inlinable
     public func listEntitlements(_ input: ListEntitlementsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListEntitlementsResponse {
@@ -842,11 +848,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
+    ///  Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
-    ///   - nextToken: The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListEntitlements request with set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
+    ///   - nextToken:  The token that identifies the batch of results that you want to see.  For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listEntitlements(
@@ -861,7 +867,7 @@ public struct MediaConnect: AWSService {
         return try await self.listEntitlements(input, logger: logger)
     }
 
-    /// Displays a list of flows that are associated with this account. This request returns a paginated result.
+    ///  Displays a list of flows that are associated with this account. This request returns a paginated result.
     @Sendable
     @inlinable
     public func listFlows(_ input: ListFlowsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListFlowsResponse {
@@ -874,11 +880,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays a list of flows that are associated with this account. This request returns a paginated result.
+    ///  Displays a list of flows that are associated with this account. This request returns a paginated result.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    ///   - nextToken: The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - nextToken:  The token that identifies the batch of results that you want to see.  For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listFlows(
@@ -893,7 +899,7 @@ public struct MediaConnect: AWSService {
         return try await self.listFlows(input, logger: logger)
     }
 
-    /// Displays a list of instances associated with the AWS account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
+    ///  Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
     @Sendable
     @inlinable
     public func listGatewayInstances(_ input: ListGatewayInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewayInstancesResponse {
@@ -906,12 +912,12 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays a list of instances associated with the AWS account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
+    ///  Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
     ///
     /// Parameters:
-    ///   - filterArn: Filter the list results to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    ///   - nextToken: The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
+    ///   - filterArn:  Filter the list results to display only the instances associated with the selected Gateway ARN.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - nextToken:  The token that identifies the batch of results that you want to see.  For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listGatewayInstances(
@@ -928,7 +934,7 @@ public struct MediaConnect: AWSService {
         return try await self.listGatewayInstances(input, logger: logger)
     }
 
-    /// Displays a list of gateways that are associated with this account. This request returns a paginated result.
+    ///  Displays a list of gateways that are associated with this account. This request returns a paginated result.
     @Sendable
     @inlinable
     public func listGateways(_ input: ListGatewaysRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListGatewaysResponse {
@@ -941,11 +947,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays a list of gateways that are associated with this account. This request returns a paginated result.
+    ///  Displays a list of gateways that are associated with this account. This request returns a paginated result.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    ///   - nextToken: The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - nextToken:  The token that identifies the batch of results that you want to see.  For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listGateways(
@@ -960,7 +966,7 @@ public struct MediaConnect: AWSService {
         return try await self.listGateways(input, logger: logger)
     }
 
-    /// Displays a list of all offerings that are available to this account in the current AWS Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
+    ///  Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
     @Sendable
     @inlinable
     public func listOfferings(_ input: ListOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListOfferingsResponse {
@@ -973,11 +979,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays a list of all offerings that are available to this account in the current AWS Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
+    ///  Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    ///   - nextToken: The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - nextToken:  The token that identifies the batch of results that you want to see.  For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listOfferings(
@@ -992,7 +998,7 @@ public struct MediaConnect: AWSService {
         return try await self.listOfferings(input, logger: logger)
     }
 
-    /// Displays a list of all reservations that have been purchased by this account in the current AWS Region. This list includes all reservations in all states (such as active and expired).
+    ///  Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
     @Sendable
     @inlinable
     public func listReservations(_ input: ListReservationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListReservationsResponse {
@@ -1005,11 +1011,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Displays a list of all reservations that have been purchased by this account in the current AWS Region. This list includes all reservations in all states (such as active and expired).
+    ///  Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
-    ///   - nextToken: The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - nextToken:  The token that identifies the batch of results that you want to see.  For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
     ///   - logger: Logger use during operation
     @inlinable
     public func listReservations(
@@ -1024,7 +1030,7 @@ public struct MediaConnect: AWSService {
         return try await self.listReservations(input, logger: logger)
     }
 
-    /// List all tags on an AWS Elemental MediaConnect resource
+    ///  List all tags on a MediaConnect resource.
     @Sendable
     @inlinable
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsForResourceResponse {
@@ -1037,10 +1043,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// List all tags on an AWS Elemental MediaConnect resource
+    ///  List all tags on a MediaConnect resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource for which to list the tags.
+    ///   - resourceArn:  The Amazon Resource Name (ARN) that identifies the MediaConnect resource for which to list the tags.
     ///   - logger: Logger use during operation
     @inlinable
     public func listTagsForResource(
@@ -1053,7 +1059,7 @@ public struct MediaConnect: AWSService {
         return try await self.listTagsForResource(input, logger: logger)
     }
 
-    /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
+    ///  Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
     @Sendable
     @inlinable
     public func purchaseOffering(_ input: PurchaseOfferingRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> PurchaseOfferingResponse {
@@ -1066,12 +1072,12 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
+    ///  Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
     ///
     /// Parameters:
-    ///   - offeringArn: The Amazon Resource Name (ARN) of the offering.
-    ///   - reservationName: The name that you want to use for the reservation.
-    ///   - start: The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
+    ///   - offeringArn:  The Amazon Resource Name (ARN) of the offering.
+    ///   - reservationName:  The name that you want to use for the reservation.
+    ///   - start:  The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC).  You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
     ///   - logger: Logger use during operation
     @inlinable
     public func purchaseOffering(
@@ -1088,7 +1094,7 @@ public struct MediaConnect: AWSService {
         return try await self.purchaseOffering(input, logger: logger)
     }
 
-    /// Removes an output from a bridge.
+    ///  Removes an output from a bridge.
     @Sendable
     @inlinable
     public func removeBridgeOutput(_ input: RemoveBridgeOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveBridgeOutputResponse {
@@ -1101,11 +1107,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Removes an output from a bridge.
+    ///  Removes an output from a bridge.
     ///
     /// Parameters:
-    ///   - bridgeArn: The ARN of the bridge that you want to update.
-    ///   - outputName: The name of the bridge output that you want to remove.
+    ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update.
+    ///   - outputName:  The name of the bridge output that you want to remove.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeBridgeOutput(
@@ -1120,7 +1126,7 @@ public struct MediaConnect: AWSService {
         return try await self.removeBridgeOutput(input, logger: logger)
     }
 
-    /// Removes a source from a bridge.
+    ///  Removes a source from a bridge.
     @Sendable
     @inlinable
     public func removeBridgeSource(_ input: RemoveBridgeSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveBridgeSourceResponse {
@@ -1133,11 +1139,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Removes a source from a bridge.
+    ///  Removes a source from a bridge.
     ///
     /// Parameters:
-    ///   - bridgeArn: The ARN of the bridge that you want to update.
-    ///   - sourceName: The name of the bridge source that you want to remove.
+    ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update.
+    ///   - sourceName:  The name of the bridge source that you want to remove.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeBridgeSource(
@@ -1152,7 +1158,7 @@ public struct MediaConnect: AWSService {
         return try await self.removeBridgeSource(input, logger: logger)
     }
 
-    /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
+    ///  Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
     @Sendable
     @inlinable
     public func removeFlowMediaStream(_ input: RemoveFlowMediaStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFlowMediaStreamResponse {
@@ -1165,11 +1171,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
+    ///  Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
     ///
     /// Parameters:
-    ///   - flowArn: The Amazon Resource Name (ARN) of the flow.
-    ///   - mediaStreamName: The name of the media stream that you want to remove.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to update.
+    ///   - mediaStreamName:  The name of the media stream that you want to remove.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeFlowMediaStream(
@@ -1184,7 +1190,7 @@ public struct MediaConnect: AWSService {
         return try await self.removeFlowMediaStream(input, logger: logger)
     }
 
-    /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
+    ///  Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
     @Sendable
     @inlinable
     public func removeFlowOutput(_ input: RemoveFlowOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFlowOutputResponse {
@@ -1197,11 +1203,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
+    ///  Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
     ///
     /// Parameters:
-    ///   - flowArn: The flow that you want to remove an output from.
-    ///   - outputArn: The ARN of the output that you want to remove.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to remove an output from.
+    ///   - outputArn:  The ARN of the output that you want to remove.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeFlowOutput(
@@ -1216,7 +1222,7 @@ public struct MediaConnect: AWSService {
         return try await self.removeFlowOutput(input, logger: logger)
     }
 
-    /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
+    ///  Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
     @Sendable
     @inlinable
     public func removeFlowSource(_ input: RemoveFlowSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFlowSourceResponse {
@@ -1229,11 +1235,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
+    ///  Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
     ///
     /// Parameters:
-    ///   - flowArn: The flow that you want to remove a source from.
-    ///   - sourceArn: The ARN of the source that you want to remove.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to remove a source from.
+    ///   - sourceArn:  The ARN of the source that you want to remove.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeFlowSource(
@@ -1248,7 +1254,7 @@ public struct MediaConnect: AWSService {
         return try await self.removeFlowSource(input, logger: logger)
     }
 
-    /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
+    ///  Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
     @Sendable
     @inlinable
     public func removeFlowVpcInterface(_ input: RemoveFlowVpcInterfaceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveFlowVpcInterfaceResponse {
@@ -1261,11 +1267,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
+    ///  Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
     ///
     /// Parameters:
-    ///   - flowArn: The flow that you want to remove a VPC interface from.
-    ///   - vpcInterfaceName: The name of the VPC interface that you want to remove.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to remove a VPC interface from.
+    ///   - vpcInterfaceName:  The name of the VPC interface that you want to remove.
     ///   - logger: Logger use during operation
     @inlinable
     public func removeFlowVpcInterface(
@@ -1280,7 +1286,7 @@ public struct MediaConnect: AWSService {
         return try await self.removeFlowVpcInterface(input, logger: logger)
     }
 
-    /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
+    ///  Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
     @Sendable
     @inlinable
     public func revokeFlowEntitlement(_ input: RevokeFlowEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RevokeFlowEntitlementResponse {
@@ -1293,11 +1299,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
+    ///  Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
     ///
     /// Parameters:
-    ///   - entitlementArn: The ARN of the entitlement that you want to revoke.
-    ///   - flowArn: The flow that you want to revoke an entitlement from.
+    ///   - entitlementArn:  The Amazon Resource Name (ARN) of the entitlement that you want to revoke.
+    ///   - flowArn:  The flow that you want to revoke an entitlement from.
     ///   - logger: Logger use during operation
     @inlinable
     public func revokeFlowEntitlement(
@@ -1312,7 +1318,7 @@ public struct MediaConnect: AWSService {
         return try await self.revokeFlowEntitlement(input, logger: logger)
     }
 
-    /// Starts a flow.
+    ///  Starts a flow.
     @Sendable
     @inlinable
     public func startFlow(_ input: StartFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartFlowResponse {
@@ -1325,10 +1331,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Starts a flow.
+    ///  Starts a flow.
     ///
     /// Parameters:
-    ///   - flowArn: The ARN of the flow that you want to start.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to start.
     ///   - logger: Logger use during operation
     @inlinable
     public func startFlow(
@@ -1341,7 +1347,7 @@ public struct MediaConnect: AWSService {
         return try await self.startFlow(input, logger: logger)
     }
 
-    /// Stops a flow.
+    ///  Stops a flow.
     @Sendable
     @inlinable
     public func stopFlow(_ input: StopFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopFlowResponse {
@@ -1354,10 +1360,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Stops a flow.
+    ///  Stops a flow.
     ///
     /// Parameters:
-    ///   - flowArn: The ARN of the flow that you want to stop.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to stop.
     ///   - logger: Logger use during operation
     @inlinable
     public func stopFlow(
@@ -1370,7 +1376,7 @@ public struct MediaConnect: AWSService {
         return try await self.stopFlow(input, logger: logger)
     }
 
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1383,11 +1389,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource to which to add tags.
-    ///   - tags: A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    ///   - resourceArn:  The Amazon Resource Name (ARN) that identifies the MediaConnect resource to which to add tags.
+    ///   - tags:  A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
     ///   - logger: Logger use during operation
     @inlinable
     public func tagResource(
@@ -1402,7 +1408,7 @@ public struct MediaConnect: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Deletes specified tags from a resource.
+    ///  Deletes specified tags from a resource.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -1415,10 +1421,10 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Deletes specified tags from a resource.
+    ///  Deletes specified tags from a resource.
     ///
     /// Parameters:
-    ///   - resourceArn: The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource from which to delete tags.
+    ///   - resourceArn:  The Amazon Resource Name (ARN) of the resource that you want to untag.
     ///   - tagKeys: The keys of the tags to be removed.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1434,7 +1440,7 @@ public struct MediaConnect: AWSService {
         return try await self.untagResource(input, logger: logger)
     }
 
-    /// Updates the bridge
+    ///  Updates the bridge.
     @Sendable
     @inlinable
     public func updateBridge(_ input: UpdateBridgeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBridgeResponse {
@@ -1447,13 +1453,13 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates the bridge
+    ///  Updates the bridge.
     ///
     /// Parameters:
-    ///   - bridgeArn: The Amazon Resource Number (ARN) of the bridge that you want to update.
-    ///   - egressGatewayBridge: 
-    ///   - ingressGatewayBridge: 
-    ///   - sourceFailoverConfig: 
+    ///   - bridgeArn:  TheAmazon Resource Name (ARN) of the bridge that you want to update.
+    ///   - egressGatewayBridge:  A cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
+    ///   - ingressGatewayBridge:  A ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
+    ///   - sourceFailoverConfig: The settings for source failover.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBridge(
@@ -1472,7 +1478,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateBridge(input, logger: logger)
     }
 
-    /// Updates an existing bridge output.
+    ///  Updates an existing bridge output.
     @Sendable
     @inlinable
     public func updateBridgeOutput(_ input: UpdateBridgeOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBridgeOutputResponse {
@@ -1485,12 +1491,12 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing bridge output.
+    ///  Updates an existing bridge output.
     ///
     /// Parameters:
-    ///   - bridgeArn: The ARN of the bridge that you want to update.
-    ///   - networkOutput: 
-    ///   - outputName: The name of the bridge output that you want to update.
+    ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update.
+    ///   - networkOutput: The network of the bridge output.
+    ///   - outputName: Tname of the output that you want to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBridgeOutput(
@@ -1507,7 +1513,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateBridgeOutput(input, logger: logger)
     }
 
-    /// Updates an existing bridge source.
+    ///  Updates an existing bridge source.
     @Sendable
     @inlinable
     public func updateBridgeSource(_ input: UpdateBridgeSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBridgeSourceResponse {
@@ -1520,12 +1526,12 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing bridge source.
+    ///  Updates an existing bridge source.
     ///
     /// Parameters:
-    ///   - bridgeArn: The ARN of the bridge that you want to update.
-    ///   - flowSource: 
-    ///   - networkSource: 
+    ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update.
+    ///   - flowSource:  The name of the flow that you want to update.
+    ///   - networkSource: The network for the bridge source.
     ///   - sourceName: The name of the source that you want to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1545,7 +1551,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateBridgeSource(input, logger: logger)
     }
 
-    /// Updates the bridge state
+    ///  Updates the bridge state.
     @Sendable
     @inlinable
     public func updateBridgeState(_ input: UpdateBridgeStateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateBridgeStateResponse {
@@ -1558,11 +1564,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates the bridge state
+    ///  Updates the bridge state.
     ///
     /// Parameters:
-    ///   - bridgeArn: The ARN of the bridge that you want to update.
-    ///   - desiredState: 
+    ///   - bridgeArn:  The Amazon Resource Name (ARN) of the bridge that you want to update the state of.
+    ///   - desiredState: The desired state for the bridge.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateBridgeState(
@@ -1577,7 +1583,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateBridgeState(input, logger: logger)
     }
 
-    /// Updates flow
+    ///  Updates an existing flow.
     @Sendable
     @inlinable
     public func updateFlow(_ input: UpdateFlowRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowResponse {
@@ -1590,18 +1596,20 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates flow
+    ///  Updates an existing flow.
     ///
     /// Parameters:
-    ///   - flowArn: The flow that you want to update.
-    ///   - maintenance: 
-    ///   - sourceFailoverConfig: 
-    ///   - sourceMonitoringConfig: 
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that you want to update.
+    ///   - maintenance:  The maintenance setting of the flow.
+    ///   - ndiConfig:  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    ///   - sourceFailoverConfig:  The settings for source failover.
+    ///   - sourceMonitoringConfig: The settings for source monitoring.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFlow(
         flowArn: String,
         maintenance: UpdateMaintenance? = nil,
+        ndiConfig: NdiConfig? = nil,
         sourceFailoverConfig: UpdateFailoverConfig? = nil,
         sourceMonitoringConfig: MonitoringConfig? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -1609,13 +1617,14 @@ public struct MediaConnect: AWSService {
         let input = UpdateFlowRequest(
             flowArn: flowArn, 
             maintenance: maintenance, 
+            ndiConfig: ndiConfig, 
             sourceFailoverConfig: sourceFailoverConfig, 
             sourceMonitoringConfig: sourceMonitoringConfig
         )
         return try await self.updateFlow(input, logger: logger)
     }
 
-    /// You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
+    ///  Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
     @Sendable
     @inlinable
     public func updateFlowEntitlement(_ input: UpdateFlowEntitlementRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowEntitlementResponse {
@@ -1628,15 +1637,15 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
+    ///  Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
     ///
     /// Parameters:
-    ///   - description: A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
-    ///   - encryption: The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke.
-    ///   - entitlementArn: The ARN of the entitlement that you want to update.
-    ///   - entitlementStatus: An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscriber’s flow temporarily. If you don’t specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged.
-    ///   - flowArn: The flow that is associated with the entitlement that you want to update.
-    ///   - subscribers: The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
+    ///   - description:  A description of the entitlement. This description appears only on the MediaConnect console and will not be seen by the subscriber or end user.
+    ///   - encryption:  The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke.
+    ///   - entitlementArn:  The Amazon Resource Name (ARN) of the entitlement that you want to update.
+    ///   - entitlementStatus:  An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscriber’s flow temporarily. If you don’t specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged.
+    ///   - flowArn:  The ARN of the flow that is associated with the entitlement that you want to update.
+    ///   - subscribers:  The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFlowEntitlement(
@@ -1659,7 +1668,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateFlowEntitlement(input, logger: logger)
     }
 
-    /// Updates an existing media stream.
+    ///  Updates an existing media stream.
     @Sendable
     @inlinable
     public func updateFlowMediaStream(_ input: UpdateFlowMediaStreamRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowMediaStreamResponse {
@@ -1672,14 +1681,14 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing media stream.
+    ///  Updates an existing media stream.
     ///
     /// Parameters:
-    ///   - attributes: The attributes that you want to assign to the media stream.
-    ///   - clockRate: The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
-    ///   - description: Description
-    ///   - flowArn: The Amazon Resource Name (ARN) of the flow.
-    ///   - mediaStreamName: The name of the media stream that you want to update.
+    ///   - attributes:  The attributes that you want to assign to the media stream.
+    ///   - clockRate: The sample rate for the stream. This value in measured in kHz.
+    ///   - description: A description that can help you quickly identify what your media stream is used for.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that is associated with the media stream that you updated.
+    ///   - mediaStreamName:  The media stream that you updated.
     ///   - mediaStreamType: The type of media stream.
     ///   - videoFormat: The resolution of the video.
     ///   - logger: Logger use during operation
@@ -1706,7 +1715,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateFlowMediaStream(input, logger: logger)
     }
 
-    /// Updates an existing flow output.
+    ///  Updates an existing flow output.
     @Sendable
     @inlinable
     public func updateFlowOutput(_ input: UpdateFlowOutputRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowOutputResponse {
@@ -1719,27 +1728,29 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates an existing flow output.
+    ///  Updates an existing flow output.
     ///
     /// Parameters:
-    ///   - cidrAllowList: The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
-    ///   - description: A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
-    ///   - destination: The IP address where you want to send the output.
-    ///   - encryption: The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
-    ///   - flowArn: The flow that is associated with the output that you want to update.
-    ///   - maxLatency: The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
-    ///   - mediaStreamOutputConfigurations: The media streams that are associated with the output, and the parameters for those associations.
-    ///   - minLatency: The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
-    ///   - outputArn: The ARN of the output that you want to update.
-    ///   - outputStatus: An indication of whether the output should transmit data or not. If you don't specify the outputStatus field in your request, MediaConnect leaves the value unchanged.
-    ///   - port: The port to use when content is distributed to this output.
-    ///   - protocol: The protocol to use for the output.
-    ///   - remoteId: The remote ID for the Zixi-pull stream.
-    ///   - senderControlPort: The port that the flow uses to send outbound requests to initiate connection with the sender.
-    ///   - senderIpAddress: The IP address that the flow communicates with to initiate connection with the sender.
-    ///   - smoothingLatency: The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
-    ///   - streamId: The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
-    ///   - vpcInterfaceAttachment: The name of the VPC interface attachment to use for this output.
+    ///   - cidrAllowList:  The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+    ///   - description:  A description of the output. This description appears only on the MediaConnect console and will not be seen by the end user.
+    ///   - destination:  The IP address where you want to send the output.
+    ///   - encryption:  The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
+    ///   - flowArn:  The Amazon Resource Name (ARN) of the flow that is associated with the output that you want to update.
+    ///   - maxLatency:  The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
+    ///   - mediaStreamOutputConfigurations:  The media streams that are associated with the output, and the parameters for those associations.
+    ///   - minLatency:  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+    ///   - ndiProgramName:  A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+    ///   - ndiSpeedHqQuality: A quality setting for the NDI Speed HQ encoder.
+    ///   - outputArn:  The ARN of the output that you want to update.
+    ///   - outputStatus:  An indication of whether the output should transmit data or not. If you don't specify the outputStatus field in your request, MediaConnect leaves the value unchanged.
+    ///   - port:  The port to use when content is distributed to this output.
+    ///   - protocol:  The protocol to use for the output.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
+    ///   - remoteId:  The remote ID for the Zixi-pull stream.
+    ///   - senderControlPort:  The port that the flow uses to send outbound requests to initiate connection with the sender.
+    ///   - senderIpAddress:  The IP address that the flow communicates with to initiate connection with the sender.
+    ///   - smoothingLatency:  The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
+    ///   - streamId:  The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
+    ///   - vpcInterfaceAttachment:  The name of the VPC interface attachment to use for this output.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFlowOutput(
@@ -1751,6 +1762,8 @@ public struct MediaConnect: AWSService {
         maxLatency: Int? = nil,
         mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil,
         minLatency: Int? = nil,
+        ndiProgramName: String? = nil,
+        ndiSpeedHqQuality: Int? = nil,
         outputArn: String,
         outputStatus: OutputStatus? = nil,
         port: Int? = nil,
@@ -1772,6 +1785,8 @@ public struct MediaConnect: AWSService {
             maxLatency: maxLatency, 
             mediaStreamOutputConfigurations: mediaStreamOutputConfigurations, 
             minLatency: minLatency, 
+            ndiProgramName: ndiProgramName, 
+            ndiSpeedHqQuality: ndiSpeedHqQuality, 
             outputArn: outputArn, 
             outputStatus: outputStatus, 
             port: port, 
@@ -1786,7 +1801,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateFlowOutput(input, logger: logger)
     }
 
-    /// Updates the source of a flow.
+    ///  Updates the source of a flow.
     @Sendable
     @inlinable
     public func updateFlowSource(_ input: UpdateFlowSourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateFlowSourceResponse {
@@ -1799,29 +1814,29 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates the source of a flow.
+    ///  Updates the source of a flow.
     ///
     /// Parameters:
-    ///   - decryption: The type of encryption used on the content ingested from this source. Allowable encryption types: static-key.
-    ///   - description: A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
-    ///   - entitlementArn: The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
-    ///   - flowArn: The flow that is associated with the source that you want to update.
+    ///   - decryption: The type of encryption that is used on the content ingested from the source.
+    ///   - description: A description of the source. This description is not visible outside of the current Amazon Web Services account.
+    ///   - entitlementArn: The Amazon Resource Name (ARN) of the entitlement that allows you to subscribe to the flow. The entitlement is set by the content originator, and the ARN is generated as part of the originator's flow.
+    ///   - flowArn: The ARN of the flow that you want to update.
     ///   - gatewayBridgeSource: The source configuration for cloud flows receiving a stream from a bridge.
-    ///   - ingestPort: The port that the flow will be listening on for incoming content.
-    ///   - maxBitrate: The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
-    ///   - maxLatency: The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+    ///   - ingestPort: The port that the flow listens on for incoming content. If the protocol of the source is Zixi, the port must be set to 2088.
+    ///   - maxBitrate: The maximum bitrate for RIST, RTP, and RTP-FEC streams.
+    ///   - maxLatency: The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
     ///   - maxSyncBuffer: The size of the buffer (in milliseconds) to use to sync incoming source data.
-    ///   - mediaStreamSourceConfigurations: The media streams that are associated with the source, and the parameters for those associations.
+    ///   - mediaStreamSourceConfigurations: The media stream that is associated with the source, and the parameters for that association.
     ///   - minLatency: The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
-    ///   - protocol: The protocol that is used by the source.
+    ///   - protocol: The protocol that the source uses to deliver the content to MediaConnect.
     ///   - senderControlPort: The port that the flow uses to send outbound requests to initiate connection with the sender.
     ///   - senderIpAddress: The IP address that the flow communicates with to initiate connection with the sender.
     ///   - sourceArn: The ARN of the source that you want to update.
-    ///   - sourceListenerAddress: Source IP or domain name for SRT-caller protocol.
+    ///   - sourceListenerAddress: The source IP or domain name for SRT-caller protocol.
     ///   - sourceListenerPort: Source port for SRT-caller protocol.
     ///   - streamId: The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
-    ///   - vpcInterfaceName: The name of the VPC interface to use for this source.
-    ///   - whitelistCidr: The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+    ///   - vpcInterfaceName: The name of the VPC interface that you want to send your output to.
+    ///   - whitelistCidr: The range of IP addresses that are allowed to contribute content to your source. Format the IP addresses as a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateFlowSource(
@@ -1872,7 +1887,7 @@ public struct MediaConnect: AWSService {
         return try await self.updateFlowSource(input, logger: logger)
     }
 
-    /// Updates the configuration of an existing Gateway Instance.
+    /// Updates an existing gateway instance.
     @Sendable
     @inlinable
     public func updateGatewayInstance(_ input: UpdateGatewayInstanceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateGatewayInstanceResponse {
@@ -1885,11 +1900,11 @@ public struct MediaConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates the configuration of an existing Gateway Instance.
+    /// Updates an existing gateway instance.
     ///
     /// Parameters:
-    ///   - bridgePlacement: The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
-    ///   - gatewayInstanceArn: The Amazon Resource Name (ARN) of the instance that you want to update.
+    ///   - bridgePlacement: The state of the instance. ACTIVE or INACTIVE.
+    ///   - gatewayInstanceArn: The Amazon Resource Name (ARN) of the gateway instance that you want to update.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateGatewayInstance(
@@ -1939,8 +1954,8 @@ extension MediaConnect {
     /// Return PaginatorSequence for operation ``listBridges(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filterArn: Filter the list results to display only the bridges associated with the selected Amazon Resource Name (ARN).
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - filterArn:  Filter the list results to display only the bridges associated with the selected ARN.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listBridgesPaginator(
@@ -1976,7 +1991,7 @@ extension MediaConnect {
     /// Return PaginatorSequence for operation ``listEntitlements(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListEntitlements request with set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listEntitlementsPaginator(
@@ -2010,7 +2025,7 @@ extension MediaConnect {
     /// Return PaginatorSequence for operation ``listFlows(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listFlowsPaginator(
@@ -2044,8 +2059,8 @@ extension MediaConnect {
     /// Return PaginatorSequence for operation ``listGatewayInstances(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - filterArn: Filter the list results to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - filterArn:  Filter the list results to display only the instances associated with the selected Gateway ARN.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listGatewayInstancesPaginator(
@@ -2081,7 +2096,7 @@ extension MediaConnect {
     /// Return PaginatorSequence for operation ``listGateways(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listGatewaysPaginator(
@@ -2115,7 +2130,7 @@ extension MediaConnect {
     /// Return PaginatorSequence for operation ``listOfferings(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listOfferingsPaginator(
@@ -2149,7 +2164,7 @@ extension MediaConnect {
     /// Return PaginatorSequence for operation ``listReservations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results to return per API request. For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+    ///   - maxResults:  The maximum number of results to return per API request.  For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
     ///   - logger: Logger used for logging
     @inlinable
     public func listReservationsPaginator(
@@ -2257,6 +2272,7 @@ extension MediaConnect {
                 .init(state: .retry, matcher: try! JMESPathMatcher("flow.status", expected: "UPDATING")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("InternalServerErrorException")),
                 .init(state: .retry, matcher: AWSErrorCodeMatcher("ServiceUnavailableException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("flow.status", expected: "STANDBY")),
                 .init(state: .failure, matcher: try! JMESPathMatcher("flow.status", expected: "ERROR")),
             ],
             minDelayTime: .seconds(3),
@@ -2267,7 +2283,7 @@ extension MediaConnect {
     /// Waiter for operation ``describeFlow(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - flowArn: The ARN of the flow that you want to describe.
+    ///   - flowArn:  The ARN of the flow that you want to describe.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilFlowActive(
@@ -2307,7 +2323,7 @@ extension MediaConnect {
     /// Waiter for operation ``describeFlow(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - flowArn: The ARN of the flow that you want to describe.
+    ///   - flowArn:  The ARN of the flow that you want to describe.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilFlowDeleted(
@@ -2347,7 +2363,7 @@ extension MediaConnect {
     /// Waiter for operation ``describeFlow(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - flowArn: The ARN of the flow that you want to describe.
+    ///   - flowArn:  The ARN of the flow that you want to describe.
     ///   - logger: Logger used for logging
     @inlinable
     public func waitUntilFlowStandby(

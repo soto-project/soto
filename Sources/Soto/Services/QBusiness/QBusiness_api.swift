@@ -2712,6 +2712,7 @@ public struct QBusiness: AWSService {
     ///   - blockedPhrasesConfigurationUpdate: The phrases blocked from chat by your chat control configuration.
     ///   - clientToken: A token that you provide to identify the request to update a Amazon Q Business application chat configuration.
     ///   - creatorModeConfiguration: The configuration details for CREATOR_MODE.
+    ///   - hallucinationReductionConfiguration:  The hallucination reduction settings for your application.
     ///   - orchestrationConfiguration:  The chat response orchestration settings for your application.
     ///   - responseScope: The response scope configured for your application. This determines whether your application uses its retrieval augmented generation (RAG) system to generate answers only from your enterprise data, or also uses the large language models (LLM) knowledge to respons to end user questions in chat.
     ///   - topicConfigurationsToCreateOrUpdate: The configured topic specific chat controls you want to update.
@@ -2723,6 +2724,7 @@ public struct QBusiness: AWSService {
         blockedPhrasesConfigurationUpdate: BlockedPhrasesConfigurationUpdate? = nil,
         clientToken: String? = UpdateChatControlsConfigurationRequest.idempotencyToken(),
         creatorModeConfiguration: CreatorModeConfiguration? = nil,
+        hallucinationReductionConfiguration: HallucinationReductionConfiguration? = nil,
         orchestrationConfiguration: OrchestrationConfiguration? = nil,
         responseScope: ResponseScope? = nil,
         topicConfigurationsToCreateOrUpdate: [TopicConfiguration]? = nil,
@@ -2734,6 +2736,7 @@ public struct QBusiness: AWSService {
             blockedPhrasesConfigurationUpdate: blockedPhrasesConfigurationUpdate, 
             clientToken: clientToken, 
             creatorModeConfiguration: creatorModeConfiguration, 
+            hallucinationReductionConfiguration: hallucinationReductionConfiguration, 
             orchestrationConfiguration: orchestrationConfiguration, 
             responseScope: responseScope, 
             topicConfigurationsToCreateOrUpdate: topicConfigurationsToCreateOrUpdate, 

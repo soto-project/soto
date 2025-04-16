@@ -115,6 +115,12 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum FlowSize: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case large = "LARGE"
+        case medium = "MEDIUM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GatewayState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -157,6 +163,12 @@ extension MediaConnect {
         case ancillaryData = "ancillary-data"
         case audio = "audio"
         case video = "video"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NdiState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -249,6 +261,7 @@ extension MediaConnect {
     public enum `Protocol`: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cdi = "cdi"
         case fujitsuQos = "fujitsu-qos"
+        case ndiSpeedHq = "ndi-speed-hq"
         case rist = "rist"
         case rtp = "rtp"
         case rtpFec = "rtp-fec"
@@ -264,11 +277,11 @@ extension MediaConnect {
     // MARK: Shapes
 
     public struct AddBridgeFlowSourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Number (ARN) of the cloud flow to use as a source of this bridge.
+        ///  The Amazon Resource Number (ARN) of the flow to use as a source of this bridge.
         public let flowArn: String?
         /// The name of the VPC interface attachment to use for this source.
         public let flowVpcInterfaceAttachment: VpcInterfaceAttachment?
-        /// The name of the flow source. This name is used to reference the source and must be unique among sources in this bridge.
+        ///  The name of the flow source. This name is used to reference the source and must be unique among sources in this bridge.
         public let name: String?
 
         @inlinable
@@ -286,17 +299,18 @@ extension MediaConnect {
     }
 
     public struct AddBridgeNetworkOutputRequest: AWSEncodableShape {
-        /// The network output IP Address.
+        ///  The network output IP Address.
         public let ipAddress: String?
-        /// The network output name. This name is used to reference the output and must be unique among outputs in this bridge.
+        ///  The network output name. This name is used to reference the output and must be unique among outputs in this bridge.
         public let name: String?
-        /// The network output's gateway network name.
+        ///  The network output's gateway network name.
         public let networkName: String?
-        /// The network output port.
+        ///  The network output port.
         public let port: Int?
-        /// The network output protocol.
+        ///  The network output protocol.
+        ///   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
-        /// The network output TTL.
+        ///  The network output TTL.
         public let ttl: Int?
 
         @inlinable
@@ -320,16 +334,17 @@ extension MediaConnect {
     }
 
     public struct AddBridgeNetworkSourceRequest: AWSEncodableShape {
-        /// The network source multicast IP.
+        ///  The network source multicast IP.
         public let multicastIp: String?
+        ///  The settings related to the multicast source.
         public let multicastSourceSettings: MulticastSourceSettings?
-        /// The name of the network source. This name is used to reference the source and must be unique among sources in this bridge.
+        ///  The name of the network source. This name is used to reference the source and must be unique among sources in this bridge.
         public let name: String?
-        /// The network source's gateway network name.
+        ///  The network source's gateway network name.
         public let networkName: String?
-        /// The network source port.
+        ///  The network source port.
         public let port: Int?
-        /// The network source protocol.
+        ///  The network source protocol.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
 
         @inlinable
@@ -353,6 +368,7 @@ extension MediaConnect {
     }
 
     public struct AddBridgeOutputRequest: AWSEncodableShape {
+        ///  The network output of the bridge. A network output is delivered to your premises.
         public let networkOutput: AddBridgeNetworkOutputRequest?
 
         @inlinable
@@ -366,9 +382,9 @@ extension MediaConnect {
     }
 
     public struct AddBridgeOutputsRequest: AWSEncodableShape {
-        /// The ARN of the bridge that you want to update.
+        ///  The Amazon Resource Name (ARN) of the bridge that you want to update.
         public let bridgeArn: String
-        /// The outputs that you want to add to this bridge.
+        ///  The outputs that you want to add to this bridge.
         public let outputs: [AddBridgeOutputRequest]?
 
         @inlinable
@@ -390,9 +406,9 @@ extension MediaConnect {
     }
 
     public struct AddBridgeOutputsResponse: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the bridge.
+        ///  The ARN of the bridge that you added outputs to.
         public let bridgeArn: String?
-        /// The outputs that you added to this bridge.
+        ///  The outputs that you added to this bridge.
         public let outputs: [BridgeOutput]?
 
         @inlinable
@@ -408,7 +424,9 @@ extension MediaConnect {
     }
 
     public struct AddBridgeSourceRequest: AWSEncodableShape {
+        /// The source of the flow.
         public let flowSource: AddBridgeFlowSourceRequest?
+        /// The source of the network.
         public let networkSource: AddBridgeNetworkSourceRequest?
 
         @inlinable
@@ -424,9 +442,9 @@ extension MediaConnect {
     }
 
     public struct AddBridgeSourcesRequest: AWSEncodableShape {
-        /// The ARN of the bridge that you want to update.
+        ///  The Amazon Resource Name (ARN) of the bridge that you want to update.
         public let bridgeArn: String
-        /// The sources that you want to add to this bridge.
+        ///  The sources that you want to add to this bridge.
         public let sources: [AddBridgeSourceRequest]?
 
         @inlinable
@@ -448,9 +466,9 @@ extension MediaConnect {
     }
 
     public struct AddBridgeSourcesResponse: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the bridge.
+        ///  The ARN of the bridge that you added sources to.
         public let bridgeArn: String?
-        /// The sources that you added to this bridge.
+        ///  The sources that you added to this bridge.
         public let sources: [BridgeSource]?
 
         @inlinable
@@ -466,7 +484,7 @@ extension MediaConnect {
     }
 
     public struct AddEgressGatewayBridgeRequest: AWSEncodableShape {
-        /// The maximum expected bitrate (in bps).
+        ///  The maximum expected bitrate (in bps) of the egress bridge.
         public let maxBitrate: Int?
 
         @inlinable
@@ -480,9 +498,9 @@ extension MediaConnect {
     }
 
     public struct AddFlowMediaStreamsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the flow.
+        ///  The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String
-        /// The media streams that you want to add to the flow.
+        ///  The media streams that you want to add to the flow.
         public let mediaStreams: [AddMediaStreamRequest]?
 
         @inlinable
@@ -504,9 +522,9 @@ extension MediaConnect {
     }
 
     public struct AddFlowMediaStreamsResponse: AWSDecodableShape {
-        /// The ARN of the flow that you added media streams to.
+        ///  The ARN of the flow that you added media streams to.
         public let flowArn: String?
-        /// The media streams that you added to the flow.
+        ///  The media streams that you added to the flow.
         public let mediaStreams: [MediaStream]?
 
         @inlinable
@@ -522,9 +540,9 @@ extension MediaConnect {
     }
 
     public struct AddFlowOutputsRequest: AWSEncodableShape {
-        /// The flow that you want to add outputs to.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to add outputs to.
         public let flowArn: String
-        /// A list of outputs that you want to add.
+        ///  A list of outputs that you want to add to the flow.
         public let outputs: [AddOutputRequest]?
 
         @inlinable
@@ -546,9 +564,9 @@ extension MediaConnect {
     }
 
     public struct AddFlowOutputsResponse: AWSDecodableShape {
-        /// The ARN of the flow that these outputs were added to.
+        ///  The ARN of the flow that these outputs were added to.
         public let flowArn: String?
-        /// The details of the newly added outputs.
+        ///  The details of the newly added outputs.
         public let outputs: [Output]?
 
         @inlinable
@@ -564,9 +582,9 @@ extension MediaConnect {
     }
 
     public struct AddFlowSourcesRequest: AWSEncodableShape {
-        /// The flow that you want to mutate.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to update.
         public let flowArn: String
-        /// A list of sources that you want to add.
+        ///  A list of sources that you want to add to the flow.
         public let sources: [SetSourceRequest]?
 
         @inlinable
@@ -588,9 +606,9 @@ extension MediaConnect {
     }
 
     public struct AddFlowSourcesResponse: AWSDecodableShape {
-        /// The ARN of the flow that these sources were added to.
+        ///  The ARN of the flow that these sources were added to.
         public let flowArn: String?
-        /// The details of the newly added sources.
+        ///  The details of the newly added sources.
         public let sources: [Source]?
 
         @inlinable
@@ -606,9 +624,9 @@ extension MediaConnect {
     }
 
     public struct AddFlowVpcInterfacesRequest: AWSEncodableShape {
-        /// The flow that you want to mutate.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to update.
         public let flowArn: String
-        /// A list of VPC interfaces that you want to add.
+        ///  A list of VPC interfaces that you want to add to the flow.
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
         @inlinable
@@ -630,9 +648,9 @@ extension MediaConnect {
     }
 
     public struct AddFlowVpcInterfacesResponse: AWSDecodableShape {
-        /// The ARN of the flow that these VPC interfaces were added to.
+        ///  The ARN of the flow that these VPC interfaces were added to.
         public let flowArn: String?
-        /// The details of the newly added VPC interfaces.
+        ///  The details of the newly added VPC interfaces.
         public let vpcInterfaces: [VpcInterface]?
 
         @inlinable
@@ -648,9 +666,9 @@ extension MediaConnect {
     }
 
     public struct AddIngressGatewayBridgeRequest: AWSEncodableShape {
-        /// The maximum expected bitrate (in bps).
+        ///  The maximum expected bitrate (in bps) of the ingress bridge.
         public let maxBitrate: Int?
-        /// The maximum number of expected outputs.
+        ///  The maximum number of expected outputs on the ingress bridge.
         public let maxOutputs: Int?
 
         @inlinable
@@ -666,9 +684,9 @@ extension MediaConnect {
     }
 
     public struct AddMaintenance: AWSEncodableShape {
-        /// A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+        ///  A day of a week when the maintenance will happen.
         public let maintenanceDay: MaintenanceDay?
-        /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
+        ///  UTC time when the maintenance will happen.  Use 24-hour HH:MM format.  Minutes must be 00.  Example: 13:00.  The default value is 02:00.
         public let maintenanceStartHour: String?
 
         @inlinable
@@ -684,19 +702,19 @@ extension MediaConnect {
     }
 
     public struct AddMediaStreamRequest: AWSEncodableShape {
-        /// The attributes that you want to assign to the new media stream.
+        ///  The attributes that you want to assign to the new media stream.
         public let attributes: MediaStreamAttributesRequest?
-        /// The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
+        ///  The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
         public let clockRate: Int?
-        /// A description that can help you quickly identify what your media stream is used for.
+        ///  A description that can help you quickly identify what your media stream is used for.
         public let description: String?
-        /// A unique identifier for the media stream.
+        ///  A unique identifier for the media stream.
         public let mediaStreamId: Int?
-        /// A name that helps you distinguish one media stream from another.
+        ///  A name that helps you distinguish one media stream from another.
         public let mediaStreamName: String?
-        /// The type of media stream.
+        ///  The type of media stream.
         public let mediaStreamType: MediaStreamType?
-        /// The resolution of the video.
+        ///  The resolution of the video.
         public let videoFormat: String?
 
         @inlinable
@@ -722,41 +740,45 @@ extension MediaConnect {
     }
 
     public struct AddOutputRequest: AWSEncodableShape {
-        /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        ///  The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
-        /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
+        ///  A description of the output. This description appears only on the Audit Manager console and will not be seen by the end user.
         public let description: String?
-        /// The IP address from which video will be sent to output destinations.
+        ///  The IP address from which video will be sent to output destinations.
         public let destination: String?
-        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
+        ///  The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
         public let encryption: Encryption?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+        ///  The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
-        /// The media streams that are associated with the output, and the parameters for those associations.
+        ///  The media streams that are associated with the output, and the parameters for those associations.
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
-        /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+        ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
-        /// The name of the output. This value must be unique within the current flow.
+        ///  The name of the output. This value must be unique within the current flow.
         public let name: String?
-        /// An indication of whether the new output should be enabled or disabled as soon as it is created. If you don't specify the outputStatus field in your request, MediaConnect sets it to ENABLED.
+        ///  A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        public let ndiProgramName: String?
+        /// A quality setting for the NDI Speed HQ encoder.
+        public let ndiSpeedHqQuality: Int?
+        ///  An indication of whether the new output should be enabled or disabled as soon as it is created. If you don't specify the outputStatus field in your request, MediaConnect sets it to ENABLED.
         public let outputStatus: OutputStatus?
-        /// The port to use when content is distributed to this output.
+        ///  The port to use when content is distributed to this output.
         public let port: Int?
-        /// The protocol to use for the output.
+        ///  The protocol to use for the output.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
-        /// The remote ID for the Zixi-pull output stream.
+        ///  The remote ID for the Zixi-pull output stream.
         public let remoteId: String?
-        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
-        /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
+        ///  The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
+        ///  The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
-        /// The name of the VPC interface attachment to use for this output.
+        ///  The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -765,6 +787,8 @@ extension MediaConnect {
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiProgramName = ndiProgramName
+            self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.outputStatus = outputStatus
             self.port = port
             self.`protocol` = `protocol`
@@ -784,6 +808,8 @@ extension MediaConnect {
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
             case name = "name"
+            case ndiProgramName = "ndiProgramName"
+            case ndiSpeedHqQuality = "ndiSpeedHqQuality"
             case outputStatus = "outputStatus"
             case port = "port"
             case `protocol` = "protocol"
@@ -796,7 +822,7 @@ extension MediaConnect {
     }
 
     public struct AudioMonitoringSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Detects periods of silence.
+        ///  Detects periods of silence.
         public let silentAudio: SilentAudio?
 
         @inlinable
@@ -810,9 +836,9 @@ extension MediaConnect {
     }
 
     public struct BlackFrames: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether the BlackFrames metric is enabled or disabled.
+        ///  	 Indicates whether the BlackFrames metric is enabled or disabled..
         public let state: State?
-        /// Specifies the number of consecutive seconds of black frames that triggers an event or alert.
+        /// 	 Specifies the number of consecutive seconds of black frames that triggers an event or alert.
         public let thresholdSeconds: Int?
 
         @inlinable
@@ -828,20 +854,25 @@ extension MediaConnect {
     }
 
     public struct Bridge: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the bridge.
+        ///  The Amazon Resource Number (ARN) of the bridge.
         public let bridgeArn: String?
+        /// Messages with details about the bridge.
         public let bridgeMessages: [MessageDetail]?
+        /// The state of the bridge.
         public let bridgeState: BridgeState?
+        ///  An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
         public let egressGatewayBridge: EgressGatewayBridge?
+        ///  An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
         public let ingressGatewayBridge: IngressGatewayBridge?
-        /// The name of the bridge.
+        ///  The name of the bridge.
         public let name: String?
-        /// The outputs on this bridge.
+        ///  The outputs on this bridge.
         public let outputs: [BridgeOutput]?
-        /// The placement Amazon Resource Number (ARN) of the bridge.
+        ///  The placement Amazon Resource Number (ARN) of the bridge.
         public let placementArn: String?
+        /// The settings for source failover.
         public let sourceFailoverConfig: FailoverConfig?
-        /// The sources on this bridge.
+        ///  The sources on this bridge.
         public let sources: [BridgeSource]?
 
         @inlinable
@@ -873,11 +904,11 @@ extension MediaConnect {
     }
 
     public struct BridgeFlowOutput: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the cloud flow.
+        ///  The Amazon Resource Number (ARN) of the cloud flow.
         public let flowArn: String?
-        /// The Amazon Resource Number (ARN) of the flow source.
+        ///  The Amazon Resource Number (ARN) of the flow source.
         public let flowSourceArn: String?
-        /// The name of the bridge's output.
+        ///  The name of the bridge's output.
         public let name: String?
 
         @inlinable
@@ -895,13 +926,13 @@ extension MediaConnect {
     }
 
     public struct BridgeFlowSource: AWSDecodableShape {
-        /// The ARN of the cloud flow used as a source of this bridge.
+        ///  The ARN of the cloud flow used as a source of this bridge.
         public let flowArn: String?
-        /// The name of the VPC interface attachment to use for this source.
+        ///  The name of the VPC interface attachment to use for this source.
         public let flowVpcInterfaceAttachment: VpcInterfaceAttachment?
-        /// The name of the flow source.
+        ///  The name of the flow source.
         public let name: String?
-        /// The Amazon Resource Number (ARN) of the output.
+        ///  The Amazon Resource Number (ARN) of the output.
         public let outputArn: String?
 
         @inlinable
@@ -921,17 +952,17 @@ extension MediaConnect {
     }
 
     public struct BridgeNetworkOutput: AWSDecodableShape {
-        /// The network output IP Address.
+        ///  The network output IP address.
         public let ipAddress: String?
-        /// The network output name.
+        ///  The network output name.
         public let name: String?
-        /// The network output's gateway network name.
+        ///  The network output's gateway network name.
         public let networkName: String?
-        /// The network output port.
+        ///  The network output's port.
         public let port: Int?
-        /// The network output protocol.
+        ///  The network output protocol.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
-        /// The network output TTL.
+        ///  The network output TTL.
         public let ttl: Int?
 
         @inlinable
@@ -955,16 +986,17 @@ extension MediaConnect {
     }
 
     public struct BridgeNetworkSource: AWSDecodableShape {
-        /// The network source multicast IP.
+        ///  The network source multicast IP.
         public let multicastIp: String?
+        /// The settings related to the multicast source.
         public let multicastSourceSettings: MulticastSourceSettings?
-        /// The name of the network source.
+        ///  The name of the network source.
         public let name: String?
-        /// The network source's gateway network name.
+        ///  The network source's gateway network name.
         public let networkName: String?
-        /// The network source port.
+        ///  The network source port.
         public let port: Int?
-        /// The network source protocol.
+        ///  The network source protocol.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
 
         @inlinable
@@ -988,7 +1020,9 @@ extension MediaConnect {
     }
 
     public struct BridgeOutput: AWSDecodableShape {
+        /// The output of the associated flow.
         public let flowOutput: BridgeFlowOutput?
+        /// The network output for the bridge.
         public let networkOutput: BridgeNetworkOutput?
 
         @inlinable
@@ -1004,7 +1038,9 @@ extension MediaConnect {
     }
 
     public struct BridgeSource: AWSDecodableShape {
+        ///  The source of the associated flow.
         public let flowSource: BridgeFlowSource?
+        /// The network source for the bridge.
         public let networkSource: BridgeNetworkSource?
 
         @inlinable
@@ -1020,19 +1056,19 @@ extension MediaConnect {
     }
 
     public struct CreateBridgeRequest: AWSEncodableShape {
-        /// Create a bridge with the egress bridge type. An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
+        /// An egress bridge is a cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
         public let egressGatewayBridge: AddEgressGatewayBridgeRequest?
-        /// Create a bridge with the ingress bridge type. An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
+        /// An ingress bridge is a ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
         public let ingressGatewayBridge: AddIngressGatewayBridgeRequest?
-        /// The name of the bridge. This name can not be modified after the bridge is created.
+        ///  The name of the bridge. This name can not be modified after the bridge is created.
         public let name: String?
-        /// The outputs that you want to add to this bridge.
+        ///  The outputs that you want to add to this bridge.
         public let outputs: [AddBridgeOutputRequest]?
-        /// The bridge placement Amazon Resource Number (ARN).
+        ///  The bridge placement Amazon Resource Number (ARN).
         public let placementArn: String?
-        /// The settings for source failover.
+        ///  The settings for source failover.
         public let sourceFailoverConfig: FailoverConfig?
-        /// The sources that you want to add to this bridge.
+        ///  The sources that you want to add to this bridge.
         public let sources: [AddBridgeSourceRequest]?
 
         @inlinable
@@ -1058,6 +1094,7 @@ extension MediaConnect {
     }
 
     public struct CreateBridgeResponse: AWSDecodableShape {
+        ///  The name of the bridge that was created.
         public let bridge: Bridge?
 
         @inlinable
@@ -1071,31 +1108,42 @@ extension MediaConnect {
     }
 
     public struct CreateFlowRequest: AWSEncodableShape {
-        /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
+        ///  The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
         public let availabilityZone: String?
-        /// The entitlements that you want to grant on a flow.
+        ///  The entitlements that you want to grant on a flow.
         public let entitlements: [GrantEntitlementRequest]?
+        ///  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+        public let flowSize: FlowSize?
+        ///  The maintenance settings you want to use for the flow.
         public let maintenance: AddMaintenance?
-        /// The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
+        ///  The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
         public let mediaStreams: [AddMediaStreamRequest]?
-        /// The name of the flow.
+        ///  The name of the flow.
         public let name: String?
-        /// The outputs that you want to add to this flow.
+        ///  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+        public let ndiConfig: NdiConfig?
+        ///  The outputs that you want to add to this flow.
         public let outputs: [AddOutputRequest]?
+        ///  The settings for the source that you want to use for the new flow.
         public let source: SetSourceRequest?
+        ///  The settings for source failover.
         public let sourceFailoverConfig: FailoverConfig?
+        /// The settings for source monitoring.
         public let sourceMonitoringConfig: MonitoringConfig?
+        /// The sources that are assigned to the flow.
         public let sources: [SetSourceRequest]?
-        /// The VPC interfaces you want on the flow.
+        ///  The VPC interfaces you want on the flow.
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
         @inlinable
-        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
+        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, flowSize: FlowSize? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String? = nil, ndiConfig: NdiConfig? = nil, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
+            self.flowSize = flowSize
             self.maintenance = maintenance
             self.mediaStreams = mediaStreams
             self.name = name
+            self.ndiConfig = ndiConfig
             self.outputs = outputs
             self.source = source
             self.sourceFailoverConfig = sourceFailoverConfig
@@ -1107,9 +1155,11 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case availabilityZone = "availabilityZone"
             case entitlements = "entitlements"
+            case flowSize = "flowSize"
             case maintenance = "maintenance"
             case mediaStreams = "mediaStreams"
             case name = "name"
+            case ndiConfig = "ndiConfig"
             case outputs = "outputs"
             case source = "source"
             case sourceFailoverConfig = "sourceFailoverConfig"
@@ -1120,6 +1170,7 @@ extension MediaConnect {
     }
 
     public struct CreateFlowResponse: AWSDecodableShape {
+        ///  The flow that you created.
         public let flow: Flow?
 
         @inlinable
@@ -1133,11 +1184,11 @@ extension MediaConnect {
     }
 
     public struct CreateGatewayRequest: AWSEncodableShape {
-        /// The range of IP addresses that are allowed to contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        ///  The range of IP addresses that are allowed to contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let egressCidrBlocks: [String]?
-        /// The name of the gateway. This name can not be modified after the gateway is created.
+        ///  The name of the gateway. This name can not be modified after the gateway is created.
         public let name: String?
-        /// The list of networks that you want to add.
+        ///  The list of networks that you want to add to the gateway.
         public let networks: [GatewayNetwork]?
 
         @inlinable
@@ -1155,6 +1206,7 @@ extension MediaConnect {
     }
 
     public struct CreateGatewayResponse: AWSDecodableShape {
+        /// The gateway that you created.
         public let gateway: Gateway?
 
         @inlinable
@@ -1168,7 +1220,7 @@ extension MediaConnect {
     }
 
     public struct DeleteBridgeRequest: AWSEncodableShape {
-        /// The ARN of the bridge that you want to delete.
+        ///  The Amazon Resource Name (ARN) of the bridge that you want to delete.
         public let bridgeArn: String
 
         @inlinable
@@ -1186,7 +1238,7 @@ extension MediaConnect {
     }
 
     public struct DeleteBridgeResponse: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the deleted bridge.
+        ///  The ARN of the deleted bridge.
         public let bridgeArn: String?
 
         @inlinable
@@ -1200,7 +1252,7 @@ extension MediaConnect {
     }
 
     public struct DeleteFlowRequest: AWSEncodableShape {
-        /// The ARN of the flow that you want to delete.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to delete.
         public let flowArn: String
 
         @inlinable
@@ -1218,9 +1270,9 @@ extension MediaConnect {
     }
 
     public struct DeleteFlowResponse: AWSDecodableShape {
-        /// The ARN of the flow that was deleted.
+        ///  The ARN of the flow that was deleted.
         public let flowArn: String?
-        /// The status of the flow when the DeleteFlow process begins.
+        ///  The status of the flow when the DeleteFlow process begins.
         public let status: Status?
 
         @inlinable
@@ -1236,7 +1288,7 @@ extension MediaConnect {
     }
 
     public struct DeleteGatewayRequest: AWSEncodableShape {
-        /// The ARN of the gateway that you want to delete.
+        ///  The Amazon Resource Name (ARN) of the gateway that you want to delete.
         public let gatewayArn: String
 
         @inlinable
@@ -1254,7 +1306,7 @@ extension MediaConnect {
     }
 
     public struct DeleteGatewayResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the gateway that was deleted.
+        ///  The ARN of the gateway that was deleted.
         public let gatewayArn: String?
 
         @inlinable
@@ -1268,9 +1320,9 @@ extension MediaConnect {
     }
 
     public struct DeregisterGatewayInstanceRequest: AWSEncodableShape {
-        /// Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
+        ///  Force the deregistration of an instance. Force will deregister an instance, even if there are bridges running on it.
         public let force: Bool?
-        /// The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister.
+        ///  The Amazon Resource Name (ARN) of the gateway that contains the instance that you want to deregister.
         public let gatewayInstanceArn: String
 
         @inlinable
@@ -1290,9 +1342,9 @@ extension MediaConnect {
     }
 
     public struct DeregisterGatewayInstanceResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the instance.
+        ///  The ARN of the instance.
         public let gatewayInstanceArn: String?
-        /// The status of the instance.
+        ///  The status of the instance.
         public let instanceState: InstanceState?
 
         @inlinable
@@ -1308,7 +1360,7 @@ extension MediaConnect {
     }
 
     public struct DescribeBridgeRequest: AWSEncodableShape {
-        /// The ARN of the bridge that you want to describe.
+        ///  The Amazon Resource Name (ARN) of the bridge that you want to describe.
         public let bridgeArn: String
 
         @inlinable
@@ -1326,6 +1378,7 @@ extension MediaConnect {
     }
 
     public struct DescribeBridgeResponse: AWSDecodableShape {
+        /// The bridge that you requested a description of.
         public let bridge: Bridge?
 
         @inlinable
@@ -1339,7 +1392,7 @@ extension MediaConnect {
     }
 
     public struct DescribeFlowRequest: AWSEncodableShape {
-        /// The ARN of the flow that you want to describe.
+        ///  The ARN of the flow that you want to describe.
         public let flowArn: String
 
         @inlinable
@@ -1357,7 +1410,9 @@ extension MediaConnect {
     }
 
     public struct DescribeFlowResponse: AWSDecodableShape {
+        /// The flow that you requested a description of.
         public let flow: Flow?
+        ///  Any errors that apply currently to the flow. If there are no errors, MediaConnect will not include this field in the response.
         public let messages: Messages?
 
         @inlinable
@@ -1373,7 +1428,7 @@ extension MediaConnect {
     }
 
     public struct DescribeFlowSourceMetadataRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the flow.
+        ///  The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String
 
         @inlinable
@@ -1391,13 +1446,13 @@ extension MediaConnect {
     }
 
     public struct DescribeFlowSourceMetadataResponse: AWSDecodableShape {
-        /// The ARN of the flow that DescribeFlowSourceMetadata was performed on.
+        ///  The ARN of the flow that DescribeFlowSourceMetadata was performed on.
         public let flowArn: String?
-        /// Provides a status code and message regarding issues found with the flow source metadata.
+        ///  Provides a status code and message regarding issues found with the flow source metadata.
         public let messages: [MessageDetail]?
-        /// The timestamp of the most recent change in metadata for this flow’s source.
-        @OptionalCustomCoding<ISO8601DateCoder>
-        public var timestamp: Date?
+        ///  The timestamp of the most recent change in metadata for this flow’s source.
+        public let timestamp: Date?
+        /// Information about the flow's transport media.
         public let transportMediaInfo: TransportMediaInfo?
 
         @inlinable
@@ -1417,7 +1472,7 @@ extension MediaConnect {
     }
 
     public struct DescribeFlowSourceThumbnailRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the flow.
+        ///  The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String
 
         @inlinable
@@ -1435,6 +1490,7 @@ extension MediaConnect {
     }
 
     public struct DescribeFlowSourceThumbnailResponse: AWSDecodableShape {
+        /// The details of the thumbnail, including thumbnail base64 string, timecode and the time when thumbnail was generated.
         public let thumbnailDetails: ThumbnailDetails?
 
         @inlinable
@@ -1448,7 +1504,7 @@ extension MediaConnect {
     }
 
     public struct DescribeGatewayInstanceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the gateway instance that you want to describe.
+        ///  The Amazon Resource Name (ARN) of the gateway instance that you want to describe.
         public let gatewayInstanceArn: String
 
         @inlinable
@@ -1466,6 +1522,7 @@ extension MediaConnect {
     }
 
     public struct DescribeGatewayInstanceResponse: AWSDecodableShape {
+        /// The gateway instance that you requested a description of.
         public let gatewayInstance: GatewayInstance?
 
         @inlinable
@@ -1479,7 +1536,7 @@ extension MediaConnect {
     }
 
     public struct DescribeGatewayRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the gateway that you want to describe.
+        ///  The ARN of the gateway that you want to describe.
         public let gatewayArn: String
 
         @inlinable
@@ -1497,6 +1554,7 @@ extension MediaConnect {
     }
 
     public struct DescribeGatewayResponse: AWSDecodableShape {
+        /// The gateway that you wanted to describe.
         public let gateway: Gateway?
 
         @inlinable
@@ -1510,7 +1568,7 @@ extension MediaConnect {
     }
 
     public struct DescribeOfferingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the offering.
+        ///  The ARN of the offering.
         public let offeringArn: String
 
         @inlinable
@@ -1528,6 +1586,7 @@ extension MediaConnect {
     }
 
     public struct DescribeOfferingResponse: AWSDecodableShape {
+        /// The offering that you requested a description of.
         public let offering: Offering?
 
         @inlinable
@@ -1541,7 +1600,7 @@ extension MediaConnect {
     }
 
     public struct DescribeReservationRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the reservation.
+        /// The Amazon Resource Name (ARN) of the offering.
         public let reservationArn: String
 
         @inlinable
@@ -1559,6 +1618,7 @@ extension MediaConnect {
     }
 
     public struct DescribeReservationResponse: AWSDecodableShape {
+        ///  A pricing agreement for a discounted rate for a specific outbound bandwidth that your MediaConnect account will use each month over a specific time period. The discounted rate in the reservation applies to outbound bandwidth for all flows from your account until your account reaches the amount of bandwidth in your reservation. If you use more outbound bandwidth than the agreed upon amount in a single month, the overage is charged at the on-demand rate.
         public let reservation: Reservation?
 
         @inlinable
@@ -1572,13 +1632,13 @@ extension MediaConnect {
     }
 
     public struct DestinationConfiguration: AWSDecodableShape {
-        /// The IP address where contents of the media stream will be sent.
+        /// The IP address where you want MediaConnect to send contents of the media stream.
         public let destinationIp: String?
-        /// The port to use when the content of the media stream is distributed to the output.
+        ///  The port that you want MediaConnect to use when it distributes the media stream to the output.
         public let destinationPort: Int?
-        /// The VPC interface that is used for the media stream associated with the output.
+        ///  The VPC interface that you want to use for the media stream associated with the output.
         public let interface: Interface?
-        /// The IP address that the receiver requires in order to establish a connection with the flow. This value is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the CDI or ST 2110 JPEG XS protocol.
+        /// The IP address that the receiver requires in order to establish a connection with the flow. This value is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the CDI or ST 2110 JPEG XS or protocol.
         public let outboundIp: String?
 
         @inlinable
@@ -1600,9 +1660,9 @@ extension MediaConnect {
     public struct DestinationConfigurationRequest: AWSEncodableShape {
         /// The IP address where you want MediaConnect to send contents of the media stream.
         public let destinationIp: String?
-        /// The port that you want MediaConnect to use when it distributes the media stream to the output.
+        ///  The port that you want MediaConnect to use when it distributes the media stream to the output.
         public let destinationPort: Int?
-        /// The VPC interface that you want to use for the media stream associated with the output.
+        ///  The VPC interface that you want to use for the media stream associated with the output.
         public let interface: InterfaceRequest?
 
         @inlinable
@@ -1620,9 +1680,9 @@ extension MediaConnect {
     }
 
     public struct EgressGatewayBridge: AWSDecodableShape {
-        /// The ID of the instance running this bridge.
+        ///  The ID of the instance running this bridge.
         public let instanceId: String?
-        /// The maximum expected bitrate (in bps) of the egress bridge.
+        ///  The maximum expected bitrate (in bps) of the egress bridge.
         public let maxBitrate: Int?
 
         @inlinable
@@ -1638,9 +1698,9 @@ extension MediaConnect {
     }
 
     public struct EncodingParameters: AWSDecodableShape {
-        /// A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive.
+        ///  A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive.
         public let compressionFactor: Double?
-        /// A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol.
+        ///  A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol.
         public let encoderProfile: EncoderProfile?
 
         @inlinable
@@ -1656,9 +1716,9 @@ extension MediaConnect {
     }
 
     public struct EncodingParametersRequest: AWSEncodableShape {
-        /// A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive.
+        ///  A value that is used to calculate compression for an output. The bitrate of the output is calculated as follows: Output bitrate = (1 / compressionFactor) * (source bitrate) This property only applies to outputs that use the ST 2110 JPEG XS protocol, with a flow source that uses the CDI protocol. Valid values are floating point numbers in the range of 3.0 to 10.0, inclusive.
         public let compressionFactor: Double?
-        /// A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, if at least one source on the flow uses the CDI protocol.
+        ///  A setting on the encoder that drives compression settings. This property only applies to video media streams associated with outputs that use the ST 2110 JPEG XS protocol, if at least one source on the flow uses the CDI protocol.
         public let encoderProfile: EncoderProfile?
 
         @inlinable
@@ -1674,23 +1734,23 @@ extension MediaConnect {
     }
 
     public struct Encryption: AWSEncodableShape & AWSDecodableShape {
-        /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
+        ///  The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm?
-        /// A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
+        ///  A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
         public let constantInitializationVector: String?
-        /// The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        ///  The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let deviceId: String?
-        /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        ///  The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public let keyType: KeyType?
-        /// The AWS Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        ///  The Amazon Web Services Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let region: String?
-        /// An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        ///  An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let resourceId: String?
-        /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
+        ///  The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity).
         public let roleArn: String?
-        /// The ARN of the secret that you created in AWS Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
+        ///  The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
         public let secretArn: String?
-        /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        ///  The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let url: String?
 
         @inlinable
@@ -1720,19 +1780,19 @@ extension MediaConnect {
     }
 
     public struct Entitlement: AWSDecodableShape {
-        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        ///  Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
-        /// A description of the entitlement.
+        ///  A description of the entitlement.
         public let description: String?
-        /// The type of encryption that will be used on the output that is associated with this entitlement.
+        ///  The type of encryption that will be used on the output that is associated with this entitlement.
         public let encryption: Encryption?
-        /// The ARN of the entitlement.
+        ///  The ARN of the entitlement.
         public let entitlementArn: String?
-        /// An indication of whether the entitlement is enabled.
+        ///  An indication of whether the entitlement is enabled.
         public let entitlementStatus: EntitlementStatus?
-        /// The name of the entitlement.
+        ///  The name of the entitlement.
         public let name: String?
-        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
+        ///  The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]?
 
         @inlinable
@@ -1758,12 +1818,13 @@ extension MediaConnect {
     }
 
     public struct FailoverConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
+        ///  The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
         public let failoverMode: FailoverMode?
-        /// Search window time to look for dash-7 packets
+        ///  Search window time to look for dash-7 packets.
         public let recoveryWindow: Int?
-        /// The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
+        ///  The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
         public let sourcePriority: SourcePriority?
+        /// The state of source failover on the flow. If the state is inactive, the flow can have only one source. If the state is active, the flow can have one or two sources.
         public let state: State?
 
         @inlinable
@@ -1783,42 +1844,53 @@ extension MediaConnect {
     }
 
     public struct Flow: AWSDecodableShape {
-        /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS.
+        ///  The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
         public let availabilityZone: String?
-        /// A description of the flow. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        ///  A description of the flow. This value is not used or seen outside of the current MediaConnect account.
         public let description: String?
-        /// The IP address from which video will be sent to output destinations.
+        ///  The IP address from which video will be sent to output destinations.
         public let egressIp: String?
-        /// The entitlements in this flow.
+        ///  The entitlements in this flow.
         public let entitlements: [Entitlement]?
-        /// The Amazon Resource Name (ARN) of the flow.
+        ///  The Amazon Resource Name (ARN) of the flow.
         public let flowArn: String?
+        ///  Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+        public let flowSize: FlowSize?
+        ///  The maintenance settings for the flow.
         public let maintenance: Maintenance?
-        /// The media streams that are associated with the flow. After you associate a media stream with a source, you can also associate it with outputs on the flow.
+        ///  The media streams that are associated with the flow. After you associate a media stream with a source, you can also associate it with outputs on the flow.
         public let mediaStreams: [MediaStream]?
-        /// The name of the flow.
+        ///  The name of the flow.
         public let name: String?
-        /// The outputs in this flow.
+        /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+        public let ndiConfig: NdiConfig?
+        ///  The outputs in this flow.
         public let outputs: [Output]?
+        ///  The source for the flow.
         public let source: Source?
+        /// The settings for the source failover.
         public let sourceFailoverConfig: FailoverConfig?
+        /// The settings for source monitoring.
         public let sourceMonitoringConfig: MonitoringConfig?
+        /// The settings for the sources that are assigned to the flow.
         public let sources: [Source]?
-        /// The current status of the flow.
+        ///  The current status of the flow.
         public let status: Status?
-        /// The VPC Interfaces for this flow.
+        ///  The VPC Interfaces for this flow.
         public let vpcInterfaces: [VpcInterface]?
 
         @inlinable
-        public init(availabilityZone: String? = nil, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement]? = nil, flowArn: String? = nil, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String? = nil, outputs: [Output]? = nil, source: Source? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [Source]? = nil, status: Status? = nil, vpcInterfaces: [VpcInterface]? = nil) {
+        public init(availabilityZone: String? = nil, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement]? = nil, flowArn: String? = nil, flowSize: FlowSize? = nil, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String? = nil, ndiConfig: NdiConfig? = nil, outputs: [Output]? = nil, source: Source? = nil, sourceFailoverConfig: FailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil, sources: [Source]? = nil, status: Status? = nil, vpcInterfaces: [VpcInterface]? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
             self.entitlements = entitlements
             self.flowArn = flowArn
+            self.flowSize = flowSize
             self.maintenance = maintenance
             self.mediaStreams = mediaStreams
             self.name = name
+            self.ndiConfig = ndiConfig
             self.outputs = outputs
             self.source = source
             self.sourceFailoverConfig = sourceFailoverConfig
@@ -1834,9 +1906,11 @@ extension MediaConnect {
             case egressIp = "egressIp"
             case entitlements = "entitlements"
             case flowArn = "flowArn"
+            case flowSize = "flowSize"
             case maintenance = "maintenance"
             case mediaStreams = "mediaStreams"
             case name = "name"
+            case ndiConfig = "ndiConfig"
             case outputs = "outputs"
             case source = "source"
             case sourceFailoverConfig = "sourceFailoverConfig"
@@ -1848,49 +1922,11 @@ extension MediaConnect {
     }
 
     public struct Fmtp: AWSDecodableShape {
-        /// The format of the audio channel.
+        ///   The format of the audio channel.
         public let channelOrder: String?
-        /// The format that is used for the representation of color.
+        /// The format used for the representation of color.
         public let colorimetry: Colorimetry?
-        /// The frame rate for the video stream, in frames/second. For example: 60000/1001. If you specify a whole number, MediaConnect uses a ratio of N/1. For example, if you specify 60, MediaConnect uses 60/1 as the exactFramerate.
-        public let exactFramerate: String?
-        /// The pixel aspect ratio (PAR) of the video.
-        public let par: String?
-        /// The encoding range of the video.
-        public let range: Range?
-        /// The type of compression that was used to smooth the video’s appearance
-        public let scanMode: ScanMode?
-        /// The transfer characteristic system (TCS) that is used in the video.
-        public let tcs: Tcs?
-
-        @inlinable
-        public init(channelOrder: String? = nil, colorimetry: Colorimetry? = nil, exactFramerate: String? = nil, par: String? = nil, range: Range? = nil, scanMode: ScanMode? = nil, tcs: Tcs? = nil) {
-            self.channelOrder = channelOrder
-            self.colorimetry = colorimetry
-            self.exactFramerate = exactFramerate
-            self.par = par
-            self.range = range
-            self.scanMode = scanMode
-            self.tcs = tcs
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case channelOrder = "channelOrder"
-            case colorimetry = "colorimetry"
-            case exactFramerate = "exactFramerate"
-            case par = "par"
-            case range = "range"
-            case scanMode = "scanMode"
-            case tcs = "tcs"
-        }
-    }
-
-    public struct FmtpRequest: AWSEncodableShape {
-        /// The format of the audio channel.
-        public let channelOrder: String?
-        /// The format that is used for the representation of color.
-        public let colorimetry: Colorimetry?
-        /// The frame rate for the video stream, in frames/second. For example: 60000/1001. If you specify a whole number, MediaConnect uses a ratio of N/1. For example, if you specify 60, MediaConnect uses 60/1 as the exactFramerate.
+        /// The frame rate for the video stream, in frames/second. For example: 60000/1001.
         public let exactFramerate: String?
         /// The pixel aspect ratio (PAR) of the video.
         public let par: String?
@@ -1923,10 +1959,48 @@ extension MediaConnect {
         }
     }
 
+    public struct FmtpRequest: AWSEncodableShape {
+        ///  The format of the audio channel.
+        public let channelOrder: String?
+        ///  The format that is used for the representation of color.
+        public let colorimetry: Colorimetry?
+        ///  The frame rate for the video stream, in frames/second. For example: 60000/1001. If you specify a whole number, MediaConnect uses a ratio of N/1. For example, if you specify 60, MediaConnect uses 60/1 as the exactFramerate.
+        public let exactFramerate: String?
+        ///  The pixel aspect ratio (PAR) of the video.
+        public let par: String?
+        ///  The encoding range of the video.
+        public let range: Range?
+        ///  The type of compression that was used to smooth the video’s appearance.
+        public let scanMode: ScanMode?
+        ///  The transfer characteristic system (TCS) that is used in the video.
+        public let tcs: Tcs?
+
+        @inlinable
+        public init(channelOrder: String? = nil, colorimetry: Colorimetry? = nil, exactFramerate: String? = nil, par: String? = nil, range: Range? = nil, scanMode: ScanMode? = nil, tcs: Tcs? = nil) {
+            self.channelOrder = channelOrder
+            self.colorimetry = colorimetry
+            self.exactFramerate = exactFramerate
+            self.par = par
+            self.range = range
+            self.scanMode = scanMode
+            self.tcs = tcs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelOrder = "channelOrder"
+            case colorimetry = "colorimetry"
+            case exactFramerate = "exactFramerate"
+            case par = "par"
+            case range = "range"
+            case scanMode = "scanMode"
+            case tcs = "tcs"
+        }
+    }
+
     public struct FrameResolution: AWSDecodableShape {
-        /// The number of pixels in the height of the video frame.
+        ///  The number of pixels in the height of the video frame.
         public let frameHeight: Int?
-        /// The number of pixels in the width of the video frame.
+        ///  The number of pixels in the width of the video frame.
         public let frameWidth: Int?
 
         @inlinable
@@ -1944,7 +2018,7 @@ extension MediaConnect {
     public struct FrozenFrames: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether the FrozenFrames metric is enabled or disabled.
         public let state: State?
-        /// Specifies the number of consecutive seconds of a static image that triggers an event or alert.
+        ///  Specifies the number of consecutive seconds of a static image that triggers an event or alert.
         public let thresholdSeconds: Int?
 
         @inlinable
@@ -1960,16 +2034,17 @@ extension MediaConnect {
     }
 
     public struct Gateway: AWSDecodableShape {
-        /// The range of IP addresses that contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        ///  The range of IP addresses that contribute content or initiate output requests for flows communicating with this gateway. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let egressCidrBlocks: [String]?
-        /// The Amazon Resource Name (ARN) of the gateway.
+        ///  The Amazon Resource Name (ARN) of the gateway.
         public let gatewayArn: String?
+        /// Messages with information about the gateway.
         public let gatewayMessages: [MessageDetail]?
-        /// The current status of the gateway.
+        ///  The current status of the gateway.
         public let gatewayState: GatewayState?
-        /// The name of the gateway. This name can not be modified after the gateway is created.
+        ///  The name of the gateway. This name can not be modified after the gateway is created.
         public let name: String?
-        /// The list of networks in the gateway.
+        ///  The list of networks in the gateway.
         public let networks: [GatewayNetwork]?
 
         @inlinable
@@ -1993,9 +2068,9 @@ extension MediaConnect {
     }
 
     public struct GatewayBridgeSource: AWSDecodableShape {
-        /// The ARN of the bridge feeding this flow.
+        ///  The ARN of the bridge feeding this flow.
         public let bridgeArn: String?
-        /// The name of the VPC interface attachment to use for this bridge source.
+        ///  The name of the VPC interface attachment to use for this bridge source.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
@@ -2011,20 +2086,21 @@ extension MediaConnect {
     }
 
     public struct GatewayInstance: AWSDecodableShape {
-        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be deployed to this instance.
         public let bridgePlacement: BridgePlacement?
         /// The connection state of the instance.
         public let connectionStatus: ConnectionStatus?
         /// The Amazon Resource Name (ARN) of the instance.
         public let gatewayArn: String?
-        /// The Amazon Resource Name (ARN) of the gateway.
+        /// The ARN of the gateway.
         public let gatewayInstanceArn: String?
-        /// The managed instance ID generated by the SSM install. This will begin with "mi-".
+        /// The instance ID generated by the SSM install. This will begin with "mi-".
         public let instanceId: String?
+        /// Messages with information about the gateway.
         public let instanceMessages: [MessageDetail]?
         /// The status of the instance.
         public let instanceState: InstanceState?
-        /// The running bridge count.
+        /// 	 The running bridge count.
         public let runningBridgeCount: Int?
 
         @inlinable
@@ -2070,17 +2146,17 @@ extension MediaConnect {
     }
 
     public struct GrantEntitlementRequest: AWSEncodableShape {
-        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        ///  Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
-        /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
+        ///  A description of the entitlement. This description appears only on the MediaConnect console and will not be seen by the subscriber or end user.
         public let description: String?
-        /// The type of encryption that will be used on the output that is associated with this entitlement. Allowable encryption types: static-key, speke.
+        ///  The type of encryption that will be used on the output that is associated with this entitlement. Allowable encryption types: static-key, speke.
         public let encryption: Encryption?
-        /// An indication of whether the new entitlement should be enabled or disabled as soon as it is created. If you don’t specify the entitlementStatus field in your request, MediaConnect sets it to ENABLED.
+        ///  An indication of whether the new entitlement should be enabled or disabled as soon as it is created. If you don’t specify the entitlementStatus field in your request, MediaConnect sets it to ENABLED.
         public let entitlementStatus: EntitlementStatus?
-        /// The name of the entitlement. This value must be unique within the current flow.
+        ///  The name of the entitlement. This value must be unique within the current flow.
         public let name: String?
-        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
+        ///  The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flows using your content as the source.
         public let subscribers: [String]?
 
         @inlinable
@@ -2104,9 +2180,9 @@ extension MediaConnect {
     }
 
     public struct GrantFlowEntitlementsRequest: AWSEncodableShape {
-        /// The list of entitlements that you want to grant.
+        ///  The list of entitlements that you want to grant.
         public let entitlements: [GrantEntitlementRequest]?
-        /// The flow that you want to grant entitlements on.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to grant entitlements on.
         public let flowArn: String
 
         @inlinable
@@ -2128,9 +2204,9 @@ extension MediaConnect {
     }
 
     public struct GrantFlowEntitlementsResponse: AWSDecodableShape {
-        /// The entitlements that were just granted.
+        ///  The entitlements that were just granted.
         public let entitlements: [Entitlement]?
-        /// The ARN of the flow that these entitlements were granted to.
+        ///  The ARN of the flow that these entitlements were granted to.
         public let flowArn: String?
 
         @inlinable
@@ -2168,11 +2244,11 @@ extension MediaConnect {
     }
 
     public struct InputConfiguration: AWSDecodableShape {
-        /// The IP address that the flow listens on for incoming content for a media stream.
+        ///  The IP address that the flow listens on for incoming content for a media stream.
         public let inputIp: String?
-        /// The port that the flow listens on for an incoming media stream.
+        ///  The port that the flow listens on for an incoming media stream.
         public let inputPort: Int?
-        /// The VPC interface where the media stream comes in from.
+        ///  The VPC interface where the media stream comes in from.
         public let interface: Interface?
 
         @inlinable
@@ -2190,9 +2266,9 @@ extension MediaConnect {
     }
 
     public struct InputConfigurationRequest: AWSEncodableShape {
-        /// The port that you want the flow to listen on for an incoming media stream.
+        ///  The port that you want the flow to listen on for an incoming media stream.
         public let inputPort: Int?
-        /// The VPC interface that you want to use for the incoming media stream.
+        ///  The VPC interface that you want to use for the incoming media stream.
         public let interface: InterfaceRequest?
 
         @inlinable
@@ -2208,7 +2284,7 @@ extension MediaConnect {
     }
 
     public struct Interface: AWSDecodableShape {
-        /// The name of the VPC interface.
+        ///  The name of the VPC interface.
         public let name: String?
 
         @inlinable
@@ -2222,7 +2298,7 @@ extension MediaConnect {
     }
 
     public struct InterfaceRequest: AWSEncodableShape {
-        /// The name of the VPC interface.
+        ///  The name of the VPC interface.
         public let name: String?
 
         @inlinable
@@ -2236,11 +2312,11 @@ extension MediaConnect {
     }
 
     public struct ListBridgesRequest: AWSEncodableShape {
-        /// Filter the list results to display only the bridges associated with the selected Amazon Resource Name (ARN).
+        ///  Filter the list results to display only the bridges associated with the selected ARN.
         public let filterArn: String?
-        /// The maximum number of results to return per API request. For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+        ///  The maximum number of results to return per API request.  For example, you submit a ListBridges request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2267,9 +2343,9 @@ extension MediaConnect {
     }
 
     public struct ListBridgesResponse: AWSDecodableShape {
-        /// A list of bridge summaries.
+        ///  A list of bridge summaries.
         public let bridges: [ListedBridge]?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListBridges request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListBridges request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2285,9 +2361,9 @@ extension MediaConnect {
     }
 
     public struct ListEntitlementsRequest: AWSEncodableShape {
-        /// The maximum number of results to return per API request. For example, you submit a ListEntitlements request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
+        ///  The maximum number of results to return per API request.  For example, you submit a ListEntitlements request with set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 20 results per page.
         public let maxResults: Int?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2312,9 +2388,9 @@ extension MediaConnect {
     }
 
     public struct ListEntitlementsResponse: AWSDecodableShape {
-        /// A list of entitlements that have been granted to you from other AWS accounts.
+        /// A list of entitlements that have been granted to you from other Amazon Web Services accounts.
         public let entitlements: [ListedEntitlement]?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
+        /// The token that identifies the batch of results that you want to see.  For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2330,9 +2406,9 @@ extension MediaConnect {
     }
 
     public struct ListFlowsRequest: AWSEncodableShape {
-        /// The maximum number of results to return per API request. For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+        ///  The maximum number of results to return per API request.  For example, you submit a ListFlows request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2357,9 +2433,9 @@ extension MediaConnect {
     }
 
     public struct ListFlowsResponse: AWSDecodableShape {
-        /// A list of flow summaries.
+        ///  A list of flow summaries.
         public let flows: [ListedFlow]?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2375,11 +2451,11 @@ extension MediaConnect {
     }
 
     public struct ListGatewayInstancesRequest: AWSEncodableShape {
-        /// Filter the list results to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
+        ///  Filter the list results to display only the instances associated with the selected Gateway ARN.
         public let filterArn: String?
-        /// The maximum number of results to return per API request. For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+        ///  The maximum number of results to return per API request.  For example, you submit a ListInstances request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2406,9 +2482,9 @@ extension MediaConnect {
     }
 
     public struct ListGatewayInstancesResponse: AWSDecodableShape {
-        /// A list of instance summaries.
+        ///  A list of instance summaries.
         public let instances: [ListedGatewayInstance]?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListInstances request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListInstances request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2424,9 +2500,9 @@ extension MediaConnect {
     }
 
     public struct ListGatewaysRequest: AWSEncodableShape {
-        /// The maximum number of results to return per API request. For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+        ///  The maximum number of results to return per API request.  For example, you submit a ListGateways request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2451,9 +2527,9 @@ extension MediaConnect {
     }
 
     public struct ListGatewaysResponse: AWSDecodableShape {
-        /// A list of gateway summaries.
+        ///  A list of gateway summaries.
         public let gateways: [ListedGateway]?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListGateways request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListGateways request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2469,9 +2545,9 @@ extension MediaConnect {
     }
 
     public struct ListOfferingsRequest: AWSEncodableShape {
-        /// The maximum number of results to return per API request. For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+        ///  The maximum number of results to return per API request.  For example, you submit a ListOfferings request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2496,9 +2572,9 @@ extension MediaConnect {
     }
 
     public struct ListOfferingsResponse: AWSDecodableShape {
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
         public let nextToken: String?
-        /// A list of offerings that are available to this account in the current AWS Region.
+        ///  A list of offerings that are available to this account in the current Amazon Web Services Region.
         public let offerings: [Offering]?
 
         @inlinable
@@ -2514,9 +2590,9 @@ extension MediaConnect {
     }
 
     public struct ListReservationsRequest: AWSEncodableShape {
-        /// The maximum number of results to return per API request. For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.) The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
+        ///  The maximum number of results to return per API request.  For example, you submit a ListReservations request with MaxResults set at 5. Although 20 items match your request, the service returns no more than the first 5 items. (The service also returns a NextToken value that you can use to fetch the next batch of results.)  The service might return fewer results than the MaxResults value. If MaxResults is not included in the request, the service defaults to pagination with a maximum of 10 results per page.
         public let maxResults: Int?
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
         public let nextToken: String?
 
         @inlinable
@@ -2541,9 +2617,9 @@ extension MediaConnect {
     }
 
     public struct ListReservationsResponse: AWSDecodableShape {
-        /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListReservations request a second time and specify the NextToken value.
+        ///  The token that identifies the batch of results that you want to see.  For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListReservations request a second time and specify the NextToken value.
         public let nextToken: String?
-        /// A list of all reservations that have been purchased by this account in the current AWS Region.
+        ///  A list of all reservations that have been purchased by this account in the current Amazon Web Services Region.
         public let reservations: [Reservation]?
 
         @inlinable
@@ -2559,7 +2635,7 @@ extension MediaConnect {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource for which to list the tags.
+        ///  The Amazon Resource Name (ARN) that identifies the MediaConnect resource for which to list the tags.
         public let resourceArn: String
 
         @inlinable
@@ -2577,7 +2653,7 @@ extension MediaConnect {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        ///  A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
 
         @inlinable
@@ -2591,14 +2667,15 @@ extension MediaConnect {
     }
 
     public struct ListedBridge: AWSDecodableShape {
-        /// The ARN of the bridge.
+        ///  The ARN of the bridge.
         public let bridgeArn: String?
+        /// The state of the bridge.
         public let bridgeState: BridgeState?
-        /// The type of the bridge.
+        ///  The type of the bridge.
         public let bridgeType: String?
-        /// The name of the bridge.
+        ///  The name of the bridge.
         public let name: String?
-        /// The ARN of the gateway associated with the bridge.
+        ///  The ARN of the gateway associated with the bridge.
         public let placementArn: String?
 
         @inlinable
@@ -2620,11 +2697,11 @@ extension MediaConnect {
     }
 
     public struct ListedEntitlement: AWSDecodableShape {
-        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        ///  Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
-        /// The ARN of the entitlement.
+        ///  The ARN of the entitlement.
         public let entitlementArn: String?
-        /// The name of the entitlement.
+        ///  The name of the entitlement.
         public let entitlementName: String?
 
         @inlinable
@@ -2642,18 +2719,19 @@ extension MediaConnect {
     }
 
     public struct ListedFlow: AWSDecodableShape {
-        /// The Availability Zone that the flow was created in.
+        ///  The Availability Zone that the flow was created in.
         public let availabilityZone: String?
-        /// A description of the flow.
+        ///  A description of the flow.
         public let description: String?
-        /// The ARN of the flow.
+        ///  The ARN of the flow.
         public let flowArn: String?
+        /// The maintenance settings for the flow.
         public let maintenance: Maintenance?
-        /// The name of the flow.
+        ///  The name of the flow.
         public let name: String?
-        /// The type of source. This value is either owned (originated somewhere other than an AWS Elemental MediaConnect flow owned by another AWS account) or entitled (originated at an AWS Elemental MediaConnect flow owned by another AWS account).
+        ///  The type of source. This value is either owned (originated somewhere other than an MediaConnect flow owned by another Amazon Web Services account) or entitled (originated at a MediaConnect flow owned by another Amazon Web Services account).
         public let sourceType: SourceType?
-        /// The current status of the flow.
+        ///  The current status of the flow.
         public let status: Status?
 
         @inlinable
@@ -2679,10 +2757,11 @@ extension MediaConnect {
     }
 
     public struct ListedGateway: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the gateway.
+        ///  The Amazon Resource Name (ARN) of the gateway.
         public let gatewayArn: String?
+        ///  The status of the gateway.
         public let gatewayState: GatewayState?
-        /// The name of the gateway.
+        ///  The name of the gateway.
         public let name: String?
 
         @inlinable
@@ -2700,13 +2779,13 @@ extension MediaConnect {
     }
 
     public struct ListedGatewayInstance: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the gateway.
+        ///  The Amazon Resource Name (ARN) of the gateway.
         public let gatewayArn: String?
-        /// The Amazon Resource Name (ARN) of the instance.
+        ///  The Amazon Resource Name (ARN) of the instance.
         public let gatewayInstanceArn: String?
-        /// The managed instance ID generated by the SSM install. This will begin with "mi-".
+        ///  The managed instance ID generated by the SSM install. This will begin with "mi-".
         public let instanceId: String?
-        /// The status of the instance.
+        ///  The status of the instance.
         public let instanceState: InstanceState?
 
         @inlinable
@@ -2726,13 +2805,13 @@ extension MediaConnect {
     }
 
     public struct Maintenance: AWSDecodableShape {
-        /// A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+        ///  A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
         public let maintenanceDay: MaintenanceDay?
-        /// The Maintenance has to be performed before this deadline in ISO UTC format. Example: 2021-01-30T08:30:00Z.
+        ///  The Maintenance has to be performed before this deadline in ISO UTC format. Example: 2021-01-30T08:30:00Z.
         public let maintenanceDeadline: String?
-        /// A scheduled date in ISO UTC format when the maintenance will happen. Use YYYY-MM-DD format. Example: 2021-01-30.
+        ///  A scheduled date in ISO UTC format when the maintenance will happen. Use YYYY-MM-DD format. Example: 2021-01-30.
         public let maintenanceScheduledDate: String?
-        /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
+        ///  UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
         public let maintenanceStartHour: String?
 
         @inlinable
@@ -2752,21 +2831,21 @@ extension MediaConnect {
     }
 
     public struct MediaStream: AWSDecodableShape {
-        /// Attributes that are related to the media stream.
+        ///  Attributes that are related to the media stream.
         public let attributes: MediaStreamAttributes?
-        /// The sample rate for the stream. This value is measured in Hz.
+        ///  The sample rate for the stream. This value is measured in Hz.
         public let clockRate: Int?
-        /// A description that can help you quickly identify what your media stream is used for.
+        ///  A description that can help you quickly identify what your media stream is used for.
         public let description: String?
-        /// The format type number (sometimes referred to as RTP payload type) of the media stream. MediaConnect assigns this value to the media stream. For ST 2110 JPEG XS outputs, you need to provide this value to the receiver.
+        ///  The format type number (sometimes referred to as RTP payload type) of the media stream. MediaConnect assigns this value to the media stream. For ST 2110 JPEG XS outputs, you need to provide this value to the receiver.
         public let fmt: Int?
-        /// A unique identifier for the media stream.
+        ///  A unique identifier for the media stream.
         public let mediaStreamId: Int?
-        /// A name that helps you distinguish one media stream from another.
+        ///  A name that helps you distinguish one media stream from another.
         public let mediaStreamName: String?
-        /// The type of media stream.
+        ///  The type of media stream.
         public let mediaStreamType: MediaStreamType?
-        /// The resolution of the video.
+        ///  The resolution of the video.
         public let videoFormat: String?
 
         @inlinable
@@ -2794,7 +2873,7 @@ extension MediaConnect {
     }
 
     public struct MediaStreamAttributes: AWSDecodableShape {
-        /// A set of parameters that define the media stream.
+        /// The settings that you want to use to define the media stream.
         public let fmtp: Fmtp?
         /// The audio language, in a format that is recognized by the receiver.
         public let lang: String?
@@ -2830,13 +2909,13 @@ extension MediaConnect {
     }
 
     public struct MediaStreamOutputConfiguration: AWSDecodableShape {
-        /// The transport parameters that are associated with each outbound media stream.
+        ///  The transport parameters that are associated with each outbound media stream.
         public let destinationConfigurations: [DestinationConfiguration]?
-        /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
+        ///  The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
         public let encodingName: EncodingName?
-        /// Encoding parameters
+        /// A collection of parameters that determine how MediaConnect will convert the content. These fields only apply to outputs on flows that have a CDI source.
         public let encodingParameters: EncodingParameters?
-        /// The name of the media stream.
+        ///  The name of the media stream.
         public let mediaStreamName: String?
 
         @inlinable
@@ -2856,13 +2935,13 @@ extension MediaConnect {
     }
 
     public struct MediaStreamOutputConfigurationRequest: AWSEncodableShape {
-        /// The transport parameters that you want to associate with the media stream.
+        ///  The media streams that you want to associate with the output.
         public let destinationConfigurations: [DestinationConfigurationRequest]?
-        /// The format that will be used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
+        ///  The format that will be used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
         public let encodingName: EncodingName?
-        /// A collection of parameters that determine how MediaConnect will convert the content. These fields only apply to outputs on flows that have a CDI source.
+        ///  A collection of parameters that determine how MediaConnect will convert the content. These fields only apply to outputs on flows that have a CDI source.
         public let encodingParameters: EncodingParametersRequest?
-        /// The name of the media stream that is associated with the output.
+        ///  The name of the media stream that is associated with the output.
         public let mediaStreamName: String?
 
         @inlinable
@@ -2882,11 +2961,11 @@ extension MediaConnect {
     }
 
     public struct MediaStreamSourceConfiguration: AWSDecodableShape {
-        /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
+        ///  The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
         public let encodingName: EncodingName?
-        /// The transport parameters that are associated with an incoming media stream.
+        /// The media streams that you want to associate with the source.
         public let inputConfigurations: [InputConfiguration]?
-        /// The name of the media stream.
+        /// A name that helps you distinguish one media stream from another.
         public let mediaStreamName: String?
 
         @inlinable
@@ -2904,9 +2983,9 @@ extension MediaConnect {
     }
 
     public struct MediaStreamSourceConfigurationRequest: AWSEncodableShape {
-        /// The format you want to use to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
+        /// The format that was used to encode the data. For ancillary data streams, set the encoding name to smpte291. For audio streams, set the encoding name to pcm. For video, 2110 streams, set the encoding name to raw. For video, JPEG XS streams, set the encoding name to jxsv.
         public let encodingName: EncodingName?
-        /// The transport parameters that you want to associate with the media stream.
+        /// The media streams that you want to associate with the source.
         public let inputConfigurations: [InputConfigurationRequest]?
         /// The name of the media stream.
         public let mediaStreamName: String?
@@ -2926,11 +3005,11 @@ extension MediaConnect {
     }
 
     public struct MessageDetail: AWSDecodableShape {
-        /// The error code.
+        ///  The error code.
         public let code: String?
-        /// The specific error message that MediaConnect returns to help you understand the reason that the request did not succeed.
+        ///  The specific error message that MediaConnect returns to help you understand the reason that the request did not succeed.
         public let message: String?
-        /// The name of the resource.
+        ///  The name of the resource.
         public let resourceName: String?
 
         @inlinable
@@ -2948,7 +3027,7 @@ extension MediaConnect {
     }
 
     public struct Messages: AWSDecodableShape {
-        /// A list of errors that might have been generated from processes on this flow.
+        ///  A list of errors that might have been generated from processes on this flow.
         public let errors: [String]?
 
         @inlinable
@@ -2962,13 +3041,13 @@ extension MediaConnect {
     }
 
     public struct MonitoringConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Contains the settings for audio stream metrics monitoring.
+        ///  Contains the settings for audio stream metrics monitoring.
         public let audioMonitoringSettings: [AudioMonitoringSetting]?
-        /// Indicates whether content quality analysis is enabled or disabled.
+        ///  Indicates whether content quality analysis is enabled or disabled.
         public let contentQualityAnalysisState: ContentQualityAnalysisState?
-        /// The state of thumbnail monitoring.
+        ///  Indicates whether thumbnails are enabled or disabled.
         public let thumbnailState: ThumbnailState?
-        /// Contains the settings for video stream metrics monitoring.
+        ///  Contains the settings for video stream metrics monitoring.
         public let videoMonitoringSettings: [VideoMonitoringSetting]?
 
         @inlinable
@@ -2988,7 +3067,7 @@ extension MediaConnect {
     }
 
     public struct MulticastSourceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The IP address of the source for source-specific multicast (SSM).
+        ///  The IP address of the source for source-specific multicast (SSM).
         public let multicastSourceIp: String?
 
         @inlinable
@@ -3001,22 +3080,66 @@ extension MediaConnect {
         }
     }
 
+    public struct NdiConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A prefix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect generates a unique 12-character ID as the prefix.
+        public let machineName: String?
+        /// A list of up to three NDI discovery server configurations. While not required by the API, this configuration is necessary for NDI functionality to work properly.
+        public let ndiDiscoveryServers: [NdiDiscoveryServerConfig]?
+        /// A setting that controls whether NDI outputs can be used in the flow. Must be ENABLED to add NDI outputs. Default is DISABLED.
+        public let ndiState: NdiState?
+
+        @inlinable
+        public init(machineName: String? = nil, ndiDiscoveryServers: [NdiDiscoveryServerConfig]? = nil, ndiState: NdiState? = nil) {
+            self.machineName = machineName
+            self.ndiDiscoveryServers = ndiDiscoveryServers
+            self.ndiState = ndiState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case machineName = "machineName"
+            case ndiDiscoveryServers = "ndiDiscoveryServers"
+            case ndiState = "ndiState"
+        }
+    }
+
+    public struct NdiDiscoveryServerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The unique network address of the NDI discovery server.
+        public let discoveryServerAddress: String?
+        /// The port for the NDI discovery server. Defaults to 5959 if a custom port isn't specified.
+        public let discoveryServerPort: Int?
+        /// The identifier for the Virtual Private Cloud (VPC) network interface used by the flow.
+        public let vpcInterfaceAdapter: String?
+
+        @inlinable
+        public init(discoveryServerAddress: String? = nil, discoveryServerPort: Int? = nil, vpcInterfaceAdapter: String? = nil) {
+            self.discoveryServerAddress = discoveryServerAddress
+            self.discoveryServerPort = discoveryServerPort
+            self.vpcInterfaceAdapter = vpcInterfaceAdapter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case discoveryServerAddress = "discoveryServerAddress"
+            case discoveryServerPort = "discoveryServerPort"
+            case vpcInterfaceAdapter = "vpcInterfaceAdapter"
+        }
+    }
+
     public struct Offering: AWSDecodableShape {
-        /// The type of currency that is used for billing. The currencyCode used for all reservations is US dollars.
+        ///  The type of currency that is used for billing. The currencyCode used for all reservations is US dollars.
         public let currencyCode: String?
-        /// The length of time that your reservation would be active.
+        ///  The length of time that your reservation would be active.
         public let duration: Int?
-        /// The unit of measurement for the duration of the offering.
+        ///  The unit of measurement for the duration of the offering.
         public let durationUnits: DurationUnits?
-        /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
+        ///  The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
         public let offeringArn: String?
-        /// A description of the offering.
+        ///  A description of the offering.
         public let offeringDescription: String?
-        /// The cost of a single unit. This value, in combination with priceUnits, makes up the rate.
+        ///  The cost of a single unit. This value, in combination with priceUnits, makes up the rate.
         public let pricePerUnit: String?
-        /// The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate.
+        ///  The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate.
         public let priceUnits: PriceUnits?
-        /// A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering.
+        ///  A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering.
         public let resourceSpecification: ResourceSpecification?
 
         @inlinable
@@ -3044,37 +3167,37 @@ extension MediaConnect {
     }
 
     public struct Output: AWSDecodableShape {
-        /// The ARN of the bridge that added this output.
+        ///  The ARN of the bridge added to this output.
         public let bridgeArn: String?
-        /// The bridge output ports currently in use.
+        ///  The bridge output ports currently in use.
         public let bridgePorts: [Int]?
-        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        ///  Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
-        /// A description of the output.
+        ///  A description of the output.
         public let description: String?
-        /// The address where you want to send the output.
+        ///  The address where you want to send the output.
         public let destination: String?
-        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        ///  The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public let encryption: Encryption?
-        /// The ARN of the entitlement on the originator''s flow. This value is relevant only on entitled flows.
+        ///  The ARN of the entitlement on the originator''s flow. This value is relevant only on entitled flows.
         public let entitlementArn: String?
-        /// The IP address that the receiver requires in order to establish a connection with the flow. For public networking, the ListenerAddress is represented by the elastic IP address of the flow. For private networking, the ListenerAddress is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the Zixi pull or SRT listener protocol.
+        ///  The IP address that the receiver requires in order to establish a connection with the flow. For public networking, the ListenerAddress is represented by the elastic IP address of the flow. For private networking, the ListenerAddress is represented by the elastic network interface IP address of the VPC. This field applies only to outputs that use the Zixi pull or SRT listener protocol.
         public let listenerAddress: String?
-        /// The input ARN of the AWS Elemental MediaLive channel. This parameter is relevant only for outputs that were added by creating a MediaLive input.
+        ///  The input ARN of the MediaLive channel. This parameter is relevant only for outputs that were added by creating a MediaLive input.
         public let mediaLiveInputArn: String?
-        /// The configuration for each media stream that is associated with the output.
+        ///  The configuration for each media stream that is associated with the output.
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfiguration]?
-        /// The name of the output. This value must be unique within the current flow.
+        ///  The name of the output. This value must be unique within the current flow.
         public let name: String?
-        /// The ARN of the output.
+        ///  The ARN of the output.
         public let outputArn: String?
-        /// An indication of whether the output is transmitting data or not.
+        ///  An indication of whether the output is transmitting data or not.
         public let outputStatus: OutputStatus?
-        /// The port to use when content is distributed to this output.
+        ///  The port to use when content is distributed to this output.
         public let port: Int?
-        /// Attributes related to the transport stream that are used in the output.
+        ///  Attributes related to the transport stream that are used in the output.
         public let transport: Transport?
-        /// The name of the VPC interface attachment to use for this output.
+        ///  The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
@@ -3118,11 +3241,11 @@ extension MediaConnect {
     }
 
     public struct PurchaseOfferingRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the offering.
+        ///  The Amazon Resource Name (ARN) of the offering.
         public let offeringArn: String
-        /// The name that you want to use for the reservation.
+        ///  The name that you want to use for the reservation.
         public let reservationName: String?
-        /// The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
+        ///  The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC).  You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
         public let start: String?
 
         @inlinable
@@ -3147,6 +3270,7 @@ extension MediaConnect {
     }
 
     public struct PurchaseOfferingResponse: AWSDecodableShape {
+        /// The details of the reservation that you just created when you purchased the offering.
         public let reservation: Reservation?
 
         @inlinable
@@ -3160,9 +3284,9 @@ extension MediaConnect {
     }
 
     public struct RemoveBridgeOutputRequest: AWSEncodableShape {
-        /// The ARN of the bridge that you want to update.
+        ///  The Amazon Resource Name (ARN) of the bridge that you want to update.
         public let bridgeArn: String
-        /// The name of the bridge output that you want to remove.
+        ///  The name of the bridge output that you want to remove.
         public let outputName: String
 
         @inlinable
@@ -3182,7 +3306,9 @@ extension MediaConnect {
     }
 
     public struct RemoveBridgeOutputResponse: AWSDecodableShape {
+        ///  The ARN of the bridge from which the output was removed.
         public let bridgeArn: String?
+        ///  The name of the bridge output that was removed.
         public let outputName: String?
 
         @inlinable
@@ -3198,9 +3324,9 @@ extension MediaConnect {
     }
 
     public struct RemoveBridgeSourceRequest: AWSEncodableShape {
-        /// The ARN of the bridge that you want to update.
+        ///  The Amazon Resource Name (ARN) of the bridge that you want to update.
         public let bridgeArn: String
-        /// The name of the bridge source that you want to remove.
+        ///  The name of the bridge source that you want to remove.
         public let sourceName: String
 
         @inlinable
@@ -3220,7 +3346,9 @@ extension MediaConnect {
     }
 
     public struct RemoveBridgeSourceResponse: AWSDecodableShape {
+        ///  The ARN of the bridge from which the source was removed.
         public let bridgeArn: String?
+        ///  The name of the bridge source that was removed.
         public let sourceName: String?
 
         @inlinable
@@ -3236,9 +3364,9 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowMediaStreamRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the flow.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to update.
         public let flowArn: String
-        /// The name of the media stream that you want to remove.
+        ///  The name of the media stream that you want to remove.
         public let mediaStreamName: String
 
         @inlinable
@@ -3258,9 +3386,9 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowMediaStreamResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the flow.
+        ///  The ARN of the flow that was updated.
         public let flowArn: String?
-        /// The name of the media stream that was removed.
+        ///  The name of the media stream that was removed.
         public let mediaStreamName: String?
 
         @inlinable
@@ -3276,9 +3404,9 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowOutputRequest: AWSEncodableShape {
-        /// The flow that you want to remove an output from.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to remove an output from.
         public let flowArn: String
-        /// The ARN of the output that you want to remove.
+        ///  The ARN of the output that you want to remove.
         public let outputArn: String
 
         @inlinable
@@ -3298,9 +3426,9 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowOutputResponse: AWSDecodableShape {
-        /// The ARN of the flow that is associated with the output you removed.
+        ///  The ARN of the flow that the output was removed from.
         public let flowArn: String?
-        /// The ARN of the output that was removed.
+        ///  The ARN of the output that was removed.
         public let outputArn: String?
 
         @inlinable
@@ -3316,9 +3444,9 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowSourceRequest: AWSEncodableShape {
-        /// The flow that you want to remove a source from.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to remove a source from.
         public let flowArn: String
-        /// The ARN of the source that you want to remove.
+        ///  The ARN of the source that you want to remove.
         public let sourceArn: String
 
         @inlinable
@@ -3338,9 +3466,9 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowSourceResponse: AWSDecodableShape {
-        /// The ARN of the flow that is associated with the source you removed.
+        ///  The ARN of the flow that the source was removed from.
         public let flowArn: String?
-        /// The ARN of the source that was removed.
+        ///  The ARN of the source that was removed.
         public let sourceArn: String?
 
         @inlinable
@@ -3356,9 +3484,9 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowVpcInterfaceRequest: AWSEncodableShape {
-        /// The flow that you want to remove a VPC interface from.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to remove a VPC interface from.
         public let flowArn: String
-        /// The name of the VPC interface that you want to remove.
+        ///  The name of the VPC interface that you want to remove.
         public let vpcInterfaceName: String
 
         @inlinable
@@ -3378,11 +3506,11 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowVpcInterfaceResponse: AWSDecodableShape {
-        /// The ARN of the flow that is associated with the VPC interface you removed.
+        ///  The ARN of the flow that is associated with the VPC interface you removed.
         public let flowArn: String?
-        /// IDs of network interfaces associated with the removed VPC interface that Media Connect was unable to remove.
+        ///  IDs of network interfaces associated with the removed VPC interface that MediaConnect was unable to remove.
         public let nonDeletedNetworkInterfaceIds: [String]?
-        /// The name of the VPC interface that was removed.
+        ///  The name of the VPC interface that was removed.
         public let vpcInterfaceName: String?
 
         @inlinable
@@ -3400,31 +3528,31 @@ extension MediaConnect {
     }
 
     public struct Reservation: AWSDecodableShape {
-        /// The type of currency that is used for billing. The currencyCode used for your reservation is US dollars.
+        ///  The type of currency that is used for billing. The currencyCode used for your reservation is US dollars.
         public let currencyCode: String?
-        /// The length of time that this reservation is active. MediaConnect defines this value in the offering.
+        ///  The length of time that this reservation is active. MediaConnect defines this value in the offering.
         public let duration: Int?
-        /// The unit of measurement for the duration of the reservation. MediaConnect defines this value in the offering.
+        ///  The unit of measurement for the duration of the reservation. MediaConnect defines this value in the offering.
         public let durationUnits: DurationUnits?
-        /// The day and time that this reservation expires. This value is calculated based on the start date and time that you set and the offering's duration.
+        ///  The day and time that this reservation expires. This value is calculated based on the start date and time that you set and the offering's duration.
         public let end: String?
-        /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
+        ///  The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
         public let offeringArn: String?
-        /// A description of the offering. MediaConnect defines this value in the offering.
+        ///  A description of the offering. MediaConnect defines this value in the offering.
         public let offeringDescription: String?
-        /// The cost of a single unit. This value, in combination with priceUnits, makes up the rate. MediaConnect defines this value in the offering.
+        ///  The cost of a single unit. This value, in combination with priceUnits, makes up the rate. MediaConnect defines this value in the offering.
         public let pricePerUnit: String?
-        /// The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate. MediaConnect defines this value in the offering.
+        ///  The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate. MediaConnect defines this value in the offering.
         public let priceUnits: PriceUnits?
-        /// The Amazon Resource Name (ARN) that MediaConnect assigns to the reservation when you purchase an offering.
+        ///  The Amazon Resource Name (ARN) that MediaConnect assigns to the reservation when you purchase an offering.
         public let reservationArn: String?
-        /// The name that you assigned to the reservation when you purchased the offering.
+        ///  The name that you assigned to the reservation when you purchased the offering.
         public let reservationName: String?
-        /// The status of your reservation.
+        ///  The status of your reservation.
         public let reservationState: ReservationState?
-        /// A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering. MediaConnect defines the values that make up the resourceSpecification in the offering.
+        ///  A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering. MediaConnect defines the values that make up the resourceSpecification in the offering.
         public let resourceSpecification: ResourceSpecification?
-        /// The day and time that the reservation becomes active. You set this value when you purchase the offering.
+        ///  The day and time that the reservation becomes active. You set this value when you purchase the offering.
         public let start: String?
 
         @inlinable
@@ -3462,9 +3590,9 @@ extension MediaConnect {
     }
 
     public struct ResourceSpecification: AWSDecodableShape {
-        /// The amount of outbound bandwidth that is discounted in the offering.
+        ///  The amount of outbound bandwidth that is discounted in the offering.
         public let reservedBitrate: Int?
-        /// The type of resource and the unit that is being billed for.
+        ///  The type of resource and the unit that is being billed for.
         public let resourceType: ResourceType?
 
         @inlinable
@@ -3480,9 +3608,9 @@ extension MediaConnect {
     }
 
     public struct RevokeFlowEntitlementRequest: AWSEncodableShape {
-        /// The ARN of the entitlement that you want to revoke.
+        ///  The Amazon Resource Name (ARN) of the entitlement that you want to revoke.
         public let entitlementArn: String
-        /// The flow that you want to revoke an entitlement from.
+        ///  The flow that you want to revoke an entitlement from.
         public let flowArn: String
 
         @inlinable
@@ -3502,9 +3630,9 @@ extension MediaConnect {
     }
 
     public struct RevokeFlowEntitlementResponse: AWSDecodableShape {
-        /// The ARN of the entitlement that was revoked.
+        ///  The ARN of the entitlement that was revoked.
         public let entitlementArn: String?
-        /// The ARN of the flow that the entitlement was revoked from.
+        ///  The ARN of the flow that the entitlement was revoked from.
         public let flowArn: String?
 
         @inlinable
@@ -3520,9 +3648,9 @@ extension MediaConnect {
     }
 
     public struct SetGatewayBridgeSourceRequest: AWSEncodableShape {
-        /// The ARN of the bridge feeding this flow.
+        ///  The ARN of the bridge feeding this flow.
         public let bridgeArn: String?
-        /// The name of the VPC interface attachment to use for this bridge source.
+        ///  The name of the VPC interface attachment to use for this bridge source.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
@@ -3538,43 +3666,43 @@ extension MediaConnect {
     }
 
     public struct SetSourceRequest: AWSEncodableShape {
-        /// The type of encryption that is used on the content ingested from this source. Allowable encryption types: static-key.
+        ///  The type of encryption that is used on the content ingested from this source. Allowable encryption types: static-key.
         public let decryption: Encryption?
-        /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        ///  A description for the source. This value is not used or seen outside of the current MediaConnect account.
         public let description: String?
-        /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
+        ///  The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
         public let entitlementArn: String?
-        /// The source configuration for cloud flows receiving a stream from a bridge.
+        ///  The source configuration for cloud flows receiving a stream from a bridge.
         public let gatewayBridgeSource: SetGatewayBridgeSourceRequest?
-        /// The port that the flow will be listening on for incoming content.
+        ///  The port that the flow will be listening on for incoming content.
         public let ingestPort: Int?
-        /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
+        ///  The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+        ///  The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
-        /// The size of the buffer (in milliseconds) to use to sync incoming source data.
+        ///  The size of the buffer (in milliseconds) to use to sync incoming source data.
         public let maxSyncBuffer: Int?
-        /// The media streams that are associated with the source, and the parameters for those associations.
+        ///  The media streams that are associated with the source, and the parameters for those associations.
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]?
-        /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+        ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
-        /// The name of the source.
+        ///  The name of the source.
         public let name: String?
-        /// The protocol that is used by the source.
+        ///  The protocol that is used by the source.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
-        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
-        /// The IP address that the flow communicates with to initiate connection with the sender.
+        ///  The IP address that the flow communicates with to initiate connection with the sender.
         public let senderIpAddress: String?
-        /// Source IP or domain name for SRT-caller protocol.
+        ///  Source IP or domain name for SRT-caller protocol.
         public let sourceListenerAddress: String?
-        /// Source port for SRT-caller protocol.
+        ///  Source port for SRT-caller protocol.
         public let sourceListenerPort: Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
+        ///  The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
-        /// The name of the VPC interface to use for this source.
+        ///  The name of the VPC interface to use for this source.
         public let vpcInterfaceName: String?
-        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        ///  The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
         @inlinable
@@ -3642,35 +3770,35 @@ extension MediaConnect {
     }
 
     public struct Source: AWSDecodableShape {
-        /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
+        ///  Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
-        /// The type of encryption that is used on the content ingested from this source.
+        ///  The type of encryption that is used on the content ingested from this source.
         public let decryption: Encryption?
-        /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        ///  A description for the source. This value is not used or seen outside of the current MediaConnect account.
         public let description: String?
-        /// The ARN of the entitlement that allows you to subscribe to content that comes from another AWS account. The entitlement is set by the content originator and the ARN is generated as part of the originator's flow.
+        ///  The ARN of the entitlement that allows you to subscribe to content that comes from another Amazon Web Services account. The entitlement is set by the content originator and the ARN is generated as part of the originator's flow.
         public let entitlementArn: String?
-        /// The source configuration for cloud flows receiving a stream from a bridge.
+        ///  The source configuration for cloud flows receiving a stream from a bridge.
         public let gatewayBridgeSource: GatewayBridgeSource?
-        /// The IP address that the flow will be listening on for incoming content.
+        ///  The IP address that the flow will be listening on for incoming content.
         public let ingestIp: String?
-        /// The port that the flow will be listening on for incoming content.
+        ///  The port that the flow will be listening on for incoming content.
         public let ingestPort: Int?
-        /// The media streams that are associated with the source, and the parameters for those associations.
+        ///  The media streams that are associated with the source, and the parameters for those associations.
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]?
-        /// The name of the source.
+        ///  The name of the source.
         public let name: String?
-        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        ///  The IP address that the flow communicates with to initiate connection with the sender.
         public let senderControlPort: Int?
-        /// The IP address that the flow communicates with to initiate connection with the sender.
+        ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderIpAddress: String?
-        /// The ARN of the source.
+        ///  The ARN of the source.
         public let sourceArn: String?
-        /// Attributes related to the transport stream that are used in the source.
+        ///  Attributes related to the transport stream that are used in the source.
         public let transport: Transport?
-        /// The name of the VPC interface that is used for this source.
+        ///  The name of the VPC interface that is used for this source.
         public let vpcInterfaceName: String?
-        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        ///  The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
         @inlinable
@@ -3712,7 +3840,7 @@ extension MediaConnect {
     }
 
     public struct SourcePriority: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the source you choose as the primary source for this flow.
+        ///  The name of the source you choose as the primary source for this flow.
         public let primarySource: String?
 
         @inlinable
@@ -3726,7 +3854,7 @@ extension MediaConnect {
     }
 
     public struct StartFlowRequest: AWSEncodableShape {
-        /// The ARN of the flow that you want to start.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to start.
         public let flowArn: String
 
         @inlinable
@@ -3744,9 +3872,9 @@ extension MediaConnect {
     }
 
     public struct StartFlowResponse: AWSDecodableShape {
-        /// The ARN of the flow that you started.
+        ///  The ARN of the flow that you started.
         public let flowArn: String?
-        /// The status of the flow when the StartFlow process begins.
+        ///  The status of the flow when the StartFlow process begins.
         public let status: Status?
 
         @inlinable
@@ -3762,7 +3890,7 @@ extension MediaConnect {
     }
 
     public struct StopFlowRequest: AWSEncodableShape {
-        /// The ARN of the flow that you want to stop.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to stop.
         public let flowArn: String
 
         @inlinable
@@ -3780,9 +3908,9 @@ extension MediaConnect {
     }
 
     public struct StopFlowResponse: AWSDecodableShape {
-        /// The ARN of the flow that you stopped.
+        ///  The ARN of the flow that you stopped.
         public let flowArn: String?
-        /// The status of the flow when the StopFlow process begins.
+        ///  The status of the flow when the StopFlow process begins.
         public let status: Status?
 
         @inlinable
@@ -3798,9 +3926,9 @@ extension MediaConnect {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource to which to add tags.
+        ///  The Amazon Resource Name (ARN) that identifies the MediaConnect resource to which to add tags.
         public let resourceArn: String
-        /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+        ///  A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
 
         @inlinable
@@ -3822,17 +3950,16 @@ extension MediaConnect {
     }
 
     public struct ThumbnailDetails: AWSDecodableShape {
-        /// The ARN of the flow that DescribeFlowSourceThumbnail was performed on.
+        ///  The ARN of the flow that DescribeFlowSourceThumbnail was performed on.
         public let flowArn: String?
         /// Thumbnail Base64 string.
         public let thumbnail: String?
-        /// Status code and messages about the flow source thumbnail.
+        ///  Status code and messages about the flow source thumbnail.
         public let thumbnailMessages: [MessageDetail]?
-        /// Timecode of thumbnail.
+        ///  Timecode of thumbnail.
         public let timecode: String?
-        /// The timestamp of when thumbnail was generated.
-        @OptionalCustomCoding<ISO8601DateCoder>
-        public var timestamp: Date?
+        ///  The timestamp of when thumbnail was generated.
+        public let timestamp: Date?
 
         @inlinable
         public init(flowArn: String? = nil, thumbnail: String? = nil, thumbnailMessages: [MessageDetail]? = nil, timecode: String? = nil, timestamp: Date? = nil) {
@@ -3853,40 +3980,46 @@ extension MediaConnect {
     }
 
     public struct Transport: AWSDecodableShape {
-        /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        ///  The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16
         public let cidrAllowList: [String]?
-        /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
+        ///  The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+        ///  The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
-        /// The size of the buffer (in milliseconds) to use to sync incoming source data.
+        ///  The size of the buffer (in milliseconds) to use to sync incoming source data.
         public let maxSyncBuffer: Int?
-        /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+        ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
-        /// The protocol that is used by the source or output.
+        /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        public let ndiProgramName: String?
+        /// A quality setting for the NDI Speed HQ encoder.
+        public let ndiSpeedHqQuality: Int?
+        ///  The protocol that is used by the source or output.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
-        /// The remote ID for the Zixi-pull stream.
+        ///  The remote ID for the Zixi-pull stream.
         public let remoteId: String?
-        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
-        /// The IP address that the flow communicates with to initiate connection with the sender.
+        ///  The IP address that the flow communicates with to initiate connection with the sender.
         public let senderIpAddress: String?
-        /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
+        ///  The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
-        /// Source IP or domain name for SRT-caller protocol.
+        ///  Source IP or domain name for SRT-caller protocol.
         public let sourceListenerAddress: String?
-        /// Source port for SRT-caller protocol.
+        ///  Source port for SRT-caller protocol.
         public let sourceListenerPort: Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
+        ///  The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, sourceListenerAddress: String? = nil, sourceListenerPort: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
+            self.ndiProgramName = ndiProgramName
+            self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.`protocol` = `protocol`
             self.remoteId = remoteId
             self.senderControlPort = senderControlPort
@@ -3903,6 +4036,8 @@ extension MediaConnect {
             case maxLatency = "maxLatency"
             case maxSyncBuffer = "maxSyncBuffer"
             case minLatency = "minLatency"
+            case ndiProgramName = "ndiProgramName"
+            case ndiSpeedHqQuality = "ndiSpeedHqQuality"
             case `protocol` = "protocol"
             case remoteId = "remoteId"
             case senderControlPort = "senderControlPort"
@@ -3915,7 +4050,7 @@ extension MediaConnect {
     }
 
     public struct TransportMediaInfo: AWSDecodableShape {
-        /// The list of transport stream programs in the current flow's source.
+        ///  The list of transport stream programs in the current flow's source.
         public let programs: [TransportStreamProgram]?
 
         @inlinable
@@ -3929,20 +4064,21 @@ extension MediaConnect {
     }
 
     public struct TransportStream: AWSDecodableShape {
-        /// The number of channels in the audio stream.
+        ///  The number of channels in the audio stream.
         public let channels: Int?
-        /// The codec used by the stream.
+        ///  The codec used by the stream.
         public let codec: String?
-        /// The frame rate used by the video stream.
+        ///  The frame rate used by the video stream.
         public let frameRate: String?
+        /// The frame resolution used by the video stream.
         public let frameResolution: FrameResolution?
-        /// The Packet ID (PID) as it is reported in the Program Map Table.
+        ///  The Packet ID (PID) as it is reported in the Program Map Table.
         public let pid: Int?
-        /// The sample rate used by the audio stream.
+        ///  The sample rate used by the audio stream.
         public let sampleRate: Int?
-        /// The sample bit size used by the audio stream.
+        ///  The sample bit size used by the audio stream.
         public let sampleSize: Int?
-        /// The Stream Type as it is reported in the Program Map Table.
+        ///  The Stream Type as it is reported in the Program Map Table.
         public let streamType: String?
 
         @inlinable
@@ -3970,15 +4106,15 @@ extension MediaConnect {
     }
 
     public struct TransportStreamProgram: AWSDecodableShape {
-        /// The Program Clock Reference (PCR) Packet ID (PID) as it is reported in the Program Association Table.
+        ///  The Program Clock Reference (PCR) Packet ID (PID) as it is reported in the Program Association Table.
         public let pcrPid: Int?
-        /// The program name as it is reported in the Program Association Table.
+        ///  The program name as it is reported in the Program Association Table.
         public let programName: String?
-        /// The program number as it is reported in the Program Association Table.
+        ///  The program number as it is reported in the Program Association Table.
         public let programNumber: Int?
-        /// The program Packet ID (PID) as it is reported in the Program Association Table.
+        ///  The program Packet ID (PID) as it is reported in the Program Association Table.
         public let programPid: Int?
-        /// The list of elementary transport streams in the program. The list includes video, audio, and data streams.
+        ///  The list of elementary transport streams in the program. The list includes video, audio, and data streams.
         public let streams: [TransportStream]?
 
         @inlinable
@@ -4000,7 +4136,7 @@ extension MediaConnect {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the AWS Elemental MediaConnect resource from which to delete tags.
+        ///  The Amazon Resource Name (ARN) of the resource that you want to untag.
         public let resourceArn: String
         /// The keys of the tags to be removed.
         public let tagKeys: [String]?
@@ -4022,7 +4158,7 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeFlowSourceRequest: AWSEncodableShape {
-        /// The ARN of the cloud flow to use as a source of this bridge.
+        ///  The Amazon Resource Name (ARN) that identifies the MediaConnect resource from which to delete tags.
         public let flowArn: String?
         /// The name of the VPC interface attachment to use for this source.
         public let flowVpcInterfaceAttachment: VpcInterfaceAttachment?
@@ -4047,6 +4183,7 @@ extension MediaConnect {
         /// The network output port.
         public let port: Int?
         /// The network output protocol.
+        ///   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
         /// The network output TTL.
         public let ttl: Int?
@@ -4070,14 +4207,16 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeNetworkSourceRequest: AWSEncodableShape {
-        /// The network source multicast IP.
+        ///  The network source multicast IP.
         public let multicastIp: String?
+        /// The settings related to the multicast source.
         public let multicastSourceSettings: MulticastSourceSettings?
         /// The network source's gateway network name.
         public let networkName: String?
         /// The network source port.
         public let port: Int?
         /// The network source protocol.
+        ///   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
 
         @inlinable
@@ -4099,10 +4238,11 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeOutputRequest: AWSEncodableShape {
-        /// The ARN of the bridge that you want to update.
+        ///  The Amazon Resource Name (ARN) of the bridge that you want to update.
         public let bridgeArn: String
+        /// The network of the bridge output.
         public let networkOutput: UpdateBridgeNetworkOutputRequest?
-        /// The name of the bridge output that you want to update.
+        /// Tname of the output that you want to update.
         public let outputName: String
 
         @inlinable
@@ -4126,9 +4266,9 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeOutputResponse: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the bridge.
+        /// The ARN of the bridge that was updated.
         public let bridgeArn: String?
-        /// The output that you updated.
+        /// The bridge output that was updated.
         public let output: BridgeOutput?
 
         @inlinable
@@ -4144,10 +4284,13 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeRequest: AWSEncodableShape {
-        /// The Amazon Resource Number (ARN) of the bridge that you want to update.
+        ///  TheAmazon Resource Name (ARN) of the bridge that you want to update.
         public let bridgeArn: String
+        ///  A cloud-to-ground bridge. The content comes from an existing MediaConnect flow and is delivered to your premises.
         public let egressGatewayBridge: UpdateEgressGatewayBridgeRequest?
+        ///  A ground-to-cloud bridge. The content originates at your premises and is delivered to the cloud.
         public let ingressGatewayBridge: UpdateIngressGatewayBridgeRequest?
+        /// The settings for source failover.
         public let sourceFailoverConfig: UpdateFailoverConfig?
 
         @inlinable
@@ -4175,6 +4318,7 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeResponse: AWSDecodableShape {
+        /// The bridge that was updated.
         public let bridge: Bridge?
 
         @inlinable
@@ -4188,9 +4332,11 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeSourceRequest: AWSEncodableShape {
-        /// The ARN of the bridge that you want to update.
+        ///  The Amazon Resource Name (ARN) of the bridge that you want to update.
         public let bridgeArn: String
+        ///  The name of the flow that you want to update.
         public let flowSource: UpdateBridgeFlowSourceRequest?
+        /// The network for the bridge source.
         public let networkSource: UpdateBridgeNetworkSourceRequest?
         /// The name of the source that you want to update.
         public let sourceName: String
@@ -4219,8 +4365,9 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeSourceResponse: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the bridge.
+        ///  The ARN of the updated bridge source.
         public let bridgeArn: String?
+        /// The updated bridge source.
         public let source: BridgeSource?
 
         @inlinable
@@ -4236,8 +4383,9 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeStateRequest: AWSEncodableShape {
-        /// The ARN of the bridge that you want to update.
+        ///  The Amazon Resource Name (ARN) of the bridge that you want to update the state of.
         public let bridgeArn: String
+        /// The desired state for the bridge.
         public let desiredState: DesiredState?
 
         @inlinable
@@ -4259,9 +4407,9 @@ extension MediaConnect {
     }
 
     public struct UpdateBridgeStateResponse: AWSDecodableShape {
-        /// The Amazon Resource Number (ARN) of the bridge.
+        /// The ARN of the updated bridge.
         public let bridgeArn: String?
-        /// The state of the bridge. ACTIVE or STANDBY.
+        /// The new state of the bridge.
         public let desiredState: DesiredState?
 
         @inlinable
@@ -4277,7 +4425,7 @@ extension MediaConnect {
     }
 
     public struct UpdateEgressGatewayBridgeRequest: AWSEncodableShape {
-        /// Update an existing egress-type bridge.
+        /// The maximum expected bitrate (in bps).
         public let maxBitrate: Int?
 
         @inlinable
@@ -4291,23 +4439,23 @@ extension MediaConnect {
     }
 
     public struct UpdateEncryption: AWSEncodableShape {
-        /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
+        ///  The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm?
-        /// A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
+        ///  A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
         public let constantInitializationVector: String?
-        /// The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        ///  The value of one of the devices that you configured with your digital rights management (DRM) platform key provider. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let deviceId: String?
-        /// The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
+        ///  The type of key that is used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public let keyType: KeyType?
-        /// The AWS Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        ///  The Amazon Web Services Region that the API Gateway proxy endpoint was created in. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let region: String?
-        /// An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        ///  An identifier for the content. The service sends this value to the key server to identify the current endpoint. The resource ID is also known as the content ID. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let resourceId: String?
-        /// The ARN of the role that you created during setup (when you set up AWS Elemental MediaConnect as a trusted entity).
+        ///  The ARN of the role that you created during setup (when you set up MediaConnect as a trusted entity).
         public let roleArn: String?
-        /// The ARN of the secret that you created in AWS Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
+        ///  The ARN of the secret that you created in Secrets Manager to store the encryption key. This parameter is required for static key encryption and is not valid for SPEKE encryption.
         public let secretArn: String?
-        /// The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
+        ///  The URL from the API Gateway proxy that you set up to talk to your key server. This parameter is required for SPEKE encryption and is not valid for static key encryption.
         public let url: String?
 
         @inlinable
@@ -4337,12 +4485,13 @@ extension MediaConnect {
     }
 
     public struct UpdateFailoverConfig: AWSEncodableShape {
-        /// The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
+        ///  The type of failover you choose for this flow. MERGE combines the source streams into a single stream, allowing graceful recovery from any single-source loss. FAILOVER allows switching between different streams.
         public let failoverMode: FailoverMode?
-        /// Recovery window time to look for dash-7 packets
+        ///  Recovery window time to look for dash-7 packets.
         public let recoveryWindow: Int?
-        /// The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
+        ///  The priority you want to assign to a source. You can have a primary stream and a backup stream or two equally prioritized streams.
         public let sourcePriority: SourcePriority?
+        /// The state of source failover on the flow. If the state is inactive, the flow can have only one source. If the state is active, the flow can have one or two sources.
         public let state: State?
 
         @inlinable
@@ -4362,17 +4511,17 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowEntitlementRequest: AWSEncodableShape {
-        /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
+        ///  A description of the entitlement. This description appears only on the MediaConnect console and will not be seen by the subscriber or end user.
         public let description: String?
-        /// The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke.
+        ///  The type of encryption that will be used on the output associated with this entitlement. Allowable encryption types: static-key, speke.
         public let encryption: UpdateEncryption?
-        /// The ARN of the entitlement that you want to update.
+        ///  The Amazon Resource Name (ARN) of the entitlement that you want to update.
         public let entitlementArn: String
-        /// An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscriber’s flow temporarily. If you don’t specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged.
+        ///  An indication of whether you want to enable the entitlement to allow access, or disable it to stop streaming content to the subscriber’s flow temporarily. If you don’t specify the entitlementStatus field in your request, MediaConnect leaves the value unchanged.
         public let entitlementStatus: EntitlementStatus?
-        /// The flow that is associated with the entitlement that you want to update.
+        ///  The ARN of the flow that is associated with the entitlement that you want to update.
         public let flowArn: String
-        /// The AWS account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
+        ///  The Amazon Web Services account IDs that you want to share your content with. The receiving accounts (subscribers) will be allowed to create their own flow using your content as the source.
         public let subscribers: [String]?
 
         @inlinable
@@ -4405,9 +4554,9 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowEntitlementResponse: AWSDecodableShape {
-        /// The new configuration of the entitlement that you updated.
+        ///  The new configuration of the entitlement that you updated.
         public let entitlement: Entitlement?
-        /// The ARN of the flow that this entitlement was granted on.
+        ///  The ARN of the flow that this entitlement was granted on.
         public let flowArn: String?
 
         @inlinable
@@ -4423,15 +4572,15 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowMediaStreamRequest: AWSEncodableShape {
-        /// The attributes that you want to assign to the media stream.
+        ///  The attributes that you want to assign to the media stream.
         public let attributes: MediaStreamAttributesRequest?
-        /// The sample rate (in Hz) for the stream. If the media stream type is video or ancillary data, set this value to 90000. If the media stream type is audio, set this value to either 48000 or 96000.
+        /// The sample rate for the stream. This value in measured in kHz.
         public let clockRate: Int?
-        /// Description
+        /// A description that can help you quickly identify what your media stream is used for.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the flow.
+        ///  The Amazon Resource Name (ARN) of the flow that is associated with the media stream that you updated.
         public let flowArn: String
-        /// The name of the media stream that you want to update.
+        ///  The media stream that you updated.
         public let mediaStreamName: String
         /// The type of media stream.
         public let mediaStreamType: MediaStreamType?
@@ -4489,45 +4638,49 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowOutputRequest: AWSEncodableShape {
-        /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        ///  The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
-        /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
+        ///  A description of the output. This description appears only on the MediaConnect console and will not be seen by the end user.
         public let description: String?
-        /// The IP address where you want to send the output.
+        ///  The IP address where you want to send the output.
         public let destination: String?
-        /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
+        ///  The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key). Allowable encryption types: static-key.
         public let encryption: UpdateEncryption?
-        /// The flow that is associated with the output that you want to update.
+        ///  The Amazon Resource Name (ARN) of the flow that is associated with the output that you want to update.
         public let flowArn: String
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+        ///  The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
-        /// The media streams that are associated with the output, and the parameters for those associations.
+        ///  The media streams that are associated with the output, and the parameters for those associations.
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
-        /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
+        ///  The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
-        /// The ARN of the output that you want to update.
+        ///  A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        public let ndiProgramName: String?
+        /// A quality setting for the NDI Speed HQ encoder.
+        public let ndiSpeedHqQuality: Int?
+        ///  The ARN of the output that you want to update.
         public let outputArn: String
-        /// An indication of whether the output should transmit data or not. If you don't specify the outputStatus field in your request, MediaConnect leaves the value unchanged.
+        ///  An indication of whether the output should transmit data or not. If you don't specify the outputStatus field in your request, MediaConnect leaves the value unchanged.
         public let outputStatus: OutputStatus?
-        /// The port to use when content is distributed to this output.
+        ///  The port to use when content is distributed to this output.
         public let port: Int?
-        /// The protocol to use for the output.
+        ///  The protocol to use for the output.  Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
-        /// The remote ID for the Zixi-pull stream.
+        ///  The remote ID for the Zixi-pull stream.
         public let remoteId: String?
-        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        ///  The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
-        /// The IP address that the flow communicates with to initiate connection with the sender.
+        ///  The IP address that the flow communicates with to initiate connection with the sender.
         public let senderIpAddress: String?
-        /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
+        ///  The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
-        /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
+        ///  The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
-        /// The name of the VPC interface attachment to use for this output.
+        ///  The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, ndiProgramName: String? = nil, ndiSpeedHqQuality: Int? = nil, outputArn: String, outputStatus: OutputStatus? = nil, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -4536,6 +4689,8 @@ extension MediaConnect {
             self.maxLatency = maxLatency
             self.mediaStreamOutputConfigurations = mediaStreamOutputConfigurations
             self.minLatency = minLatency
+            self.ndiProgramName = ndiProgramName
+            self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.outputArn = outputArn
             self.outputStatus = outputStatus
             self.port = port
@@ -4559,6 +4714,8 @@ extension MediaConnect {
             try container.encodeIfPresent(self.maxLatency, forKey: .maxLatency)
             try container.encodeIfPresent(self.mediaStreamOutputConfigurations, forKey: .mediaStreamOutputConfigurations)
             try container.encodeIfPresent(self.minLatency, forKey: .minLatency)
+            try container.encodeIfPresent(self.ndiProgramName, forKey: .ndiProgramName)
+            try container.encodeIfPresent(self.ndiSpeedHqQuality, forKey: .ndiSpeedHqQuality)
             request.encodePath(self.outputArn, key: "OutputArn")
             try container.encodeIfPresent(self.outputStatus, forKey: .outputStatus)
             try container.encodeIfPresent(self.port, forKey: .port)
@@ -4579,6 +4736,8 @@ extension MediaConnect {
             case maxLatency = "maxLatency"
             case mediaStreamOutputConfigurations = "mediaStreamOutputConfigurations"
             case minLatency = "minLatency"
+            case ndiProgramName = "ndiProgramName"
+            case ndiSpeedHqQuality = "ndiSpeedHqQuality"
             case outputStatus = "outputStatus"
             case port = "port"
             case `protocol` = "protocol"
@@ -4592,9 +4751,9 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowOutputResponse: AWSDecodableShape {
-        /// The ARN of the flow that is associated with the updated output.
+        ///  The ARN of the flow that is associated with the updated output.
         public let flowArn: String?
-        /// The new settings of the output that you updated.
+        ///  The new settings of the output that you updated.
         public let output: Output?
 
         @inlinable
@@ -4610,16 +4769,22 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowRequest: AWSEncodableShape {
-        /// The flow that you want to update.
+        ///  The Amazon Resource Name (ARN) of the flow that you want to update.
         public let flowArn: String
+        ///  The maintenance setting of the flow.
         public let maintenance: UpdateMaintenance?
+        ///  Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+        public let ndiConfig: NdiConfig?
+        ///  The settings for source failover.
         public let sourceFailoverConfig: UpdateFailoverConfig?
+        /// The settings for source monitoring.
         public let sourceMonitoringConfig: MonitoringConfig?
 
         @inlinable
-        public init(flowArn: String, maintenance: UpdateMaintenance? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil) {
+        public init(flowArn: String, maintenance: UpdateMaintenance? = nil, ndiConfig: NdiConfig? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil, sourceMonitoringConfig: MonitoringConfig? = nil) {
             self.flowArn = flowArn
             self.maintenance = maintenance
+            self.ndiConfig = ndiConfig
             self.sourceFailoverConfig = sourceFailoverConfig
             self.sourceMonitoringConfig = sourceMonitoringConfig
         }
@@ -4629,18 +4794,21 @@ extension MediaConnect {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.flowArn, key: "FlowArn")
             try container.encodeIfPresent(self.maintenance, forKey: .maintenance)
+            try container.encodeIfPresent(self.ndiConfig, forKey: .ndiConfig)
             try container.encodeIfPresent(self.sourceFailoverConfig, forKey: .sourceFailoverConfig)
             try container.encodeIfPresent(self.sourceMonitoringConfig, forKey: .sourceMonitoringConfig)
         }
 
         private enum CodingKeys: String, CodingKey {
             case maintenance = "maintenance"
+            case ndiConfig = "ndiConfig"
             case sourceFailoverConfig = "sourceFailoverConfig"
             case sourceMonitoringConfig = "sourceMonitoringConfig"
         }
     }
 
     public struct UpdateFlowResponse: AWSDecodableShape {
+        /// The updated flow.
         public let flow: Flow?
 
         @inlinable
@@ -4654,29 +4822,30 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowSourceRequest: AWSEncodableShape {
-        /// The type of encryption used on the content ingested from this source. Allowable encryption types: static-key.
+        /// The type of encryption that is used on the content ingested from the source.
         public let decryption: UpdateEncryption?
-        /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
+        /// A description of the source. This description is not visible outside of the current Amazon Web Services account.
         public let description: String?
-        /// The ARN of the entitlement that allows you to subscribe to this flow. The entitlement is set by the flow originator, and the ARN is generated as part of the originator's flow.
+        /// The Amazon Resource Name (ARN) of the entitlement that allows you to subscribe to the flow. The entitlement is set by the content originator, and the ARN is generated as part of the originator's flow.
         public let entitlementArn: String?
-        /// The flow that is associated with the source that you want to update.
+        /// The ARN of the flow that you want to update.
         public let flowArn: String
         /// The source configuration for cloud flows receiving a stream from a bridge.
         public let gatewayBridgeSource: UpdateGatewayBridgeSourceRequest?
-        /// The port that the flow will be listening on for incoming content.
+        /// The port that the flow listens on for incoming content. If the protocol of the source is Zixi, the port must be set to 2088.
         public let ingestPort: Int?
-        /// The smoothing max bitrate (in bps) for RIST, RTP, and RTP-FEC streams.
+        /// The maximum bitrate for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
         public let maxLatency: Int?
         /// The size of the buffer (in milliseconds) to use to sync incoming source data.
         public let maxSyncBuffer: Int?
-        /// The media streams that are associated with the source, and the parameters for those associations.
+        /// The media stream that is associated with the source, and the parameters for that association.
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public let minLatency: Int?
-        /// The protocol that is used by the source.
+        /// The protocol that the source uses to deliver the content to MediaConnect.
+        ///   Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public let `protocol`: `Protocol`?
         /// The port that the flow uses to send outbound requests to initiate connection with the sender.
         public let senderControlPort: Int?
@@ -4684,15 +4853,15 @@ extension MediaConnect {
         public let senderIpAddress: String?
         /// The ARN of the source that you want to update.
         public let sourceArn: String
-        /// Source IP or domain name for SRT-caller protocol.
+        /// The source IP or domain name for SRT-caller protocol.
         public let sourceListenerAddress: String?
         /// Source port for SRT-caller protocol.
         public let sourceListenerPort: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi and SRT caller-based streams.
         public let streamId: String?
-        /// The name of the VPC interface to use for this source.
+        /// The name of the VPC interface that you want to send your output to.
         public let vpcInterfaceName: String?
-        /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
+        /// The range of IP addresses that are allowed to contribute content to your source. Format the IP addresses as a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
         @inlinable
@@ -4767,9 +4936,9 @@ extension MediaConnect {
     }
 
     public struct UpdateFlowSourceResponse: AWSDecodableShape {
-        /// The ARN of the flow that you want to update.
+        /// The ARN of the flow that you was updated.
         public let flowArn: String?
-        /// The settings for the source of the flow.
+        /// The details of the sources that are assigned to the flow.
         public let source: Source?
 
         @inlinable
@@ -4785,9 +4954,9 @@ extension MediaConnect {
     }
 
     public struct UpdateGatewayBridgeSourceRequest: AWSEncodableShape {
-        /// The ARN of the bridge feeding this flow.
+        ///  The ARN of the bridge feeding this flow.
         public let bridgeArn: String?
-        /// The name of the VPC interface attachment to use for this bridge source.
+        ///  The name of the VPC interface attachment to use for this bridge source.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
         @inlinable
@@ -4803,9 +4972,9 @@ extension MediaConnect {
     }
 
     public struct UpdateGatewayInstanceRequest: AWSEncodableShape {
-        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+        /// The state of the instance. ACTIVE or INACTIVE.
         public let bridgePlacement: BridgePlacement?
-        /// The Amazon Resource Name (ARN) of the instance that you want to update.
+        /// The Amazon Resource Name (ARN) of the gateway instance that you want to update.
         public let gatewayInstanceArn: String
 
         @inlinable
@@ -4827,9 +4996,9 @@ extension MediaConnect {
     }
 
     public struct UpdateGatewayInstanceResponse: AWSDecodableShape {
-        /// The availability of the instance to host new bridges. The bridgePlacement property can be LOCKED or AVAILABLE. If it is LOCKED, no new bridges can be deployed to this instance. If it is AVAILABLE, new bridges can be added to this instance.
+        /// The state of the instance. ACTIVE or INACTIVE.
         public let bridgePlacement: BridgePlacement?
-        /// The Amazon Resource Name (ARN) of the instance.
+        /// The ARN of the instance that was updated.
         public let gatewayInstanceArn: String?
 
         @inlinable
@@ -4845,9 +5014,9 @@ extension MediaConnect {
     }
 
     public struct UpdateIngressGatewayBridgeRequest: AWSEncodableShape {
-        /// The maximum expected bitrate (in bps).
+        ///  The maximum expected bitrate (in bps).
         public let maxBitrate: Int?
-        /// The maximum number of expected outputs.
+        ///  The maximum number of expected outputs.
         public let maxOutputs: Int?
 
         @inlinable
@@ -4863,11 +5032,11 @@ extension MediaConnect {
     }
 
     public struct UpdateMaintenance: AWSEncodableShape {
-        /// A day of a week when the maintenance will happen. use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+        ///  A day of a week when the maintenance will happen.
         public let maintenanceDay: MaintenanceDay?
-        /// A scheduled date in ISO UTC format when the maintenance will happen. Use YYYY-MM-DD format. Example: 2021-01-30.
+        ///  A scheduled date in ISO UTC format when the maintenance will happen. Use YYYY-MM-DD format. Example: 2021-01-30.
         public let maintenanceScheduledDate: String?
-        /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
+        ///  UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
         public let maintenanceStartHour: String?
 
         @inlinable
@@ -4903,17 +5072,17 @@ extension MediaConnect {
     }
 
     public struct VpcInterface: AWSDecodableShape {
-        /// Immutable and has to be a unique against other VpcInterfaces in this Flow.
+        ///  Immutable and has to be a unique against other VpcInterfaces in this Flow.
         public let name: String?
-        /// IDs of the network interfaces created in customer's account by MediaConnect.
+        ///  IDs of the network interfaces created in customer's account by MediaConnect.
         public let networkInterfaceIds: [String]?
-        /// The type of network interface.
+        ///  The type of network interface.
         public let networkInterfaceType: NetworkInterfaceType?
-        /// Role Arn MediaConnect can assumes to create ENIs in customer's account
+        ///  A role Arn MediaConnect can assume to create ENIs in your account.
         public let roleArn: String?
-        /// Security Group IDs to be used on ENI.
+        ///  Security Group IDs to be used on ENI.
         public let securityGroupIds: [String]?
-        /// Subnet must be in the AZ of the Flow
+        ///  Subnet must be in the AZ of the Flow.
         public let subnetId: String?
 
         @inlinable
@@ -4937,7 +5106,7 @@ extension MediaConnect {
     }
 
     public struct VpcInterfaceAttachment: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the VPC interface to use for this resource.
+        ///  The name of the VPC interface to use for this resource.
         public let vpcInterfaceName: String?
 
         @inlinable
@@ -4951,15 +5120,15 @@ extension MediaConnect {
     }
 
     public struct VpcInterfaceRequest: AWSEncodableShape {
-        /// The name of the VPC Interface. This value must be unique within the current flow.
+        /// The name for the VPC interface. This name must be unique within the flow.
         public let name: String?
-        /// The type of network interface. If this value is not included in the request, MediaConnect uses ENA as the networkInterfaceType.
+        /// The type of network interface.
         public let networkInterfaceType: NetworkInterfaceType?
-        /// Role Arn MediaConnect can assumes to create ENIs in customer's account
+        /// The Amazon Resource Name (ARN) of the role that you created when you set up MediaConnect as a trusted service.
         public let roleArn: String?
-        /// Security Group IDs to be used on ENI.
+        /// A virtual firewall to control inbound and outbound traffic.
         public let securityGroupIds: [String]?
-        /// Subnet must be in the AZ of the Flow
+        ///  The subnet IDs that you want to use for your VPC interface. A range of IP addresses in your VPC. When you create your VPC, you specify a range of IPv4 addresses for the VPC in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16. This is the primary CIDR block for your VPC. When you create a subnet for your VPC, you specify the CIDR block for the subnet, which is a subset of the VPC CIDR block. The subnets that you use across all VPC interfaces on the flow must be in the same Availability Zone as the flow.
         public let subnetId: String?
 
         @inlinable
@@ -5018,29 +5187,29 @@ public struct MediaConnectErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// Exception raised by Elemental MediaConnect when adding the flow output. See the error message for the operation for more information on the cause of this exception.
     public static var addFlowOutputs420Exception: Self { .init(.addFlowOutputs420Exception) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// This exception is thrown if the request contains a semantic error. The precise meaning depends on the API, and is documented in the error message.
     public static var badRequestException: Self { .init(.badRequestException) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
     public static var conflictException: Self { .init(.conflictException) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// Exception raised by Elemental MediaConnect when creating the bridge. See the error message for the operation for more information on the cause of this exception.
     public static var createBridge420Exception: Self { .init(.createBridge420Exception) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// Exception raised by Elemental MediaConnect when creating the flow. See the error message for the operation for more information on the cause of this exception.
     public static var createFlow420Exception: Self { .init(.createFlow420Exception) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// Exception raised by Elemental MediaConnect when creating the gateway. See the error message for the operation for more information on the cause of this exception.
     public static var createGateway420Exception: Self { .init(.createGateway420Exception) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// You do not have sufficient access to perform this action.
     public static var forbiddenException: Self { .init(.forbiddenException) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// Exception raised by Elemental MediaConnect when granting the entitlement. See the error message for the operation for more information on the cause of this exception.
     public static var grantFlowEntitlements420Exception: Self { .init(.grantFlowEntitlements420Exception) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// The server encountered an internal error and is unable to complete the request.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// One or more of the resources in the request does not exist in the system.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// The service is currently unavailable or busy.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
-    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// The request was denied due to request throttling.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

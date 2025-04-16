@@ -442,6 +442,19 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum CmafTimedMetadataId3Frame: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "NONE"
+        case priv = "PRIV"
+        case tdrl = "TDRL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CmafTimedMetadataPassthrough: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ColorSpace: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hdr10 = "HDR10"
         case hlg2020 = "HLG_2020"
@@ -1514,6 +1527,8 @@ extension MediaLive {
         case rtmpPull = "RTMP_PULL"
         case rtmpPush = "RTMP_PUSH"
         case rtpPush = "RTP_PUSH"
+        case sdi = "SDI"
+        case smpte2110ReceiverGroup = "SMPTE_2110_RECEIVER_GROUP"
         case srtCaller = "SRT_CALLER"
         case tsFile = "TS_FILE"
         case udpPush = "UDP_PUSH"
@@ -2079,6 +2094,25 @@ extension MediaLive {
     public enum Scte35WebDeliveryAllowedFlag: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case webDeliveryAllowed = "WEB_DELIVERY_ALLOWED"
         case webDeliveryNotAllowed = "WEB_DELIVERY_NOT_ALLOWED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SdiSourceMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case interleave = "INTERLEAVE"
+        case quadrant = "QUADRANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SdiSourceState: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case deleted = "DELETED"
+        case idle = "IDLE"
+        case inUse = "IN_USE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SdiSourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case quad = "QUAD"
+        case single = "SINGLE"
         public var description: String { return self.rawValue }
     }
 
@@ -4330,7 +4364,34 @@ extension MediaLive {
         }
     }
 
+    public struct CmafIngestCaptionLanguageMapping: AWSEncodableShape & AWSDecodableShape {
+        /// A number for the channel for this caption, 1 to 4.
+        public let captionChannel: Int?
+        /// Language code for the language of the caption in this channel.  For example, ger/deu. See http://www.loc.gov/standards/iso639-2
+        public let languageCode: String?
+
+        @inlinable
+        public init(captionChannel: Int? = nil, languageCode: String? = nil) {
+            self.captionChannel = captionChannel
+            self.languageCode = languageCode
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.captionChannel, name: "captionChannel", parent: name, max: 4)
+            try self.validate(self.captionChannel, name: "captionChannel", parent: name, min: 1)
+            try self.validate(self.languageCode, name: "languageCode", parent: name, max: 3)
+            try self.validate(self.languageCode, name: "languageCode", parent: name, min: 3)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case captionChannel = "captionChannel"
+            case languageCode = "languageCode"
+        }
+    }
+
     public struct CmafIngestGroupSettings: AWSEncodableShape & AWSDecodableShape {
+        /// An array that identifies the languages in the four caption channels in the embedded captions.
+        public let captionLanguageMappings: [CmafIngestCaptionLanguageMapping]?
         /// A HTTP destination for the tracks
         public let destination: OutputLocationRef?
         /// Set to ENABLED to enable ID3 metadata insertion. To include metadata, you configure other parameters in the output group, or you add an ID3 action to the channel schedule.
@@ -4355,9 +4416,16 @@ extension MediaLive {
         public let segmentLengthUnits: CmafIngestSegmentLengthUnits?
         /// Number of milliseconds to delay the output from the second pipeline.
         public let sendDelayMs: Int?
+        /// Set to none if you don't want to insert a timecode in the output. Otherwise choose the frame type for the timecode.
+        public let timedMetadataId3Frame: CmafTimedMetadataId3Frame?
+        /// If you set up to insert a timecode in the output, specify the frequency for the frame, in seconds.
+        public let timedMetadataId3Period: Int?
+        /// Set to enabled to pass through ID3 metadata from the input sources.
+        public let timedMetadataPassthrough: CmafTimedMetadataPassthrough?
 
         @inlinable
-        public init(destination: OutputLocationRef? = nil, id3Behavior: CmafId3Behavior? = nil, id3NameModifier: String? = nil, klvBehavior: CmafKLVBehavior? = nil, klvNameModifier: String? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, nielsenId3NameModifier: String? = nil, scte35NameModifier: String? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, sendDelayMs: Int? = nil) {
+        public init(captionLanguageMappings: [CmafIngestCaptionLanguageMapping]? = nil, destination: OutputLocationRef? = nil, id3Behavior: CmafId3Behavior? = nil, id3NameModifier: String? = nil, klvBehavior: CmafKLVBehavior? = nil, klvNameModifier: String? = nil, nielsenId3Behavior: CmafNielsenId3Behavior? = nil, nielsenId3NameModifier: String? = nil, scte35NameModifier: String? = nil, scte35Type: Scte35Type? = nil, segmentLength: Int? = nil, segmentLengthUnits: CmafIngestSegmentLengthUnits? = nil, sendDelayMs: Int? = nil, timedMetadataId3Frame: CmafTimedMetadataId3Frame? = nil, timedMetadataId3Period: Int? = nil, timedMetadataPassthrough: CmafTimedMetadataPassthrough? = nil) {
+            self.captionLanguageMappings = captionLanguageMappings
             self.destination = destination
             self.id3Behavior = id3Behavior
             self.id3NameModifier = id3NameModifier
@@ -4370,9 +4438,15 @@ extension MediaLive {
             self.segmentLength = segmentLength
             self.segmentLengthUnits = segmentLengthUnits
             self.sendDelayMs = sendDelayMs
+            self.timedMetadataId3Frame = timedMetadataId3Frame
+            self.timedMetadataId3Period = timedMetadataId3Period
+            self.timedMetadataPassthrough = timedMetadataPassthrough
         }
 
         public func validate(name: String) throws {
+            try self.captionLanguageMappings?.forEach {
+                try $0.validate(name: "\(name).captionLanguageMappings[]")
+            }
             try self.validate(self.id3NameModifier, name: "id3NameModifier", parent: name, max: 100)
             try self.validate(self.klvNameModifier, name: "klvNameModifier", parent: name, max: 100)
             try self.validate(self.nielsenId3NameModifier, name: "nielsenId3NameModifier", parent: name, max: 100)
@@ -4380,9 +4454,12 @@ extension MediaLive {
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
             try self.validate(self.sendDelayMs, name: "sendDelayMs", parent: name, max: 2000)
             try self.validate(self.sendDelayMs, name: "sendDelayMs", parent: name, min: 0)
+            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, max: 10000)
+            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case captionLanguageMappings = "captionLanguageMappings"
             case destination = "destination"
             case id3Behavior = "id3Behavior"
             case id3NameModifier = "id3NameModifier"
@@ -4395,6 +4472,9 @@ extension MediaLive {
             case segmentLength = "segmentLength"
             case segmentLengthUnits = "segmentLengthUnits"
             case sendDelayMs = "sendDelayMs"
+            case timedMetadataId3Frame = "timedMetadataId3Frame"
+            case timedMetadataId3Period = "timedMetadataId3Period"
+            case timedMetadataPassthrough = "timedMetadataPassthrough"
         }
     }
 
@@ -5139,6 +5219,9 @@ extension MediaLive {
         public let requestId: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public let roleArn: String?
+        public let sdiSources: [String]?
+        /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
+        public let smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings?
         /// The source URLs for a PULL-type input. Every PULL type input needs
         /// exactly two source URLs for redundancy.
         /// Only specify sources for PULL type Inputs. Leave Destinations empty.
@@ -5151,7 +5234,7 @@ extension MediaLive {
         public let vpc: InputVpcRequest?
 
         @inlinable
-        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsCreateRequest? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsCreateRequest? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sdiSources: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
             self.destinations = destinations
             self.inputDevices = inputDevices
             self.inputNetworkLocation = inputNetworkLocation
@@ -5161,6 +5244,8 @@ extension MediaLive {
             self.name = name
             self.requestId = requestId
             self.roleArn = roleArn
+            self.sdiSources = sdiSources
+            self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
             self.sources = sources
             self.srtSettings = srtSettings
             self.tags = tags
@@ -5178,6 +5263,8 @@ extension MediaLive {
             case name = "name"
             case requestId = "requestId"
             case roleArn = "roleArn"
+            case sdiSources = "sdiSources"
+            case smpte2110ReceiverGroupSettings = "smpte2110ReceiverGroupSettings"
             case sources = "sources"
             case srtSettings = "srtSettings"
             case tags = "tags"
@@ -5520,11 +5607,13 @@ extension MediaLive {
         public let nodeInterfaceMappings: [NodeInterfaceMapping]?
         /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
         public let role: NodeRole?
+        /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+        public let sdiSourceMappings: [SdiSourceMapping]?
         /// The current state of the Node.
         public let state: NodeState?
 
         @inlinable
-        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, sdiSourceMappings: [SdiSourceMapping]? = nil, state: NodeState? = nil) {
             self.arn = arn
             self.channelPlacementGroups = channelPlacementGroups
             self.clusterId = clusterId
@@ -5534,6 +5623,7 @@ extension MediaLive {
             self.name = name
             self.nodeInterfaceMappings = nodeInterfaceMappings
             self.role = role
+            self.sdiSourceMappings = sdiSourceMappings
             self.state = state
         }
 
@@ -5547,6 +5637,7 @@ extension MediaLive {
             case name = "name"
             case nodeInterfaceMappings = "nodeInterfaceMappings"
             case role = "role"
+            case sdiSourceMappings = "sdiSourceMappings"
             case state = "state"
         }
     }
@@ -5591,6 +5682,50 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case input = "input"
+        }
+    }
+
+    public struct CreateSdiSourceRequest: AWSEncodableShape {
+        /// Applies only if the type is QUAD. Specify the mode for handling the quad-link signal: QUADRANT or INTERLEAVE.
+        public let mode: SdiSourceMode?
+        /// Specify a name that is unique in the AWS account. We recommend you assign a name that describes the source, for example curling-cameraA. Names are case-sensitive.
+        public let name: String?
+        /// An ID that you assign to a create request. This ID ensures idempotency when creating resources.
+        public let requestId: String?
+        /// A collection of key-value pairs.
+        public let tags: [String: String]?
+        /// Specify the  type of the SDI source: SINGLE: The source  is a single-link source. QUAD: The source  is one part of a quad-link source.
+        public let type: SdiSourceType?
+
+        @inlinable
+        public init(mode: SdiSourceMode? = nil, name: String? = nil, requestId: String? = CreateSdiSourceRequest.idempotencyToken(), tags: [String: String]? = nil, type: SdiSourceType? = nil) {
+            self.mode = mode
+            self.name = name
+            self.requestId = requestId
+            self.tags = tags
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+            case name = "name"
+            case requestId = "requestId"
+            case tags = "tags"
+            case type = "type"
+        }
+    }
+
+    public struct CreateSdiSourceResponse: AWSDecodableShape {
+        /// Settings for the SDI source.
+        public let sdiSource: SdiSource?
+
+        @inlinable
+        public init(sdiSource: SdiSource? = nil) {
+            self.sdiSource = sdiSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sdiSource = "sdiSource"
         }
     }
 
@@ -6302,11 +6437,13 @@ extension MediaLive {
         public let nodeInterfaceMappings: [NodeInterfaceMapping]?
         /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
         public let role: NodeRole?
+        /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+        public let sdiSourceMappings: [SdiSourceMapping]?
         /// The current state of the Node.
         public let state: NodeState?
 
         @inlinable
-        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, sdiSourceMappings: [SdiSourceMapping]? = nil, state: NodeState? = nil) {
             self.arn = arn
             self.channelPlacementGroups = channelPlacementGroups
             self.clusterId = clusterId
@@ -6316,6 +6453,7 @@ extension MediaLive {
             self.name = name
             self.nodeInterfaceMappings = nodeInterfaceMappings
             self.role = role
+            self.sdiSourceMappings = sdiSourceMappings
             self.state = state
         }
 
@@ -6329,6 +6467,7 @@ extension MediaLive {
             case name = "name"
             case nodeInterfaceMappings = "nodeInterfaceMappings"
             case role = "role"
+            case sdiSourceMappings = "sdiSourceMappings"
             case state = "state"
         }
     }
@@ -6457,6 +6596,38 @@ extension MediaLive {
 
     public struct DeleteScheduleResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteSdiSourceRequest: AWSEncodableShape {
+        /// The ID of the SdiSource.
+        public let sdiSourceId: String
+
+        @inlinable
+        public init(sdiSourceId: String) {
+            self.sdiSourceId = sdiSourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sdiSourceId, key: "SdiSourceId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteSdiSourceResponse: AWSDecodableShape {
+        /// Settings for the SDI source.
+        public let sdiSource: SdiSource?
+
+        @inlinable
+        public init(sdiSource: SdiSource? = nil) {
+            self.sdiSource = sdiSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sdiSource = "sdiSource"
+        }
     }
 
     public struct DeleteSignalMapRequest: AWSEncodableShape {
@@ -7038,8 +7209,11 @@ extension MediaLive {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public let roleArn: String?
+        public let sdiSources: [String]?
         /// A list of IDs for all the Input Security Groups attached to the input.
         public let securityGroups: [String]?
+        /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
+        public let smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings?
         /// A list of the sources of the input (PULL-type).
         public let sources: [InputSource]?
         /// The settings associated with an SRT input.
@@ -7050,7 +7224,7 @@ extension MediaLive {
         public let type: InputType?
 
         @inlinable
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, sdiSources: [String]? = nil, securityGroups: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
@@ -7064,7 +7238,9 @@ extension MediaLive {
             self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
+            self.sdiSources = sdiSources
             self.securityGroups = securityGroups
+            self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
             self.sources = sources
             self.srtSettings = srtSettings
             self.state = state
@@ -7086,7 +7262,9 @@ extension MediaLive {
             case multicastSettings = "multicastSettings"
             case name = "name"
             case roleArn = "roleArn"
+            case sdiSources = "sdiSources"
             case securityGroups = "securityGroups"
+            case smpte2110ReceiverGroupSettings = "smpte2110ReceiverGroupSettings"
             case sources = "sources"
             case srtSettings = "srtSettings"
             case state = "state"
@@ -7400,11 +7578,13 @@ extension MediaLive {
         public let nodeInterfaceMappings: [NodeInterfaceMapping]?
         /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
         public let role: NodeRole?
+        /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+        public let sdiSourceMappings: [SdiSourceMapping]?
         /// The current state of the Node.
         public let state: NodeState?
 
         @inlinable
-        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, sdiSourceMappings: [SdiSourceMapping]? = nil, state: NodeState? = nil) {
             self.arn = arn
             self.channelPlacementGroups = channelPlacementGroups
             self.clusterId = clusterId
@@ -7414,6 +7594,7 @@ extension MediaLive {
             self.name = name
             self.nodeInterfaceMappings = nodeInterfaceMappings
             self.role = role
+            self.sdiSourceMappings = sdiSourceMappings
             self.state = state
         }
 
@@ -7427,6 +7608,7 @@ extension MediaLive {
             case name = "name"
             case nodeInterfaceMappings = "nodeInterfaceMappings"
             case role = "role"
+            case sdiSourceMappings = "sdiSourceMappings"
             case state = "state"
         }
     }
@@ -7452,11 +7634,13 @@ extension MediaLive {
         public let nodeInterfaceMappings: [NodeInterfaceMapping]?
         /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
         public let role: NodeRole?
+        /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+        public let sdiSourceMappings: [SdiSourceMapping]?
         /// The current state of the Node.
         public let state: NodeState?
 
         @inlinable
-        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, managedInstanceId: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, managedInstanceId: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, sdiSourceMappings: [SdiSourceMapping]? = nil, state: NodeState? = nil) {
             self.arn = arn
             self.channelPlacementGroups = channelPlacementGroups
             self.clusterId = clusterId
@@ -7467,6 +7651,7 @@ extension MediaLive {
             self.name = name
             self.nodeInterfaceMappings = nodeInterfaceMappings
             self.role = role
+            self.sdiSourceMappings = sdiSourceMappings
             self.state = state
         }
 
@@ -7481,6 +7666,7 @@ extension MediaLive {
             case name = "name"
             case nodeInterfaceMappings = "nodeInterfaceMappings"
             case role = "role"
+            case sdiSourceMappings = "sdiSourceMappings"
             case state = "state"
         }
     }
@@ -7705,6 +7891,38 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case scheduleActions = "scheduleActions"
+        }
+    }
+
+    public struct DescribeSdiSourceRequest: AWSEncodableShape {
+        /// Get details about an SdiSource.
+        public let sdiSourceId: String
+
+        @inlinable
+        public init(sdiSourceId: String) {
+            self.sdiSourceId = sdiSourceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.sdiSourceId, key: "SdiSourceId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeSdiSourceResponse: AWSDecodableShape {
+        /// Settings for the SDI source.
+        public let sdiSource: SdiSource?
+
+        @inlinable
+        public init(sdiSource: SdiSource? = nil) {
+            self.sdiSource = sdiSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sdiSource = "sdiSource"
         }
     }
 
@@ -10254,8 +10472,11 @@ extension MediaLive {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public let roleArn: String?
+        public let sdiSources: [String]?
         /// A list of IDs for all the Input Security Groups attached to the input.
         public let securityGroups: [String]?
+        /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
+        public let smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings?
         /// A list of the sources of the input (PULL-type).
         public let sources: [InputSource]?
         /// The settings associated with an SRT input.
@@ -10266,7 +10487,7 @@ extension MediaLive {
         public let type: InputType?
 
         @inlinable
-        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
+        public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputNetworkLocation: InputNetworkLocation? = nil, inputPartnerIds: [String]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, multicastSettings: MulticastSettings? = nil, name: String? = nil, roleArn: String? = nil, sdiSources: [String]? = nil, securityGroups: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSource]? = nil, srtSettings: SrtSettings? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
             self.attachedChannels = attachedChannels
             self.destinations = destinations
@@ -10280,7 +10501,9 @@ extension MediaLive {
             self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
+            self.sdiSources = sdiSources
             self.securityGroups = securityGroups
+            self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
             self.sources = sources
             self.srtSettings = srtSettings
             self.state = state
@@ -10302,7 +10525,9 @@ extension MediaLive {
             case multicastSettings = "multicastSettings"
             case name = "name"
             case roleArn = "roleArn"
+            case sdiSources = "sdiSources"
             case securityGroups = "securityGroups"
+            case smpte2110ReceiverGroupSettings = "smpte2110ReceiverGroupSettings"
             case sources = "sources"
             case srtSettings = "srtSettings"
             case state = "state"
@@ -10519,6 +10744,8 @@ extension MediaLive {
         public let codec: InputDeviceCodec?
         /// The input source that you want to use. If the device has a source connected to only one of its input ports, or if you don't care which source the device sends, specify Auto. If the device has sources connected to both its input ports, and you want to use a specific source, specify the source.
         public let configuredInput: InputDeviceConfiguredInput?
+        /// Choose the resolution of the Link device's source (HD or UHD). Make sure the resolution matches the current source from the device. This value determines MediaLive resource allocation and billing for this input. Only UHD devices can specify this parameter.
+        public let inputResolution: String?
         /// The Link device's buffer size (latency) in milliseconds (ms).
         public let latencyMs: Int?
         /// The maximum bitrate in bits per second. Set a value here to throttle the bitrate of the source video.
@@ -10527,10 +10754,11 @@ extension MediaLive {
         public let mediaconnectSettings: InputDeviceMediaConnectConfigurableSettings?
 
         @inlinable
-        public init(audioChannelPairs: [InputDeviceConfigurableAudioChannelPairConfig]? = nil, codec: InputDeviceCodec? = nil, configuredInput: InputDeviceConfiguredInput? = nil, latencyMs: Int? = nil, maxBitrate: Int? = nil, mediaconnectSettings: InputDeviceMediaConnectConfigurableSettings? = nil) {
+        public init(audioChannelPairs: [InputDeviceConfigurableAudioChannelPairConfig]? = nil, codec: InputDeviceCodec? = nil, configuredInput: InputDeviceConfiguredInput? = nil, inputResolution: String? = nil, latencyMs: Int? = nil, maxBitrate: Int? = nil, mediaconnectSettings: InputDeviceMediaConnectConfigurableSettings? = nil) {
             self.audioChannelPairs = audioChannelPairs
             self.codec = codec
             self.configuredInput = configuredInput
+            self.inputResolution = inputResolution
             self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.mediaconnectSettings = mediaconnectSettings
@@ -10540,6 +10768,7 @@ extension MediaLive {
             case audioChannelPairs = "audioChannelPairs"
             case codec = "codec"
             case configuredInput = "configuredInput"
+            case inputResolution = "inputResolution"
             case latencyMs = "latencyMs"
             case maxBitrate = "maxBitrate"
             case mediaconnectSettings = "mediaconnectSettings"
@@ -10809,6 +11038,8 @@ extension MediaLive {
         public let framerate: Double?
         /// The height of the video source, in pixels.
         public let height: Int?
+        /// The resolution of the Link device's source (HD or UHD). This value determines MediaLive resource allocation and billing for this input.
+        public let inputResolution: String?
         /// The Link device's buffer size (latency) in milliseconds (ms). You can specify this value.
         public let latencyMs: Int?
         /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
@@ -10821,7 +11052,7 @@ extension MediaLive {
         public let width: Int?
 
         @inlinable
-        public init(activeInput: InputDeviceActiveInput? = nil, audioChannelPairs: [InputDeviceUhdAudioChannelPairConfig]? = nil, codec: InputDeviceCodec? = nil, configuredInput: InputDeviceConfiguredInput? = nil, deviceState: InputDeviceState? = nil, framerate: Double? = nil, height: Int? = nil, latencyMs: Int? = nil, maxBitrate: Int? = nil, mediaconnectSettings: InputDeviceMediaConnectSettings? = nil, scanType: InputDeviceScanType? = nil, width: Int? = nil) {
+        public init(activeInput: InputDeviceActiveInput? = nil, audioChannelPairs: [InputDeviceUhdAudioChannelPairConfig]? = nil, codec: InputDeviceCodec? = nil, configuredInput: InputDeviceConfiguredInput? = nil, deviceState: InputDeviceState? = nil, framerate: Double? = nil, height: Int? = nil, inputResolution: String? = nil, latencyMs: Int? = nil, maxBitrate: Int? = nil, mediaconnectSettings: InputDeviceMediaConnectSettings? = nil, scanType: InputDeviceScanType? = nil, width: Int? = nil) {
             self.activeInput = activeInput
             self.audioChannelPairs = audioChannelPairs
             self.codec = codec
@@ -10829,6 +11060,7 @@ extension MediaLive {
             self.deviceState = deviceState
             self.framerate = framerate
             self.height = height
+            self.inputResolution = inputResolution
             self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
             self.mediaconnectSettings = mediaconnectSettings
@@ -10844,6 +11076,7 @@ extension MediaLive {
             case deviceState = "deviceState"
             case framerate = "framerate"
             case height = "height"
+            case inputResolution = "inputResolution"
             case latencyMs = "latencyMs"
             case maxBitrate = "maxBitrate"
             case mediaconnectSettings = "mediaconnectSettings"
@@ -10973,6 +11206,24 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case cidr = "cidr"
             case gateway = "gateway"
+        }
+    }
+
+    public struct InputSdpLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The index of the media stream in the SDP file for one SMPTE 2110 stream.
+        public let mediaIndex: Int?
+        /// The URL of the SDP file for one SMPTE 2110 stream.
+        public let sdpUrl: String?
+
+        @inlinable
+        public init(mediaIndex: Int? = nil, sdpUrl: String? = nil) {
+            self.mediaIndex = mediaIndex
+            self.sdpUrl = sdpUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mediaIndex = "mediaIndex"
+            case sdpUrl = "sdpUrl"
         }
     }
 
@@ -12189,6 +12440,49 @@ extension MediaLive {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case reservations = "reservations"
+        }
+    }
+
+    public struct ListSdiSourcesRequest: AWSEncodableShape {
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// The token to retrieve the next page of results.
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSdiSourcesResponse: AWSDecodableShape {
+        public let nextToken: String?
+        public let sdiSources: [SdiSourceSummary]?
+
+        @inlinable
+        public init(nextToken: String? = nil, sdiSources: [SdiSourceSummary]? = nil) {
+            self.nextToken = nextToken
+            self.sdiSources = sdiSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case sdiSources = "sdiSources"
         }
     }
 
@@ -15388,6 +15682,124 @@ extension MediaLive {
         }
     }
 
+    public struct SdiSource: AWSDecodableShape {
+        /// The ARN of this SdiSource. It is automatically assigned when the SdiSource is created.
+        public let arn: String?
+        /// The ID of the SdiSource. Unique in the AWS account.The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The list of inputs that are currently using this SDI source. This list will be empty if the SdiSource has just been deleted.
+        public let inputs: [String]?
+        /// Applies only if the type is QUAD. The mode for handling the quad-link signal QUADRANT or INTERLEAVE.
+        public let mode: SdiSourceMode?
+        /// The name of the SdiSource.
+        public let name: String?
+        /// Specifies whether the SDI source is attached to an SDI input (IN_USE) or not (IDLE).
+        public let state: SdiSourceState?
+        public let type: SdiSourceType?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, inputs: [String]? = nil, mode: SdiSourceMode? = nil, name: String? = nil, state: SdiSourceState? = nil, type: SdiSourceType? = nil) {
+            self.arn = arn
+            self.id = id
+            self.inputs = inputs
+            self.mode = mode
+            self.name = name
+            self.state = state
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case inputs = "inputs"
+            case mode = "mode"
+            case name = "name"
+            case state = "state"
+            case type = "type"
+        }
+    }
+
+    public struct SdiSourceMapping: AWSDecodableShape {
+        /// A number that uniquely identifies the SDI card on the node hardware.
+        public let cardNumber: Int?
+        /// A number that uniquely identifies a port on the SDI card.
+        public let channelNumber: Int?
+        /// The ID of the SdiSource to associate with this port on this card. You can use the ListSdiSources operation to discover all the IDs.
+        public let sdiSource: String?
+
+        @inlinable
+        public init(cardNumber: Int? = nil, channelNumber: Int? = nil, sdiSource: String? = nil) {
+            self.cardNumber = cardNumber
+            self.channelNumber = channelNumber
+            self.sdiSource = sdiSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cardNumber = "cardNumber"
+            case channelNumber = "channelNumber"
+            case sdiSource = "sdiSource"
+        }
+    }
+
+    public struct SdiSourceMappingUpdateRequest: AWSEncodableShape {
+        /// A number that uniquely identifies the SDI card on the node hardware. For information about how physical cards are identified on your node hardware, see the documentation for your node hardware. The numbering always starts at 1.
+        public let cardNumber: Int?
+        /// A number that uniquely identifies a port on the card. This must be an SDI port (not a timecode port, for example). For information about how ports are identified on physical cards, see the documentation for your node hardware.
+        public let channelNumber: Int?
+        /// The ID of a SDI source streaming on the given SDI capture card port.
+        public let sdiSource: String?
+
+        @inlinable
+        public init(cardNumber: Int? = nil, channelNumber: Int? = nil, sdiSource: String? = nil) {
+            self.cardNumber = cardNumber
+            self.channelNumber = channelNumber
+            self.sdiSource = sdiSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cardNumber = "cardNumber"
+            case channelNumber = "channelNumber"
+            case sdiSource = "sdiSource"
+        }
+    }
+
+    public struct SdiSourceSummary: AWSDecodableShape {
+        /// The ARN of this SdiSource. It is automatically assigned when the SdiSource is created.
+        public let arn: String?
+        /// The ID of the SdiSource. Unique in the AWS account.The ID is the resource-id portion of the ARN.
+        public let id: String?
+        /// The list of inputs that are currently using this SDI source. This list will be empty if the SdiSource has just been deleted.
+        public let inputs: [String]?
+        /// Applies only if the type is QUAD. The mode for handling the quad-link signal QUADRANT or INTERLEAVE.
+        public let mode: SdiSourceMode?
+        /// The name of the SdiSource.
+        public let name: String?
+        /// Specifies whether the SDI source is attached to an SDI input (IN_USE) or not (IDLE).
+        public let state: SdiSourceState?
+        public let type: SdiSourceType?
+
+        @inlinable
+        public init(arn: String? = nil, id: String? = nil, inputs: [String]? = nil, mode: SdiSourceMode? = nil, name: String? = nil, state: SdiSourceState? = nil, type: SdiSourceType? = nil) {
+            self.arn = arn
+            self.id = id
+            self.inputs = inputs
+            self.mode = mode
+            self.name = name
+            self.state = state
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case id = "id"
+            case inputs = "inputs"
+            case mode = "mode"
+            case name = "name"
+            case state = "state"
+            case type = "type"
+        }
+    }
+
     public struct SignalMapSummary: AWSDecodableShape {
         /// A signal map's ARN (Amazon Resource Name)
         public let arn: String?
@@ -15428,6 +15840,56 @@ extension MediaLive {
             case name = "name"
             case status = "status"
             case tags = "tags"
+        }
+    }
+
+    public struct Smpte2110ReceiverGroup: AWSEncodableShape & AWSDecodableShape {
+        /// The single Smpte2110ReceiverGroupSdpSettings that identify the video, audio, and ancillary streams for this receiver group.
+        public let sdpSettings: Smpte2110ReceiverGroupSdpSettings?
+
+        @inlinable
+        public init(sdpSettings: Smpte2110ReceiverGroupSdpSettings? = nil) {
+            self.sdpSettings = sdpSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sdpSettings = "sdpSettings"
+        }
+    }
+
+    public struct Smpte2110ReceiverGroupSdpSettings: AWSEncodableShape & AWSDecodableShape {
+        /// A list of InputSdpLocations. Each item in the list specifies the SDP file and index for one ancillary SMPTE 2110 stream.
+        /// Each stream encapsulates one captions stream (out of any number you can include) or the single SCTE 35 stream that you can include.
+        public let ancillarySdps: [InputSdpLocation]?
+        /// A list of InputSdpLocations. Each item in the list specifies the SDP file and index for one audio SMPTE 2110 stream.
+        public let audioSdps: [InputSdpLocation]?
+        /// The InputSdpLocation that specifies the SDP file and index for the single video SMPTE 2110 stream for this 2110 input.
+        public let videoSdp: InputSdpLocation?
+
+        @inlinable
+        public init(ancillarySdps: [InputSdpLocation]? = nil, audioSdps: [InputSdpLocation]? = nil, videoSdp: InputSdpLocation? = nil) {
+            self.ancillarySdps = ancillarySdps
+            self.audioSdps = audioSdps
+            self.videoSdp = videoSdp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ancillarySdps = "ancillarySdps"
+            case audioSdps = "audioSdps"
+            case videoSdp = "videoSdp"
+        }
+    }
+
+    public struct Smpte2110ReceiverGroupSettings: AWSEncodableShape & AWSDecodableShape {
+        public let smpte2110ReceiverGroups: [Smpte2110ReceiverGroup]?
+
+        @inlinable
+        public init(smpte2110ReceiverGroups: [Smpte2110ReceiverGroup]? = nil) {
+            self.smpte2110ReceiverGroups = smpte2110ReceiverGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case smpte2110ReceiverGroups = "smpte2110ReceiverGroups"
         }
     }
 
@@ -17819,6 +18281,9 @@ extension MediaLive {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the role this input assumes during and after creation.
         public let roleArn: String?
+        public let sdiSources: [String]?
+        /// Include this parameter if the input is a SMPTE 2110 input, to identify the stream sources for this input.
+        public let smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings?
         /// The source URLs for a PULL-type input. Every PULL type input needs
         /// exactly two source URLs for redundancy.
         /// Only specify sources for PULL type Inputs. Leave Destinations empty.
@@ -17827,7 +18292,7 @@ extension MediaLive {
         public let srtSettings: SrtSettingsRequest?
 
         @inlinable
-        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsUpdateRequest? = nil, name: String? = nil, roleArn: String? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil) {
+        public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceRequest]? = nil, inputId: String, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, multicastSettings: MulticastSettingsUpdateRequest? = nil, name: String? = nil, roleArn: String? = nil, sdiSources: [String]? = nil, smpte2110ReceiverGroupSettings: Smpte2110ReceiverGroupSettings? = nil, sources: [InputSourceRequest]? = nil, srtSettings: SrtSettingsRequest? = nil) {
             self.destinations = destinations
             self.inputDevices = inputDevices
             self.inputId = inputId
@@ -17836,6 +18301,8 @@ extension MediaLive {
             self.multicastSettings = multicastSettings
             self.name = name
             self.roleArn = roleArn
+            self.sdiSources = sdiSources
+            self.smpte2110ReceiverGroupSettings = smpte2110ReceiverGroupSettings
             self.sources = sources
             self.srtSettings = srtSettings
         }
@@ -17851,6 +18318,8 @@ extension MediaLive {
             try container.encodeIfPresent(self.multicastSettings, forKey: .multicastSettings)
             try container.encodeIfPresent(self.name, forKey: .name)
             try container.encodeIfPresent(self.roleArn, forKey: .roleArn)
+            try container.encodeIfPresent(self.sdiSources, forKey: .sdiSources)
+            try container.encodeIfPresent(self.smpte2110ReceiverGroupSettings, forKey: .smpte2110ReceiverGroupSettings)
             try container.encodeIfPresent(self.sources, forKey: .sources)
             try container.encodeIfPresent(self.srtSettings, forKey: .srtSettings)
         }
@@ -17863,6 +18332,8 @@ extension MediaLive {
             case multicastSettings = "multicastSettings"
             case name = "name"
             case roleArn = "roleArn"
+            case sdiSources = "sdiSources"
+            case smpte2110ReceiverGroupSettings = "smpte2110ReceiverGroupSettings"
             case sources = "sources"
             case srtSettings = "srtSettings"
         }
@@ -18108,13 +18579,16 @@ extension MediaLive {
         public let nodeId: String
         /// The initial role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
         public let role: NodeRole?
+        /// The mappings of a SDI capture card port to a logical SDI data stream
+        public let sdiSourceMappings: [SdiSourceMappingUpdateRequest]?
 
         @inlinable
-        public init(clusterId: String, name: String? = nil, nodeId: String, role: NodeRole? = nil) {
+        public init(clusterId: String, name: String? = nil, nodeId: String, role: NodeRole? = nil, sdiSourceMappings: [SdiSourceMappingUpdateRequest]? = nil) {
             self.clusterId = clusterId
             self.name = name
             self.nodeId = nodeId
             self.role = role
+            self.sdiSourceMappings = sdiSourceMappings
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -18124,11 +18598,13 @@ extension MediaLive {
             try container.encodeIfPresent(self.name, forKey: .name)
             request.encodePath(self.nodeId, key: "NodeId")
             try container.encodeIfPresent(self.role, forKey: .role)
+            try container.encodeIfPresent(self.sdiSourceMappings, forKey: .sdiSourceMappings)
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "name"
             case role = "role"
+            case sdiSourceMappings = "sdiSourceMappings"
         }
     }
 
@@ -18151,11 +18627,13 @@ extension MediaLive {
         public let nodeInterfaceMappings: [NodeInterfaceMapping]?
         /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
         public let role: NodeRole?
+        /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+        public let sdiSourceMappings: [SdiSourceMapping]?
         /// The current state of the Node.
         public let state: NodeState?
 
         @inlinable
-        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, sdiSourceMappings: [SdiSourceMapping]? = nil, state: NodeState? = nil) {
             self.arn = arn
             self.channelPlacementGroups = channelPlacementGroups
             self.clusterId = clusterId
@@ -18165,6 +18643,7 @@ extension MediaLive {
             self.name = name
             self.nodeInterfaceMappings = nodeInterfaceMappings
             self.role = role
+            self.sdiSourceMappings = sdiSourceMappings
             self.state = state
         }
 
@@ -18178,6 +18657,7 @@ extension MediaLive {
             case name = "name"
             case nodeInterfaceMappings = "nodeInterfaceMappings"
             case role = "role"
+            case sdiSourceMappings = "sdiSourceMappings"
             case state = "state"
         }
     }
@@ -18229,11 +18709,13 @@ extension MediaLive {
         public let nodeInterfaceMappings: [NodeInterfaceMapping]?
         /// The initial role current role of the Node in the Cluster. ACTIVE means the Node is available for encoding. BACKUP means the Node is a redundant Node and might get used if an ACTIVE Node fails.
         public let role: NodeRole?
+        /// An array of SDI source mappings. Each mapping connects one logical SdiSource to the physical SDI card and port that the physical SDI source uses.
+        public let sdiSourceMappings: [SdiSourceMapping]?
         /// The current state of the Node.
         public let state: NodeState?
 
         @inlinable
-        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, state: NodeState? = nil) {
+        public init(arn: String? = nil, channelPlacementGroups: [String]? = nil, clusterId: String? = nil, connectionState: NodeConnectionState? = nil, id: String? = nil, instanceArn: String? = nil, name: String? = nil, nodeInterfaceMappings: [NodeInterfaceMapping]? = nil, role: NodeRole? = nil, sdiSourceMappings: [SdiSourceMapping]? = nil, state: NodeState? = nil) {
             self.arn = arn
             self.channelPlacementGroups = channelPlacementGroups
             self.clusterId = clusterId
@@ -18243,6 +18725,7 @@ extension MediaLive {
             self.name = name
             self.nodeInterfaceMappings = nodeInterfaceMappings
             self.role = role
+            self.sdiSourceMappings = sdiSourceMappings
             self.state = state
         }
 
@@ -18256,6 +18739,7 @@ extension MediaLive {
             case name = "name"
             case nodeInterfaceMappings = "nodeInterfaceMappings"
             case role = "role"
+            case sdiSourceMappings = "sdiSourceMappings"
             case state = "state"
         }
     }
@@ -18303,6 +18787,54 @@ extension MediaLive {
 
         private enum CodingKeys: String, CodingKey {
             case reservation = "reservation"
+        }
+    }
+
+    public struct UpdateSdiSourceRequest: AWSEncodableShape {
+        /// Include this parameter only if you want to change the name of the SdiSource. Specify a name that is unique in the AWS account. We recommend you assign a name that describes the source, for example curling-cameraA. Names are case-sensitive.
+        public let mode: SdiSourceMode?
+        /// Include this parameter only if you want to change the name of the SdiSource. Specify a name that is unique in the AWS account. We recommend you assign a name that describes the source, for example curling-cameraA. Names are case-sensitive.
+        public let name: String?
+        /// The ID of the SdiSource
+        public let sdiSourceId: String
+        /// Include this parameter only if you want to change the mode. Specify the type of the SDI source: SINGLE: The source is a single-link source. QUAD: The source is one part of a quad-link source.
+        public let type: SdiSourceType?
+
+        @inlinable
+        public init(mode: SdiSourceMode? = nil, name: String? = nil, sdiSourceId: String, type: SdiSourceType? = nil) {
+            self.mode = mode
+            self.name = name
+            self.sdiSourceId = sdiSourceId
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.mode, forKey: .mode)
+            try container.encodeIfPresent(self.name, forKey: .name)
+            request.encodePath(self.sdiSourceId, key: "SdiSourceId")
+            try container.encodeIfPresent(self.type, forKey: .type)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode = "mode"
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct UpdateSdiSourceResponse: AWSDecodableShape {
+        /// Settings for the SDI source.
+        public let sdiSource: SdiSource?
+
+        @inlinable
+        public init(sdiSource: SdiSource? = nil) {
+            self.sdiSource = sdiSource
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sdiSource = "sdiSource"
         }
     }
 

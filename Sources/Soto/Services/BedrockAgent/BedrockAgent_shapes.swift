@@ -316,6 +316,7 @@ extension BedrockAgent {
     public enum KnowledgeBaseStorageType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mongoDbAtlas = "MONGO_DB_ATLAS"
         case neptuneAnalytics = "NEPTUNE_ANALYTICS"
+        case opensearchManagedCluster = "OPENSEARCH_MANAGED_CLUSTER"
         case opensearchServerless = "OPENSEARCH_SERVERLESS"
         case pinecone = "PINECONE"
         case rds = "RDS"
@@ -2195,7 +2196,7 @@ extension BedrockAgent {
     public struct BedrockFoundationModelContextEnrichmentConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The enrichment stategy used to provide additional context. For example, Neptune GraphRAG uses Amazon Bedrock foundation models to perform chunk entity extraction.
         public let enrichmentStrategyConfiguration: EnrichmentStrategyConfiguration
-        /// The Amazon Resource Name (ARN) of the foundation model used for context enrichment.
+        /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
         public let modelArn: String
 
         @inlinable
@@ -7472,17 +7473,20 @@ extension BedrockAgent {
         public let endpointServiceName: String?
         /// Contains the names of the fields to which to map information about the vector store.
         public let fieldMapping: MongoDbAtlasFieldMapping
+        /// The name of the text search index in the MongoDB collection. This is required for using the hybrid search feature.
+        public let textIndexName: String?
         /// The name of the MongoDB Atlas vector search index.
         public let vectorIndexName: String
 
         @inlinable
-        public init(collectionName: String, credentialsSecretArn: String, databaseName: String, endpoint: String, endpointServiceName: String? = nil, fieldMapping: MongoDbAtlasFieldMapping, vectorIndexName: String) {
+        public init(collectionName: String, credentialsSecretArn: String, databaseName: String, endpoint: String, endpointServiceName: String? = nil, fieldMapping: MongoDbAtlasFieldMapping, textIndexName: String? = nil, vectorIndexName: String) {
             self.collectionName = collectionName
             self.credentialsSecretArn = credentialsSecretArn
             self.databaseName = databaseName
             self.endpoint = endpoint
             self.endpointServiceName = endpointServiceName
             self.fieldMapping = fieldMapping
+            self.textIndexName = textIndexName
             self.vectorIndexName = vectorIndexName
         }
 
@@ -7498,6 +7502,8 @@ extension BedrockAgent {
             try self.validate(self.endpointServiceName, name: "endpointServiceName", parent: name, min: 1)
             try self.validate(self.endpointServiceName, name: "endpointServiceName", parent: name, pattern: "^(?:arn:aws(?:-us-gov|-cn|-iso|-iso-[a-z])*:.+:.*:\\d+:.+/.+$|[a-zA-Z0-9*]+[a-zA-Z0-9._-]*)$")
             try self.fieldMapping.validate(name: "\(name).fieldMapping")
+            try self.validate(self.textIndexName, name: "textIndexName", parent: name, max: 2048)
+            try self.validate(self.textIndexName, name: "textIndexName", parent: name, pattern: "^.*$")
             try self.validate(self.vectorIndexName, name: "vectorIndexName", parent: name, max: 2048)
             try self.validate(self.vectorIndexName, name: "vectorIndexName", parent: name, pattern: "^.*$")
         }
@@ -7509,6 +7515,7 @@ extension BedrockAgent {
             case endpoint = "endpoint"
             case endpointServiceName = "endpointServiceName"
             case fieldMapping = "fieldMapping"
+            case textIndexName = "textIndexName"
             case vectorIndexName = "vectorIndexName"
         }
     }
@@ -7609,6 +7616,74 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case metadataField = "metadataField"
             case textField = "textField"
+        }
+    }
+
+    public struct OpenSearchManagedClusterConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the OpenSearch domain.
+        public let domainArn: String
+        /// The endpoint URL the OpenSearch domain.
+        public let domainEndpoint: String
+        /// Contains the names of the fields to which to map information about the vector store.
+        public let fieldMapping: OpenSearchManagedClusterFieldMapping
+        /// The name of the vector store.
+        public let vectorIndexName: String
+
+        @inlinable
+        public init(domainArn: String, domainEndpoint: String, fieldMapping: OpenSearchManagedClusterFieldMapping, vectorIndexName: String) {
+            self.domainArn = domainArn
+            self.domainEndpoint = domainEndpoint
+            self.fieldMapping = fieldMapping
+            self.vectorIndexName = vectorIndexName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainArn, name: "domainArn", parent: name, max: 2048)
+            try self.validate(self.domainArn, name: "domainArn", parent: name, pattern: "^arn:aws(|-cn|-us-gov|-iso):es:[a-z]{2}(-gov)?-[a-z]+-\\d{1}:\\d{12}:domain/[a-z][a-z0-9-]{3,28}$")
+            try self.validate(self.domainEndpoint, name: "domainEndpoint", parent: name, max: 2048)
+            try self.validate(self.domainEndpoint, name: "domainEndpoint", parent: name, pattern: "^https://.*$")
+            try self.fieldMapping.validate(name: "\(name).fieldMapping")
+            try self.validate(self.vectorIndexName, name: "vectorIndexName", parent: name, max: 2048)
+            try self.validate(self.vectorIndexName, name: "vectorIndexName", parent: name, min: 1)
+            try self.validate(self.vectorIndexName, name: "vectorIndexName", parent: name, pattern: "^(?![\\-_+.])[a-z0-9][a-z0-9\\-_\\.]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainArn = "domainArn"
+            case domainEndpoint = "domainEndpoint"
+            case fieldMapping = "fieldMapping"
+            case vectorIndexName = "vectorIndexName"
+        }
+    }
+
+    public struct OpenSearchManagedClusterFieldMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
+        public let metadataField: String
+        /// The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.
+        public let textField: String
+        /// The name of the field in which Amazon Bedrock stores the vector embeddings for your data sources.
+        public let vectorField: String
+
+        @inlinable
+        public init(metadataField: String, textField: String, vectorField: String) {
+            self.metadataField = metadataField
+            self.textField = textField
+            self.vectorField = vectorField
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metadataField, name: "metadataField", parent: name, max: 2048)
+            try self.validate(self.metadataField, name: "metadataField", parent: name, pattern: "^.*$")
+            try self.validate(self.textField, name: "textField", parent: name, max: 2048)
+            try self.validate(self.textField, name: "textField", parent: name, pattern: "^.*$")
+            try self.validate(self.vectorField, name: "vectorField", parent: name, max: 2048)
+            try self.validate(self.vectorField, name: "vectorField", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metadataField = "metadataField"
+            case textField = "textField"
+            case vectorField = "vectorField"
         }
     }
 
@@ -8468,6 +8543,8 @@ extension BedrockAgent {
     }
 
     public struct RdsFieldMapping: AWSEncodableShape & AWSDecodableShape {
+        /// Provide a name for the universal metadata field where Amazon Bedrock will store any custom metadata from  your data source.
+        public let customMetadataField: String?
         /// The name of the field in which Amazon Bedrock stores metadata about the vector store.
         public let metadataField: String
         /// The name of the field in which Amazon Bedrock stores the ID for each entry.
@@ -8478,7 +8555,8 @@ extension BedrockAgent {
         public let vectorField: String
 
         @inlinable
-        public init(metadataField: String, primaryKeyField: String, textField: String, vectorField: String) {
+        public init(customMetadataField: String? = nil, metadataField: String, primaryKeyField: String, textField: String, vectorField: String) {
+            self.customMetadataField = customMetadataField
             self.metadataField = metadataField
             self.primaryKeyField = primaryKeyField
             self.textField = textField
@@ -8486,6 +8564,8 @@ extension BedrockAgent {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.customMetadataField, name: "customMetadataField", parent: name, max: 63)
+            try self.validate(self.customMetadataField, name: "customMetadataField", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
             try self.validate(self.metadataField, name: "metadataField", parent: name, max: 63)
             try self.validate(self.metadataField, name: "metadataField", parent: name, pattern: "^[a-zA-Z0-9_\\-]+$")
             try self.validate(self.primaryKeyField, name: "primaryKeyField", parent: name, max: 63)
@@ -8497,6 +8577,7 @@ extension BedrockAgent {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customMetadataField = "customMetadataField"
             case metadataField = "metadataField"
             case primaryKeyField = "primaryKeyField"
             case textField = "textField"
@@ -9319,6 +9400,8 @@ extension BedrockAgent {
         public let mongoDbAtlasConfiguration: MongoDbAtlasConfiguration?
         /// Contains details about the Neptune Analytics configuration of the knowledge base in Amazon Neptune. For more information,  see Create a vector index in Amazon Neptune Analytics..
         public let neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration?
+        /// Contains details about the storage configuration of the knowledge base in OpenSearch Managed Cluster. For more information, see Create  a vector index in Amazon OpenSearch Service.
+        public let opensearchManagedClusterConfiguration: OpenSearchManagedClusterConfiguration?
         /// Contains the storage configuration of the knowledge base in Amazon OpenSearch Service.
         public let opensearchServerlessConfiguration: OpenSearchServerlessConfiguration?
         /// Contains the storage configuration of the knowledge base in Pinecone.
@@ -9331,9 +9414,10 @@ extension BedrockAgent {
         public let type: KnowledgeBaseStorageType
 
         @inlinable
-        public init(mongoDbAtlasConfiguration: MongoDbAtlasConfiguration? = nil, neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration? = nil, opensearchServerlessConfiguration: OpenSearchServerlessConfiguration? = nil, pineconeConfiguration: PineconeConfiguration? = nil, rdsConfiguration: RdsConfiguration? = nil, redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration? = nil, type: KnowledgeBaseStorageType) {
+        public init(mongoDbAtlasConfiguration: MongoDbAtlasConfiguration? = nil, neptuneAnalyticsConfiguration: NeptuneAnalyticsConfiguration? = nil, opensearchManagedClusterConfiguration: OpenSearchManagedClusterConfiguration? = nil, opensearchServerlessConfiguration: OpenSearchServerlessConfiguration? = nil, pineconeConfiguration: PineconeConfiguration? = nil, rdsConfiguration: RdsConfiguration? = nil, redisEnterpriseCloudConfiguration: RedisEnterpriseCloudConfiguration? = nil, type: KnowledgeBaseStorageType) {
             self.mongoDbAtlasConfiguration = mongoDbAtlasConfiguration
             self.neptuneAnalyticsConfiguration = neptuneAnalyticsConfiguration
+            self.opensearchManagedClusterConfiguration = opensearchManagedClusterConfiguration
             self.opensearchServerlessConfiguration = opensearchServerlessConfiguration
             self.pineconeConfiguration = pineconeConfiguration
             self.rdsConfiguration = rdsConfiguration
@@ -9344,6 +9428,7 @@ extension BedrockAgent {
         public func validate(name: String) throws {
             try self.mongoDbAtlasConfiguration?.validate(name: "\(name).mongoDbAtlasConfiguration")
             try self.neptuneAnalyticsConfiguration?.validate(name: "\(name).neptuneAnalyticsConfiguration")
+            try self.opensearchManagedClusterConfiguration?.validate(name: "\(name).opensearchManagedClusterConfiguration")
             try self.opensearchServerlessConfiguration?.validate(name: "\(name).opensearchServerlessConfiguration")
             try self.pineconeConfiguration?.validate(name: "\(name).pineconeConfiguration")
             try self.rdsConfiguration?.validate(name: "\(name).rdsConfiguration")
@@ -9353,6 +9438,7 @@ extension BedrockAgent {
         private enum CodingKeys: String, CodingKey {
             case mongoDbAtlasConfiguration = "mongoDbAtlasConfiguration"
             case neptuneAnalyticsConfiguration = "neptuneAnalyticsConfiguration"
+            case opensearchManagedClusterConfiguration = "opensearchManagedClusterConfiguration"
             case opensearchServerlessConfiguration = "opensearchServerlessConfiguration"
             case pineconeConfiguration = "pineconeConfiguration"
             case rdsConfiguration = "rdsConfiguration"
@@ -9861,7 +9947,7 @@ extension BedrockAgent {
         public let functionSchema: FunctionSchema?
         /// Update the built-in or computer use action for this action group. If you specify a value, you must leave the description, apiSchema, and actionGroupExecutor fields empty for this action group.    To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput.    To allow your agent to generate, run, and troubleshoot code when trying to complete a task, set this field to AMAZON.CodeInterpreter.   To allow your agent to use an Anthropic computer use tool, specify one of the following values.    Computer use is a new Anthropic Claude model capability (in beta) available with Anthropic Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only.           When operating computer use functionality, we recommend taking additional security precautions, such as executing computer actions in virtual environments with restricted data access and limited internet connectivity.  For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.      ANTHROPIC.Computer - Gives the agent permission to use the mouse and keyboard and take screenshots.    ANTHROPIC.TextEditor - Gives the agent permission to view, create and edit files.    ANTHROPIC.Bash - Gives the agent permission to run commands in a bash shell.     During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
         public let parentActionGroupSignature: ActionGroupSignature?
-        /// The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
+        /// The configuration settings for a computer use action.   Computer use is a new Anthropic Claude model capability (in beta) available with Claude 3.7 Sonnet and Claude 3.5 Sonnet v2 only. For more information, see Configure an Amazon Bedrock Agent to complete tasks with computer use tools.
         public let parentActionGroupSignatureParams: [String: String]?
 
         @inlinable

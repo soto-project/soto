@@ -707,16 +707,19 @@ public struct DirectConnect: AWSService {
     /// Parameters:
     ///   - amazonSideAsn: The autonomous system number (ASN) for Border Gateway Protocol (BGP) to be configured on the Amazon side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
     ///   - directConnectGatewayName: The name of the Direct Connect gateway.
+    ///   - tags: The key-value pair tags associated with the request.
     ///   - logger: Logger use during operation
     @inlinable
     public func createDirectConnectGateway(
         amazonSideAsn: Int64? = nil,
         directConnectGatewayName: String,
+        tags: [Tag]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateDirectConnectGatewayResult {
         let input = CreateDirectConnectGatewayRequest(
             amazonSideAsn: amazonSideAsn, 
-            directConnectGatewayName: directConnectGatewayName
+            directConnectGatewayName: directConnectGatewayName, 
+            tags: tags
         )
         return try await self.createDirectConnectGateway(input, logger: logger)
     }
@@ -1387,7 +1390,7 @@ public struct DirectConnect: AWSService {
         return try await self.describeDirectConnectGatewayAssociationProposals(input, logger: logger)
     }
 
-    /// Lists the associations between your Direct Connect gateways and virtual private gateways and transit gateways. You must specify one of the following:   A Direct Connect gateway The response contains all virtual private gateways and transit gateways associated with the Direct Connect gateway.   A virtual private gateway The response contains the Direct Connect gateway.   A transit gateway The response contains the Direct Connect gateway.   A Direct Connect gateway and a virtual private gateway The response contains the association between the Direct Connect gateway and virtual private gateway.   A Direct Connect gateway and a transit gateway The response contains the association between the Direct Connect gateway and transit gateway.
+    /// Lists the associations between your Direct Connect gateways and virtual private gateways and transit gateways. You must specify one of the following:   A Direct Connect gateway The response contains all virtual private gateways and transit gateways associated with the Direct Connect gateway.   A virtual private gateway The response contains the Direct Connect gateway.   A transit gateway The response contains the Direct Connect gateway.   A Direct Connect gateway and a virtual private gateway The response contains the association between the Direct Connect gateway and virtual private gateway.   A Direct Connect gateway and a transit gateway The response contains the association between the Direct Connect gateway and transit gateway.   A Direct Connect gateway and a virtual private gateway The response contains the association between the Direct Connect gateway and virtual private gateway.   A Direct Connect gateway association to a Cloud WAN core network The response contains the Cloud WAN core network ID that the Direct Connect gateway is associated to.
     @Sendable
     @inlinable
     public func describeDirectConnectGatewayAssociations(_ input: DescribeDirectConnectGatewayAssociationsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeDirectConnectGatewayAssociationsResult {
@@ -1400,7 +1403,7 @@ public struct DirectConnect: AWSService {
             logger: logger
         )
     }
-    /// Lists the associations between your Direct Connect gateways and virtual private gateways and transit gateways. You must specify one of the following:   A Direct Connect gateway The response contains all virtual private gateways and transit gateways associated with the Direct Connect gateway.   A virtual private gateway The response contains the Direct Connect gateway.   A transit gateway The response contains the Direct Connect gateway.   A Direct Connect gateway and a virtual private gateway The response contains the association between the Direct Connect gateway and virtual private gateway.   A Direct Connect gateway and a transit gateway The response contains the association between the Direct Connect gateway and transit gateway.
+    /// Lists the associations between your Direct Connect gateways and virtual private gateways and transit gateways. You must specify one of the following:   A Direct Connect gateway The response contains all virtual private gateways and transit gateways associated with the Direct Connect gateway.   A virtual private gateway The response contains the Direct Connect gateway.   A transit gateway The response contains the Direct Connect gateway.   A Direct Connect gateway and a virtual private gateway The response contains the association between the Direct Connect gateway and virtual private gateway.   A Direct Connect gateway and a transit gateway The response contains the association between the Direct Connect gateway and transit gateway.   A Direct Connect gateway and a virtual private gateway The response contains the association between the Direct Connect gateway and virtual private gateway.   A Direct Connect gateway association to a Cloud WAN core network The response contains the Cloud WAN core network ID that the Direct Connect gateway is associated to.
     ///
     /// Parameters:
     ///   - associatedGatewayId: The ID of the associated gateway.

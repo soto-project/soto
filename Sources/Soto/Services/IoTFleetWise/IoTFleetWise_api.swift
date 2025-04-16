@@ -2039,7 +2039,7 @@ public struct IoTFleetWise: AWSService {
         return try await self.updateStateTemplate(input, logger: logger)
     }
 
-    ///  Updates a vehicle.
+    ///  Updates a vehicle.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
     @Sendable
     @inlinable
     public func updateVehicle(_ input: UpdateVehicleRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateVehicleResponse {
@@ -2052,7 +2052,7 @@ public struct IoTFleetWise: AWSService {
             logger: logger
         )
     }
-    ///  Updates a vehicle.
+    ///  Updates a vehicle.  Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the Amazon Web Services IoT FleetWise Developer Guide.
     ///
     /// Parameters:
     ///   - attributes: Static information about a vehicle in a key-value pair. For example:  "engineType" : "1.3 L R2"
@@ -2061,6 +2061,7 @@ public struct IoTFleetWise: AWSService {
     ///   - modelManifestArn: The ARN of a vehicle model (model manifest) associated with the vehicle.
     ///   - stateTemplatesToAdd: Associate state templates with the vehicle.
     ///   - stateTemplatesToRemove: Remove state templates from the vehicle.
+    ///   - stateTemplatesToUpdate: Change the stateTemplateUpdateStrategy of state templates already associated with the vehicle.
     ///   - vehicleName: The unique ID of the vehicle to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2071,6 +2072,7 @@ public struct IoTFleetWise: AWSService {
         modelManifestArn: String? = nil,
         stateTemplatesToAdd: [StateTemplateAssociation]? = nil,
         stateTemplatesToRemove: [String]? = nil,
+        stateTemplatesToUpdate: [StateTemplateAssociation]? = nil,
         vehicleName: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateVehicleResponse {
@@ -2081,6 +2083,7 @@ public struct IoTFleetWise: AWSService {
             modelManifestArn: modelManifestArn, 
             stateTemplatesToAdd: stateTemplatesToAdd, 
             stateTemplatesToRemove: stateTemplatesToRemove, 
+            stateTemplatesToUpdate: stateTemplatesToUpdate, 
             vehicleName: vehicleName
         )
         return try await self.updateVehicle(input, logger: logger)

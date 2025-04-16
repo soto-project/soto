@@ -80,6 +80,48 @@ public struct CloudWatchEvents: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "events.af-south-1.api.aws",
+            "ap-east-1": "events.ap-east-1.api.aws",
+            "ap-northeast-1": "events.ap-northeast-1.api.aws",
+            "ap-northeast-2": "events.ap-northeast-2.api.aws",
+            "ap-northeast-3": "events.ap-northeast-3.api.aws",
+            "ap-south-1": "events.ap-south-1.api.aws",
+            "ap-south-2": "events.ap-south-2.api.aws",
+            "ap-southeast-1": "events.ap-southeast-1.api.aws",
+            "ap-southeast-2": "events.ap-southeast-2.api.aws",
+            "ap-southeast-3": "events.ap-southeast-3.api.aws",
+            "ap-southeast-4": "events.ap-southeast-4.api.aws",
+            "ap-southeast-5": "events.ap-southeast-5.api.aws",
+            "ap-southeast-7": "events.ap-southeast-7.api.aws",
+            "ca-central-1": "events.ca-central-1.api.aws",
+            "ca-west-1": "events.ca-west-1.api.aws",
+            "cn-north-1": "events.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "events.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "events.eu-central-1.api.aws",
+            "eu-central-2": "events.eu-central-2.api.aws",
+            "eu-north-1": "events.eu-north-1.api.aws",
+            "eu-south-1": "events.eu-south-1.api.aws",
+            "eu-south-2": "events.eu-south-2.api.aws",
+            "eu-west-1": "events.eu-west-1.api.aws",
+            "eu-west-2": "events.eu-west-2.api.aws",
+            "eu-west-3": "events.eu-west-3.api.aws",
+            "il-central-1": "events.il-central-1.api.aws",
+            "me-central-1": "events.me-central-1.api.aws",
+            "me-south-1": "events.me-south-1.api.aws",
+            "mx-central-1": "events.mx-central-1.api.aws",
+            "sa-east-1": "events.sa-east-1.api.aws",
+            "us-east-1": "events.us-east-1.api.aws",
+            "us-east-2": "events.us-east-2.api.aws",
+            "us-west-1": "events.us-west-1.api.aws",
+            "us-west-2": "events.us-west-2.api.aws"
+        ]),
+        [.dualstack, .fips]: .init(endpoints: [
+            "us-east-1": "events-fips.us-east-1.api.aws",
+            "us-east-2": "events-fips.us-east-2.api.aws",
+            "us-west-1": "events-fips.us-west-1.api.aws",
+            "us-west-2": "events-fips.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-east-1": "events-fips.us-east-1.amazonaws.com",
             "us-east-2": "events-fips.us-east-2.amazonaws.com",

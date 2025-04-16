@@ -1645,7 +1645,7 @@ public struct SESv2: AWSService {
         return try await self.listConfigurationSets(input, logger: logger)
     }
 
-    /// Lists all of the contact lists available.
+    /// Lists all of the contact lists available. If your output includes a "NextToken" field with a string value, this indicates there may be additional contacts on the filtered list - regardless of the number of contacts returned.
     @Sendable
     @inlinable
     public func listContactLists(_ input: ListContactListsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListContactListsResponse {
@@ -1658,7 +1658,7 @@ public struct SESv2: AWSService {
             logger: logger
         )
     }
-    /// Lists all of the contact lists available.
+    /// Lists all of the contact lists available. If your output includes a "NextToken" field with a string value, this indicates there may be additional contacts on the filtered list - regardless of the number of contacts returned.
     ///
     /// Parameters:
     ///   - nextToken: A string token indicating that there might be additional contact lists available to be listed. Use the token provided in the Response to use in the subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.

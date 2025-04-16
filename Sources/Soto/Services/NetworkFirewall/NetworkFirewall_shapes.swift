@@ -61,6 +61,20 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum FlowOperationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case completed = "COMPLETED"
+        case completedWithErrors = "COMPLETED_WITH_ERRORS"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FlowOperationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case flowCapture = "FLOW_CAPTURE"
+        case flowFlush = "FLOW_FLUSH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum GeneratedRulesType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allowlist = "ALLOWLIST"
         case denylist = "DENYLIST"
@@ -1171,6 +1185,80 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DescribeFlowOperationRequest: AWSEncodableShape {
+        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let availabilityZone: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String
+        /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+        public let flowOperationId: String
+
+        @inlinable
+        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String) {
+            self.availabilityZone = availabilityZone
+            self.firewallArn = firewallArn
+            self.flowOperationId = flowOperationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.flowOperationId, name: "flowOperationId", parent: name, max: 36)
+            try self.validate(self.flowOperationId, name: "flowOperationId", parent: name, min: 36)
+            try self.validate(self.flowOperationId, name: "flowOperationId", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case firewallArn = "FirewallArn"
+            case flowOperationId = "FlowOperationId"
+        }
+    }
+
+    public struct DescribeFlowOperationResponse: AWSDecodableShape {
+        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let availabilityZone: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// Returns key information about a flow operation, such as related statuses, unique identifiers, and all filters defined in the operation.
+        public let flowOperation: FlowOperation?
+        /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+        public let flowOperationId: String?
+        /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response.
+        /// If the status is FAILED, Flows returned will be empty.
+        public let flowOperationStatus: FlowOperationStatus?
+        /// Defines the type of FlowOperation.
+        public let flowOperationType: FlowOperationType?
+        /// A timestamp indicating when the Suricata engine identified flows impacted by an operation.
+        public let flowRequestTimestamp: Date?
+        /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure. Options include Flow operation error and Flow timeout.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperation: FlowOperation? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowOperationType: FlowOperationType? = nil, flowRequestTimestamp: Date? = nil, statusMessage: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.firewallArn = firewallArn
+            self.flowOperation = flowOperation
+            self.flowOperationId = flowOperationId
+            self.flowOperationStatus = flowOperationStatus
+            self.flowOperationType = flowOperationType
+            self.flowRequestTimestamp = flowRequestTimestamp
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case firewallArn = "FirewallArn"
+            case flowOperation = "FlowOperation"
+            case flowOperationId = "FlowOperationId"
+            case flowOperationStatus = "FlowOperationStatus"
+            case flowOperationType = "FlowOperationType"
+            case flowRequestTimestamp = "FlowRequestTimestamp"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
     public struct DescribeLoggingConfigurationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
@@ -1779,6 +1867,136 @@ extension NetworkFirewall {
         }
     }
 
+    public struct Flow: AWSDecodableShape {
+        /// Returned as info about age of the flows identified by the flow operation.
+        public let age: Int?
+        /// Returns the number of bytes received or transmitted in a specific flow.
+        public let byteCount: Int64?
+        public let destinationAddress: Address?
+        /// The destination port to inspect for. You can specify an individual port,  for example 1994 and you can specify a port range, for example 1990:1994.  To match with any port, specify ANY.
+        public let destinationPort: String?
+        /// Returns the total number of data packets received or transmitted in a flow.
+        public let packetCount: Int?
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA)  for each protocol. If not specified, this matches with any protocol.
+        public let `protocol`: String?
+        public let sourceAddress: Address?
+        /// The source port to inspect for. You can specify an individual port,  for example 1994 and you can specify a port range, for example 1990:1994.  To match with any port, specify ANY.
+        public let sourcePort: String?
+
+        @inlinable
+        public init(age: Int? = nil, byteCount: Int64? = nil, destinationAddress: Address? = nil, destinationPort: String? = nil, packetCount: Int? = nil, protocol: String? = nil, sourceAddress: Address? = nil, sourcePort: String? = nil) {
+            self.age = age
+            self.byteCount = byteCount
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.packetCount = packetCount
+            self.`protocol` = `protocol`
+            self.sourceAddress = sourceAddress
+            self.sourcePort = sourcePort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case age = "Age"
+            case byteCount = "ByteCount"
+            case destinationAddress = "DestinationAddress"
+            case destinationPort = "DestinationPort"
+            case packetCount = "PacketCount"
+            case `protocol` = "Protocol"
+            case sourceAddress = "SourceAddress"
+            case sourcePort = "SourcePort"
+        }
+    }
+
+    public struct FlowFilter: AWSEncodableShape & AWSDecodableShape {
+        public let destinationAddress: Address?
+        /// The destination port to inspect for. You can specify an individual port,  for example 1994 and you can specify a port range, for example 1990:1994.  To match with any port, specify ANY.
+        public let destinationPort: String?
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA)  for each protocol. If not specified, this matches with any protocol.
+        public let protocols: [String]?
+        public let sourceAddress: Address?
+        /// The source port to inspect for. You can specify an individual port,  for example 1994 and you can specify a port range, for example 1990:1994.  To match with any port, specify ANY.
+        public let sourcePort: String?
+
+        @inlinable
+        public init(destinationAddress: Address? = nil, destinationPort: String? = nil, protocols: [String]? = nil, sourceAddress: Address? = nil, sourcePort: String? = nil) {
+            self.destinationAddress = destinationAddress
+            self.destinationPort = destinationPort
+            self.protocols = protocols
+            self.sourceAddress = sourceAddress
+            self.sourcePort = sourcePort
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationAddress?.validate(name: "\(name).destinationAddress")
+            try self.validate(self.destinationPort, name: "destinationPort", parent: name, max: 1024)
+            try self.validate(self.destinationPort, name: "destinationPort", parent: name, min: 1)
+            try self.validate(self.destinationPort, name: "destinationPort", parent: name, pattern: "^.*$")
+            try self.protocols?.forEach {
+                try validate($0, name: "protocols[]", parent: name, max: 12)
+                try validate($0, name: "protocols[]", parent: name, min: 1)
+                try validate($0, name: "protocols[]", parent: name, pattern: "^.*$")
+            }
+            try self.sourceAddress?.validate(name: "\(name).sourceAddress")
+            try self.validate(self.sourcePort, name: "sourcePort", parent: name, max: 1024)
+            try self.validate(self.sourcePort, name: "sourcePort", parent: name, min: 1)
+            try self.validate(self.sourcePort, name: "sourcePort", parent: name, pattern: "^.*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAddress = "DestinationAddress"
+            case destinationPort = "DestinationPort"
+            case protocols = "Protocols"
+            case sourceAddress = "SourceAddress"
+            case sourcePort = "SourcePort"
+        }
+    }
+
+    public struct FlowOperation: AWSDecodableShape {
+        /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let flowFilters: [FlowFilter]?
+        /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
+        /// You provide this for start commands.
+        public let minimumFlowAgeInSeconds: Int?
+
+        @inlinable
+        public init(flowFilters: [FlowFilter]? = nil, minimumFlowAgeInSeconds: Int? = nil) {
+            self.flowFilters = flowFilters
+            self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowFilters = "FlowFilters"
+            case minimumFlowAgeInSeconds = "MinimumFlowAgeInSeconds"
+        }
+    }
+
+    public struct FlowOperationMetadata: AWSDecodableShape {
+        /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+        public let flowOperationId: String?
+        /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response.
+        /// If the status is FAILED, Flows returned will be empty.
+        public let flowOperationStatus: FlowOperationStatus?
+        /// Defines the type of FlowOperation.
+        public let flowOperationType: FlowOperationType?
+        /// A timestamp indicating when the Suricata engine identified flows impacted by an operation.
+        public let flowRequestTimestamp: Date?
+
+        @inlinable
+        public init(flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowOperationType: FlowOperationType? = nil, flowRequestTimestamp: Date? = nil) {
+            self.flowOperationId = flowOperationId
+            self.flowOperationStatus = flowOperationStatus
+            self.flowOperationType = flowOperationType
+            self.flowRequestTimestamp = flowRequestTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowOperationId = "FlowOperationId"
+            case flowOperationStatus = "FlowOperationStatus"
+            case flowOperationType = "FlowOperationType"
+            case flowRequestTimestamp = "FlowRequestTimestamp"
+        }
+    }
+
     public struct FlowTimeouts: AWSEncodableShape & AWSDecodableShape {
         /// The number of seconds that can pass without any TCP traffic sent through the firewall before the firewall determines that the connection is idle. After the idle timeout passes, data packets are dropped, however, the next TCP SYN packet is considered a new flow and is processed by the firewall.  Clients or targets can use TCP keepalive packets to reset the idle timeout.  You can define the TcpIdleTimeoutSeconds value to be between 60 and 6000 seconds. If no value is provided, it defaults to 350 seconds.
         public let tcpIdleTimeoutSeconds: Int?
@@ -1880,7 +2098,7 @@ extension NetworkFirewall {
     public struct Header: AWSEncodableShape & AWSDecodableShape {
         /// The destination IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.  Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure Network Firewall to inspect for the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure Network Firewall to inspect for IP addresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let destination: String
-        /// The destination port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        /// The destination port to inspect for. You can specify an individual port,  for example 1994 and you can specify a port range, for example 1990:1994.  To match with any port, specify ANY.
         public let destinationPort: String
         /// The direction of traffic flow to inspect. If set to ANY, the inspection matches bidirectional traffic, both from the source to the destination and from the destination to the source. If set to FORWARD, the inspection only matches traffic going from the source to the destination.
         public let direction: StatefulRuleDirection
@@ -1888,7 +2106,7 @@ extension NetworkFirewall {
         public let `protocol`: StatefulRuleProtocol
         /// The source IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.  Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4 and IPv6.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   To configure Network Firewall to inspect for the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure Network Firewall to inspect for IP addresses from 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let source: String
-        /// The source port to inspect for. You can specify an individual port, for example 1994 and you can specify a port range, for example 1990:1994. To match with any port, specify ANY.
+        /// The source port to inspect for. You can specify an individual port,  for example 1994 and you can specify a port range, for example 1990:1994.  To match with any port, specify ANY.
         public let sourcePort: String
 
         @inlinable
@@ -2150,6 +2368,154 @@ extension NetworkFirewall {
         }
     }
 
+    public struct ListFlowOperationResultsRequest: AWSEncodableShape {
+        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let availabilityZone: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String
+        /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+        public let flowOperationId: String
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.firewallArn = firewallArn
+            self.flowOperationId = flowOperationId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.flowOperationId, name: "flowOperationId", parent: name, max: 36)
+            try self.validate(self.flowOperationId, name: "flowOperationId", parent: name, min: 36)
+            try self.validate(self.flowOperationId, name: "flowOperationId", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case firewallArn = "FirewallArn"
+            case flowOperationId = "FlowOperationId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFlowOperationResultsResponse: AWSDecodableShape {
+        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let availabilityZone: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+        public let flowOperationId: String?
+        /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response.
+        /// If the status is FAILED, Flows returned will be empty.
+        public let flowOperationStatus: FlowOperationStatus?
+        /// A timestamp indicating when the Suricata engine identified flows impacted by an operation.
+        public let flowRequestTimestamp: Date?
+        /// Any number of arrays, where each array is a single flow identified in the scope of the operation.
+        /// If multiple flows were in the scope of the operation, multiple Flows arrays are returned.
+        public let flows: [Flow]?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+        /// If the asynchronous operation fails, Network Firewall populates this with the reason for the error or failure.  Options include Flow operation error and Flow timeout.
+        public let statusMessage: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, firewallArn: String? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil, flowRequestTimestamp: Date? = nil, flows: [Flow]? = nil, nextToken: String? = nil, statusMessage: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.firewallArn = firewallArn
+            self.flowOperationId = flowOperationId
+            self.flowOperationStatus = flowOperationStatus
+            self.flowRequestTimestamp = flowRequestTimestamp
+            self.flows = flows
+            self.nextToken = nextToken
+            self.statusMessage = statusMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case firewallArn = "FirewallArn"
+            case flowOperationId = "FlowOperationId"
+            case flowOperationStatus = "FlowOperationStatus"
+            case flowRequestTimestamp = "FlowRequestTimestamp"
+            case flows = "Flows"
+            case nextToken = "NextToken"
+            case statusMessage = "StatusMessage"
+        }
+    }
+
+    public struct ListFlowOperationsRequest: AWSEncodableShape {
+        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let availabilityZone: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String
+        /// An optional string that defines whether any or all operation types are returned.
+        public let flowOperationType: FlowOperationType?
+        /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
+        public let maxResults: Int?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, firewallArn: String, flowOperationType: FlowOperationType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.availabilityZone = availabilityZone
+            self.firewallArn = firewallArn
+            self.flowOperationType = flowOperationType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[0-9A-Za-z:\\/+=]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case firewallArn = "FirewallArn"
+            case flowOperationType = "FlowOperationType"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListFlowOperationsResponse: AWSDecodableShape {
+        /// Flow operations let you manage the flows tracked in the flow table, also known as the firewall table. A flow is network traffic that is monitored by a firewall, either by stateful or stateless rules.
+        /// For traffic to be considered part of a flow, it must share Destination, DestinationPort, Direction, Protocol, Source, and SourcePort.
+        public let flowOperations: [FlowOperationMetadata]?
+        /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
+        public let nextToken: String?
+
+        @inlinable
+        public init(flowOperations: [FlowOperationMetadata]? = nil, nextToken: String? = nil) {
+            self.flowOperations = flowOperations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flowOperations = "FlowOperations"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListRuleGroupsRequest: AWSEncodableShape {
         /// Indicates the general category of the Amazon Web Services managed rule group.
         public let managedType: ResourceManagedType?
@@ -2355,13 +2721,13 @@ extension NetworkFirewall {
     }
 
     public struct MatchAttributes: AWSEncodableShape & AWSDecodableShape {
-        /// The destination ports to inspect for. If not specified, this matches with any destination port. This setting is only used for protocols 6 (TCP) and 17 (UDP).  You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990:1994.
+        /// The destination port to inspect for. You can specify an individual port,  for example 1994 and you can specify a port range, for example 1990:1994.  To match with any port, specify ANY. This setting is only used for protocols 6 (TCP) and 17 (UDP).
         public let destinationPorts: [PortRange]?
         /// The destination IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any destination address.
         public let destinations: [Address]?
-        /// The protocols to inspect for, specified using each protocol's assigned internet protocol number (IANA). If not specified, this matches with any protocol.
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA)  for each protocol. If not specified, this matches with any protocol.
         public let protocols: [Int]?
-        /// The source ports to inspect for. If not specified, this matches with any source port. This setting is only used for protocols 6 (TCP) and 17 (UDP).  You can specify individual ports, for example 1994 and you can specify port ranges, for example 1990:1994.
+        /// The source port to inspect for. You can specify an individual port,  for example 1994 and you can specify a port range, for example 1990:1994.  To match with any port, specify ANY. If not specified, this matches with any source port. This setting is only used for protocols 6 (TCP) and 17 (UDP).
         public let sourcePorts: [PortRange]?
         /// The source IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any source address.
         public let sources: [Address]?
@@ -2897,8 +3263,7 @@ extension NetworkFirewall {
         /// The destination IP addresses and address ranges to decrypt for inspection, in CIDR notation. If not specified, this
         /// matches with any destination address.
         public let destinations: [Address]?
-        /// The protocols to decrypt for inspection, specified using each protocol's assigned internet protocol number
-        /// (IANA). Network Firewall currently supports only TCP.
+        /// The protocols to inspect for, specified using the assigned internet protocol number (IANA)  for each protocol. If not specified, this matches with any protocol. Network Firewall currently supports only TCP.
         public let protocols: [Int]?
         /// The source ports to decrypt for inspection, in Transmission Control Protocol (TCP) format. If not specified, this matches with any source port. You can specify individual ports, for example 1994, and you can specify port ranges, such as 1990:1994.
         public let sourcePorts: [PortRange]?
@@ -3012,6 +3377,124 @@ extension NetworkFirewall {
 
         private enum CodingKeys: String, CodingKey {
             case analysisReportId = "AnalysisReportId"
+        }
+    }
+
+    public struct StartFlowCaptureRequest: AWSEncodableShape {
+        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let availabilityZone: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String
+        /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let flowFilters: [FlowFilter]
+        /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
+        /// You provide this for start commands.  We recommend setting this value to at least 1 minute (60 seconds) to reduce chance of capturing flows that are not yet established.
+        public let minimumFlowAgeInSeconds: Int?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil) {
+            self.availabilityZone = availabilityZone
+            self.firewallArn = firewallArn
+            self.flowFilters = flowFilters
+            self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.flowFilters.forEach {
+                try $0.validate(name: "\(name).flowFilters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case firewallArn = "FirewallArn"
+            case flowFilters = "FlowFilters"
+            case minimumFlowAgeInSeconds = "MinimumFlowAgeInSeconds"
+        }
+    }
+
+    public struct StartFlowCaptureResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+        public let flowOperationId: String?
+        /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response.
+        /// If the status is FAILED, Flows returned will be empty.
+        public let flowOperationStatus: FlowOperationStatus?
+
+        @inlinable
+        public init(firewallArn: String? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil) {
+            self.firewallArn = firewallArn
+            self.flowOperationId = flowOperationId
+            self.flowOperationStatus = flowOperationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallArn = "FirewallArn"
+            case flowOperationId = "FlowOperationId"
+            case flowOperationStatus = "FlowOperationStatus"
+        }
+    }
+
+    public struct StartFlowFlushRequest: AWSEncodableShape {
+        /// The ID of the Availability Zone where the firewall is located. For example, us-east-2a. Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let availabilityZone: String?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String
+        /// Defines the scope a flow operation. You can use up to 20 filters to configure a single flow operation.
+        public let flowFilters: [FlowFilter]
+        /// The reqested FlowOperation ignores flows with an age (in seconds) lower than MinimumFlowAgeInSeconds.
+        /// You provide this for start commands.
+        public let minimumFlowAgeInSeconds: Int?
+
+        @inlinable
+        public init(availabilityZone: String? = nil, firewallArn: String, flowFilters: [FlowFilter], minimumFlowAgeInSeconds: Int? = nil) {
+            self.availabilityZone = availabilityZone
+            self.firewallArn = firewallArn
+            self.flowFilters = flowFilters
+            self.minimumFlowAgeInSeconds = minimumFlowAgeInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws")
+            try self.flowFilters.forEach {
+                try $0.validate(name: "\(name).flowFilters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZone = "AvailabilityZone"
+            case firewallArn = "FirewallArn"
+            case flowFilters = "FlowFilters"
+            case minimumFlowAgeInSeconds = "MinimumFlowAgeInSeconds"
+        }
+    }
+
+    public struct StartFlowFlushResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// A unique identifier for the flow operation. This ID is returned in the responses to start and list commands. You provide to describe commands.
+        public let flowOperationId: String?
+        /// Returns the status of the flow operation. This string is returned in the responses to start, list, and describe commands. If the status is COMPLETED_WITH_ERRORS, results may be returned with any number of Flows missing from the response.
+        /// If the status is FAILED, Flows returned will be empty.
+        public let flowOperationStatus: FlowOperationStatus?
+
+        @inlinable
+        public init(firewallArn: String? = nil, flowOperationId: String? = nil, flowOperationStatus: FlowOperationStatus? = nil) {
+            self.firewallArn = firewallArn
+            self.flowOperationId = flowOperationId
+            self.flowOperationStatus = flowOperationStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firewallArn = "FirewallArn"
+            case flowOperationId = "FlowOperationId"
+            case flowOperationStatus = "FlowOperationStatus"
         }
     }
 

@@ -524,7 +524,7 @@ extension ECR {
         public let registryId: String?
         /// The name of the upstream registry.
         public let upstreamRegistry: UpstreamRegistry?
-        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
+        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – .dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
         public let upstreamRegistryUrl: String
         /// The repository name prefix of the upstream registry to match with the upstream repository name. When this field isn't specified, Amazon ECR will use the ROOT.
         public let upstreamRepositoryPrefix: String?
@@ -1658,7 +1658,7 @@ extension ECR {
     }
 
     public struct GetAuthorizationTokenResponse: AWSDecodableShape {
-        /// A list of authorization token data objects that correspond to the registryIds values in the request.
+        /// A list of authorization token data objects that correspond to the registryIds values in the request.  The size of the authorization token returned by Amazon ECR is not fixed. We recommend that you don't make assumptions about the maximum size.
         public let authorizationData: [AuthorizationData]?
 
         @inlinable
@@ -1990,7 +1990,7 @@ extension ECR {
         public let imageScanFindingsSummary: ImageScanFindingsSummary?
         /// The current state of the scan.
         public let imageScanStatus: ImageScanStatus?
-        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image sizes returned by DescribeImages.
+        /// The size, in bytes, of the image in the repository. If the image is a manifest list, this will be the max size of all manifests in the list.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
         public let imageSizeInBytes: Int64?
         /// The list of tags associated with this image.
         public let imageTags: [String]?

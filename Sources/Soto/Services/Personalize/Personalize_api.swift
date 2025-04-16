@@ -750,7 +750,7 @@ public struct Personalize: AWSService {
         return try await self.deleteCampaign(input, logger: logger)
     }
 
-    /// Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob or SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information on datasets, see CreateDataset.
+    /// Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob or SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information about deleting datasets, see Deleting a dataset.
     @Sendable
     @inlinable
     public func deleteDataset(_ input: DeleteDatasetRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -763,7 +763,7 @@ public struct Personalize: AWSService {
             logger: logger
         )
     }
-    /// Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob or SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information on datasets, see CreateDataset.
+    /// Deletes a dataset. You can't delete a dataset if an associated DatasetImportJob or SolutionVersion is in the CREATE PENDING or IN PROGRESS state. For more information about deleting datasets, see Deleting a dataset.
     ///
     /// Parameters:
     ///   - datasetArn: The Amazon Resource Name (ARN) of the dataset to delete.

@@ -88,6 +88,7 @@ public struct Polly: AWSService {
             "ap-south-1": "polly.ap-south-1.api.aws",
             "ap-southeast-1": "polly.ap-southeast-1.api.aws",
             "ap-southeast-2": "polly.ap-southeast-2.api.aws",
+            "ap-southeast-5": "polly.ap-southeast-5.api.aws",
             "ca-central-1": "polly.ca-central-1.api.aws",
             "cn-northwest-1": "polly.cn-northwest-1.api.amazonwebservices.com.cn",
             "eu-central-1": "polly.eu-central-1.api.aws",

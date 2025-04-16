@@ -2876,12 +2876,12 @@ public struct StorageGateway: AWSService {
     /// Starts generating a report of the file metadata currently cached by an S3 File Gateway for a specific file share. You can use this report to identify and resolve issues if you have files failing upload from your gateway to Amazon S3. The report is a CSV file containing a list of files which match the set of filter parameters you specify in the request.  The Files Failing Upload flag is reset every 24 hours and during gateway reboot. If this report captures the files after the reset, but before they become flagged again, they will not be reported as Files Failing Upload.  The following requirements must be met to successfully generate a cache report:   You must have permissions to list the entire Amazon S3 bucket associated with the specified file share.   No other cache reports can currently be in-progress for the specified file share.   There must be fewer than 10 existing cache reports for the specified file share.   The gateway must be online and connected to Amazon Web Services.   The root disk must have at least 20GB of free space when report generation starts.   You must specify at least one value for InclusionFilters or ExclusionFilters in the request.
     ///
     /// Parameters:
-    ///   - bucketRegion: The Amazon Web Services Region of the Amazon S3 bucket associated with the file share for which you want to generate the cache report.
+    ///   - bucketRegion: The Amazon Web Services Region of the Amazon S3 bucket where you want to save the cache report.
     ///   - clientToken: A unique identifier that you use to ensure idempotent report generation if you need to retry an unsuccessful StartCacheReport request. If you retry a request, use the same ClientToken you specified in the initial request.
     ///   - exclusionFilters: The list of filters and parameters that determine which files are excluded from the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
     ///   - fileShareARN: 
     ///   - inclusionFilters: The list of filters and parameters that determine which files are included in the report. You must specify at least one value for InclusionFilters or ExclusionFilters in a StartCacheReport request.
-    ///   - locationARN: The ARN of the Amazon S3 bucket where the cache report will be saved.  We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
+    ///   - locationARN: The ARN of the Amazon S3 bucket where you want to save the cache report.  We do not recommend saving the cache report to the same Amazon S3 bucket for which you are generating the report. This field does not accept access point ARNs.
     ///   - role: The ARN of the IAM role used when saving the cache report to Amazon S3.
     ///   - tags: A list of up to 50 key/value tags that you can assign to the cache report. Using tags can help you categorize your reports and more easily locate them in search results.
     ///   - vpcEndpointDNSName: The DNS name of the VPC endpoint associated with the Amazon S3 where you want to save the cache report. Optional.
@@ -3725,6 +3725,37 @@ extension StorageGateway {
         return self.describeVTLDevicesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listCacheReports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCacheReportsPaginator(
+        _ input: ListCacheReportsInput,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListCacheReportsInput, ListCacheReportsOutput> {
+        return .init(
+            input: input,
+            command: self.listCacheReports,
+            inputKey: \ListCacheReportsInput.marker,
+            outputKey: \ListCacheReportsOutput.marker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listCacheReports(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listCacheReportsPaginator(
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListCacheReportsInput, ListCacheReportsOutput> {
+        let input = ListCacheReportsInput(
+        )
+        return self.listCacheReportsPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listFileShares(_:logger:)``.
     ///
     /// - Parameters:
@@ -4024,6 +4055,15 @@ extension StorageGateway.DescribeVTLDevicesInput: AWSPaginateToken {
             limit: self.limit,
             marker: token,
             vtlDeviceARNs: self.vtlDeviceARNs
+        )
+    }
+}
+
+extension StorageGateway.ListCacheReportsInput: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> StorageGateway.ListCacheReportsInput {
+        return .init(
+            marker: token
         )
     }
 }

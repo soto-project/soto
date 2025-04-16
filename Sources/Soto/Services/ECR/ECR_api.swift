@@ -99,6 +99,7 @@ public struct ECR: AWSService {
         "cn-northwest-1": "api.ecr.cn-northwest-1.amazonaws.com.cn",
         "eu-central-1": "api.ecr.eu-central-1.amazonaws.com",
         "eu-central-2": "api.ecr.eu-central-2.amazonaws.com",
+        "eu-isoe-west-1": "api.ecr.eu-isoe-west-1.cloud.adc-e.uk",
         "eu-north-1": "api.ecr.eu-north-1.amazonaws.com",
         "eu-south-1": "api.ecr.eu-south-1.amazonaws.com",
         "eu-south-2": "api.ecr.eu-south-2.amazonaws.com",
@@ -380,7 +381,7 @@ public struct ECR: AWSService {
     ///   - ecrRepositoryPrefix: The repository name prefix to use when caching images from the source registry.  There is always an assumed / applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR treats that as ecr-public/.
     ///   - registryId: The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a registry, the default registry is assumed.
     ///   - upstreamRegistry: The name of the upstream registry.
-    ///   - upstreamRegistryUrl: The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
+    ///   - upstreamRegistryUrl: The registry URL of the upstream public registry to use as the source for the pull through cache rule. The following is the syntax to use for each supported upstream registry.   Amazon ECR (ecr) – .dkr.ecr..amazonaws.com    Amazon ECR Public (ecr-public) – public.ecr.aws    Docker Hub (docker-hub) – registry-1.docker.io    GitHub Container Registry (github-container-registry) – ghcr.io    GitLab Container Registry (gitlab-container-registry) – registry.gitlab.com    Kubernetes (k8s) – registry.k8s.io    Microsoft Azure Container Registry (azure-container-registry) – .azurecr.io    Quay (quay) – quay.io
     ///   - upstreamRepositoryPrefix: The repository name prefix of the upstream registry to match with the upstream repository name. When this field isn't specified, Amazon ECR will use the ROOT.
     ///   - logger: Logger use during operation
     @inlinable
@@ -765,7 +766,7 @@ public struct ECR: AWSService {
         return try await self.describeImageScanFindings(input, logger: logger)
     }
 
-    /// Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
+    /// Returns metadata about the images in a repository.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
     @Sendable
     @inlinable
     public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeImagesResponse {
@@ -778,7 +779,7 @@ public struct ECR: AWSService {
             logger: logger
         )
     }
-    /// Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
+    /// Returns metadata about the images in a repository.  Starting with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, Docker might return a larger image than the image shown in the Amazon Web Services Management Console.
     ///
     /// Parameters:
     ///   - filter: The filter key and value with which to filter your DescribeImages results.

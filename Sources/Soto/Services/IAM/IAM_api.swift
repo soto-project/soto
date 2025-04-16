@@ -97,6 +97,9 @@ public struct IAM: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "aws-global": "iam.global.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "aws-global": "iam-fips.amazonaws.com",
             "aws-us-gov-global": "iam.us-gov.amazonaws.com"

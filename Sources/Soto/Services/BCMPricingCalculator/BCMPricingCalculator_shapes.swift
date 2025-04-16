@@ -89,6 +89,7 @@ extension BCMPricingCalculator {
         case failed = "FAILED"
         case locked = "LOCKED"
         case ready = "READY"
+        case stale = "STALE"
         public var description: String { return self.rawValue }
     }
 
@@ -2347,16 +2348,20 @@ extension BCMPricingCalculator {
         public let managementAccountRateTypeSelections: [RateType]?
         ///  The preferred rate types for member accounts.
         public let memberAccountRateTypeSelections: [RateType]?
+        ///  The preferred rate types for a standalone account.
+        public let standaloneAccountRateTypeSelections: [RateType]?
 
         @inlinable
-        public init(managementAccountRateTypeSelections: [RateType]? = nil, memberAccountRateTypeSelections: [RateType]? = nil) {
+        public init(managementAccountRateTypeSelections: [RateType]? = nil, memberAccountRateTypeSelections: [RateType]? = nil, standaloneAccountRateTypeSelections: [RateType]? = nil) {
             self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
             self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+            self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
         }
 
         private enum CodingKeys: String, CodingKey {
             case managementAccountRateTypeSelections = "managementAccountRateTypeSelections"
             case memberAccountRateTypeSelections = "memberAccountRateTypeSelections"
+            case standaloneAccountRateTypeSelections = "standaloneAccountRateTypeSelections"
         }
     }
 
@@ -3450,11 +3455,14 @@ extension BCMPricingCalculator {
         public let managementAccountRateTypeSelections: [RateType]?
         ///  The updated preferred rate types for member accounts.
         public let memberAccountRateTypeSelections: [RateType]?
+        ///  The updated preferred rate types for a standalone account.
+        public let standaloneAccountRateTypeSelections: [RateType]?
 
         @inlinable
-        public init(managementAccountRateTypeSelections: [RateType]? = nil, memberAccountRateTypeSelections: [RateType]? = nil) {
+        public init(managementAccountRateTypeSelections: [RateType]? = nil, memberAccountRateTypeSelections: [RateType]? = nil, standaloneAccountRateTypeSelections: [RateType]? = nil) {
             self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
             self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+            self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
         }
 
         public func validate(name: String) throws {
@@ -3462,11 +3470,14 @@ extension BCMPricingCalculator {
             try self.validate(self.managementAccountRateTypeSelections, name: "managementAccountRateTypeSelections", parent: name, min: 1)
             try self.validate(self.memberAccountRateTypeSelections, name: "memberAccountRateTypeSelections", parent: name, max: 2)
             try self.validate(self.memberAccountRateTypeSelections, name: "memberAccountRateTypeSelections", parent: name, min: 1)
+            try self.validate(self.standaloneAccountRateTypeSelections, name: "standaloneAccountRateTypeSelections", parent: name, max: 2)
+            try self.validate(self.standaloneAccountRateTypeSelections, name: "standaloneAccountRateTypeSelections", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case managementAccountRateTypeSelections = "managementAccountRateTypeSelections"
             case memberAccountRateTypeSelections = "memberAccountRateTypeSelections"
+            case standaloneAccountRateTypeSelections = "standaloneAccountRateTypeSelections"
         }
     }
 
@@ -3475,16 +3486,20 @@ extension BCMPricingCalculator {
         public let managementAccountRateTypeSelections: [RateType]?
         ///  The updated preferred rate types for member accounts.
         public let memberAccountRateTypeSelections: [RateType]?
+        ///  The updated preferred rate types for a standalone account.
+        public let standaloneAccountRateTypeSelections: [RateType]?
 
         @inlinable
-        public init(managementAccountRateTypeSelections: [RateType]? = nil, memberAccountRateTypeSelections: [RateType]? = nil) {
+        public init(managementAccountRateTypeSelections: [RateType]? = nil, memberAccountRateTypeSelections: [RateType]? = nil, standaloneAccountRateTypeSelections: [RateType]? = nil) {
             self.managementAccountRateTypeSelections = managementAccountRateTypeSelections
             self.memberAccountRateTypeSelections = memberAccountRateTypeSelections
+            self.standaloneAccountRateTypeSelections = standaloneAccountRateTypeSelections
         }
 
         private enum CodingKeys: String, CodingKey {
             case managementAccountRateTypeSelections = "managementAccountRateTypeSelections"
             case memberAccountRateTypeSelections = "memberAccountRateTypeSelections"
+            case standaloneAccountRateTypeSelections = "standaloneAccountRateTypeSelections"
         }
     }
 

@@ -88,6 +88,7 @@ public struct SSOOIDC: AWSService {
         "ap-southeast-2": "oidc.ap-southeast-2.amazonaws.com",
         "ap-southeast-3": "oidc.ap-southeast-3.amazonaws.com",
         "ap-southeast-4": "oidc.ap-southeast-4.amazonaws.com",
+        "ap-southeast-5": "oidc.ap-southeast-5.amazonaws.com",
         "ca-central-1": "oidc.ca-central-1.amazonaws.com",
         "ca-west-1": "oidc.ca-west-1.amazonaws.com",
         "cn-north-1": "oidc.cn-north-1.amazonaws.com.cn",

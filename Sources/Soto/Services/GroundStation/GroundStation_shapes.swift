@@ -46,9 +46,9 @@ extension GroundStation {
     }
 
     public enum BandwidthUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case gHz = "GHz"
-        case mHz = "MHz"
-        case kHz = "kHz"
+        case ghz = "GHz"
+        case khz = "kHz"
+        case mhz = "MHz"
         public var description: String { return self.rawValue }
     }
 
@@ -63,8 +63,8 @@ extension GroundStation {
         case healthy = "HEALTHY"
         case initializingDataplane = "INITIALIZING_DATAPLANE"
         case invalidIpOwnership = "INVALID_IP_OWNERSHIP"
-        case notAuthorizedToCreateSlr = "NOT_AUTHORIZED_TO_CREATE_SLR"
         case noRegisteredAgent = "NO_REGISTERED_AGENT"
+        case notAuthorizedToCreateSlr = "NOT_AUTHORIZED_TO_CREATE_SLR"
         case unverifiedIpOwnership = "UNVERIFIED_IP_OWNERSHIP"
         public var description: String { return self.rawValue }
     }
@@ -105,7 +105,7 @@ extension GroundStation {
     }
 
     public enum EirpUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case dBW = "dBW"
+        case dbw = "dBW"
         public var description: String { return self.rawValue }
     }
 
@@ -149,9 +149,9 @@ extension GroundStation {
     }
 
     public enum FrequencyUnits: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
-        case gHz = "GHz"
-        case mHz = "MHz"
-        case kHz = "kHz"
+        case ghz = "GHz"
+        case khz = "kHz"
+        case mhz = "MHz"
         public var description: String { return self.rawValue }
     }
 
@@ -274,6 +274,8 @@ extension GroundStation {
                 try value.validate(name: "\(name).antennaDownlinkDemodDecodeConfig")
             case .s3RecordingConfig(let value):
                 try value.validate(name: "\(name).s3RecordingConfig")
+            case .uplinkEchoConfig(let value):
+                try value.validate(name: "\(name).uplinkEchoConfig")
             default:
                 break
             }
@@ -395,7 +397,7 @@ extension GroundStation {
             case .kmsAliasArn(let value):
                 try self.validate(value, name: "kmsAliasArn", parent: name, max: 512)
                 try self.validate(value, name: "kmsAliasArn", parent: name, min: 1)
-                try self.validate(value, name: "kmsAliasArn", parent: name, pattern: "^arn:aws[a-zA-Z-]{0,16}:kms:[a-z]{2}(-[a-z]{1,16}){1,3}-\\d{1}:\\d{12}:((alias/[a-zA-Z0-9:/_-]{1,256}))$")
+                try self.validate(value, name: "kmsAliasArn", parent: name, pattern: "^arn:aws[a-zA-Z-]{0,16}:kms:[-a-z0-9]{1,50}:[0-9]{12}:((alias/[a-zA-Z0-9:/_-]{1,256}))$")
             case .kmsAliasName(let value):
                 try self.validate(value, name: "kmsAliasName", parent: name, max: 256)
                 try self.validate(value, name: "kmsAliasName", parent: name, min: 1)
@@ -615,8 +617,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.contactId, name: "contactId", parent: name, max: 128)
-            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 36)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 36)
             try self.validate(self.contactId, name: "contactId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -652,8 +654,8 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.componentType, name: "componentType", parent: name, pattern: "^[a-zA-Z0-9_]{1,64}$")
-            try self.validate(self.dataflowId, name: "dataflowId", parent: name, max: 128)
-            try self.validate(self.dataflowId, name: "dataflowId", parent: name, min: 1)
+            try self.validate(self.dataflowId, name: "dataflowId", parent: name, max: 36)
+            try self.validate(self.dataflowId, name: "dataflowId", parent: name, min: 36)
             try self.validate(self.dataflowId, name: "dataflowId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -882,6 +884,7 @@ extension GroundStation {
         /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
         public let contactPrePassDurationSeconds: Int?
         /// Endpoint details of each endpoint in the dataflow endpoint group.
+        ///  All dataflow endpoints within a single dataflow endpoint group must be of the same type. You cannot mix  AWS Ground Station Agent endpoints with Dataflow endpoints in the same group. If your use case requires both types of endpoints, you must create separate dataflow endpoint groups for each type.
         public let endpointDetails: [EndpointDetails]
         /// Tags of a dataflow endpoint group.
         public let tags: [String: String]?
@@ -950,8 +953,8 @@ extension GroundStation {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
             try self.validate(self.priority, name: "priority", parent: name, max: 99999)
             try self.validate(self.priority, name: "priority", parent: name, min: 1)
-            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 128)
-            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 1)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 36)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 36)
             try self.validate(self.satelliteId, name: "satelliteId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1016,6 +1019,9 @@ extension GroundStation {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
             try self.streamsKmsKey?.validate(name: "\(name).streamsKmsKey")
+            try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, max: 424)
+            try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, min: 82)
+            try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:config/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1145,7 +1151,7 @@ extension GroundStation {
         public func validate(name: String) throws {
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, max: 8192)
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, min: 2)
-            try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, pattern: "^[{}\\[\\]:.,\"0-9A-z\\-_\\s]{2,8192}$")
+            try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, pattern: "^[{}\\[\\]:.,\"0-9A-Za-z\\-_\\s]{2,8192}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1173,8 +1179,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.configId, name: "configId", parent: name, max: 128)
-            try self.validate(self.configId, name: "configId", parent: name, min: 1)
+            try self.validate(self.configId, name: "configId", parent: name, max: 36)
+            try self.validate(self.configId, name: "configId", parent: name, min: 36)
             try self.validate(self.configId, name: "configId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1197,8 +1203,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, max: 128)
-            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, min: 1)
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, max: 36)
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, min: 36)
             try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1221,8 +1227,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 128)
-            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 1)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 36)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 36)
             try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1245,8 +1251,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, max: 128)
-            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, min: 1)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, max: 36)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, min: 36)
             try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1265,7 +1271,7 @@ extension GroundStation {
         public func validate(name: String) throws {
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, max: 8192)
             try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, min: 2)
-            try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, pattern: "^[{}\\[\\]:.,\"0-9A-z\\-_\\s]{2,8192}$")
+            try self.validate(self.unvalidatedJSON, name: "unvalidatedJSON", parent: name, pattern: "^[{}\\[\\]:.,\"0-9A-Za-z\\-_\\s]{2,8192}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1305,8 +1311,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.contactId, name: "contactId", parent: name, max: 128)
-            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 36)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 36)
             try self.validate(self.contactId, name: "contactId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1403,8 +1409,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 128)
-            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 1)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 36)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 36)
             try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1748,8 +1754,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentId, name: "agentId", parent: name, max: 128)
-            try self.validate(self.agentId, name: "agentId", parent: name, min: 1)
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 36)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 36)
             try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1794,8 +1800,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.configId, name: "configId", parent: name, max: 128)
-            try self.validate(self.configId, name: "configId", parent: name, min: 1)
+            try self.validate(self.configId, name: "configId", parent: name, max: 36)
+            try self.validate(self.configId, name: "configId", parent: name, min: 36)
             try self.validate(self.configId, name: "configId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1852,8 +1858,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, max: 128)
-            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, min: 1)
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, max: 36)
+            try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, min: 36)
             try self.validate(self.dataflowEndpointGroupId, name: "dataflowEndpointGroupId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -1965,8 +1971,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, max: 128)
-            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, min: 1)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, max: 36)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, min: 36)
             try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -2047,8 +2053,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 128)
-            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 1)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 36)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 36)
             try self.validate(self.satelliteId, name: "satelliteId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -2162,7 +2168,7 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
@@ -2224,10 +2230,16 @@ extension GroundStation {
             try self.validate(self.groundStation, name: "groundStation", parent: name, min: 4)
             try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,256}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, max: 138)
+            try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, min: 89)
+            try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mission-profile/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
+            try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, max: 132)
+            try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, min: 82)
+            try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, pattern: "^arn:aws:groundstation:([-a-z0-9]{1,50})?:[0-9]{12}:satellite/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.statusList, name: "statusList", parent: name, max: 500)
         }
 
@@ -2282,7 +2294,7 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
@@ -2346,12 +2358,12 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
-            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 128)
-            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 1)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 36)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 36)
             try self.validate(self.satelliteId, name: "satelliteId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.statusList, name: "statusList", parent: name, max: 500)
         }
@@ -2407,12 +2419,12 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
-            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 128)
-            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 1)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, max: 36)
+            try self.validate(self.satelliteId, name: "satelliteId", parent: name, min: 36)
             try self.validate(self.satelliteId, name: "satelliteId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -2458,7 +2470,7 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
@@ -2506,7 +2518,7 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
-            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 3)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-/+_.=]+$")
@@ -2686,11 +2698,14 @@ extension GroundStation {
         public let agentDetails: AgentDetails
         /// Data for associating an agent with the capabilities it is managing.
         public let discoveryData: DiscoveryData
+        /// Tags assigned to an Agent.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(agentDetails: AgentDetails, discoveryData: DiscoveryData) {
+        public init(agentDetails: AgentDetails, discoveryData: DiscoveryData, tags: [String: String]? = nil) {
             self.agentDetails = agentDetails
             self.discoveryData = discoveryData
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2701,6 +2716,7 @@ extension GroundStation {
         private enum CodingKeys: String, CodingKey {
             case agentDetails = "agentDetails"
             case discoveryData = "discoveryData"
+            case tags = "tags"
         }
     }
 
@@ -2746,6 +2762,12 @@ extension GroundStation {
             try self.validate(self.groundStation, name: "groundStation", parent: name, max: 500)
             try self.validate(self.groundStation, name: "groundStation", parent: name, min: 4)
             try self.validate(self.groundStation, name: "groundStation", parent: name, pattern: "^[ a-zA-Z0-9-._:=]{4,256}$")
+            try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, max: 138)
+            try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, min: 89)
+            try self.validate(self.missionProfileArn, name: "missionProfileArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:mission-profile/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, max: 132)
+            try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, min: 82)
+            try self.validate(self.satelliteArn, name: "satelliteArn", parent: name, pattern: "^arn:aws:groundstation:([-a-z0-9]{1,50})?:[0-9]{12}:satellite/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3161,15 +3183,15 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.agentId, name: "agentId", parent: name, max: 128)
-            try self.validate(self.agentId, name: "agentId", parent: name, min: 1)
+            try self.validate(self.agentId, name: "agentId", parent: name, max: 36)
+            try self.validate(self.agentId, name: "agentId", parent: name, min: 36)
             try self.validate(self.agentId, name: "agentId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.componentStatuses.forEach {
                 try $0.validate(name: "\(name).componentStatuses[]")
             }
             try self.validate(self.componentStatuses, name: "componentStatuses", parent: name, max: 20)
-            try self.validate(self.taskId, name: "taskId", parent: name, max: 128)
-            try self.validate(self.taskId, name: "taskId", parent: name, min: 1)
+            try self.validate(self.taskId, name: "taskId", parent: name, max: 36)
+            try self.validate(self.taskId, name: "taskId", parent: name, min: 36)
             try self.validate(self.taskId, name: "taskId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
         }
 
@@ -3223,8 +3245,8 @@ extension GroundStation {
 
         public func validate(name: String) throws {
             try self.configData.validate(name: "\(name).configData")
-            try self.validate(self.configId, name: "configId", parent: name, max: 128)
-            try self.validate(self.configId, name: "configId", parent: name, min: 1)
+            try self.validate(self.configId, name: "configId", parent: name, max: 36)
+            try self.validate(self.configId, name: "configId", parent: name, min: 36)
             try self.validate(self.configId, name: "configId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -3265,8 +3287,8 @@ extension GroundStation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 128)
-            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 1)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, max: 36)
+            try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, min: 36)
             try self.validate(self.ephemerisId, name: "ephemerisId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
@@ -3341,13 +3363,16 @@ extension GroundStation {
             try self.validate(self.dataflowEdges, name: "dataflowEdges", parent: name, max: 500)
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, max: 21600)
             try self.validate(self.minimumViableContactDurationSeconds, name: "minimumViableContactDurationSeconds", parent: name, min: 1)
-            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, max: 128)
-            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, min: 1)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, max: 36)
+            try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, min: 36)
             try self.validate(self.missionProfileId, name: "missionProfileId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[ a-zA-Z0-9_:-]{1,256}$")
             try self.streamsKmsKey?.validate(name: "\(name).streamsKmsKey")
+            try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, max: 424)
+            try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, min: 82)
+            try self.validate(self.trackingConfigArn, name: "trackingConfigArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:config/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3372,6 +3397,12 @@ extension GroundStation {
         public init(antennaUplinkConfigArn: String, enabled: Bool) {
             self.antennaUplinkConfigArn = antennaUplinkConfigArn
             self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.antennaUplinkConfigArn, name: "antennaUplinkConfigArn", parent: name, max: 424)
+            try self.validate(self.antennaUplinkConfigArn, name: "antennaUplinkConfigArn", parent: name, min: 82)
+            try self.validate(self.antennaUplinkConfigArn, name: "antennaUplinkConfigArn", parent: name, pattern: "^arn:aws:groundstation:[-a-z0-9]{1,50}:[0-9]{12}:config/[a-z0-9]+(-[a-z0-9]+){0,4}/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(/.{1,256})?$")
         }
 
         private enum CodingKeys: String, CodingKey {

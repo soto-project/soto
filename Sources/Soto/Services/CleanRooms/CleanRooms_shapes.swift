@@ -52,12 +52,15 @@ extension CleanRooms {
     }
 
     public enum AnalysisFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pyspark10 = "PYSPARK_1_0"
         case sql = "SQL"
         public var description: String { return self.rawValue }
     }
 
     public enum AnalysisMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case directJob = "DIRECT_JOB"
         case directQuery = "DIRECT_QUERY"
+        case multiple = "MULTIPLE"
         public var description: String { return self.rawValue }
     }
 
@@ -90,6 +93,12 @@ extension CleanRooms {
     public enum AnalyticsEngine: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cleanRoomsSql = "CLEAN_ROOMS_SQL"
         case spark = "SPARK"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CollaborationJobLogStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -161,6 +170,7 @@ extension CleanRooms {
     public enum MemberAbility: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case canQuery = "CAN_QUERY"
         case canReceiveResults = "CAN_RECEIVE_RESULTS"
+        case canRunJob = "CAN_RUN_JOB"
         public var description: String { return self.rawValue }
     }
 
@@ -169,6 +179,12 @@ extension CleanRooms {
         case invited = "INVITED"
         case left = "LEFT"
         case removed = "REMOVED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MembershipJobLogStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -225,6 +241,26 @@ extension CleanRooms {
 
     public enum PrivacyBudgetType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case differentialPrivacy = "DIFFERENTIAL_PRIVACY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectedJobAnalysisType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case directAnalysis = "DIRECT_ANALYSIS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectedJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case failed = "FAILED"
+        case started = "STARTED"
+        case submitted = "SUBMITTED"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ProtectedJobType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case pyspark = "PYSPARK"
         public var description: String { return self.rawValue }
     }
 
@@ -318,6 +354,17 @@ extension CleanRooms {
         public var description: String { return self.rawValue }
     }
 
+    public enum SelectedAnalysisMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case directJob = "DIRECT_JOB"
+        case directQuery = "DIRECT_QUERY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetProtectedJobStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetProtectedQueryStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case cancelled = "CANCELLED"
         public var description: String { return self.rawValue }
@@ -377,6 +424,56 @@ extension CleanRooms {
             case custom = "custom"
             case idMappingTable = "idMappingTable"
             case list = "list"
+        }
+    }
+
+    public enum AnalysisSource: AWSEncodableShape & AWSDecodableShape, Sendable {
+        ///  The artifacts of the analysis source.
+        case artifacts(AnalysisTemplateArtifacts)
+        /// The query text.
+        case text(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .artifacts:
+                let value = try container.decode(AnalysisTemplateArtifacts.self, forKey: .artifacts)
+                self = .artifacts(value)
+            case .text:
+                let value = try container.decode(String.self, forKey: .text)
+                self = .text(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .artifacts(let value):
+                try container.encode(value, forKey: .artifacts)
+            case .text(let value):
+                try container.encode(value, forKey: .text)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .artifacts(let value):
+                try value.validate(name: "\(name).artifacts")
+            case .text(let value):
+                try self.validate(value, name: "text", parent: name, max: 90000)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case artifacts = "artifacts"
+            case text = "text"
         }
     }
 
@@ -496,6 +593,105 @@ extension CleanRooms {
             case aggregation = "aggregation"
             case custom = "custom"
             case list = "list"
+        }
+    }
+
+    public enum ConsolidatedPolicyV1: AWSDecodableShape, Sendable {
+        ///  The aggregation setting for the consolidated policy.
+        case aggregation(ConsolidatedPolicyAggregation)
+        ///  Custom policy
+        case custom(ConsolidatedPolicyCustom)
+        ///  The list of consolidated policies.
+        case list(ConsolidatedPolicyList)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .aggregation:
+                let value = try container.decode(ConsolidatedPolicyAggregation.self, forKey: .aggregation)
+                self = .aggregation(value)
+            case .custom:
+                let value = try container.decode(ConsolidatedPolicyCustom.self, forKey: .custom)
+                self = .custom(value)
+            case .list:
+                let value = try container.decode(ConsolidatedPolicyList.self, forKey: .list)
+                self = .list(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregation = "aggregation"
+            case custom = "custom"
+            case list = "list"
+        }
+    }
+
+    public enum ProtectedJobOutput: AWSDecodableShape, Sendable {
+        /// The list of member Amazon Web Services account(s) that received the results of the job.
+        case memberList([ProtectedJobSingleMemberOutput])
+        /// If present, the output for a protected job with an `S3` output type.
+        case s3(ProtectedJobS3Output)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .memberList:
+                let value = try container.decode([ProtectedJobSingleMemberOutput].self, forKey: .memberList)
+                self = .memberList(value)
+            case .s3:
+                let value = try container.decode(ProtectedJobS3Output.self, forKey: .s3)
+                self = .s3(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberList = "memberList"
+            case s3 = "s3"
+        }
+    }
+
+    public enum ProtectedJobOutputConfigurationOutput: AWSDecodableShape, Sendable {
+        ///  The member output configuration for a protected job.
+        case member(ProtectedJobMemberOutputConfigurationOutput)
+        /// If present, the output for a protected job with an `S3` output type.
+        case s3(ProtectedJobS3OutputConfigurationOutput)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .member:
+                let value = try container.decode(ProtectedJobMemberOutputConfigurationOutput.self, forKey: .member)
+                self = .member(value)
+            case .s3:
+                let value = try container.decode(ProtectedJobS3OutputConfigurationOutput.self, forKey: .s3)
+                self = .s3(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case member = "member"
+            case s3 = "s3"
         }
     }
 
@@ -745,6 +941,9 @@ extension CleanRooms {
     public struct AnalysisRule: AWSDecodableShape {
         /// The unique ID for the associated collaboration.
         public let collaborationId: String
+        public let collaborationPolicy: ConfiguredTableAssociationAnalysisRulePolicy?
+        ///  The consolidated policy for the analysis rule.
+        public let consolidatedPolicy: ConsolidatedPolicy?
         /// The time the analysis rule was created.
         public let createTime: Date
         /// The name for the analysis rule.
@@ -757,8 +956,10 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(collaborationId: String, createTime: Date, name: String, policy: AnalysisRulePolicy, type: AnalysisRuleType, updateTime: Date) {
+        public init(collaborationId: String, collaborationPolicy: ConfiguredTableAssociationAnalysisRulePolicy? = nil, consolidatedPolicy: ConsolidatedPolicy? = nil, createTime: Date, name: String, policy: AnalysisRulePolicy, type: AnalysisRuleType, updateTime: Date) {
             self.collaborationId = collaborationId
+            self.collaborationPolicy = collaborationPolicy
+            self.consolidatedPolicy = consolidatedPolicy
             self.createTime = createTime
             self.name = name
             self.policy = policy
@@ -768,6 +969,8 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case collaborationId = "collaborationId"
+            case collaborationPolicy = "collaborationPolicy"
+            case consolidatedPolicy = "consolidatedPolicy"
             case createTime = "createTime"
             case name = "name"
             case policy = "policy"
@@ -949,13 +1152,20 @@ extension CleanRooms {
         }
     }
 
-    public struct AnalysisSchema: AWSDecodableShape {
+    public struct AnalysisSchema: AWSEncodableShape & AWSDecodableShape {
         /// The tables referenced in the analysis schema.
         public let referencedTables: [String]?
 
         @inlinable
         public init(referencedTables: [String]? = nil) {
             self.referencedTables = referencedTables
+        }
+
+        public func validate(name: String) throws {
+            try self.referencedTables?.forEach {
+                try validate($0, name: "referencedTables[]", parent: name, max: 128)
+                try validate($0, name: "referencedTables[]", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -990,13 +1200,15 @@ extension CleanRooms {
         public let schema: AnalysisSchema
         /// The source of the analysis template.
         public let source: AnalysisSource
+        ///  The source metadata for the analysis template.
+        public let sourceMetadata: AnalysisSourceMetadata?
         /// The time that the analysis template was last updated.
         public let updateTime: Date
         /// Information about the validations performed on the analysis template.
         public let validations: [AnalysisTemplateValidationStatusDetail]?
 
         @inlinable
-        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, format: AnalysisFormat, id: String, membershipArn: String, membershipId: String, name: String, schema: AnalysisSchema, source: AnalysisSource, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, description: String? = nil, format: AnalysisFormat, id: String, membershipArn: String, membershipId: String, name: String, schema: AnalysisSchema, source: AnalysisSource, sourceMetadata: AnalysisSourceMetadata? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1010,6 +1222,7 @@ extension CleanRooms {
             self.name = name
             self.schema = schema
             self.source = source
+            self.sourceMetadata = sourceMetadata
             self.updateTime = updateTime
             self.validations = validations
         }
@@ -1028,8 +1241,71 @@ extension CleanRooms {
             case name = "name"
             case schema = "schema"
             case source = "source"
+            case sourceMetadata = "sourceMetadata"
             case updateTime = "updateTime"
             case validations = "validations"
+        }
+    }
+
+    public struct AnalysisTemplateArtifact: AWSEncodableShape & AWSDecodableShape {
+        ///  The artifact location.
+        public let location: S3Location
+
+        @inlinable
+        public init(location: S3Location) {
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+        }
+    }
+
+    public struct AnalysisTemplateArtifactMetadata: AWSDecodableShape {
+        ///  Additional artifact hashes for the analysis template.
+        public let additionalArtifactHashes: [Hash]?
+        ///  The hash of the entry point for the analysis template artifact metadata.
+        public let entryPointHash: Hash
+
+        @inlinable
+        public init(additionalArtifactHashes: [Hash]? = nil, entryPointHash: Hash) {
+            self.additionalArtifactHashes = additionalArtifactHashes
+            self.entryPointHash = entryPointHash
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalArtifactHashes = "additionalArtifactHashes"
+            case entryPointHash = "entryPointHash"
+        }
+    }
+
+    public struct AnalysisTemplateArtifacts: AWSEncodableShape & AWSDecodableShape {
+        ///  Additional artifacts for the analysis template.
+        public let additionalArtifacts: [AnalysisTemplateArtifact]?
+        ///  The entry point for the analysis template artifacts.
+        public let entryPoint: AnalysisTemplateArtifact
+        ///  The role ARN for the analysis template artifacts.
+        public let roleArn: String
+
+        @inlinable
+        public init(additionalArtifacts: [AnalysisTemplateArtifact]? = nil, entryPoint: AnalysisTemplateArtifact, roleArn: String) {
+            self.additionalArtifacts = additionalArtifacts
+            self.entryPoint = entryPoint
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.additionalArtifacts, name: "additionalArtifacts", parent: name, max: 1)
+            try self.validate(self.additionalArtifacts, name: "additionalArtifacts", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[\\w]+:role/[\\w+=./@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalArtifacts = "additionalArtifacts"
+            case entryPoint = "entryPoint"
+            case roleArn = "roleArn"
         }
     }
 
@@ -1144,7 +1420,7 @@ extension CleanRooms {
             try self.validate(self.outputLocation, name: "outputLocation", parent: name, min: 8)
             try self.validate(self.outputLocation, name: "outputLocation", parent: name, pattern: "^s3://[a-z0-9.-]{3,63}(.*)$")
             try self.validate(self.tableName, name: "tableName", parent: name, max: 128)
-            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?$")
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_]+)*([a-zA-Z0-9_]+))?$")
             try self.validate(self.workGroup, name: "workGroup", parent: name, max: 128)
             try self.validate(self.workGroup, name: "workGroup", parent: name, min: 1)
             try self.validate(self.workGroup, name: "workGroup", parent: name, pattern: "^([a-zA-Z0-9._-])*$")
@@ -1389,6 +1665,20 @@ extension CleanRooms {
         }
     }
 
+    public struct BilledJobResourceUtilization: AWSDecodableShape {
+        ///  The number of Clean Rooms Processing Unit (CRPU) hours that have been billed.
+        public let units: Double
+
+        @inlinable
+        public init(units: Double) {
+            self.units = units
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case units = "units"
+        }
+    }
+
     public struct BilledResourceUtilization: AWSDecodableShape {
         ///  The number of Clean Rooms Processing Unit (CRPU) hours that have been billed.
         public let units: Double
@@ -1420,6 +1710,8 @@ extension CleanRooms {
         public let description: String?
         /// The unique ID for the collaboration.
         public let id: String
+        /// An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        public let jobLogStatus: CollaborationJobLogStatus?
         /// The unique ARN for your membership within the collaboration.
         public let membershipArn: String?
         /// The unique ID for your membership within the collaboration.
@@ -1428,13 +1720,13 @@ extension CleanRooms {
         public let memberStatus: MemberStatus
         /// A human-readable identifier provided by the collaboration owner. Display names are not unique.
         public let name: String
-        /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
+        /// An indicator as to whether query logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let queryLogStatus: CollaborationQueryLogStatus
         /// The time the collaboration metadata was last updated.
         public let updateTime: Date
 
         @inlinable
-        public init(analyticsEngine: AnalyticsEngine? = nil, arn: String, createTime: Date, creatorAccountId: String, creatorDisplayName: String, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String? = nil, id: String, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, queryLogStatus: CollaborationQueryLogStatus, updateTime: Date) {
+        public init(analyticsEngine: AnalyticsEngine? = nil, arn: String, createTime: Date, creatorAccountId: String, creatorDisplayName: String, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String? = nil, id: String, jobLogStatus: CollaborationJobLogStatus? = nil, membershipArn: String? = nil, membershipId: String? = nil, memberStatus: MemberStatus, name: String, queryLogStatus: CollaborationQueryLogStatus, updateTime: Date) {
             self.analyticsEngine = analyticsEngine
             self.arn = arn
             self.createTime = createTime
@@ -1443,6 +1735,7 @@ extension CleanRooms {
             self.dataEncryptionMetadata = dataEncryptionMetadata
             self.description = description
             self.id = id
+            self.jobLogStatus = jobLogStatus
             self.membershipArn = membershipArn
             self.membershipId = membershipId
             self.memberStatus = memberStatus
@@ -1460,6 +1753,7 @@ extension CleanRooms {
             case dataEncryptionMetadata = "dataEncryptionMetadata"
             case description = "description"
             case id = "id"
+            case jobLogStatus = "jobLogStatus"
             case membershipArn = "membershipArn"
             case membershipId = "membershipId"
             case memberStatus = "memberStatus"
@@ -1493,14 +1787,16 @@ extension CleanRooms {
         /// The entire schema object.
         public let schema: AnalysisSchema
         /// The source of the analysis template within a collaboration.
-        public let source: AnalysisSource
+        public let source: AnalysisSource?
+        ///  The source metadata for the collaboration analysis template.
+        public let sourceMetadata: AnalysisSourceMetadata?
         /// The time that the analysis template in the collaboration was last updated.
         public let updateTime: Date
         /// The validations that were performed.
         public let validations: [AnalysisTemplateValidationStatusDetail]?
 
         @inlinable
-        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, format: AnalysisFormat, id: String, name: String, schema: AnalysisSchema, source: AnalysisSource, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, arn: String, collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, description: String? = nil, format: AnalysisFormat, id: String, name: String, schema: AnalysisSchema, source: AnalysisSource? = nil, sourceMetadata: AnalysisSourceMetadata? = nil, updateTime: Date, validations: [AnalysisTemplateValidationStatusDetail]? = nil) {
             self.analysisParameters = analysisParameters
             self.arn = arn
             self.collaborationArn = collaborationArn
@@ -1513,6 +1809,7 @@ extension CleanRooms {
             self.name = name
             self.schema = schema
             self.source = source
+            self.sourceMetadata = sourceMetadata
             self.updateTime = updateTime
             self.validations = validations
         }
@@ -1530,6 +1827,7 @@ extension CleanRooms {
             case name = "name"
             case schema = "schema"
             case source = "source"
+            case sourceMetadata = "sourceMetadata"
             case updateTime = "updateTime"
             case validations = "validations"
         }
@@ -2117,7 +2415,7 @@ extension CleanRooms {
     public struct ConfiguredTable: AWSDecodableShape {
         /// The columns within the underlying Glue table that can be utilized within collaborations.
         public let allowedColumns: [String]
-        /// The analysis method for the configured table. The only valid value is currently `DIRECT_QUERY`.
+        /// The analysis method for the configured table.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         public let analysisMethod: AnalysisMethod
         /// The types of analysis rules associated with this configured table. Currently, only one analysis rule may be associated with a configured table.
         public let analysisRuleTypes: [ConfiguredTableAnalysisRuleType]
@@ -2131,13 +2429,15 @@ extension CleanRooms {
         public let id: String
         /// A name for the configured table.
         public let name: String
+        ///  The selected analysis methods for the configured table.
+        public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
         /// The table that this configured table represents.
         public let tableReference: TableReference
         /// The time the configured table was last updated
         public let updateTime: Date
 
         @inlinable
-        public init(allowedColumns: [String], analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, description: String? = nil, id: String, name: String, tableReference: TableReference, updateTime: Date) {
+        public init(allowedColumns: [String], analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, description: String? = nil, id: String, name: String, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, tableReference: TableReference, updateTime: Date) {
             self.allowedColumns = allowedColumns
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
@@ -2146,6 +2446,7 @@ extension CleanRooms {
             self.description = description
             self.id = id
             self.name = name
+            self.selectedAnalysisMethods = selectedAnalysisMethods
             self.tableReference = tableReference
             self.updateTime = updateTime
         }
@@ -2159,6 +2460,7 @@ extension CleanRooms {
             case description = "description"
             case id = "id"
             case name = "name"
+            case selectedAnalysisMethods = "selectedAnalysisMethods"
             case tableReference = "tableReference"
             case updateTime = "updateTime"
         }
@@ -2388,6 +2690,8 @@ extension CleanRooms {
     }
 
     public struct ConfiguredTableAssociationSummary: AWSDecodableShape {
+        /// The analysis rule types that are associated with the configured table  associations in this summary.
+        public let analysisRuleTypes: [ConfiguredTableAssociationAnalysisRuleType]?
         /// The unique ARN for the configured table association.
         public let arn: String
         /// The unique configured table ID that this configured table association refers to.
@@ -2406,7 +2710,8 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(arn: String, configuredTableId: String, createTime: Date, id: String, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
+        public init(analysisRuleTypes: [ConfiguredTableAssociationAnalysisRuleType]? = nil, arn: String, configuredTableId: String, createTime: Date, id: String, membershipArn: String, membershipId: String, name: String, updateTime: Date) {
+            self.analysisRuleTypes = analysisRuleTypes
             self.arn = arn
             self.configuredTableId = configuredTableId
             self.createTime = createTime
@@ -2418,6 +2723,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analysisRuleTypes = "analysisRuleTypes"
             case arn = "arn"
             case configuredTableId = "configuredTableId"
             case createTime = "createTime"
@@ -2430,7 +2736,7 @@ extension CleanRooms {
     }
 
     public struct ConfiguredTableSummary: AWSDecodableShape {
-        /// The analysis method for the configured tables. The only valid value is currently `DIRECT_QUERY`.
+        /// The analysis method for the configured tables.   DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         public let analysisMethod: AnalysisMethod
         /// The types of analysis rules associated with this configured table.
         public let analysisRuleTypes: [ConfiguredTableAnalysisRuleType]
@@ -2442,17 +2748,20 @@ extension CleanRooms {
         public let id: String
         /// The name of the configured table.
         public let name: String
+        ///  The selected analysis methods for the configured table summary.
+        public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
         /// The time the configured table was last updated.
         public let updateTime: Date
 
         @inlinable
-        public init(analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, id: String, name: String, updateTime: Date) {
+        public init(analysisMethod: AnalysisMethod, analysisRuleTypes: [ConfiguredTableAnalysisRuleType], arn: String, createTime: Date, id: String, name: String, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.arn = arn
             self.createTime = createTime
             self.id = id
             self.name = name
+            self.selectedAnalysisMethods = selectedAnalysisMethods
             self.updateTime = updateTime
         }
 
@@ -2463,6 +2772,7 @@ extension CleanRooms {
             case createTime = "createTime"
             case id = "id"
             case name = "name"
+            case selectedAnalysisMethods = "selectedAnalysisMethods"
             case updateTime = "updateTime"
         }
     }
@@ -2492,6 +2802,127 @@ extension CleanRooms {
         }
     }
 
+    public struct ConsolidatedPolicyAggregation: AWSDecodableShape {
+        ///  Additional analyses for the consolidated policy aggregation.
+        public let additionalAnalyses: AdditionalAnalyses?
+        ///  Aggregate columns in consolidated policy aggregation.
+        public let aggregateColumns: [AggregateColumn]
+        ///  The additional analyses allowed by the consolidated policy aggregation.
+        public let allowedAdditionalAnalyses: [String]?
+        ///  The allowed join operators.
+        public let allowedJoinOperators: [JoinOperator]?
+        ///  The allowed result receivers.
+        public let allowedResultReceivers: [String]?
+        ///  The dimension columns of the consolidated policy aggregation.
+        public let dimensionColumns: [String]
+        ///  The columns to join on.
+        public let joinColumns: [String]
+        ///  Join required
+        public let joinRequired: JoinRequiredOption?
+        ///  The output constraints of the consolidated policy aggregation.
+        public let outputConstraints: [AggregationConstraint]
+        ///  The scalar functions.
+        public let scalarFunctions: [ScalarFunctions]
+
+        @inlinable
+        public init(additionalAnalyses: AdditionalAnalyses? = nil, aggregateColumns: [AggregateColumn], allowedAdditionalAnalyses: [String]? = nil, allowedJoinOperators: [JoinOperator]? = nil, allowedResultReceivers: [String]? = nil, dimensionColumns: [String], joinColumns: [String], joinRequired: JoinRequiredOption? = nil, outputConstraints: [AggregationConstraint], scalarFunctions: [ScalarFunctions]) {
+            self.additionalAnalyses = additionalAnalyses
+            self.aggregateColumns = aggregateColumns
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedJoinOperators = allowedJoinOperators
+            self.allowedResultReceivers = allowedResultReceivers
+            self.dimensionColumns = dimensionColumns
+            self.joinColumns = joinColumns
+            self.joinRequired = joinRequired
+            self.outputConstraints = outputConstraints
+            self.scalarFunctions = scalarFunctions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAnalyses = "additionalAnalyses"
+            case aggregateColumns = "aggregateColumns"
+            case allowedAdditionalAnalyses = "allowedAdditionalAnalyses"
+            case allowedJoinOperators = "allowedJoinOperators"
+            case allowedResultReceivers = "allowedResultReceivers"
+            case dimensionColumns = "dimensionColumns"
+            case joinColumns = "joinColumns"
+            case joinRequired = "joinRequired"
+            case outputConstraints = "outputConstraints"
+            case scalarFunctions = "scalarFunctions"
+        }
+    }
+
+    public struct ConsolidatedPolicyCustom: AWSDecodableShape {
+        ///  Additional analyses for the consolidated policy.
+        public let additionalAnalyses: AdditionalAnalyses?
+        ///  The additional analyses allowed by the consolidated policy.
+        public let allowedAdditionalAnalyses: [String]?
+        ///  The allowed analyses.
+        public let allowedAnalyses: [String]
+        ///  The allowed analysis providers.
+        public let allowedAnalysisProviders: [String]?
+        ///  The allowed result receivers.
+        public let allowedResultReceivers: [String]?
+        public let differentialPrivacy: DifferentialPrivacyConfiguration?
+        ///  Disallowed output columns
+        public let disallowedOutputColumns: [String]?
+
+        @inlinable
+        public init(additionalAnalyses: AdditionalAnalyses? = nil, allowedAdditionalAnalyses: [String]? = nil, allowedAnalyses: [String], allowedAnalysisProviders: [String]? = nil, allowedResultReceivers: [String]? = nil, differentialPrivacy: DifferentialPrivacyConfiguration? = nil, disallowedOutputColumns: [String]? = nil) {
+            self.additionalAnalyses = additionalAnalyses
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedAnalyses = allowedAnalyses
+            self.allowedAnalysisProviders = allowedAnalysisProviders
+            self.allowedResultReceivers = allowedResultReceivers
+            self.differentialPrivacy = differentialPrivacy
+            self.disallowedOutputColumns = disallowedOutputColumns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAnalyses = "additionalAnalyses"
+            case allowedAdditionalAnalyses = "allowedAdditionalAnalyses"
+            case allowedAnalyses = "allowedAnalyses"
+            case allowedAnalysisProviders = "allowedAnalysisProviders"
+            case allowedResultReceivers = "allowedResultReceivers"
+            case differentialPrivacy = "differentialPrivacy"
+            case disallowedOutputColumns = "disallowedOutputColumns"
+        }
+    }
+
+    public struct ConsolidatedPolicyList: AWSDecodableShape {
+        ///  Additional analyses for the consolidated policy list.
+        public let additionalAnalyses: AdditionalAnalyses?
+        ///  The additional analyses allowed by the consolidated policy list.
+        public let allowedAdditionalAnalyses: [String]?
+        ///  The allowed join operators in the consolidated policy list.
+        public let allowedJoinOperators: [JoinOperator]?
+        ///  The allowed result receivers.
+        public let allowedResultReceivers: [String]?
+        ///  The columns to join on.
+        public let joinColumns: [String]
+        ///  The columns in the consolidated policy list.
+        public let listColumns: [String]
+
+        @inlinable
+        public init(additionalAnalyses: AdditionalAnalyses? = nil, allowedAdditionalAnalyses: [String]? = nil, allowedJoinOperators: [JoinOperator]? = nil, allowedResultReceivers: [String]? = nil, joinColumns: [String], listColumns: [String]) {
+            self.additionalAnalyses = additionalAnalyses
+            self.allowedAdditionalAnalyses = allowedAdditionalAnalyses
+            self.allowedJoinOperators = allowedJoinOperators
+            self.allowedResultReceivers = allowedResultReceivers
+            self.joinColumns = joinColumns
+            self.listColumns = listColumns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAnalyses = "additionalAnalyses"
+            case allowedAdditionalAnalyses = "allowedAdditionalAnalyses"
+            case allowedJoinOperators = "allowedJoinOperators"
+            case allowedResultReceivers = "allowedResultReceivers"
+            case joinColumns = "joinColumns"
+            case listColumns = "listColumns"
+        }
+    }
+
     public struct CreateAnalysisTemplateInput: AWSEncodableShape {
         /// The parameters of the analysis template.
         public let analysisParameters: [AnalysisParameter]?
@@ -2503,18 +2934,20 @@ extension CleanRooms {
         public let membershipIdentifier: String
         /// The name of the analysis template.
         public let name: String
+        public let schema: AnalysisSchema?
         /// The information in the analysis template. Currently supports text, the query text for the analysis template.
         public let source: AnalysisSource
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(analysisParameters: [AnalysisParameter]? = nil, description: String? = nil, format: AnalysisFormat, membershipIdentifier: String, name: String, source: AnalysisSource, tags: [String: String]? = nil) {
+        public init(analysisParameters: [AnalysisParameter]? = nil, description: String? = nil, format: AnalysisFormat, membershipIdentifier: String, name: String, schema: AnalysisSchema? = nil, source: AnalysisSource, tags: [String: String]? = nil) {
             self.analysisParameters = analysisParameters
             self.description = description
             self.format = format
             self.membershipIdentifier = membershipIdentifier
             self.name = name
+            self.schema = schema
             self.source = source
             self.tags = tags
         }
@@ -2527,6 +2960,7 @@ extension CleanRooms {
             try container.encode(self.format, forKey: .format)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             try container.encode(self.name, forKey: .name)
+            try container.encodeIfPresent(self.schema, forKey: .schema)
             try container.encode(self.source, forKey: .source)
             try container.encodeIfPresent(self.tags, forKey: .tags)
         }
@@ -2543,6 +2977,7 @@ extension CleanRooms {
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_](([a-zA-Z0-9_ ]+-)*([a-zA-Z0-9_ ]+))?$")
+            try self.schema?.validate(name: "\(name).schema")
             try self.source.validate(name: "\(name).source")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -2557,6 +2992,7 @@ extension CleanRooms {
             case description = "description"
             case format = "format"
             case name = "name"
+            case schema = "schema"
             case source = "source"
             case tags = "tags"
         }
@@ -2583,7 +3019,7 @@ extension CleanRooms {
         public let creatorDisplayName: String
         /// The abilities granted to the collaboration creator.
         public let creatorMemberAbilities: [MemberAbility]
-        /// The ML abilities granted to the collaboration creator. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        /// The ML abilities granted to the collaboration creator.
         public let creatorMLMemberAbilities: MLMemberAbilities?
         /// The collaboration creator's payment responsibilities set by the collaboration creator.  If the collaboration creator hasn't specified anyone as the member paying for query compute costs, then the member who can query is the default payer.
         public let creatorPaymentConfiguration: PaymentConfiguration?
@@ -2591,17 +3027,19 @@ extension CleanRooms {
         public let dataEncryptionMetadata: DataEncryptionMetadata?
         /// A description of the collaboration provided by the collaboration owner.
         public let description: String
+        /// Specifies whether job logs are enabled for this collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration; those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        public let jobLogStatus: CollaborationJobLogStatus?
         /// A list of initial members, not including the creator. This list is immutable.
         public let members: [MemberSpecification]
         /// The display name for a collaboration.
         public let name: String
-        /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
+        /// An indicator as to whether query logging has been enabled or disabled for the collaboration. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let queryLogStatus: CollaborationQueryLogStatus
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(analyticsEngine: AnalyticsEngine? = nil, creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], creatorMLMemberAbilities: MLMemberAbilities? = nil, creatorPaymentConfiguration: PaymentConfiguration? = nil, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
+        public init(analyticsEngine: AnalyticsEngine? = nil, creatorDisplayName: String, creatorMemberAbilities: [MemberAbility], creatorMLMemberAbilities: MLMemberAbilities? = nil, creatorPaymentConfiguration: PaymentConfiguration? = nil, dataEncryptionMetadata: DataEncryptionMetadata? = nil, description: String, jobLogStatus: CollaborationJobLogStatus? = nil, members: [MemberSpecification], name: String, queryLogStatus: CollaborationQueryLogStatus, tags: [String: String]? = nil) {
             self.analyticsEngine = analyticsEngine
             self.creatorDisplayName = creatorDisplayName
             self.creatorMemberAbilities = creatorMemberAbilities
@@ -2609,6 +3047,7 @@ extension CleanRooms {
             self.creatorPaymentConfiguration = creatorPaymentConfiguration
             self.dataEncryptionMetadata = dataEncryptionMetadata
             self.description = description
+            self.jobLogStatus = jobLogStatus
             self.members = members
             self.name = name
             self.queryLogStatus = queryLogStatus
@@ -2646,6 +3085,7 @@ extension CleanRooms {
             case creatorPaymentConfiguration = "creatorPaymentConfiguration"
             case dataEncryptionMetadata = "dataEncryptionMetadata"
             case description = "description"
+            case jobLogStatus = "jobLogStatus"
             case members = "members"
             case name = "name"
             case queryLogStatus = "queryLogStatus"
@@ -2935,23 +3375,26 @@ extension CleanRooms {
     public struct CreateConfiguredTableInput: AWSEncodableShape {
         /// The columns of the underlying table that can be used by collaborations or analysis rules.
         public let allowedColumns: [String]
-        /// The analysis method for the configured tables. The only valid value is currently `DIRECT_QUERY`.
+        /// The analysis method allowed for the configured tables.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         public let analysisMethod: AnalysisMethod
         /// A description for the configured table.
         public let description: String?
         /// The name of the configured table.
         public let name: String
+        ///  The analysis methods to enable for the configured table.  When configured, you must specify at least two analysis methods.
+        public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
         /// A reference to the table being configured.
         public let tableReference: TableReference
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(allowedColumns: [String], analysisMethod: AnalysisMethod, description: String? = nil, name: String, tableReference: TableReference, tags: [String: String]? = nil) {
+        public init(allowedColumns: [String], analysisMethod: AnalysisMethod, description: String? = nil, name: String, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, tableReference: TableReference, tags: [String: String]? = nil) {
             self.allowedColumns = allowedColumns
             self.analysisMethod = analysisMethod
             self.description = description
             self.name = name
+            self.selectedAnalysisMethods = selectedAnalysisMethods
             self.tableReference = tableReference
             self.tags = tags
         }
@@ -2982,6 +3425,7 @@ extension CleanRooms {
             case analysisMethod = "analysisMethod"
             case description = "description"
             case name = "name"
+            case selectedAnalysisMethods = "selectedAnalysisMethods"
             case tableReference = "tableReference"
             case tags = "tags"
         }
@@ -3158,19 +3602,25 @@ extension CleanRooms {
     public struct CreateMembershipInput: AWSEncodableShape {
         /// The unique ID for the associated collaboration.
         public let collaborationIdentifier: String
+        /// The default job result configuration that determines how job results are  protected and managed within this membership. This configuration applies to all  jobs.
+        public let defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration?
         /// The default protected query result configuration as specified by the member who can receive results.
         public let defaultResultConfiguration: MembershipProtectedQueryResultConfiguration?
+        /// An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        public let jobLogStatus: MembershipJobLogStatus?
         /// The payment responsibilities accepted by the collaboration member. Not required if the collaboration member has the member ability to run queries.  Required if the collaboration member doesn't have the member ability to run queries but is configured as a payer by the collaboration creator.
         public let paymentConfiguration: MembershipPaymentConfiguration?
-        /// An indicator as to whether query logging has been enabled or disabled for the membership.
+        /// An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let queryLogStatus: MembershipQueryLogStatus
         /// An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
         public let tags: [String: String]?
 
         @inlinable
-        public init(collaborationIdentifier: String, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, paymentConfiguration: MembershipPaymentConfiguration? = nil, queryLogStatus: MembershipQueryLogStatus, tags: [String: String]? = nil) {
+        public init(collaborationIdentifier: String, defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, jobLogStatus: MembershipJobLogStatus? = nil, paymentConfiguration: MembershipPaymentConfiguration? = nil, queryLogStatus: MembershipQueryLogStatus, tags: [String: String]? = nil) {
             self.collaborationIdentifier = collaborationIdentifier
+            self.defaultJobResultConfiguration = defaultJobResultConfiguration
             self.defaultResultConfiguration = defaultResultConfiguration
+            self.jobLogStatus = jobLogStatus
             self.paymentConfiguration = paymentConfiguration
             self.queryLogStatus = queryLogStatus
             self.tags = tags
@@ -3180,6 +3630,7 @@ extension CleanRooms {
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, max: 36)
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, min: 36)
             try self.validate(self.collaborationIdentifier, name: "collaborationIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.defaultJobResultConfiguration?.validate(name: "\(name).defaultJobResultConfiguration")
             try self.defaultResultConfiguration?.validate(name: "\(name).defaultResultConfiguration")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
@@ -3191,7 +3642,9 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case collaborationIdentifier = "collaborationIdentifier"
+            case defaultJobResultConfiguration = "defaultJobResultConfiguration"
             case defaultResultConfiguration = "defaultResultConfiguration"
+            case jobLogStatus = "jobLogStatus"
             case paymentConfiguration = "paymentConfiguration"
             case queryLogStatus = "queryLogStatus"
             case tags = "tags"
@@ -4614,6 +5067,51 @@ extension CleanRooms {
         }
     }
 
+    public struct GetProtectedJobInput: AWSEncodableShape {
+        ///  The identifier for a membership in a protected job instance.
+        public let membershipIdentifier: String
+        ///  The identifier for the protected job instance.
+        public let protectedJobIdentifier: String
+
+        @inlinable
+        public init(membershipIdentifier: String, protectedJobIdentifier: String) {
+            self.membershipIdentifier = membershipIdentifier
+            self.protectedJobIdentifier = protectedJobIdentifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.protectedJobIdentifier, key: "protectedJobIdentifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.protectedJobIdentifier, name: "protectedJobIdentifier", parent: name, max: 36)
+            try self.validate(self.protectedJobIdentifier, name: "protectedJobIdentifier", parent: name, min: 36)
+            try self.validate(self.protectedJobIdentifier, name: "protectedJobIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetProtectedJobOutput: AWSDecodableShape {
+        ///  The protected job metadata.
+        public let protectedJob: ProtectedJob
+
+        @inlinable
+        public init(protectedJob: ProtectedJob) {
+            self.protectedJob = protectedJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectedJob = "protectedJob"
+        }
+    }
+
     public struct GetProtectedQueryInput: AWSEncodableShape {
         /// The identifier for a membership in a protected query instance.
         public let membershipIdentifier: String
@@ -4773,6 +5271,20 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case databaseName = "databaseName"
             case tableName = "tableName"
+        }
+    }
+
+    public struct Hash: AWSDecodableShape {
+        ///  The SHA-256 hash value.
+        public let sha256: String?
+
+        @inlinable
+        public init(sha256: String? = nil) {
+            self.sha256 = sha256
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sha256 = "sha256"
         }
     }
 
@@ -5148,6 +5660,20 @@ extension CleanRooms {
             case membershipId = "membershipId"
             case name = "name"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct JobComputePaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for query and job compute costs (TRUE) or has not configured the  collaboration member to pay for query and job compute costs (FALSE). Exactly one member can be configured to pay for query and job compute costs. An error is returned if the collaboration creator sets a TRUE value for more  than one member in the collaboration.  An error is returned if the collaboration creator sets a  FALSE value for the member who can run queries and jobs.
+        public let isResponsible: Bool
+
+        @inlinable
+        public init(isResponsible: Bool) {
+            self.isResponsible = isResponsible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isResponsible = "isResponsible"
         }
     }
 
@@ -6007,6 +6533,63 @@ extension CleanRooms {
         }
     }
 
+    public struct ListProtectedJobsInput: AWSEncodableShape {
+        /// The maximum number of results that are returned for an API request call.  The service chooses a default number if you don't set one. The service might  return a `nextToken` even if the `maxResults` value has not been met.
+        public let maxResults: Int?
+        /// The identifier for the membership in the collaboration.
+        public let membershipIdentifier: String
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+        /// A filter on the status of the protected job.
+        public let status: ProtectedJobStatus?
+
+        @inlinable
+        public init(maxResults: Int? = nil, membershipIdentifier: String, nextToken: String? = nil, status: ProtectedJobStatus? = nil) {
+            self.maxResults = maxResults
+            self.membershipIdentifier = membershipIdentifier
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+            request.encodeQuery(self.status, key: "status")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 10240)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListProtectedJobsOutput: AWSDecodableShape {
+        /// The pagination token that's used to fetch the next set of results.
+        public let nextToken: String?
+        /// A list of protected job summaries.
+        public let protectedJobs: [ProtectedJobSummary]
+
+        @inlinable
+        public init(nextToken: String? = nil, protectedJobs: [ProtectedJobSummary]) {
+            self.nextToken = nextToken
+            self.protectedJobs = protectedJobs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case protectedJobs = "protectedJobs"
+        }
+    }
+
     public struct ListProtectedQueriesInput: AWSEncodableShape {
         /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the  `maxResults` value has not been met.
         public let maxResults: Int?
@@ -6160,7 +6743,7 @@ extension CleanRooms {
     }
 
     public struct MLMemberAbilities: AWSEncodableShape & AWSDecodableShape {
-        /// The custom ML member abilities for a collaboration member. The inference feature is not available in the custom ML modeling beta. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        /// The custom ML member abilities for a collaboration member.
         public let customMLMemberAbilities: [CustomMLMemberAbility]
 
         @inlinable
@@ -6202,7 +6785,7 @@ extension CleanRooms {
         public let displayName: String
         /// The abilities granted to the collaboration member.
         public let memberAbilities: [MemberAbility]
-        /// The ML abilities granted to the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        /// The ML abilities granted to the collaboration member.
         public let mlMemberAbilities: MLMemberAbilities?
         /// The collaboration member's payment responsibilities set by the collaboration creator.  If the collaboration creator hasn't speciﬁed anyone as the member paying for query compute costs, then the member who can query is the default payer.
         public let paymentConfiguration: PaymentConfiguration?
@@ -6248,7 +6831,7 @@ extension CleanRooms {
         public let membershipArn: String?
         /// The unique ID for the member's associated membership, if present.
         public let membershipId: String?
-        /// Provides a summary of the ML abilities for the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        /// Provides a summary of the ML abilities for the collaboration member.
         public let mlAbilities: MLMemberAbilities?
         /// The collaboration member's payment responsibilities set by the collaboration creator.
         public let paymentConfiguration: PaymentConfiguration
@@ -6300,17 +6883,21 @@ extension CleanRooms {
         public let collaborationName: String
         /// The time when the membership was created.
         public let createTime: Date
+        ///  The default job result configuration for the membership.
+        public let defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration?
         /// The default protected query result configuration as specified by the member who can receive results.
         public let defaultResultConfiguration: MembershipProtectedQueryResultConfiguration?
         /// The unique ID of the membership.
         public let id: String
+        /// An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        public let jobLogStatus: MembershipJobLogStatus?
         /// The abilities granted to the collaboration member.
         public let memberAbilities: [MemberAbility]
-        /// Specifies the ML member abilities that are granted to a collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        /// Specifies the ML member abilities that are granted to a collaboration member.
         public let mlMemberAbilities: MLMemberAbilities?
         /// The payment responsibilities accepted by the collaboration member.
         public let paymentConfiguration: MembershipPaymentConfiguration
-        /// An indicator as to whether query logging has been enabled or disabled for the membership.
+        /// An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let queryLogStatus: MembershipQueryLogStatus
         /// The status of the membership.
         public let status: MembershipStatus
@@ -6318,7 +6905,7 @@ extension CleanRooms {
         public let updateTime: Date
 
         @inlinable
-        public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, id: String, memberAbilities: [MemberAbility], mlMemberAbilities: MLMemberAbilities? = nil, paymentConfiguration: MembershipPaymentConfiguration, queryLogStatus: MembershipQueryLogStatus, status: MembershipStatus, updateTime: Date) {
+        public init(arn: String, collaborationArn: String, collaborationCreatorAccountId: String, collaborationCreatorDisplayName: String, collaborationId: String, collaborationName: String, createTime: Date, defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, id: String, jobLogStatus: MembershipJobLogStatus? = nil, memberAbilities: [MemberAbility], mlMemberAbilities: MLMemberAbilities? = nil, paymentConfiguration: MembershipPaymentConfiguration, queryLogStatus: MembershipQueryLogStatus, status: MembershipStatus, updateTime: Date) {
             self.arn = arn
             self.collaborationArn = collaborationArn
             self.collaborationCreatorAccountId = collaborationCreatorAccountId
@@ -6326,8 +6913,10 @@ extension CleanRooms {
             self.collaborationId = collaborationId
             self.collaborationName = collaborationName
             self.createTime = createTime
+            self.defaultJobResultConfiguration = defaultJobResultConfiguration
             self.defaultResultConfiguration = defaultResultConfiguration
             self.id = id
+            self.jobLogStatus = jobLogStatus
             self.memberAbilities = memberAbilities
             self.mlMemberAbilities = mlMemberAbilities
             self.paymentConfiguration = paymentConfiguration
@@ -6344,14 +6933,30 @@ extension CleanRooms {
             case collaborationId = "collaborationId"
             case collaborationName = "collaborationName"
             case createTime = "createTime"
+            case defaultJobResultConfiguration = "defaultJobResultConfiguration"
             case defaultResultConfiguration = "defaultResultConfiguration"
             case id = "id"
+            case jobLogStatus = "jobLogStatus"
             case memberAbilities = "memberAbilities"
             case mlMemberAbilities = "mlMemberAbilities"
             case paymentConfiguration = "paymentConfiguration"
             case queryLogStatus = "queryLogStatus"
             case status = "status"
             case updateTime = "updateTime"
+        }
+    }
+
+    public struct MembershipJobComputePaymentConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether the collaboration member has accepted to pay for job  compute costs (TRUE) or has not accepted to pay for query and job compute costs (FALSE). There is only one member who pays for queries and jobs.  An error message is returned for the following reasons:    If you set the value to FALSE but you are responsible to  pay for query and job compute costs.    If you set the value to TRUE but you are not responsible to pay for query and job compute costs.
+        public let isResponsible: Bool
+
+        @inlinable
+        public init(isResponsible: Bool) {
+            self.isResponsible = isResponsible
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isResponsible = "isResponsible"
         }
     }
 
@@ -6402,20 +7007,49 @@ extension CleanRooms {
     }
 
     public struct MembershipPaymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The payment responsibilities accepted by the collaboration member for job compute costs.
+        public let jobCompute: MembershipJobComputePaymentConfig?
         /// The payment responsibilities accepted by the collaboration member for machine learning costs.
         public let machineLearning: MembershipMLPaymentConfig?
         /// The payment responsibilities accepted by the collaboration member for query compute costs.
         public let queryCompute: MembershipQueryComputePaymentConfig
 
         @inlinable
-        public init(machineLearning: MembershipMLPaymentConfig? = nil, queryCompute: MembershipQueryComputePaymentConfig) {
+        public init(jobCompute: MembershipJobComputePaymentConfig? = nil, machineLearning: MembershipMLPaymentConfig? = nil, queryCompute: MembershipQueryComputePaymentConfig) {
+            self.jobCompute = jobCompute
             self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobCompute = "jobCompute"
             case machineLearning = "machineLearning"
             case queryCompute = "queryCompute"
+        }
+    }
+
+    public struct MembershipProtectedJobResultConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The output configuration for a protected job result.
+        public let outputConfiguration: MembershipProtectedJobOutputConfiguration
+        /// The unique ARN for an IAM role that is used by Clean Rooms to write protected job results to the result location, given by the member who can receive results.
+        public let roleArn: String
+
+        @inlinable
+        public init(outputConfiguration: MembershipProtectedJobOutputConfiguration, roleArn: String) {
+            self.outputConfiguration = outputConfiguration
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.outputConfiguration.validate(name: "\(name).outputConfiguration")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 32)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[\\w]+:role/[\\w+=./@-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputConfiguration = "outputConfiguration"
+            case roleArn = "roleArn"
         }
     }
 
@@ -6477,7 +7111,7 @@ extension CleanRooms {
         public let id: String
         /// The abilities granted to the collaboration member.
         public let memberAbilities: [MemberAbility]
-        /// Provides a summary of the ML abilities for the collaboration member. Custom ML modeling is in beta release and is subject to change. For beta terms and conditions, see Betas and Previews in the Amazon Web Services Service Terms.
+        /// Provides a summary of the ML abilities for the collaboration member.
         public let mlMemberAbilities: MLMemberAbilities?
         /// The payment responsibilities accepted by the collaboration member.
         public let paymentConfiguration: MembershipPaymentConfiguration
@@ -6549,18 +7183,22 @@ extension CleanRooms {
     }
 
     public struct PaymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  The compute configuration for the job.
+        public let jobCompute: JobComputePaymentConfig?
         /// An object representing the collaboration member's machine learning payment responsibilities set by the collaboration creator.
         public let machineLearning: MLPaymentConfig?
         /// The collaboration member's payment responsibilities set by the collaboration creator for query compute costs.
         public let queryCompute: QueryComputePaymentConfig
 
         @inlinable
-        public init(machineLearning: MLPaymentConfig? = nil, queryCompute: QueryComputePaymentConfig) {
+        public init(jobCompute: JobComputePaymentConfig? = nil, machineLearning: MLPaymentConfig? = nil, queryCompute: QueryComputePaymentConfig) {
+            self.jobCompute = jobCompute
             self.machineLearning = machineLearning
             self.queryCompute = queryCompute
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobCompute = "jobCompute"
             case machineLearning = "machineLearning"
             case queryCompute = "queryCompute"
         }
@@ -6810,6 +7448,326 @@ extension CleanRooms {
         }
     }
 
+    public struct ProtectedJob: AWSDecodableShape {
+        ///  The creation time of the protected job.
+        public let createTime: Date
+        ///  The error from the protected job.
+        public let error: ProtectedJobError?
+        /// The identifier for a protected job instance.
+        public let id: String
+        ///  The job parameters for the protected job.
+        public let jobParameters: ProtectedJobParameters?
+        /// The ARN of the membership.
+        public let membershipArn: String
+        /// he identifier for the membership.
+        public let membershipId: String
+        ///  The result of the protected job.
+        public let result: ProtectedJobResult?
+        /// Contains any details needed to write the job results.
+        public let resultConfiguration: ProtectedJobResultConfigurationOutput?
+        ///  The statistics of the protected job.
+        public let statistics: ProtectedJobStatistics?
+        ///  The status of the protected job.
+        public let status: ProtectedJobStatus
+
+        @inlinable
+        public init(createTime: Date, error: ProtectedJobError? = nil, id: String, jobParameters: ProtectedJobParameters? = nil, membershipArn: String, membershipId: String, result: ProtectedJobResult? = nil, resultConfiguration: ProtectedJobResultConfigurationOutput? = nil, statistics: ProtectedJobStatistics? = nil, status: ProtectedJobStatus) {
+            self.createTime = createTime
+            self.error = error
+            self.id = id
+            self.jobParameters = jobParameters
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.result = result
+            self.resultConfiguration = resultConfiguration
+            self.statistics = statistics
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "createTime"
+            case error = "error"
+            case id = "id"
+            case jobParameters = "jobParameters"
+            case membershipArn = "membershipArn"
+            case membershipId = "membershipId"
+            case result = "result"
+            case resultConfiguration = "resultConfiguration"
+            case statistics = "statistics"
+            case status = "status"
+        }
+    }
+
+    public struct ProtectedJobDirectAnalysisConfigurationDetails: AWSDecodableShape {
+        ///  The receiver account IDs.
+        public let receiverAccountIds: [String]?
+
+        @inlinable
+        public init(receiverAccountIds: [String]? = nil) {
+            self.receiverAccountIds = receiverAccountIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case receiverAccountIds = "receiverAccountIds"
+        }
+    }
+
+    public struct ProtectedJobError: AWSDecodableShape {
+        ///  The error code for the protected job.
+        public let code: String
+        ///  The message for the protected job error.
+        public let message: String
+
+        @inlinable
+        public init(code: String, message: String) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case message = "message"
+        }
+    }
+
+    public struct ProtectedJobMemberOutputConfigurationInput: AWSEncodableShape {
+        ///  The account ID.
+        public let accountId: String
+
+        @inlinable
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
+    }
+
+    public struct ProtectedJobMemberOutputConfigurationOutput: AWSDecodableShape {
+        ///  The account ID.
+        public let accountId: String
+
+        @inlinable
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
+    }
+
+    public struct ProtectedJobParameters: AWSEncodableShape & AWSDecodableShape {
+        ///  The ARN of the analysis template.
+        public let analysisTemplateArn: String?
+
+        @inlinable
+        public init(analysisTemplateArn: String? = nil) {
+            self.analysisTemplateArn = analysisTemplateArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, max: 200)
+            try self.validate(self.analysisTemplateArn, name: "analysisTemplateArn", parent: name, pattern: "^arn:aws:cleanrooms:[\\w]{2}-[\\w]{4,9}-[\\d]:[\\d]{12}:membership/[\\d\\w-]+/analysistemplate/[\\d\\w-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisTemplateArn = "analysisTemplateArn"
+        }
+    }
+
+    public struct ProtectedJobReceiverConfiguration: AWSDecodableShape {
+        ///  The analysis type for the protected job receiver configuration.
+        public let analysisType: ProtectedJobAnalysisType
+        ///  The configuration details for the protected job receiver.
+        public let configurationDetails: ProtectedJobConfigurationDetails?
+
+        @inlinable
+        public init(analysisType: ProtectedJobAnalysisType, configurationDetails: ProtectedJobConfigurationDetails? = nil) {
+            self.analysisType = analysisType
+            self.configurationDetails = configurationDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysisType = "analysisType"
+            case configurationDetails = "configurationDetails"
+        }
+    }
+
+    public struct ProtectedJobResult: AWSDecodableShape {
+        ///  The output of the protected job.
+        public let output: ProtectedJobOutput
+
+        @inlinable
+        public init(output: ProtectedJobOutput) {
+            self.output = output
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case output = "output"
+        }
+    }
+
+    public struct ProtectedJobResultConfigurationInput: AWSEncodableShape {
+        ///  The output configuration for a protected job result.
+        public let outputConfiguration: ProtectedJobOutputConfigurationInput
+
+        @inlinable
+        public init(outputConfiguration: ProtectedJobOutputConfigurationInput) {
+            self.outputConfiguration = outputConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.outputConfiguration.validate(name: "\(name).outputConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputConfiguration = "outputConfiguration"
+        }
+    }
+
+    public struct ProtectedJobResultConfigurationOutput: AWSDecodableShape {
+        /// The output configuration.
+        public let outputConfiguration: ProtectedJobOutputConfigurationOutput
+
+        @inlinable
+        public init(outputConfiguration: ProtectedJobOutputConfigurationOutput) {
+            self.outputConfiguration = outputConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outputConfiguration = "outputConfiguration"
+        }
+    }
+
+    public struct ProtectedJobS3Output: AWSDecodableShape {
+        ///  The S3 location for the protected job output.
+        public let location: String
+
+        @inlinable
+        public init(location: String) {
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case location = "location"
+        }
+    }
+
+    public struct ProtectedJobS3OutputConfigurationInput: AWSEncodableShape & AWSDecodableShape {
+        ///  The S3 bucket for job output.
+        public let bucket: String
+        /// The S3 prefix to unload the protected job results.
+        public let keyPrefix: String?
+
+        @inlinable
+        public init(bucket: String, keyPrefix: String? = nil) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, max: 512)
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, pattern: "^[\\w!.=*/-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+        }
+    }
+
+    public struct ProtectedJobS3OutputConfigurationOutput: AWSDecodableShape {
+        ///  The S3 bucket for job output.
+        public let bucket: String
+        /// The S3 prefix to unload the protected job results.
+        public let keyPrefix: String?
+
+        @inlinable
+        public init(bucket: String, keyPrefix: String? = nil) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case keyPrefix = "keyPrefix"
+        }
+    }
+
+    public struct ProtectedJobSingleMemberOutput: AWSDecodableShape {
+        /// The Amazon Web Services account ID of the member in the collaboration who can receive  results from analyses.
+        public let accountId: String
+
+        @inlinable
+        public init(accountId: String) {
+            self.accountId = accountId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
+        }
+    }
+
+    public struct ProtectedJobStatistics: AWSDecodableShape {
+        ///  The billed resource utilization for the protected job.
+        public let billedResourceUtilization: BilledJobResourceUtilization?
+        /// The duration of the protected job, from creation until job completion, in milliseconds.
+        public let totalDurationInMillis: Int64?
+
+        @inlinable
+        public init(billedResourceUtilization: BilledJobResourceUtilization? = nil, totalDurationInMillis: Int64? = nil) {
+            self.billedResourceUtilization = billedResourceUtilization
+            self.totalDurationInMillis = totalDurationInMillis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case billedResourceUtilization = "billedResourceUtilization"
+            case totalDurationInMillis = "totalDurationInMillis"
+        }
+    }
+
+    public struct ProtectedJobSummary: AWSDecodableShape {
+        /// The time the protected job was created.
+        public let createTime: Date
+        ///  The ID of the protected job.
+        public let id: String
+        /// The unique ARN for the membership that initiated the protected job.
+        public let membershipArn: String
+        /// The unique ID for the membership that initiated the protected job.
+        public let membershipId: String
+        ///  The receiver configurations for the protected job.
+        public let receiverConfigurations: [ProtectedJobReceiverConfiguration]
+        /// The status of the protected job.
+        public let status: ProtectedJobStatus
+
+        @inlinable
+        public init(createTime: Date, id: String, membershipArn: String, membershipId: String, receiverConfigurations: [ProtectedJobReceiverConfiguration], status: ProtectedJobStatus) {
+            self.createTime = createTime
+            self.id = id
+            self.membershipArn = membershipArn
+            self.membershipId = membershipId
+            self.receiverConfigurations = receiverConfigurations
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createTime = "createTime"
+            case id = "id"
+            case membershipArn = "membershipArn"
+            case membershipId = "membershipId"
+            case receiverConfigurations = "receiverConfigurations"
+            case status = "status"
+        }
+    }
+
     public struct ProtectedQuery: AWSDecodableShape {
         ///  The compute configuration for the protected query.
         public let computeConfiguration: ComputeConfiguration?
@@ -7033,7 +7991,7 @@ extension CleanRooms {
     public struct ProtectedQueryStatistics: AWSDecodableShape {
         ///  The billed resource utilization.
         public let billedResourceUtilization: BilledResourceUtilization?
-        /// The duration of the protected query, from creation until query completion.
+        /// The duration of the protected query, from creation until query completion, in milliseconds.
         public let totalDurationInMillis: Int64?
 
         @inlinable
@@ -7149,8 +8107,26 @@ extension CleanRooms {
         }
     }
 
+    public struct S3Location: AWSEncodableShape & AWSDecodableShape {
+        ///  The bucket name.
+        public let bucket: String
+        ///  The object key.
+        public let key: String
+
+        @inlinable
+        public init(bucket: String, key: String) {
+            self.bucket = bucket
+            self.key = key
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "bucket"
+            case key = "key"
+        }
+    }
+
     public struct Schema: AWSDecodableShape {
-        /// The analysis method for the schema. The only valid value is currently DIRECT_QUERY.
+        /// The analysis method for the schema.   DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         public let analysisMethod: AnalysisMethod?
         /// The analysis rule types that are associated with the schema. Currently, only one entry is present.
         public let analysisRuleTypes: [AnalysisRuleType]
@@ -7174,13 +8150,15 @@ extension CleanRooms {
         public let schemaStatusDetails: [SchemaStatusDetail]
         /// The schema type properties.
         public let schemaTypeProperties: SchemaTypeProperties?
+        ///  The selected analysis methods for the schema.
+        public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
         /// The type of schema.
         public let type: SchemaType
         /// The most recent time at which the schema was updated.
         public let updateTime: Date
 
         @inlinable
-        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, columns: [Column], createTime: Date, creatorAccountId: String, description: String, name: String, partitionKeys: [Column], schemaStatusDetails: [SchemaStatusDetail], schemaTypeProperties: SchemaTypeProperties? = nil, type: SchemaType, updateTime: Date) {
+        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, columns: [Column], createTime: Date, creatorAccountId: String, description: String, name: String, partitionKeys: [Column], schemaStatusDetails: [SchemaStatusDetail], schemaTypeProperties: SchemaTypeProperties? = nil, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, type: SchemaType, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.collaborationArn = collaborationArn
@@ -7193,6 +8171,7 @@ extension CleanRooms {
             self.partitionKeys = partitionKeys
             self.schemaStatusDetails = schemaStatusDetails
             self.schemaTypeProperties = schemaTypeProperties
+            self.selectedAnalysisMethods = selectedAnalysisMethods
             self.type = type
             self.updateTime = updateTime
         }
@@ -7210,6 +8189,7 @@ extension CleanRooms {
             case partitionKeys = "partitionKeys"
             case schemaStatusDetails = "schemaStatusDetails"
             case schemaTypeProperties = "schemaTypeProperties"
+            case selectedAnalysisMethods = "selectedAnalysisMethods"
             case type = "type"
             case updateTime = "updateTime"
         }
@@ -7287,7 +8267,7 @@ extension CleanRooms {
     }
 
     public struct SchemaSummary: AWSDecodableShape {
-        /// The analysis method for the associated schema. The only valid value is currently `DIRECT_QUERY`.
+        /// The analysis method for the associated schema.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
         public let analysisMethod: AnalysisMethod?
         /// The types of analysis rules that are associated with this schema object.
         public let analysisRuleTypes: [AnalysisRuleType]
@@ -7301,13 +8281,15 @@ extension CleanRooms {
         public let creatorAccountId: String
         /// The name for the schema object.
         public let name: String
+        ///  The selected analysis methods for the schema.
+        public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
         /// The type of schema object.
         public let type: SchemaType
         /// The time the schema object was last updated.
         public let updateTime: Date
 
         @inlinable
-        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, name: String, type: SchemaType, updateTime: Date) {
+        public init(analysisMethod: AnalysisMethod? = nil, analysisRuleTypes: [AnalysisRuleType], collaborationArn: String, collaborationId: String, createTime: Date, creatorAccountId: String, name: String, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil, type: SchemaType, updateTime: Date) {
             self.analysisMethod = analysisMethod
             self.analysisRuleTypes = analysisRuleTypes
             self.collaborationArn = collaborationArn
@@ -7315,6 +8297,7 @@ extension CleanRooms {
             self.createTime = createTime
             self.creatorAccountId = creatorAccountId
             self.name = name
+            self.selectedAnalysisMethods = selectedAnalysisMethods
             self.type = type
             self.updateTime = updateTime
         }
@@ -7327,6 +8310,7 @@ extension CleanRooms {
             case createTime = "createTime"
             case creatorAccountId = "creatorAccountId"
             case name = "name"
+            case selectedAnalysisMethods = "selectedAnalysisMethods"
             case type = "type"
             case updateTime = "updateTime"
         }
@@ -7427,6 +8411,62 @@ extension CleanRooms {
         private enum CodingKeys: String, CodingKey {
             case columnName = "columnName"
             case columnType = "columnType"
+        }
+    }
+
+    public struct StartProtectedJobInput: AWSEncodableShape {
+        ///  The job parameters.
+        public let jobParameters: ProtectedJobParameters
+        /// A unique identifier for the membership to run this job against.  Currently accepts a membership ID.
+        public let membershipIdentifier: String
+        /// The details needed to write the job results.
+        public let resultConfiguration: ProtectedJobResultConfigurationInput?
+        ///  The type of protected job to start.
+        public let type: ProtectedJobType
+
+        @inlinable
+        public init(jobParameters: ProtectedJobParameters, membershipIdentifier: String, resultConfiguration: ProtectedJobResultConfigurationInput? = nil, type: ProtectedJobType) {
+            self.jobParameters = jobParameters
+            self.membershipIdentifier = membershipIdentifier
+            self.resultConfiguration = resultConfiguration
+            self.type = type
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.jobParameters, forKey: .jobParameters)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            try container.encodeIfPresent(self.resultConfiguration, forKey: .resultConfiguration)
+            try container.encode(self.type, forKey: .type)
+        }
+
+        public func validate(name: String) throws {
+            try self.jobParameters.validate(name: "\(name).jobParameters")
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.resultConfiguration?.validate(name: "\(name).resultConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobParameters = "jobParameters"
+            case resultConfiguration = "resultConfiguration"
+            case type = "type"
+        }
+    }
+
+    public struct StartProtectedJobOutput: AWSDecodableShape {
+        ///  The protected job.
+        public let protectedJob: ProtectedJob
+
+        @inlinable
+        public init(protectedJob: ProtectedJob) {
+            self.protectedJob = protectedJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectedJob = "protectedJob"
         }
     }
 
@@ -7619,6 +8659,8 @@ extension CleanRooms {
     }
 
     public struct UpdateCollaborationInput: AWSEncodableShape {
+        /// The analytics engine.
+        public let analyticsEngine: AnalyticsEngine?
         /// The identifier for the collaboration.
         public let collaborationIdentifier: String
         /// A description of the collaboration.
@@ -7627,7 +8669,8 @@ extension CleanRooms {
         public let name: String?
 
         @inlinable
-        public init(collaborationIdentifier: String, description: String? = nil, name: String? = nil) {
+        public init(analyticsEngine: AnalyticsEngine? = nil, collaborationIdentifier: String, description: String? = nil, name: String? = nil) {
+            self.analyticsEngine = analyticsEngine
             self.collaborationIdentifier = collaborationIdentifier
             self.description = description
             self.name = name
@@ -7636,6 +8679,7 @@ extension CleanRooms {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.analyticsEngine, forKey: .analyticsEngine)
             request.encodePath(self.collaborationIdentifier, key: "collaborationIdentifier")
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.name, forKey: .name)
@@ -7654,6 +8698,7 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analyticsEngine = "analyticsEngine"
             case description = "description"
             case name = "name"
         }
@@ -7901,26 +8946,34 @@ extension CleanRooms {
     }
 
     public struct UpdateConfiguredTableInput: AWSEncodableShape {
+        ///  The analysis method for the configured table.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
+        public let analysisMethod: AnalysisMethod?
         /// The identifier for the configured table to update. Currently accepts the configured table ID.
         public let configuredTableIdentifier: String
         /// A new description for the configured table.
         public let description: String?
         /// A new name for the configured table.
         public let name: String?
+        ///  The selected analysis methods for the table configuration update.
+        public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
 
         @inlinable
-        public init(configuredTableIdentifier: String, description: String? = nil, name: String? = nil) {
+        public init(analysisMethod: AnalysisMethod? = nil, configuredTableIdentifier: String, description: String? = nil, name: String? = nil, selectedAnalysisMethods: [SelectedAnalysisMethod]? = nil) {
+            self.analysisMethod = analysisMethod
             self.configuredTableIdentifier = configuredTableIdentifier
             self.description = description
             self.name = name
+            self.selectedAnalysisMethods = selectedAnalysisMethods
         }
 
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.analysisMethod, forKey: .analysisMethod)
             request.encodePath(self.configuredTableIdentifier, key: "configuredTableIdentifier")
             try container.encodeIfPresent(self.description, forKey: .description)
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.selectedAnalysisMethods, forKey: .selectedAnalysisMethods)
         }
 
         public func validate(name: String) throws {
@@ -7935,8 +8988,10 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case analysisMethod = "analysisMethod"
             case description = "description"
             case name = "name"
+            case selectedAnalysisMethods = "selectedAnalysisMethods"
         }
     }
 
@@ -8082,16 +9137,22 @@ extension CleanRooms {
     }
 
     public struct UpdateMembershipInput: AWSEncodableShape {
+        ///  The default job result configuration.
+        public let defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration?
         /// The default protected query result configuration as specified by the member who can receive results.
         public let defaultResultConfiguration: MembershipProtectedQueryResultConfiguration?
+        /// An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        public let jobLogStatus: MembershipJobLogStatus?
         /// The unique identifier of the membership.
         public let membershipIdentifier: String
-        /// An indicator as to whether query logging has been enabled or disabled for the membership.
+        /// An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let queryLogStatus: MembershipQueryLogStatus?
 
         @inlinable
-        public init(defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, membershipIdentifier: String, queryLogStatus: MembershipQueryLogStatus? = nil) {
+        public init(defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration? = nil, defaultResultConfiguration: MembershipProtectedQueryResultConfiguration? = nil, jobLogStatus: MembershipJobLogStatus? = nil, membershipIdentifier: String, queryLogStatus: MembershipQueryLogStatus? = nil) {
+            self.defaultJobResultConfiguration = defaultJobResultConfiguration
             self.defaultResultConfiguration = defaultResultConfiguration
+            self.jobLogStatus = jobLogStatus
             self.membershipIdentifier = membershipIdentifier
             self.queryLogStatus = queryLogStatus
         }
@@ -8099,12 +9160,15 @@ extension CleanRooms {
         public func encode(to encoder: Encoder) throws {
             let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
             var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.defaultJobResultConfiguration, forKey: .defaultJobResultConfiguration)
             try container.encodeIfPresent(self.defaultResultConfiguration, forKey: .defaultResultConfiguration)
+            try container.encodeIfPresent(self.jobLogStatus, forKey: .jobLogStatus)
             request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
             try container.encodeIfPresent(self.queryLogStatus, forKey: .queryLogStatus)
         }
 
         public func validate(name: String) throws {
+            try self.defaultJobResultConfiguration?.validate(name: "\(name).defaultJobResultConfiguration")
             try self.defaultResultConfiguration?.validate(name: "\(name).defaultResultConfiguration")
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
             try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
@@ -8112,7 +9176,9 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultJobResultConfiguration = "defaultJobResultConfiguration"
             case defaultResultConfiguration = "defaultResultConfiguration"
+            case jobLogStatus = "jobLogStatus"
             case queryLogStatus = "queryLogStatus"
         }
     }
@@ -8184,6 +9250,57 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case privacyBudgetTemplate = "privacyBudgetTemplate"
+        }
+    }
+
+    public struct UpdateProtectedJobInput: AWSEncodableShape {
+        /// The identifier for a member of a protected job instance.
+        public let membershipIdentifier: String
+        ///  The identifier of the protected job to update.
+        public let protectedJobIdentifier: String
+        /// The target status of a protected job. Used to update the execution status  of a currently running job.
+        public let targetStatus: TargetProtectedJobStatus
+
+        @inlinable
+        public init(membershipIdentifier: String, protectedJobIdentifier: String, targetStatus: TargetProtectedJobStatus) {
+            self.membershipIdentifier = membershipIdentifier
+            self.protectedJobIdentifier = protectedJobIdentifier
+            self.targetStatus = targetStatus
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.membershipIdentifier, key: "membershipIdentifier")
+            request.encodePath(self.protectedJobIdentifier, key: "protectedJobIdentifier")
+            try container.encode(self.targetStatus, forKey: .targetStatus)
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, max: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, min: 36)
+            try self.validate(self.membershipIdentifier, name: "membershipIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.protectedJobIdentifier, name: "protectedJobIdentifier", parent: name, max: 36)
+            try self.validate(self.protectedJobIdentifier, name: "protectedJobIdentifier", parent: name, min: 36)
+            try self.validate(self.protectedJobIdentifier, name: "protectedJobIdentifier", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetStatus = "targetStatus"
+        }
+    }
+
+    public struct UpdateProtectedJobOutput: AWSDecodableShape {
+        /// The protected job output.
+        public let protectedJob: ProtectedJob
+
+        @inlinable
+        public init(protectedJob: ProtectedJob) {
+            self.protectedJob = protectedJob
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case protectedJob = "protectedJob"
         }
     }
 
@@ -8309,21 +9426,17 @@ extension CleanRooms {
         }
     }
 
-    public struct AnalysisSource: AWSEncodableShape & AWSDecodableShape {
-        /// The query text.
-        public let text: String?
+    public struct AnalysisSourceMetadata: AWSDecodableShape {
+        ///  The artifacts of the analysis source metadata.
+        public let artifacts: AnalysisTemplateArtifactMetadata?
 
         @inlinable
-        public init(text: String? = nil) {
-            self.text = text
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.text, name: "text", parent: name, max: 90000)
+        public init(artifacts: AnalysisTemplateArtifactMetadata? = nil) {
+            self.artifacts = artifacts
         }
 
         private enum CodingKeys: String, CodingKey {
-            case text = "text"
+            case artifacts = "artifacts"
         }
     }
 
@@ -8388,6 +9501,38 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case v1 = "v1"
+        }
+    }
+
+    public struct ConsolidatedPolicy: AWSDecodableShape {
+        ///  The consolidated policy version 1.
+        public let v1: ConsolidatedPolicyV1?
+
+        @inlinable
+        public init(v1: ConsolidatedPolicyV1? = nil) {
+            self.v1 = v1
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case v1 = "v1"
+        }
+    }
+
+    public struct MembershipProtectedJobOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Contains the configuration to write the job results to S3.
+        public let s3: ProtectedJobS3OutputConfigurationInput?
+
+        @inlinable
+        public init(s3: ProtectedJobS3OutputConfigurationInput? = nil) {
+            self.s3 = s3
+        }
+
+        public func validate(name: String) throws {
+            try self.s3?.validate(name: "\(name).s3")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3 = "s3"
         }
     }
 
@@ -8501,6 +9646,38 @@ extension CleanRooms {
 
         private enum CodingKeys: String, CodingKey {
             case differentialPrivacy = "differentialPrivacy"
+        }
+    }
+
+    public struct ProtectedJobConfigurationDetails: AWSDecodableShape {
+        /// The details needed to configure the direct analysis.
+        public let directAnalysisConfigurationDetails: ProtectedJobDirectAnalysisConfigurationDetails?
+
+        @inlinable
+        public init(directAnalysisConfigurationDetails: ProtectedJobDirectAnalysisConfigurationDetails? = nil) {
+            self.directAnalysisConfigurationDetails = directAnalysisConfigurationDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case directAnalysisConfigurationDetails = "directAnalysisConfigurationDetails"
+        }
+    }
+
+    public struct ProtectedJobOutputConfigurationInput: AWSEncodableShape {
+        ///  The member of the protected job output configuration input.
+        public let member: ProtectedJobMemberOutputConfigurationInput?
+
+        @inlinable
+        public init(member: ProtectedJobMemberOutputConfigurationInput? = nil) {
+            self.member = member
+        }
+
+        public func validate(name: String) throws {
+            try self.member?.validate(name: "\(name).member")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case member = "member"
         }
     }
 

@@ -80,6 +80,9 @@ public struct MarketplaceAgreement: AWSService {
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "us-east-1": "agreement-marketplace.us-east-1.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "us-iso-east-1": "agreement-marketplace-fips.us-iso-east-1.c2s.ic.gov"
         ])

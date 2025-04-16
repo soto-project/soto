@@ -3927,7 +3927,7 @@ extension ElastiCache {
         /// A list of cache security group names to authorize on this cluster. This change is asynchronously applied as soon as possible. You can use this parameter only with clusters that are created outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain no more than 255 alphanumeric characters. Must not be "Default".
         @OptionalCustomCoding<ArrayCoder<_CacheSecurityGroupNamesEncoding, String>>
         public var cacheSecurityGroupNames: [String]?
-        /// Modifies the engine listed in a cluster message. The options are redis, memcached or valkey.
+        /// The engine type used by the cache cluster. The options are valkey, memcached or redis.
         public let engine: String?
         /// The upgraded version of the cache engine to be run on the cache nodes.  Important: You can upgrade to a newer engine version (see Selecting a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
         public let engineVersion: String?
@@ -3947,6 +3947,8 @@ extension ElastiCache {
         public let numCacheNodes: Int?
         /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
         public let preferredMaintenanceWindow: String?
+        /// Configures horizontal or vertical scaling for Memcached clusters, specifying the scaling percentage and interval.
+        public let scaleConfig: ScaleConfig?
         /// Specifies the VPC Security Groups associated with the cluster. This parameter can be used only with clusters that are created in an Amazon Virtual Private Cloud (Amazon VPC).
         @OptionalCustomCoding<ArrayCoder<_SecurityGroupIdsEncoding, String>>
         public var securityGroupIds: [String]?
@@ -3956,7 +3958,7 @@ extension ElastiCache {
         public let snapshotWindow: String?
 
         @inlinable
-        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, autoMinorVersionUpgrade: Bool? = nil, azMode: AZMode? = nil, cacheClusterId: String? = nil, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
+        public init(applyImmediately: Bool? = nil, authToken: String? = nil, authTokenUpdateStrategy: AuthTokenUpdateStrategyType? = nil, autoMinorVersionUpgrade: Bool? = nil, azMode: AZMode? = nil, cacheClusterId: String? = nil, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, engine: String? = nil, engineVersion: String? = nil, ipDiscovery: IpDiscovery? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, newAvailabilityZones: [String]? = nil, notificationTopicArn: String? = nil, notificationTopicStatus: String? = nil, numCacheNodes: Int? = nil, preferredMaintenanceWindow: String? = nil, scaleConfig: ScaleConfig? = nil, securityGroupIds: [String]? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil) {
             self.applyImmediately = applyImmediately
             self.authToken = authToken
             self.authTokenUpdateStrategy = authTokenUpdateStrategy
@@ -3976,6 +3978,7 @@ extension ElastiCache {
             self.notificationTopicStatus = notificationTopicStatus
             self.numCacheNodes = numCacheNodes
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.scaleConfig = scaleConfig
             self.securityGroupIds = securityGroupIds
             self.snapshotRetentionLimit = snapshotRetentionLimit
             self.snapshotWindow = snapshotWindow
@@ -4001,6 +4004,7 @@ extension ElastiCache {
             case notificationTopicStatus = "NotificationTopicStatus"
             case numCacheNodes = "NumCacheNodes"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case scaleConfig = "ScaleConfig"
             case securityGroupIds = "SecurityGroupIds"
             case snapshotRetentionLimit = "SnapshotRetentionLimit"
             case snapshotWindow = "SnapshotWindow"
@@ -4910,19 +4914,22 @@ extension ElastiCache {
         public var logDeliveryConfigurations: [PendingLogDeliveryConfiguration]?
         /// The new number of cache nodes for the cluster. For clusters running Valkey or Redis OSS, this value must be 1. For clusters running Memcached, this value must be between 1 and 40.
         public let numCacheNodes: Int?
+        /// The scaling configuration changes that are pending for the Memcached cluster.
+        public let scaleConfig: ScaleConfig?
         /// A flag that enables in-transit encryption when set to true.
         public let transitEncryptionEnabled: Bool?
         /// A setting that allows you to migrate your clients to use in-transit encryption, with no downtime.
         public let transitEncryptionMode: TransitEncryptionMode?
 
         @inlinable
-        public init(authTokenStatus: AuthTokenUpdateStatus? = nil, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [PendingLogDeliveryConfiguration]? = nil, numCacheNodes: Int? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil) {
+        public init(authTokenStatus: AuthTokenUpdateStatus? = nil, cacheNodeIdsToRemove: [String]? = nil, cacheNodeType: String? = nil, engineVersion: String? = nil, logDeliveryConfigurations: [PendingLogDeliveryConfiguration]? = nil, numCacheNodes: Int? = nil, scaleConfig: ScaleConfig? = nil, transitEncryptionEnabled: Bool? = nil, transitEncryptionMode: TransitEncryptionMode? = nil) {
             self.authTokenStatus = authTokenStatus
             self.cacheNodeIdsToRemove = cacheNodeIdsToRemove
             self.cacheNodeType = cacheNodeType
             self.engineVersion = engineVersion
             self.logDeliveryConfigurations = logDeliveryConfigurations
             self.numCacheNodes = numCacheNodes
+            self.scaleConfig = scaleConfig
             self.transitEncryptionEnabled = transitEncryptionEnabled
             self.transitEncryptionMode = transitEncryptionMode
         }
@@ -4934,6 +4941,7 @@ extension ElastiCache {
             case engineVersion = "EngineVersion"
             case logDeliveryConfigurations = "LogDeliveryConfigurations"
             case numCacheNodes = "NumCacheNodes"
+            case scaleConfig = "ScaleConfig"
             case transitEncryptionEnabled = "TransitEncryptionEnabled"
             case transitEncryptionMode = "TransitEncryptionMode"
         }
@@ -5662,6 +5670,24 @@ extension ElastiCache {
 
         private enum CodingKeys: String, CodingKey {
             case cacheSecurityGroup = "CacheSecurityGroup"
+        }
+    }
+
+    public struct ScaleConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The time interval in seconds between scaling operations when performing gradual scaling for a Memcached cluster.
+        public let scaleIntervalMinutes: Int?
+        /// The percentage by which to scale the Memcached cluster, either horizontally by adding nodes or vertically by increasing resources.
+        public let scalePercentage: Int?
+
+        @inlinable
+        public init(scaleIntervalMinutes: Int? = nil, scalePercentage: Int? = nil) {
+            self.scaleIntervalMinutes = scaleIntervalMinutes
+            self.scalePercentage = scalePercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case scaleIntervalMinutes = "ScaleIntervalMinutes"
+            case scalePercentage = "ScalePercentage"
         }
     }
 

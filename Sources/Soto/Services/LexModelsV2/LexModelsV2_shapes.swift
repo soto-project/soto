@@ -2227,6 +2227,8 @@ extension LexModelsV2 {
         /// A list of tags to add to the bot. You can only add tags when you import a bot. You can't use the UpdateBot operation to update tags. To update tags, use the TagResource operation.
         public let botTags: [String: String]?
         public let dataPrivacy: DataPrivacy
+        /// Allows you to configure destinations where error logs will be published during the bot import process.
+        public let errorLogSettings: ErrorLogSettings?
         /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot.  A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
         public let idleSessionTTLInSeconds: Int?
         /// The Amazon Resource Name (ARN) of the IAM role used to build and run the bot.
@@ -2235,10 +2237,11 @@ extension LexModelsV2 {
         public let testBotAliasTags: [String: String]?
 
         @inlinable
-        public init(botName: String, botTags: [String: String]? = nil, dataPrivacy: DataPrivacy, idleSessionTTLInSeconds: Int? = nil, roleArn: String, testBotAliasTags: [String: String]? = nil) {
+        public init(botName: String, botTags: [String: String]? = nil, dataPrivacy: DataPrivacy, errorLogSettings: ErrorLogSettings? = nil, idleSessionTTLInSeconds: Int? = nil, roleArn: String, testBotAliasTags: [String: String]? = nil) {
             self.botName = botName
             self.botTags = botTags
             self.dataPrivacy = dataPrivacy
+            self.errorLogSettings = errorLogSettings
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.roleArn = roleArn
             self.testBotAliasTags = testBotAliasTags
@@ -2271,6 +2274,7 @@ extension LexModelsV2 {
             case botName = "botName"
             case botTags = "botTags"
             case dataPrivacy = "dataPrivacy"
+            case errorLogSettings = "errorLogSettings"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case roleArn = "roleArn"
             case testBotAliasTags = "testBotAliasTags"
@@ -3608,6 +3612,8 @@ extension LexModelsV2 {
         public let dataPrivacy: DataPrivacy
         /// A description of the bot. It appears in lists to help you identify a particular bot.
         public let description: String?
+        /// Specifies the configuration for error logging during bot creation.
+        public let errorLogSettings: ErrorLogSettings?
         /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot.  A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
         public let idleSessionTTLInSeconds: Int
         /// The Amazon Resource Name (ARN) of an IAM role that has permission to access the bot.
@@ -3616,13 +3622,14 @@ extension LexModelsV2 {
         public let testBotAliasTags: [String: String]?
 
         @inlinable
-        public init(botMembers: [BotMember]? = nil, botName: String, botTags: [String: String]? = nil, botType: BotType? = nil, dataPrivacy: DataPrivacy, description: String? = nil, idleSessionTTLInSeconds: Int, roleArn: String, testBotAliasTags: [String: String]? = nil) {
+        public init(botMembers: [BotMember]? = nil, botName: String, botTags: [String: String]? = nil, botType: BotType? = nil, dataPrivacy: DataPrivacy, description: String? = nil, errorLogSettings: ErrorLogSettings? = nil, idleSessionTTLInSeconds: Int, roleArn: String, testBotAliasTags: [String: String]? = nil) {
             self.botMembers = botMembers
             self.botName = botName
             self.botTags = botTags
             self.botType = botType
             self.dataPrivacy = dataPrivacy
             self.description = description
+            self.errorLogSettings = errorLogSettings
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.roleArn = roleArn
             self.testBotAliasTags = testBotAliasTags
@@ -3663,6 +3670,7 @@ extension LexModelsV2 {
             case botType = "botType"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
+            case errorLogSettings = "errorLogSettings"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case roleArn = "roleArn"
             case testBotAliasTags = "testBotAliasTags"
@@ -3688,6 +3696,8 @@ extension LexModelsV2 {
         public let dataPrivacy: DataPrivacy?
         /// The description specified for the bot.
         public let description: String?
+        /// Specifies configuration settings for delivering error logs to Cloudwatch Logs in an Amazon Lex bot response.
+        public let errorLogSettings: ErrorLogSettings?
         /// The session idle time specified for the bot.
         public let idleSessionTTLInSeconds: Int?
         /// The IAM role specified for the bot.
@@ -3696,7 +3706,7 @@ extension LexModelsV2 {
         public let testBotAliasTags: [String: String]?
 
         @inlinable
-        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botTags: [String: String]? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, roleArn: String? = nil, testBotAliasTags: [String: String]? = nil) {
+        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botTags: [String: String]? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, errorLogSettings: ErrorLogSettings? = nil, idleSessionTTLInSeconds: Int? = nil, roleArn: String? = nil, testBotAliasTags: [String: String]? = nil) {
             self.botId = botId
             self.botMembers = botMembers
             self.botName = botName
@@ -3706,6 +3716,7 @@ extension LexModelsV2 {
             self.creationDateTime = creationDateTime
             self.dataPrivacy = dataPrivacy
             self.description = description
+            self.errorLogSettings = errorLogSettings
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.roleArn = roleArn
             self.testBotAliasTags = testBotAliasTags
@@ -3721,6 +3732,7 @@ extension LexModelsV2 {
             case creationDateTime = "creationDateTime"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
+            case errorLogSettings = "errorLogSettings"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case roleArn = "roleArn"
             case testBotAliasTags = "testBotAliasTags"
@@ -3888,13 +3900,15 @@ extension LexModelsV2 {
         public let outputContexts: [OutputContext]?
         /// A unique identifier for the built-in intent to base this intent on.
         public let parentIntentSignature: String?
+        /// Qinconnect intent configuration details for the create intent request.
+        public let qInConnectIntentConfiguration: QInConnectIntentConfiguration?
         /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
         public let qnAIntentConfiguration: QnAIntentConfiguration?
         /// An array of strings that a user might say to signal the intent. For example, "I want a pizza", or "I want a {PizzaSize} pizza".  In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they should be displayed in the utterance shown to the user..
         public let sampleUtterances: [SampleUtterance]?
 
         @inlinable
-        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
@@ -3909,6 +3923,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
+            self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
             self.qnAIntentConfiguration = qnAIntentConfiguration
             self.sampleUtterances = sampleUtterances
         }
@@ -3930,6 +3945,7 @@ extension LexModelsV2 {
             request.encodePath(self.localeId, key: "localeId")
             try container.encodeIfPresent(self.outputContexts, forKey: .outputContexts)
             try container.encodeIfPresent(self.parentIntentSignature, forKey: .parentIntentSignature)
+            try container.encodeIfPresent(self.qInConnectIntentConfiguration, forKey: .qInConnectIntentConfiguration)
             try container.encodeIfPresent(self.qnAIntentConfiguration, forKey: .qnAIntentConfiguration)
             try container.encodeIfPresent(self.sampleUtterances, forKey: .sampleUtterances)
         }
@@ -3958,6 +3974,7 @@ extension LexModelsV2 {
                 try $0.validate(name: "\(name).outputContexts[]")
             }
             try self.validate(self.outputContexts, name: "outputContexts", parent: name, max: 10)
+            try self.qInConnectIntentConfiguration?.validate(name: "\(name).qInConnectIntentConfiguration")
             try self.qnAIntentConfiguration?.validate(name: "\(name).qnAIntentConfiguration")
         }
 
@@ -3973,6 +3990,7 @@ extension LexModelsV2 {
             case kendraConfiguration = "kendraConfiguration"
             case outputContexts = "outputContexts"
             case parentIntentSignature = "parentIntentSignature"
+            case qInConnectIntentConfiguration = "qInConnectIntentConfiguration"
             case qnAIntentConfiguration = "qnAIntentConfiguration"
             case sampleUtterances = "sampleUtterances"
         }
@@ -4011,13 +4029,15 @@ extension LexModelsV2 {
         public let outputContexts: [OutputContext]?
         /// The signature of the parent intent specified for the intent.
         public let parentIntentSignature: String?
+        /// Qinconnect intent configuration details for the create intent response.
+        public let qInConnectIntentConfiguration: QInConnectIntentConfiguration?
         /// Details about the the configuration of the built-in Amazon.QnAIntent.
         public let qnAIntentConfiguration: QnAIntentConfiguration?
         /// The sample utterances specified for the intent.
         public let sampleUtterances: [SampleUtterance]?
 
         @inlinable
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
@@ -4034,6 +4054,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
+            self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
             self.qnAIntentConfiguration = qnAIntentConfiguration
             self.sampleUtterances = sampleUtterances
         }
@@ -4055,6 +4076,7 @@ extension LexModelsV2 {
             case localeId = "localeId"
             case outputContexts = "outputContexts"
             case parentIntentSignature = "parentIntentSignature"
+            case qInConnectIntentConfiguration = "qInConnectIntentConfiguration"
             case qnAIntentConfiguration = "qnAIntentConfiguration"
             case sampleUtterances = "sampleUtterances"
         }
@@ -6043,6 +6065,8 @@ extension LexModelsV2 {
         public let dataPrivacy: DataPrivacy?
         /// The description of the bot.
         public let description: String?
+        /// Contains the configuration for error logging that specifies where and how bot errors are recorded, including destinations like CloudWatch Logs.
+        public let errorLogSettings: ErrorLogSettings?
         /// If the botStatus is Failed, this contains a list of reasons that the bot couldn't be built.
         public let failureReasons: [String]?
         /// The maximum time in seconds that Amazon Lex retains the data gathered in a conversation.
@@ -6053,7 +6077,7 @@ extension LexModelsV2 {
         public let roleArn: String?
 
         @inlinable
-        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, failureReasons: [String]? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
+        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, errorLogSettings: ErrorLogSettings? = nil, failureReasons: [String]? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
             self.botId = botId
             self.botMembers = botMembers
             self.botName = botName
@@ -6062,6 +6086,7 @@ extension LexModelsV2 {
             self.creationDateTime = creationDateTime
             self.dataPrivacy = dataPrivacy
             self.description = description
+            self.errorLogSettings = errorLogSettings
             self.failureReasons = failureReasons
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -6077,6 +6102,7 @@ extension LexModelsV2 {
             case creationDateTime = "creationDateTime"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
+            case errorLogSettings = "errorLogSettings"
             case failureReasons = "failureReasons"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
@@ -6459,6 +6485,8 @@ extension LexModelsV2 {
         public let outputContexts: [OutputContext]?
         /// The identifier of the built-in intent that this intent is derived from, if any.
         public let parentIntentSignature: String?
+        /// Qinconnect intent configuration details for the describe intent response.
+        public let qInConnectIntentConfiguration: QInConnectIntentConfiguration?
         /// Details about the configuration of the built-in Amazon.QnAIntent.
         public let qnAIntentConfiguration: QnAIntentConfiguration?
         /// User utterances that trigger this intent.
@@ -6467,7 +6495,7 @@ extension LexModelsV2 {
         public let slotPriorities: [SlotPriority]?
 
         @inlinable
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
@@ -6485,6 +6513,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
+            self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
             self.qnAIntentConfiguration = qnAIntentConfiguration
             self.sampleUtterances = sampleUtterances
             self.slotPriorities = slotPriorities
@@ -6508,6 +6537,7 @@ extension LexModelsV2 {
             case localeId = "localeId"
             case outputContexts = "outputContexts"
             case parentIntentSignature = "parentIntentSignature"
+            case qInConnectIntentConfiguration = "qInConnectIntentConfiguration"
             case qnAIntentConfiguration = "qnAIntentConfiguration"
             case sampleUtterances = "sampleUtterances"
             case slotPriorities = "slotPriorities"
@@ -7249,6 +7279,20 @@ extension LexModelsV2 {
             case associatedTranscriptsPassword = "associatedTranscriptsPassword"
             case botLocaleExportPassword = "botLocaleExportPassword"
             case kmsKeyArn = "kmsKeyArn"
+        }
+    }
+
+    public struct ErrorLogSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Settings parameters for the error logs, when it is enabled.
+        public let enabled: Bool
+
+        @inlinable
+        public init(enabled: Bool) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "enabled"
         }
     }
 
@@ -11336,6 +11380,42 @@ extension LexModelsV2 {
         }
     }
 
+    public struct QInConnectAssistantConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The assistant Arn details of the Qinconnect assistant configuration.
+        public let assistantArn: String
+
+        @inlinable
+        public init(assistantArn: String) {
+            self.assistantArn = assistantArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assistantArn, name: "assistantArn", parent: name, pattern: "^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assistantArn = "assistantArn"
+        }
+    }
+
+    public struct QInConnectIntentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Qinconnect assistant configuration details of the Qinconnect intent.
+        public let qInConnectAssistantConfiguration: QInConnectAssistantConfiguration?
+
+        @inlinable
+        public init(qInConnectAssistantConfiguration: QInConnectAssistantConfiguration? = nil) {
+            self.qInConnectAssistantConfiguration = qInConnectAssistantConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.qInConnectAssistantConfiguration?.validate(name: "\(name).qInConnectAssistantConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case qInConnectAssistantConfiguration = "qInConnectAssistantConfiguration"
+        }
+    }
+
     public struct QnAIntentConfiguration: AWSEncodableShape & AWSDecodableShape {
         public let bedrockModelConfiguration: BedrockModelSpecification?
         /// Contains details about the configuration of the data source used for the AMAZON.QnAIntent.
@@ -14117,19 +14197,22 @@ extension LexModelsV2 {
         public let dataPrivacy: DataPrivacy
         /// A description of the bot.
         public let description: String?
+        /// Allows you to modify how Amazon Lex logs errors during bot interactions, including destinations for error logs and the types of errors to be captured.
+        public let errorLogSettings: ErrorLogSettings?
         /// The time, in seconds, that Amazon Lex should keep information about a user's conversation with the bot. A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and Amazon Lex deletes any data provided before the timeout. You can specify between 60 (1 minute) and 86,400 (24 hours) seconds.
         public let idleSessionTTLInSeconds: Int
         /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the bot.
         public let roleArn: String
 
         @inlinable
-        public init(botId: String, botMembers: [BotMember]? = nil, botName: String, botType: BotType? = nil, dataPrivacy: DataPrivacy, description: String? = nil, idleSessionTTLInSeconds: Int, roleArn: String) {
+        public init(botId: String, botMembers: [BotMember]? = nil, botName: String, botType: BotType? = nil, dataPrivacy: DataPrivacy, description: String? = nil, errorLogSettings: ErrorLogSettings? = nil, idleSessionTTLInSeconds: Int, roleArn: String) {
             self.botId = botId
             self.botMembers = botMembers
             self.botName = botName
             self.botType = botType
             self.dataPrivacy = dataPrivacy
             self.description = description
+            self.errorLogSettings = errorLogSettings
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.roleArn = roleArn
         }
@@ -14143,6 +14226,7 @@ extension LexModelsV2 {
             try container.encodeIfPresent(self.botType, forKey: .botType)
             try container.encode(self.dataPrivacy, forKey: .dataPrivacy)
             try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.errorLogSettings, forKey: .errorLogSettings)
             try container.encode(self.idleSessionTTLInSeconds, forKey: .idleSessionTTLInSeconds)
             try container.encode(self.roleArn, forKey: .roleArn)
         }
@@ -14172,6 +14256,7 @@ extension LexModelsV2 {
             case botType = "botType"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
+            case errorLogSettings = "errorLogSettings"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case roleArn = "roleArn"
         }
@@ -14194,6 +14279,8 @@ extension LexModelsV2 {
         public let dataPrivacy: DataPrivacy?
         /// The description of the bot after the update.
         public let description: String?
+        /// Settings for managing error logs within the response of an update bot operation.
+        public let errorLogSettings: ErrorLogSettings?
         /// The session timeout, in seconds, for the bot after the update.
         public let idleSessionTTLInSeconds: Int?
         /// A timestamp of the date and time that the bot was last updated.
@@ -14202,7 +14289,7 @@ extension LexModelsV2 {
         public let roleArn: String?
 
         @inlinable
-        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
+        public init(botId: String? = nil, botMembers: [BotMember]? = nil, botName: String? = nil, botStatus: BotStatus? = nil, botType: BotType? = nil, creationDateTime: Date? = nil, dataPrivacy: DataPrivacy? = nil, description: String? = nil, errorLogSettings: ErrorLogSettings? = nil, idleSessionTTLInSeconds: Int? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil) {
             self.botId = botId
             self.botMembers = botMembers
             self.botName = botName
@@ -14211,6 +14298,7 @@ extension LexModelsV2 {
             self.creationDateTime = creationDateTime
             self.dataPrivacy = dataPrivacy
             self.description = description
+            self.errorLogSettings = errorLogSettings
             self.idleSessionTTLInSeconds = idleSessionTTLInSeconds
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.roleArn = roleArn
@@ -14225,6 +14313,7 @@ extension LexModelsV2 {
             case creationDateTime = "creationDateTime"
             case dataPrivacy = "dataPrivacy"
             case description = "description"
+            case errorLogSettings = "errorLogSettings"
             case idleSessionTTLInSeconds = "idleSessionTTLInSeconds"
             case lastUpdatedDateTime = "lastUpdatedDateTime"
             case roleArn = "roleArn"
@@ -14328,6 +14417,8 @@ extension LexModelsV2 {
         public let outputContexts: [OutputContext]?
         /// The signature of the new built-in intent to use as the parent of this intent.
         public let parentIntentSignature: String?
+        /// Qinconnect intent configuration details for the update intent request.
+        public let qInConnectIntentConfiguration: QInConnectIntentConfiguration?
         /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
         public let qnAIntentConfiguration: QnAIntentConfiguration?
         /// New utterances used to invoke the intent.
@@ -14336,7 +14427,7 @@ extension LexModelsV2 {
         public let slotPriorities: [SlotPriority]?
 
         @inlinable
-        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
+        public init(botId: String, botVersion: String, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String, intentName: String, kendraConfiguration: KendraConfiguration? = nil, localeId: String, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
@@ -14352,6 +14443,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
+            self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
             self.qnAIntentConfiguration = qnAIntentConfiguration
             self.sampleUtterances = sampleUtterances
             self.slotPriorities = slotPriorities
@@ -14375,6 +14467,7 @@ extension LexModelsV2 {
             request.encodePath(self.localeId, key: "localeId")
             try container.encodeIfPresent(self.outputContexts, forKey: .outputContexts)
             try container.encodeIfPresent(self.parentIntentSignature, forKey: .parentIntentSignature)
+            try container.encodeIfPresent(self.qInConnectIntentConfiguration, forKey: .qInConnectIntentConfiguration)
             try container.encodeIfPresent(self.qnAIntentConfiguration, forKey: .qnAIntentConfiguration)
             try container.encodeIfPresent(self.sampleUtterances, forKey: .sampleUtterances)
             try container.encodeIfPresent(self.slotPriorities, forKey: .slotPriorities)
@@ -14407,6 +14500,7 @@ extension LexModelsV2 {
                 try $0.validate(name: "\(name).outputContexts[]")
             }
             try self.validate(self.outputContexts, name: "outputContexts", parent: name, max: 10)
+            try self.qInConnectIntentConfiguration?.validate(name: "\(name).qInConnectIntentConfiguration")
             try self.qnAIntentConfiguration?.validate(name: "\(name).qnAIntentConfiguration")
             try self.slotPriorities?.forEach {
                 try $0.validate(name: "\(name).slotPriorities[]")
@@ -14425,6 +14519,7 @@ extension LexModelsV2 {
             case kendraConfiguration = "kendraConfiguration"
             case outputContexts = "outputContexts"
             case parentIntentSignature = "parentIntentSignature"
+            case qInConnectIntentConfiguration = "qInConnectIntentConfiguration"
             case qnAIntentConfiguration = "qnAIntentConfiguration"
             case sampleUtterances = "sampleUtterances"
             case slotPriorities = "slotPriorities"
@@ -14466,6 +14561,8 @@ extension LexModelsV2 {
         public let outputContexts: [OutputContext]?
         /// The updated built-in intent that is the parent of this intent.
         public let parentIntentSignature: String?
+        /// Qinconnect intent configuration details for the update intent response.
+        public let qInConnectIntentConfiguration: QInConnectIntentConfiguration?
         /// Details about the configuration of the built-in Amazon.QnAIntent.
         public let qnAIntentConfiguration: QnAIntentConfiguration?
         /// The updated list of sample utterances for the intent.
@@ -14474,7 +14571,7 @@ extension LexModelsV2 {
         public let slotPriorities: [SlotPriority]?
 
         @inlinable
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, dialogCodeHook: DialogCodeHookSettings? = nil, fulfillmentCodeHook: FulfillmentCodeHookSettings? = nil, initialResponseSetting: InitialResponseSetting? = nil, inputContexts: [InputContext]? = nil, intentClosingSetting: IntentClosingSetting? = nil, intentConfirmationSetting: IntentConfirmationSetting? = nil, intentId: String? = nil, intentName: String? = nil, kendraConfiguration: KendraConfiguration? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, outputContexts: [OutputContext]? = nil, parentIntentSignature: String? = nil, qInConnectIntentConfiguration: QInConnectIntentConfiguration? = nil, qnAIntentConfiguration: QnAIntentConfiguration? = nil, sampleUtterances: [SampleUtterance]? = nil, slotPriorities: [SlotPriority]? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
@@ -14492,6 +14589,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.outputContexts = outputContexts
             self.parentIntentSignature = parentIntentSignature
+            self.qInConnectIntentConfiguration = qInConnectIntentConfiguration
             self.qnAIntentConfiguration = qnAIntentConfiguration
             self.sampleUtterances = sampleUtterances
             self.slotPriorities = slotPriorities
@@ -14515,6 +14613,7 @@ extension LexModelsV2 {
             case localeId = "localeId"
             case outputContexts = "outputContexts"
             case parentIntentSignature = "parentIntentSignature"
+            case qInConnectIntentConfiguration = "qInConnectIntentConfiguration"
             case qnAIntentConfiguration = "qnAIntentConfiguration"
             case sampleUtterances = "sampleUtterances"
             case slotPriorities = "slotPriorities"

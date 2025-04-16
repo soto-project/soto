@@ -65,7 +65,6 @@ public struct SQS: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2012-11-05",
             endpoint: endpoint,
-            serviceEndpoints: Self.serviceEndpoints,
             variantEndpoints: Self.variantEndpoints,
             errorType: SQSErrorType.self,
             middleware: middleware,
@@ -76,15 +75,46 @@ public struct SQS: AWSService {
     }
 
 
-    /// custom endpoints for regions
-    static var serviceEndpoints: [String: String] {[
-        "us-gov-east-1": "sqs.us-gov-east-1.amazonaws.com",
-        "us-gov-west-1": "sqs.us-gov-west-1.amazonaws.com"
-    ]}
 
 
     /// FIPS and dualstack endpoints
     static var variantEndpoints: [EndpointVariantType: AWSServiceConfig.EndpointVariant] {[
+        [.dualstack]: .init(endpoints: [
+            "af-south-1": "sqs.af-south-1.api.aws",
+            "ap-east-1": "sqs.ap-east-1.api.aws",
+            "ap-northeast-1": "sqs.ap-northeast-1.api.aws",
+            "ap-northeast-2": "sqs.ap-northeast-2.api.aws",
+            "ap-northeast-3": "sqs.ap-northeast-3.api.aws",
+            "ap-south-1": "sqs.ap-south-1.api.aws",
+            "ap-south-2": "sqs.ap-south-2.api.aws",
+            "ap-southeast-1": "sqs.ap-southeast-1.api.aws",
+            "ap-southeast-2": "sqs.ap-southeast-2.api.aws",
+            "ap-southeast-3": "sqs.ap-southeast-3.api.aws",
+            "ap-southeast-4": "sqs.ap-southeast-4.api.aws",
+            "ap-southeast-5": "sqs.ap-southeast-5.api.aws",
+            "ap-southeast-7": "sqs.ap-southeast-7.api.aws",
+            "ca-central-1": "sqs.ca-central-1.api.aws",
+            "ca-west-1": "sqs.ca-west-1.api.aws",
+            "cn-north-1": "sqs.cn-north-1.api.amazonwebservices.com.cn",
+            "cn-northwest-1": "sqs.cn-northwest-1.api.amazonwebservices.com.cn",
+            "eu-central-1": "sqs.eu-central-1.api.aws",
+            "eu-central-2": "sqs.eu-central-2.api.aws",
+            "eu-north-1": "sqs.eu-north-1.api.aws",
+            "eu-south-1": "sqs.eu-south-1.api.aws",
+            "eu-south-2": "sqs.eu-south-2.api.aws",
+            "eu-west-1": "sqs.eu-west-1.api.aws",
+            "eu-west-2": "sqs.eu-west-2.api.aws",
+            "eu-west-3": "sqs.eu-west-3.api.aws",
+            "il-central-1": "sqs.il-central-1.api.aws",
+            "me-central-1": "sqs.me-central-1.api.aws",
+            "me-south-1": "sqs.me-south-1.api.aws",
+            "mx-central-1": "sqs.mx-central-1.api.aws",
+            "sa-east-1": "sqs.sa-east-1.api.aws",
+            "us-east-1": "sqs.us-east-1.api.aws",
+            "us-east-2": "sqs.us-east-2.api.aws",
+            "us-west-1": "sqs.us-west-1.api.aws",
+            "us-west-2": "sqs.us-west-2.api.aws"
+        ]),
         [.fips]: .init(endpoints: [
             "ca-central-1": "sqs-fips.ca-central-1.amazonaws.com",
             "ca-west-1": "sqs-fips.ca-west-1.amazonaws.com",
@@ -92,6 +122,11 @@ public struct SQS: AWSService {
             "us-east-2": "sqs-fips.us-east-2.amazonaws.com",
             "us-gov-east-1": "sqs.us-gov-east-1.amazonaws.com",
             "us-gov-west-1": "sqs.us-gov-west-1.amazonaws.com",
+            "us-iso-east-1": "sqs.us-iso-east-1.c2s.ic.gov",
+            "us-iso-west-1": "sqs.us-iso-west-1.c2s.ic.gov",
+            "us-isob-east-1": "sqs.us-isob-east-1.sc2s.sgov.gov",
+            "us-isof-east-1": "sqs.us-isof-east-1.csp.hci.ic.gov",
+            "us-isof-south-1": "sqs.us-isof-south-1.csp.hci.ic.gov",
             "us-west-1": "sqs-fips.us-west-1.amazonaws.com",
             "us-west-2": "sqs-fips.us-west-2.amazonaws.com"
         ])

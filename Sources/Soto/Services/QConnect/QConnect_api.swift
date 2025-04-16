@@ -333,7 +333,7 @@ public struct QConnect: AWSService {
     ///   - assistantId: The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs..
     ///   - description: The description of the AI Prompt.
-    ///   - modelId: The identifier of the model used for this AI Prompt. Model Ids supported are: CLAUDE_3_HAIKU_20240307_V1
+    ///   - modelId: The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0
     ///   - name: The name of the AI Prompt.
     ///   - tags: The tags used to organize, track, or control access for this resource.
     ///   - templateConfiguration: The configuration of the prompt template for this AI Prompt.
@@ -2636,7 +2636,7 @@ public struct QConnect: AWSService {
         return try await self.queryAssistant(input, logger: logger)
     }
 
-    /// Removes the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    /// Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     @Sendable
     @inlinable
     public func removeAssistantAIAgent(_ input: RemoveAssistantAIAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RemoveAssistantAIAgentResponse {
@@ -2649,7 +2649,7 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    /// Removes the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    /// Removes the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     ///
     /// Parameters:
     ///   - aiAgentType: The type of the AI Agent being removed for use by default from the Amazon Q in Connect Assistant.
@@ -3224,7 +3224,7 @@ public struct QConnect: AWSService {
         return try await self.updateAIPrompt(input, logger: logger)
     }
 
-    /// Updates the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    /// Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     @Sendable
     @inlinable
     public func updateAssistantAIAgent(_ input: UpdateAssistantAIAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateAssistantAIAgentResponse {
@@ -3237,7 +3237,7 @@ public struct QConnect: AWSService {
             logger: logger
         )
     }
-    /// Updates the AI Agent that is set for use by defafult on an Amazon Q in Connect Assistant.
+    /// Updates the AI Agent that is set for use by default on an Amazon Q in Connect Assistant.
     ///
     /// Parameters:
     ///   - aiAgentType: The type of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
