@@ -23,7 +23,7 @@ env:
 
 jobs:
   macos:
-    runs-on: macOS-13
+    runs-on: macOS-14
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -35,9 +35,9 @@ jobs:
     strategy:
       matrix:
         image:
-          - swift:5.9
           - swift:5.10
           - swift:6.0
+          - swift:6.1
     services:
       localstack:
         image: localstack/localstack

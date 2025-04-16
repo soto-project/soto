@@ -27,15 +27,15 @@ class LambdaTests: XCTestCase {
     static let functionExecutionRoleName: String = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
 
     /*
-
+    
      The testing code for the AWS Lambda function is created with the following commands:
-
+    
      echo "exports.handler = async (event) => { return \"hello world\" };" > lambda.js
      zip lambda.zip lambda.js
      cat lambda.zip | base64
      rm lambda.zip
      rm lambda.js
-
+    
      */
     class func createLambdaFunction(roleArn: String) async throws {
         // Base64 and Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
@@ -123,13 +123,20 @@ class LambdaTests: XCTestCase {
         // create an IAM role
         Task {
             await XCTAsyncAssertNoThrow {
-                let response = try await Self.createIAMRole()
-                // IAM needs some time after Role creation,
-                // before the role can be attached to a Lambda function
-                // https://stackoverflow.com/a/37438525/663360
-                print("Sleeping 20 secs, waiting for IAM Role to be ready")
-                try await Task.sleep(nanoseconds: 20_000_000_000)
-                try await Self.createLambdaFunction(roleArn: response.role.arn)
+                let arn: String
+                do {
+                    let response = try await Self.createIAMRole()
+                    // IAM needs some time after Role creation,
+                    // before the role can be attached to a Lambda function
+                    // https://stackoverflow.com/a/37438525/663360
+                    print("Sleeping 20 secs, waiting for IAM Role to be ready")
+                    try await Task.sleep(nanoseconds: 20_000_000_000)
+                    arn = response.role.arn
+                } catch let error as IAMErrorType where error == .entityAlreadyExistsException {
+                    let response = try await Self.iam.getRole(roleName: self.functionExecutionRoleName)
+                    arn = response.role.arn
+                }
+                try await Self.createLambdaFunction(roleArn: arn)
             }
         }.syncAwait()
     }

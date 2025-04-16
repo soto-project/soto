@@ -242,6 +242,8 @@ extension DynamoDB {
         public let returnItemCollectionMetrics: ReturnItemCollectionMetrics?
         /// Use ReturnValues if you want to get the item attributes as they appear before or after they are updated. For UpdateItem, the valid values are:    NONE - If ReturnValues is not specified, or if its value is NONE, then nothing is returned. (This setting is the default for ReturnValues.)    ALL_OLD - Returns all of the attributes of the item, as they appeared before the UpdateItem operation.    UPDATED_OLD - Returns only the updated attributes, as they appeared before the UpdateItem operation.    ALL_NEW - Returns all of the attributes of the item, as they appear after the UpdateItem operation.    UPDATED_NEW - Returns only the updated attributes, as they appear after the UpdateItem operation.   There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed. The values returned are strongly consistent.
         public let returnValues: ReturnValue?
+        /// An optional parameter that returns the item attributes for an UpdateItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
+        public let returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure?
         /// The name of the table containing the item to update.
         public let tableName: String
         /// An expression that defines one or more attributes to be updated, the action to be performed on them, and new values for them. If this is not set the update is automatically constructed to SET all the values from the updateItem. If you are creating your own updateExpression then all the attribute names are prefixed with the symbol #. The following action values are available for UpdateExpression.    SET - Adds one or more attributes and values to an item. If any of these attributes already exist, they are replaced by the new values. You can also use SET to add or subtract from an attribute that is of type Number. For example: SET myNum = myNum + :val   SET supports the following functions:    if_not_exists (path, operand) - if the item does not contain an attribute at the specified path, then if_not_exists evaluates to operand; otherwise, it evaluates to path. You can use this function to avoid overwriting an attribute that may already be present in the item.    list_append (operand, operand) - evaluates to a list with a new element added to it. You can append the new element to the start or the end of the list by reversing the order of the operands.   These function names are case-sensitive.    REMOVE - Removes one or more attributes from an item.    ADD - Adds the specified value to the item, if the attribute does not already exist. If the attribute does exist, then the behavior of ADD depends on the data type of the attribute:   If the existing attribute is a number, and if Value is also a number, then Value is mathematically added to the existing attribute. If Value is a negative number, then it is subtracted from the existing attribute.  If you use ADD to increment or decrement a number value for an item that doesn't exist before the update, DynamoDB uses 0 as the initial value. Similarly, if you use ADD for an existing item to increment or decrement an attribute value that doesn't exist before the update, DynamoDB uses 0 as the initial value. For example, suppose that the item you want to update doesn't have an attribute named itemcount, but you decide to ADD the number 3 to this attribute anyway. DynamoDB will create the itemcount attribute, set its initial value to 0, and finally add 3 to it. The result will be a new itemcount attribute in the item, with a value of 3.    If the existing data type is a set and if Value is also a set, then Value is added to the existing set. For example, if the attribute value is the set [1,2], and the ADD action specified [3], then the final attribute value is [1,2,3]. An error occurs if an ADD action is specified for a set attribute and the attribute type specified does not match the existing set type.  Both sets must have the same primitive data type. For example, if the existing data type is a set of strings, the Value must also be a set of strings.    The ADD action only supports Number and set data types. In addition, ADD can only be used on top-level attributes, not nested attributes.     DELETE - Deletes an element from a set. If a set of values is specified, then those values are subtracted from the old set. For example, if the attribute value was the set [a,b,c] and the DELETE action specifies [a,c], then the final attribute value is [b]. Specifying an empty set is an error.  The DELETE action only supports set data types. In addition, DELETE can only be used on top-level attributes, not nested attributes.    You can have many actions in a single expression, such as the following: SET a=:value1, b=:value2 DELETE :value3, :value4, :value5  For more information on update expressions, see Modifying Items and Attributes in the Amazon DynamoDB Developer Guide.
@@ -256,6 +258,7 @@ extension DynamoDB {
             returnConsumedCapacity: ReturnConsumedCapacity? = nil,
             returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil,
             returnValues: ReturnValue? = nil,
+            returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil,
             tableName: String,
             updateExpression: String? = nil,
             updateItem: T
@@ -267,6 +270,7 @@ extension DynamoDB {
             self.returnConsumedCapacity = returnConsumedCapacity
             self.returnItemCollectionMetrics = returnItemCollectionMetrics
             self.returnValues = returnValues
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.tableName = tableName
             self.updateExpression = updateExpression
             self.updateItem = updateItem
@@ -279,6 +283,7 @@ extension DynamoDB {
             returnConsumedCapacity: ReturnConsumedCapacity? = nil,
             returnItemCollectionMetrics: ReturnItemCollectionMetrics? = nil,
             returnValues: ReturnValue? = nil,
+            returnValuesOnConditionCheckFailure: ReturnValuesOnConditionCheckFailure? = nil,
             tableName: String,
             updateItem: T
         ) throws {
@@ -289,6 +294,7 @@ extension DynamoDB {
             self.returnConsumedCapacity = returnConsumedCapacity
             self.returnItemCollectionMetrics = returnItemCollectionMetrics
             self.returnValues = returnValues
+            self.returnValuesOnConditionCheckFailure = returnValuesOnConditionCheckFailure
             self.tableName = tableName
             self.updateExpression = nil
             self.updateItem = updateItem
@@ -341,6 +347,7 @@ extension DynamoDB {
                 returnConsumedCapacity: self.returnConsumedCapacity,
                 returnItemCollectionMetrics: self.returnItemCollectionMetrics,
                 returnValues: self.returnValues,
+                returnValuesOnConditionCheckFailure: self.returnValuesOnConditionCheckFailure,
                 tableName: self.tableName,
                 updateExpression: updateExpression
             )
