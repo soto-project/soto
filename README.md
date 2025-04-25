@@ -1,7 +1,7 @@
 # Soto for AWS
 
-[![sswg:incubating|104x20](https://img.shields.io/badge/sswg-incubating-blue.svg)](https://github.com/swift-server/sswg/blob/master/process/incubation.md#incubating-level)
-[<img src="http://img.shields.io/badge/swift-5.6_to_5.8-brightgreen.svg" alt="Swift 5.4" />](https://swift.org)
+[![sswg:incubating|104x20](https://img.shields.io/badge/sswg-graduated-blue.svg)](https://github.com/swift-server/sswg/blob/master/process/incubation.md#graduated-level)
+[<img src="http://img.shields.io/badge/swift-5.10_to_6.1-brightgreen.svg" alt="Swift 5.10" />](https://swift.org)
 [<img src="https://github.com/soto-project/soto/workflows/CI/badge.svg" />](https://github.com/soto-project/soto/actions?query=workflow%3ACI)
 
 Soto is a Swift language SDK for Amazon Web Services (AWS), working on Linux, macOS and iOS. This library provides access to all AWS services. The service APIs it provides are a direct mapping of the REST APIs Amazon publishes for each of its services. Soto is a community supported project and is in no way affiliated with AWS.
@@ -11,7 +11,6 @@ Table of Contents
 
 - [Structure](#structure)
 - [Swift Package Manager](#swift-package-manager)
-- [Compatibility](#compatibility)
 - [Configuring Credentials](#configuring-credentials)
 - [Using Soto](#using-soto)
 - [Documentation](#documentation)
