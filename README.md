@@ -32,7 +32,7 @@ The library consists of three parts
 Soto uses the Swift Package Manager to manage its code dependencies. To use Soto in your codebase it is recommended you do the same. Add a dependency to the package in your own Package.swift dependencies.
 ```swift
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto.git", from: "6.0.0")
+        .package(url: "https://github.com/soto-project/soto.git", from: "7.0.0")
     ],
 ```
 Then add target dependencies for each of the Soto targets you want to use.
@@ -47,15 +47,6 @@ Then add target dependencies for each of the Soto targets you want to use.
 )
 ```
 Alternatively if you are using Xcode 11 or later you can use the Swift Package Manager integration and add a dependency to Soto through that.
-
-## Compatibility
-
-Soto works on Linux, macOS and iOS. It requires v2.0 of [Swift NIO](https://github.com/apple/swift-nio). Below is a compatibility table for different Soto versions.
-
-| Version | Swift | MacOS | iOS    | Linux              | Vapor  |
-|---------|-------|-------|--------|--------------------|--------|
-| 6.x     | 5.4 - | ✓     | 12.0 - | Ubuntu 18.04-22.04 | 4.0    |
-| 5.x     | 5.2 - | ✓     | 12.0 - | Ubuntu 18.04-20.04 | 4.0    |
 
 ## Configuring Credentials
 
@@ -85,20 +76,17 @@ let s3 = S3(client: client, region: .uswest2)
 
 func createBucketPutGetObject() async throws -> S3.GetObjectOutput {
     // Create Bucket, Put an Object, Get the Object
-    let createBucketRequest = S3.CreateBucketRequest(bucket: bucket)
-    _ = try await s3.createBucket(createBucketRequest)
+    _ = try await s3.createBucket(bucket: bucket)
     // Upload text file to the s3
     let bodyData = "hello world"
-    let putObjectRequest = S3.PutObjectRequest(
+    _ = try await s3.putObject(
         acl: .publicRead,
         body: .string(bodyData),
         bucket: bucket,
         key: "hello.txt"
     )
-    _ = try await s3.putObject(putObjectRequest)
     // download text file just uploaded to S3
-    let getObjectRequest = S3.GetObjectRequest(bucket: bucket, key: "hello.txt")
-    let response = try await s3.getObject(getObjectRequest)
+    let response = try await s3.getObject(bucket: bucket, key: "hello.txt")
     // print contents of response
     if let body = response.body?.asString() {
         print(body)
@@ -109,7 +97,7 @@ func createBucketPutGetObject() async throws -> S3.GetObjectOutput {
 
 ## Build Plugin
 
-Soto is a vary large package. If you would rather not include it in your package dependencies you can instead use the SotoCodeGenerator Swift Package Manager build plugin to generate the Swift source code for only the services/operations you actually need. Find out more [here](https://github.com/soto-project/soto-codegenerator/blob/main/README.md).
+Soto is a very large package. If you would rather not include it in your package dependencies you can instead use the SotoCodeGenerator Swift Package Manager build plugin to generate the Swift source code for only the services/operations you actually need. Find out more [here](https://github.com/soto-project/soto-codegenerator/blob/main/README.md).
 
 ## Documentation
 
