@@ -1024,8 +1024,7 @@ public struct ECS: AWSService {
     }
 
     /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For
-    /// 			more information, see Amazon ECS service
-    /// 				deployments.
+    /// 			more information, see View service history using Amazon ECS service deployments.
     @Sendable
     @inlinable
     public func describeServiceDeployments(_ input: DescribeServiceDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeServiceDeploymentsResponse {
@@ -1039,8 +1038,7 @@ public struct ECS: AWSService {
         )
     }
     /// Describes one or more of your service deployments. A service deployment happens when you release a software update for the service. For
-    /// 			more information, see Amazon ECS service
-    /// 				deployments.
+    /// 			more information, see View service history using Amazon ECS service deployments.
     ///
     /// Parameters:
     ///   - serviceDeploymentArns: The ARN of the service deployment. You can specify a maximum of 20 ARNs.
@@ -2121,7 +2119,7 @@ public struct ECS: AWSService {
     /// Parameters:
     ///   - containerDefinitions: A list of container definitions in JSON format that describe the different containers
     ///   - cpu: The number of CPU units used by the task. It can be expressed as an integer using CPU
-    ///   - enableFaultInjection: Enables fault injection when you register your task definition and allows for fault injection requests
+    ///   - enableFaultInjection: Enables fault injection when you register your task definition and allows for fault
     ///   - ephemeralStorage: The amount of ephemeral storage to allocate for the task. This parameter is used to
     ///   - executionRoleArn: The Amazon Resource Name (ARN) of the task execution role that grants the Amazon ECS container agent permission to make Amazon Web Services API calls on your behalf. For informationabout the required IAM roles for Amazon ECS, see IAM roles for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
     ///   - family: You must specify a family for a task definition. You can use it track
@@ -2199,7 +2197,11 @@ public struct ECS: AWSService {
     /// 					time.   Add wait time between subsequent commands, even if the DescribeTasks command
     /// 					returns an accurate response. Apply an exponential backoff algorithm starting
     /// 					with a couple of seconds of wait time, and increase gradually up to about five
-    /// 					minutes of wait time.
+    /// 					minutes of wait time.   If you get a ConflictException error, the RunTask request could
+    /// 			not be processed due to conflicts. The provided clientToken is already in
+    /// 			use with a different RunTask request. The resourceIds are the
+    /// 			existing task ARNs which are already associated with the clientToken.  To fix this issue:   Run RunTask with a unique clientToken.   Run RunTask with the clientToken and the original
+    /// 					set of parameters
     @Sendable
     @inlinable
     public func runTask(_ input: RunTaskRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> RunTaskResponse {
@@ -2228,7 +2230,11 @@ public struct ECS: AWSService {
     /// 					time.   Add wait time between subsequent commands, even if the DescribeTasks command
     /// 					returns an accurate response. Apply an exponential backoff algorithm starting
     /// 					with a couple of seconds of wait time, and increase gradually up to about five
-    /// 					minutes of wait time.
+    /// 					minutes of wait time.   If you get a ConflictException error, the RunTask request could
+    /// 			not be processed due to conflicts. The provided clientToken is already in
+    /// 			use with a different RunTask request. The resourceIds are the
+    /// 			existing task ARNs which are already associated with the clientToken.  To fix this issue:   Run RunTask with a unique clientToken.   Run RunTask with the clientToken and the original
+    /// 					set of parameters
     ///
     /// Parameters:
     ///   - capacityProviderStrategy: The capacity provider strategy to use for the task. If a capacityProviderStrategy is specified, the launchType
@@ -2367,6 +2373,38 @@ public struct ECS: AWSService {
             volumeConfigurations: volumeConfigurations
         )
         return try await self.startTask(input, logger: logger)
+    }
+
+    /// Stops an ongoing service deployment.  StopServiceDeployment isn't currently  supported.
+    @Sendable
+    @inlinable
+    public func stopServiceDeployment(_ input: StopServiceDeploymentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopServiceDeploymentResponse {
+        try await self.client.execute(
+            operation: "StopServiceDeployment", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Stops an ongoing service deployment.  StopServiceDeployment isn't currently  supported.
+    ///
+    /// Parameters:
+    ///   - serviceDeploymentArn: The ARN of the service deployment that you want to stop.
+    ///   - stopType: How you want Amazon ECS to stop the service.  The ROLLBACK and ABORT stopType aren't supported.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func stopServiceDeployment(
+        serviceDeploymentArn: String,
+        stopType: StopServiceDeploymentStopType? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StopServiceDeploymentResponse {
+        let input = StopServiceDeploymentRequest(
+            serviceDeploymentArn: serviceDeploymentArn, 
+            stopType: stopType
+        )
+        return try await self.stopServiceDeployment(input, logger: logger)
     }
 
     /// Stops a running task. Any tags associated with the task will be deleted. When you call StopTask on a task, the equivalent of docker

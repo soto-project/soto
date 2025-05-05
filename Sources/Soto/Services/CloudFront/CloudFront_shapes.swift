@@ -60,9 +60,46 @@ extension CloudFront {
         public var description: String { return self.rawValue }
     }
 
+    public enum CertificateTransparencyLoggingPreference: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disabled = "disabled"
+        case enabled = "enabled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectionMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case direct = "direct"
+        case tenantOnly = "tenant-only"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContinuousDeploymentPolicyType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case singleHeader = "SingleHeader"
         case singleWeight = "SingleWeight"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CustomizationActionType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case disable = "disable"
+        case override = "override"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DistributionResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case distribution = "distribution"
+        case distributionTenant = "distribution-tenant"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DnsConfigurationStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case invalid = "invalid-configuration"
+        case unknown = "unknown-configuration"
+        case valid = "valid-configuration"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DomainStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "active"
+        case inactive = "inactive"
         public var description: String { return self.rawValue }
     }
 
@@ -128,6 +165,17 @@ extension CloudFront {
         case all = "all"
         case none = "none"
         case whitelist = "whitelist"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ManagedCertificateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case expired = "expired"
+        case failed = "failed"
+        case inactive = "inactive"
+        case issued = "issued"
+        case pendingValidation = "pending-validation"
+        case revoked = "revoked"
+        case validationTimedOut = "validation-timed-out"
         public var description: String { return self.rawValue }
     }
 
@@ -218,6 +266,7 @@ extension CloudFront {
     }
 
     public enum PriceClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case none = "None"
         case priceClass100 = "PriceClass_100"
         case priceClass200 = "PriceClass_200"
         case priceClassAll = "PriceClass_All"
@@ -278,6 +327,12 @@ extension CloudFront {
     public enum UppercaseHttpVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case http11 = "HTTP1_1"
         case http2 = "HTTP2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ValidationTokenHost: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudFront = "cloudfront"
+        case selfHosted = "self-hosted"
         public var description: String { return self.rawValue }
     }
 
@@ -561,6 +616,120 @@ extension CloudFront {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct AssociateDistributionTenantWebACLRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant.
+        public let id: String
+        /// The current ETag of the distribution tenant. This value is returned in the response of the GetDistributionTenant API operation.
+        public let ifMatch: String?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+        public let webACLArn: String
+
+        @inlinable
+        public init(id: String, ifMatch: String? = nil, webACLArn: String) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.webACLArn = webACLArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.webACLArn, forKey: .webACLArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webACLArn = "WebACLArn"
+        }
+    }
+
+    public struct AssociateDistributionTenantWebACLResult: AWSDecodableShape {
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+        /// The ID of the distribution tenant.
+        public let id: String?
+        /// The ARN of the WAF web ACL that you associated with the distribution tenant.
+        public let webACLArn: String?
+
+        @inlinable
+        public init(eTag: String? = nil, id: String? = nil, webACLArn: String? = nil) {
+            self.eTag = eTag
+            self.id = id
+            self.webACLArn = webACLArn
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.id = try container.decodeIfPresent(String.self, forKey: .id)
+            self.webACLArn = try container.decodeIfPresent(String.self, forKey: .webACLArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case webACLArn = "WebACLArn"
+        }
+    }
+
+    public struct AssociateDistributionWebACLRequest: AWSEncodableShape {
+        /// The ID of the distribution.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the distribution that you're associating with the WAF web ACL.
+        public let ifMatch: String?
+        /// The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+        public let webACLArn: String
+
+        @inlinable
+        public init(id: String, ifMatch: String? = nil, webACLArn: String) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.webACLArn = webACLArn
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.webACLArn, forKey: .webACLArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case webACLArn = "WebACLArn"
+        }
+    }
+
+    public struct AssociateDistributionWebACLResult: AWSDecodableShape {
+        /// The current version of the distribution.
+        public let eTag: String?
+        /// The ID of the distribution.
+        public let id: String?
+        /// The ARN of the WAF web ACL that you associated with the distribution.
+        public let webACLArn: String?
+
+        @inlinable
+        public init(eTag: String? = nil, id: String? = nil, webACLArn: String? = nil) {
+            self.eTag = eTag
+            self.id = id
+            self.webACLArn = webACLArn
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.id = try container.decodeIfPresent(String.self, forKey: .id)
+            self.webACLArn = try container.decodeIfPresent(String.self, forKey: .webACLArn)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case webACLArn = "WebACLArn"
+        }
     }
 
     public struct CacheBehavior: AWSEncodableShape & AWSDecodableShape {
@@ -1028,6 +1197,20 @@ extension CloudFront {
         }
     }
 
+    public struct Certificate: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the ACM certificate.
+        public let arn: String
+
+        @inlinable
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct CloudFrontOriginAccessIdentity: AWSDecodableShape {
         /// The current configuration information for the identity.
         public let cloudFrontOriginAccessIdentityConfig: CloudFrontOriginAccessIdentityConfig?
@@ -1205,6 +1388,131 @@ extension CloudFront {
             case maxItems = "MaxItems"
             case nextMarker = "NextMarker"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct ConnectionGroup: AWSDecodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+        /// The Amazon Resource Name (ARN) of the connection group.
+        public let arn: String?
+        /// The date and time when the connection group was created.
+        public let createdTime: Date?
+        /// Whether the connection group is enabled.
+        public let enabled: Bool?
+        /// The ID of the connection group.
+        public let id: String?
+        /// IPv6 is enabled for the connection group.
+        public let ipv6Enabled: Bool?
+        /// Whether the connection group is the default connection group for the distribution tenants.
+        public let isDefault: Bool?
+        /// The date and time when the connection group was updated.
+        public let lastModifiedTime: Date?
+        /// The name of the connection group.
+        public let name: String?
+        /// The routing endpoint (also known as the DNS name) that is assigned to the connection group, such as d111111abcdef8.cloudfront.net.
+        public let routingEndpoint: String?
+        /// The status of the connection group.
+        public let status: String?
+        public let tags: Tags?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil, arn: String? = nil, createdTime: Date? = nil, enabled: Bool? = nil, id: String? = nil, ipv6Enabled: Bool? = nil, isDefault: Bool? = nil, lastModifiedTime: Date? = nil, name: String? = nil, routingEndpoint: String? = nil, status: String? = nil, tags: Tags? = nil) {
+            self.anycastIpListId = anycastIpListId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.enabled = enabled
+            self.id = id
+            self.ipv6Enabled = ipv6Enabled
+            self.isDefault = isDefault
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.routingEndpoint = routingEndpoint
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case enabled = "Enabled"
+            case id = "Id"
+            case ipv6Enabled = "Ipv6Enabled"
+            case isDefault = "IsDefault"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case routingEndpoint = "RoutingEndpoint"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ConnectionGroupAssociationFilter: AWSEncodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil) {
+            self.anycastIpListId = anycastIpListId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+        }
+    }
+
+    public struct ConnectionGroupSummary: AWSDecodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+        /// The Amazon Resource Name (ARN) of the connection group.
+        public let arn: String
+        /// The date and time when the connection group was created.
+        public let createdTime: Date
+        /// Whether the connection group is enabled
+        public let enabled: Bool?
+        /// The current version of the connection group.
+        public let eTag: String
+        /// The ID of the connection group.
+        public let id: String
+        /// Whether the connection group is the default connection group for the distribution tenants.
+        public let isDefault: Bool?
+        /// The date and time when the connection group was updated.
+        public let lastModifiedTime: Date
+        /// The name of the connection group.
+        public let name: String
+        /// The routing endpoint (also known as the DNS name) that is assigned to the connection group, such as d111111abcdef8.cloudfront.net.
+        public let routingEndpoint: String
+        /// The status of the connection group.
+        public let status: String?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil, arn: String, createdTime: Date, enabled: Bool? = nil, eTag: String, id: String, isDefault: Bool? = nil, lastModifiedTime: Date, name: String, routingEndpoint: String, status: String? = nil) {
+            self.anycastIpListId = anycastIpListId
+            self.arn = arn
+            self.createdTime = createdTime
+            self.enabled = enabled
+            self.eTag = eTag
+            self.id = id
+            self.isDefault = isDefault
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.routingEndpoint = routingEndpoint
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case enabled = "Enabled"
+            case eTag = "ETag"
+            case id = "Id"
+            case isDefault = "IsDefault"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case routingEndpoint = "RoutingEndpoint"
+            case status = "Status"
         }
     }
 
@@ -1535,7 +1843,7 @@ extension CloudFront {
     }
 
     public struct CreateAnycastIpListRequest: AWSEncodableShape {
-        /// The number of static IP addresses that are allocated to the Anycast static IP list.
+        /// The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.
         public let ipCount: Int
         /// Name of the Anycast static IP list.
         public let name: String
@@ -1672,6 +1980,61 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct CreateConnectionGroupRequest: AWSEncodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+        /// Enable the connection group.
+        public let enabled: Bool?
+        /// Enable IPv6 for the connection group. The default is true. For more information, see Enable IPv6 in the  	Amazon CloudFront Developer Guide.
+        public let ipv6Enabled: Bool?
+        /// The name of the connection group. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the connection group.
+        public let name: String
+        public let tags: Tags?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil, enabled: Bool? = nil, ipv6Enabled: Bool? = nil, name: String, tags: Tags? = nil) {
+            self.anycastIpListId = anycastIpListId
+            self.enabled = enabled
+            self.ipv6Enabled = ipv6Enabled
+            self.name = name
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.validate(name: "\(name).tags")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+            case enabled = "Enabled"
+            case ipv6Enabled = "Ipv6Enabled"
+            case name = "Name"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectionGroupResult: AWSDecodableShape {
+        /// The connection group that you created.
+        public let connectionGroup: ConnectionGroup
+        /// The current version of the connection group.
+        public let eTag: String?
+
+        @inlinable
+        public init(connectionGroup: ConnectionGroup, eTag: String? = nil) {
+            self.connectionGroup = connectionGroup
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.connectionGroup = try container.decode(ConnectionGroup.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct CreateContinuousDeploymentPolicyRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "ContinuousDeploymentPolicyConfig"
         /// Contains the configuration for a continuous deployment policy.
@@ -1760,6 +2123,82 @@ extension CloudFront {
             self.distribution = try container.decode(Distribution.self)
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the connection group to associate with the distribution tenant.
+        public let connectionGroupId: String?
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public let customizations: Customizations?
+        /// The ID of the multi-tenant distribution to use for creating the distribution tenant.
+        public let distributionId: String
+        /// The domains associated with the distribution tenant. You must specify at least one domain in the request.
+        @CustomCoding<StandardArrayCoder<DomainItem>>
+        public var domains: [DomainItem]
+        /// Indicates whether the distribution tenant should be enabled when created. If the distribution tenant is disabled, the distribution tenant won't serve traffic.
+        public let enabled: Bool?
+        /// The configuration for the CloudFront managed ACM certificate request.
+        public let managedCertificateRequest: ManagedCertificateRequest?
+        /// The name of the distribution tenant. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the distribution tenant.
+        public let name: String
+        /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+        @OptionalCustomCoding<StandardArrayCoder<Parameter>>
+        public var parameters: [Parameter]?
+        public let tags: Tags?
+
+        @inlinable
+        public init(connectionGroupId: String? = nil, customizations: Customizations? = nil, distributionId: String, domains: [DomainItem], enabled: Bool? = nil, managedCertificateRequest: ManagedCertificateRequest? = nil, name: String, parameters: [Parameter]? = nil, tags: Tags? = nil) {
+            self.connectionGroupId = connectionGroupId
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.enabled = enabled
+            self.managedCertificateRequest = managedCertificateRequest
+            self.name = name
+            self.parameters = parameters
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+            try self.tags?.validate(name: "\(name).tags")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionGroupId = "ConnectionGroupId"
+            case customizations = "Customizations"
+            case distributionId = "DistributionId"
+            case domains = "Domains"
+            case enabled = "Enabled"
+            case managedCertificateRequest = "ManagedCertificateRequest"
+            case name = "Name"
+            case parameters = "Parameters"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDistributionTenantResult: AWSDecodableShape {
+        /// The distribution tenant that you created.
+        public let distributionTenant: DistributionTenant
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+
+        @inlinable
+        public init(distributionTenant: DistributionTenant, eTag: String? = nil) {
+            self.distributionTenant = distributionTenant
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.distributionTenant = try container.decode(DistributionTenant.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1958,6 +2397,49 @@ extension CloudFront {
             let container = try decoder.singleValueContainer()
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.functionSummary = try container.decode(FunctionSummary.self)
+            self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateInvalidationForDistributionTenantRequest: AWSEncodableShape {
+        public static let _xmlRootNodeName: String? = "InvalidationBatch"
+        /// The ID of the distribution tenant.
+        public let id: String
+        public let invalidationBatch: InvalidationBatch
+
+        @inlinable
+        public init(id: String, invalidationBatch: InvalidationBatch) {
+            self.id = id
+            self.invalidationBatch = invalidationBatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.singleValueContainer()
+            request.encodePath(self.id, key: "Id")
+            try container.encode(self.invalidationBatch)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CreateInvalidationForDistributionTenantResult: AWSDecodableShape {
+        public let invalidation: Invalidation
+        /// The location for the invalidation.
+        public let location: String?
+
+        @inlinable
+        public init(invalidation: Invalidation, location: String? = nil) {
+            self.invalidation = invalidation
+            self.location = location
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.invalidation = try container.decode(Invalidation.self)
             self.location = try response.decodeHeaderIfPresent(String.self, key: "Location")
         }
 
@@ -2674,6 +3156,28 @@ extension CloudFront {
         }
     }
 
+    public struct Customizations: AWSEncodableShape & AWSDecodableShape {
+        /// The Certificate Manager (ACM) certificate.
+        public let certificate: Certificate?
+        /// The geographic restrictions.
+        public let geoRestrictions: GeoRestrictionCustomization?
+        /// The WAF web ACL.
+        public let webAcl: WebAclCustomization?
+
+        @inlinable
+        public init(certificate: Certificate? = nil, geoRestrictions: GeoRestrictionCustomization? = nil, webAcl: WebAclCustomization? = nil) {
+            self.certificate = certificate
+            self.geoRestrictions = geoRestrictions
+            self.webAcl = webAcl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificate = "Certificate"
+            case geoRestrictions = "GeoRestrictions"
+            case webAcl = "WebAcl"
+        }
+    }
+
     public struct DefaultCacheBehavior: AWSEncodableShape & AWSDecodableShape {
         public let allowedMethods: AllowedMethods?
         /// The unique identifier of the cache policy that is attached to the default cache
@@ -2940,6 +3444,28 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteConnectionGroupRequest: AWSEncodableShape {
+        /// The ID of the connection group to delete.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the connection group to delete.
+        public let ifMatch: String
+
+        @inlinable
+        public init(id: String, ifMatch: String) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteContinuousDeploymentPolicyRequest: AWSEncodableShape {
         /// The identifier of the continuous deployment policy that you are deleting.
         public let id: String
@@ -2972,6 +3498,29 @@ extension CloudFront {
 
         @inlinable
         public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant to delete.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the distribution tenant. This value is returned in the response of the
+        /// 			GetDistributionTenant API operation.
+        public let ifMatch: String
+
+        @inlinable
+        public init(id: String, ifMatch: String) {
             self.id = id
             self.ifMatch = ifMatch
         }
@@ -3402,6 +3951,99 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DisassociateDistributionTenantWebACLRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant.
+        public let id: String
+        /// The current version of the distribution tenant that you're disassociating from the WAF web ACL. This is the ETag value returned in the response to the
+        /// 				GetDistributionTenant API operation.
+        public let ifMatch: String?
+
+        @inlinable
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateDistributionTenantWebACLResult: AWSDecodableShape {
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+        /// The ID of the distribution tenant.
+        public let id: String?
+
+        @inlinable
+        public init(eTag: String? = nil, id: String? = nil) {
+            self.eTag = eTag
+            self.id = id
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.id = try container.decodeIfPresent(String.self, forKey: .id)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct DisassociateDistributionWebACLRequest: AWSEncodableShape {
+        /// The ID of the distribution.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the distribution that you're disassociating from the WAF web ACL.
+        public let ifMatch: String?
+
+        @inlinable
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateDistributionWebACLResult: AWSDecodableShape {
+        /// The current version of the distribution.
+        public let eTag: String?
+        /// The ID of the distribution.
+        public let id: String?
+
+        @inlinable
+        public init(eTag: String? = nil, id: String? = nil) {
+            self.eTag = eTag
+            self.id = id
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.id = try container.decodeIfPresent(String.self, forKey: .id)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct Distribution: AWSDecodableShape {
         public struct _AliasICPRecordalsEncoding: ArrayCoderProperties { public static let member = "AliasICPRecordal" }
 
@@ -3482,6 +4124,8 @@ extension CloudFront {
         /// A comment to describe the distribution. The comment cannot be longer than
         /// 			128 characters.
         public let comment: String
+        /// The connection mode to filter distributions by.
+        public let connectionMode: ConnectionMode?
         /// The identifier of a continuous deployment policy. For more information, see
         /// 				CreateContinuousDeploymentPolicy.
         public let continuousDeploymentPolicyId: String?
@@ -3567,6 +4211,8 @@ extension CloudFront {
         /// 				true, this is a staging distribution. When this value is
         /// 				false, this is not a staging distribution.
         public let staging: Bool?
+        /// A distribution tenant configuration.
+        public let tenantConfig: TenantConfig?
         /// A complex type that determines the distribution's SSL/TLS configuration for
         /// 			communicating with viewers.
         public let viewerCertificate: ViewerCertificate?
@@ -3585,12 +4231,13 @@ extension CloudFront {
         public let webACLId: String?
 
         @inlinable
-        public init(aliases: Aliases? = nil, anycastIpListId: String? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, continuousDeploymentPolicyId: String? = nil, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, staging: Bool? = nil, viewerCertificate: ViewerCertificate? = nil, webACLId: String? = nil) {
+        public init(aliases: Aliases? = nil, anycastIpListId: String? = nil, cacheBehaviors: CacheBehaviors? = nil, callerReference: String, comment: String, connectionMode: ConnectionMode? = nil, continuousDeploymentPolicyId: String? = nil, customErrorResponses: CustomErrorResponses? = nil, defaultCacheBehavior: DefaultCacheBehavior, defaultRootObject: String? = nil, enabled: Bool, httpVersion: HttpVersion? = nil, isIPV6Enabled: Bool? = nil, logging: LoggingConfig? = nil, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass? = nil, restrictions: Restrictions? = nil, staging: Bool? = nil, tenantConfig: TenantConfig? = nil, viewerCertificate: ViewerCertificate? = nil, webACLId: String? = nil) {
             self.aliases = aliases
             self.anycastIpListId = anycastIpListId
             self.cacheBehaviors = cacheBehaviors
             self.callerReference = callerReference
             self.comment = comment
+            self.connectionMode = connectionMode
             self.continuousDeploymentPolicyId = continuousDeploymentPolicyId
             self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
@@ -3604,6 +4251,7 @@ extension CloudFront {
             self.priceClass = priceClass
             self.restrictions = restrictions
             self.staging = staging
+            self.tenantConfig = tenantConfig
             self.viewerCertificate = viewerCertificate
             self.webACLId = webACLId
         }
@@ -3613,6 +4261,7 @@ extension CloudFront {
             try self.defaultCacheBehavior.validate(name: "\(name).defaultCacheBehavior")
             try self.originGroups?.validate(name: "\(name).originGroups")
             try self.origins.validate(name: "\(name).origins")
+            try self.tenantConfig?.validate(name: "\(name).tenantConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3621,6 +4270,7 @@ extension CloudFront {
             case cacheBehaviors = "CacheBehaviors"
             case callerReference = "CallerReference"
             case comment = "Comment"
+            case connectionMode = "ConnectionMode"
             case continuousDeploymentPolicyId = "ContinuousDeploymentPolicyId"
             case customErrorResponses = "CustomErrorResponses"
             case defaultCacheBehavior = "DefaultCacheBehavior"
@@ -3634,6 +4284,7 @@ extension CloudFront {
             case priceClass = "PriceClass"
             case restrictions = "Restrictions"
             case staging = "Staging"
+            case tenantConfig = "TenantConfig"
             case viewerCertificate = "ViewerCertificate"
             case webACLId = "WebACLId"
         }
@@ -3745,6 +4396,24 @@ extension CloudFront {
         }
     }
 
+    public struct DistributionResourceId: AWSEncodableShape {
+        /// The ID of the multi-tenant distribution.
+        public let distributionId: String?
+        /// The ID of the distribution tenant.
+        public let distributionTenantId: String?
+
+        @inlinable
+        public init(distributionId: String? = nil, distributionTenantId: String? = nil) {
+            self.distributionId = distributionId
+            self.distributionTenantId = distributionTenantId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionId = "DistributionId"
+            case distributionTenantId = "DistributionTenantId"
+        }
+    }
+
     public struct DistributionSummary: AWSDecodableShape {
         public struct _AliasICPRecordalsEncoding: ArrayCoderProperties { public static let member = "AliasICPRecordal" }
 
@@ -3768,6 +4437,8 @@ extension CloudFront {
         public let cacheBehaviors: CacheBehaviors
         /// The comment originally specified when this distribution was created.
         public let comment: String
+        /// The connection mode to filter distributions by.
+        public let connectionMode: ConnectionMode?
         /// A complex type that contains zero or more CustomErrorResponses
         /// 			elements.
         public let customErrorResponses: CustomErrorResponses
@@ -3781,6 +4452,8 @@ extension CloudFront {
         public let domainName: String
         /// Whether the distribution is enabled to accept user requests for content.
         public let enabled: Bool
+        /// The current version of the distribution.
+        public let eTag: String?
         /// Specify the maximum HTTP version that you want viewers to use to communicate with
         /// 			CloudFront. The default value for new web distributions is http2. Viewers that
         /// 			don't support HTTP/2 will automatically use an earlier version.
@@ -3817,17 +4490,19 @@ extension CloudFront {
         public let webACLId: String
 
         @inlinable
-        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, anycastIpListId: String? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: UppercaseHttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, staging: Bool, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
+        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, anycastIpListId: String? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, connectionMode: ConnectionMode? = nil, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, eTag: String? = nil, httpVersion: UppercaseHttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, staging: Bool, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
             self.aliases = aliases
             self.aliasICPRecordals = aliasICPRecordals
             self.anycastIpListId = anycastIpListId
             self.arn = arn
             self.cacheBehaviors = cacheBehaviors
             self.comment = comment
+            self.connectionMode = connectionMode
             self.customErrorResponses = customErrorResponses
             self.defaultCacheBehavior = defaultCacheBehavior
             self.domainName = domainName
             self.enabled = enabled
+            self.eTag = eTag
             self.httpVersion = httpVersion
             self.id = id
             self.isIPV6Enabled = isIPV6Enabled
@@ -3849,10 +4524,12 @@ extension CloudFront {
             case arn = "ARN"
             case cacheBehaviors = "CacheBehaviors"
             case comment = "Comment"
+            case connectionMode = "ConnectionMode"
             case customErrorResponses = "CustomErrorResponses"
             case defaultCacheBehavior = "DefaultCacheBehavior"
             case domainName = "DomainName"
             case enabled = "Enabled"
+            case eTag = "ETag"
             case httpVersion = "HttpVersion"
             case id = "Id"
             case isIPV6Enabled = "IsIPV6Enabled"
@@ -3865,6 +4542,226 @@ extension CloudFront {
             case status = "Status"
             case viewerCertificate = "ViewerCertificate"
             case webACLId = "WebACLId"
+        }
+    }
+
+    public struct DistributionTenant: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the distribution tenant.
+        public let arn: String?
+        /// The ID of the connection group for the distribution tenant. If you don't specify a connection group, CloudFront uses the default connection group.
+        public let connectionGroupId: String?
+        /// The date and time when the distribution tenant was created.
+        public let createdTime: Date?
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public let customizations: Customizations?
+        /// The ID of the multi-tenant distribution.
+        public let distributionId: String?
+        /// The domains associated with the distribution tenant.
+        @OptionalCustomCoding<StandardArrayCoder<DomainResult>>
+        public var domains: [DomainResult]?
+        /// Indicates whether the distribution tenant is in an enabled state. If disabled, the distribution tenant won't serve traffic.
+        public let enabled: Bool?
+        /// The ID of the distribution tenant.
+        public let id: String?
+        /// The date and time when the distribution tenant was updated.
+        public let lastModifiedTime: Date?
+        /// The name of the distribution tenant.
+        public let name: String?
+        /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+        @OptionalCustomCoding<StandardArrayCoder<Parameter>>
+        public var parameters: [Parameter]?
+        /// The status of the distribution tenant.
+        public let status: String?
+        public let tags: Tags?
+
+        @inlinable
+        public init(arn: String? = nil, connectionGroupId: String? = nil, createdTime: Date? = nil, customizations: Customizations? = nil, distributionId: String? = nil, domains: [DomainResult]? = nil, enabled: Bool? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, parameters: [Parameter]? = nil, status: String? = nil, tags: Tags? = nil) {
+            self.arn = arn
+            self.connectionGroupId = connectionGroupId
+            self.createdTime = createdTime
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.enabled = enabled
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.parameters = parameters
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case connectionGroupId = "ConnectionGroupId"
+            case createdTime = "CreatedTime"
+            case customizations = "Customizations"
+            case distributionId = "DistributionId"
+            case domains = "Domains"
+            case enabled = "Enabled"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case parameters = "Parameters"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
+    public struct DistributionTenantAssociationFilter: AWSEncodableShape {
+        /// The ID of the connection group to filter by. You can find distribution tenants associated with a specific connection group.
+        public let connectionGroupId: String?
+        /// The distribution ID to filter by. You can find distribution tenants associated with a specific distribution.
+        public let distributionId: String?
+
+        @inlinable
+        public init(connectionGroupId: String? = nil, distributionId: String? = nil) {
+            self.connectionGroupId = connectionGroupId
+            self.distributionId = distributionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionGroupId = "ConnectionGroupId"
+            case distributionId = "DistributionId"
+        }
+    }
+
+    public struct DistributionTenantSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the distribution tenant.
+        public let arn: String
+        /// The ID of the connection group ID for the distribution tenant. If you don't specify a connection group, CloudFront uses the default connection group.
+        public let connectionGroupId: String?
+        /// The date and time when the distribution tenant was created.
+        public let createdTime: Date
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public let customizations: Customizations?
+        /// The identifier for the multi-tenant distribution. For example: EDFDVBD632BHDS5.
+        public let distributionId: String
+        /// The domains associated with the distribution tenant.
+        @CustomCoding<StandardArrayCoder<DomainResult>>
+        public var domains: [DomainResult]
+        /// Indicates whether the distribution tenants are in an enabled state. If disabled, the distribution tenant won't service traffic.
+        public let enabled: Bool?
+        /// The current version of the distribution tenant.
+        public let eTag: String
+        /// The ID of the distribution tenant.
+        public let id: String
+        /// The date and time when the distribution tenant was updated.
+        public let lastModifiedTime: Date
+        /// The name of the distribution tenant.
+        public let name: String
+        /// The status of the distribution tenant.
+        public let status: String?
+
+        @inlinable
+        public init(arn: String, connectionGroupId: String? = nil, createdTime: Date, customizations: Customizations? = nil, distributionId: String, domains: [DomainResult], enabled: Bool? = nil, eTag: String, id: String, lastModifiedTime: Date, name: String, status: String? = nil) {
+            self.arn = arn
+            self.connectionGroupId = connectionGroupId
+            self.createdTime = createdTime
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.enabled = enabled
+            self.eTag = eTag
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case connectionGroupId = "ConnectionGroupId"
+            case createdTime = "CreatedTime"
+            case customizations = "Customizations"
+            case distributionId = "DistributionId"
+            case domains = "Domains"
+            case enabled = "Enabled"
+            case eTag = "ETag"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct DnsConfiguration: AWSDecodableShape {
+        /// The domain name that you're verifying.
+        public let domain: String
+        /// Explains the status of the DNS configuration.
+        public let reason: String?
+        /// The status of your domain name.    valid-configuration: The domain name is correctly configured and points to the correct routing endpoint of the connection group.    invalid-configuration: There is either a missing DNS record or the DNS record exists but it's using an incorrect routing endpoint. Update the DNS record to point to the correct routing endpoint.    unknown-configuration: CloudFront can't validate your DNS configuration. This status can appear if CloudFront can't verify the DNS record, or the DNS lookup request failed or timed out.
+        public let status: DnsConfigurationStatus
+
+        @inlinable
+        public init(domain: String, reason: String? = nil, status: DnsConfigurationStatus) {
+            self.domain = domain
+            self.reason = reason
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case reason = "Reason"
+            case status = "Status"
+        }
+    }
+
+    public struct DomainConflict: AWSDecodableShape {
+        /// The ID of the Amazon Web Services account for the domain conflict.
+        public let accountId: String
+        /// The domain used to find existing conflicts for domain configurations.
+        public let domain: String
+        /// The ID of the resource that has a domain conflict.
+        public let resourceId: String
+        /// The CloudFront resource type that has a domain conflict.
+        public let resourceType: DistributionResourceType
+
+        @inlinable
+        public init(accountId: String, domain: String, resourceId: String, resourceType: DistributionResourceType) {
+            self.accountId = accountId
+            self.domain = domain
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case domain = "Domain"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+        }
+    }
+
+    public struct DomainItem: AWSEncodableShape {
+        /// The domain name.
+        public let domain: String
+
+        @inlinable
+        public init(domain: String) {
+            self.domain = domain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+        }
+    }
+
+    public struct DomainResult: AWSDecodableShape {
+        /// The specified domain.
+        public let domain: String
+        /// Whether the domain is active or inactive.
+        public let status: DomainStatus?
+
+        @inlinable
+        public init(domain: String, status: DomainStatus? = nil) {
+            self.domain = domain
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case status = "Status"
         }
     }
 
@@ -3921,7 +4818,7 @@ extension CloudFront {
 
     public struct EndPoint: AWSEncodableShape & AWSDecodableShape {
         /// Contains information about the Amazon Kinesis data stream where you are sending real-time
-        /// 			log data.
+        /// 			log data in a real-time log configuration.
         public let kinesisStreamConfig: KinesisStreamConfig?
         /// The type of data stream where you are sending real-time log data. The only valid value
         /// 			is Kinesis.
@@ -4446,8 +5343,7 @@ extension CloudFront {
         /// 				whitelist or blacklist. Otherwise, when it is not enabled,
         /// 				Quantity is 0, and you can omit Items.
         public let quantity: Int
-        /// The method that you want to use to restrict distribution of your content by
-        /// 			country:    none: No geo restriction is enabled, meaning access to content is
+        /// The method that you want to use to restrict distribution of your content by country:    none: No geo restriction is enabled, meaning access to content is
         /// 					not restricted by client geo location.    blacklist: The Location elements specify the
         /// 					countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the
         /// 					countries in which you want CloudFront to distribute your content.
@@ -4463,6 +5359,31 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+            case restrictionType = "RestrictionType"
+        }
+    }
+
+    public struct GeoRestrictionCustomization: AWSEncodableShape & AWSDecodableShape {
+        public struct _LocationsEncoding: ArrayCoderProperties { public static let member = "Location" }
+
+        /// The locations for geographic restrictions.
+        @OptionalCustomCoding<ArrayCoder<_LocationsEncoding, String>>
+        public var locations: [String]?
+        /// The method that you want to use to restrict distribution of your content by
+        /// 			country:    none: No geographic restriction is enabled, meaning access to content is
+        /// 					not restricted by client geo location.    blacklist: The Location elements specify the
+        /// 					countries in which you don't want CloudFront to distribute your content.    whitelist: The Location elements specify the
+        /// 					countries in which you want CloudFront to distribute your content.
+        public let restrictionType: GeoRestrictionType
+
+        @inlinable
+        public init(locations: [String]? = nil, restrictionType: GeoRestrictionType) {
+            self.locations = locations
+            self.restrictionType = restrictionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locations = "Locations"
             case restrictionType = "RestrictionType"
         }
     }
@@ -4677,6 +5598,85 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetConnectionGroupByRoutingEndpointRequest: AWSEncodableShape {
+        /// The routing endpoint for the target connection group, such as d111111abcdef8.cloudfront.net.
+        public let routingEndpoint: String
+
+        @inlinable
+        public init(routingEndpoint: String) {
+            self.routingEndpoint = routingEndpoint
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.routingEndpoint, key: "RoutingEndpoint")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionGroupByRoutingEndpointResult: AWSDecodableShape {
+        public let connectionGroup: ConnectionGroup
+        /// The current version of the connection group.
+        public let eTag: String?
+
+        @inlinable
+        public init(connectionGroup: ConnectionGroup, eTag: String? = nil) {
+            self.connectionGroup = connectionGroup
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.connectionGroup = try container.decode(ConnectionGroup.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionGroupRequest: AWSEncodableShape {
+        /// The ID, name, or Amazon Resource Name (ARN) of the connection group.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectionGroupResult: AWSDecodableShape {
+        /// The connection group that you retrieved.
+        public let connectionGroup: ConnectionGroup
+        /// The current version of the connection group.
+        public let eTag: String?
+
+        @inlinable
+        public init(connectionGroup: ConnectionGroup, eTag: String? = nil) {
+            self.connectionGroup = connectionGroup
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.connectionGroup = try container.decode(ConnectionGroup.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct GetContinuousDeploymentPolicyConfigRequest: AWSEncodableShape {
         /// The identifier of the continuous deployment policy whose configuration you are
         /// 			getting.
@@ -4837,6 +5837,85 @@ extension CloudFront {
             let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
             let container = try decoder.singleValueContainer()
             self.distribution = try container.decode(Distribution.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDistributionTenantByDomainRequest: AWSEncodableShape {
+        /// A domain name associated with the target distribution tenant.
+        public let domain: String
+
+        @inlinable
+        public init(domain: String) {
+            self.domain = domain
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.domain, key: "domain")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDistributionTenantByDomainResult: AWSDecodableShape {
+        public let distributionTenant: DistributionTenant
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+
+        @inlinable
+        public init(distributionTenant: DistributionTenant, eTag: String? = nil) {
+            self.distributionTenant = distributionTenant
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.distributionTenant = try container.decode(DistributionTenant.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant.  You can specify the ARN ID, or name of the distribution tenant.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDistributionTenantResult: AWSDecodableShape {
+        /// The distribution tenant that you retrieved.
+        public let distributionTenant: DistributionTenant
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+
+        @inlinable
+        public init(distributionTenant: DistributionTenant, eTag: String? = nil) {
+            self.distributionTenant = distributionTenant
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.distributionTenant = try container.decode(DistributionTenant.self)
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
         }
 
@@ -5056,6 +6135,44 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct GetInvalidationForDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant.
+        public let distributionTenantId: String
+        /// The ID of the invalidation to retrieve.
+        public let id: String
+
+        @inlinable
+        public init(distributionTenantId: String, id: String) {
+            self.distributionTenantId = distributionTenantId
+            self.id = id
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.distributionTenantId, key: "DistributionTenantId")
+            request.encodePath(self.id, key: "Id")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetInvalidationForDistributionTenantResult: AWSDecodableShape {
+        public let invalidation: Invalidation
+
+        @inlinable
+        public init(invalidation: Invalidation) {
+            self.invalidation = invalidation
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.invalidation = try container.decode(Invalidation.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct GetInvalidationRequest: AWSEncodableShape {
         /// The distribution's ID.
         public let distributionId: String
@@ -5174,6 +6291,41 @@ extension CloudFront {
             let container = try decoder.singleValueContainer()
             self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
             self.keyGroup = try container.decode(KeyGroup.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetManagedCertificateDetailsRequest: AWSEncodableShape {
+        /// The identifier of the multi-tenant distribution.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "Identifier")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetManagedCertificateDetailsResult: AWSDecodableShape {
+        /// Contains details about the CloudFront managed ACM certificate.
+        public let managedCertificateDetails: ManagedCertificateDetails
+
+        @inlinable
+        public init(managedCertificateDetails: ManagedCertificateDetails) {
+            self.managedCertificateDetails = managedCertificateDetails
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.managedCertificateDetails = try container.decode(ManagedCertificateDetails.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6394,6 +7546,49 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ListConnectionGroupsRequest: AWSEncodableShape {
+        /// Filter by associated Anycast IP list ID.
+        public let associationFilter: ConnectionGroupAssociationFilter?
+        /// The marker for the next set of connection groups to retrieve.
+        public let marker: String?
+        /// The maximum number of connection groups to return.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(associationFilter: ConnectionGroupAssociationFilter? = nil, marker: String? = nil, maxItems: Int? = nil) {
+            self.associationFilter = associationFilter
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationFilter = "AssociationFilter"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListConnectionGroupsResult: AWSDecodableShape {
+        public struct _ConnectionGroupsEncoding: ArrayCoderProperties { public static let member = "ConnectionGroupSummary" }
+
+        /// The list of connection groups that you retrieved.
+        @OptionalCustomCoding<ArrayCoder<_ConnectionGroupsEncoding, ConnectionGroupSummary>>
+        public var connectionGroups: [ConnectionGroupSummary]?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(connectionGroups: [ConnectionGroupSummary]? = nil, nextMarker: String? = nil) {
+            self.connectionGroups = connectionGroups
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionGroups = "ConnectionGroups"
+            case nextMarker = "NextMarker"
+        }
+    }
+
     public struct ListContinuousDeploymentPoliciesRequest: AWSEncodableShape {
         /// Use this field when paginating results to indicate where to begin in your list of
         /// 			continuous deployment policies. The response includes policies in the list that occur
@@ -6435,6 +7630,95 @@ extension CloudFront {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDistributionTenantsByCustomizationRequest: AWSEncodableShape {
+        /// Filter by the ARN of the associated ACM certificate.
+        public let certificateArn: String?
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// The maximum number of distribution tenants to return by the specified customization.
+        public let maxItems: Int?
+        /// Filter by the ARN of the associated WAF web ACL.
+        public let webACLArn: String?
+
+        @inlinable
+        public init(certificateArn: String? = nil, marker: String? = nil, maxItems: Int? = nil, webACLArn: String? = nil) {
+            self.certificateArn = certificateArn
+            self.marker = marker
+            self.maxItems = maxItems
+            self.webACLArn = webACLArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case webACLArn = "WebACLArn"
+        }
+    }
+
+    public struct ListDistributionTenantsByCustomizationResult: AWSDecodableShape {
+        public struct _DistributionTenantListEncoding: ArrayCoderProperties { public static let member = "DistributionTenantSummary" }
+
+        /// A list of distribution tenants with the specified customization.
+        @OptionalCustomCoding<ArrayCoder<_DistributionTenantListEncoding, DistributionTenantSummary>>
+        public var distributionTenantList: [DistributionTenantSummary]?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(distributionTenantList: [DistributionTenantSummary]? = nil, nextMarker: String? = nil) {
+            self.distributionTenantList = distributionTenantList
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionTenantList = "DistributionTenantList"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ListDistributionTenantsRequest: AWSEncodableShape {
+        public let associationFilter: DistributionTenantAssociationFilter?
+        /// The marker for the next set of results.
+        public let marker: String?
+        /// The maximum number of distribution tenants to return.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(associationFilter: DistributionTenantAssociationFilter? = nil, marker: String? = nil, maxItems: Int? = nil) {
+            self.associationFilter = associationFilter
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associationFilter = "AssociationFilter"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListDistributionTenantsResult: AWSDecodableShape {
+        public struct _DistributionTenantListEncoding: ArrayCoderProperties { public static let member = "DistributionTenantSummary" }
+
+        /// The list of distribution tenants that you retrieved.
+        @OptionalCustomCoding<ArrayCoder<_DistributionTenantListEncoding, DistributionTenantSummary>>
+        public var distributionTenantList: [DistributionTenantSummary]?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(distributionTenantList: [DistributionTenantSummary]? = nil, nextMarker: String? = nil) {
+            self.distributionTenantList = distributionTenantList
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionTenantList = "DistributionTenantList"
+            case nextMarker = "NextMarker"
+        }
     }
 
     public struct ListDistributionsByAnycastIpListIdRequest: AWSEncodableShape {
@@ -6523,6 +7807,48 @@ extension CloudFront {
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             self.distributionIdList = try container.decode(DistributionIdList.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDistributionsByConnectionModeRequest: AWSEncodableShape {
+        /// The connection mode to filter distributions by.
+        public let connectionMode: ConnectionMode
+        ///  The marker for the next set of distributions to retrieve.
+        public let marker: String?
+        /// The maximum number of distributions to return.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(connectionMode: ConnectionMode, marker: String? = nil, maxItems: Int? = nil) {
+            self.connectionMode = connectionMode
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.connectionMode, key: "ConnectionMode")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDistributionsByConnectionModeResult: AWSDecodableShape {
+        public let distributionList: DistributionList
+
+        @inlinable
+        public init(distributionList: DistributionList) {
+            self.distributionList = distributionList
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.distributionList = try container.decode(DistributionList.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6850,6 +8176,54 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ListDomainConflictsRequest: AWSEncodableShape {
+        /// The domain to check for conflicts.
+        public let domain: String
+        /// The distribution resource identifier. This can be the distribution or distribution tenant that has a
+        /// 			valid certificate, which covers the domain that you specify.
+        public let domainControlValidationResource: DistributionResourceId
+        /// The marker for the next set of domain conflicts.
+        public let marker: String?
+        /// The maximum number of domain conflicts to return.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(domain: String, domainControlValidationResource: DistributionResourceId, marker: String? = nil, maxItems: Int? = nil) {
+            self.domain = domain
+            self.domainControlValidationResource = domainControlValidationResource
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case domainControlValidationResource = "DomainControlValidationResource"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListDomainConflictsResult: AWSDecodableShape {
+        public struct _DomainConflictsEncoding: ArrayCoderProperties { public static let member = "DomainConflicts" }
+
+        /// Contains details about the domain conflicts.
+        @OptionalCustomCoding<ArrayCoder<_DomainConflictsEncoding, DomainConflict>>
+        public var domainConflicts: [DomainConflict]?
+        /// A token used for pagination of results returned in the response. You can use the token from the previous request to define where the current request should begin.
+        public let nextMarker: String?
+
+        @inlinable
+        public init(domainConflicts: [DomainConflict]? = nil, nextMarker: String? = nil) {
+            self.domainConflicts = domainConflicts
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainConflicts = "DomainConflicts"
+            case nextMarker = "NextMarker"
+        }
+    }
+
     public struct ListFieldLevelEncryptionConfigsRequest: AWSEncodableShape {
         /// Use this when paginating results to indicate where to begin in your list of
         /// 			configurations. The results include configurations in the list that occur after the
@@ -6982,6 +8356,54 @@ extension CloudFront {
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             self.functionList = try container.decode(FunctionList.self)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInvalidationsForDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the distribution tenant.
+        public let id: String
+        /// Use this parameter when paginating results to indicate where to begin in your list of
+        /// 			invalidation batches. Because the results are returned in decreasing order from most
+        /// 			recent to oldest, the most recent results are on the first page, the second page will
+        /// 			contain earlier results, and so on. To get the next page of results, set
+        /// 				Marker to the value of the NextMarker from the current
+        /// 			page's response. This value is the same as the ID of the last invalidation batch on that
+        /// 			page.
+        public let marker: String?
+        /// The maximum number of invalidations to return for the distribution tenant.
+        public let maxItems: Int?
+
+        @inlinable
+        public init(id: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.id = id
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.id, key: "Id")
+            request.encodeQuery(self.marker, key: "Marker")
+            request.encodeQuery(self.maxItems, key: "MaxItems")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListInvalidationsForDistributionTenantResult: AWSDecodableShape {
+        public let invalidationList: InvalidationList
+
+        @inlinable
+        public init(invalidationList: InvalidationList) {
+            self.invalidationList = invalidationList
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            self.invalidationList = try container.decode(InvalidationList.self)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -7503,6 +8925,58 @@ extension CloudFront {
             case enabled = "Enabled"
             case includeCookies = "IncludeCookies"
             case prefix = "Prefix"
+        }
+    }
+
+    public struct ManagedCertificateDetails: AWSDecodableShape {
+        /// The ARN of the CloudFront managed ACM certificate.
+        public let certificateArn: String?
+        /// The status of the CloudFront managed ACM certificate.  Your distribution tenant will be updated with the latest certificate status. When calling the UpdateDistributionTenant operation, use the latest value for the ETag.
+        public let certificateStatus: ManagedCertificateStatus?
+        /// Contains details about the validation token of the specified CloudFront managed ACM certificate.
+        @OptionalCustomCoding<StandardArrayCoder<ValidationTokenDetail>>
+        public var validationTokenDetails: [ValidationTokenDetail]?
+        /// Contains details about the validation token host of the specified CloudFront managed ACM certificate.   For cloudfront, CloudFront will automatically serve the validation token. Choose this mode if you can point the domain's DNS to CloudFront immediately.   For self-hosted, you serve the validation token from your existing infrastructure. Choose this mode when you need to maintain current traffic flow while your certificate is being issued. You can place the validation token at the well-known path on your existing web server, wait for ACM to validate and issue the certificate, and then update your DNS to point to CloudFront.    This setting only affects the initial certificate request. Once the DNS points to CloudFront, all future certificate renewals are automatically handled through CloudFront.
+        public let validationTokenHost: ValidationTokenHost?
+
+        @inlinable
+        public init(certificateArn: String? = nil, certificateStatus: ManagedCertificateStatus? = nil, validationTokenDetails: [ValidationTokenDetail]? = nil, validationTokenHost: ValidationTokenHost? = nil) {
+            self.certificateArn = certificateArn
+            self.certificateStatus = certificateStatus
+            self.validationTokenDetails = validationTokenDetails
+            self.validationTokenHost = validationTokenHost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn = "CertificateArn"
+            case certificateStatus = "CertificateStatus"
+            case validationTokenDetails = "ValidationTokenDetails"
+            case validationTokenHost = "ValidationTokenHost"
+        }
+    }
+
+    public struct ManagedCertificateRequest: AWSEncodableShape {
+        /// You can opt out of certificate transparency logging by specifying the disabled
+        /// 			option. Opt in by specifying enabled. For more information, see Certificate
+        /// 				Transparency Logging  in the Certificate Manager User
+        /// 			Guide.
+        public let certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference?
+        /// The primary domain name associated with the CloudFront managed ACM certificate.
+        public let primaryDomainName: String?
+        /// Specify how the HTTP validation token will be served when requesting the CloudFront managed ACM certificate.   For cloudfront, CloudFront will automatically serve the validation token. Choose this mode if you can point the domain's DNS to CloudFront immediately.   For self-hosted, you serve the validation token from your existing infrastructure. Choose this mode when you need to maintain current traffic flow while your certificate is being issued. You can place the validation token at the well-known path on your existing web server, wait for ACM to validate and issue the certificate, and then update your DNS to point to CloudFront.
+        public let validationTokenHost: ValidationTokenHost
+
+        @inlinable
+        public init(certificateTransparencyLoggingPreference: CertificateTransparencyLoggingPreference? = nil, primaryDomainName: String? = nil, validationTokenHost: ValidationTokenHost) {
+            self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
+            self.primaryDomainName = primaryDomainName
+            self.validationTokenHost = validationTokenHost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateTransparencyLoggingPreference = "CertificateTransparencyLoggingPreference"
+            case primaryDomainName = "PrimaryDomainName"
+            case validationTokenHost = "ValidationTokenHost"
         }
     }
 
@@ -8153,6 +9627,75 @@ extension CloudFront {
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
             case quantity = "Quantity"
+        }
+    }
+
+    public struct Parameter: AWSEncodableShape & AWSDecodableShape {
+        /// The parameter name.
+        public let name: String
+        /// The parameter value.
+        public let value: String
+
+        @inlinable
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
+    public struct ParameterDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The value that you assigned to the parameter.
+        public let definition: ParameterDefinitionSchema
+        /// The name of the parameter.
+        public let name: String
+
+        @inlinable
+        public init(definition: ParameterDefinitionSchema, name: String) {
+            self.definition = definition
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.definition.validate(name: "\(name).definition")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
+            case name = "Name"
+        }
+    }
+
+    public struct ParameterDefinitionSchema: AWSEncodableShape & AWSDecodableShape {
+        /// An object that contains information about the string schema.
+        public let stringSchema: StringSchemaConfig?
+
+        @inlinable
+        public init(stringSchema: StringSchemaConfig? = nil) {
+            self.stringSchema = stringSchema
+        }
+
+        public func validate(name: String) throws {
+            try self.stringSchema?.validate(name: "\(name).stringSchema")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stringSchema = "StringSchema"
         }
     }
 
@@ -9575,6 +11118,33 @@ extension CloudFront {
         }
     }
 
+    public struct StringSchemaConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A comment to describe the parameter.
+        public let comment: String?
+        /// The default value of the parameter.
+        public let defaultValue: String?
+        /// Whether the defined parameter is required.
+        public let required: Bool
+
+        @inlinable
+        public init(comment: String? = nil, defaultValue: String? = nil, required: Bool) {
+            self.comment = comment
+            self.defaultValue = defaultValue
+            self.required = required
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 256)
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case defaultValue = "DefaultValue"
+            case required = "Required"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// A string that contains Tag key. The string length should be between 1 and 128 characters. Valid characters include
         /// 				a-z, A-Z, 0-9, space, and the special
@@ -9678,6 +11248,27 @@ extension CloudFront {
 
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
+        }
+    }
+
+    public struct TenantConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The parameters that you specify for a distribution tenant.
+        @OptionalCustomCoding<StandardArrayCoder<ParameterDefinition>>
+        public var parameterDefinitions: [ParameterDefinition]?
+
+        @inlinable
+        public init(parameterDefinitions: [ParameterDefinition]? = nil) {
+            self.parameterDefinitions = parameterDefinitions
+        }
+
+        public func validate(name: String) throws {
+            try self.parameterDefinitions?.forEach {
+                try $0.validate(name: "\(name).parameterDefinitions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterDefinitions = "ParameterDefinitions"
         }
     }
 
@@ -9983,6 +11574,67 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateConnectionGroupRequest: AWSEncodableShape {
+        /// The ID of the Anycast static IP list.
+        public let anycastIpListId: String?
+        /// Whether the connection group is enabled.
+        public let enabled: Bool?
+        /// The ID of the connection group.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the connection group that you're updating.
+        public let ifMatch: String
+        /// Enable IPv6 for the connection group. For more information, see Enable IPv6 in the
+        /// 			Amazon CloudFront Developer Guide.
+        public let ipv6Enabled: Bool?
+
+        @inlinable
+        public init(anycastIpListId: String? = nil, enabled: Bool? = nil, id: String, ifMatch: String, ipv6Enabled: Bool? = nil) {
+            self.anycastIpListId = anycastIpListId
+            self.enabled = enabled
+            self.id = id
+            self.ifMatch = ifMatch
+            self.ipv6Enabled = ipv6Enabled
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.anycastIpListId, forKey: .anycastIpListId)
+            try container.encodeIfPresent(self.enabled, forKey: .enabled)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encodeIfPresent(self.ipv6Enabled, forKey: .ipv6Enabled)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anycastIpListId = "AnycastIpListId"
+            case enabled = "Enabled"
+            case ipv6Enabled = "Ipv6Enabled"
+        }
+    }
+
+    public struct UpdateConnectionGroupResult: AWSDecodableShape {
+        /// The connection group that you updated.
+        public let connectionGroup: ConnectionGroup
+        /// The current version of the connection group.
+        public let eTag: String?
+
+        @inlinable
+        public init(connectionGroup: ConnectionGroup, eTag: String? = nil) {
+            self.connectionGroup = connectionGroup
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.connectionGroup = try container.decode(ConnectionGroup.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct UpdateContinuousDeploymentPolicyRequest: AWSEncodableShape {
         public static let _xmlRootNodeName: String? = "ContinuousDeploymentPolicyConfig"
         /// The continuous deployment policy configuration.
@@ -10089,6 +11741,94 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct UpdateDistributionTenantRequest: AWSEncodableShape {
+        /// The ID of the target connection group.
+        public let connectionGroupId: String?
+        /// Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+        public let customizations: Customizations?
+        /// The ID for the multi-tenant distribution.
+        public let distributionId: String?
+        /// The domains to update for the distribution tenant. A domain object can contain only a domain property. You must specify at least one domain. Each distribution tenant can have up to 5 domains.
+        @OptionalCustomCoding<StandardArrayCoder<DomainItem>>
+        public var domains: [DomainItem]?
+        /// Indicates whether the distribution tenant should be updated to an enabled state. If you update the distribution tenant and it's not enabled, the distribution tenant won't serve traffic.
+        public let enabled: Bool?
+        /// The ID of the distribution tenant.
+        public let id: String
+        /// The value of the ETag header that you received when retrieving the distribution tenant to update.  This value is returned in the response of the GetDistributionTenant API operation.
+        public let ifMatch: String
+        /// An object that contains the CloudFront managed ACM certificate request.
+        public let managedCertificateRequest: ManagedCertificateRequest?
+        /// A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+        @OptionalCustomCoding<StandardArrayCoder<Parameter>>
+        public var parameters: [Parameter]?
+
+        @inlinable
+        public init(connectionGroupId: String? = nil, customizations: Customizations? = nil, distributionId: String? = nil, domains: [DomainItem]? = nil, enabled: Bool? = nil, id: String, ifMatch: String, managedCertificateRequest: ManagedCertificateRequest? = nil, parameters: [Parameter]? = nil) {
+            self.connectionGroupId = connectionGroupId
+            self.customizations = customizations
+            self.distributionId = distributionId
+            self.domains = domains
+            self.enabled = enabled
+            self.id = id
+            self.ifMatch = ifMatch
+            self.managedCertificateRequest = managedCertificateRequest
+            self.parameters = parameters
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.connectionGroupId, forKey: .connectionGroupId)
+            try container.encodeIfPresent(self.customizations, forKey: .customizations)
+            try container.encodeIfPresent(self.distributionId, forKey: .distributionId)
+            try container.encodeIfPresent(self.domains, forKey: .domains)
+            try container.encodeIfPresent(self.enabled, forKey: .enabled)
+            request.encodePath(self.id, key: "Id")
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encodeIfPresent(self.managedCertificateRequest, forKey: .managedCertificateRequest)
+            try container.encodeIfPresent(self.parameters, forKey: .parameters)
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try $0.validate(name: "\(name).parameters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionGroupId = "ConnectionGroupId"
+            case customizations = "Customizations"
+            case distributionId = "DistributionId"
+            case domains = "Domains"
+            case enabled = "Enabled"
+            case managedCertificateRequest = "ManagedCertificateRequest"
+            case parameters = "Parameters"
+        }
+    }
+
+    public struct UpdateDistributionTenantResult: AWSDecodableShape {
+        /// The distribution tenant that you're updating.
+        public let distributionTenant: DistributionTenant
+        /// The current version of the distribution tenant.
+        public let eTag: String?
+
+        @inlinable
+        public init(distributionTenant: DistributionTenant, eTag: String? = nil) {
+            self.distributionTenant = distributionTenant
+            self.eTag = eTag
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.singleValueContainer()
+            self.distributionTenant = try container.decode(DistributionTenant.self)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct UpdateDistributionWithStagingConfigRequest: AWSEncodableShape {
         /// The identifier of the primary distribution to which you are copying a staging distribution's
         /// 			configuration.
@@ -10136,6 +11876,64 @@ extension CloudFront {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UpdateDomainAssociationRequest: AWSEncodableShape {
+        /// The domain to update.
+        public let domain: String
+        /// The value of the ETag identifier for the distribution or distribution tenant that will be associated with the domain.
+        public let ifMatch: String?
+        /// The target distribution resource for the domain. You can specify either DistributionId or DistributionTenantId, but not both.
+        public let targetResource: DistributionResourceId
+
+        @inlinable
+        public init(domain: String, ifMatch: String? = nil, targetResource: DistributionResourceId) {
+            self.domain = domain
+            self.ifMatch = ifMatch
+            self.targetResource = targetResource
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(self.domain, forKey: .domain)
+            request.encodeHeader(self.ifMatch, key: "If-Match")
+            try container.encode(self.targetResource, forKey: .targetResource)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case targetResource = "TargetResource"
+        }
+    }
+
+    public struct UpdateDomainAssociationResult: AWSDecodableShape {
+        /// The domain that you're moving.
+        public let domain: String?
+        /// The current version of the target distribution or distribution tenant that was associated with the domain.
+        public let eTag: String?
+        /// The intended destination for the domain.
+        public let resourceId: String?
+
+        @inlinable
+        public init(domain: String? = nil, eTag: String? = nil, resourceId: String? = nil) {
+            self.domain = domain
+            self.eTag = eTag
+            self.resourceId = resourceId
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.domain = try container.decodeIfPresent(String.self, forKey: .domain)
+            self.eTag = try response.decodeHeaderIfPresent(String.self, key: "ETag")
+            self.resourceId = try container.decodeIfPresent(String.self, forKey: .resourceId)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case resourceId = "ResourceId"
+        }
     }
 
     public struct UpdateFieldLevelEncryptionConfigRequest: AWSEncodableShape {
@@ -10769,6 +12567,63 @@ extension CloudFront {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct ValidationTokenDetail: AWSDecodableShape {
+        /// The domain name.
+        public let domain: String
+        /// The domain to redirect from.
+        public let redirectFrom: String?
+        /// The domain to redirect to.
+        public let redirectTo: String?
+
+        @inlinable
+        public init(domain: String, redirectFrom: String? = nil, redirectTo: String? = nil) {
+            self.domain = domain
+            self.redirectFrom = redirectFrom
+            self.redirectTo = redirectTo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case redirectFrom = "RedirectFrom"
+            case redirectTo = "RedirectTo"
+        }
+    }
+
+    public struct VerifyDnsConfigurationRequest: AWSEncodableShape {
+        /// The domain name that you're verifying.
+        public let domain: String?
+        /// The ID of the distribution tenant.
+        public let identifier: String
+
+        @inlinable
+        public init(domain: String? = nil, identifier: String) {
+            self.domain = domain
+            self.identifier = identifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domain = "Domain"
+            case identifier = "Identifier"
+        }
+    }
+
+    public struct VerifyDnsConfigurationResult: AWSDecodableShape {
+        public struct _DnsConfigurationListEncoding: ArrayCoderProperties { public static let member = "DnsConfiguration" }
+
+        /// The list of domain names, their statuses, and a description of each status.
+        @OptionalCustomCoding<ArrayCoder<_DnsConfigurationListEncoding, DnsConfiguration>>
+        public var dnsConfigurationList: [DnsConfiguration]?
+
+        @inlinable
+        public init(dnsConfigurationList: [DnsConfiguration]? = nil) {
+            self.dnsConfigurationList = dnsConfigurationList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsConfigurationList = "DnsConfigurationList"
+        }
+    }
+
     public struct ViewerCertificate: AWSEncodableShape & AWSDecodableShape {
         /// If the distribution uses Aliases (alternate domain names or CNAMEs) and
         /// 			the SSL/TLS certificate is stored in Certificate Manager (ACM), provide the Amazon Resource Name
@@ -10812,7 +12667,7 @@ extension CloudFront {
         /// 					additional monthly charges from CloudFront.    static-ip - Do not specify this value unless your distribution
         /// 					has been enabled for this feature by the CloudFront team. If you have a use case
         /// 					that requires static IP addresses for a distribution, contact CloudFront through
-        /// 					the Amazon Web ServicesSupport Center.   If the distribution uses the CloudFront domain name such as
+        /// 					the Amazon Web Services Support Center.   If the distribution uses the CloudFront domain name such as
         /// 				d111111abcdef8.cloudfront.net, don't set a value for this field.
         public let sslSupportMethod: SSLSupportMethod?
 
@@ -11023,6 +12878,24 @@ extension CloudFront {
             case status = "Status"
         }
     }
+
+    public struct WebAclCustomization: AWSEncodableShape & AWSDecodableShape {
+        /// The action for the WAF web ACL customization. You can specify override to specify a separate WAF web ACL for the distribution tenant. If you specify disable, the distribution tenant won't have WAF web ACL protections and won't inherit from the multi-tenant distribution.
+        public let action: CustomizationActionType
+        /// The Amazon Resource Name (ARN) of the WAF web ACL.
+        public let arn: String?
+
+        @inlinable
+        public init(action: CustomizationActionType, arn: String? = nil) {
+            self.action = action
+            self.arn = arn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case arn = "Arn"
+        }
+    }
 }
 
 // MARK: - Errors
@@ -11062,6 +12935,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case illegalUpdate = "IllegalUpdate"
         case inconsistentQuantities = "InconsistentQuantities"
         case invalidArgument = "InvalidArgument"
+        case invalidAssociation = "InvalidAssociation"
         case invalidDefaultRootObject = "InvalidDefaultRootObject"
         case invalidDomainNameForOriginAccessControl = "InvalidDomainNameForOriginAccessControl"
         case invalidErrorCode = "InvalidErrorCode"
@@ -11119,6 +12993,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case realtimeLogConfigInUse = "RealtimeLogConfigInUse"
         case realtimeLogConfigOwnerMismatch = "RealtimeLogConfigOwnerMismatch"
         case resourceInUse = "ResourceInUse"
+        case resourceNotDisabled = "ResourceNotDisabled"
         case responseHeadersPolicyAlreadyExists = "ResponseHeadersPolicyAlreadyExists"
         case responseHeadersPolicyInUse = "ResponseHeadersPolicyInUse"
         case stagingDistributionInUse = "StagingDistributionInUse"
@@ -11281,6 +13156,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var inconsistentQuantities: Self { .init(.inconsistentQuantities) }
     /// An argument is invalid.
     public static var invalidArgument: Self { .init(.invalidArgument) }
+    /// The specified CloudFront resource can't be associated.
+    public static var invalidAssociation: Self { .init(.invalidAssociation) }
     /// The default root object file name is too big or contains an invalid character.
     public static var invalidDefaultRootObject: Self { .init(.invalidDefaultRootObject) }
     /// An origin access control is associated with an origin whose domain name is not
@@ -11416,6 +13293,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var realtimeLogConfigOwnerMismatch: Self { .init(.realtimeLogConfigOwnerMismatch) }
     /// Cannot delete this resource because it is in use.
     public static var resourceInUse: Self { .init(.resourceInUse) }
+    /// The specified CloudFront resource hasn't been disabled yet.
+    public static var resourceNotDisabled: Self { .init(.resourceNotDisabled) }
     /// A response headers policy with this name already exists. You must provide a unique
     /// 			name. To modify an existing response headers policy, use
     /// 				UpdateResponseHeadersPolicy.

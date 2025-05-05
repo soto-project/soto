@@ -180,6 +180,18 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum HandlerBehavior: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case code = "CODE"
+        case direct = "DIRECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InvokeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case event = "EVENT"
+        case requestResponse = "REQUEST_RESPONSE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MergeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case autoMerge = "AUTO_MERGE"
         case manualMerge = "MANUAL_MERGE"
@@ -727,6 +739,8 @@ extension AppSync {
         public let codeHandlers: String?
         /// The date and time that the ChannelNamespace was created.
         public let created: Date?
+        /// The configuration for the OnPublish and OnSubscribe handlers.
+        public let handlerConfigs: HandlerConfigs?
         /// The date and time that the ChannelNamespace was last changed.
         public let lastModified: Date?
         /// The name of the channel namespace. This name must be unique within the Api.
@@ -738,11 +752,12 @@ extension AppSync {
         public let tags: [String: String]?
 
         @inlinable
-        public init(apiId: String? = nil, channelNamespaceArn: String? = nil, codeHandlers: String? = nil, created: Date? = nil, lastModified: Date? = nil, name: String? = nil, publishAuthModes: [AuthMode]? = nil, subscribeAuthModes: [AuthMode]? = nil, tags: [String: String]? = nil) {
+        public init(apiId: String? = nil, channelNamespaceArn: String? = nil, codeHandlers: String? = nil, created: Date? = nil, handlerConfigs: HandlerConfigs? = nil, lastModified: Date? = nil, name: String? = nil, publishAuthModes: [AuthMode]? = nil, subscribeAuthModes: [AuthMode]? = nil, tags: [String: String]? = nil) {
             self.apiId = apiId
             self.channelNamespaceArn = channelNamespaceArn
             self.codeHandlers = codeHandlers
             self.created = created
+            self.handlerConfigs = handlerConfigs
             self.lastModified = lastModified
             self.name = name
             self.publishAuthModes = publishAuthModes
@@ -755,6 +770,7 @@ extension AppSync {
             case channelNamespaceArn = "channelNamespaceArn"
             case codeHandlers = "codeHandlers"
             case created = "created"
+            case handlerConfigs = "handlerConfigs"
             case lastModified = "lastModified"
             case name = "name"
             case publishAuthModes = "publishAuthModes"
@@ -1017,6 +1033,8 @@ extension AppSync {
         public let apiId: String
         /// The event handler functions that run custom business logic to process published events and subscribe requests.
         public let codeHandlers: String?
+        /// The configuration for the OnPublish and OnSubscribe handlers.
+        public let handlerConfigs: HandlerConfigs?
         /// The name of the ChannelNamespace. This name must be unique within the Api
         public let name: String
         /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
@@ -1026,9 +1044,10 @@ extension AppSync {
         public let tags: [String: String]?
 
         @inlinable
-        public init(apiId: String, codeHandlers: String? = nil, name: String, publishAuthModes: [AuthMode]? = nil, subscribeAuthModes: [AuthMode]? = nil, tags: [String: String]? = nil) {
+        public init(apiId: String, codeHandlers: String? = nil, handlerConfigs: HandlerConfigs? = nil, name: String, publishAuthModes: [AuthMode]? = nil, subscribeAuthModes: [AuthMode]? = nil, tags: [String: String]? = nil) {
             self.apiId = apiId
             self.codeHandlers = codeHandlers
+            self.handlerConfigs = handlerConfigs
             self.name = name
             self.publishAuthModes = publishAuthModes
             self.subscribeAuthModes = subscribeAuthModes
@@ -1040,6 +1059,7 @@ extension AppSync {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.apiId, key: "apiId")
             try container.encodeIfPresent(self.codeHandlers, forKey: .codeHandlers)
+            try container.encodeIfPresent(self.handlerConfigs, forKey: .handlerConfigs)
             try container.encode(self.name, forKey: .name)
             try container.encodeIfPresent(self.publishAuthModes, forKey: .publishAuthModes)
             try container.encodeIfPresent(self.subscribeAuthModes, forKey: .subscribeAuthModes)
@@ -1065,6 +1085,7 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case codeHandlers = "codeHandlers"
+            case handlerConfigs = "handlerConfigs"
             case name = "name"
             case publishAuthModes = "publishAuthModes"
             case subscribeAuthModes = "subscribeAuthModes"
@@ -3315,6 +3336,42 @@ extension AppSync {
         }
     }
 
+    public struct HandlerConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The behavior for the handler.
+        public let behavior: HandlerBehavior
+        /// The integration data source configuration for the handler.
+        public let integration: Integration
+
+        @inlinable
+        public init(behavior: HandlerBehavior, integration: Integration) {
+            self.behavior = behavior
+            self.integration = integration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case behavior = "behavior"
+            case integration = "integration"
+        }
+    }
+
+    public struct HandlerConfigs: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for the OnPublish handler.
+        public let onPublish: HandlerConfig?
+        /// The configuration for the OnSubscribe handler.
+        public let onSubscribe: HandlerConfig?
+
+        @inlinable
+        public init(onPublish: HandlerConfig? = nil, onSubscribe: HandlerConfig? = nil) {
+            self.onPublish = onPublish
+            self.onSubscribe = onSubscribe
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onPublish = "onPublish"
+            case onSubscribe = "onSubscribe"
+        }
+    }
+
     public struct HttpDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// The authorization configuration in case the HTTP endpoint requires authorization.
         public let authorizationConfig: AuthorizationConfig?
@@ -3330,6 +3387,24 @@ extension AppSync {
         private enum CodingKeys: String, CodingKey {
             case authorizationConfig = "authorizationConfig"
             case endpoint = "endpoint"
+        }
+    }
+
+    public struct Integration: AWSEncodableShape & AWSDecodableShape {
+        /// The unique name of the data source that has been configured on the API.
+        public let dataSourceName: String
+        /// The configuration for a Lambda data source.
+        public let lambdaConfig: LambdaConfig?
+
+        @inlinable
+        public init(dataSourceName: String, lambdaConfig: LambdaConfig? = nil) {
+            self.dataSourceName = dataSourceName
+            self.lambdaConfig = lambdaConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceName = "dataSourceName"
+            case lambdaConfig = "lambdaConfig"
         }
     }
 
@@ -3357,6 +3432,20 @@ extension AppSync {
             case authorizerResultTtlInSeconds = "authorizerResultTtlInSeconds"
             case authorizerUri = "authorizerUri"
             case identityValidationExpression = "identityValidationExpression"
+        }
+    }
+
+    public struct LambdaConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The invocation type for a Lambda data source.
+        public let invokeType: InvokeType?
+
+        @inlinable
+        public init(invokeType: InvokeType? = nil) {
+            self.invokeType = invokeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invokeType = "invokeType"
         }
     }
 
@@ -4854,6 +4943,8 @@ extension AppSync {
         public let apiId: String
         /// The event handler functions that run custom business logic to process published events and subscribe requests.
         public let codeHandlers: String?
+        /// The configuration for the OnPublish and OnSubscribe handlers.
+        public let handlerConfigs: HandlerConfigs?
         /// The name of the ChannelNamespace.
         public let name: String
         /// The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
@@ -4862,9 +4953,10 @@ extension AppSync {
         public let subscribeAuthModes: [AuthMode]?
 
         @inlinable
-        public init(apiId: String, codeHandlers: String? = nil, name: String, publishAuthModes: [AuthMode]? = nil, subscribeAuthModes: [AuthMode]? = nil) {
+        public init(apiId: String, codeHandlers: String? = nil, handlerConfigs: HandlerConfigs? = nil, name: String, publishAuthModes: [AuthMode]? = nil, subscribeAuthModes: [AuthMode]? = nil) {
             self.apiId = apiId
             self.codeHandlers = codeHandlers
+            self.handlerConfigs = handlerConfigs
             self.name = name
             self.publishAuthModes = publishAuthModes
             self.subscribeAuthModes = subscribeAuthModes
@@ -4875,6 +4967,7 @@ extension AppSync {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.apiId, key: "apiId")
             try container.encodeIfPresent(self.codeHandlers, forKey: .codeHandlers)
+            try container.encodeIfPresent(self.handlerConfigs, forKey: .handlerConfigs)
             request.encodePath(self.name, key: "name")
             try container.encodeIfPresent(self.publishAuthModes, forKey: .publishAuthModes)
             try container.encodeIfPresent(self.subscribeAuthModes, forKey: .subscribeAuthModes)
@@ -4890,6 +4983,7 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case codeHandlers = "codeHandlers"
+            case handlerConfigs = "handlerConfigs"
             case publishAuthModes = "publishAuthModes"
             case subscribeAuthModes = "subscribeAuthModes"
         }

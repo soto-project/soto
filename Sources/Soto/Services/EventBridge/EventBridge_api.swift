@@ -300,6 +300,7 @@ public struct EventBridge: AWSService {
     ///   - authParameters: The authorization parameters to use to authorize with the endpoint.  You must include only authorization parameters for the AuthorizationType you specify.
     ///   - description: A description for the connection to create.
     ///   - invocationConnectivityParameters: For connections to private APIs, the parameters to use for invoking the API. For more information, see Connecting to private APIs in the  Amazon EventBridge User Guide .
+    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this connection. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the connection. For more information, see Identify and view keys in the Key Management Service Developer Guide.
     ///   - name: The name for the connection to create.
     ///   - logger: Logger use during operation
     @inlinable
@@ -308,6 +309,7 @@ public struct EventBridge: AWSService {
         authParameters: CreateConnectionAuthRequestParameters,
         description: String? = nil,
         invocationConnectivityParameters: ConnectivityResourceParameters? = nil,
+        kmsKeyIdentifier: String? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateConnectionResponse {
@@ -316,6 +318,7 @@ public struct EventBridge: AWSService {
             authParameters: authParameters, 
             description: description, 
             invocationConnectivityParameters: invocationConnectivityParameters, 
+            kmsKeyIdentifier: kmsKeyIdentifier, 
             name: name
         )
         return try await self.createConnection(input, logger: logger)
@@ -384,7 +387,7 @@ public struct EventBridge: AWSService {
     ///   - deadLetterConfig: 
     ///   - description: The event bus description.
     ///   - eventSourceName: If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
-    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if you call  CreateDiscoverer on an event bus set to use a customer managed key for encryption. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
+    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:    You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with schema discovery enabled.   To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
     ///   - name: The name of the new event bus.  Custom event bus names can't contain the / character, but you can use the / character in partner event bus names. In addition, for partner event buses, the name must exactly match the name of the partner event source that this event bus is matched to. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus.
     ///   - tags: Tags to associate with the event bus.
     ///   - logger: Logger use during operation
@@ -2029,6 +2032,7 @@ public struct EventBridge: AWSService {
     ///   - authParameters: The authorization parameters to use for the connection.
     ///   - description: A description for the connection.
     ///   - invocationConnectivityParameters: For connections to private APIs, the parameters to use for invoking the API. For more information, see Connecting to private APIs in the  Amazon EventBridge User Guide .
+    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt this connection. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt the connection. For more information, see Identify and view keys in the Key Management Service Developer Guide.
     ///   - name: The name of the connection to update.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2037,6 +2041,7 @@ public struct EventBridge: AWSService {
         authParameters: UpdateConnectionAuthRequestParameters? = nil,
         description: String? = nil,
         invocationConnectivityParameters: ConnectivityResourceParameters? = nil,
+        kmsKeyIdentifier: String? = nil,
         name: String,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> UpdateConnectionResponse {
@@ -2045,6 +2050,7 @@ public struct EventBridge: AWSService {
             authParameters: authParameters, 
             description: description, 
             invocationConnectivityParameters: invocationConnectivityParameters, 
+            kmsKeyIdentifier: kmsKeyIdentifier, 
             name: name
         )
         return try await self.updateConnection(input, logger: logger)
@@ -2112,7 +2118,7 @@ public struct EventBridge: AWSService {
     /// Parameters:
     ///   - deadLetterConfig: 
     ///   - description: The event bus description.
-    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if you call  CreateDiscoverer on an event bus set to use a customer managed key for encryption. To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
+    ///   - kmsKeyIdentifier: The identifier of the KMS customer managed key for EventBridge to use, if you choose to use a customer managed key to encrypt events on this event bus. The identifier can be the key  Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN. If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web Services owned key to encrypt events on the event bus. For more information, see Identify and view keys in the Key Management Service Developer Guide.   Schema discovery is not supported for event buses encrypted using a customer managed key. EventBridge returns an error if:    You call  CreateDiscoverer on an event bus set to use a customer managed key for encryption.   You call  UpdatedEventBus to set a customer managed key on an event bus with schema discovery enabled.   To enable schema discovery on an event bus, choose to use an Amazon Web Services owned key. For more information, see Encrypting events in the Amazon EventBridge User Guide.   If you have specified that EventBridge use a customer managed key for encrypting the source event bus, we strongly recommend you also specify a  customer managed key for any archives for the event bus as well.  For more information, see Encrypting archives in the Amazon EventBridge User Guide.
     ///   - name: The name of the event bus.
     ///   - logger: Logger use during operation
     @inlinable

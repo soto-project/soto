@@ -195,6 +195,7 @@ extension SageMaker {
         case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlP4De24Xlarge = "ml.p4de.24xlarge"
         case mlP548Xlarge = "ml.p5.48xlarge"
+        case mlP5En48Xlarge = "ml.p5en.48xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
@@ -1843,6 +1844,12 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum NodeUnavailabilityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case capacityPercentage = "CAPACITY_PERCENTAGE"
+        case instanceCount = "INSTANCE_COUNT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum NotebookInstanceAcceleratorType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case mlEia1Large = "ml.eia1.large"
         case mlEia1Medium = "ml.eia1.medium"
@@ -2200,6 +2207,7 @@ extension SageMaker {
         case al2Gpu2 = "al2-ami-sagemaker-inference-gpu-2"
         case al2Gpu21 = "al2-ami-sagemaker-inference-gpu-2-1"
         case al2Gpu31 = "al2-ami-sagemaker-inference-gpu-3-1"
+        case al2Neuron2 = "al2-ami-sagemaker-inference-neuron-2"
         public var description: String { return self.rawValue }
     }
 
@@ -4069,6 +4077,26 @@ extension SageMaker {
         }
     }
 
+    public struct AlarmDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the alarm.
+        public let alarmName: String?
+
+        @inlinable
+        public init(alarmName: String? = nil) {
+            self.alarmName = alarmName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alarmName, name: "alarmName", parent: name, max: 255)
+            try self.validate(self.alarmName, name: "alarmName", parent: name, min: 1)
+            try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "^(?!\\s*$).+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alarmName = "AlarmName"
+        }
+    }
+
     public struct AlgorithmSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on Amazon Web Services Marketplace.  You must specify either the algorithm name to the AlgorithmName parameter or the image URI of the algorithm container to the TrainingImage parameter. Note that the AlgorithmName parameter is mutually exclusive with the TrainingImage parameter. If you specify a value for the AlgorithmName parameter, you can't specify a value for TrainingImage, and vice versa. If you specify values for both parameters, the training job might break; if you don't specify any value for both parameters, the training job might raise a null error.
         public let algorithmName: String?
@@ -5902,6 +5930,28 @@ extension SageMaker {
         }
     }
 
+    public struct CapacitySizeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether SageMaker should process the update by amount or percentage of instances.
+        public let type: NodeUnavailabilityType?
+        /// Specifies the amount or percentage of instances SageMaker updates at a time.
+        public let value: Int?
+
+        @inlinable
+        public init(type: NodeUnavailabilityType? = nil, value: Int? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
     public struct CaptureContentTypeHeader: AWSEncodableShape & AWSDecodableShape {
         /// The list of all content type headers that Amazon SageMaker AI will treat as CSV and capture accordingly.
         public let csvContentTypes: [String]?
@@ -6432,6 +6482,8 @@ extension SageMaker {
         public let onStartDeepHealthChecks: [DeepHealthCheckType]?
         /// The customized Amazon VPC configuration at the instance group level that overrides the default Amazon VPC configuration of the SageMaker HyperPod cluster.
         public let overrideVpcConfig: VpcConfig?
+        /// The configuration object of the schedule that SageMaker follows when updating the AMI.
+        public let scheduledUpdateConfig: ScheduledUpdateConfig?
         /// The current status of the cluster instance group.    InService: The instance group is active and healthy.    Creating: The instance group is being provisioned.    Updating: The instance group is being updated.    Failed: The instance group has failed to provision or is no longer healthy.    Degraded: The instance group is degraded, meaning that some instances have failed to provision or are no longer healthy.    Deleting: The instance group is being deleted.
         public let status: InstanceGroupStatus?
         /// The number of instances you specified to add to the instance group of a SageMaker HyperPod cluster.
@@ -6444,7 +6496,7 @@ extension SageMaker {
         public let trainingPlanStatus: String?
 
         @inlinable
-        public init(currentCount: Int? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, status: InstanceGroupStatus? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil, trainingPlanStatus: String? = nil) {
+        public init(currentCount: Int? = nil, executionRole: String? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, status: InstanceGroupStatus? = nil, targetCount: Int? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil, trainingPlanStatus: String? = nil) {
             self.currentCount = currentCount
             self.executionRole = executionRole
             self.instanceGroupName = instanceGroupName
@@ -6453,6 +6505,7 @@ extension SageMaker {
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
+            self.scheduledUpdateConfig = scheduledUpdateConfig
             self.status = status
             self.targetCount = targetCount
             self.threadsPerCore = threadsPerCore
@@ -6469,6 +6522,7 @@ extension SageMaker {
             case lifeCycleConfig = "LifeCycleConfig"
             case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
             case overrideVpcConfig = "OverrideVpcConfig"
+            case scheduledUpdateConfig = "ScheduledUpdateConfig"
             case status = "Status"
             case targetCount = "TargetCount"
             case threadsPerCore = "ThreadsPerCore"
@@ -6494,13 +6548,15 @@ extension SageMaker {
         public let onStartDeepHealthChecks: [DeepHealthCheckType]?
         /// To configure multi-AZ deployments, customize the Amazon VPC configuration at the instance group level. You can specify different subnets and security groups across different AZs in the instance group specification to override a SageMaker HyperPod cluster's default Amazon VPC configuration. For more information about deploying a cluster in multiple AZs, see Setting up SageMaker HyperPod clusters across multiple AZs.  When your Amazon VPC and subnets support IPv6, network communications differ based on the cluster orchestration platform:   Slurm-orchestrated clusters automatically configure nodes with dual IPv6 and IPv4 addresses, allowing immediate IPv6 network communications.   In Amazon EKS-orchestrated clusters, nodes receive dual-stack addressing, but pods can only use IPv6 when the Amazon EKS cluster is explicitly IPv6-enabled. For information about deploying an IPv6 Amazon EKS cluster, see Amazon EKS IPv6 Cluster Deployment.   Additional resources for IPv6 configuration:   For information about adding IPv6 support to your VPC, see to IPv6 Support for VPC.   For information about creating a new IPv6-compatible VPC, see Amazon VPC Creation Guide.   To configure SageMaker HyperPod with a custom Amazon VPC, see Custom Amazon VPC Setup for SageMaker HyperPod.
         public let overrideVpcConfig: VpcConfig?
+        /// The configuration object of the schedule that SageMaker uses to update the AMI.
+        public let scheduledUpdateConfig: ScheduledUpdateConfig?
         /// Specifies the value for Threads per core. For instance types that support multithreading, you can specify 1 for disabling multithreading and 2 for enabling multithreading. For instance types that doesn't support multithreading, specify 1. For more information, see the reference table of CPU cores and threads per CPU core per instance type in the Amazon Elastic Compute Cloud User Guide.
         public let threadsPerCore: Int?
         /// The Amazon Resource Name (ARN); of the training plan to use for this cluster instance group. For more information about how to reserve GPU capacity for your SageMaker HyperPod clusters using Amazon SageMaker Training Plan, see  CreateTrainingPlan .
         public let trainingPlanArn: String?
 
         @inlinable
-        public init(executionRole: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil) {
+        public init(executionRole: String? = nil, instanceCount: Int? = nil, instanceGroupName: String? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, onStartDeepHealthChecks: [DeepHealthCheckType]? = nil, overrideVpcConfig: VpcConfig? = nil, scheduledUpdateConfig: ScheduledUpdateConfig? = nil, threadsPerCore: Int? = nil, trainingPlanArn: String? = nil) {
             self.executionRole = executionRole
             self.instanceCount = instanceCount
             self.instanceGroupName = instanceGroupName
@@ -6509,6 +6565,7 @@ extension SageMaker {
             self.lifeCycleConfig = lifeCycleConfig
             self.onStartDeepHealthChecks = onStartDeepHealthChecks
             self.overrideVpcConfig = overrideVpcConfig
+            self.scheduledUpdateConfig = scheduledUpdateConfig
             self.threadsPerCore = threadsPerCore
             self.trainingPlanArn = trainingPlanArn
         }
@@ -6530,6 +6587,7 @@ extension SageMaker {
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, max: 2)
             try self.validate(self.onStartDeepHealthChecks, name: "onStartDeepHealthChecks", parent: name, min: 1)
             try self.overrideVpcConfig?.validate(name: "\(name).overrideVpcConfig")
+            try self.scheduledUpdateConfig?.validate(name: "\(name).scheduledUpdateConfig")
             try self.validate(self.threadsPerCore, name: "threadsPerCore", parent: name, max: 2)
             try self.validate(self.threadsPerCore, name: "threadsPerCore", parent: name, min: 1)
             try self.validate(self.trainingPlanArn, name: "trainingPlanArn", parent: name, max: 2048)
@@ -6546,6 +6604,7 @@ extension SageMaker {
             case lifeCycleConfig = "LifeCycleConfig"
             case onStartDeepHealthChecks = "OnStartDeepHealthChecks"
             case overrideVpcConfig = "OverrideVpcConfig"
+            case scheduledUpdateConfig = "ScheduledUpdateConfig"
             case threadsPerCore = "ThreadsPerCore"
             case trainingPlanArn = "TrainingPlanArn"
         }
@@ -6624,6 +6683,8 @@ extension SageMaker {
         public let instanceStorageConfigs: [ClusterInstanceStorageConfig]?
         /// The type of the instance.
         public let instanceType: ClusterInstanceType?
+        /// The time of when the cluster was last updated.
+        public let lastSoftwareUpdateTime: Date?
         /// The time when the instance is launched.
         public let launchTime: Date?
         /// The LifeCycle configuration applied to the instance.
@@ -6642,12 +6703,13 @@ extension SageMaker {
         public let threadsPerCore: Int?
 
         @inlinable
-        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, overrideVpcConfig: VpcConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, privatePrimaryIpv6: String? = nil, threadsPerCore: Int? = nil) {
+        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceStorageConfigs: [ClusterInstanceStorageConfig]? = nil, instanceType: ClusterInstanceType? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil, lifeCycleConfig: ClusterLifeCycleConfig? = nil, overrideVpcConfig: VpcConfig? = nil, placement: ClusterInstancePlacement? = nil, privateDnsHostname: String? = nil, privatePrimaryIp: String? = nil, privatePrimaryIpv6: String? = nil, threadsPerCore: Int? = nil) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
             self.instanceStorageConfigs = instanceStorageConfigs
             self.instanceType = instanceType
+            self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
             self.lifeCycleConfig = lifeCycleConfig
             self.overrideVpcConfig = overrideVpcConfig
@@ -6664,6 +6726,7 @@ extension SageMaker {
             case instanceStatus = "InstanceStatus"
             case instanceStorageConfigs = "InstanceStorageConfigs"
             case instanceType = "InstanceType"
+            case lastSoftwareUpdateTime = "LastSoftwareUpdateTime"
             case launchTime = "LaunchTime"
             case lifeCycleConfig = "LifeCycleConfig"
             case overrideVpcConfig = "OverrideVpcConfig"
@@ -6684,15 +6747,18 @@ extension SageMaker {
         public let instanceStatus: ClusterInstanceStatusDetails?
         /// The type of the instance.
         public let instanceType: ClusterInstanceType?
+        /// The time of when SageMaker last updated the software of the instances in the cluster.
+        public let lastSoftwareUpdateTime: Date?
         /// The time when the instance is launched.
         public let launchTime: Date?
 
         @inlinable
-        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceType: ClusterInstanceType? = nil, launchTime: Date? = nil) {
+        public init(instanceGroupName: String? = nil, instanceId: String? = nil, instanceStatus: ClusterInstanceStatusDetails? = nil, instanceType: ClusterInstanceType? = nil, lastSoftwareUpdateTime: Date? = nil, launchTime: Date? = nil) {
             self.instanceGroupName = instanceGroupName
             self.instanceId = instanceId
             self.instanceStatus = instanceStatus
             self.instanceType = instanceType
+            self.lastSoftwareUpdateTime = lastSoftwareUpdateTime
             self.launchTime = launchTime
         }
 
@@ -6701,6 +6767,7 @@ extension SageMaker {
             case instanceId = "InstanceId"
             case instanceStatus = "InstanceStatus"
             case instanceType = "InstanceType"
+            case lastSoftwareUpdateTime = "LastSoftwareUpdateTime"
             case launchTime = "LaunchTime"
         }
     }
@@ -11281,7 +11348,7 @@ extension SageMaker {
     public struct CreateProcessingJobRequest: AWSEncodableShape {
         /// Configures the processing job to run a specified Docker container image.
         public let appSpecification: AppSpecification?
-        /// The environment variables to set in the Docker container. Up to 100 key and values entries in the map are supported.
+        /// The environment variables to set in the Docker container. Up to 100 key and values entries in the map are supported.  Do not include any security-sensitive information including account access IDs, secrets,  or tokens in any environment fields. As part of the shared responsibility  model, you are responsible for any potential exposure, unauthorized access, or compromise of  your sensitive data if caused by security-sensitive information included in the  request environment variable or plain text fields.
         public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
         /// Networking options for a processing job, such as whether to allow inbound and outbound network calls to and from processing containers, and the VPC subnets and security groups to use for VPC-enabled processing jobs.
@@ -11298,7 +11365,7 @@ extension SageMaker {
         public let roleArn: String?
         /// The time limit for how long the processing job is allowed to run.
         public let stoppingCondition: ProcessingStoppingCondition?
-        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
+        /// (Optional) An array of key-value pairs. For more information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.  Do not include any security-sensitive information including account access IDs, secrets,  or tokens in any tags. As part of the shared responsibility  model, you are responsible for any potential exposure, unauthorized access, or compromise of  your sensitive data if caused by security-sensitive information included in the  request tag variable or plain text fields.
         public let tags: [Tag]?
 
         @inlinable
@@ -11565,10 +11632,10 @@ extension SageMaker {
         public let enableManagedSpotTraining: Bool?
         /// Isolates the training container. No inbound or outbound network calls can be made, except for calls between peers within a training cluster for distributed training. If you enable network isolation for training jobs that are configured to use a VPC, SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
         public let enableNetworkIsolation: Bool?
-        /// The environment variables to set in the Docker container.
+        /// The environment variables to set in the Docker container.  Do not include any security-sensitive information including account access IDs,  secrets, or tokens in any environment fields. As part of the shared responsibility model,  you are responsible for any potential exposure, unauthorized access, or compromise of your  sensitive data if caused by security-sensitive information included in the request environment variable or plain text fields.
         public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
-        /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint.   Do not include any security-sensitive information including account access IDs, secrets or tokens in any hyperparameter field. If the use of security-sensitive credentials are detected, SageMaker will reject your training job request and return an exception error.
+        /// Algorithm-specific parameters that influence the quality of the model. You set hyperparameters before you start the learning process. For a list of hyperparameters for each training algorithm provided by SageMaker, see Algorithms.  You can specify a maximum of 100 hyperparameters. Each hyperparameter is a key-value pair. Each key and value is limited to 256 characters, as specified by the Length Constraint.   Do not include any security-sensitive information including account access IDs, secrets,  or tokens in any hyperparameter fields. As part of the shared responsibility  model, you are responsible for any potential exposure, unauthorized access, or compromise  of your sensitive data if caused by any security-sensitive information included in the  request hyperparameter variable or plain text fields.
         public let hyperParameters: [String: String]?
         /// Contains information about the infrastructure health check configuration for the training job.
         public let infraCheckConfig: InfraCheckConfig?
@@ -11591,7 +11658,7 @@ extension SageMaker {
         public let sessionChainingConfig: SessionChainingConfig?
         /// Specifies a limit to how long a model training job can run. It also specifies how long a managed Spot training job has to complete. When the job reaches the time limit, SageMaker ends the training job. Use this API to cap model training costs. To stop a job, SageMaker sends the algorithm the SIGTERM signal, which delays job termination for 120 seconds. Algorithms can use this 120-second window to save the model artifacts, so the results of training are not lost.
         public let stoppingCondition: StoppingCondition?
-        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.
+        /// An array of key-value pairs. You can use tags to categorize your Amazon Web Services resources in different ways, for example, by purpose, owner, or environment. For more information, see Tagging Amazon Web Services Resources.  Do not include any security-sensitive information including account access IDs, secrets,  or tokens in any tags. As part of the shared responsibility model, you are  responsible for any potential exposure, unauthorized access, or compromise  of your sensitive data if caused by any security-sensitive information included in the  request tag variable or plain text fields.
         public let tags: [Tag]?
         public let tensorBoardOutputConfig: TensorBoardOutputConfig?
         /// The name of the training job. The name must be unique within an Amazon Web Services Region in an Amazon Web Services account.
@@ -14301,6 +14368,39 @@ extension SageMaker {
             case autoRollbackConfiguration = "AutoRollbackConfiguration"
             case blueGreenUpdatePolicy = "BlueGreenUpdatePolicy"
             case rollingUpdatePolicy = "RollingUpdatePolicy"
+        }
+    }
+
+    public struct DeploymentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// An array that contains the alarms that SageMaker monitors to know whether to roll back the AMI update.
+        public let autoRollbackConfiguration: [AlarmDetails]?
+        /// The policy that SageMaker uses when updating the AMI versions of the cluster.
+        public let rollingUpdatePolicy: RollingDeploymentPolicy?
+        /// The duration in seconds that SageMaker waits before updating more instances in the cluster.
+        public let waitIntervalInSeconds: Int?
+
+        @inlinable
+        public init(autoRollbackConfiguration: [AlarmDetails]? = nil, rollingUpdatePolicy: RollingDeploymentPolicy? = nil, waitIntervalInSeconds: Int? = nil) {
+            self.autoRollbackConfiguration = autoRollbackConfiguration
+            self.rollingUpdatePolicy = rollingUpdatePolicy
+            self.waitIntervalInSeconds = waitIntervalInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.autoRollbackConfiguration?.forEach {
+                try $0.validate(name: "\(name).autoRollbackConfiguration[]")
+            }
+            try self.validate(self.autoRollbackConfiguration, name: "autoRollbackConfiguration", parent: name, max: 10)
+            try self.validate(self.autoRollbackConfiguration, name: "autoRollbackConfiguration", parent: name, min: 1)
+            try self.rollingUpdatePolicy?.validate(name: "\(name).rollingUpdatePolicy")
+            try self.validate(self.waitIntervalInSeconds, name: "waitIntervalInSeconds", parent: name, max: 3600)
+            try self.validate(self.waitIntervalInSeconds, name: "waitIntervalInSeconds", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoRollbackConfiguration = "AutoRollbackConfiguration"
+            case rollingUpdatePolicy = "RollingUpdatePolicy"
+            case waitIntervalInSeconds = "WaitIntervalInSeconds"
         }
     }
 
@@ -19233,7 +19333,7 @@ extension SageMaker {
         public let enableManagedSpotTraining: Bool?
         /// If you want to allow inbound or outbound network calls, except for calls between peers within a training cluster for distributed training, choose True. If you enable network isolation for training jobs that are configured to use a VPC, SageMaker downloads and uploads customer data and model artifacts through the specified VPC, but the training container does not have network access.
         public let enableNetworkIsolation: Bool?
-        /// The environment variables to set in the Docker container.
+        /// The environment variables to set in the Docker container.  Do not include any security-sensitive information including account access IDs, secrets,  or tokens in any environment fields. As part of the shared responsibility  model, you are responsible for any potential exposure, unauthorized access, or compromise of  your sensitive data if caused by security-sensitive information included in the  request environment variable or plain text fields.
         public let environment: [String: String]?
         public let experimentConfig: ExperimentConfig?
         /// If the training job failed, the reason it failed.
@@ -32538,6 +32638,7 @@ extension SageMaker {
         public let creationTime: Date?
         /// The approval status of the model. This can be one of the following values.    APPROVED - The model is approved    REJECTED - The model is rejected.    PENDING_MANUAL_APPROVAL - The model is waiting for manual approval.
         public let modelApprovalStatus: ModelApprovalStatus?
+        public let modelLifeCycle: ModelLifeCycle?
         /// The Amazon Resource Name (ARN) of the model package.
         public let modelPackageArn: String?
         /// A brief description of the model package.
@@ -32552,9 +32653,10 @@ extension SageMaker {
         public let modelPackageVersion: Int?
 
         @inlinable
-        public init(creationTime: Date? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageVersion: Int? = nil) {
+        public init(creationTime: Date? = nil, modelApprovalStatus: ModelApprovalStatus? = nil, modelLifeCycle: ModelLifeCycle? = nil, modelPackageArn: String? = nil, modelPackageDescription: String? = nil, modelPackageGroupName: String? = nil, modelPackageName: String? = nil, modelPackageStatus: ModelPackageStatus? = nil, modelPackageVersion: Int? = nil) {
             self.creationTime = creationTime
             self.modelApprovalStatus = modelApprovalStatus
+            self.modelLifeCycle = modelLifeCycle
             self.modelPackageArn = modelPackageArn
             self.modelPackageDescription = modelPackageDescription
             self.modelPackageGroupName = modelPackageGroupName
@@ -32566,6 +32668,7 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case creationTime = "CreationTime"
             case modelApprovalStatus = "ModelApprovalStatus"
+            case modelLifeCycle = "ModelLifeCycle"
             case modelPackageArn = "ModelPackageArn"
             case modelPackageDescription = "ModelPackageDescription"
             case modelPackageGroupName = "ModelPackageGroupName"
@@ -35659,7 +35762,7 @@ extension SageMaker {
         public let coreDumpConfig: ProductionVariantCoreDumpConfig?
         ///  You can use this parameter to turn on native Amazon Web Services Systems Manager (SSM) access for a production variant behind an endpoint. By default, SSM access is disabled for all production variants behind an endpoint. You can turn on or turn off SSM access for a production variant behind an existing endpoint by creating a new endpoint configuration and calling UpdateEndpoint.
         public let enableSSMAccess: Bool?
-        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions. The AMI version names, and their configurations, are the following:  al2-ami-sagemaker-inference-gpu-2    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2    al2-ami-sagemaker-inference-gpu-2-1    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-gpu-3-1    Accelerator: GPU   NVIDIA driver version: 550   CUDA version: 12.4   NVIDIA Container Toolkit with disabled CUDA-compat mounting
+        /// Specifies an option from a collection of preconfigured Amazon Machine Image (AMI) images. Each image is configured by Amazon Web Services with a set of software and driver versions. Amazon Web Services optimizes these configurations for different machine learning workloads. By selecting an AMI version, you can ensure that your inference environment is compatible with specific software requirements, such as CUDA driver versions, Linux kernel versions, or Amazon Web Services Neuron driver versions. The AMI version names, and their configurations, are the following:  al2-ami-sagemaker-inference-gpu-2    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2    al2-ami-sagemaker-inference-gpu-2-1    Accelerator: GPU   NVIDIA driver version: 535   CUDA version: 12.2   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-gpu-3-1    Accelerator: GPU   NVIDIA driver version: 550   CUDA version: 12.4   NVIDIA Container Toolkit with disabled CUDA-compat mounting    al2-ami-sagemaker-inference-neuron-2    Accelerator: Inferentia2 and Trainium   Neuron driver version: 2.19
         public let inferenceAmiVersion: ProductionVariantInferenceAmiVersion?
         /// Number of instances to launch initially.
         public let initialInstanceCount: Int?
@@ -37625,6 +37728,29 @@ extension SageMaker {
         }
     }
 
+    public struct RollingDeploymentPolicy: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum amount of instances in the cluster that SageMaker can update at a time.
+        public let maximumBatchSize: CapacitySizeConfig?
+        /// The maximum amount of instances in the cluster that SageMaker can roll back at a time.
+        public let rollbackMaximumBatchSize: CapacitySizeConfig?
+
+        @inlinable
+        public init(maximumBatchSize: CapacitySizeConfig? = nil, rollbackMaximumBatchSize: CapacitySizeConfig? = nil) {
+            self.maximumBatchSize = maximumBatchSize
+            self.rollbackMaximumBatchSize = rollbackMaximumBatchSize
+        }
+
+        public func validate(name: String) throws {
+            try self.maximumBatchSize?.validate(name: "\(name).maximumBatchSize")
+            try self.rollbackMaximumBatchSize?.validate(name: "\(name).rollbackMaximumBatchSize")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumBatchSize = "MaximumBatchSize"
+            case rollbackMaximumBatchSize = "RollbackMaximumBatchSize"
+        }
+    }
+
     public struct RollingUpdatePolicy: AWSEncodableShape & AWSDecodableShape {
         /// Batch size for each rolling step to provision capacity and turn on traffic on the new endpoint fleet, and terminate capacity on the old endpoint fleet. Value must be between 5% to 50% of the variant's total instance count.
         public let maximumBatchSize: CapacitySize?
@@ -37869,6 +37995,30 @@ extension SageMaker {
         private enum CodingKeys: String, CodingKey {
             case dataAnalysisEndTime = "DataAnalysisEndTime"
             case dataAnalysisStartTime = "DataAnalysisStartTime"
+            case scheduleExpression = "ScheduleExpression"
+        }
+    }
+
+    public struct ScheduledUpdateConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration to use when updating the AMI versions.
+        public let deploymentConfig: DeploymentConfiguration?
+        /// A cron expression that specifies the schedule that SageMaker follows when updating the AMI.
+        public let scheduleExpression: String?
+
+        @inlinable
+        public init(deploymentConfig: DeploymentConfiguration? = nil, scheduleExpression: String? = nil) {
+            self.deploymentConfig = deploymentConfig
+            self.scheduleExpression = scheduleExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.deploymentConfig?.validate(name: "\(name).deploymentConfig")
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentConfig = "DeploymentConfig"
             case scheduleExpression = "ScheduleExpression"
         }
     }
@@ -39478,7 +39628,7 @@ extension SageMaker {
     }
 
     public struct StoppingCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum length of time, in seconds, that a training or compilation job can be pending before it is stopped.
+        /// The maximum length of time, in seconds, that a training or compilation job can be pending before it is stopped.  When working with training jobs that use capacity from training plans, not all Pending job states count against the MaxPendingTimeInSeconds limit. The following scenarios do not increment the MaxPendingTimeInSeconds counter:   The plan is in a Scheduled state: Jobs queued (in Pending status) before a plan's start date (waiting for scheduled start time)   Between capacity reservations: Jobs temporarily back to Pending status between two capacity reservation periods    MaxPendingTimeInSeconds only increments when jobs are actively waiting for capacity in an Active plan.
         public let maxPendingTimeInSeconds: Int?
         /// The maximum length of time, in seconds, that a training or compilation job can run before it is stopped. For compilation jobs, if the job does not complete during this time, a TimeOut error is generated. We recommend starting with 900 seconds and increasing as necessary based on your model. For all other jobs, if the job does not complete during this time, SageMaker ends the job. When RetryStrategy is specified in the job request, MaxRuntimeInSeconds specifies the maximum time for all of the attempts in total, not each individual attempt. The default value is 1 day. The maximum value is 28 days. The maximum time that a TrainingJob can run in total, including any time spent publishing metrics or archiving and uploading models after it has been stopped, is 30 days.
         public let maxRuntimeInSeconds: Int?
@@ -41982,22 +42132,56 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateClusterSoftwareInstanceGroupSpecification: AWSEncodableShape {
+        /// The name of the instance group to update.
+        public let instanceGroupName: String?
+
+        @inlinable
+        public init(instanceGroupName: String? = nil) {
+            self.instanceGroupName = instanceGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, max: 63)
+            try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, min: 1)
+            try self.validate(self.instanceGroupName, name: "instanceGroupName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceGroupName = "InstanceGroupName"
+        }
+    }
+
     public struct UpdateClusterSoftwareRequest: AWSEncodableShape {
         /// Specify the name or the Amazon Resource Name (ARN) of the SageMaker HyperPod cluster you want to update for security patching.
         public let clusterName: String?
+        /// The configuration to use when updating the AMI versions.
+        public let deploymentConfig: DeploymentConfiguration?
+        /// The array of instance groups for which to update AMI versions.
+        public let instanceGroups: [UpdateClusterSoftwareInstanceGroupSpecification]?
 
         @inlinable
-        public init(clusterName: String? = nil) {
+        public init(clusterName: String? = nil, deploymentConfig: DeploymentConfiguration? = nil, instanceGroups: [UpdateClusterSoftwareInstanceGroupSpecification]? = nil) {
             self.clusterName = clusterName
+            self.deploymentConfig = deploymentConfig
+            self.instanceGroups = instanceGroups
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 256)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:cluster/[a-z0-9]{12})|([a-zA-Z0-9](-*[a-zA-Z0-9]){0,62})$")
+            try self.deploymentConfig?.validate(name: "\(name).deploymentConfig")
+            try self.instanceGroups?.forEach {
+                try $0.validate(name: "\(name).instanceGroups[]")
+            }
+            try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, max: 100)
+            try self.validate(self.instanceGroups, name: "instanceGroups", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterName = "ClusterName"
+            case deploymentConfig = "DeploymentConfig"
+            case instanceGroups = "InstanceGroups"
         }
     }
 

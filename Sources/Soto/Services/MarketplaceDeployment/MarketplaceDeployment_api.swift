@@ -24,7 +24,7 @@ import Foundation
 
 /// Service object for interacting with AWS MarketplaceDeployment service.
 ///
-/// The AWS Marketplace Deployment Service supports the Quick Launch experience, which is a deployment option for software as a service (SaaS) products. Quick Launch simplifies and reduces the time, resources, and steps required to configure, deploy, and launch a products. The AWS Marketplace Deployment Service provides sellers with a secure method for passing deployment parameters (for example, API keys and external IDs) to buyers during the Quick Launch experience.
+/// The AWS Marketplace Deployment Service supports the Quick Launch experience, which is a deployment option for software as a service (SaaS) products.  Quick Launch simplifies and reduces the time, resources, and steps required to configure, deploy, and launch a products.  The AWS Marketplace Deployment Service provides sellers with a secure method for passing deployment parameters, such as  API keys and external IDs, to buyers during the Quick Launch experience.
 public struct MarketplaceDeployment: AWSService {
     // MARK: Member variables
 
@@ -125,8 +125,8 @@ public struct MarketplaceDeployment: AWSService {
     ///
     /// Parameters:
     ///   - agreementId: The unique identifier of the agreement.
-    ///   - catalog: The catalog related to the request. Fixed value: AWS Marketplace
-    ///   - clientToken: The idempotency token for deployment parameters. A unique identifier for the new version.
+    ///   - catalog: The catalog related to the request. Fixed value: AWSMarketplace
+    ///   - clientToken: The idempotency token for deployment parameters. A unique identifier for the new version.  This field is not required if you're calling using an AWS SDK. Otherwise, a clientToken must be provided with the request.
     ///   - deploymentParameter: The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource.
     ///   - expirationDate: The date when deployment parameters expire and are scheduled for deletion.
     ///   - productId: The product for which AWS Marketplace will save secrets for the buyer’s account.

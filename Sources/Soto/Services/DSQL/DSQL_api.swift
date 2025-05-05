@@ -244,6 +244,35 @@ public struct DSQL: AWSService {
         return try await self.getCluster(input, logger: logger)
     }
 
+    /// Retrieves the VPC endpoint service name.
+    @Sendable
+    @inlinable
+    public func getVpcEndpointServiceName(_ input: GetVpcEndpointServiceNameInput, logger: Logger = AWSClient.loggingDisabled) async throws -> GetVpcEndpointServiceNameOutput {
+        try await self.client.execute(
+            operation: "GetVpcEndpointServiceName", 
+            path: "/clusters/{identifier}/vpc-endpoint-service-name", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves the VPC endpoint service name.
+    ///
+    /// Parameters:
+    ///   - identifier: The ID of the cluster to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getVpcEndpointServiceName(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetVpcEndpointServiceNameOutput {
+        let input = GetVpcEndpointServiceNameInput(
+            identifier: identifier
+        )
+        return try await self.getVpcEndpointServiceName(input, logger: logger)
+    }
+
     /// Retrieves information about a list of clusters.
     @Sendable
     @inlinable

@@ -372,6 +372,12 @@ extension Deadline {
         public var description: String { return self.rawValue }
     }
 
+    public enum TagPropagationMode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case noPropagation = "NO_PROPAGATION"
+        case propagateTagsToWorkersAtLaunch = "PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TaskRunStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case assigned = "ASSIGNED"
         case canceled = "CANCELED"
@@ -2353,7 +2359,7 @@ extension Deadline {
             try self.validate(self.queueId, name: "queueId", parent: name, pattern: "^queue-[0-9a-f]{32}$")
             try self.validate(self.sourceJobId, name: "sourceJobId", parent: name, pattern: "^job-[0-9a-f]{32}$")
             try self.validate(self.storageProfileId, name: "storageProfileId", parent: name, pattern: "^sp-[0-9a-f]{32}$")
-            try self.validate(self.template, name: "template", parent: name, max: 300000)
+            try self.validate(self.template, name: "template", parent: name, max: 1000000)
             try self.validate(self.template, name: "template", parent: name, min: 1)
         }
 
@@ -2916,13 +2922,16 @@ extension Deadline {
         public let fleetId: String
         /// The IP address and host name of the worker.
         public let hostProperties: HostPropertiesRequest?
+        /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+        public let tags: [String: String]?
 
         @inlinable
-        public init(clientToken: String? = CreateWorkerRequest.idempotencyToken(), farmId: String, fleetId: String, hostProperties: HostPropertiesRequest? = nil) {
+        public init(clientToken: String? = CreateWorkerRequest.idempotencyToken(), farmId: String, fleetId: String, hostProperties: HostPropertiesRequest? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.farmId = farmId
             self.fleetId = fleetId
             self.hostProperties = hostProperties
+            self.tags = tags
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -2932,6 +2941,7 @@ extension Deadline {
             request.encodePath(self.farmId, key: "farmId")
             request.encodePath(self.fleetId, key: "fleetId")
             try container.encodeIfPresent(self.hostProperties, forKey: .hostProperties)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
         }
 
         public func validate(name: String) throws {
@@ -2944,6 +2954,7 @@ extension Deadline {
 
         private enum CodingKeys: String, CodingKey {
             case hostProperties = "hostProperties"
+            case tags = "tags"
         }
     }
 
@@ -2966,13 +2977,16 @@ extension Deadline {
         public let mode: AutoScalingMode
         /// The storage profile ID.
         public let storageProfileId: String?
+        /// Specifies whether tags associated with a fleet are attached to workers when the worker is launched.  When the tagPropagationMode is set to PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH any tag associated with a fleet is attached to workers when they launch. If the tags for a fleet change, the tags associated with running workers do not change. If you don't specify tagPropagationMode, the default is NO_PROPAGATION.
+        public let tagPropagationMode: TagPropagationMode?
         /// The worker capabilities for a customer managed fleet configuration.
         public let workerCapabilities: CustomerManagedWorkerCapabilities
 
         @inlinable
-        public init(mode: AutoScalingMode, storageProfileId: String? = nil, workerCapabilities: CustomerManagedWorkerCapabilities) {
+        public init(mode: AutoScalingMode, storageProfileId: String? = nil, tagPropagationMode: TagPropagationMode? = nil, workerCapabilities: CustomerManagedWorkerCapabilities) {
             self.mode = mode
             self.storageProfileId = storageProfileId
+            self.tagPropagationMode = tagPropagationMode
             self.workerCapabilities = workerCapabilities
         }
 
@@ -2984,6 +2998,7 @@ extension Deadline {
         private enum CodingKeys: String, CodingKey {
             case mode = "mode"
             case storageProfileId = "storageProfileId"
+            case tagPropagationMode = "tagPropagationMode"
             case workerCapabilities = "workerCapabilities"
         }
     }

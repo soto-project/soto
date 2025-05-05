@@ -32,6 +32,11 @@ extension AccessAnalyzer {
     }
 
     public enum AccessCheckResourceType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case awsApigatewayRestapi = "AWS::ApiGateway::RestApi"
+        case awsBackupBackupvault = "AWS::Backup::BackupVault"
+        case awsCloudtrailDashboard = "AWS::CloudTrail::Dashboard"
+        case awsCloudtrailEventdatastore = "AWS::CloudTrail::EventDataStore"
+        case awsCodeartifactDomain = "AWS::CodeArtifact::Domain"
         case awsDynamodbStream = "AWS::DynamoDB::Stream"
         case awsDynamodbTable = "AWS::DynamoDB::Table"
         case awsEFSFilesystem = "AWS::EFS::FileSystem"
@@ -44,9 +49,12 @@ extension AccessAnalyzer {
         case awsS3Accesspoint = "AWS::S3::AccessPoint"
         case awsS3Bucket = "AWS::S3::Bucket"
         case awsS3Glacier = "AWS::S3::Glacier"
+        case awsS3ExpressAccesspoint = "AWS::S3Express::AccessPoint"
         case awsS3ExpressDirectorybucket = "AWS::S3Express::DirectoryBucket"
         case awsS3OutpostsAccesspoint = "AWS::S3Outposts::AccessPoint"
         case awsS3OutpostsBucket = "AWS::S3Outposts::Bucket"
+        case awsS3TablesTable = "AWS::S3Tables::Table"
+        case awsS3TablesTablebucket = "AWS::S3Tables::TableBucket"
         case awsSNSTopic = "AWS::SNS::Topic"
         case awsSQSQueue = "AWS::SQS::Queue"
         case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
@@ -453,6 +461,8 @@ extension AccessAnalyzer {
             switch self {
             case .s3Bucket(let value):
                 try value.validate(name: "\(name).s3Bucket")
+            case .s3ExpressDirectoryBucket(let value):
+                try value.validate(name: "\(name).s3ExpressDirectoryBucket")
             case .snsTopic(let value):
                 try value.validate(name: "\(name).snsTopic")
             default:
@@ -3299,7 +3309,7 @@ extension AccessAnalyzer {
     public struct S3AccessPointConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The access point or multi-region access point policy.
         public let accessPointPolicy: String?
-        /// The proposed Internet and VpcConfiguration to apply to this Amazon S3 access point. VpcConfiguration does not apply to multi-region access points. If the access preview is for a new resource and neither is specified, the access preview uses Internet for the network origin. If the access preview is for an existing resource and neither is specified, the access preview uses the exiting network origin.
+        /// The proposed Internet and VpcConfiguration to apply to this Amazon S3 access point. VpcConfiguration does not apply to multi-region access points. If the access preview is for a new resource and neither is specified, the access preview uses Internet for the network origin. If the access preview is for an existing resource and neither is specified, the access preview uses the existing network origin.
         public let networkOrigin: NetworkOriginConfiguration?
         /// The proposed S3PublicAccessBlock configuration to apply to this Amazon S3 access point or multi-region access point.
         public let publicAccessBlock: S3PublicAccessBlockConfiguration?
@@ -3373,16 +3383,48 @@ extension AccessAnalyzer {
         }
     }
 
+    public struct S3ExpressDirectoryAccessPointConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The proposed access point policy for an Amazon S3 directory bucket access point.
+        public let accessPointPolicy: String?
+        public let networkOrigin: NetworkOriginConfiguration?
+
+        @inlinable
+        public init(accessPointPolicy: String? = nil, networkOrigin: NetworkOriginConfiguration? = nil) {
+            self.accessPointPolicy = accessPointPolicy
+            self.networkOrigin = networkOrigin
+        }
+
+        public func validate(name: String) throws {
+            try self.networkOrigin?.validate(name: "\(name).networkOrigin")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointPolicy = "accessPointPolicy"
+            case networkOrigin = "networkOrigin"
+        }
+    }
+
     public struct S3ExpressDirectoryBucketConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The proposed access points for the Amazon S3 directory bucket.
+        public let accessPoints: [String: S3ExpressDirectoryAccessPointConfiguration]?
         /// The proposed bucket policy for the Amazon S3 directory bucket.
         public let bucketPolicy: String?
 
         @inlinable
-        public init(bucketPolicy: String? = nil) {
+        public init(accessPoints: [String: S3ExpressDirectoryAccessPointConfiguration]? = nil, bucketPolicy: String? = nil) {
+            self.accessPoints = accessPoints
             self.bucketPolicy = bucketPolicy
         }
 
+        public func validate(name: String) throws {
+            try self.accessPoints?.forEach {
+                try validate($0.key, name: "accessPoints.key", parent: name, pattern: "^arn:[^:]*:s3express:[^:]*:[^:]*:accesspoint/.*$")
+                try $0.value.validate(name: "\(name).accessPoints[\"\($0.key)\"]")
+            }
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case accessPoints = "accessPoints"
             case bucketPolicy = "bucketPolicy"
         }
     }

@@ -217,9 +217,11 @@ public struct MemoryDB: AWSService {
     ///   - description: An optional description of the cluster.
     ///   - engine: The name of the engine to be used for the cluster.
     ///   - engineVersion: The version number of the Redis OSS engine to be used for the cluster.
+    ///   - ipDiscovery: The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'.
     ///   - kmsKeyId: The ID of the KMS key used to encrypt the cluster.
     ///   - maintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
     ///   - multiRegionClusterName: The name of the multi-Region cluster to be created.
+    ///   - networkType: Specifies the IP address type for the cluster. Valid values are 'ipv4', 'ipv6', or 'dual_stack'. When set to 'ipv4', the cluster will only be accessible via IPv4 addresses. When set to 'ipv6', the cluster will only be accessible via IPv6 addresses. When set to 'dual_stack', the cluster will be accessible via both IPv4 and IPv6 addresses. If not specified, the default is 'ipv4'.
     ///   - nodeType: The compute and memory capacity of the nodes in the cluster.
     ///   - numReplicasPerShard: The number of replicas to apply to each shard. The default value is 1. The maximum is 5.
     ///   - numShards: The number of shards the cluster will contain. The default value is 1.
@@ -244,9 +246,11 @@ public struct MemoryDB: AWSService {
         description: String? = nil,
         engine: String? = nil,
         engineVersion: String? = nil,
+        ipDiscovery: IpDiscovery? = nil,
         kmsKeyId: String? = nil,
         maintenanceWindow: String? = nil,
         multiRegionClusterName: String? = nil,
+        networkType: NetworkType? = nil,
         nodeType: String,
         numReplicasPerShard: Int? = nil,
         numShards: Int? = nil,
@@ -271,9 +275,11 @@ public struct MemoryDB: AWSService {
             description: description, 
             engine: engine, 
             engineVersion: engineVersion, 
+            ipDiscovery: ipDiscovery, 
             kmsKeyId: kmsKeyId, 
             maintenanceWindow: maintenanceWindow, 
             multiRegionClusterName: multiRegionClusterName, 
+            networkType: networkType, 
             nodeType: nodeType, 
             numReplicasPerShard: numReplicasPerShard, 
             numShards: numShards, 
@@ -311,7 +317,7 @@ public struct MemoryDB: AWSService {
     ///   - description: A description for the multi-Region cluster.
     ///   - engine: The name of the engine to be used for the multi-Region cluster.
     ///   - engineVersion: The version of the engine to be used for the multi-Region cluster.
-    ///   - multiRegionClusterNameSuffix: A suffix to be added to the multi-Region cluster name.
+    ///   - multiRegionClusterNameSuffix: A suffix to be added to the Multi-Region cluster name. Amazon MemoryDB automatically applies a prefix to the Multi-Region cluster Name when it is created. Each Amazon Region has its own prefix. For instance, a Multi-Region cluster Name created in the US-West-1 region will begin with "virxk", along with the suffix name you provide. The suffix guarantees uniqueness of the Multi-Region cluster name across multiple regions.
     ///   - multiRegionParameterGroupName: The name of the multi-Region parameter group to be associated with the cluster.
     ///   - nodeType: The node type to be used for the multi-Region cluster.
     ///   - numShards: The number of shards for the multi-Region cluster.
@@ -1317,7 +1323,7 @@ public struct MemoryDB: AWSService {
         return try await self.listAllowedNodeTypeUpdates(input, logger: logger)
     }
 
-    /// Lists all tags currently on a named resource.  A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.  For more information, see Tagging your MemoryDB resources.
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see Tagging your MemoryDB resources. When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources.
     @Sendable
     @inlinable
     public func listTags(_ input: ListTagsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListTagsResponse {
@@ -1330,7 +1336,7 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Lists all tags currently on a named resource.  A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources.  For more information, see Tagging your MemoryDB resources.
+    /// Lists all tags currently on a named resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track your MemoryDB resources. For more information, see Tagging your MemoryDB resources. When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource for which you want the list of tags.
@@ -1419,9 +1425,7 @@ public struct MemoryDB: AWSService {
         return try await self.resetParameterGroup(input, logger: logger)
     }
 
-    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources.
-    ///  When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. For more information, see
-    ///  Resource-level permissions. For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
+    ///  Use this operation to add tags to a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources. When you add tags to multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources. You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -1434,9 +1438,7 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources.
-    ///  When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. For more information, see
-    ///  Resource-level permissions. For example, you can use cost-allocation tags to your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
+    ///  Use this operation to add tags to a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources. When you add tags to multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources. You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to which the tags are to be added.
@@ -1455,7 +1457,7 @@ public struct MemoryDB: AWSService {
         return try await self.tagResource(input, logger: logger)
     }
 
-    /// Use this operation to remove tags on a resource.
+    /// Use this operation to remove tags on a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources. When you remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources. You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
     @Sendable
     @inlinable
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UntagResourceResponse {
@@ -1468,7 +1470,7 @@ public struct MemoryDB: AWSService {
             logger: logger
         )
     }
-    /// Use this operation to remove tags on a resource.
+    /// Use this operation to remove tags on a resource. A tag is a key-value pair where the key and value are case-sensitive. You can use tags to categorize and track all your MemoryDB resources. For more information, see Tagging your MemoryDB resources. When you remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources. You can specify cost-allocation tags for your MemoryDB resources, Amazon generates a cost allocation report as a comma-separated value  (CSV) file with your usage and costs aggregated by your tags. You can apply tags that represent business categories  (such as cost centers, application names, or owners) to organize your costs across multiple services.  For more information, see Using Cost Allocation Tags.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to which the tags are to be removed.
@@ -1543,6 +1545,7 @@ public struct MemoryDB: AWSService {
     ///   - description: The description of the cluster to update.
     ///   - engine: The name of the engine to be used for the cluster.
     ///   - engineVersion: The upgraded version of the engine to be run on the nodes. You can upgrade to a newer engine version, but you cannot downgrade to an earlier engine version. If you want to use an earlier engine version, you must delete the existing cluster and create it anew with the earlier engine version.
+    ///   - ipDiscovery: The mechanism for discovering IP addresses for the cluster discovery protocol. Valid values are 'ipv4' or 'ipv6'. When set to 'ipv4', cluster discovery functions such as cluster slots, cluster shards, and cluster nodes will return IPv4 addresses for cluster nodes. When set to 'ipv6', the cluster discovery functions return IPv6 addresses for cluster nodes. The value must be compatible with the NetworkType parameter. If not specified, the default is 'ipv4'.
     ///   - maintenanceWindow: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:    sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
     ///   - nodeType: A valid node type that you want to scale this cluster up or down to.
     ///   - parameterGroupName: The name of the parameter group to update.
@@ -1561,6 +1564,7 @@ public struct MemoryDB: AWSService {
         description: String? = nil,
         engine: String? = nil,
         engineVersion: String? = nil,
+        ipDiscovery: IpDiscovery? = nil,
         maintenanceWindow: String? = nil,
         nodeType: String? = nil,
         parameterGroupName: String? = nil,
@@ -1579,6 +1583,7 @@ public struct MemoryDB: AWSService {
             description: description, 
             engine: engine, 
             engineVersion: engineVersion, 
+            ipDiscovery: ipDiscovery, 
             maintenanceWindow: maintenanceWindow, 
             nodeType: nodeType, 
             parameterGroupName: parameterGroupName, 
@@ -1615,7 +1620,7 @@ public struct MemoryDB: AWSService {
     ///   - multiRegionParameterGroupName: The new multi-Region parameter group to be associated with the cluster.
     ///   - nodeType: The new node type to be used for the multi-Region cluster.
     ///   - shardConfiguration: 
-    ///   - updateStrategy: Whether to force the update even if it may cause data loss.
+    ///   - updateStrategy: The strategy to use for the update operation. Supported values are "coordinated" or "uncoordinated".
     ///   - logger: Logger use during operation
     @inlinable
     public func updateMultiRegionCluster(

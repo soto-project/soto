@@ -1363,7 +1363,7 @@ public struct DirectoryService: AWSService {
         return try await self.disableClientAuthentication(input, logger: logger)
     }
 
-    /// Deactivates access to directory data via the Directory Service Data API for the specified directory.
+    /// Deactivates access to directory data via the Directory Service Data API for the specified directory. For more information, see Directory Service Data API Reference.
     @Sendable
     @inlinable
     public func disableDirectoryDataAccess(_ input: DisableDirectoryDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisableDirectoryDataAccessResult {
@@ -1376,7 +1376,7 @@ public struct DirectoryService: AWSService {
             logger: logger
         )
     }
-    /// Deactivates access to directory data via the Directory Service Data API for the specified directory.
+    /// Deactivates access to directory data via the Directory Service Data API for the specified directory. For more information, see Directory Service Data API Reference.
     ///
     /// Parameters:
     ///   - directoryId: The directory identifier.
@@ -1520,7 +1520,7 @@ public struct DirectoryService: AWSService {
         return try await self.enableClientAuthentication(input, logger: logger)
     }
 
-    /// Enables access to directory data via the Directory Service Data API for the specified directory.
+    /// Enables access to directory data via the Directory Service Data API for the specified directory. For more information, see Directory Service Data API Reference.
     @Sendable
     @inlinable
     public func enableDirectoryDataAccess(_ input: EnableDirectoryDataAccessRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EnableDirectoryDataAccessResult {
@@ -1533,7 +1533,7 @@ public struct DirectoryService: AWSService {
             logger: logger
         )
     }
-    /// Enables access to directory data via the Directory Service Data API for the specified directory.
+    /// Enables access to directory data via the Directory Service Data API for the specified directory. For more information, see Directory Service Data API Reference.
     ///
     /// Parameters:
     ///   - directoryId: The directory identifier.

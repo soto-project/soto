@@ -1056,6 +1056,7 @@ extension IoTFleetWise {
             try self.validate(self.canDbcFiles, name: "canDbcFiles", parent: name, min: 1)
             try self.validate(self.networkInterface, name: "networkInterface", parent: name, max: 50)
             try self.validate(self.networkInterface, name: "networkInterface", parent: name, min: 1)
+            try self.validate(self.networkInterface, name: "networkInterface", parent: name, pattern: "^[-a-zA-Z0-9_.]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1083,10 +1084,13 @@ extension IoTFleetWise {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
             try self.validate(self.protocolName, name: "protocolName", parent: name, max: 50)
             try self.validate(self.protocolName, name: "protocolName", parent: name, min: 1)
+            try self.validate(self.protocolName, name: "protocolName", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
             try self.validate(self.protocolVersion, name: "protocolVersion", parent: name, max: 50)
             try self.validate(self.protocolVersion, name: "protocolVersion", parent: name, min: 1)
+            try self.validate(self.protocolVersion, name: "protocolVersion", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1130,10 +1134,14 @@ extension IoTFleetWise {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.length, name: "length", parent: name, max: 2147483647)
             try self.validate(self.length, name: "length", parent: name, min: 0)
+            try self.validate(self.messageId, name: "messageId", parent: name, max: 2147483647)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
+            try self.validate(self.startBit, name: "startBit", parent: name, max: 2147483647)
             try self.validate(self.startBit, name: "startBit", parent: name, min: 0)
         }
 
@@ -4499,6 +4507,7 @@ extension IoTFleetWise {
             try self.customDecodingInterface?.validate(name: "\(name).customDecodingInterface")
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, max: 50)
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, min: 1)
+            try self.validate(self.interfaceId, name: "interfaceId", parent: name, pattern: "^[-a-zA-Z0-9_.]+$")
             try self.obdInterface?.validate(name: "\(name).obdInterface")
             try self.vehicleMiddleware?.validate(name: "\(name).vehicleMiddleware")
         }
@@ -4579,12 +4588,16 @@ extension IoTFleetWise {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.dtcRequestIntervalSeconds, name: "dtcRequestIntervalSeconds", parent: name, max: 2147483647)
             try self.validate(self.dtcRequestIntervalSeconds, name: "dtcRequestIntervalSeconds", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
             try self.validate(self.obdStandard, name: "obdStandard", parent: name, max: 50)
             try self.validate(self.obdStandard, name: "obdStandard", parent: name, min: 1)
+            try self.validate(self.pidRequestIntervalSeconds, name: "pidRequestIntervalSeconds", parent: name, max: 2147483647)
             try self.validate(self.pidRequestIntervalSeconds, name: "pidRequestIntervalSeconds", parent: name, min: 0)
+            try self.validate(self.requestMessageId, name: "requestMessageId", parent: name, max: 2147483647)
             try self.validate(self.requestMessageId, name: "requestMessageId", parent: name, min: 0)
         }
 
@@ -4641,12 +4654,17 @@ extension IoTFleetWise {
         public func validate(name: String) throws {
             try self.validate(self.bitMaskLength, name: "bitMaskLength", parent: name, max: 8)
             try self.validate(self.bitMaskLength, name: "bitMaskLength", parent: name, min: 1)
+            try self.validate(self.bitRightShift, name: "bitRightShift", parent: name, max: 2147483647)
             try self.validate(self.bitRightShift, name: "bitRightShift", parent: name, min: 0)
             try self.validate(self.byteLength, name: "byteLength", parent: name, max: 8)
             try self.validate(self.byteLength, name: "byteLength", parent: name, min: 1)
+            try self.validate(self.pid, name: "pid", parent: name, max: 2147483647)
             try self.validate(self.pid, name: "pid", parent: name, min: 0)
+            try self.validate(self.pidResponseLength, name: "pidResponseLength", parent: name, max: 2147483647)
             try self.validate(self.pidResponseLength, name: "pidResponseLength", parent: name, min: 1)
+            try self.validate(self.serviceMode, name: "serviceMode", parent: name, max: 2147483647)
             try self.validate(self.serviceMode, name: "serviceMode", parent: name, min: 0)
+            try self.validate(self.startByte, name: "startByte", parent: name, max: 2147483647)
             try self.validate(self.startByte, name: "startByte", parent: name, min: 0)
         }
 
@@ -5016,8 +5034,10 @@ extension IoTFleetWise {
             try self.customDecodingSignal?.validate(name: "\(name).customDecodingSignal")
             try self.validate(self.fullyQualifiedName, name: "fullyQualifiedName", parent: name, max: 150)
             try self.validate(self.fullyQualifiedName, name: "fullyQualifiedName", parent: name, min: 1)
+            try self.validate(self.fullyQualifiedName, name: "fullyQualifiedName", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, max: 50)
             try self.validate(self.interfaceId, name: "interfaceId", parent: name, min: 1)
+            try self.validate(self.interfaceId, name: "interfaceId", parent: name, pattern: "^[-a-zA-Z0-9_.]+$")
             try self.messageSignal?.validate(name: "\(name).messageSignal")
             try self.obdSignal?.validate(name: "\(name).obdSignal")
         }
@@ -5264,6 +5284,7 @@ extension IoTFleetWise {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.capacity, name: "capacity", parent: name, max: 2147483647)
             try self.validate(self.capacity, name: "capacity", parent: name, min: 0)
             try self.memberType.validate(name: "\(name).memberType")
             try self.validate(self.name, name: "name", parent: name, max: 150)
@@ -5402,6 +5423,7 @@ extension IoTFleetWise {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.executionFrequencyMs, name: "executionFrequencyMs", parent: name, max: 9223372036854775807)
             try self.validate(self.executionFrequencyMs, name: "executionFrequencyMs", parent: name, min: 1)
         }
 
@@ -5423,6 +5445,7 @@ extension IoTFleetWise {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 2147483647)
             try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
@@ -5694,6 +5717,7 @@ extension IoTFleetWise {
             try self.networkInterfacesToRemove?.forEach {
                 try validate($0, name: "networkInterfacesToRemove[]", parent: name, max: 50)
                 try validate($0, name: "networkInterfacesToRemove[]", parent: name, min: 1)
+                try validate($0, name: "networkInterfacesToRemove[]", parent: name, pattern: "^[-a-zA-Z0-9_.]+$")
             }
             try self.validate(self.networkInterfacesToRemove, name: "networkInterfacesToRemove", parent: name, max: 500)
             try self.validate(self.networkInterfacesToRemove, name: "networkInterfacesToRemove", parent: name, min: 1)
@@ -5710,6 +5734,7 @@ extension IoTFleetWise {
             try self.signalDecodersToRemove?.forEach {
                 try validate($0, name: "signalDecodersToRemove[]", parent: name, max: 150)
                 try validate($0, name: "signalDecodersToRemove[]", parent: name, min: 1)
+                try validate($0, name: "signalDecodersToRemove[]", parent: name, pattern: "^[a-zA-Z0-9_.]+$")
             }
             try self.validate(self.signalDecodersToRemove, name: "signalDecodersToRemove", parent: name, max: 500)
             try self.validate(self.signalDecodersToRemove, name: "signalDecodersToRemove", parent: name, min: 1)

@@ -99,6 +99,16 @@ extension Amp {
         public var description: String { return self.rawValue }
     }
 
+    public enum WorkspaceConfigurationStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        /// Workspace configuration has been updated. Update is disallowed until workspace configuration is ACTIVE and workspace status is ACTIVE.
+        case active = "ACTIVE"
+        /// Workspace configuration update failed.
+        case updateFailed = "UPDATE_FAILED"
+        /// Workspace configuration is being updated. Update is disallowed until workspace configuration is ACTIVE and workspace status is ACTIVE.
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WorkspaceStatusCode: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         /// Workspace has been created and is usable.
         case active = "ACTIVE"
@@ -396,7 +406,7 @@ extension Amp {
         public let clientToken: String?
         /// The Amazon Managed Service for Prometheus workspace to send metrics to.
         public let destination: Destination
-        /// The scraper role configuration for the workspace.
+        /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
         /// The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User  Guide.
         public let scrapeConfiguration: ScrapeConfiguration
@@ -887,6 +897,44 @@ extension Amp {
         }
     }
 
+    public struct DescribeWorkspaceConfigurationRequest: AWSEncodableShape {
+        /// The ID of the workspace that you want to retrieve information for. To find the IDs of your workspaces, use  the ListWorkspaces operation.
+        public let workspaceId: String
+
+        @inlinable
+        public init(workspaceId: String) {
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeWorkspaceConfigurationResponse: AWSDecodableShape {
+        /// This structure contains the information about the workspace configuration.
+        public let workspaceConfiguration: WorkspaceConfigurationDescription
+
+        @inlinable
+        public init(workspaceConfiguration: WorkspaceConfigurationDescription) {
+            self.workspaceConfiguration = workspaceConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workspaceConfiguration = "workspaceConfiguration"
+        }
+    }
+
     public struct DescribeWorkspaceRequest: AWSEncodableShape {
         /// The ID of the workspace to describe.
         public let workspaceId: String
@@ -1002,6 +1050,46 @@ extension Amp {
 
         private enum CodingKeys: String, CodingKey {
             case message = "message"
+        }
+    }
+
+    public struct LimitsPerLabelSet: AWSEncodableShape & AWSDecodableShape {
+        /// This defines one label set that will have an enforced ingestion limit.  Label values accept ASCII characters and must contain at least one character that isn't whitespace. ASCII control characters are not accepted.  If the label name is metric name label __name__, then the metric part of the name must conform to the following pattern: [a-zA-Z_:][a-zA-Z0-9_:]*
+        public let labelSet: [String: String]
+        /// This structure contains the information about the limits that apply to time series that match this label set.
+        public let limits: LimitsPerLabelSetEntry
+
+        @inlinable
+        public init(labelSet: [String: String], limits: LimitsPerLabelSetEntry) {
+            self.labelSet = labelSet
+            self.limits = limits
+        }
+
+        public func validate(name: String) throws {
+            try self.labelSet.forEach {
+                try validate($0.key, name: "labelSet.key", parent: name, min: 1)
+                try validate($0.key, name: "labelSet.key", parent: name, pattern: "^[a-zA-Z_][a-zA-Z0-9_]*$")
+                try validate($0.value, name: "labelSet[\"\($0.key)\"]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labelSet = "labelSet"
+            case limits = "limits"
+        }
+    }
+
+    public struct LimitsPerLabelSetEntry: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of active series that can be ingested that match this label set.  Setting this to 0 causes no label set limit to be enforced, but it does cause Amazon Managed Service for Prometheus to vend label set metrics to CloudWatch
+        public let maxSeries: Int64?
+
+        @inlinable
+        public init(maxSeries: Int64? = nil) {
+            self.maxSeries = maxSeries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxSeries = "maxSeries"
         }
     }
 
@@ -1395,9 +1483,9 @@ extension Amp {
     }
 
     public struct RoleConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A ARN identifying the source role configuration.
+        /// The Amazon Resource Name (ARN) of the role used in the source account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup.
         public let sourceRoleArn: String?
-        /// A ARN identifying the target role configuration.
+        /// The Amazon Resource Name (ARN) of the role used in the target account to enable cross-account scraping. For information about the contents of this policy, see Cross-account setup.
         public let targetRoleArn: String?
 
         @inlinable
@@ -1520,6 +1608,7 @@ extension Amp {
         public let lastModifiedAt: Date
         /// The Amazon Resource Name (ARN) of the IAM role that provides  permissions for the scraper to discover and collect metrics on your behalf. For example, arn:aws:iam::123456789012:role/service-role/AmazonGrafanaServiceRole-12example.
         public let roleArn: String
+        /// This structure displays information about the IAM roles used for cross-account scraping configuration.
         public let roleConfiguration: RoleConfiguration?
         /// The configuration in use by the scraper.
         public let scrapeConfiguration: ScrapeConfiguration
@@ -1595,6 +1684,7 @@ extension Amp {
         public let lastModifiedAt: Date
         /// The Amazon Resource Name (ARN) of the IAM role that provides  permissions for the scraper to discover and collect metrics on your behalf.
         public let roleArn: String
+        /// This structure displays information about the IAM roles used for cross-account scraping configuration.
         public let roleConfiguration: RoleConfiguration?
         /// The ID of the scraper.
         public let scraperId: String
@@ -1836,7 +1926,7 @@ extension Amp {
         public let clientToken: String?
         /// The new Amazon Managed Service for Prometheus workspace to send metrics to.
         public let destination: Destination?
-        /// The scraper role configuration for the workspace.
+        /// Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
         public let roleConfiguration: RoleConfiguration?
         /// Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus  User Guide.
         public let scrapeConfiguration: ScrapeConfiguration?
@@ -1953,6 +2043,66 @@ extension Amp {
         }
     }
 
+    public struct UpdateWorkspaceConfigurationRequest: AWSEncodableShape {
+        /// You can include a token in your operation to make it an idempotent opeartion.
+        public let clientToken: String?
+        /// This is an array of structures, where each structure defines a label set for the workspace, and  defines the ingestion limit for active time series for each of those label sets. Each label name in a label set must be unique.
+        public let limitsPerLabelSet: [LimitsPerLabelSet]?
+        /// Specifies how many days that metrics will be retained in the workspace.
+        public let retentionPeriodInDays: Int?
+        /// The ID of the workspace that you want to update. To find the IDs of your workspaces, use  the ListWorkspaces operation.
+        public let workspaceId: String
+
+        @inlinable
+        public init(clientToken: String? = UpdateWorkspaceConfigurationRequest.idempotencyToken(), limitsPerLabelSet: [LimitsPerLabelSet]? = nil, retentionPeriodInDays: Int? = nil, workspaceId: String) {
+            self.clientToken = clientToken
+            self.limitsPerLabelSet = limitsPerLabelSet
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.workspaceId = workspaceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.limitsPerLabelSet, forKey: .limitsPerLabelSet)
+            try container.encodeIfPresent(self.retentionPeriodInDays, forKey: .retentionPeriodInDays)
+            request.encodePath(self.workspaceId, key: "workspaceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.limitsPerLabelSet?.forEach {
+                try $0.validate(name: "\(name).limitsPerLabelSet[]")
+            }
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 64)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "[0-9A-Za-z][-.0-9A-Z_a-z]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "clientToken"
+            case limitsPerLabelSet = "limitsPerLabelSet"
+            case retentionPeriodInDays = "retentionPeriodInDays"
+        }
+    }
+
+    public struct UpdateWorkspaceConfigurationResponse: AWSDecodableShape {
+        /// The status of the workspace configuration.
+        public let status: WorkspaceConfigurationStatus
+
+        @inlinable
+        public init(status: WorkspaceConfigurationStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "status"
+        }
+    }
+
     public struct ValidationException: AWSErrorShape {
         /// The field that caused the error, if applicable.
         public let fieldList: [ValidationExceptionField]?
@@ -1990,6 +2140,46 @@ extension Amp {
         private enum CodingKeys: String, CodingKey {
             case message = "message"
             case name = "name"
+        }
+    }
+
+    public struct WorkspaceConfigurationDescription: AWSDecodableShape {
+        /// This is an array of structures, where each structure displays one label sets for the workspace and the limits for that label set.
+        public let limitsPerLabelSet: [LimitsPerLabelSet]?
+        /// This field displays how many days that metrics are retained in the workspace.
+        public let retentionPeriodInDays: Int?
+        /// This structure displays the current status of the workspace configuration, and might also contain a reason for that status.
+        public let status: WorkspaceConfigurationStatus
+
+        @inlinable
+        public init(limitsPerLabelSet: [LimitsPerLabelSet]? = nil, retentionPeriodInDays: Int? = nil, status: WorkspaceConfigurationStatus) {
+            self.limitsPerLabelSet = limitsPerLabelSet
+            self.retentionPeriodInDays = retentionPeriodInDays
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limitsPerLabelSet = "limitsPerLabelSet"
+            case retentionPeriodInDays = "retentionPeriodInDays"
+            case status = "status"
+        }
+    }
+
+    public struct WorkspaceConfigurationStatus: AWSDecodableShape {
+        /// The current status of the workspace configuration.
+        public let statusCode: WorkspaceConfigurationStatusCode
+        /// The reason for the current status, if a reason is available.
+        public let statusReason: String?
+
+        @inlinable
+        public init(statusCode: WorkspaceConfigurationStatusCode, statusReason: String? = nil) {
+            self.statusCode = statusCode
+            self.statusReason = statusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode = "statusCode"
+            case statusReason = "statusReason"
         }
     }
 

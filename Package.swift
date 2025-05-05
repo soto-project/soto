@@ -367,6 +367,7 @@ let package = Package(
         .library(name: "SotoSQS", targets: ["SotoSQS"]),
         .library(name: "SotoSSM", targets: ["SotoSSM"]),
         .library(name: "SotoSSMContacts", targets: ["SotoSSMContacts"]),
+        .library(name: "SotoSSMGuiConnect", targets: ["SotoSSMGuiConnect"]),
         .library(name: "SotoSSMIncidents", targets: ["SotoSSMIncidents"]),
         .library(name: "SotoSSMQuickSetup", targets: ["SotoSSMQuickSetup"]),
         .library(name: "SotoSSO", targets: ["SotoSSO"]),
@@ -2468,6 +2469,12 @@ let package = Package(
             name: "SotoSSMContacts",
             dependencies: [.product(name: "SotoCore", package: "soto-core")],
             path: "./Sources/Soto/Services/SSMContacts",
+            swiftSettings: swiftSettings
+        ),
+        .target(
+            name: "SotoSSMGuiConnect",
+            dependencies: [.product(name: "SotoCore", package: "soto-core")],
+            path: "./Sources/Soto/Services/SSMGuiConnect",
             swiftSettings: swiftSettings
         ),
         .target(

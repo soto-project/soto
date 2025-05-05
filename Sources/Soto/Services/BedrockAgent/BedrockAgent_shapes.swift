@@ -202,6 +202,7 @@ extension BedrockAgent {
         case agent = "Agent"
         case collector = "Collector"
         case condition = "Condition"
+        case inlineCode = "InlineCode"
         case input = "Input"
         case iterator = "Iterator"
         case knowledgeBase = "KnowledgeBase"
@@ -462,6 +463,11 @@ extension BedrockAgent {
         public var description: String { return self.rawValue }
     }
 
+    public enum SupportedLanguages: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case python3 = "Python_3"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WebScopeType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case hostOnly = "HOST_ONLY"
         case subdomains = "SUBDOMAINS"
@@ -674,8 +680,10 @@ extension BedrockAgent {
         case agent(AgentFlowNodeConfiguration)
         /// Contains configurations for a collector node in your flow. Collects an iteration of inputs and consolidates them into an array of outputs.
         case collector(CollectorFlowNodeConfiguration)
-        /// Contains configurations for a Condition node in your flow. Defines conditions that lead to different branches of the flow.
+        /// Contains configurations for a condition node in your flow. Defines conditions that lead to different branches of the flow.
         case condition(ConditionFlowNodeConfiguration)
+        /// Contains configurations for an inline code node in your flow. Inline code nodes let you write and execute code directly within your flow, enabling data transformations, custom logic, and integrations without needing an external Lambda function.
+        case inlineCode(InlineCodeFlowNodeConfiguration)
         /// Contains configurations for an input flow node in your flow. The first node in the flow. inputs can't be specified for this node.
         case input(InputFlowNodeConfiguration)
         /// Contains configurations for an iterator node in your flow. Takes an input that is an array and iteratively sends each item of the array as an output to the following node. The size of the array is also returned in the output. The output flow node at the end of the flow iteration will return a response for each member of the array. To return only one response, you can include a collector node downstream from the iterator node.
@@ -690,9 +698,9 @@ extension BedrockAgent {
         case output(OutputFlowNodeConfiguration)
         /// Contains configurations for a prompt node in your flow. Runs a prompt and generates the model response as the output. You can use a prompt from Prompt management or you can configure one in this node.
         case prompt(PromptFlowNodeConfiguration)
-        /// Contains configurations for a Retrieval node in your flow. Retrieves data from an Amazon S3 location and returns it as the output.
+        /// Contains configurations for a retrieval node in your flow. Retrieves data from an Amazon S3 location and returns it as the output.
         case retrieval(RetrievalFlowNodeConfiguration)
-        /// Contains configurations for a Storage node in your flow. Stores an input in an Amazon S3 location.
+        /// Contains configurations for a storage node in your flow. Stores an input in an Amazon S3 location.
         case storage(StorageFlowNodeConfiguration)
 
         public init(from decoder: Decoder) throws {
@@ -714,6 +722,9 @@ extension BedrockAgent {
             case .condition:
                 let value = try container.decode(ConditionFlowNodeConfiguration.self, forKey: .condition)
                 self = .condition(value)
+            case .inlineCode:
+                let value = try container.decode(InlineCodeFlowNodeConfiguration.self, forKey: .inlineCode)
+                self = .inlineCode(value)
             case .input:
                 let value = try container.decode(InputFlowNodeConfiguration.self, forKey: .input)
                 self = .input(value)
@@ -753,6 +764,8 @@ extension BedrockAgent {
                 try container.encode(value, forKey: .collector)
             case .condition(let value):
                 try container.encode(value, forKey: .condition)
+            case .inlineCode(let value):
+                try container.encode(value, forKey: .inlineCode)
             case .input(let value):
                 try container.encode(value, forKey: .input)
             case .iterator(let value):
@@ -780,6 +793,8 @@ extension BedrockAgent {
                 try value.validate(name: "\(name).agent")
             case .condition(let value):
                 try value.validate(name: "\(name).condition")
+            case .inlineCode(let value):
+                try value.validate(name: "\(name).inlineCode")
             case .knowledgeBase(let value):
                 try value.validate(name: "\(name).knowledgeBase")
             case .lambdaFunction(let value):
@@ -801,6 +816,7 @@ extension BedrockAgent {
             case agent = "agent"
             case collector = "collector"
             case condition = "condition"
+            case inlineCode = "inlineCode"
             case input = "input"
             case iterator = "iterator"
             case knowledgeBase = "knowledgeBase"
@@ -2708,7 +2724,7 @@ extension BedrockAgent {
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
-            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 5400)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
             try self.validate(self.instruction, name: "instruction", parent: name, max: 4000)
             try self.validate(self.instruction, name: "instruction", parent: name, min: 40)
@@ -5755,7 +5771,7 @@ extension BedrockAgent {
         public let temperature: Float?
         /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for topK is the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topK to 50, the model selects the next token from among the top 50 most likely choices.
         public let topK: Int?
-        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 80, the model only selects the next token from the top 80% of the probability distribution of next tokens.
+        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 0.8, the model only selects the next token from the top 80% of the probability distribution of next tokens.
         public let topP: Float?
 
         @inlinable
@@ -6022,6 +6038,29 @@ extension BedrockAgent {
             case statistics = "statistics"
             case status = "status"
             case updatedAt = "updatedAt"
+        }
+    }
+
+    public struct InlineCodeFlowNodeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The code that's executed in your inline code node. The code can access input data from previous nodes in the flow, perform operations on that data, and produce output that can be used by other nodes in your flow. The code must be valid in the programming language that you specify.
+        public let code: String
+        /// The programming language used by your inline code node. The code must be valid in the programming language that you specify. Currently, only Python 3 (Python_3) is supported.
+        public let language: SupportedLanguages
+
+        @inlinable
+        public init(code: String, language: SupportedLanguages) {
+            self.code = code
+            self.language = language
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 5000000)
+            try self.validate(self.code, name: "code", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "code"
+            case language = "language"
         }
     }
 
@@ -8066,7 +8105,7 @@ extension BedrockAgent {
         public let parserMode: CreationMode?
         /// Specifies whether to override the default prompt template for this promptType. Set this value to OVERRIDDEN to use the prompt that you provide in the basePromptTemplate. If you leave it as DEFAULT, the agent uses a default prompt template.
         public let promptCreationMode: CreationMode?
-        /// Specifies whether to allow the agent to carry out the step specified in the promptType. If you set this value to DISABLED, the agent skips that step. The default state for each promptType is as follows.    PRE_PROCESSING – ENABLED     ORCHESTRATION – ENABLED     KNOWLEDGE_BASE_RESPONSE_GENERATION – ENABLED     POST_PROCESSING – DISABLED
+        /// Specifies whether to allow the agent to carry out the step specified in the promptType. If you set this value to DISABLED, the agent skips that step. The default state for each promptType is as follows.    PRE_PROCESSING – DISABLED     ORCHESTRATION – ENABLED     KNOWLEDGE_BASE_RESPONSE_GENERATION – ENABLED     POST_PROCESSING – DISABLED
         public let promptState: PromptState?
         /// The step in the agent sequence that this prompt configuration applies to.
         public let promptType: PromptType?
@@ -10303,7 +10342,7 @@ extension BedrockAgent {
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, min: 1)
             try self.validate(self.foundationModel, name: "foundationModel", parent: name, pattern: "^(arn:aws(-[^:]{1,12})?:(bedrock|sagemaker):[a-z0-9-]{1,20}:([0-9]{12})?:([a-z-]+/)?)?([a-zA-Z0-9.-]{1,63}){0,2}(([:][a-z0-9-]{1,63}){0,2})?(/[a-z0-9]{1,12})?$")
             try self.guardrailConfiguration?.validate(name: "\(name).guardrailConfiguration")
-            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 3600)
+            try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, max: 5400)
             try self.validate(self.idleSessionTTLInSeconds, name: "idleSessionTTLInSeconds", parent: name, min: 60)
             try self.validate(self.instruction, name: "instruction", parent: name, max: 4000)
             try self.validate(self.instruction, name: "instruction", parent: name, min: 40)

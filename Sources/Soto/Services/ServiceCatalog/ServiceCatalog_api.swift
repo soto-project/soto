@@ -3116,7 +3116,7 @@ public struct ServiceCatalog: AWSService {
     ///
     /// Parameters:
     ///   - acceptLanguage: The language code.    jp - Japanese    zh - Chinese
-    ///   - accessLevelFilter: The access level to use to obtain results. The default is User.
+    ///   - accessLevelFilter: The access level to use to obtain results. The default is Account.
     ///   - filters: The search filters. When the key is SearchQuery, the searchable fields are arn,  createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId,  provisioningArtifactId, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId,  productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
     ///   - pageSize: The maximum number of items to return with this call.
     ///   - pageToken: The page token for the next set of results. To retrieve the first set of results, use null.
@@ -4390,7 +4390,7 @@ extension ServiceCatalog {
     ///
     /// - Parameters:
     ///   - acceptLanguage: The language code.    jp - Japanese    zh - Chinese
-    ///   - accessLevelFilter: The access level to use to obtain results. The default is User.
+    ///   - accessLevelFilter: The access level to use to obtain results. The default is Account.
     ///   - filters: The search filters. When the key is SearchQuery, the searchable fields are arn,  createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId,  provisioningArtifactId, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId,  productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
     ///   - pageSize: The maximum number of items to return with this call.
     ///   - sortBy: The sort field. If no value is specified, the results are not sorted. The valid values are arn, id, name,  and lastRecordId.

@@ -361,6 +361,7 @@ public struct AppSync: AWSService {
     /// Parameters:
     ///   - apiId: The Api ID.
     ///   - codeHandlers: The event handler functions that run custom business logic to process published events and subscribe requests.
+    ///   - handlerConfigs: The configuration for the OnPublish and OnSubscribe handlers.
     ///   - name: The name of the ChannelNamespace. This name must be unique within the Api
     ///   - publishAuthModes: The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
     ///   - subscribeAuthModes: The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api authorization configuration.
@@ -370,6 +371,7 @@ public struct AppSync: AWSService {
     public func createChannelNamespace(
         apiId: String,
         codeHandlers: String? = nil,
+        handlerConfigs: HandlerConfigs? = nil,
         name: String,
         publishAuthModes: [AuthMode]? = nil,
         subscribeAuthModes: [AuthMode]? = nil,
@@ -379,6 +381,7 @@ public struct AppSync: AWSService {
         let input = CreateChannelNamespaceRequest(
             apiId: apiId, 
             codeHandlers: codeHandlers, 
+            handlerConfigs: handlerConfigs, 
             name: name, 
             publishAuthModes: publishAuthModes, 
             subscribeAuthModes: subscribeAuthModes, 
@@ -2491,6 +2494,7 @@ public struct AppSync: AWSService {
     /// Parameters:
     ///   - apiId: The Api ID.
     ///   - codeHandlers: The event handler functions that run custom business logic to process published events and subscribe requests.
+    ///   - handlerConfigs: The configuration for the OnPublish and OnSubscribe handlers.
     ///   - name: The name of the ChannelNamespace.
     ///   - publishAuthModes: The authorization mode to use for publishing messages on the channel namespace. This configuration overrides the default Api authorization configuration.
     ///   - subscribeAuthModes: The authorization mode to use for subscribing to messages on the channel namespace. This configuration overrides the default Api authorization configuration.
@@ -2499,6 +2503,7 @@ public struct AppSync: AWSService {
     public func updateChannelNamespace(
         apiId: String,
         codeHandlers: String? = nil,
+        handlerConfigs: HandlerConfigs? = nil,
         name: String,
         publishAuthModes: [AuthMode]? = nil,
         subscribeAuthModes: [AuthMode]? = nil,
@@ -2507,6 +2512,7 @@ public struct AppSync: AWSService {
         let input = UpdateChannelNamespaceRequest(
             apiId: apiId, 
             codeHandlers: codeHandlers, 
+            handlerConfigs: handlerConfigs, 
             name: name, 
             publishAuthModes: publishAuthModes, 
             subscribeAuthModes: subscribeAuthModes

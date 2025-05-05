@@ -104,6 +104,9 @@ extension EntityResolution {
         case addressStreet3 = "ADDRESS_STREET3"
         case date = "DATE"
         case emailAddress = "EMAIL_ADDRESS"
+        case ipv4 = "IPV4"
+        case ipv6 = "IPV6"
+        case maid = "MAID"
         case name = "NAME"
         case nameFirst = "NAME_FIRST"
         case nameLast = "NAME_LAST"
@@ -2643,7 +2646,7 @@ extension EntityResolution {
         public let hashing: Bool?
         /// The sub type of the provider schema attribute.
         public let subType: String?
-        /// The type of the provider schema attribute.
+        /// The type of the provider schema attribute. LiveRamp supports: NAME | NAME_FIRST | NAME_MIDDLE | NAME_LAST | ADDRESS | ADDRESS_STREET1 | ADDRESS_STREET2 | ADDRESS_STREET3 | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | PROVIDER_ID  TransUnion supports: NAME | NAME_FIRST | NAME_LAST | ADDRESS | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | DATE | IPV4 | IPV6 | MAID  Unified ID 2.0 supports: PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID
         public let type: SchemaAttributeType
 
         @inlinable
@@ -2843,7 +2846,7 @@ extension EntityResolution {
         public let matchKey: String?
         /// The subtype of the attribute, selected from a list of values.
         public let subType: String?
-        /// The type of the attribute, selected from a list of values.  Normalization is only supported for NAME, ADDRESS, PHONE, and EMAIL_ADDRESS.  If you want to normalize NAME_FIRST, NAME_MIDDLE, and NAME_LAST, you must group them by assigning them to the NAME groupName.  If you want to normalize ADDRESS_STREET1, ADDRESS_STREET2, ADDRESS_STREET3, ADDRESS_CITY, ADDRESS_STATE, ADDRESS_COUNTRY, and ADDRESS_POSTALCODE, you must group them by assigning them to the ADDRESS groupName.  If you want to normalize PHONE_NUMBER and PHONE_COUNTRYCODE, you must group them by assigning them to the PHONE groupName.
+        /// The type of the attribute, selected from a list of values. LiveRamp supports: NAME | NAME_FIRST | NAME_MIDDLE | NAME_LAST | ADDRESS | ADDRESS_STREET1 | ADDRESS_STREET2 | ADDRESS_STREET3 | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | PROVIDER_ID  TransUnion supports: NAME | NAME_FIRST | NAME_LAST | ADDRESS | ADDRESS_CITY | ADDRESS_STATE | ADDRESS_COUNTRY | ADDRESS_POSTALCODE | PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID | IPV4 | IPV6 | MAID  Unified ID 2.0 supports: PHONE_NUMBER | EMAIL_ADDRESS | UNIQUE_ID   Normalization is only supported for NAME, ADDRESS, PHONE, and EMAIL_ADDRESS.  If you want to normalize NAME_FIRST, NAME_MIDDLE, and NAME_LAST, you must group them by assigning them to the NAME groupName.  If you want to normalize ADDRESS_STREET1, ADDRESS_STREET2, ADDRESS_STREET3, ADDRESS_CITY, ADDRESS_STATE, ADDRESS_COUNTRY, and ADDRESS_POSTALCODE, you must group them by assigning them to the ADDRESS groupName.  If you want to normalize PHONE_NUMBER and PHONE_COUNTRYCODE, you must group them by assigning them to the PHONE groupName.
         public let type: SchemaAttributeType
 
         @inlinable

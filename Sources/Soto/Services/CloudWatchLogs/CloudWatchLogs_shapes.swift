@@ -117,6 +117,7 @@ extension CloudWatchLogs {
     }
 
     public enum LogGroupClass: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case delivery = "DELIVERY"
         case infrequentAccess = "INFREQUENT_ACCESS"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
@@ -938,7 +939,7 @@ extension CloudWatchLogs {
     public struct CreateLogGroupRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data. For more information, see Amazon Resource Names.
         public let kmsKeyId: String?
-        /// Use this parameter to specify the log group class for this log group. There are two classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   If you omit this parameter, the default of STANDARD is used.  The value of logGroupClass can't be changed after a log group is created.  For details about the features supported by each class, see  Log classes
+        /// Use this parameter to specify the log group class for this log group. There are three classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or  Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.   If you omit this parameter, the default of STANDARD is used.  The value of logGroupClass can't be changed after a log group is created.  For details about the features supported by each class, see  Log classes
         public let logGroupClass: LogGroupClass?
         /// A name for the log group.
         public let logGroupName: String
@@ -2067,7 +2068,7 @@ extension CloudWatchLogs {
         public let includeLinkedAccounts: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
-        /// Specifies the log group class for this log group. There are two classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   For details about the features supported by each class, see  Log classes
+        /// Specifies the log group class for this log group. There are three classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or  Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.   For details about the features supported by each class, see  Log classes
         public let logGroupClass: LogGroupClass?
         /// If you specify a string for this parameter, the operation returns only log groups that have names
         /// that match the string based on a case-sensitive substring search. For example, if you specify Foo, log groups
@@ -3429,7 +3430,7 @@ extension CloudWatchLogs {
     }
 
     public struct InputLogEvent: AWSEncodableShape {
-        /// The raw event message. Each log event can be no larger than 256 KB.
+        /// The raw event message. Each log event can be no larger than 1 MB.
         public let message: String
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let timestamp: Int64
@@ -3913,7 +3914,7 @@ extension CloudWatchLogs {
         public let kmsKeyId: String?
         /// The Amazon Resource Name (ARN) of the log group. This version of the ARN doesn't include a trailing :* after the log group name.  Use this version to refer to the ARN in the following situations:   In the logGroupIdentifier input field in many CloudWatch Logs APIs.   In the resourceArn field in tagging APIs   In IAM policies, when specifying permissions for TagResource, UntagResource, and  ListTagsForResource.
         public let logGroupArn: String?
-        /// This specifies the log group class for this log group. There are two classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   For details about the features supported by each class, see  Log classes
+        /// This specifies the log group class for this log group. There are three classes:   The Standard log class supports all CloudWatch Logs features.   The Infrequent Access log class supports a subset of CloudWatch Logs features and incurs lower costs.   Use the Delivery log class only for delivering Lambda logs to store in Amazon S3 or  Amazon Data Firehose. Log events in log groups in the Delivery class are kept in CloudWatch Logs for only one day. This log class doesn't offer rich CloudWatch Logs capabilities such as CloudWatch Logs Insights queries.   For details about the features supported by the Standard and Infrequent Access classes, see  Log classes
         public let logGroupClass: LogGroupClass?
         /// The name of the log group.
         public let logGroupName: String?

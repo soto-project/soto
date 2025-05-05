@@ -48,6 +48,12 @@ extension RedshiftServerless {
         public var description: String { return self.rawValue }
     }
 
+    public enum OfferingType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case allUpfront = "ALL_UPFRONT"
+        case noUpfront = "NO_UPFRONT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PerformanceTargetStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -440,6 +446,47 @@ extension RedshiftServerless {
 
         private enum CodingKeys: String, CodingKey {
             case namespace = "namespace"
+        }
+    }
+
+    public struct CreateReservationRequest: AWSEncodableShape {
+        /// The number of Redshift Processing Units (RPUs) to reserve.
+        public let capacity: Int
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services  SDK populates this field. This token must be a valid UUIDv4 value. For more information about idempotency, see  Making retries safe with idempotent APIs .
+        public let clientToken: String?
+        /// The ID of the offering associated with the reservation. The offering determines the payment schedule for the reservation.
+        public let offeringId: String
+
+        @inlinable
+        public init(capacity: Int = 0, clientToken: String? = CreateReservationRequest.idempotencyToken(), offeringId: String) {
+            self.capacity = capacity
+            self.clientToken = clientToken
+            self.offeringId = offeringId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.offeringId, name: "offeringId", parent: name, max: 64)
+            try self.validate(self.offeringId, name: "offeringId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "capacity"
+            case clientToken = "clientToken"
+            case offeringId = "offeringId"
+        }
+    }
+
+    public struct CreateReservationResponse: AWSDecodableShape {
+        /// The reservation object that the CreateReservation action created.
+        public let reservation: Reservation?
+
+        @inlinable
+        public init(reservation: Reservation? = nil) {
+            self.reservation = reservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservation = "reservation"
         }
     }
 
@@ -1331,6 +1378,72 @@ extension RedshiftServerless {
         }
     }
 
+    public struct GetReservationOfferingRequest: AWSEncodableShape {
+        /// The identifier for the offering..
+        public let offeringId: String
+
+        @inlinable
+        public init(offeringId: String) {
+            self.offeringId = offeringId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.offeringId, name: "offeringId", parent: name, max: 64)
+            try self.validate(self.offeringId, name: "offeringId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offeringId = "offeringId"
+        }
+    }
+
+    public struct GetReservationOfferingResponse: AWSDecodableShape {
+        /// The returned reservation offering. The offering determines the payment schedule for the reservation.
+        public let reservationOffering: ReservationOffering
+
+        @inlinable
+        public init(reservationOffering: ReservationOffering) {
+            self.reservationOffering = reservationOffering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservationOffering = "reservationOffering"
+        }
+    }
+
+    public struct GetReservationRequest: AWSEncodableShape {
+        /// The ID of the reservation to retrieve.
+        public let reservationId: String
+
+        @inlinable
+        public init(reservationId: String) {
+            self.reservationId = reservationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reservationId, name: "reservationId", parent: name, max: 64)
+            try self.validate(self.reservationId, name: "reservationId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservationId = "reservationId"
+        }
+    }
+
+    public struct GetReservationResponse: AWSDecodableShape {
+        /// The returned reservation object.
+        public let reservation: Reservation
+
+        @inlinable
+        public init(reservation: Reservation) {
+            self.reservation = reservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservation = "reservation"
+        }
+    }
+
     public struct GetResourcePolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource to return.
         public let resourceArn: String
@@ -1833,6 +1946,96 @@ extension RedshiftServerless {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case recoveryPoints = "recoveryPoints"
+        }
+    }
+
+    public struct ListReservationOfferingsRequest: AWSEncodableShape {
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListReservationOfferingsResponse: AWSDecodableShape {
+        /// The token to use when requesting the next set of items.
+        public let nextToken: String?
+        /// The returned list of reservation offerings.
+        public let reservationOfferingsList: [ReservationOffering]
+
+        @inlinable
+        public init(nextToken: String? = nil, reservationOfferingsList: [ReservationOffering]) {
+            self.nextToken = nextToken
+            self.reservationOfferingsList = reservationOfferingsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reservationOfferingsList = "reservationOfferingsList"
+        }
+    }
+
+    public struct ListReservationsRequest: AWSEncodableShape {
+        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        public let maxResults: Int?
+        /// The token for the next set of items to return. (You received this token from a previous call.)
+        public let nextToken: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextToken, key: "nextToken")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 8)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListReservationsResponse: AWSDecodableShape {
+        /// The token to use when requesting the next set of items.
+        public let nextToken: String?
+        /// The serverless reservations returned by the request.
+        public let reservationsList: [Reservation]
+
+        @inlinable
+        public init(nextToken: String? = nil, reservationsList: [Reservation]) {
+            self.nextToken = nextToken
+            self.reservationsList = reservationsList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reservationsList = "reservationsList"
         }
     }
 
@@ -2458,6 +2661,78 @@ extension RedshiftServerless {
         }
     }
 
+    public struct Reservation: AWSDecodableShape {
+        /// The number of Redshift Processing Units (RPUs) to reserve.
+        public let capacity: Int?
+        /// The end date for the serverless reservation. This date is one year after the start date that you specify.
+        public let endDate: Date?
+        /// The type of offering for the reservation. The offering class determines the payment schedule for the reservation.
+        public let offering: ReservationOffering?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the serverless reservation.
+        public let reservationArn: String?
+        /// The identifier that uniquely identifies the serverless reservation.
+        public let reservationId: String?
+        /// The start date for the serverless reservation. This is the date you specified for the reservation to start when you created the reservation.
+        public let startDate: Date?
+        /// The status of the reservation. Possible values include the following:    payment-pending     active     payment-failed     retired
+        public let status: String?
+
+        @inlinable
+        public init(capacity: Int? = nil, endDate: Date? = nil, offering: ReservationOffering? = nil, reservationArn: String? = nil, reservationId: String? = nil, startDate: Date? = nil, status: String? = nil) {
+            self.capacity = capacity
+            self.endDate = endDate
+            self.offering = offering
+            self.reservationArn = reservationArn
+            self.reservationId = reservationId
+            self.startDate = startDate
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "capacity"
+            case endDate = "endDate"
+            case offering = "offering"
+            case reservationArn = "reservationArn"
+            case reservationId = "reservationId"
+            case startDate = "startDate"
+            case status = "status"
+        }
+    }
+
+    public struct ReservationOffering: AWSDecodableShape {
+        /// The currency code for the offering.
+        public let currencyCode: String?
+        /// The duration, in seconds, for which the reservation reserves the RPUs.
+        public let duration: Int?
+        /// The rate you are charged for each hour the reservation is active.
+        public let hourlyCharge: Double?
+        /// The offering identifier.
+        public let offeringId: String?
+        /// Determines the payment schedule for the reservation.
+        public let offeringType: OfferingType?
+        /// The up-front price you are charged for the reservation.
+        public let upfrontCharge: Double?
+
+        @inlinable
+        public init(currencyCode: String? = nil, duration: Int? = nil, hourlyCharge: Double? = nil, offeringId: String? = nil, offeringType: OfferingType? = nil, upfrontCharge: Double? = nil) {
+            self.currencyCode = currencyCode
+            self.duration = duration
+            self.hourlyCharge = hourlyCharge
+            self.offeringId = offeringId
+            self.offeringType = offeringType
+            self.upfrontCharge = upfrontCharge
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case hourlyCharge = "hourlyCharge"
+            case offeringId = "offeringId"
+            case offeringType = "offeringType"
+            case upfrontCharge = "upfrontCharge"
+        }
+    }
+
     public struct ResourceNotFoundException: AWSErrorShape {
         public let message: String
         /// The name of the resource that could not be found.
@@ -2551,7 +2826,7 @@ extension RedshiftServerless {
         public let namespaceName: String
         /// The Amazon Web Services account that owns the snapshot.
         public let ownerAccount: String?
-        /// The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from Amazon Redshift Serverless to a provisioned cluster. Must not be specified at the same time as snapshotName. The format of the ARN is arn:aws:redshift:&lt;region&gt;:&lt;account_id&gt;:snapshot:&lt;cluster_identifier&gt;/&lt;snapshot_identifier&gt;.
+        /// The Amazon Resource Name (ARN) of the snapshot to restore from. Required if restoring from a provisioned cluster to Amazon Redshift Serverless. Must not be specified at the same time as snapshotName. The format of the ARN is arn:aws:redshift:&lt;region&gt;:&lt;account_id&gt;:snapshot:&lt;cluster_identifier&gt;/&lt;snapshot_identifier&gt;.
         public let snapshotArn: String?
         /// The name of the snapshot to restore from. Must not be specified at the same time as snapshotArn.
         public let snapshotName: String?

@@ -35,6 +35,15 @@ extension DSQL {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidationExceptionReason: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cannotParse = "cannotParse"
+        case deletionProtectionEnabled = "deletionProtectionEnabled"
+        case fieldValidationFailed = "fieldValidationFailed"
+        case other = "other"
+        case unknownOperation = "unknownOperation"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct ClusterSummary: AWSDecodableShape {
@@ -219,6 +228,7 @@ extension DSQL {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -297,6 +307,10 @@ extension DSQL {
             request.encodePath(self.identifier, key: "identifier")
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -335,6 +349,65 @@ extension DSQL {
             case linkedClusterArns = "linkedClusterArns"
             case status = "status"
             case witnessRegion = "witnessRegion"
+        }
+    }
+
+    public struct GetVpcEndpointServiceNameInput: AWSEncodableShape {
+        /// The ID of the cluster to retrieve.
+        public let identifier: String
+
+        @inlinable
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.identifier, key: "identifier")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVpcEndpointServiceNameOutput: AWSDecodableShape {
+        /// The VPC endpoint service name.
+        public let serviceName: String
+
+        @inlinable
+        public init(serviceName: String) {
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case serviceName = "serviceName"
+        }
+    }
+
+    public struct InternalServerException: AWSErrorShape {
+        public let message: String
+        /// Retry after seconds.
+        public let retryAfterSeconds: Int?
+
+        @inlinable
+        public init(message: String, retryAfterSeconds: Int? = nil) {
+            self.message = message
+            self.retryAfterSeconds = retryAfterSeconds
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
         }
     }
 
@@ -539,6 +612,40 @@ extension DSQL {
         }
     }
 
+    public struct ThrottlingException: AWSErrorShape {
+        /// Description of the error
+        public let message: String
+        /// Service Quotas requirement to identify originating quota
+        public let quotaCode: String?
+        /// Advice to clients on when the call can be safely retried
+        public let retryAfterSeconds: Int?
+        /// Service Quotas requirement to identify originating service
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, retryAfterSeconds: Int? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.retryAfterSeconds = retryAfterSeconds
+            self.serviceCode = serviceCode
+        }
+
+        public init(from decoder: Decoder) throws {
+            let response = decoder.userInfo[.awsResponse]! as! ResponseDecodingContainer
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.message = try container.decode(String.self, forKey: .message)
+            self.quotaCode = try container.decodeIfPresent(String.self, forKey: .quotaCode)
+            self.retryAfterSeconds = try response.decodeHeaderIfPresent(Int.self, key: "Retry-After")
+            self.serviceCode = try container.decodeIfPresent(String.self, forKey: .serviceCode)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         /// The ARN of the resource from which to remove tags.
         public let resourceArn: String
@@ -600,6 +707,7 @@ extension DSQL {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]+$")
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[a-z0-9]{26}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -643,6 +751,43 @@ extension DSQL {
             case linkedClusterArns = "linkedClusterArns"
             case status = "status"
             case witnessRegion = "witnessRegion"
+        }
+    }
+
+    public struct ValidationException: AWSErrorShape {
+        public let fieldList: [ValidationExceptionField]?
+        public let message: String
+        public let reason: ValidationExceptionReason
+
+        @inlinable
+        public init(fieldList: [ValidationExceptionField]? = nil, message: String, reason: ValidationExceptionReason) {
+            self.fieldList = fieldList
+            self.message = message
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldList = "fieldList"
+            case message = "message"
+            case reason = "reason"
+        }
+    }
+
+    public struct ValidationExceptionField: AWSDecodableShape {
+        /// A message describing why this field failed validation.
+        public let message: String
+        /// The name of the field.
+        public let name: String
+
+        @inlinable
+        public init(message: String, name: String) {
+            self.message = message
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case name = "name"
         }
     }
 }
@@ -698,8 +843,11 @@ public struct DSQLErrorType: AWSErrorType {
 extension DSQLErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "ConflictException": DSQL.ConflictException.self,
+        "InternalServerException": DSQL.InternalServerException.self,
         "ResourceNotFoundException": DSQL.ResourceNotFoundException.self,
-        "ServiceQuotaExceededException": DSQL.ServiceQuotaExceededException.self
+        "ServiceQuotaExceededException": DSQL.ServiceQuotaExceededException.self,
+        "ThrottlingException": DSQL.ThrottlingException.self,
+        "ValidationException": DSQL.ValidationException.self
     ]
 }
 

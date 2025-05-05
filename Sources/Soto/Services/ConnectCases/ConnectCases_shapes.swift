@@ -71,11 +71,25 @@ extension ConnectCases {
         case comment = "Comment"
         case contact = "Contact"
         case file = "File"
+        case sla = "Sla"
         public var description: String { return self.rawValue }
     }
 
     public enum RuleType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case required = "Required"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlaStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case active = "Active"
+        case met = "Met"
+        case notMet = "NotMet"
+        case overdue = "Overdue"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SlaType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case caseField = "CaseField"
         public var description: String { return self.rawValue }
     }
 
@@ -419,6 +433,8 @@ extension ConnectCases {
         case contact(ContactContent)
         /// Represents the content of a File to be returned to agents.
         case file(FileContent)
+        /// Represents the content of an SLA to be returned to agents.
+        case sla(SlaContent)
 
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -439,6 +455,9 @@ extension ConnectCases {
             case .file:
                 let value = try container.decode(FileContent.self, forKey: .file)
                 self = .file(value)
+            case .sla:
+                let value = try container.decode(SlaContent.self, forKey: .sla)
+                self = .sla(value)
             }
         }
 
@@ -446,6 +465,7 @@ extension ConnectCases {
             case comment = "comment"
             case contact = "contact"
             case file = "file"
+            case sla = "sla"
         }
     }
 
@@ -456,6 +476,8 @@ extension ConnectCases {
         case contact(Contact)
         /// A file of related items.
         case file(FileContent)
+        /// Represents the content of an SLA to be created.
+        case sla(SlaInputContent)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -466,6 +488,8 @@ extension ConnectCases {
                 try container.encode(value, forKey: .contact)
             case .file(let value):
                 try container.encode(value, forKey: .file)
+            case .sla(let value):
+                try container.encode(value, forKey: .sla)
             }
         }
 
@@ -477,6 +501,8 @@ extension ConnectCases {
                 try value.validate(name: "\(name).contact")
             case .file(let value):
                 try value.validate(name: "\(name).file")
+            case .sla(let value):
+                try value.validate(name: "\(name).sla")
             }
         }
 
@@ -484,6 +510,7 @@ extension ConnectCases {
             case comment = "comment"
             case contact = "contact"
             case file = "file"
+            case sla = "sla"
         }
     }
 
@@ -494,6 +521,8 @@ extension ConnectCases {
         case contact(ContactFilter)
         /// A filter for related items of this type of File.
         case file(FileFilter)
+        ///  Filter for related items of type SLA.
+        case sla(SlaFilter)
 
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
@@ -504,6 +533,8 @@ extension ConnectCases {
                 try container.encode(value, forKey: .contact)
             case .file(let value):
                 try container.encode(value, forKey: .file)
+            case .sla(let value):
+                try container.encode(value, forKey: .sla)
             }
         }
 
@@ -513,6 +544,8 @@ extension ConnectCases {
                 try value.validate(name: "\(name).contact")
             case .file(let value):
                 try value.validate(name: "\(name).file")
+            case .sla(let value):
+                try value.validate(name: "\(name).sla")
             default:
                 break
             }
@@ -522,6 +555,60 @@ extension ConnectCases {
             case comment = "comment"
             case contact = "contact"
             case file = "file"
+            case sla = "sla"
+        }
+    }
+
+    public enum UserUnion: AWSEncodableShape & AWSDecodableShape, Sendable {
+        /// Any provided entity.
+        case customEntity(String)
+        /// Represents the Amazon Connect ARN of the user.
+        case userArn(String)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .customEntity:
+                let value = try container.decode(String.self, forKey: .customEntity)
+                self = .customEntity(value)
+            case .userArn:
+                let value = try container.decode(String.self, forKey: .userArn)
+                self = .userArn(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .customEntity(let value):
+                try container.encode(value, forKey: .customEntity)
+            case .userArn(let value):
+                try container.encode(value, forKey: .userArn)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .customEntity(let value):
+                try self.validate(value, name: "customEntity", parent: name, max: 500)
+                try self.validate(value, name: "customEntity", parent: name, min: 1)
+                try self.validate(value, name: "customEntity", parent: name, pattern: "^[a-zA-Z0-9_\\-\\.@:/ ]*[a-zA-Z0-9_\\-\\.@:/]$")
+            case .userArn(let value):
+                try self.validate(value, name: "userArn", parent: name, max: 500)
+                try self.validate(value, name: "userArn", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEntity = "customEntity"
+            case userArn = "userArn"
         }
     }
 
@@ -3234,6 +3321,126 @@ extension ConnectCases {
         }
     }
 
+    public struct SlaConfiguration: AWSDecodableShape {
+        /// Time at which an SLA was completed.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var completionTime: Date?
+        /// Unique identifier of a field.
+        public let fieldId: String?
+        /// Name of an SLA.
+        public let name: String
+        /// Status of an SLA.
+        public let status: SlaStatus
+        /// Represents a list of target field values for the fieldId specified in SlaConfiguration.
+        public let targetFieldValues: [FieldValueUnion]?
+        /// Target time by which an SLA should be completed.
+        @CustomCoding<ISO8601DateCoder>
+        public var targetTime: Date
+        /// Type of SLA.
+        public let type: SlaType
+
+        @inlinable
+        public init(completionTime: Date? = nil, fieldId: String? = nil, name: String, status: SlaStatus, targetFieldValues: [FieldValueUnion]? = nil, targetTime: Date, type: SlaType) {
+            self.completionTime = completionTime
+            self.fieldId = fieldId
+            self.name = name
+            self.status = status
+            self.targetFieldValues = targetFieldValues
+            self.targetTime = targetTime
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionTime = "completionTime"
+            case fieldId = "fieldId"
+            case name = "name"
+            case status = "status"
+            case targetFieldValues = "targetFieldValues"
+            case targetTime = "targetTime"
+            case type = "type"
+        }
+    }
+
+    public struct SlaContent: AWSDecodableShape {
+        /// Represents an SLA configuration.
+        public let slaConfiguration: SlaConfiguration
+
+        @inlinable
+        public init(slaConfiguration: SlaConfiguration) {
+            self.slaConfiguration = slaConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slaConfiguration = "slaConfiguration"
+        }
+    }
+
+    public struct SlaFilter: AWSEncodableShape {
+        /// Name of an SLA.
+        public let name: String?
+        /// Status of an SLA.
+        public let status: SlaStatus?
+
+        @inlinable
+        public init(name: String? = nil, status: SlaStatus? = nil) {
+            self.name = name
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 500)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*[\\S]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case status = "status"
+        }
+    }
+
+    public struct SlaInputConfiguration: AWSEncodableShape {
+        /// Unique identifier of a field.
+        public let fieldId: String?
+        /// Name of an SLA.
+        public let name: String
+        /// Represents a list of target field values for the fieldId specified in SlaInputConfiguration.  The SLA is considered met if any one of these target field values matches the actual field value.
+        public let targetFieldValues: [FieldValueUnion]?
+        /// Target duration in minutes within which an SLA should be completed.
+        public let targetSlaMinutes: Int64
+        /// Type of SLA.
+        public let type: SlaType
+
+        @inlinable
+        public init(fieldId: String? = nil, name: String, targetFieldValues: [FieldValueUnion]? = nil, targetSlaMinutes: Int64, type: SlaType) {
+            self.fieldId = fieldId
+            self.name = name
+            self.targetFieldValues = targetFieldValues
+            self.targetSlaMinutes = targetSlaMinutes
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fieldId, name: "fieldId", parent: name, max: 500)
+            try self.validate(self.fieldId, name: "fieldId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 500)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*[\\S]$")
+            try self.validate(self.targetFieldValues, name: "targetFieldValues", parent: name, max: 1)
+            try self.validate(self.targetFieldValues, name: "targetFieldValues", parent: name, min: 1)
+            try self.validate(self.targetSlaMinutes, name: "targetSlaMinutes", parent: name, max: 129600)
+            try self.validate(self.targetSlaMinutes, name: "targetSlaMinutes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fieldId = "fieldId"
+            case name = "name"
+            case targetFieldValues = "targetFieldValues"
+            case targetSlaMinutes = "targetSlaMinutes"
+            case type = "type"
+        }
+    }
+
     public struct Sort: AWSEncodableShape {
         /// Unique identifier of a field.
         public let fieldId: String
@@ -3717,22 +3924,21 @@ extension ConnectCases {
         }
     }
 
-    public struct UserUnion: AWSEncodableShape & AWSDecodableShape {
-        /// Represents the Amazon Connect ARN of the user.
-        public let userArn: String?
+    public struct SlaInputContent: AWSEncodableShape {
+        /// Represents an input SLA configuration.
+        public let slaInputConfiguration: SlaInputConfiguration?
 
         @inlinable
-        public init(userArn: String? = nil) {
-            self.userArn = userArn
+        public init(slaInputConfiguration: SlaInputConfiguration? = nil) {
+            self.slaInputConfiguration = slaInputConfiguration
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.userArn, name: "userArn", parent: name, max: 500)
-            try self.validate(self.userArn, name: "userArn", parent: name, min: 1)
+            try self.slaInputConfiguration?.validate(name: "\(name).slaInputConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userArn = "userArn"
+            case slaInputConfiguration = "slaInputConfiguration"
         }
     }
 }

@@ -140,6 +140,76 @@ public struct CloudFront: AWSService {
         return try await self.associateAlias(input, logger: logger)
     }
 
+    /// Associates the WAF web ACL with a distribution tenant.
+    @Sendable
+    @inlinable
+    public func associateDistributionTenantWebACL(_ input: AssociateDistributionTenantWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDistributionTenantWebACLResult {
+        try await self.client.execute(
+            operation: "AssociateDistributionTenantWebACL", 
+            path: "/2020-05-31/distribution-tenant/{Id}/associate-web-acl", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates the WAF web ACL with a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - ifMatch: The current ETag of the distribution tenant. This value is returned in the response of the GetDistributionTenant API operation.
+    ///   - webACLArn: The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateDistributionTenantWebACL(
+        id: String,
+        ifMatch: String? = nil,
+        webACLArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateDistributionTenantWebACLResult {
+        let input = AssociateDistributionTenantWebACLRequest(
+            id: id, 
+            ifMatch: ifMatch, 
+            webACLArn: webACLArn
+        )
+        return try await self.associateDistributionTenantWebACL(input, logger: logger)
+    }
+
+    /// Associates the WAF web ACL with a distribution.
+    @Sendable
+    @inlinable
+    public func associateDistributionWebACL(_ input: AssociateDistributionWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> AssociateDistributionWebACLResult {
+        try await self.client.execute(
+            operation: "AssociateDistributionWebACL", 
+            path: "/2020-05-31/distribution/{Id}/associate-web-acl", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Associates the WAF web ACL with a distribution.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the distribution that you're associating with the WAF web ACL.
+    ///   - webACLArn: The Amazon Resource Name (ARN) of the WAF web ACL to associate.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func associateDistributionWebACL(
+        id: String,
+        ifMatch: String? = nil,
+        webACLArn: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> AssociateDistributionWebACLResult {
+        let input = AssociateDistributionWebACLRequest(
+            id: id, 
+            ifMatch: ifMatch, 
+            webACLArn: webACLArn
+        )
+        return try await self.associateDistributionWebACL(input, logger: logger)
+    }
+
     /// Creates a staging distribution using the configuration of the provided primary
     /// 			distribution. A staging distribution is a copy of an existing distribution (called the
     /// 			primary distribution) that you can use in a continuous deployment workflow. After you create a staging distribution, you can use UpdateDistribution
@@ -207,7 +277,7 @@ public struct CloudFront: AWSService {
     /// Creates an Anycast static IP list.
     ///
     /// Parameters:
-    ///   - ipCount: The number of static IP addresses that are allocated to the Anycast static IP list.
+    ///   - ipCount: The number of static IP addresses that are allocated to the Anycast static IP list. Valid values: 21 or 3.
     ///   - name: Name of the Anycast static IP list.
     ///   - tags: 
     ///   - logger: Logger use during operation
@@ -314,6 +384,47 @@ public struct CloudFront: AWSService {
         return try await self.createCloudFrontOriginAccessIdentity(input, logger: logger)
     }
 
+    /// Creates a connection group.
+    @Sendable
+    @inlinable
+    public func createConnectionGroup(_ input: CreateConnectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateConnectionGroupResult {
+        try await self.client.execute(
+            operation: "CreateConnectionGroup", 
+            path: "/2020-05-31/connection-group", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a connection group.
+    ///
+    /// Parameters:
+    ///   - anycastIpListId: The ID of the Anycast static IP list.
+    ///   - enabled: Enable the connection group.
+    ///   - ipv6Enabled: Enable IPv6 for the connection group. The default is true. For more information, see Enable IPv6 in the  	Amazon CloudFront Developer Guide.
+    ///   - name: The name of the connection group. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the connection group.
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createConnectionGroup(
+        anycastIpListId: String? = nil,
+        enabled: Bool? = nil,
+        ipv6Enabled: Bool? = nil,
+        name: String,
+        tags: Tags? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateConnectionGroupResult {
+        let input = CreateConnectionGroupRequest(
+            anycastIpListId: anycastIpListId, 
+            enabled: enabled, 
+            ipv6Enabled: ipv6Enabled, 
+            name: name, 
+            tags: tags
+        )
+        return try await self.createConnectionGroup(input, logger: logger)
+    }
+
     /// Creates a continuous deployment policy that distributes traffic for a custom domain
     /// 			name to two different CloudFront distributions. To use a continuous deployment policy, first use CopyDistribution to
     /// 			create a staging distribution, then use UpdateDistribution to modify the
@@ -382,6 +493,59 @@ public struct CloudFront: AWSService {
             distributionConfig: distributionConfig
         )
         return try await self.createDistribution(input, logger: logger)
+    }
+
+    /// Creates a distribution tenant.
+    @Sendable
+    @inlinable
+    public func createDistributionTenant(_ input: CreateDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateDistributionTenantResult {
+        try await self.client.execute(
+            operation: "CreateDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - connectionGroupId: The ID of the connection group to associate with the distribution tenant.
+    ///   - customizations: Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+    ///   - distributionId: The ID of the multi-tenant distribution to use for creating the distribution tenant.
+    ///   - domains: The domains associated with the distribution tenant. You must specify at least one domain in the request.
+    ///   - enabled: Indicates whether the distribution tenant should be enabled when created. If the distribution tenant is disabled, the distribution tenant won't serve traffic.
+    ///   - managedCertificateRequest: The configuration for the CloudFront managed ACM certificate request.
+    ///   - name: The name of the distribution tenant. Enter a friendly identifier that is unique within your Amazon Web Services account. This name can't be updated after you create the distribution tenant.
+    ///   - parameters: A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+    ///   - tags: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createDistributionTenant(
+        connectionGroupId: String? = nil,
+        customizations: Customizations? = nil,
+        distributionId: String,
+        domains: [DomainItem],
+        enabled: Bool? = nil,
+        managedCertificateRequest: ManagedCertificateRequest? = nil,
+        name: String,
+        parameters: [Parameter]? = nil,
+        tags: Tags? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateDistributionTenantResult {
+        let input = CreateDistributionTenantRequest(
+            connectionGroupId: connectionGroupId, 
+            customizations: customizations, 
+            distributionId: distributionId, 
+            domains: domains, 
+            enabled: enabled, 
+            managedCertificateRequest: managedCertificateRequest, 
+            name: name, 
+            parameters: parameters, 
+            tags: tags
+        )
+        return try await self.createDistributionTenant(input, logger: logger)
     }
 
     /// Create a new distribution with tags. This API operation requires the following IAM
@@ -552,6 +716,38 @@ public struct CloudFront: AWSService {
             invalidationBatch: invalidationBatch
         )
         return try await self.createInvalidation(input, logger: logger)
+    }
+
+    /// Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the Amazon CloudFront Developer Guide.
+    @Sendable
+    @inlinable
+    public func createInvalidationForDistributionTenant(_ input: CreateInvalidationForDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateInvalidationForDistributionTenantResult {
+        try await self.client.execute(
+            operation: "CreateInvalidationForDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Id}/invalidation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Creates an invalidation for a distribution tenant. For more information, see Invalidating files in the Amazon CloudFront Developer Guide.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - invalidationBatch: 
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func createInvalidationForDistributionTenant(
+        id: String,
+        invalidationBatch: InvalidationBatch,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> CreateInvalidationForDistributionTenantResult {
+        let input = CreateInvalidationForDistributionTenantRequest(
+            id: id, 
+            invalidationBatch: invalidationBatch
+        )
+        return try await self.createInvalidationForDistributionTenant(input, logger: logger)
     }
 
     /// Creates a key group that you can use with CloudFront signed URLs and signed cookies. To create a key group, you must specify at least one public key for the key group.
@@ -1074,6 +1270,38 @@ public struct CloudFront: AWSService {
         return try await self.deleteCloudFrontOriginAccessIdentity(input, logger: logger)
     }
 
+    /// Deletes a connection group.
+    @Sendable
+    @inlinable
+    public func deleteConnectionGroup(_ input: DeleteConnectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteConnectionGroup", 
+            path: "/2020-05-31/connection-group/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a connection group.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the connection group to delete.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the connection group to delete.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteConnectionGroup(
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteConnectionGroupRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.deleteConnectionGroup(input, logger: logger)
+    }
+
     /// Deletes a continuous deployment policy. You cannot delete a continuous deployment policy that's attached to a primary
     /// 			distribution. First update your distribution to remove the continuous deployment policy,
     /// 			then you can delete the policy.
@@ -1140,6 +1368,38 @@ public struct CloudFront: AWSService {
             ifMatch: ifMatch
         )
         return try await self.deleteDistribution(input, logger: logger)
+    }
+
+    /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribution tenant by using the UpdateDistributionTenant API operation.
+    @Sendable
+    @inlinable
+    public func deleteDistributionTenant(_ input: DeleteDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "DeleteDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Id}", 
+            httpMethod: .DELETE, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Deletes a distribution tenant. If you use this API operation to delete a distribution tenant that is currently enabled, the request will fail. To delete a distribution tenant, you must first disable the distribution tenant by using the UpdateDistributionTenant API operation.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant to delete.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the distribution tenant. This value is returned in the response of the
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func deleteDistributionTenant(
+        id: String,
+        ifMatch: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = DeleteDistributionTenantRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.deleteDistributionTenant(input, logger: logger)
     }
 
     /// Remove a field-level encryption configuration.
@@ -1704,6 +1964,70 @@ public struct CloudFront: AWSService {
         return try await self.describeKeyValueStore(input, logger: logger)
     }
 
+    /// Disassociates a distribution tenant from the WAF web ACL.
+    @Sendable
+    @inlinable
+    public func disassociateDistributionTenantWebACL(_ input: DisassociateDistributionTenantWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDistributionTenantWebACLResult {
+        try await self.client.execute(
+            operation: "DisassociateDistributionTenantWebACL", 
+            path: "/2020-05-31/distribution-tenant/{Id}/disassociate-web-acl", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates a distribution tenant from the WAF web ACL.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - ifMatch: The current version of the distribution tenant that you're disassociating from the WAF web ACL. This is the ETag value returned in the response to the
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateDistributionTenantWebACL(
+        id: String,
+        ifMatch: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateDistributionTenantWebACLResult {
+        let input = DisassociateDistributionTenantWebACLRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.disassociateDistributionTenantWebACL(input, logger: logger)
+    }
+
+    /// Disassociates a distribution from the WAF web ACL.
+    @Sendable
+    @inlinable
+    public func disassociateDistributionWebACL(_ input: DisassociateDistributionWebACLRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DisassociateDistributionWebACLResult {
+        try await self.client.execute(
+            operation: "DisassociateDistributionWebACL", 
+            path: "/2020-05-31/distribution/{Id}/disassociate-web-acl", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Disassociates a distribution from the WAF web ACL.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the distribution that you're disassociating from the WAF web ACL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func disassociateDistributionWebACL(
+        id: String,
+        ifMatch: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DisassociateDistributionWebACLResult {
+        let input = DisassociateDistributionWebACLRequest(
+            id: id, 
+            ifMatch: ifMatch
+        )
+        return try await self.disassociateDistributionWebACL(input, logger: logger)
+    }
+
     /// Gets an Anycast static IP list.
     @Sendable
     @inlinable
@@ -1865,6 +2189,64 @@ public struct CloudFront: AWSService {
         return try await self.getCloudFrontOriginAccessIdentityConfig(input, logger: logger)
     }
 
+    /// Gets information about a connection group.
+    @Sendable
+    @inlinable
+    public func getConnectionGroup(_ input: GetConnectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionGroupResult {
+        try await self.client.execute(
+            operation: "GetConnectionGroup", 
+            path: "/2020-05-31/connection-group/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a connection group.
+    ///
+    /// Parameters:
+    ///   - identifier: The ID, name, or Amazon Resource Name (ARN) of the connection group.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnectionGroup(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectionGroupResult {
+        let input = GetConnectionGroupRequest(
+            identifier: identifier
+        )
+        return try await self.getConnectionGroup(input, logger: logger)
+    }
+
+    /// Gets information about a connection group by using the endpoint that you specify.
+    @Sendable
+    @inlinable
+    public func getConnectionGroupByRoutingEndpoint(_ input: GetConnectionGroupByRoutingEndpointRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetConnectionGroupByRoutingEndpointResult {
+        try await self.client.execute(
+            operation: "GetConnectionGroupByRoutingEndpoint", 
+            path: "/2020-05-31/connection-group", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a connection group by using the endpoint that you specify.
+    ///
+    /// Parameters:
+    ///   - routingEndpoint: The routing endpoint for the target connection group, such as d111111abcdef8.cloudfront.net.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getConnectionGroupByRoutingEndpoint(
+        routingEndpoint: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetConnectionGroupByRoutingEndpointResult {
+        let input = GetConnectionGroupByRoutingEndpointRequest(
+            routingEndpoint: routingEndpoint
+        )
+        return try await self.getConnectionGroupByRoutingEndpoint(input, logger: logger)
+    }
+
     /// Gets a continuous deployment policy, including metadata (the policy's identifier and
     /// 			the date and time when the policy was last modified).
     @Sendable
@@ -1981,6 +2363,64 @@ public struct CloudFront: AWSService {
             id: id
         )
         return try await self.getDistributionConfig(input, logger: logger)
+    }
+
+    /// Gets information about a distribution tenant.
+    @Sendable
+    @inlinable
+    public func getDistributionTenant(_ input: GetDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionTenantResult {
+        try await self.client.execute(
+            operation: "GetDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - identifier: The ID of the distribution tenant.  You can specify the ARN ID, or name of the distribution tenant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDistributionTenant(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDistributionTenantResult {
+        let input = GetDistributionTenantRequest(
+            identifier: identifier
+        )
+        return try await self.getDistributionTenant(input, logger: logger)
+    }
+
+    /// Gets information about a distribution tenant by the associated domain.
+    @Sendable
+    @inlinable
+    public func getDistributionTenantByDomain(_ input: GetDistributionTenantByDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetDistributionTenantByDomainResult {
+        try await self.client.execute(
+            operation: "GetDistributionTenantByDomain", 
+            path: "/2020-05-31/distribution-tenant", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a distribution tenant by the associated domain.
+    ///
+    /// Parameters:
+    ///   - domain: A domain name associated with the target distribution tenant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getDistributionTenantByDomain(
+        domain: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetDistributionTenantByDomainResult {
+        let input = GetDistributionTenantByDomainRequest(
+            domain: domain
+        )
+        return try await self.getDistributionTenantByDomain(input, logger: logger)
     }
 
     /// Get the field-level encryption configuration information.
@@ -2167,6 +2607,38 @@ public struct CloudFront: AWSService {
         return try await self.getInvalidation(input, logger: logger)
     }
 
+    /// Gets information about a specific invalidation for a distribution tenant.
+    @Sendable
+    @inlinable
+    public func getInvalidationForDistributionTenant(_ input: GetInvalidationForDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetInvalidationForDistributionTenantResult {
+        try await self.client.execute(
+            operation: "GetInvalidationForDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{DistributionTenantId}/invalidation/{Id}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets information about a specific invalidation for a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - distributionTenantId: The ID of the distribution tenant.
+    ///   - id: The ID of the invalidation to retrieve.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getInvalidationForDistributionTenant(
+        distributionTenantId: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetInvalidationForDistributionTenantResult {
+        let input = GetInvalidationForDistributionTenantRequest(
+            distributionTenantId: distributionTenantId, 
+            id: id
+        )
+        return try await self.getInvalidationForDistributionTenant(input, logger: logger)
+    }
+
     /// Gets a key group, including the date and time when the key group was last
     /// 			modified. To get a key group, you must provide the key group's identifier. If the key group is
     /// 			referenced in a distribution's cache behavior, you can get the key group's identifier
@@ -2241,6 +2713,35 @@ public struct CloudFront: AWSService {
             id: id
         )
         return try await self.getKeyGroupConfig(input, logger: logger)
+    }
+
+    /// Gets details about the CloudFront managed ACM certificate.
+    @Sendable
+    @inlinable
+    public func getManagedCertificateDetails(_ input: GetManagedCertificateDetailsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetManagedCertificateDetailsResult {
+        try await self.client.execute(
+            operation: "GetManagedCertificateDetails", 
+            path: "/2020-05-31/managed-certificate/{Identifier}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Gets details about the CloudFront managed ACM certificate.
+    ///
+    /// Parameters:
+    ///   - identifier: The identifier of the multi-tenant distribution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getManagedCertificateDetails(
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetManagedCertificateDetailsResult {
+        let input = GetManagedCertificateDetailsRequest(
+            identifier: identifier
+        )
+        return try await self.getManagedCertificateDetails(input, logger: logger)
     }
 
     /// Gets information about whether additional CloudWatch metrics are enabled for the
@@ -2858,6 +3359,41 @@ public struct CloudFront: AWSService {
         return try await self.listConflictingAliases(input, logger: logger)
     }
 
+    /// Lists the connection groups in your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listConnectionGroups(_ input: ListConnectionGroupsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListConnectionGroupsResult {
+        try await self.client.execute(
+            operation: "ListConnectionGroups", 
+            path: "/2020-05-31/connection-groups", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the connection groups in your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - associationFilter: Filter by associated Anycast IP list ID.
+    ///   - marker: The marker for the next set of connection groups to retrieve.
+    ///   - maxItems: The maximum number of connection groups to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listConnectionGroups(
+        associationFilter: ConnectionGroupAssociationFilter? = nil,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListConnectionGroupsResult {
+        let input = ListConnectionGroupsRequest(
+            associationFilter: associationFilter, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listConnectionGroups(input, logger: logger)
+    }
+
     /// Gets a list of the continuous deployment policies in your Amazon Web Services account. You can optionally specify the maximum number of items to receive in the response. If
     /// 			the total number of items in the list exceeds the maximum that you specify, or the
     /// 			default maximum, the response is paginated. To get the next page of items, send a
@@ -2896,6 +3432,79 @@ public struct CloudFront: AWSService {
             maxItems: maxItems
         )
         return try await self.listContinuousDeploymentPolicies(input, logger: logger)
+    }
+
+    /// Lists the distribution tenants in your Amazon Web Services account.
+    @Sendable
+    @inlinable
+    public func listDistributionTenants(_ input: ListDistributionTenantsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionTenantsResult {
+        try await self.client.execute(
+            operation: "ListDistributionTenants", 
+            path: "/2020-05-31/distribution-tenants", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the distribution tenants in your Amazon Web Services account.
+    ///
+    /// Parameters:
+    ///   - associationFilter: 
+    ///   - marker: The marker for the next set of results.
+    ///   - maxItems: The maximum number of distribution tenants to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionTenants(
+        associationFilter: DistributionTenantAssociationFilter? = nil,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionTenantsResult {
+        let input = ListDistributionTenantsRequest(
+            associationFilter: associationFilter, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listDistributionTenants(input, logger: logger)
+    }
+
+    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn parameter, but not both in the same request.
+    @Sendable
+    @inlinable
+    public func listDistributionTenantsByCustomization(_ input: ListDistributionTenantsByCustomizationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionTenantsByCustomizationResult {
+        try await self.client.execute(
+            operation: "ListDistributionTenantsByCustomization", 
+            path: "/2020-05-31/distribution-tenants-by-customization", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists distribution tenants by the customization that you specify. You must specify either the CertificateArn parameter or WebACLArn parameter, but not both in the same request.
+    ///
+    /// Parameters:
+    ///   - certificateArn: Filter by the ARN of the associated ACM certificate.
+    ///   - marker: The marker for the next set of results.
+    ///   - maxItems: The maximum number of distribution tenants to return by the specified customization.
+    ///   - webACLArn: Filter by the ARN of the associated WAF web ACL.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionTenantsByCustomization(
+        certificateArn: String? = nil,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        webACLArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionTenantsByCustomizationResult {
+        let input = ListDistributionTenantsByCustomizationRequest(
+            certificateArn: certificateArn, 
+            marker: marker, 
+            maxItems: maxItems, 
+            webACLArn: webACLArn
+        )
+        return try await self.listDistributionTenantsByCustomization(input, logger: logger)
     }
 
     /// List CloudFront distributions.
@@ -3008,6 +3617,41 @@ public struct CloudFront: AWSService {
             maxItems: maxItems
         )
         return try await self.listDistributionsByCachePolicyId(input, logger: logger)
+    }
+
+    /// Lists the distributions by the connection mode that you specify.
+    @Sendable
+    @inlinable
+    public func listDistributionsByConnectionMode(_ input: ListDistributionsByConnectionModeRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDistributionsByConnectionModeResult {
+        try await self.client.execute(
+            operation: "ListDistributionsByConnectionMode", 
+            path: "/2020-05-31/distributionsByConnectionMode/{ConnectionMode}", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the distributions by the connection mode that you specify.
+    ///
+    /// Parameters:
+    ///   - connectionMode: The connection mode to filter distributions by.
+    ///   - marker:  The marker for the next set of distributions to retrieve.
+    ///   - maxItems: The maximum number of distributions to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDistributionsByConnectionMode(
+        connectionMode: ConnectionMode,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDistributionsByConnectionModeResult {
+        let input = ListDistributionsByConnectionModeRequest(
+            connectionMode: connectionMode, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listDistributionsByConnectionMode(input, logger: logger)
     }
 
     /// Gets a list of distribution IDs for distributions that have a cache behavior that
@@ -3267,6 +3911,44 @@ public struct CloudFront: AWSService {
         return try await self.listDistributionsByWebACLId(input, logger: logger)
     }
 
+    /// Lists existing domain associations that conflict with the domain that you specify. You can use this API operation when transferring domains to identify potential domain conflicts. Domain conflicts must be resolved first before they can be moved.
+    @Sendable
+    @inlinable
+    public func listDomainConflicts(_ input: ListDomainConflictsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListDomainConflictsResult {
+        try await self.client.execute(
+            operation: "ListDomainConflicts", 
+            path: "/2020-05-31/domain-conflicts", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists existing domain associations that conflict with the domain that you specify. You can use this API operation when transferring domains to identify potential domain conflicts. Domain conflicts must be resolved first before they can be moved.
+    ///
+    /// Parameters:
+    ///   - domain: The domain to check for conflicts.
+    ///   - domainControlValidationResource: The distribution resource identifier. This can be the distribution or distribution tenant that has a
+    ///   - marker: The marker for the next set of domain conflicts.
+    ///   - maxItems: The maximum number of domain conflicts to return.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listDomainConflicts(
+        domain: String,
+        domainControlValidationResource: DistributionResourceId,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListDomainConflictsResult {
+        let input = ListDomainConflictsRequest(
+            domain: domain, 
+            domainControlValidationResource: domainControlValidationResource, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listDomainConflicts(input, logger: logger)
+    }
+
     /// List all field-level encryption configurations that have been created in CloudFront for this
     /// 			account.
     @Sendable
@@ -3413,6 +4095,41 @@ public struct CloudFront: AWSService {
             maxItems: maxItems
         )
         return try await self.listInvalidations(input, logger: logger)
+    }
+
+    /// Lists the invalidations for a distribution tenant.
+    @Sendable
+    @inlinable
+    public func listInvalidationsForDistributionTenant(_ input: ListInvalidationsForDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListInvalidationsForDistributionTenantResult {
+        try await self.client.execute(
+            operation: "ListInvalidationsForDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Id}/invalidation", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Lists the invalidations for a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - marker: Use this parameter when paginating results to indicate where to begin in your list of
+    ///   - maxItems: The maximum number of invalidations to return for the distribution tenant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func listInvalidationsForDistributionTenant(
+        id: String,
+        marker: String? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> ListInvalidationsForDistributionTenantResult {
+        let input = ListInvalidationsForDistributionTenantRequest(
+            id: id, 
+            marker: marker, 
+            maxItems: maxItems
+        )
+        return try await self.listInvalidationsForDistributionTenant(input, logger: logger)
     }
 
     /// Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If
@@ -4031,6 +4748,47 @@ public struct CloudFront: AWSService {
         return try await self.updateCloudFrontOriginAccessIdentity(input, logger: logger)
     }
 
+    /// Updates a connection group.
+    @Sendable
+    @inlinable
+    public func updateConnectionGroup(_ input: UpdateConnectionGroupRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateConnectionGroupResult {
+        try await self.client.execute(
+            operation: "UpdateConnectionGroup", 
+            path: "/2020-05-31/connection-group/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a connection group.
+    ///
+    /// Parameters:
+    ///   - anycastIpListId: The ID of the Anycast static IP list.
+    ///   - enabled: Whether the connection group is enabled.
+    ///   - id: The ID of the connection group.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the connection group that you're updating.
+    ///   - ipv6Enabled: Enable IPv6 for the connection group. For more information, see Enable IPv6 in the
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateConnectionGroup(
+        anycastIpListId: String? = nil,
+        enabled: Bool? = nil,
+        id: String,
+        ifMatch: String,
+        ipv6Enabled: Bool? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateConnectionGroupResult {
+        let input = UpdateConnectionGroupRequest(
+            anycastIpListId: anycastIpListId, 
+            enabled: enabled, 
+            id: id, 
+            ifMatch: ifMatch, 
+            ipv6Enabled: ipv6Enabled
+        )
+        return try await self.updateConnectionGroup(input, logger: logger)
+    }
+
     /// Updates a continuous deployment policy. You can update a continuous deployment policy
     /// 			to enable or disable it, to change the percentage of traffic that it sends to the
     /// 			staging distribution, or to change the staging distribution that it sends traffic
@@ -4139,6 +4897,59 @@ public struct CloudFront: AWSService {
         return try await self.updateDistribution(input, logger: logger)
     }
 
+    /// Updates a distribution tenant.
+    @Sendable
+    @inlinable
+    public func updateDistributionTenant(_ input: UpdateDistributionTenantRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDistributionTenantResult {
+        try await self.client.execute(
+            operation: "UpdateDistributionTenant", 
+            path: "/2020-05-31/distribution-tenant/{Id}", 
+            httpMethod: .PUT, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates a distribution tenant.
+    ///
+    /// Parameters:
+    ///   - connectionGroupId: The ID of the target connection group.
+    ///   - customizations: Customizations for the distribution tenant. For each distribution tenant, you can specify the geographic restrictions, and the Amazon Resource Names (ARNs) for the ACM certificate and WAF web ACL. These are specific values that you can override or disable from the multi-tenant distribution that was used to create the distribution tenant.
+    ///   - distributionId: The ID for the multi-tenant distribution.
+    ///   - domains: The domains to update for the distribution tenant. A domain object can contain only a domain property. You must specify at least one domain. Each distribution tenant can have up to 5 domains.
+    ///   - enabled: Indicates whether the distribution tenant should be updated to an enabled state. If you update the distribution tenant and it's not enabled, the distribution tenant won't serve traffic.
+    ///   - id: The ID of the distribution tenant.
+    ///   - ifMatch: The value of the ETag header that you received when retrieving the distribution tenant to update.  This value is returned in the response of the GetDistributionTenant API operation.
+    ///   - managedCertificateRequest: An object that contains the CloudFront managed ACM certificate request.
+    ///   - parameters: A list of parameter values to add to the resource. A parameter is specified as a key-value pair. A valid parameter value must exist for any parameter that is marked as required in the multi-tenant distribution.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDistributionTenant(
+        connectionGroupId: String? = nil,
+        customizations: Customizations? = nil,
+        distributionId: String? = nil,
+        domains: [DomainItem]? = nil,
+        enabled: Bool? = nil,
+        id: String,
+        ifMatch: String,
+        managedCertificateRequest: ManagedCertificateRequest? = nil,
+        parameters: [Parameter]? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDistributionTenantResult {
+        let input = UpdateDistributionTenantRequest(
+            connectionGroupId: connectionGroupId, 
+            customizations: customizations, 
+            distributionId: distributionId, 
+            domains: domains, 
+            enabled: enabled, 
+            id: id, 
+            ifMatch: ifMatch, 
+            managedCertificateRequest: managedCertificateRequest, 
+            parameters: parameters
+        )
+        return try await self.updateDistributionTenant(input, logger: logger)
+    }
+
     /// Copies the staging distribution's configuration to its corresponding primary
     /// 			distribution. The primary distribution retains its Aliases (also known as
     /// 			alternate domain names or CNAMEs) and ContinuousDeploymentPolicyId value,
@@ -4188,6 +4999,41 @@ public struct CloudFront: AWSService {
             stagingDistributionId: stagingDistributionId
         )
         return try await self.updateDistributionWithStagingConfig(input, logger: logger)
+    }
+
+    /// Moves a domain from its current distribution or distribution tenant to another one.
+    @Sendable
+    @inlinable
+    public func updateDomainAssociation(_ input: UpdateDomainAssociationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateDomainAssociationResult {
+        try await self.client.execute(
+            operation: "UpdateDomainAssociation", 
+            path: "/2020-05-31/domain-association", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Moves a domain from its current distribution or distribution tenant to another one.
+    ///
+    /// Parameters:
+    ///   - domain: The domain to update.
+    ///   - ifMatch: The value of the ETag identifier for the distribution or distribution tenant that will be associated with the domain.
+    ///   - targetResource: The target distribution resource for the domain. You can specify either DistributionId or DistributionTenantId, but not both.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateDomainAssociation(
+        domain: String,
+        ifMatch: String? = nil,
+        targetResource: DistributionResourceId,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateDomainAssociationResult {
+        let input = UpdateDomainAssociationRequest(
+            domain: domain, 
+            ifMatch: ifMatch, 
+            targetResource: targetResource
+        )
+        return try await self.updateDomainAssociation(input, logger: logger)
     }
 
     /// Update a field-level encryption configuration.
@@ -4674,6 +5520,38 @@ public struct CloudFront: AWSService {
         )
         return try await self.updateVpcOrigin(input, logger: logger)
     }
+
+    /// Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
+    @Sendable
+    @inlinable
+    public func verifyDnsConfiguration(_ input: VerifyDnsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> VerifyDnsConfigurationResult {
+        try await self.client.execute(
+            operation: "VerifyDnsConfiguration", 
+            path: "/2020-05-31/verify-dns-configuration", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Verify the DNS configuration for your domain names. This API operation checks whether your domain name points to the correct routing endpoint of the connection group, such as d111111abcdef8.cloudfront.net. You can use this API operation to troubleshoot and resolve DNS configuration issues.
+    ///
+    /// Parameters:
+    ///   - domain: The domain name that you're verifying.
+    ///   - identifier: The ID of the distribution tenant.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func verifyDnsConfiguration(
+        domain: String? = nil,
+        identifier: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> VerifyDnsConfigurationResult {
+        let input = VerifyDnsConfigurationRequest(
+            domain: domain, 
+            identifier: identifier
+        )
+        return try await self.verifyDnsConfiguration(input, logger: logger)
+    }
 }
 
 extension CloudFront {
@@ -4723,6 +5601,120 @@ extension CloudFront {
         return self.listCloudFrontOriginAccessIdentitiesPaginator(input, logger: logger)
     }
 
+    /// Return PaginatorSequence for operation ``listConnectionGroups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionGroupsPaginator(
+        _ input: ListConnectionGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListConnectionGroupsRequest, ListConnectionGroupsResult> {
+        return .init(
+            input: input,
+            command: self.listConnectionGroups,
+            inputKey: \ListConnectionGroupsRequest.marker,
+            outputKey: \ListConnectionGroupsResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listConnectionGroups(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - associationFilter: Filter by associated Anycast IP list ID.
+    ///   - maxItems: The maximum number of connection groups to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listConnectionGroupsPaginator(
+        associationFilter: ConnectionGroupAssociationFilter? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListConnectionGroupsRequest, ListConnectionGroupsResult> {
+        let input = ListConnectionGroupsRequest(
+            associationFilter: associationFilter, 
+            maxItems: maxItems
+        )
+        return self.listConnectionGroupsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDistributionTenants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionTenantsPaginator(
+        _ input: ListDistributionTenantsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDistributionTenantsRequest, ListDistributionTenantsResult> {
+        return .init(
+            input: input,
+            command: self.listDistributionTenants,
+            inputKey: \ListDistributionTenantsRequest.marker,
+            outputKey: \ListDistributionTenantsResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDistributionTenants(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - associationFilter: 
+    ///   - maxItems: The maximum number of distribution tenants to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionTenantsPaginator(
+        associationFilter: DistributionTenantAssociationFilter? = nil,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDistributionTenantsRequest, ListDistributionTenantsResult> {
+        let input = ListDistributionTenantsRequest(
+            associationFilter: associationFilter, 
+            maxItems: maxItems
+        )
+        return self.listDistributionTenantsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDistributionTenantsByCustomization(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionTenantsByCustomizationPaginator(
+        _ input: ListDistributionTenantsByCustomizationRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDistributionTenantsByCustomizationRequest, ListDistributionTenantsByCustomizationResult> {
+        return .init(
+            input: input,
+            command: self.listDistributionTenantsByCustomization,
+            inputKey: \ListDistributionTenantsByCustomizationRequest.marker,
+            outputKey: \ListDistributionTenantsByCustomizationResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDistributionTenantsByCustomization(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - certificateArn: Filter by the ARN of the associated ACM certificate.
+    ///   - maxItems: The maximum number of distribution tenants to return by the specified customization.
+    ///   - webACLArn: Filter by the ARN of the associated WAF web ACL.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionTenantsByCustomizationPaginator(
+        certificateArn: String? = nil,
+        maxItems: Int? = nil,
+        webACLArn: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDistributionTenantsByCustomizationRequest, ListDistributionTenantsByCustomizationResult> {
+        let input = ListDistributionTenantsByCustomizationRequest(
+            certificateArn: certificateArn, 
+            maxItems: maxItems, 
+            webACLArn: webACLArn
+        )
+        return self.listDistributionTenantsByCustomizationPaginator(input, logger: logger)
+    }
+
     /// Return PaginatorSequence for operation ``listDistributions(_:logger:)``.
     ///
     /// - Parameters:
@@ -4755,6 +5747,83 @@ extension CloudFront {
             maxItems: maxItems
         )
         return self.listDistributionsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDistributionsByConnectionMode(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionsByConnectionModePaginator(
+        _ input: ListDistributionsByConnectionModeRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDistributionsByConnectionModeRequest, ListDistributionsByConnectionModeResult> {
+        return .init(
+            input: input,
+            command: self.listDistributionsByConnectionMode,
+            inputKey: \ListDistributionsByConnectionModeRequest.marker,
+            outputKey: \ListDistributionsByConnectionModeResult.distributionList.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDistributionsByConnectionMode(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - connectionMode: The connection mode to filter distributions by.
+    ///   - maxItems: The maximum number of distributions to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDistributionsByConnectionModePaginator(
+        connectionMode: ConnectionMode,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDistributionsByConnectionModeRequest, ListDistributionsByConnectionModeResult> {
+        let input = ListDistributionsByConnectionModeRequest(
+            connectionMode: connectionMode, 
+            maxItems: maxItems
+        )
+        return self.listDistributionsByConnectionModePaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listDomainConflicts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainConflictsPaginator(
+        _ input: ListDomainConflictsRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListDomainConflictsRequest, ListDomainConflictsResult> {
+        return .init(
+            input: input,
+            command: self.listDomainConflicts,
+            inputKey: \ListDomainConflictsRequest.marker,
+            outputKey: \ListDomainConflictsResult.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listDomainConflicts(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - domain: The domain to check for conflicts.
+    ///   - domainControlValidationResource: The distribution resource identifier. This can be the distribution or distribution tenant that has a
+    ///   - maxItems: The maximum number of domain conflicts to return.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listDomainConflictsPaginator(
+        domain: String,
+        domainControlValidationResource: DistributionResourceId,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListDomainConflictsRequest, ListDomainConflictsResult> {
+        let input = ListDomainConflictsRequest(
+            domain: domain, 
+            domainControlValidationResource: domainControlValidationResource, 
+            maxItems: maxItems
+        )
+        return self.listDomainConflictsPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listInvalidations(_:logger:)``.
@@ -4792,6 +5861,43 @@ extension CloudFront {
             maxItems: maxItems
         )
         return self.listInvalidationsPaginator(input, logger: logger)
+    }
+
+    /// Return PaginatorSequence for operation ``listInvalidationsForDistributionTenant(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvalidationsForDistributionTenantPaginator(
+        _ input: ListInvalidationsForDistributionTenantRequest,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> AWSClient.PaginatorSequence<ListInvalidationsForDistributionTenantRequest, ListInvalidationsForDistributionTenantResult> {
+        return .init(
+            input: input,
+            command: self.listInvalidationsForDistributionTenant,
+            inputKey: \ListInvalidationsForDistributionTenantRequest.marker,
+            outputKey: \ListInvalidationsForDistributionTenantResult.invalidationList.nextMarker,
+            logger: logger
+        )
+    }
+    /// Return PaginatorSequence for operation ``listInvalidationsForDistributionTenant(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - id: The ID of the distribution tenant.
+    ///   - maxItems: The maximum number of invalidations to return for the distribution tenant.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func listInvalidationsForDistributionTenantPaginator(
+        id: String,
+        maxItems: Int? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) -> AWSClient.PaginatorSequence<ListInvalidationsForDistributionTenantRequest, ListInvalidationsForDistributionTenantResult> {
+        let input = ListInvalidationsForDistributionTenantRequest(
+            id: id, 
+            maxItems: maxItems
+        )
+        return self.listInvalidationsForDistributionTenantPaginator(input, logger: logger)
     }
 
     /// Return PaginatorSequence for operation ``listKeyValueStores(_:logger:)``.
@@ -4910,10 +6016,78 @@ extension CloudFront.ListCloudFrontOriginAccessIdentitiesRequest: AWSPaginateTok
     }
 }
 
+extension CloudFront.ListConnectionGroupsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListConnectionGroupsRequest {
+        return .init(
+            associationFilter: self.associationFilter,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListDistributionTenantsByCustomizationRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionTenantsByCustomizationRequest {
+        return .init(
+            certificateArn: self.certificateArn,
+            marker: token,
+            maxItems: self.maxItems,
+            webACLArn: self.webACLArn
+        )
+    }
+}
+
+extension CloudFront.ListDistributionTenantsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionTenantsRequest {
+        return .init(
+            associationFilter: self.associationFilter,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListDistributionsByConnectionModeRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionsByConnectionModeRequest {
+        return .init(
+            connectionMode: self.connectionMode,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
 extension CloudFront.ListDistributionsRequest: AWSPaginateToken {
     @inlinable
     public func usingPaginationToken(_ token: String) -> CloudFront.ListDistributionsRequest {
         return .init(
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListDomainConflictsRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListDomainConflictsRequest {
+        return .init(
+            domain: self.domain,
+            domainControlValidationResource: self.domainControlValidationResource,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension CloudFront.ListInvalidationsForDistributionTenantRequest: AWSPaginateToken {
+    @inlinable
+    public func usingPaginationToken(_ token: String) -> CloudFront.ListInvalidationsForDistributionTenantRequest {
+        return .init(
+            id: self.id,
             marker: token,
             maxItems: self.maxItems
         )
@@ -5041,6 +6215,46 @@ extension CloudFront {
             id: id
         )
         try await self.waitUntilInvalidationCompleted(input, logger: logger)
+    }
+
+    /// Waiter for operation ``getInvalidationForDistributionTenant(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - input: Input for operation
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInvalidationForDistributionTenantCompleted(
+        _ input: GetInvalidationForDistributionTenantRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled
+    ) async throws {
+        let waiter = AWSClient.Waiter<GetInvalidationForDistributionTenantRequest, _>(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("invalidation.status", expected: "Completed")),
+            ],
+            minDelayTime: .seconds(20),
+            maxDelayTime: .seconds(600),
+            command: self.getInvalidationForDistributionTenant
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger)
+    }
+    /// Waiter for operation ``getInvalidationForDistributionTenant(_:logger:)``.
+    ///
+    /// - Parameters:
+    ///   - distributionTenantId: The ID of the distribution tenant.
+    ///   - id: The ID of the invalidation to retrieve.
+    ///   - logger: Logger used for logging
+    @inlinable
+    public func waitUntilInvalidationForDistributionTenantCompleted(
+        distributionTenantId: String,
+        id: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = GetInvalidationForDistributionTenantRequest(
+            distributionTenantId: distributionTenantId, 
+            id: id
+        )
+        try await self.waitUntilInvalidationForDistributionTenantCompleted(input, logger: logger)
     }
 
     /// Waiter for operation ``getStreamingDistribution(_:logger:)``.

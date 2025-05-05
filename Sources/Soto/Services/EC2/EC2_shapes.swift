@@ -2141,6 +2141,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpamMeteredAccount: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case ipamOwner = "ipam-owner"
+        case resourceOwner = "resource-owner"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpamNetworkInterfaceAttachmentStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case available = "available"
         case inUse = "in-use"
@@ -3107,6 +3113,7 @@ extension EC2 {
     public enum ServiceManaged: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case alb = "alb"
         case nlb = "nlb"
+        case rnat = "rnat"
         public var description: String { return self.rawValue }
     }
 
@@ -8764,6 +8771,36 @@ extension EC2 {
         }
     }
 
+    public struct ClientRouteEnforcementOptions: AWSEncodableShape {
+        /// Enable or disable Client Route Enforcement. The state can either be true
+        /// 			(enabled) or false (disabled). The default is false. Valid values: true | false  Default value: false
+        public let enforced: Bool?
+
+        @inlinable
+        public init(enforced: Bool? = nil) {
+            self.enforced = enforced
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforced = "Enforced"
+        }
+    }
+
+    public struct ClientRouteEnforcementResponseOptions: AWSDecodableShape {
+        /// Status of the client route enforcement feature, indicating whether Client Route Enforcement
+        /// 			is true (enabled) or false (disabled). Valid values: true | false  Default value: false
+        public let enforced: Bool?
+
+        @inlinable
+        public init(enforced: Bool? = nil) {
+            self.enforced = enforced
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enforced = "enforced"
+        }
+    }
+
     public struct ClientVpnAuthentication: AWSDecodableShape {
         /// Information about the Active Directory, if applicable.
         public let activeDirectory: DirectoryServiceAuthentication?
@@ -8943,6 +8980,10 @@ extension EC2 {
         /// Options for enabling a customizable text banner that will be displayed on Amazon Web Services provided clients when a VPN session is
         /// 			established.
         public let clientLoginBannerOptions: ClientLoginBannerResponseOptions?
+        /// Client route enforcement is a feature of the Client VPN service that helps enforce administrator defined routes on devices connected through the VPN. T
+        /// 		his feature helps improve your security posture by ensuring that network traffic originating from a connected client is not inadvertently sent outside the VPN tunnel. Client route enforcement works by monitoring the route table of a connected device for routing policy changes to the VPN connection. If the feature detects any VPN routing policy modifications, it will automatically force an update to the route table,
+        /// 			reverting it back to the expected route configurations.
+        public let clientRouteEnforcementOptions: ClientRouteEnforcementResponseOptions?
         /// The ID of the Client VPN endpoint.
         public let clientVpnEndpointId: String?
         /// Information about the client connection logging options for the Client VPN endpoint.
@@ -8953,7 +8994,7 @@ extension EC2 {
         public let deletionTime: String?
         /// A brief description of the endpoint.
         public let description: String?
-        /// Indicates whether the client VPN session is disconnected after the maximum sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is false.
+        /// Indicates whether the client VPN session is disconnected after the maximum sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
         public let disconnectOnSessionTimeout: Bool?
         /// The DNS name to be used by clients when connecting to the Client VPN endpoint.
         public let dnsName: String?
@@ -8987,12 +9028,13 @@ extension EC2 {
         public let vpnProtocol: VpnProtocol?
 
         @inlinable
-        public init(authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
+        public init(authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientRouteEnforcementOptions: ClientRouteEnforcementResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
             self.associatedTargetNetworks = nil
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientConnectOptions = clientConnectOptions
             self.clientLoginBannerOptions = clientLoginBannerOptions
+            self.clientRouteEnforcementOptions = clientRouteEnforcementOptions
             self.clientVpnEndpointId = clientVpnEndpointId
             self.connectionLogOptions = connectionLogOptions
             self.creationTime = creationTime
@@ -9016,12 +9058,13 @@ extension EC2 {
 
         @available(*, deprecated, message: "Members associatedTargetNetworks have been deprecated")
         @inlinable
-        public init(associatedTargetNetworks: [AssociatedTargetNetwork]? = nil, authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
+        public init(associatedTargetNetworks: [AssociatedTargetNetwork]? = nil, authenticationOptions: [ClientVpnAuthentication]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectResponseOptions? = nil, clientLoginBannerOptions: ClientLoginBannerResponseOptions? = nil, clientRouteEnforcementOptions: ClientRouteEnforcementResponseOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogResponseOptions? = nil, creationTime: String? = nil, deletionTime: String? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsName: String? = nil, dnsServers: [String]? = nil, securityGroupIds: [String]? = nil, selfServicePortalUrl: String? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, status: ClientVpnEndpointStatus? = nil, tags: [Tag]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil, vpnProtocol: VpnProtocol? = nil) {
             self.associatedTargetNetworks = associatedTargetNetworks
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientConnectOptions = clientConnectOptions
             self.clientLoginBannerOptions = clientLoginBannerOptions
+            self.clientRouteEnforcementOptions = clientRouteEnforcementOptions
             self.clientVpnEndpointId = clientVpnEndpointId
             self.connectionLogOptions = connectionLogOptions
             self.creationTime = creationTime
@@ -9049,6 +9092,7 @@ extension EC2 {
             case clientCidrBlock = "clientCidrBlock"
             case clientConnectOptions = "clientConnectOptions"
             case clientLoginBannerOptions = "clientLoginBannerOptions"
+            case clientRouteEnforcementOptions = "clientRouteEnforcementOptions"
             case clientVpnEndpointId = "clientVpnEndpointId"
             case connectionLogOptions = "connectionLogOptions"
             case creationTime = "creationTime"
@@ -10285,6 +10329,10 @@ extension EC2 {
         /// Options for enabling a customizable text banner that will be displayed on
         /// 			Amazon Web Services provided clients when a VPN session is established.
         public let clientLoginBannerOptions: ClientLoginBannerOptions?
+        /// Client route enforcement is a feature of the Client VPN service that helps enforce administrator defined routes on devices connected through the VPN. T
+        /// 		his feature helps improve your security posture by ensuring that network traffic originating from a connected client is not inadvertently sent outside the VPN tunnel. Client route enforcement works by monitoring the route table of a connected device for routing policy changes to the VPN connection. If the feature detects any VPN routing policy modifications, it will automatically force an update to the route table,
+        /// 			reverting it back to the expected route configurations.
+        public let clientRouteEnforcementOptions: ClientRouteEnforcementOptions?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         /// For more information, see Ensuring idempotency.
         public let clientToken: String?
@@ -10293,7 +10341,7 @@ extension EC2 {
         public let connectionLogOptions: ConnectionLogOptions?
         /// A brief description of the Client VPN endpoint.
         public let description: String?
-        /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically.  The default value is false.
+        /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically.  The default value is true.
         public let disconnectOnSessionTimeout: Bool?
         /// Information about the DNS servers to be used for DNS resolution. A Client VPN endpoint can
         /// 			have up to two DNS servers. If no DNS server is specified, the DNS address configured on the device is used for the DNS server.
@@ -10325,11 +10373,12 @@ extension EC2 {
         public let vpnPort: Int?
 
         @inlinable
-        public init(authenticationOptions: [ClientVpnAuthenticationRequest]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
+        public init(authenticationOptions: [ClientVpnAuthenticationRequest]? = nil, clientCidrBlock: String? = nil, clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientRouteEnforcementOptions: ClientRouteEnforcementOptions? = nil, clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(), connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsServers: [String]? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, transportProtocol: TransportProtocol? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
             self.authenticationOptions = authenticationOptions
             self.clientCidrBlock = clientCidrBlock
             self.clientConnectOptions = clientConnectOptions
             self.clientLoginBannerOptions = clientLoginBannerOptions
+            self.clientRouteEnforcementOptions = clientRouteEnforcementOptions
             self.clientToken = clientToken
             self.connectionLogOptions = connectionLogOptions
             self.description = description
@@ -10352,6 +10401,7 @@ extension EC2 {
             case clientCidrBlock = "ClientCidrBlock"
             case clientConnectOptions = "ClientConnectOptions"
             case clientLoginBannerOptions = "ClientLoginBannerOptions"
+            case clientRouteEnforcementOptions = "ClientRouteEnforcementOptions"
             case clientToken = "ClientToken"
             case connectionLogOptions = "ConnectionLogOptions"
             case description = "Description"
@@ -11471,6 +11521,8 @@ extension EC2 {
         public let dryRun: Bool?
         /// Enable this option to use your own GUA ranges as private IPv6 addresses. This option is disabled by default.
         public let enablePrivateGua: Bool?
+        /// A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide. Possible values:    ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM.    resource-owner: The Amazon Web Services account that owns the IP address is charged for the active IP address.
+        public let meteredAccount: IpamMeteredAccount?
         /// The operating Regions for the IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions.  For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide.
         @OptionalCustomCoding<EC2StandardArrayCoder<AddIpamOperatingRegion>>
         public var operatingRegions: [AddIpamOperatingRegion]?
@@ -11481,11 +11533,12 @@ extension EC2 {
         public let tier: IpamTier?
 
         @inlinable
-        public init(clientToken: String? = CreateIpamRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, enablePrivateGua: Bool? = nil, operatingRegions: [AddIpamOperatingRegion]? = nil, tagSpecifications: [TagSpecification]? = nil, tier: IpamTier? = nil) {
+        public init(clientToken: String? = CreateIpamRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, enablePrivateGua: Bool? = nil, meteredAccount: IpamMeteredAccount? = nil, operatingRegions: [AddIpamOperatingRegion]? = nil, tagSpecifications: [TagSpecification]? = nil, tier: IpamTier? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
             self.enablePrivateGua = enablePrivateGua
+            self.meteredAccount = meteredAccount
             self.operatingRegions = operatingRegions
             self.tagSpecifications = tagSpecifications
             self.tier = tier
@@ -11500,6 +11553,7 @@ extension EC2 {
             case description = "Description"
             case dryRun = "DryRun"
             case enablePrivateGua = "EnablePrivateGua"
+            case meteredAccount = "MeteredAccount"
             case operatingRegions = "OperatingRegion"
             case tagSpecifications = "TagSpecification"
             case tier = "Tier"
@@ -15068,7 +15122,7 @@ extension EC2 {
         public let ipAddressType: IpAddressType?
         /// (Interface and gateway endpoints) A policy to attach to the endpoint that controls access to the service. The policy must be in valid JSON format. If this parameter is not specified, we attach a default policy that allows full access to the service.
         public let policyDocument: String?
-        /// (Interface endpoint) Indicates whether to associate a private hosted zone with the specified VPC. The private hosted zone contains a record set for the default public DNS name for the service for the Region (for example, kinesis.us-east-1.amazonaws.com), which resolves to the private IP addresses of the endpoint network interfaces in the VPC. This enables you to make requests to the default public DNS name for the service instead of the public DNS names that are automatically generated by the VPC endpoint service. To use a private hosted zone, you must set the following VPC attributes to true: enableDnsHostnames and enableDnsSupport. Use ModifyVpcAttribute to set the VPC attributes. Default: true
+        /// (Interface endpoint) Indicates whether to associate a private hosted zone with the specified VPC. The private hosted zone contains a record set for the default public DNS name for the service for the Region (for example, kinesis.us-east-1.amazonaws.com), which resolves to the private IP addresses of the endpoint network interfaces in the VPC. This enables you to make requests to the default public DNS name for the service instead of the public DNS names that are automatically generated by the VPC endpoint service. To use a private hosted zone, you must set the following VPC attributes to true: enableDnsHostnames and enableDnsSupport. Use ModifyVpcAttribute to set the VPC attributes.
         public let privateDnsEnabled: Bool?
         /// The Amazon Resource Name (ARN) of a resource configuration that will be associated with the VPC endpoint of type resource.
         public let resourceConfigurationArn: String?
@@ -19154,13 +19208,17 @@ extension EC2 {
     }
 
     public struct DescribeCapacityBlockOfferingsRequest: AWSEncodableShape {
-        /// The number of hours for which to reserve Capacity Block.
+        /// The reservation duration for the Capacity Block, in hours. You must specify
+        /// 			the duration in 1-day increments up 14 days, and in 7-day increments up to
+        /// 			182 days.
         public let capacityDurationHours: Int?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// The latest end date for the Capacity Block offering.
         public let endDateRange: Date?
-        /// The number of instances for which to reserve capacity.
+        /// The number of instances for which to reserve capacity. Each Capacity Block
+        /// 			can have up to 64 instances, and you can have up to 256 instances across Capacity
+        /// 			Blocks.
         public let instanceCount: Int?
         /// The type of instance for which the Capacity Block offering reserves capacity.
         public let instanceType: String?
@@ -32851,7 +32909,7 @@ extension EC2 {
     public struct FleetEbsBlockDeviceRequest: AWSEncodableShape {
         /// Indicates whether the EBS volume is deleted on instance termination. For more information, see Preserve data when an instance is terminated in the Amazon EC2 User Guide.
         public let deleteOnTermination: Bool?
-        /// Indicates whether the encryption state of an EBS volume is changed while being restored from a backing snapshot. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Amazon EBS encryption in the Amazon EBS User Guide. In no case can you remove encryption from an encrypted volume. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types. This parameter is not returned by . For  and , whether you can include this parameter, and the allowed values differ depending on the type of block device mapping you are creating.   If you are creating a block device mapping for a new (empty) volume, you can include this parameter, and specify either true for an encrypted volume, or false for an unencrypted volume. If you omit this parameter, it defaults to false (unencrypted).   If you are creating a block device mapping from an existing encrypted or unencrypted snapshot, you must omit this parameter. If you include this parameter, the request will fail, regardless of the value that you specify.   If you are creating a block device mapping from an existing unencrypted volume, you can include this parameter, but you must specify false. If you specify true, the request will fail. In this case, we recommend that you omit the parameter.   If you are creating a block device mapping from an existing encrypted volume, you can include this parameter, and specify either true or false. However, if you specify false, the parameter is ignored and the block device mapping is always encrypted. In this case, we recommend that you omit the parameter.
+        /// Indicates whether the encryption state of an EBS volume is changed while being restored from a backing snapshot. The effect of setting the encryption state to true depends on the volume origin (new or from a snapshot), starting encryption state, ownership, and whether encryption by default is enabled. For more information, see Amazon EBS encryption in the Amazon EBS User Guide. In no case can you remove encryption from an encrypted volume. Encrypted volumes can only be attached to instances that support Amazon EBS encryption. For more information, see Supported instance types. This parameter is not returned by DescribeImageAttribute. For CreateImage and RegisterImage, whether you can include this parameter, and the allowed values differ depending on the type of block device mapping you are creating.   If you are creating a block device mapping for a new (empty) volume, you can include this parameter, and specify either true for an encrypted volume, or false for an unencrypted volume. If you omit this parameter, it defaults to false (unencrypted).   If you are creating a block device mapping from an existing encrypted or unencrypted snapshot, you must omit this parameter. If you include this parameter, the request will fail, regardless of the value that you specify.   If you are creating a block device mapping from an existing unencrypted volume, you can include this parameter, but you must specify false. If you specify true, the request will fail. In this case, we recommend that you omit the parameter.   If you are creating a block device mapping from an existing encrypted volume, you can include this parameter, and specify either true or false. However, if you specify false, the parameter is ignored and the block device mapping is always encrypted. In this case, we recommend that you omit the parameter.
         public let encrypted: Bool?
         /// The number of I/O operations per second (IOPS). For gp3, io1, and io2 volumes, this represents the number of IOPS that are provisioned for the volume. For gp2 volumes, this represents the baseline performance of the volume and the rate at which the volume accumulates I/O credits for bursting. The following are the supported values for each volume type:    gp3: 3,000 - 16,000 IOPS    io1: 100 - 64,000 IOPS    io2: 100 - 256,000 IOPS   For io2 volumes, you can achieve up to 256,000 IOPS on
         /// instances
@@ -39378,7 +39436,7 @@ extension EC2 {
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiB?
-        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   Default: Any accelerator type
+        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   Default: Any accelerator type
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
         /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
@@ -39520,7 +39578,7 @@ extension EC2 {
         public var acceleratorNames: [AcceleratorName]?
         /// The minimum and maximum amount of total accelerator memory, in MiB. Default: No minimum or maximum limits
         public let acceleratorTotalMemoryMiB: AcceleratorTotalMemoryMiBRequest?
-        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   Default: Any accelerator type
+        /// The accelerator types that must be on the instance type.   For instance types with FPGA accelerators, specify fpga.   For instance types with GPU accelerators, specify gpu.   For instance types with Inference accelerators, specify inference.   Default: Any accelerator type
         @OptionalCustomCoding<EC2ArrayCoder<_AcceleratorTypesEncoding, AcceleratorType>>
         public var acceleratorTypes: [AcceleratorType]?
         /// The instance types to apply your specified attributes against. All other instance types  are ignored, even if they match your specified attributes. You can use strings with one or more wild cards, represented by an asterisk (*), to allow an instance type, size, or generation. The following are examples: m5.8xlarge, c5*.*, m5a.*, r*, *3*. For example, if you specify c5*,Amazon EC2 will allow the entire C5 instance family, which includes all C5a and C5n instance types. If you specify m5a.*, Amazon EC2 will allow all the M5a instance types, but not the M5n instance types.  If you specify AllowedInstanceTypes, you can't specify ExcludedInstanceTypes.  Default: All instance types
@@ -40304,6 +40362,8 @@ extension EC2 {
         public let ipamId: String?
         /// The Amazon Web Services Region of the IPAM.
         public let ipamRegion: String?
+        /// A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide. Possible values:    ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM.    resource-owner: The Amazon Web Services account that owns the IP address is charged for the active IP address.
+        public let meteredAccount: IpamMeteredAccount?
         /// The operating Regions for an IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions. For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide.
         @OptionalCustomCoding<EC2ArrayCoder<_OperatingRegionsEncoding, IpamOperatingRegion>>
         public var operatingRegions: [IpamOperatingRegion]?
@@ -40328,7 +40388,7 @@ extension EC2 {
         public let tier: IpamTier?
 
         @inlinable
-        public init(defaultResourceDiscoveryAssociationId: String? = nil, defaultResourceDiscoveryId: String? = nil, description: String? = nil, enablePrivateGua: Bool? = nil, ipamArn: String? = nil, ipamId: String? = nil, ipamRegion: String? = nil, operatingRegions: [IpamOperatingRegion]? = nil, ownerId: String? = nil, privateDefaultScopeId: String? = nil, publicDefaultScopeId: String? = nil, resourceDiscoveryAssociationCount: Int? = nil, scopeCount: Int? = nil, state: IpamState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, tier: IpamTier? = nil) {
+        public init(defaultResourceDiscoveryAssociationId: String? = nil, defaultResourceDiscoveryId: String? = nil, description: String? = nil, enablePrivateGua: Bool? = nil, ipamArn: String? = nil, ipamId: String? = nil, ipamRegion: String? = nil, meteredAccount: IpamMeteredAccount? = nil, operatingRegions: [IpamOperatingRegion]? = nil, ownerId: String? = nil, privateDefaultScopeId: String? = nil, publicDefaultScopeId: String? = nil, resourceDiscoveryAssociationCount: Int? = nil, scopeCount: Int? = nil, state: IpamState? = nil, stateMessage: String? = nil, tags: [Tag]? = nil, tier: IpamTier? = nil) {
             self.defaultResourceDiscoveryAssociationId = defaultResourceDiscoveryAssociationId
             self.defaultResourceDiscoveryId = defaultResourceDiscoveryId
             self.description = description
@@ -40336,6 +40396,7 @@ extension EC2 {
             self.ipamArn = ipamArn
             self.ipamId = ipamId
             self.ipamRegion = ipamRegion
+            self.meteredAccount = meteredAccount
             self.operatingRegions = operatingRegions
             self.ownerId = ownerId
             self.privateDefaultScopeId = privateDefaultScopeId
@@ -40356,6 +40417,7 @@ extension EC2 {
             case ipamArn = "ipamArn"
             case ipamId = "ipamId"
             case ipamRegion = "ipamRegion"
+            case meteredAccount = "meteredAccount"
             case operatingRegions = "operatingRegionSet"
             case ownerId = "ownerId"
             case privateDefaultScopeId = "privateDefaultScopeId"
@@ -44085,6 +44147,10 @@ extension EC2 {
         /// Options for enabling a customizable text banner that will be displayed on
         /// 			Amazon Web Services provided clients when a VPN session is established.
         public let clientLoginBannerOptions: ClientLoginBannerOptions?
+        /// Client route enforcement is a feature of the Client VPN service that helps enforce administrator defined routes on devices connected through the VPN. T
+        /// 		his feature helps improve your security posture by ensuring that network traffic originating from a connected client is not inadvertently sent outside the VPN tunnel. Client route enforcement works by monitoring the route table of a connected device for routing policy changes to the VPN connection. If the feature detects any VPN routing policy modifications, it will automatically force an update to the route table,
+        /// 			reverting it back to the expected route configurations.
+        public let clientRouteEnforcementOptions: ClientRouteEnforcementOptions?
         /// The ID of the Client VPN endpoint to modify.
         public let clientVpnEndpointId: String?
         /// Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a
@@ -44092,7 +44158,7 @@ extension EC2 {
         public let connectionLogOptions: ConnectionLogOptions?
         /// A brief description of the Client VPN endpoint.
         public let description: String?
-        /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is false.
+        /// Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
         public let disconnectOnSessionTimeout: Bool?
         /// Information about the DNS servers to be used by Client VPN connections. A Client VPN endpoint can have
         /// 			up to two DNS servers.
@@ -44117,9 +44183,10 @@ extension EC2 {
         public let vpnPort: Int?
 
         @inlinable
-        public init(clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsServers: DnsServersOptionsModifyStructure? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
+        public init(clientConnectOptions: ClientConnectOptions? = nil, clientLoginBannerOptions: ClientLoginBannerOptions? = nil, clientRouteEnforcementOptions: ClientRouteEnforcementOptions? = nil, clientVpnEndpointId: String? = nil, connectionLogOptions: ConnectionLogOptions? = nil, description: String? = nil, disconnectOnSessionTimeout: Bool? = nil, dnsServers: DnsServersOptionsModifyStructure? = nil, dryRun: Bool? = nil, securityGroupIds: [String]? = nil, selfServicePortal: SelfServicePortal? = nil, serverCertificateArn: String? = nil, sessionTimeoutHours: Int? = nil, splitTunnel: Bool? = nil, vpcId: String? = nil, vpnPort: Int? = nil) {
             self.clientConnectOptions = clientConnectOptions
             self.clientLoginBannerOptions = clientLoginBannerOptions
+            self.clientRouteEnforcementOptions = clientRouteEnforcementOptions
             self.clientVpnEndpointId = clientVpnEndpointId
             self.connectionLogOptions = connectionLogOptions
             self.description = description
@@ -44138,6 +44205,7 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case clientConnectOptions = "ClientConnectOptions"
             case clientLoginBannerOptions = "ClientLoginBannerOptions"
+            case clientRouteEnforcementOptions = "ClientRouteEnforcementOptions"
             case clientVpnEndpointId = "ClientVpnEndpointId"
             case connectionLogOptions = "ConnectionLogOptions"
             case description = "Description"
@@ -45175,6 +45243,8 @@ extension EC2 {
         public let enablePrivateGua: Bool?
         /// The ID of the IPAM you want to modify.
         public let ipamId: String?
+        /// A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide. Possible values:    ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM.    resource-owner: The Amazon Web Services account that owns the IP address is charged for the active IP address.
+        public let meteredAccount: IpamMeteredAccount?
         /// The operating Regions to remove.
         @OptionalCustomCoding<EC2StandardArrayCoder<RemoveIpamOperatingRegion>>
         public var removeOperatingRegions: [RemoveIpamOperatingRegion]?
@@ -45182,12 +45252,13 @@ extension EC2 {
         public let tier: IpamTier?
 
         @inlinable
-        public init(addOperatingRegions: [AddIpamOperatingRegion]? = nil, description: String? = nil, dryRun: Bool? = nil, enablePrivateGua: Bool? = nil, ipamId: String? = nil, removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil, tier: IpamTier? = nil) {
+        public init(addOperatingRegions: [AddIpamOperatingRegion]? = nil, description: String? = nil, dryRun: Bool? = nil, enablePrivateGua: Bool? = nil, ipamId: String? = nil, meteredAccount: IpamMeteredAccount? = nil, removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil, tier: IpamTier? = nil) {
             self.addOperatingRegions = addOperatingRegions
             self.description = description
             self.dryRun = dryRun
             self.enablePrivateGua = enablePrivateGua
             self.ipamId = ipamId
+            self.meteredAccount = meteredAccount
             self.removeOperatingRegions = removeOperatingRegions
             self.tier = tier
         }
@@ -45203,6 +45274,7 @@ extension EC2 {
             case dryRun = "DryRun"
             case enablePrivateGua = "EnablePrivateGua"
             case ipamId = "IpamId"
+            case meteredAccount = "MeteredAccount"
             case removeOperatingRegions = "RemoveOperatingRegion"
             case tier = "Tier"
         }
@@ -49716,7 +49788,7 @@ extension EC2 {
     }
 
     public struct PerformanceFactorReference: AWSEncodableShape & AWSDecodableShape {
-        /// The instance family to use as a baseline reference.  Ensure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance type c6i.large, the instance family is c6i, not c6. For more information, see Amazon EC2 instance type naming conventions in Amazon EC2 Instance Types.  The following instance families are not supported for performance protection:    c1     g3 | g3s     hpc7g     m1 | m2     mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro     p3dn | p4d | p5     t1     u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb    If you enable performance protection by specifying a supported instance family, the returned instance types will exclude the above unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response for  and an exception for , , , and .
+        /// The instance family to use as a baseline reference.  Ensure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance type c6i.large, the instance family is c6i, not c6. For more information, see Amazon EC2 instance type naming conventions in Amazon EC2 Instance Types.  The following instance families are not supported for performance protection:    c1     g3 | g3s     hpc7g     m1 | m2     mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro     p3dn | p4d | p5     t1     u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb    If you enable performance protection by specifying a supported instance family, the returned instance types will exclude the above unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response for GetInstanceTypesFromInstanceRequirements and an exception for CreateFleet, RequestSpotFleet, ModifyFleet, and ModifySpotFleetRequest.
         public let instanceFamily: String?
 
         @inlinable
@@ -49730,7 +49802,7 @@ extension EC2 {
     }
 
     public struct PerformanceFactorReferenceRequest: AWSEncodableShape {
-        /// The instance family to use as a baseline reference.  Ensure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance type c6i.large, the instance family is c6i, not c6. For more information, see Amazon EC2 instance type naming conventions in Amazon EC2 Instance Types.  The following instance families are not supported for performance protection:    c1     g3 | g3s     hpc7g     m1 | m2     mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro     p3dn | p4d | p5     t1     u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb    If you enable performance protection by specifying a supported instance family, the returned instance types will exclude the above unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response for  and an exception for , , , and .
+        /// The instance family to use as a baseline reference.  Ensure that you specify the correct value for the instance family. The instance family is everything before the period (.) in the instance type name. For example, in the instance type c6i.large, the instance family is c6i, not c6. For more information, see Amazon EC2 instance type naming conventions in Amazon EC2 Instance Types.  The following instance families are not supported for performance protection:    c1     g3 | g3s     hpc7g     m1 | m2     mac1 | mac2 | mac2-m1ultra | mac2-m2 | mac2-m2pro     p3dn | p4d | p5     t1     u-12tb1 | u-18tb1 | u-24tb1 | u-3tb1 | u-6tb1 | u-9tb1 | u7i-12tb | u7in-16tb | u7in-24tb | u7in-32tb    If you enable performance protection by specifying a supported instance family, the returned instance types will exclude the above unsupported instance families. If you specify an unsupported instance family as a value for baseline performance, the API returns an empty response for GetInstanceTypesFromInstanceRequirements and an exception for CreateFleet, RequestSpotFleet, ModifyFleet, and ModifySpotFleetRequest.
         public let instanceFamily: String?
 
         @inlinable
@@ -57558,7 +57630,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// Forces the instances to stop. The instances do not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. Default: false
+        /// Forces the instance to stop. The instance will first attempt a graceful shutdown, which includes flushing file system caches and metadata. If the graceful shutdown fails to complete within the timeout period, the instance shuts down forcibly without flushing the file system caches and metadata. After using this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Default: false
         public let force: Bool?
         /// Hibernates the instance if the instance was enabled for hibernation at launch. If the instance cannot hibernate successfully, a normal shutdown occurs. For more information, see Hibernate your instance in the Amazon EC2 User Guide. Default: false
         public let hibernate: Bool?
@@ -59298,9 +59370,9 @@ extension EC2 {
         public let associationDefaultRouteTableId: String?
         /// Indicates whether attachment requests are automatically accepted.
         public let autoAcceptSharedAttachments: AutoAcceptSharedAttachmentsValue?
-        /// Indicates whether resource attachments are automatically associated with the default association route table.
+        /// Indicates whether resource attachments are automatically associated with the default association route table. Enabled by default. If defaultRouteTableAssociation is set to enable, Amazon Web Services Transit Gateway will create the default transit gateway route table.
         public let defaultRouteTableAssociation: DefaultRouteTableAssociationValue?
-        /// Indicates whether resource attachments automatically propagate routes to the default propagation route table.
+        /// Indicates whether resource attachments automatically propagate routes to the default propagation route table. Enabled by default. If defaultRouteTablePropagation is set to enable, Amazon Web Services Transit Gateway will create the default transit gateway route table.
         public let defaultRouteTablePropagation: DefaultRouteTablePropagationValue?
         /// Indicates whether DNS support is enabled.
         public let dnsSupport: DnsSupportValue?

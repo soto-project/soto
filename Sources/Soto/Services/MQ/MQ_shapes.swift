@@ -715,6 +715,38 @@ extension MQ {
         }
     }
 
+    public struct DeleteConfigurationRequest: AWSEncodableShape {
+        /// The unique ID that Amazon MQ generates for the configuration.
+        public let configurationId: String
+
+        @inlinable
+        public init(configurationId: String) {
+            self.configurationId = configurationId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.configurationId, key: "ConfigurationId")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConfigurationResponse: AWSDecodableShape {
+        /// The unique ID that Amazon MQ generates for the configuration.
+        public let configurationId: String?
+
+        @inlinable
+        public init(configurationId: String? = nil) {
+            self.configurationId = configurationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationId = "configurationId"
+        }
+    }
+
     public struct DeleteTagsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource tag.
         public let resourceArn: String
