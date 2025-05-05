@@ -351,7 +351,7 @@ public struct ARCZonalShift: AWSService {
         return try await self.listManagedResources(input, logger: logger)
     }
 
-    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. 		ListZonalShifts returns customer-initiated zonal shifts, as well as practice run zonal shifts that ARC started on  		your behalf for zonal autoshift. For more information about listing 		autoshifts, see "&gt;ListAutoshifts.
+    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region.
     @Sendable
     @inlinable
     public func listZonalShifts(_ input: ListZonalShiftsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> ListZonalShiftsResponse {
@@ -364,7 +364,7 @@ public struct ARCZonalShift: AWSService {
             logger: logger
         )
     }
-    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region. 		ListZonalShifts returns customer-initiated zonal shifts, as well as practice run zonal shifts that ARC started on  		your behalf for zonal autoshift. For more information about listing 		autoshifts, see "&gt;ListAutoshifts.
+    /// Lists all active and completed zonal shifts in Amazon Route 53 Application Recovery Controller in your Amazon Web Services account in this Amazon Web Services Region.
     ///
     /// Parameters:
     ///   - maxResults: The number of objects that you want to return with this call.

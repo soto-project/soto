@@ -105,9 +105,9 @@ extension MarketplaceDeployment {
     public struct PutDeploymentParameterRequest: AWSEncodableShape {
         /// The unique identifier of the agreement.
         public let agreementId: String
-        /// The catalog related to the request. Fixed value: AWS Marketplace
+        /// The catalog related to the request. Fixed value: AWSMarketplace
         public let catalog: String
-        /// The idempotency token for deployment parameters. A unique identifier for the new version.
+        /// The idempotency token for deployment parameters. A unique identifier for the new version.  This field is not required if you're calling using an AWS SDK. Otherwise, a clientToken must be provided with the request.
         public let clientToken: String?
         /// The deployment parameter targeted to the acceptor of an agreement for which to create the AWS Secret Manager resource.
         public let deploymentParameter: DeploymentParameterInput

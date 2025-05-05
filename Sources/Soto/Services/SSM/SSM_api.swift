@@ -2494,6 +2494,35 @@ public struct SSM: AWSService {
         return try await self.disassociateOpsItemRelatedItem(input, logger: logger)
     }
 
+    /// Returns a credentials set to be used with just-in-time node access.
+    @Sendable
+    @inlinable
+    public func getAccessToken(_ input: GetAccessTokenRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccessTokenResponse {
+        try await self.client.execute(
+            operation: "GetAccessToken", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Returns a credentials set to be used with just-in-time node access.
+    ///
+    /// Parameters:
+    ///   - accessRequestId: The ID of a just-in-time node access request.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccessToken(
+        accessRequestId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccessTokenResponse {
+        let input = GetAccessTokenRequest(
+            accessRequestId: accessRequestId
+        )
+        return try await self.getAccessToken(input, logger: logger)
+    }
+
     /// Get detailed information about a particular Automation execution.
     @Sendable
     @inlinable
@@ -4686,6 +4715,41 @@ public struct SSM: AWSService {
             timeoutSeconds: timeoutSeconds
         )
         return try await self.sendCommand(input, logger: logger)
+    }
+
+    /// Starts the workflow for just-in-time node access sessions.
+    @Sendable
+    @inlinable
+    public func startAccessRequest(_ input: StartAccessRequestRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StartAccessRequestResponse {
+        try await self.client.execute(
+            operation: "StartAccessRequest", 
+            path: "/", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Starts the workflow for just-in-time node access sessions.
+    ///
+    /// Parameters:
+    ///   - reason: A brief description explaining why you are requesting access to the node.
+    ///   - tags: Key-value pairs of metadata you want to assign to the access request.
+    ///   - targets: The node you are requesting access to.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func startAccessRequest(
+        reason: String,
+        tags: [Tag]? = nil,
+        targets: [Target],
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> StartAccessRequestResponse {
+        let input = StartAccessRequestRequest(
+            reason: reason, 
+            tags: tags, 
+            targets: targets
+        )
+        return try await self.startAccessRequest(input, logger: logger)
     }
 
     /// Runs an association immediately and only one time. This operation can be helpful when troubleshooting associations.

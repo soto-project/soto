@@ -238,7 +238,7 @@ public struct Amp: AWSService {
     ///   - alias: (optional) An alias to associate with the scraper. This is for your use, and does not need to be unique.
     ///   - clientToken: (Optional) A unique, case-sensitive identifier that you can provide to ensure the idempotency of the request.
     ///   - destination: The Amazon Managed Service for Prometheus workspace to send metrics to.
-    ///   - roleConfiguration: The scraper role configuration for the workspace.
+    ///   - roleConfiguration: Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     ///   - scrapeConfiguration: The configuration file to use in the new scraper. For more information, see Scraper configuration in the Amazon Managed Service for Prometheus User  Guide.
     ///   - source: The Amazon EKS cluster from which the scraper will collect metrics.
     ///   - tags: (Optional) The list of tag keys and values to associate with the scraper.
@@ -615,6 +615,35 @@ public struct Amp: AWSService {
         return try await self.describeWorkspace(input, logger: logger)
     }
 
+    /// Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
+    @Sendable
+    @inlinable
+    public func describeWorkspaceConfiguration(_ input: DescribeWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeWorkspaceConfigurationResponse {
+        try await self.client.execute(
+            operation: "DescribeWorkspaceConfiguration", 
+            path: "/workspaces/{workspaceId}/configuration", 
+            httpMethod: .GET, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
+    ///
+    /// Parameters:
+    ///   - workspaceId: The ID of the workspace that you want to retrieve information for. To find the IDs of your workspaces, use  the ListWorkspaces operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func describeWorkspaceConfiguration(
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> DescribeWorkspaceConfigurationResponse {
+        let input = DescribeWorkspaceConfigurationRequest(
+            workspaceId: workspaceId
+        )
+        return try await self.describeWorkspaceConfiguration(input, logger: logger)
+    }
+
     /// The GetDefaultScraperConfiguration operation returns the default  scraper configuration used when Amazon EKS creates a scraper for you.
     @Sendable
     @inlinable
@@ -969,7 +998,7 @@ public struct Amp: AWSService {
     ///   - alias: The new alias of the scraper.
     ///   - clientToken: A unique identifier that you can provide to ensure the idempotency of the request. Case-sensitive.
     ///   - destination: The new Amazon Managed Service for Prometheus workspace to send metrics to.
-    ///   - roleConfiguration: The scraper role configuration for the workspace.
+    ///   - roleConfiguration: Use this structure to enable cross-account access, so that you can use a target account to access Prometheus metrics from source accounts.
     ///   - scrapeConfiguration: Contains the base-64 encoded YAML configuration for the scraper.  For more information about configuring a scraper, see Using an  Amazon Web Services managed collector in the Amazon Managed Service for Prometheus  User Guide.
     ///   - scraperId: The ID of the scraper to update.
     ///   - logger: Logger use during operation
@@ -1027,6 +1056,44 @@ public struct Amp: AWSService {
             workspaceId: workspaceId
         )
         return try await self.updateWorkspaceAlias(input, logger: logger)
+    }
+
+    /// Use this operation to create or update the label sets, label set limits, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeriodInDays for the request to be valid.
+    @Sendable
+    @inlinable
+    public func updateWorkspaceConfiguration(_ input: UpdateWorkspaceConfigurationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> UpdateWorkspaceConfigurationResponse {
+        try await self.client.execute(
+            operation: "UpdateWorkspaceConfiguration", 
+            path: "/workspaces/{workspaceId}/configuration", 
+            httpMethod: .PATCH, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Use this operation to create or update the label sets, label set limits, and retention period of a workspace. You must specify at least one of limitsPerLabelSet or retentionPeriodInDays for the request to be valid.
+    ///
+    /// Parameters:
+    ///   - clientToken: You can include a token in your operation to make it an idempotent opeartion.
+    ///   - limitsPerLabelSet: This is an array of structures, where each structure defines a label set for the workspace, and  defines the ingestion limit for active time series for each of those label sets. Each label name in a label set must be unique.
+    ///   - retentionPeriodInDays: Specifies how many days that metrics will be retained in the workspace.
+    ///   - workspaceId: The ID of the workspace that you want to update. To find the IDs of your workspaces, use  the ListWorkspaces operation.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func updateWorkspaceConfiguration(
+        clientToken: String? = UpdateWorkspaceConfigurationRequest.idempotencyToken(),
+        limitsPerLabelSet: [LimitsPerLabelSet]? = nil,
+        retentionPeriodInDays: Int? = nil,
+        workspaceId: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> UpdateWorkspaceConfigurationResponse {
+        let input = UpdateWorkspaceConfigurationRequest(
+            clientToken: clientToken, 
+            limitsPerLabelSet: limitsPerLabelSet, 
+            retentionPeriodInDays: retentionPeriodInDays, 
+            workspaceId: workspaceId
+        )
+        return try await self.updateWorkspaceConfiguration(input, logger: logger)
     }
 }
 

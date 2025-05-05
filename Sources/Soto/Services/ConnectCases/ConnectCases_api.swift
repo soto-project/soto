@@ -185,7 +185,7 @@ public struct ConnectCases: AWSService {
         return try await self.batchPutFieldOptions(input, logger: logger)
     }
 
-    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:     customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
+    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:    customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
     @Sendable
     @inlinable
     public func createCase(_ input: CreateCaseRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateCaseResponse {
@@ -198,7 +198,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:     customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
+    ///  If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser permission on the User ARN resource that you provide  Creates a case in the specified Cases domain. Case system and custom fields are taken as an array id/value pairs with a declared data types. The following fields are required when creating a case:    customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your_AWS_Region:your_AWS_account ID:domains/your_profiles_domain_name/profiles/profile_ID     title
     ///
     /// Parameters:
     ///   - clientToken: A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see Making retries safe with idempotent APIs.
@@ -486,7 +486,7 @@ public struct ConnectCases: AWSService {
         return try await self.deleteCaseRule(input, logger: logger)
     }
 
-    /// Deletes a Cases domain.   After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
+    /// Deletes a Cases domain.  After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
     @Sendable
     @inlinable
     public func deleteDomain(_ input: DeleteDomainRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteDomainResponse {
@@ -499,7 +499,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a Cases domain.   After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
+    /// Deletes a Cases domain.  After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See DeleteIntegrationAssociation.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
@@ -547,8 +547,7 @@ public struct ConnectCases: AWSService {
         return try await self.deleteField(input, logger: logger)
     }
 
-    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain.
-    ///  After a layout is deleted:   You can still retrieve the layout by calling GetLayout.   You cannot update a deleted layout by calling UpdateLayout; it throws a ValidationException.   Deleted layouts are not included in the ListLayouts response.
+    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain. After a layout is deleted:   You can still retrieve the layout by calling GetLayout.   You cannot update a deleted layout by calling UpdateLayout; it throws a ValidationException.   Deleted layouts are not included in the ListLayouts response.
     @Sendable
     @inlinable
     public func deleteLayout(_ input: DeleteLayoutRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteLayoutResponse {
@@ -561,8 +560,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain.
-    ///  After a layout is deleted:   You can still retrieve the layout by calling GetLayout.   You cannot update a deleted layout by calling UpdateLayout; it throws a ValidationException.   Deleted layouts are not included in the ListLayouts response.
+    /// Deletes a layout from a cases template. You can delete up to 100 layouts per domain. After a layout is deleted:   You can still retrieve the layout by calling GetLayout.   You cannot update a deleted layout by calling UpdateLayout; it throws a ValidationException.   Deleted layouts are not included in the ListLayouts response.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.
@@ -581,8 +579,7 @@ public struct ConnectCases: AWSService {
         return try await self.deleteLayout(input, logger: logger)
     }
 
-    /// Deletes a cases template. You can delete up to 100 templates per domain.
-    ///  After a cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
+    /// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
     @Sendable
     @inlinable
     public func deleteTemplate(_ input: DeleteTemplateRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteTemplateResponse {
@@ -595,8 +592,7 @@ public struct ConnectCases: AWSService {
             logger: logger
         )
     }
-    /// Deletes a cases template. You can delete up to 100 templates per domain.
-    ///  After a cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
+    /// Deletes a cases template. You can delete up to 100 templates per domain. After a cases template is deleted:   You can still retrieve the template by calling GetTemplate.   You cannot update the template.    You cannot create a case by using the deleted template.   Deleted templates are not included in the ListTemplates response.
     ///
     /// Parameters:
     ///   - domainId: The unique identifier of the Cases domain.

@@ -695,41 +695,8 @@ extension CleanRooms {
         }
     }
 
-    public enum ProtectedQueryOutput: AWSDecodableShape, Sendable {
-        /// The list of member Amazon Web Services account(s) that received the results of the query.
-        case memberList([ProtectedQuerySingleMemberOutput])
-        /// If present, the output for a protected query with an `S3` output type.
-        case s3(ProtectedQueryS3Output)
-
-        public init(from decoder: Decoder) throws {
-            let container = try decoder.container(keyedBy: CodingKeys.self)
-            guard container.allKeys.count == 1, let key = container.allKeys.first else {
-                let context = DecodingError.Context(
-                    codingPath: container.codingPath,
-                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
-                )
-                throw DecodingError.dataCorrupted(context)
-            }
-            switch key {
-            case .memberList:
-                let value = try container.decode([ProtectedQuerySingleMemberOutput].self, forKey: .memberList)
-                self = .memberList(value)
-            case .s3:
-                let value = try container.decode(ProtectedQueryS3Output.self, forKey: .s3)
-                self = .s3(value)
-            }
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case memberList = "memberList"
-            case s3 = "s3"
-        }
-    }
-
-    public enum ProtectedQueryOutputConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
-        ///  Required configuration for a protected query with a member output type.
+    public enum ProtectedQueryDistributeOutputConfigurationLocation: AWSEncodableShape & AWSDecodableShape, Sendable {
         case member(ProtectedQueryMemberOutputConfiguration)
-        /// Required configuration for a protected query with an s3 output type.
         case s3(ProtectedQueryS3OutputConfiguration)
 
         public init(from decoder: Decoder) throws {
@@ -771,6 +738,103 @@ extension CleanRooms {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case member = "member"
+            case s3 = "s3"
+        }
+    }
+
+    public enum ProtectedQueryOutput: AWSDecodableShape, Sendable {
+        /// Contains output information for protected queries that use a distribute output type. This output type lets you send query results to multiple locations - either to S3 or to collaboration members.    You can only use the distribute output type with the Spark analytics engine.
+        case distribute(ProtectedQueryDistributeOutput)
+        /// The list of member Amazon Web Services account(s) that received the results of the query.
+        case memberList([ProtectedQuerySingleMemberOutput])
+        /// If present, the output for a protected query with an S3 output type.
+        case s3(ProtectedQueryS3Output)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .distribute:
+                let value = try container.decode(ProtectedQueryDistributeOutput.self, forKey: .distribute)
+                self = .distribute(value)
+            case .memberList:
+                let value = try container.decode([ProtectedQuerySingleMemberOutput].self, forKey: .memberList)
+                self = .memberList(value)
+            case .s3:
+                let value = try container.decode(ProtectedQueryS3Output.self, forKey: .s3)
+                self = .s3(value)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distribute = "distribute"
+            case memberList = "memberList"
+            case s3 = "s3"
+        }
+    }
+
+    public enum ProtectedQueryOutputConfiguration: AWSEncodableShape & AWSDecodableShape, Sendable {
+        ///  Required configuration for a protected query with a distribute output type.
+        case distribute(ProtectedQueryDistributeOutputConfiguration)
+        ///  Required configuration for a protected query with a member output type.
+        case member(ProtectedQueryMemberOutputConfiguration)
+        /// Required configuration for a protected query with an s3 output type.
+        case s3(ProtectedQueryS3OutputConfiguration)
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            guard container.allKeys.count == 1, let key = container.allKeys.first else {
+                let context = DecodingError.Context(
+                    codingPath: container.codingPath,
+                    debugDescription: "Expected exactly one key, but got \(container.allKeys.count)"
+                )
+                throw DecodingError.dataCorrupted(context)
+            }
+            switch key {
+            case .distribute:
+                let value = try container.decode(ProtectedQueryDistributeOutputConfiguration.self, forKey: .distribute)
+                self = .distribute(value)
+            case .member:
+                let value = try container.decode(ProtectedQueryMemberOutputConfiguration.self, forKey: .member)
+                self = .member(value)
+            case .s3:
+                let value = try container.decode(ProtectedQueryS3OutputConfiguration.self, forKey: .s3)
+                self = .s3(value)
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .distribute(let value):
+                try container.encode(value, forKey: .distribute)
+            case .member(let value):
+                try container.encode(value, forKey: .member)
+            case .s3(let value):
+                try container.encode(value, forKey: .s3)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .distribute(let value):
+                try value.validate(name: "\(name).distribute")
+            case .member(let value):
+                try value.validate(name: "\(name).member")
+            case .s3(let value):
+                try value.validate(name: "\(name).s3")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distribute = "distribute"
             case member = "member"
             case s3 = "s3"
         }
@@ -1710,7 +1774,7 @@ extension CleanRooms {
         public let description: String?
         /// The unique ID for the collaboration.
         public let id: String
-        /// An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        /// An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let jobLogStatus: CollaborationJobLogStatus?
         /// The unique ARN for your membership within the collaboration.
         public let membershipArn: String?
@@ -2690,7 +2754,7 @@ extension CleanRooms {
     }
 
     public struct ConfiguredTableAssociationSummary: AWSDecodableShape {
-        /// The analysis rule types that are associated with the configured table  associations in this summary.
+        /// The analysis rule types that are associated with the configured table associations in this summary.
         public let analysisRuleTypes: [ConfiguredTableAssociationAnalysisRuleType]?
         /// The unique ARN for the configured table association.
         public let arn: String
@@ -3381,7 +3445,7 @@ extension CleanRooms {
         public let description: String?
         /// The name of the configured table.
         public let name: String
-        ///  The analysis methods to enable for the configured table.  When configured, you must specify at least two analysis methods.
+        ///  The analysis methods to enable for the configured table. When configured, you must specify at least two analysis methods.
         public let selectedAnalysisMethods: [SelectedAnalysisMethod]?
         /// A reference to the table being configured.
         public let tableReference: TableReference
@@ -3404,7 +3468,6 @@ extension CleanRooms {
                 try validate($0, name: "allowedColumns[]", parent: name, max: 128)
                 try validate($0, name: "allowedColumns[]", parent: name, pattern: "^[a-z0-9_](([a-z0-9_ ]+-)*([a-z0-9_ ]+))?$")
             }
-            try self.validate(self.allowedColumns, name: "allowedColumns", parent: name, max: 225)
             try self.validate(self.allowedColumns, name: "allowedColumns", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDBFF-\\uDC00\\uDFFF\\t\\r\\n]*$")
@@ -3602,11 +3665,11 @@ extension CleanRooms {
     public struct CreateMembershipInput: AWSEncodableShape {
         /// The unique ID for the associated collaboration.
         public let collaborationIdentifier: String
-        /// The default job result configuration that determines how job results are  protected and managed within this membership. This configuration applies to all  jobs.
+        /// The default job result configuration that determines how job results are protected and managed within this membership. This configuration applies to all jobs.
         public let defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration?
         /// The default protected query result configuration as specified by the member who can receive results.
         public let defaultResultConfiguration: MembershipProtectedQueryResultConfiguration?
-        /// An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        /// An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let jobLogStatus: MembershipJobLogStatus?
         /// The payment responsibilities accepted by the collaboration member. Not required if the collaboration member has the member ability to run queries.  Required if the collaboration member doesn't have the member ability to run queries but is configured as a payer by the collaboration creator.
         public let paymentConfiguration: MembershipPaymentConfiguration?
@@ -5664,7 +5727,7 @@ extension CleanRooms {
     }
 
     public struct JobComputePaymentConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether the collaboration creator has configured the collaboration member to pay for query and job compute costs (TRUE) or has not configured the  collaboration member to pay for query and job compute costs (FALSE). Exactly one member can be configured to pay for query and job compute costs. An error is returned if the collaboration creator sets a TRUE value for more  than one member in the collaboration.  An error is returned if the collaboration creator sets a  FALSE value for the member who can run queries and jobs.
+        /// Indicates whether the collaboration creator has configured the collaboration member to pay for query and job compute costs (TRUE) or has not configured the collaboration member to pay for query and job compute costs (FALSE). Exactly one member can be configured to pay for query and job compute costs. An error is returned if the collaboration creator sets a TRUE value for more than one member in the collaboration.  An error is returned if the collaboration creator sets a FALSE value for the member who can run queries and jobs.
         public let isResponsible: Bool
 
         @inlinable
@@ -5678,8 +5741,7 @@ extension CleanRooms {
     }
 
     public struct ListAnalysisTemplatesInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The identifier for a membership resource.
         public let membershipIdentifier: String
@@ -5734,8 +5796,7 @@ extension CleanRooms {
     public struct ListCollaborationAnalysisTemplatesInput: AWSEncodableShape {
         /// A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
         public let collaborationIdentifier: String
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -5788,8 +5849,7 @@ extension CleanRooms {
     public struct ListCollaborationConfiguredAudienceModelAssociationsInput: AWSEncodableShape {
         /// A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
         public let collaborationIdentifier: String
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -5895,8 +5955,7 @@ extension CleanRooms {
     public struct ListCollaborationPrivacyBudgetTemplatesInput: AWSEncodableShape {
         /// A unique identifier for one of your collaborations.
         public let collaborationIdentifier: String
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -5949,8 +6008,7 @@ extension CleanRooms {
     public struct ListCollaborationPrivacyBudgetsInput: AWSEncodableShape {
         /// A unique identifier for one of your collaborations.
         public let collaborationIdentifier: String
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -6005,8 +6063,7 @@ extension CleanRooms {
     }
 
     public struct ListCollaborationsInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The caller's status in a collaboration.
         public let memberStatus: FilterableMemberStatus?
@@ -6056,8 +6113,7 @@ extension CleanRooms {
     }
 
     public struct ListConfiguredAudienceModelAssociationsInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
         public let membershipIdentifier: String
@@ -6110,8 +6166,7 @@ extension CleanRooms {
     }
 
     public struct ListConfiguredTableAssociationsInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// A unique identifier for the membership to list configured table associations for. Currently accepts the membership ID.
         public let membershipIdentifier: String
@@ -6164,8 +6219,7 @@ extension CleanRooms {
     }
 
     public struct ListConfiguredTablesInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -6319,8 +6373,7 @@ extension CleanRooms {
     public struct ListMembersInput: AWSEncodableShape {
         /// The identifier of the collaboration in which the members are listed.
         public let collaborationIdentifier: String
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -6371,8 +6424,7 @@ extension CleanRooms {
     }
 
     public struct ListMembershipsInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -6422,8 +6474,7 @@ extension CleanRooms {
     }
 
     public struct ListPrivacyBudgetTemplatesInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
         public let membershipIdentifier: String
@@ -6476,8 +6527,7 @@ extension CleanRooms {
     }
 
     public struct ListPrivacyBudgetsInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
         public let membershipIdentifier: String
@@ -6534,7 +6584,7 @@ extension CleanRooms {
     }
 
     public struct ListProtectedJobsInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call.  The service chooses a default number if you don't set one. The service might  return a `nextToken` even if the `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The identifier for the membership in the collaboration.
         public let membershipIdentifier: String
@@ -6591,7 +6641,7 @@ extension CleanRooms {
     }
 
     public struct ListProtectedQueriesInput: AWSEncodableShape {
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the  `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The identifier for the membership in the collaboration.
         public let membershipIdentifier: String
@@ -6650,8 +6700,7 @@ extension CleanRooms {
     public struct ListSchemasInput: AWSEncodableShape {
         /// A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
         public let collaborationIdentifier: String
-        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
-        /// `maxResults` value has not been met.
+        /// The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
         public let maxResults: Int?
         /// The pagination token that's used to fetch the next set of results.
         public let nextToken: String?
@@ -6889,7 +6938,7 @@ extension CleanRooms {
         public let defaultResultConfiguration: MembershipProtectedQueryResultConfiguration?
         /// The unique ID of the membership.
         public let id: String
-        /// An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        /// An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let jobLogStatus: MembershipJobLogStatus?
         /// The abilities granted to the collaboration member.
         public let memberAbilities: [MemberAbility]
@@ -6947,7 +6996,7 @@ extension CleanRooms {
     }
 
     public struct MembershipJobComputePaymentConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether the collaboration member has accepted to pay for job  compute costs (TRUE) or has not accepted to pay for query and job compute costs (FALSE). There is only one member who pays for queries and jobs.  An error message is returned for the following reasons:    If you set the value to FALSE but you are responsible to  pay for query and job compute costs.    If you set the value to TRUE but you are not responsible to pay for query and job compute costs.
+        /// Indicates whether the collaboration member has accepted to pay for job compute costs (TRUE) or has not accepted to pay for query and job compute costs (FALSE). There is only one member who pays for queries and jobs.  An error message is returned for the following reasons:    If you set the value to FALSE but you are responsible to pay for query and job compute costs.    If you set the value to TRUE but you are not responsible to pay for query and job compute costs.
         public let isResponsible: Bool
 
         @inlinable
@@ -7703,7 +7752,7 @@ extension CleanRooms {
     }
 
     public struct ProtectedJobSingleMemberOutput: AWSDecodableShape {
-        /// The Amazon Web Services account ID of the member in the collaboration who can receive  results from analyses.
+        /// The Amazon Web Services account ID of the member in the collaboration who can receive results from analyses.
         public let accountId: String
 
         @inlinable
@@ -7823,6 +7872,43 @@ extension CleanRooms {
             case sqlParameters = "sqlParameters"
             case statistics = "statistics"
             case status = "status"
+        }
+    }
+
+    public struct ProtectedQueryDistributeOutput: AWSDecodableShape {
+        ///  Contains the output results for each member location specified in the distribute output configuration. Each entry provides details about the result distribution to a specific collaboration member.
+        public let memberList: [ProtectedQuerySingleMemberOutput]?
+        public let s3: ProtectedQueryS3Output?
+
+        @inlinable
+        public init(memberList: [ProtectedQuerySingleMemberOutput]? = nil, s3: ProtectedQueryS3Output? = nil) {
+            self.memberList = memberList
+            self.s3 = s3
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case memberList = "memberList"
+            case s3 = "s3"
+        }
+    }
+
+    public struct ProtectedQueryDistributeOutputConfiguration: AWSEncodableShape & AWSDecodableShape {
+        ///  A list of locations where you want to distribute the protected query results. Each location must specify either an S3 destination or a collaboration member destination.  You can't specify more than one S3 location. You can't specify the query runner's account as a member location. You must include either an S3 or member output configuration for each location, but not both.
+        public let locations: [ProtectedQueryDistributeOutputConfigurationLocation]
+
+        @inlinable
+        public init(locations: [ProtectedQueryDistributeOutputConfigurationLocation]) {
+            self.locations = locations
+        }
+
+        public func validate(name: String) throws {
+            try self.locations.forEach {
+                try $0.validate(name: "\(name).locations[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locations = "locations"
         }
     }
 
@@ -8417,7 +8503,7 @@ extension CleanRooms {
     public struct StartProtectedJobInput: AWSEncodableShape {
         ///  The job parameters.
         public let jobParameters: ProtectedJobParameters
-        /// A unique identifier for the membership to run this job against.  Currently accepts a membership ID.
+        /// A unique identifier for the membership to run this job against. Currently accepts a membership ID.
         public let membershipIdentifier: String
         /// The details needed to write the job results.
         public let resultConfiguration: ProtectedJobResultConfigurationInput?
@@ -9141,7 +9227,7 @@ extension CleanRooms {
         public let defaultJobResultConfiguration: MembershipProtectedJobResultConfiguration?
         /// The default protected query result configuration as specified by the member who can receive results.
         public let defaultResultConfiguration: MembershipProtectedQueryResultConfiguration?
-        /// An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+        /// An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
         public let jobLogStatus: MembershipJobLogStatus?
         /// The unique identifier of the membership.
         public let membershipIdentifier: String
@@ -9258,7 +9344,7 @@ extension CleanRooms {
         public let membershipIdentifier: String
         ///  The identifier of the protected job to update.
         public let protectedJobIdentifier: String
-        /// The target status of a protected job. Used to update the execution status  of a currently running job.
+        /// The target status of a protected job. Used to update the execution status of a currently running job.
         public let targetStatus: TargetProtectedJobStatus
 
         @inlinable

@@ -1550,7 +1550,7 @@ extension DirectoryService {
     }
 
     public struct DescribeDirectoriesResult: AWSDecodableShape {
-        /// The list of DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
+        /// The list of available DirectoryDescription objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let directoryDescriptions: [DirectoryDescription]?
         /// If not null, more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeDirectories to retrieve the next set of items.
         public let nextToken: String?
@@ -1817,7 +1817,7 @@ extension DirectoryService {
     public struct DescribeSettingsResult: AWSDecodableShape {
         /// The identifier of the directory.
         public let directoryId: String?
-        /// If not null, token that indicates that more results are available.  Pass this value for the NextToken parameter in a subsequent  call to DescribeSettings to retrieve the next set of items.
+        /// If not null, token that indicates that more results are available. Pass this value for the NextToken parameter in a subsequent call to DescribeSettings to retrieve the next set of items.
         public let nextToken: String?
         /// The list of SettingEntry objects that were retrieved. It is possible that this list contains less than the number of items specified in the Limit member of the request. This occurs if there are less than the requested number of items left to retrieve, or if the limitations of the operation have been exceeded.
         public let settingEntries: [SettingEntry]?
@@ -3936,7 +3936,7 @@ extension DirectoryService {
         public let requestStatus: DirectoryConfigurationStatus?
         /// The last status message for the directory status request.
         public let requestStatusMessage: String?
-        /// The type, or category, of a directory setting. Similar settings have the same type. For example, Protocol, Cipher,  or Certificate-Based Authentication.
+        /// The type, or category, of a directory setting. Similar settings have the same type. For example, Protocol, Cipher, or Certificate-Based Authentication.
         public let type: String?
 
         @inlinable

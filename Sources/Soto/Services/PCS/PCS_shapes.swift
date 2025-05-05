@@ -1305,7 +1305,7 @@ extension PCS {
     public struct Scheduler: AWSDecodableShape {
         /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in Amazon Web Services PCS in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05
         public let version: String
 
         @inlinable
@@ -1323,7 +1323,7 @@ extension PCS {
     public struct SchedulerRequest: AWSEncodableShape {
         /// The software Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
         public let type: SchedulerType
-        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling.
+        /// The version of the specified scheduling software that Amazon Web Services PCS uses to manage cluster scaling and job scheduling. For more information, see Slurm versions in Amazon Web Services PCS in the Amazon Web Services PCS User Guide. Valid Values: 23.11 | 24.05
         public let version: String
 
         @inlinable

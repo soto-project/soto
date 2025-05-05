@@ -321,6 +321,8 @@ extension PinpointSMSVoiceV2 {
     public enum ProtectStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case block = "BLOCK"
+        case filter = "FILTER"
+        case monitor = "MONITOR"
         public var description: String { return self.rawValue }
     }
 
@@ -3313,7 +3315,7 @@ extension PinpointSMSVoiceV2 {
     public struct DescribeRegistrationSectionDefinitionsResult: AWSDecodableShape {
         /// The token to be used for the next set of paginated results. You don't need to supply a value for this field in the initial request.
         public let nextToken: String?
-        /// An array of  RegistrationSectionDefinition objects.
+        /// An array of RegistrationSectionDefinition objects.
         public let registrationSectionDefinitions: [RegistrationSectionDefinition]
         /// The type of registration form. The list of RegistrationTypes can be found using the DescribeRegistrationTypeDefinitions action.
         public let registrationType: String
@@ -5915,7 +5917,7 @@ extension PinpointSMSVoiceV2 {
         public let messageType: MessageType
         /// Indicates if the phone number will be used for text messages, voice messages, or both.
         public let numberCapabilities: [NumberCapability]
-        /// The type of phone number to request.
+        /// The type of phone number to request. When you request a SIMULATOR phone number, you must set MessageType as TRANSACTIONAL.
         public let numberType: RequestableNumberType
         /// The name of the OptOutList to associate with the phone number. You can use the OptOutListName or OptOutListArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let optOutListName: String?
@@ -6312,7 +6314,7 @@ extension PinpointSMSVoiceV2 {
         public let dryRun: Bool?
         /// The maximum amount that you want to spend, in US dollars, per each MMS message.
         public let maxPrice: String?
-        /// An array of URLs to each media file to send.  The media files have to be stored in a publicly available S3 bucket. Supported media file formats are listed in MMS file types, size and character limits. For more information on creating an S3 bucket and managing objects, see Creating a bucket and Uploading objects in the S3 user guide.
+        /// An array of URLs to each media file to send.  The media files have to be stored in an S3 bucket. Supported media file formats are listed in MMS file types, size and character limits. For more information on creating an S3 bucket and managing objects, see Creating a bucket, Uploading objects in the Amazon S3 User Guide, and Setting up an Amazon S3 bucket for MMS files in the Amazon Web Services End User Messaging SMS User Guide.
         public let mediaUrls: [String]?
         /// The text body of the message.
         public let messageBody: String?
@@ -6427,7 +6429,7 @@ extension PinpointSMSVoiceV2 {
         public let messageBody: String?
         /// Set to true to enable message feedback for the message. When a user receives the message you need to update the message status using PutMessageFeedback.
         public let messageFeedbackEnabled: Bool?
-        /// The type of message. Valid values are            for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
+        /// The type of message. Valid values are for messages that are critical or time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
         public let messageType: MessageType?
         /// The origination identity of the message. This can be either the PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.  If you are using a shared AWS End User Messaging SMS and Voice resource then you must use the full Amazon Resource Name(ARN).
         public let originationIdentity: String?
@@ -7118,7 +7120,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct SupportedAssociation: AWSDecodableShape {
-        /// The association behavior.    ASSOCIATE_BEFORE_SUBMIT The origination identity has to be supplied when creating a registration.    ASSOCIATE_ON_APPROVAL This applies to all short code registrations. The short code will be automatically provisioned once the registration is approved.    ASSOCIATE_AFTER_COMPLETE This applies to phone number registrations when you must complete a registration first, then associate one or more phone numbers later. For example 10DLC campaigns and long codes.
+        /// The association behavior.    ASSOCIATE_BEFORE_SUBMIT The origination identity has to be supplied when creating a registration.    ASSOCIATE_ON_APPROVAL This applies to all sender ID registrations. The sender ID will be automatically provisioned once the registration is approved.    ASSOCIATE_AFTER_COMPLETE This applies to phone number registrations when you must complete a registration first, then associate one or more phone numbers later. For example 10DLC campaigns and long codes.
         public let associationBehavior: RegistrationAssociationBehavior
         /// The disassociation behavior.    DISASSOCIATE_ALL_CLOSES_REGISTRATION All origination identities must be disassociated from the registration before the registration can be closed.    DISASSOCIATE_ALL_ALLOWS_DELETE_REGISTRATION All origination identities must be disassociated from the registration before the registration can be deleted.    DELETE_REGISTRATION_DISASSOCIATES The registration can be deleted and all origination identities will be disasscoiated.
         public let disassociationBehavior: RegistrationDisassociationBehavior
@@ -7580,7 +7582,7 @@ extension PinpointSMSVoiceV2 {
     }
 
     public struct UpdateProtectConfigurationCountryRuleSetRequest: AWSEncodableShape {
-        /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the AWS End User Messaging SMS User Guide.
+        /// A map of ProtectConfigurationCountryRuleSetInformation objects that contain the details for the requested NumberCapability. The Key is the two-letter ISO country code. For a list of supported ISO country codes, see Supported countries and regions (SMS channel) in the AWS End User Messaging SMS User Guide. For example, to set the United States as allowed and Canada as blocked, the CountryRuleSetUpdates would be formatted as: "CountryRuleSetUpdates": { "US" : { "ProtectStatus": "ALLOW" } "CA" : { "ProtectStatus": "BLOCK" } }
         public let countryRuleSetUpdates: [String: ProtectConfigurationCountryRuleSetInformation]
         /// The number capability to apply the CountryRuleSetUpdates updates to.
         public let numberCapability: NumberCapability

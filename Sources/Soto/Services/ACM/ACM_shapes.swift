@@ -25,6 +25,11 @@ import Foundation
 extension ACM {
     // MARK: Enums
 
+    public enum CertificateManagedBy: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cloudfront = "CLOUDFRONT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CertificateStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case expired = "EXPIRED"
         case failed = "FAILED"
@@ -148,6 +153,7 @@ extension ACM {
         case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
         case removeFromCrl = "REMOVE_FROM_CRL"
         case superceded = "SUPERCEDED"
+        case superseded = "SUPERSEDED"
         case unspecified = "UNSPECIFIED"
         public var description: String { return self.rawValue }
     }
@@ -166,6 +172,7 @@ extension ACM {
     public enum ValidationMethod: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case dns = "DNS"
         case email = "EMAIL"
+        case http = "HTTP"
         public var description: String { return self.rawValue }
     }
 
@@ -227,6 +234,8 @@ extension ACM {
         public let keyAlgorithm: KeyAlgorithm?
         /// A list of Key Usage X.509 v3 extension objects. Each object is a string value that identifies the purpose of the public key contained in the certificate. Possible extension values include DIGITAL_SIGNATURE, KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
         public let keyUsages: [KeyUsage]?
+        /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+        public let managedBy: CertificateManagedBy?
         /// The time after which the certificate is not valid.
         public let notAfter: Date?
         /// The time before which the certificate is not valid.
@@ -255,7 +264,7 @@ extension ACM {
         public let type: CertificateType?
 
         @inlinable
-        public init(certificateArn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
+        public init(certificateArn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
             self.certificateArn = certificateArn
             self.certificateAuthorityArn = certificateAuthorityArn
             self.createdAt = createdAt
@@ -269,6 +278,7 @@ extension ACM {
             self.issuer = issuer
             self.keyAlgorithm = keyAlgorithm
             self.keyUsages = keyUsages
+            self.managedBy = managedBy
             self.notAfter = notAfter
             self.notBefore = notBefore
             self.options = options
@@ -298,6 +308,7 @@ extension ACM {
             case issuer = "Issuer"
             case keyAlgorithm = "KeyAlgorithm"
             case keyUsages = "KeyUsages"
+            case managedBy = "ManagedBy"
             case notAfter = "NotAfter"
             case notBefore = "NotBefore"
             case options = "Options"
@@ -351,6 +362,8 @@ extension ACM {
         public let keyAlgorithm: KeyAlgorithm?
         /// A list of Key Usage X.509 v3 extension objects. Each object is a string value that identifies the purpose of the public key contained in the certificate. Possible extension values include DIGITAL_SIGNATURE, KEY_ENCHIPHERMENT, NON_REPUDIATION, and more.
         public let keyUsages: [KeyUsageName]?
+        /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+        public let managedBy: CertificateManagedBy?
         /// The time after which the certificate is not valid.
         public let notAfter: Date?
         /// The time before which the certificate is not valid.
@@ -367,7 +380,7 @@ extension ACM {
         public let type: CertificateType?
 
         @inlinable
-        public init(certificateArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, exported: Bool? = nil, extendedKeyUsages: [ExtendedKeyUsageName]? = nil, hasAdditionalSubjectAlternativeNames: Bool? = nil, importedAt: Date? = nil, inUse: Bool? = nil, issuedAt: Date? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsageName]? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalEligibility: RenewalEligibility? = nil, revokedAt: Date? = nil, status: CertificateStatus? = nil, subjectAlternativeNameSummaries: [String]? = nil, type: CertificateType? = nil) {
+        public init(certificateArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, exported: Bool? = nil, extendedKeyUsages: [ExtendedKeyUsageName]? = nil, hasAdditionalSubjectAlternativeNames: Bool? = nil, importedAt: Date? = nil, inUse: Bool? = nil, issuedAt: Date? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsageName]? = nil, managedBy: CertificateManagedBy? = nil, notAfter: Date? = nil, notBefore: Date? = nil, renewalEligibility: RenewalEligibility? = nil, revokedAt: Date? = nil, status: CertificateStatus? = nil, subjectAlternativeNameSummaries: [String]? = nil, type: CertificateType? = nil) {
             self.certificateArn = certificateArn
             self.createdAt = createdAt
             self.domainName = domainName
@@ -379,6 +392,7 @@ extension ACM {
             self.issuedAt = issuedAt
             self.keyAlgorithm = keyAlgorithm
             self.keyUsages = keyUsages
+            self.managedBy = managedBy
             self.notAfter = notAfter
             self.notBefore = notBefore
             self.renewalEligibility = renewalEligibility
@@ -400,6 +414,7 @@ extension ACM {
             case issuedAt = "IssuedAt"
             case keyAlgorithm = "KeyAlgorithm"
             case keyUsages = "KeyUsages"
+            case managedBy = "ManagedBy"
             case notAfter = "NotAfter"
             case notBefore = "NotBefore"
             case renewalEligibility = "RenewalEligibility"
@@ -467,7 +482,9 @@ extension ACM {
     public struct DomainValidation: AWSDecodableShape {
         /// A fully qualified domain name (FQDN) in the certificate. For example, www.example.com or example.com.
         public let domainName: String
-        /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see Use DNS to Validate Domain Ownership. Note: The CNAME information that you need does not include the name of your domain. If you include  your domain name in the DNS database CNAME record, validation fails.  For example, if the name is "_a79865eb4cd1a6ab990a45779b4e0b96.yourdomain.com", only "_a79865eb4cd1a6ab990a45779b4e0b96" must be used.
+        /// Contains information for HTTP-based domain validation of certificates requested through CloudFront and issued by ACM. This field exists only when the certificate type is AMAZON_ISSUED and the validation method is HTTP.
+        public let httpRedirect: HttpRedirect?
+        /// Contains the CNAME record that you add to your DNS database for domain validation. For more information, see Use DNS to Validate Domain Ownership. Note: The CNAME information that you need does not include the name of your domain. If you include your domain name in the DNS database CNAME record, validation fails. For example, if the name is "_a79865eb4cd1a6ab990a45779b4e0b96.yourdomain.com", only "_a79865eb4cd1a6ab990a45779b4e0b96" must be used.
         public let resourceRecord: ResourceRecord?
         /// The domain name that ACM used to send domain validation emails.
         public let validationDomain: String?
@@ -475,12 +492,13 @@ extension ACM {
         public let validationEmails: [String]?
         /// Specifies the domain validation method.
         public let validationMethod: ValidationMethod?
-        /// The validation status of the domain name. This can be one of the following values:    PENDING_VALIDATION     SUCCESS     FAILED
+        /// The validation status of the domain name. This can be one of the following values:    PENDING_VALIDATION     SUCCESS    FAILED
         public let validationStatus: DomainStatus?
 
         @inlinable
-        public init(domainName: String, resourceRecord: ResourceRecord? = nil, validationDomain: String? = nil, validationEmails: [String]? = nil, validationMethod: ValidationMethod? = nil, validationStatus: DomainStatus? = nil) {
+        public init(domainName: String, httpRedirect: HttpRedirect? = nil, resourceRecord: ResourceRecord? = nil, validationDomain: String? = nil, validationEmails: [String]? = nil, validationMethod: ValidationMethod? = nil, validationStatus: DomainStatus? = nil) {
             self.domainName = domainName
+            self.httpRedirect = httpRedirect
             self.resourceRecord = resourceRecord
             self.validationDomain = validationDomain
             self.validationEmails = validationEmails
@@ -490,6 +508,7 @@ extension ACM {
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
+            case httpRedirect = "HttpRedirect"
             case resourceRecord = "ResourceRecord"
             case validationDomain = "ValidationDomain"
             case validationEmails = "ValidationEmails"
@@ -616,18 +635,22 @@ extension ACM {
         public let keyTypes: [KeyAlgorithm]?
         /// Specify one or more KeyUsage extension values.
         public let keyUsage: [KeyUsageName]?
+        /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+        public let managedBy: CertificateManagedBy?
 
         @inlinable
-        public init(extendedKeyUsage: [ExtendedKeyUsageName]? = nil, keyTypes: [KeyAlgorithm]? = nil, keyUsage: [KeyUsageName]? = nil) {
+        public init(extendedKeyUsage: [ExtendedKeyUsageName]? = nil, keyTypes: [KeyAlgorithm]? = nil, keyUsage: [KeyUsageName]? = nil, managedBy: CertificateManagedBy? = nil) {
             self.extendedKeyUsage = extendedKeyUsage
             self.keyTypes = keyTypes
             self.keyUsage = keyUsage
+            self.managedBy = managedBy
         }
 
         private enum CodingKeys: String, CodingKey {
             case extendedKeyUsage = "extendedKeyUsage"
             case keyTypes = "keyTypes"
             case keyUsage = "keyUsage"
+            case managedBy = "managedBy"
         }
     }
 
@@ -680,6 +703,24 @@ extension ACM {
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
             case certificateChain = "CertificateChain"
+        }
+    }
+
+    public struct HttpRedirect: AWSDecodableShape {
+        /// The URL including the domain to be validated. The certificate authority sends GET requests here during validation.
+        public let redirectFrom: String?
+        /// The URL hosting the validation token. RedirectFrom must return this content or redirect here.
+        public let redirectTo: String?
+
+        @inlinable
+        public init(redirectFrom: String? = nil, redirectTo: String? = nil) {
+            self.redirectFrom = redirectFrom
+            self.redirectTo = redirectTo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case redirectFrom = "RedirectFrom"
+            case redirectTo = "RedirectTo"
         }
     }
 
@@ -963,6 +1004,8 @@ extension ACM {
         public let idempotencyToken: String?
         /// Specifies the algorithm of the public and private key pair that your certificate uses to encrypt data. RSA is the default key algorithm for ACM certificates. Elliptic Curve Digital Signature Algorithm (ECDSA) keys are smaller, offering security comparable to RSA keys but with greater computing efficiency. However, ECDSA is not supported by all network clients. Some Amazon Web Services services may require RSA keys, or only support ECDSA keys of a particular size, while others allow the use of either RSA and ECDSA keys to ensure that compatibility is not broken. Check the requirements for the Amazon Web Services service where you plan to deploy your certificate. For more information about selecting an algorithm, see Key algorithms.  Algorithms supported for an ACM certificate request include:     RSA_2048     EC_prime256v1     EC_secp384r1    Other listed algorithms are for imported certificates only.    When you request a private PKI certificate signed by a CA from Amazon Web Services Private CA, the specified signing algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key.  Default: RSA_2048
         public let keyAlgorithm: KeyAlgorithm?
+        /// Identifies the Amazon Web Services service that manages the certificate issued by ACM.
+        public let managedBy: CertificateManagedBy?
         /// Currently, you can use this parameter to specify whether to add the certificate to a certificate transparency log. Certificate transparency makes it possible to detect SSL/TLS certificates that have been mistakenly or maliciously issued. Certificates that have not been logged typically produce an error message in a browser. For more information, see Opting Out of Certificate Transparency Logging.
         public let options: CertificateOptions?
         /// Additional FQDNs to be included in the Subject Alternative Name extension of the ACM certificate. For example, add the name www.example.net to a certificate for which the DomainName field is www.example.com if users can reach your site by using either name. The maximum number of domain names that you can add to an ACM certificate is 100. However, the initial quota is 10 domain names. If you need more than 10 names, you must request a quota increase. For more information, see Quotas. The maximum length of a SAN DNS name is 253 octets. The name is made up of multiple labels separated by periods. No label can be longer than 63 octets. Consider the following examples:     (63 octets).(63 octets).(63 octets).(61 octets) is legal because the total length is 253 octets (63+1+63+1+63+1+61) and no label exceeds 63 octets.    (64 octets).(63 octets).(63 octets).(61 octets) is not legal because the total length exceeds 253 octets (64+1+63+1+63+1+61) and the first label exceeds 63 octets.    (63 octets).(63 octets).(63 octets).(62 octets) is not legal because the total length of the DNS name (63+1+63+1+63+1+62) exceeds 253 octets.
@@ -973,12 +1016,13 @@ extension ACM {
         public let validationMethod: ValidationMethod?
 
         @inlinable
-        public init(certificateAuthorityArn: String? = nil, domainName: String, domainValidationOptions: [DomainValidationOption]? = nil, idempotencyToken: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, options: CertificateOptions? = nil, subjectAlternativeNames: [String]? = nil, tags: [Tag]? = nil, validationMethod: ValidationMethod? = nil) {
+        public init(certificateAuthorityArn: String? = nil, domainName: String, domainValidationOptions: [DomainValidationOption]? = nil, idempotencyToken: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, managedBy: CertificateManagedBy? = nil, options: CertificateOptions? = nil, subjectAlternativeNames: [String]? = nil, tags: [Tag]? = nil, validationMethod: ValidationMethod? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
             self.domainName = domainName
             self.domainValidationOptions = domainValidationOptions
             self.idempotencyToken = idempotencyToken
             self.keyAlgorithm = keyAlgorithm
+            self.managedBy = managedBy
             self.options = options
             self.subjectAlternativeNames = subjectAlternativeNames
             self.tags = tags
@@ -1020,6 +1064,7 @@ extension ACM {
             case domainValidationOptions = "DomainValidationOptions"
             case idempotencyToken = "IdempotencyToken"
             case keyAlgorithm = "KeyAlgorithm"
+            case managedBy = "ManagedBy"
             case options = "Options"
             case subjectAlternativeNames = "SubjectAlternativeNames"
             case tags = "Tags"

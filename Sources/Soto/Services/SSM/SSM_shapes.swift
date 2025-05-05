@@ -25,6 +25,15 @@ import Foundation
 extension SSM {
     // MARK: Enums
 
+    public enum AccessRequestStatus: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case approved = "Approved"
+        case expired = "Expired"
+        case pending = "Pending"
+        case rejected = "Rejected"
+        case revoked = "Revoked"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AssociationComplianceSeverity: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case critical = "CRITICAL"
         case high = "HIGH"
@@ -132,6 +141,7 @@ extension SSM {
     }
 
     public enum AutomationSubtype: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessRequest = "AccessRequest"
         case changeRequest = "ChangeRequest"
         public var description: String { return self.rawValue }
     }
@@ -296,6 +306,7 @@ extension SSM {
     public enum DocumentType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case applicationConfiguration = "ApplicationConfiguration"
         case applicationConfigurationSchema = "ApplicationConfigurationSchema"
+        case autoApprovalPolicy = "AutoApprovalPolicy"
         case automation = "Automation"
         case changeCalendar = "ChangeCalendar"
         case changeTemplate = "Automation.ChangeTemplate"
@@ -303,6 +314,7 @@ extension SSM {
         case command = "Command"
         case conformancePackTemplate = "ConformancePackTemplate"
         case deploymentStrategy = "DeploymentStrategy"
+        case manualApprovalPolicy = "ManualApprovalPolicy"
         case package = "Package"
         case policy = "Policy"
         case problemAnalysis = "ProblemAnalysis"
@@ -570,6 +582,15 @@ extension SSM {
     }
 
     public enum OpsItemFilterKey: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case accessRequestApproverArn = "AccessRequestByApproverArn"
+        case accessRequestApproverId = "AccessRequestByApproverId"
+        case accessRequestIsReplica = "AccessRequestByIsReplica"
+        case accessRequestRequesterArn = "AccessRequestByRequesterArn"
+        case accessRequestRequesterId = "AccessRequestByRequesterId"
+        case accessRequestSourceAccountId = "AccessRequestBySourceAccountId"
+        case accessRequestSourceOpsItemId = "AccessRequestBySourceOpsItemId"
+        case accessRequestSourceRegion = "AccessRequestBySourceRegion"
+        case accessRequestTargetResourceId = "AccessRequestByTargetResourceId"
         case accountId = "AccountId"
         case actualEndTime = "ActualEndTime"
         case actualStartTime = "ActualStartTime"
@@ -638,6 +659,7 @@ extension SSM {
         case pendingChangeCalendarOverride = "PendingChangeCalendarOverride"
         case rejected = "Rejected"
         case resolved = "Resolved"
+        case revoked = "Revoked"
         case runbookInProgress = "RunbookInProgress"
         case scheduled = "Scheduled"
         case timedOut = "TimedOut"
@@ -834,6 +856,7 @@ extension SSM {
         case approve = "Approve"
         case reject = "Reject"
         case resume = "Resume"
+        case revoke = "Revoke"
         case startStep = "StartStep"
         case stopStep = "StopStep"
         public var description: String { return self.rawValue }
@@ -3540,6 +3563,32 @@ extension SSM {
 
     public struct CreateResourceDataSyncResult: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct Credentials: AWSDecodableShape {
+        /// The access key ID that identifies the temporary security credentials.
+        public let accessKeyId: String
+        /// The datetime on which the current credentials expire.
+        public let expirationTime: Date
+        /// The secret access key that can be used to sign requests.
+        public let secretAccessKey: String
+        /// The token that users must pass to the service API to use the temporary credentials.
+        public let sessionToken: String
+
+        @inlinable
+        public init(accessKeyId: String, expirationTime: Date, secretAccessKey: String, sessionToken: String) {
+            self.accessKeyId = accessKeyId
+            self.expirationTime = expirationTime
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+            case expirationTime = "ExpirationTime"
+            case secretAccessKey = "SecretAccessKey"
+            case sessionToken = "SessionToken"
+        }
     }
 
     public struct DeleteActivationRequest: AWSEncodableShape {
@@ -6430,6 +6479,42 @@ extension SSM {
             case details = "Details"
             case failureStage = "FailureStage"
             case failureType = "FailureType"
+        }
+    }
+
+    public struct GetAccessTokenRequest: AWSEncodableShape {
+        /// The ID of a just-in-time node access request.
+        public let accessRequestId: String
+
+        @inlinable
+        public init(accessRequestId: String) {
+            self.accessRequestId = accessRequestId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessRequestId, name: "accessRequestId", parent: name, pattern: "^(oi)-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRequestId = "AccessRequestId"
+        }
+    }
+
+    public struct GetAccessTokenResponse: AWSDecodableShape {
+        /// The status of the access request.
+        public let accessRequestStatus: AccessRequestStatus?
+        /// The temporary security credentials which can be used to start just-in-time node access sessions.
+        public let credentials: Credentials?
+
+        @inlinable
+        public init(accessRequestStatus: AccessRequestStatus? = nil, credentials: Credentials? = nil) {
+            self.accessRequestStatus = accessRequestStatus
+            self.credentials = credentials
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRequestStatus = "AccessRequestStatus"
+            case credentials = "Credentials"
         }
     }
 
@@ -13632,6 +13717,35 @@ extension SSM {
         }
     }
 
+    public struct ServiceQuotaExceededException: AWSErrorShape {
+        public let message: String
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
+        public let quotaCode: String
+        /// The unique ID of the resource referenced in the failed request.
+        public let resourceId: String?
+        /// The resource type of the resource referenced in the failed request.
+        public let resourceType: String?
+        /// The code for the Amazon Web Services service that owns the quota.
+        public let serviceCode: String
+
+        @inlinable
+        public init(message: String, quotaCode: String, resourceId: String? = nil, resourceType: String? = nil, serviceCode: String) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.resourceId = resourceId
+            self.resourceType = resourceType
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case resourceId = "ResourceId"
+            case resourceType = "ResourceType"
+            case serviceCode = "ServiceCode"
+        }
+    }
+
     public struct ServiceSetting: AWSDecodableShape {
         /// The ARN of the service setting.
         public let arn: String?
@@ -13792,6 +13906,55 @@ extension SSM {
             case lowCount = "LowCount"
             case mediumCount = "MediumCount"
             case unspecifiedCount = "UnspecifiedCount"
+        }
+    }
+
+    public struct StartAccessRequestRequest: AWSEncodableShape {
+        /// A brief description explaining why you are requesting access to the node.
+        public let reason: String
+        /// Key-value pairs of metadata you want to assign to the access request.
+        public let tags: [Tag]?
+        /// The node you are requesting access to.
+        public let targets: [Target]
+
+        @inlinable
+        public init(reason: String, tags: [Tag]? = nil, targets: [Target]) {
+            self.reason = reason
+            self.tags = tags
+            self.targets = targets
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.reason, name: "reason", parent: name, max: 256)
+            try self.validate(self.reason, name: "reason", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 1000)
+            try self.targets.forEach {
+                try $0.validate(name: "\(name).targets[]")
+            }
+            try self.validate(self.targets, name: "targets", parent: name, max: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reason = "Reason"
+            case tags = "Tags"
+            case targets = "Targets"
+        }
+    }
+
+    public struct StartAccessRequestResponse: AWSDecodableShape {
+        /// The ID of the access request.
+        public let accessRequestId: String?
+
+        @inlinable
+        public init(accessRequestId: String? = nil) {
+            self.accessRequestId = accessRequestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessRequestId = "AccessRequestId"
         }
     }
 
@@ -14491,6 +14654,27 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case sessionId = "SessionId"
+        }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
+        public let quotaCode: String?
+        /// The code for the Amazon Web Services service that owns the quota.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case quotaCode = "QuotaCode"
+            case serviceCode = "ServiceCode"
         }
     }
 
@@ -15780,6 +15964,7 @@ extension SSM {
 /// Error enum for SSM
 public struct SSMErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case alreadyExistsException = "AlreadyExistsException"
         case associatedInstances = "AssociatedInstances"
         case associationAlreadyExists = "AssociationAlreadyExists"
@@ -15898,11 +16083,13 @@ public struct SSMErrorType: AWSErrorType {
         case resourcePolicyInvalidParameterException = "ResourcePolicyInvalidParameterException"
         case resourcePolicyLimitExceededException = "ResourcePolicyLimitExceededException"
         case resourcePolicyNotFoundException = "ResourcePolicyNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case serviceSettingNotFound = "ServiceSettingNotFound"
         case statusUnchanged = "StatusUnchanged"
         case subTypeCountLimitExceededException = "SubTypeCountLimitExceededException"
         case targetInUseException = "TargetInUseException"
         case targetNotConnected = "TargetNotConnected"
+        case throttlingException = "ThrottlingException"
         case tooManyTagsError = "TooManyTagsError"
         case tooManyUpdates = "TooManyUpdates"
         case totalSizeLimitExceededException = "TotalSizeLimitExceededException"
@@ -15935,6 +16122,8 @@ public struct SSMErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The requester doesn't have permissions to perform the requested operation.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// Error returned if an attempt is made to register a patch group with a patch baseline that is already registered with a different patch baseline.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
     /// You must disassociate a document from all managed nodes before you can delete it.
@@ -16171,6 +16360,8 @@ public struct SSMErrorType: AWSErrorType {
     public static var resourcePolicyLimitExceededException: Self { .init(.resourcePolicyLimitExceededException) }
     /// No policies with the specified policy ID and hash could be found.
     public static var resourcePolicyNotFoundException: Self { .init(.resourcePolicyNotFoundException) }
+    /// The request exceeds the service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your Amazon Web Services account.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The specified service setting wasn't found. Either the service name or the setting hasn't been provisioned by the Amazon Web Services service team.
     public static var serviceSettingNotFound: Self { .init(.serviceSettingNotFound) }
     /// The updated status is the same as the current status.
@@ -16181,6 +16372,8 @@ public struct SSMErrorType: AWSErrorType {
     public static var targetInUseException: Self { .init(.targetInUseException) }
     /// The specified target managed node for the session isn't fully configured for use with Session Manager. For more information, see Setting up Session Manager in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on a managed node that is located in a different account or Region
     public static var targetNotConnected: Self { .init(.targetNotConnected) }
+    /// The request or operation couldn't be performed because the service is throttling requests.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// The Targets parameter includes too many tags. Remove one or more tags and try the command again.
     public static var tooManyTagsError: Self { .init(.tooManyTagsError) }
     /// There are concurrent updates for a resource that supports one update at a time.
@@ -16220,6 +16413,8 @@ extension SSMErrorType: AWSServiceErrorType {
         "ResourceDataSyncNotFoundException": SSM.ResourceDataSyncNotFoundException.self,
         "ResourcePolicyInvalidParameterException": SSM.ResourcePolicyInvalidParameterException.self,
         "ResourcePolicyLimitExceededException": SSM.ResourcePolicyLimitExceededException.self,
+        "ServiceQuotaExceededException": SSM.ServiceQuotaExceededException.self,
+        "ThrottlingException": SSM.ThrottlingException.self,
         "UnsupportedInventoryItemContextException": SSM.UnsupportedInventoryItemContextException.self,
         "ValidationException": SSM.ValidationException.self
     ]

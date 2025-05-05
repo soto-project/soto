@@ -377,7 +377,7 @@ public struct CleanRooms: AWSService {
     ///   - analysisMethod: The analysis method allowed for the configured tables.  DIRECT_QUERY allows SQL queries to be run directly on this table.  DIRECT_JOB allows PySpark jobs to be run directly on this table.  MULTIPLE allows both SQL queries and PySpark jobs to be run directly on this table.
     ///   - description: A description for the configured table.
     ///   - name: The name of the configured table.
-    ///   - selectedAnalysisMethods:  The analysis methods to enable for the configured table.  When configured, you must specify at least two analysis methods.
+    ///   - selectedAnalysisMethods:  The analysis methods to enable for the configured table. When configured, you must specify at least two analysis methods.
     ///   - tableReference: A reference to the table being configured.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
     ///   - logger: Logger use during operation
@@ -626,9 +626,9 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: The unique ID for the associated collaboration.
-    ///   - defaultJobResultConfiguration: The default job result configuration that determines how job results are  protected and managed within this membership. This configuration applies to all  jobs.
+    ///   - defaultJobResultConfiguration: The default job result configuration that determines how job results are protected and managed within this membership. This configuration applies to all jobs.
     ///   - defaultResultConfiguration: The default protected query result configuration as specified by the member who can receive results.
-    ///   - jobLogStatus: An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+    ///   - jobLogStatus: An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - paymentConfiguration: The payment responsibilities accepted by the collaboration member. Not required if the collaboration member has the member ability to run queries.  Required if the collaboration member doesn't have the member ability to run queries but is configured as a payer by the collaboration creator.
     ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - tags: An optional label that you can assign to a resource when you create it. Each tag consists of a key and an optional value, both of which you define. When you use tagging, you can also use tag-based access control in IAM policies to control access to this resource.
@@ -1696,7 +1696,7 @@ public struct CleanRooms: AWSService {
     /// Lists analysis templates that the caller owns.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: The identifier for a membership resource.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
@@ -1732,7 +1732,7 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for the collaboration that the analysis templates belong to. Currently accepts collaboration ID.
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1767,7 +1767,7 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1837,7 +1837,7 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -1872,7 +1872,7 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - privacyBudgetType: Specifies the type of the privacy budget.
     ///   - logger: Logger use during operation
@@ -1909,7 +1909,7 @@ public struct CleanRooms: AWSService {
     /// Lists collaborations the caller owns, is active in, or has been invited to.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - memberStatus: The caller's status in a collaboration.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
@@ -1944,7 +1944,7 @@ public struct CleanRooms: AWSService {
     /// Lists information about requested configured audience model associations.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
@@ -1979,7 +1979,7 @@ public struct CleanRooms: AWSService {
     /// Lists configured table associations for a membership.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: A unique identifier for the membership to list configured table associations for. Currently accepts the membership ID.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
@@ -2014,7 +2014,7 @@ public struct CleanRooms: AWSService {
     /// Lists configured tables.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2117,7 +2117,7 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: The identifier of the collaboration in which the members are listed.
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
     @inlinable
@@ -2151,7 +2151,7 @@ public struct CleanRooms: AWSService {
     /// Lists all memberships resources within the caller's account.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - status: A filter which will return only memberships in the specified status.
     ///   - logger: Logger use during operation
@@ -2186,7 +2186,7 @@ public struct CleanRooms: AWSService {
     /// Returns detailed information about the privacy budget templates in a specified membership.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - logger: Logger use during operation
@@ -2221,7 +2221,7 @@ public struct CleanRooms: AWSService {
     /// Returns detailed information about the privacy budgets in a specified membership.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - privacyBudgetType: The privacy budget type.
@@ -2259,7 +2259,7 @@ public struct CleanRooms: AWSService {
     /// Lists protected jobs, sorted by most recent job.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call.  The service chooses a default number if you don't set one. The service might  return a `nextToken` even if the `maxResults` value has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: The identifier for the membership in the collaboration.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - status: A filter on the status of the protected job.
@@ -2297,7 +2297,7 @@ public struct CleanRooms: AWSService {
     /// Lists protected queries, sorted by the most recent query.
     ///
     /// Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the  `maxResults` value has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: The identifier for the membership in the collaboration.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - status: A filter on the status of the protected query.
@@ -2336,7 +2336,7 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - collaborationIdentifier: A unique identifier for the collaboration that the schema belongs to. Currently accepts a collaboration ID.
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - nextToken: The pagination token that's used to fetch the next set of results.
     ///   - schemaType: If present, filter schemas by schema type.
     ///   - logger: Logger use during operation
@@ -2467,7 +2467,7 @@ public struct CleanRooms: AWSService {
     ///
     /// Parameters:
     ///   - jobParameters:  The job parameters.
-    ///   - membershipIdentifier: A unique identifier for the membership to run this job against.  Currently accepts a membership ID.
+    ///   - membershipIdentifier: A unique identifier for the membership to run this job against. Currently accepts a membership ID.
     ///   - resultConfiguration: The details needed to write the job results.
     ///   - type:  The type of protected job to start.
     ///   - logger: Logger use during operation
@@ -2953,7 +2953,7 @@ public struct CleanRooms: AWSService {
     /// Parameters:
     ///   - defaultJobResultConfiguration:  The default job result configuration.
     ///   - defaultResultConfiguration: The default protected query result configuration as specified by the member who can receive results.
-    ///   - jobLogStatus: An indicator as to whether job logging has been enabled or disabled  for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
+    ///   - jobLogStatus: An indicator as to whether job logging has been enabled or disabled for the collaboration.  When ENABLED, Clean Rooms logs details about jobs run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - membershipIdentifier: The unique identifier of the membership.
     ///   - queryLogStatus: An indicator as to whether query logging has been enabled or disabled for the membership. When ENABLED, Clean Rooms logs details about queries run within this collaboration and those logs can be viewed in Amazon CloudWatch Logs. The default value is DISABLED.
     ///   - logger: Logger use during operation
@@ -3032,7 +3032,7 @@ public struct CleanRooms: AWSService {
     /// Parameters:
     ///   - membershipIdentifier: The identifier for a member of a protected job instance.
     ///   - protectedJobIdentifier:  The identifier of the protected job to update.
-    ///   - targetStatus: The target status of a protected job. Used to update the execution status  of a currently running job.
+    ///   - targetStatus: The target status of a protected job. Used to update the execution status of a currently running job.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateProtectedJob(
@@ -3120,7 +3120,7 @@ extension CleanRooms {
     ///
     /// - Parameters:
     ///   - collaborationIdentifier: A unique identifier for the collaboration that the configured audience model association belongs to. Accepts a collaboration ID.
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCollaborationConfiguredAudienceModelAssociationsPaginator(
@@ -3194,7 +3194,7 @@ extension CleanRooms {
     ///
     /// - Parameters:
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - logger: Logger used for logging
     @inlinable
     public func listCollaborationPrivacyBudgetTemplatesPaginator(
@@ -3231,7 +3231,7 @@ extension CleanRooms {
     ///
     /// - Parameters:
     ///   - collaborationIdentifier: A unique identifier for one of your collaborations.
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - privacyBudgetType: Specifies the type of the privacy budget.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3270,7 +3270,7 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listConfiguredAudienceModelAssociations(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: A unique identifier for a membership that contains the configured audience model associations that you want to retrieve.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3381,7 +3381,7 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listPrivacyBudgetTemplates(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget templates are retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     ///   - logger: Logger used for logging
     @inlinable
@@ -3418,7 +3418,7 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listPrivacyBudgets(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: A unique identifier for one of your memberships for a collaboration. The privacy budget is retrieved from the collaboration that this membership belongs to. Accepts a membership ID.
     ///   - privacyBudgetType: The privacy budget type.
     ///   - logger: Logger used for logging
@@ -3458,7 +3458,7 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listProtectedJobs(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call.  The service chooses a default number if you don't set one. The service might  return a `nextToken` even if the `maxResults` value has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: The identifier for the membership in the collaboration.
     ///   - status: A filter on the status of the protected job.
     ///   - logger: Logger used for logging
@@ -3498,7 +3498,7 @@ extension CleanRooms {
     /// Return PaginatorSequence for operation ``listProtectedQueries(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the  `maxResults` value has not been met.
+    ///   - maxResults: The maximum number of results that are returned for an API request call. The service chooses a default number if you don't set one. The service might return a `nextToken` even if the `maxResults` value has not been met.
     ///   - membershipIdentifier: The identifier for the membership in the collaboration.
     ///   - status: A filter on the status of the protected query.
     ///   - logger: Logger used for logging

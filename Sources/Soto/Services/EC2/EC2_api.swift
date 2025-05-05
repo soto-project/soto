@@ -2794,10 +2794,11 @@ public struct EC2: AWSService {
     ///   - clientCidrBlock: The IPv4 address range, in CIDR notation, from which to assign client IP addresses. The address range cannot overlap with the local CIDR of the VPC in which the associated subnet is located, or the routes that you add manually. The address range cannot be changed after the Client VPN endpoint has been created. Client CIDR range must have a size of at least /22 and must not be greater than /12.
     ///   - clientConnectOptions: The options for managing connection authorization for new client connections.
     ///   - clientLoginBannerOptions: Options for enabling a customizable text banner that will be displayed on
+    ///   - clientRouteEnforcementOptions: Client route enforcement is a feature of the Client VPN service that helps enforce administrator defined routes on devices connected through the VPN. T
     ///   - clientToken: Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     ///   - connectionLogOptions: Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a
     ///   - description: A brief description of the Client VPN endpoint.
-    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically.  The default value is false.
+    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in SessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically.  The default value is true.
     ///   - dnsServers: Information about the DNS servers to be used for DNS resolution. A Client VPN endpoint can
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - securityGroupIds: The IDs of one or more security groups to apply to the target network. You must also specify the ID of the VPC that contains the security groups.
@@ -2816,6 +2817,7 @@ public struct EC2: AWSService {
         clientCidrBlock: String? = nil,
         clientConnectOptions: ClientConnectOptions? = nil,
         clientLoginBannerOptions: ClientLoginBannerOptions? = nil,
+        clientRouteEnforcementOptions: ClientRouteEnforcementOptions? = nil,
         clientToken: String? = CreateClientVpnEndpointRequest.idempotencyToken(),
         connectionLogOptions: ConnectionLogOptions? = nil,
         description: String? = nil,
@@ -2838,6 +2840,7 @@ public struct EC2: AWSService {
             clientCidrBlock: clientCidrBlock, 
             clientConnectOptions: clientConnectOptions, 
             clientLoginBannerOptions: clientLoginBannerOptions, 
+            clientRouteEnforcementOptions: clientRouteEnforcementOptions, 
             clientToken: clientToken, 
             connectionLogOptions: connectionLogOptions, 
             description: description, 
@@ -3593,6 +3596,7 @@ public struct EC2: AWSService {
     ///   - description: A description for the IPAM.
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - enablePrivateGua: Enable this option to use your own GUA ranges as private IPv6 addresses. This option is disabled by default.
+    ///   - meteredAccount: A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide. Possible values:    ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM.    resource-owner: The Amazon Web Services account that owns the IP address is charged for the active IP address.
     ///   - operatingRegions: The operating Regions for the IPAM. Operating Regions are Amazon Web Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers and monitors resources in the Amazon Web Services Regions you select as operating Regions.  For more information about operating Regions, see Create an IPAM in the Amazon VPC IPAM User Guide.
     ///   - tagSpecifications: The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
     ///   - tier: IPAM is offered in a Free Tier and an Advanced Tier. For more information about the features available in each tier and the costs associated with the tiers, see Amazon VPC pricing > IPAM tab.
@@ -3603,6 +3607,7 @@ public struct EC2: AWSService {
         description: String? = nil,
         dryRun: Bool? = nil,
         enablePrivateGua: Bool? = nil,
+        meteredAccount: IpamMeteredAccount? = nil,
         operatingRegions: [AddIpamOperatingRegion]? = nil,
         tagSpecifications: [TagSpecification]? = nil,
         tier: IpamTier? = nil,
@@ -3613,6 +3618,7 @@ public struct EC2: AWSService {
             description: description, 
             dryRun: dryRun, 
             enablePrivateGua: enablePrivateGua, 
+            meteredAccount: meteredAccount, 
             operatingRegions: operatingRegions, 
             tagSpecifications: tagSpecifications, 
             tier: tier
@@ -6441,7 +6447,7 @@ public struct EC2: AWSService {
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - ipAddressType: The IP address type for the endpoint.
     ///   - policyDocument: (Interface and gateway endpoints) A policy to attach to the endpoint that controls access to the service. The policy must be in valid JSON format. If this parameter is not specified, we attach a default policy that allows full access to the service.
-    ///   - privateDnsEnabled: (Interface endpoint) Indicates whether to associate a private hosted zone with the specified VPC. The private hosted zone contains a record set for the default public DNS name for the service for the Region (for example, kinesis.us-east-1.amazonaws.com), which resolves to the private IP addresses of the endpoint network interfaces in the VPC. This enables you to make requests to the default public DNS name for the service instead of the public DNS names that are automatically generated by the VPC endpoint service. To use a private hosted zone, you must set the following VPC attributes to true: enableDnsHostnames and enableDnsSupport. Use ModifyVpcAttribute to set the VPC attributes. Default: true
+    ///   - privateDnsEnabled: (Interface endpoint) Indicates whether to associate a private hosted zone with the specified VPC. The private hosted zone contains a record set for the default public DNS name for the service for the Region (for example, kinesis.us-east-1.amazonaws.com), which resolves to the private IP addresses of the endpoint network interfaces in the VPC. This enables you to make requests to the default public DNS name for the service instead of the public DNS names that are automatically generated by the VPC endpoint service. To use a private hosted zone, you must set the following VPC attributes to true: enableDnsHostnames and enableDnsSupport. Use ModifyVpcAttribute to set the VPC attributes.
     ///   - resourceConfigurationArn: The Amazon Resource Name (ARN) of a resource configuration that will be associated with the VPC endpoint of type resource.
     ///   - routeTableIds: (Gateway endpoint) The route table IDs.
     ///   - securityGroupIds: (Interface endpoint) The IDs of the security groups to associate with the endpoint network interfaces. If this parameter is not specified, we use the default  security group for the VPC.
@@ -10094,7 +10100,7 @@ public struct EC2: AWSService {
     }
 
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count. You must select one of the following options.   For reservation durations 1-day increments up 14 days and 7-day increments up to 182 days total    For instance count 1, 2, 4, 8, 16, 32, or 64 instances
+    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count.
     @Sendable
     @inlinable
     public func describeCapacityBlockOfferings(_ input: DescribeCapacityBlockOfferingsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeCapacityBlockOfferingsResult {
@@ -10108,13 +10114,13 @@ public struct EC2: AWSService {
         )
     }
     /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a
-    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count. You must select one of the following options.   For reservation durations 1-day increments up 14 days and 7-day increments up to 182 days total    For instance count 1, 2, 4, 8, 16, 32, or 64 instances
+    /// 			specific instance type for a period of time. To search for an available Capacity Block offering, you specify a reservation duration and instance count.
     ///
     /// Parameters:
-    ///   - capacityDurationHours: The number of hours for which to reserve Capacity Block.
+    ///   - capacityDurationHours: The reservation duration for the Capacity Block, in hours. You must specify
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - endDateRange: The latest end date for the Capacity Block offering.
-    ///   - instanceCount: The number of instances for which to reserve capacity.
+    ///   - instanceCount: The number of instances for which to reserve capacity. Each Capacity Block
     ///   - instanceType: The type of instance for which the Capacity Block offering reserves capacity.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - nextToken: The token to use to retrieve the next page of results.
@@ -16057,7 +16063,7 @@ public struct EC2: AWSService {
         return try await self.describeVpcEndpointServiceConfigurations(input, logger: logger)
     }
 
-    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service.
+    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service. Principal ARNs with path components aren't supported.
     @Sendable
     @inlinable
     public func describeVpcEndpointServicePermissions(_ input: DescribeVpcEndpointServicePermissionsRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DescribeVpcEndpointServicePermissionsResult {
@@ -16070,7 +16076,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service.
+    /// Describes the principals (service consumers) that are permitted to discover your VPC endpoint service. Principal ARNs with path components aren't supported.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request,  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
@@ -21368,10 +21374,11 @@ public struct EC2: AWSService {
     /// Parameters:
     ///   - clientConnectOptions: The options for managing connection authorization for new client connections.
     ///   - clientLoginBannerOptions: Options for enabling a customizable text banner that will be displayed on
+    ///   - clientRouteEnforcementOptions: Client route enforcement is a feature of the Client VPN service that helps enforce administrator defined routes on devices connected through the VPN. T
     ///   - clientVpnEndpointId: The ID of the Client VPN endpoint to modify.
     ///   - connectionLogOptions: Information about the client connection logging options. If you enable client connection logging, data about client connections is sent to a
     ///   - description: A brief description of the Client VPN endpoint.
-    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is false.
+    ///   - disconnectOnSessionTimeout: Indicates whether the client VPN session is disconnected after the maximum timeout specified in sessionTimeoutHours is reached. If true, users are prompted to reconnect client VPN. If false, client VPN attempts to reconnect automatically. The default value is true.
     ///   - dnsServers: Information about the DNS servers to be used by Client VPN connections. A Client VPN endpoint can have
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - securityGroupIds: The IDs of one or more security groups to apply to the target network.
@@ -21386,6 +21393,7 @@ public struct EC2: AWSService {
     public func modifyClientVpnEndpoint(
         clientConnectOptions: ClientConnectOptions? = nil,
         clientLoginBannerOptions: ClientLoginBannerOptions? = nil,
+        clientRouteEnforcementOptions: ClientRouteEnforcementOptions? = nil,
         clientVpnEndpointId: String? = nil,
         connectionLogOptions: ConnectionLogOptions? = nil,
         description: String? = nil,
@@ -21404,6 +21412,7 @@ public struct EC2: AWSService {
         let input = ModifyClientVpnEndpointRequest(
             clientConnectOptions: clientConnectOptions, 
             clientLoginBannerOptions: clientLoginBannerOptions, 
+            clientRouteEnforcementOptions: clientRouteEnforcementOptions, 
             clientVpnEndpointId: clientVpnEndpointId, 
             connectionLogOptions: connectionLogOptions, 
             description: description, 
@@ -22273,6 +22282,7 @@ public struct EC2: AWSService {
     ///   - dryRun: A check for whether you have the required permissions for the action without actually making the request  and provides an error response. If you have the required permissions, the error response is DryRunOperation.  Otherwise, it is UnauthorizedOperation.
     ///   - enablePrivateGua: Enable this option to use your own GUA ranges as private IPv6 addresses. This option is disabled by default.
     ///   - ipamId: The ID of the IPAM you want to modify.
+    ///   - meteredAccount: A metered account is an Amazon Web Services account that is charged for active IP addresses managed in IPAM. For more information, see Enable cost distribution in the Amazon VPC IPAM User Guide. Possible values:    ipam-owner (default): The Amazon Web Services account which owns the IPAM is charged for all active IP addresses managed in IPAM.    resource-owner: The Amazon Web Services account that owns the IP address is charged for the active IP address.
     ///   - removeOperatingRegions: The operating Regions to remove.
     ///   - tier: IPAM is offered in a Free Tier and an Advanced Tier. For more information about the features available in each tier and the costs associated with the tiers, see Amazon VPC pricing > IPAM tab.
     ///   - logger: Logger use during operation
@@ -22283,6 +22293,7 @@ public struct EC2: AWSService {
         dryRun: Bool? = nil,
         enablePrivateGua: Bool? = nil,
         ipamId: String? = nil,
+        meteredAccount: IpamMeteredAccount? = nil,
         removeOperatingRegions: [RemoveIpamOperatingRegion]? = nil,
         tier: IpamTier? = nil,
         logger: Logger = AWSClient.loggingDisabled        
@@ -22293,6 +22304,7 @@ public struct EC2: AWSService {
             dryRun: dryRun, 
             enablePrivateGua: enablePrivateGua, 
             ipamId: ipamId, 
+            meteredAccount: meteredAccount, 
             removeOperatingRegions: removeOperatingRegions, 
             tier: tier
         )
@@ -23988,7 +24000,7 @@ public struct EC2: AWSService {
         return try await self.modifyVpcEndpointServicePayerResponsibility(input, logger: logger)
     }
 
-    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a
+    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a
     /// 	        public service can send a request to attach an endpoint. If the service does not require manual approval,
     /// 	        attachments are automatically approved.
     @Sendable
@@ -24003,7 +24015,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. If you grant permissions to all principals, the service is public. Any users who know the name of a
+    /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (Amazon Web Services accounts, users, and IAM roles) to connect to your endpoint service. Principal ARNs with path components aren't supported. If you grant permissions to all principals, the service is public. Any users who know the name of a
     /// 	        public service can send a request to attach an endpoint. If the service does not require manual approval,
     /// 	        attachments are automatically approved.
     ///
@@ -26939,7 +26951,7 @@ public struct EC2: AWSService {
         return try await self.startVpcEndpointServicePrivateDnsVerification(input, logger: logger)
     }
 
-    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
+    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. When you stop an instance, we shut it down. You can restart your instance at any time. You can use the Stop operation together with the Hibernate parameter to hibernate an instance if the instance is enabled for hibernation and meets the hibernation prerequisites. Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the Stop operation together with the Force parameter to force stop your instance. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
     @Sendable
     @inlinable
     public func stopInstances(_ input: StopInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> StopInstancesResult {
@@ -26952,11 +26964,11 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
+    /// Stops an Amazon EBS-backed instance. For more information, see Stop and start Amazon EC2 instances in the Amazon EC2 User Guide. When you stop an instance, we shut it down. You can restart your instance at any time. You can use the Stop operation together with the Hibernate parameter to hibernate an instance if the instance is enabled for hibernation and meets the hibernation prerequisites. Stopping an instance doesn't preserve data stored in RAM, while hibernation does. If hibernation fails, a normal shutdown occurs. For more information, see Hibernate your Amazon EC2 instance in the Amazon EC2 User Guide. If your instance appears stuck in the stopping state, there might be an issue with the underlying host computer. You can use the Stop operation together with the Force parameter to force stop your instance. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Stopping and hibernating an instance differs from rebooting or terminating it. For example, a stopped or hibernated instance retains its root volume and any data volumes, unlike terminated instances where these volumes are automatically deleted. For more information about the differences between stopping, hibernating, rebooting, and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. We don't charge for instance usage or data transfer fees when an instance is stopped. However, the root volume and any data volumes remain and continue to persist your data, and you're charged for volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, followed by per-second billing. You can't stop or hibernate instance store-backed instances.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
-    ///   - force: Forces the instances to stop. The instances do not have an opportunity to flush file system caches or file system metadata. If you use this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. Default: false
+    ///   - force: Forces the instance to stop. The instance will first attempt a graceful shutdown, which includes flushing file system caches and metadata. If the graceful shutdown fails to complete within the timeout period, the instance shuts down forcibly without flushing the file system caches and metadata. After using this option, you must perform file system check and repair procedures. This option is not recommended for Windows instances. For more information, see Troubleshoot Amazon EC2 instance stop issues in the Amazon EC2 User Guide. Default: false
     ///   - hibernate: Hibernates the instance if the instance was enabled for hibernation at launch. If the instance cannot hibernate successfully, a normal shutdown occurs. For more information, see Hibernate your instance in the Amazon EC2 User Guide. Default: false
     ///   - instanceIds: The IDs of the instances.
     ///   - logger: Logger use during operation
@@ -27015,7 +27027,7 @@ public struct EC2: AWSService {
         return try await self.terminateClientVpnConnections(input, logger: logger)
     }
 
-    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.  If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop it or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
+    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds. If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. For information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
     @Sendable
     @inlinable
     public func terminateInstances(_ input: TerminateInstancesRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TerminateInstancesResult {
@@ -27028,7 +27040,7 @@ public struct EC2: AWSService {
             logger: logger
         )
     }
-    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds.  If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop it or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. For more information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
+    /// Shuts down the specified instances. This operation is idempotent; if you terminate an instance more than once, each call succeeds. If you specify multiple instances and the request fails (for example, because of a single incorrect instance ID), none of the instances are terminated. If you terminate multiple instances across multiple Availability Zones, and one or more of the specified instances are enabled for termination protection, the request fails with the following results:   The specified instances that are in the same Availability Zone as the protected instance are not terminated.   The specified instances that are in different Availability Zones, where no other specified instances are protected, are successfully terminated.   For example, say you have the following instances:   Instance A: us-east-1a; Not protected   Instance B: us-east-1a; Not protected   Instance C: us-east-1b; Protected   Instance D: us-east-1b; not protected   If you attempt to terminate all of these instances in the same request, the request reports failure with the following results:   Instance A and Instance B are successfully terminated because none of the specified instances in us-east-1a are enabled for termination protection.   Instance C and Instance D fail to terminate because at least one of the specified instances in us-east-1b (Instance C) is enabled for termination protection.   Terminated instances remain visible after termination (for approximately one hour). By default, Amazon EC2 deletes all EBS volumes that were attached when the instance launched. Volumes attached after instance launch continue running. You can stop, start, and terminate EBS-backed instances. You can only terminate instance store-backed instances. What happens to an instance differs if you stop or terminate it. For example, when you stop an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, any attached EBS volumes with the DeleteOnTermination block device mapping parameter set to true are automatically deleted. For more information about the differences between stopping and terminating instances, see Amazon EC2 instance state changes in the Amazon EC2 User Guide. For information about troubleshooting, see Troubleshooting terminating your instance in the Amazon EC2 User Guide.
     ///
     /// Parameters:
     ///   - dryRun: Checks whether you have the required permissions for the operation, without actually making the  request, and provides an error response. If you have the required permissions, the error response is  DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -27626,10 +27638,10 @@ extension EC2 {
     /// Return PaginatorSequence for operation ``describeCapacityBlockOfferings(_:logger:)``.
     ///
     /// - Parameters:
-    ///   - capacityDurationHours: The number of hours for which to reserve Capacity Block.
+    ///   - capacityDurationHours: The reservation duration for the Capacity Block, in hours. You must specify
     ///   - dryRun: Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
     ///   - endDateRange: The latest end date for the Capacity Block offering.
-    ///   - instanceCount: The number of instances for which to reserve capacity.
+    ///   - instanceCount: The number of instances for which to reserve capacity. Each Capacity Block
     ///   - instanceType: The type of instance for which the Capacity Block offering reserves capacity.
     ///   - maxResults: The maximum number of items to return for this request. To get the next page of items, make another request with the token returned in the output. For more information,  see Pagination.
     ///   - startDateRange: The earliest start date for the Capacity Block offering.

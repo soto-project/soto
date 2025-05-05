@@ -1332,7 +1332,7 @@ extension RDS {
 
         /// The amount of storage in gibibytes (GiB) to allocate to each DB instance in the Multi-AZ DB cluster. Valid for Cluster Type: Multi-AZ DB clusters only This setting is required to create a Multi-AZ DB cluster.
         public let allocatedStorage: Int?
-        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster
+        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB cluster. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// A list of Availability Zones (AZs) where you specifically want to create DB instances in the DB cluster. For information on AZs, see  Availability Zones in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only Constraints:   Can't specify more than three AZs.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -1667,7 +1667,7 @@ extension RDS {
 
         /// The amount of storage in gibibytes (GiB) to allocate for the DB instance. This setting doesn't apply to Amazon Aurora DB instances. Aurora cluster volumes automatically grow as the amount of data in your  database increases, though you are only charged for the space that you use in an Aurora cluster volume.  Amazon RDS Custom  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.   Provisioned IOPS storage (io1, io2): Must be an integer from 40 to 65536 for RDS Custom for Oracle,  16384 for RDS Custom for SQL Server.    RDS for Db2  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.    RDS for MariaDB  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for MySQL  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for Oracle  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.    RDS for PostgreSQL  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    RDS for SQL Server  Constraints to the amount of storage for each storage type are the following:   General Purpose (SSD) storage (gp2, gp3):   Enterprise and Standard editions: Must be an integer from 20 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1, io2):   Enterprise and Standard editions: Must be an integer from 100 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 20 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.
         public let allocatedStorage: Int?
-        /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window.  By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to  false.
+        /// Specifies whether minor engine upgrades are applied automatically to the DB instance during the maintenance window.  By default, minor engine upgrades are applied automatically. If you create an RDS Custom DB instance, you must set AutoMinorVersionUpgrade to  false. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the database will be created. For information on Amazon Web Services Regions and Availability Zones, see  Regions and Availability Zones. For Amazon Aurora, each Aurora DB cluster hosts copies of its storage in three separate Availability Zones. Specify one of these  Availability Zones. Aurora automatically chooses an appropriate Availability Zone if you don't specify one. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Constraints:   The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment.   The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.   Example: us-east-1d
         public let availabilityZone: String?
@@ -1943,7 +1943,7 @@ extension RDS {
 
         /// The amount of storage (in gibibytes) to allocate initially for the read replica. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your read replica so that the create operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
-        /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance.
+        /// Specifies whether to automatically apply minor engine upgrades to the read replica during the maintenance window. This setting doesn't apply to RDS Custom DB instances. Default: Inherits the value from the source DB instance. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
         public let availabilityZone: String?
@@ -2729,10 +2729,14 @@ extension RDS {
         public let characterSetName: String?
         /// The user-supplied DB instance identifier. RDS creates your tenant database in this DB instance. This parameter isn't case-sensitive.
         public let dbInstanceIdentifier: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.
+        public let manageMasterUserPassword: Bool?
         /// The name for the master user account in your tenant database. RDS creates this user account in the tenant database and grants privileges to the master user. This parameter is case-sensitive. Constraints:   Must be 1 to 16 letters, numbers, or underscores.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String?
-        /// The password for the master user in your tenant database. Constraints:   Must be 8 to 30 characters.   Can include any printable ASCII character except forward slash (/), double quote ("), at symbol (@), ampersand (&), or single quote (').
+        /// The password for the master user in your tenant database. Constraints:   Must be 8 to 30 characters.   Can include any printable ASCII character except forward slash (/), double quote ("), at symbol (@), ampersand (&), or single quote (').   Can't be specified when ManageMasterUserPassword is enabled.
         public let masterUserPassword: String?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// The NCHAR value for the tenant database.
         public let ncharCharacterSetName: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -2741,11 +2745,13 @@ extension RDS {
         public let tenantDBName: String?
 
         @inlinable
-        public init(characterSetName: String? = nil, dbInstanceIdentifier: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, ncharCharacterSetName: String? = nil, tags: [Tag]? = nil, tenantDBName: String? = nil) {
+        public init(characterSetName: String? = nil, dbInstanceIdentifier: String? = nil, manageMasterUserPassword: Bool? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, ncharCharacterSetName: String? = nil, tags: [Tag]? = nil, tenantDBName: String? = nil) {
             self.characterSetName = characterSetName
             self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.manageMasterUserPassword = manageMasterUserPassword
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.ncharCharacterSetName = ncharCharacterSetName
             self.tags = tags
             self.tenantDBName = tenantDBName
@@ -2754,8 +2760,10 @@ extension RDS {
         private enum CodingKeys: String, CodingKey {
             case characterSetName = "CharacterSetName"
             case dbInstanceIdentifier = "DBInstanceIdentifier"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case ncharCharacterSetName = "NcharCharacterSetName"
             case tags = "Tags"
             case tenantDBName = "TenantDBName"
@@ -2819,7 +2827,7 @@ extension RDS {
         public var associatedRoles: [DBClusterRole]?
         /// The time when a stopped DB cluster is restarted automatically.
         public let automaticRestartTime: Date?
-        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters.
+        /// Indicates whether minor version patches are applied automatically. This setting is for Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The list of Availability Zones (AZs) where instances in the DB cluster can be created.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
@@ -4035,7 +4043,7 @@ extension RDS {
         public let automaticRestartTime: Date?
         /// The automation mode of the RDS Custom DB instance: full or all paused.  If full, the DB instance automates monitoring and instance recovery. If  all paused, the instance pauses automation for the duration set by  --resume-full-automation-mode-minutes.
         public let automationMode: AutomationMode?
-        /// Indicates whether minor version patches are applied automatically.
+        /// Indicates whether minor version patches are applied automatically. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The name of the Availability Zone where the DB instance is located.
         public let availabilityZone: String?
@@ -9127,7 +9135,7 @@ extension RDS {
         public let allowMajorVersionUpgrade: Bool?
         /// Specifies whether the modifications in this request are asynchronously applied as soon as possible, regardless of the  PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster  are applied during the next maintenance window. Most modifications can be applied immediately or during the next scheduled maintenance window. Some modifications, such as  turning on deletion protection and changing the master password, are applied immediately—regardless of when you choose to apply them. By default, this parameter is disabled. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
         public let applyImmediately: Bool?
-        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
+        /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window.  By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
         public let awsBackupRecoveryPointArn: String?
@@ -9409,7 +9417,7 @@ extension RDS {
         public let applyImmediately: Bool?
         /// The automation mode of the RDS Custom DB instance.  If full, the DB instance automates monitoring and instance recovery. If  all paused, the instance pauses automation for the duration set by  ResumeFullAutomationModeMinutes.
         public let automationMode: AutomationMode?
-        /// Specifies whether minor version upgrades are applied automatically to the DB instance  during the maintenance window. An outage occurs when all the following conditions are met:   The automatic upgrade is enabled for the maintenance window.   A newer minor version is available.   RDS has enabled automatic patching for the engine version.   If any of the preceding conditions isn't met, Amazon RDS applies the change as soon as possible and doesn't cause an outage. For an RDS Custom DB instance, don't enable this setting. Otherwise, the operation returns an error.
+        /// Specifies whether minor version upgrades are applied automatically to the DB instance  during the maintenance window. An outage occurs when all the following conditions are met:   The automatic upgrade is enabled for the maintenance window.   A newer minor version is available.   RDS has enabled automatic patching for the engine version.   If any of the preceding conditions isn't met, Amazon RDS applies the change as soon as possible and doesn't cause an outage. For an RDS Custom DB instance, don't enable this setting. Otherwise, the operation returns an error. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup. This setting doesn't apply to RDS Custom DB instances.
         public let awsBackupRecoveryPointArn: String?
@@ -9471,9 +9479,9 @@ extension RDS {
         public let iops: Int?
         /// The license model for the DB instance. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license
         public let licenseModel: String?
-        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB instance doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn  on this management. In this case, you can't specify MasterUserPassword. If the DB instance already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the  master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword.  In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by  MasterUserPassword. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the DB instance doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn  on this management. In this case, you can't specify MasterUserPassword. If the DB instance already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the  master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword.  In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by  MasterUserPassword. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.   Can't specify for RDS for Oracle CDB instances in the multi-tenant configuration. Use ModifyTenantDatabase instead.   Can't specify the parameters ManageMasterUserPassword and MultiTenant in the same operation.
         public let manageMasterUserPassword: Bool?
-        /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.  Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.  Amazon RDS API operations never return the password,  so this operation provides a way to regain access to a primary instance user if the password is lost.  This includes restoring privileges that might have been accidentally revoked.  This setting doesn't apply to the following DB instances:   Amazon Aurora (The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.)   RDS Custom   Default: Uses existing setting Constraints:   Can't be specified if ManageMasterUserPassword is turned on.   Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&" (ampersand) or  the "'" (single quotes) character.   Length Constraints:   RDS for Db2 - Must contain from 8 to 255 characters.   RDS for MariaDB - Must contain from 8 to 41 characters.   RDS for Microsoft SQL Server - Must contain from 8 to 128 characters.   RDS for MySQL - Must contain from 8 to 41 characters.   RDS for Oracle - Must contain from 8 to 30 characters.   RDS for PostgreSQL - Must contain from 8 to 128 characters.
+        /// The new password for the master user. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.  Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.  Amazon RDS API operations never return the password,  so this operation provides a way to regain access to a primary instance user if the password is lost.  This includes restoring privileges that might have been accidentally revoked.  This setting doesn't apply to the following DB instances:   Amazon Aurora The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.   RDS Custom   RDS for Oracle CDBs in the multi-tenant configuration Specify the master password in ModifyTenantDatabase instead.   Default: Uses existing setting Constraints:   Can't be specified if ManageMasterUserPassword is turned on.   Can include any printable ASCII character except "/", """, or "@". For RDS for Oracle, can't include the "&" (ampersand) or  the "'" (single quotes) character.   Length Constraints:   RDS for Db2 - Must contain from 8 to 255 characters.   RDS for MariaDB - Must contain from 8 to 41 characters.   RDS for Microsoft SQL Server - Must contain from 8 to 128 characters.   RDS for MySQL - Must contain from 8 to 41 characters.   RDS for Oracle - Must contain from 8 to 30 characters.   RDS for PostgreSQL - Must contain from 8 to 128 characters.
         public let masterUserPassword: String?
         /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The DB instance doesn't manage the master user password in Amazon Web Services Secrets Manager. If the DB instance already manages the master user password in Amazon Web Services Secrets Manager,  you can't change the KMS key used to encrypt the secret.   You are turning on ManageMasterUserPassword to manage the master user password  in Amazon Web Services Secrets Manager. If you are turning on ManageMasterUserPassword and don't specify  MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key.   The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
         public let masterUserSecretKmsKeyId: String?
@@ -9512,7 +9520,7 @@ extension RDS {
         public let replicaMode: ReplicaMode?
         /// The number of minutes to pause the automation. When the time period ends, RDS Custom resumes  full automation. Default: 60  Constraints:   Must be at least 60.   Must be no more than 1,440.
         public let resumeFullAutomationModeMinutes: Int?
-        /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the  master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB cluster. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   You must apply the change immediately when rotating the master user password.
+        /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the  master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   You must apply the change immediately when rotating the master user password.
         public let rotateMasterUserPassword: Bool?
         /// The storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
         public let storageThroughput: Int?
@@ -10193,25 +10201,37 @@ extension RDS {
     public struct ModifyTenantDatabaseMessage: AWSEncodableShape {
         /// The identifier of the DB instance that contains the tenant database that you are modifying. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DB instance.
         public let dbInstanceIdentifier: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager. If the tenant database doesn't manage the master user password with Amazon Web Services Secrets Manager, you can turn on this management. In this case, you can't specify MasterUserPassword. If the tenant database already manages the master user password with Amazon Web Services Secrets Manager, and you specify that the master user password is not managed with Amazon Web Services Secrets Manager, then you must specify MasterUserPassword. In this case, Amazon RDS deletes the secret and uses the new password for the master user specified by MasterUserPassword. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   Can't manage the master user password with Amazon Web Services Secrets Manager if MasterUserPassword  is specified.
+        public let manageMasterUserPassword: Bool?
         /// The new password for the master user of the specified tenant database in your DB instance.  Amazon RDS operations never return the password, so this action provides a way to regain access to a tenant database user if the password is lost. This includes restoring privileges that might have been accidentally revoked.  Constraints:   Can include any printable ASCII character except /, " (double quote), @, & (ampersand), and ' (single quote).   Length constraints:   Must contain between 8 and 30 characters.
         public let masterUserPassword: String?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if both of the following conditions are met:   The tenant database doesn't manage the master user password in Amazon Web Services Secrets Manager. If the tenant database already manages the master user password in Amazon Web Services Secrets Manager,  you can't change the KMS key used to encrypt the secret.   You're turning on ManageMasterUserPassword to manage the master user password  in Amazon Web Services Secrets Manager. If you're turning on ManageMasterUserPassword and don't specify  MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a self-managed  KMS key.   The Amazon Web Services KMS key identifier is any of the following:   Key ARN   Key ID   Alias ARN   Alias name for the KMS key   To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. A default KMS key exists for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// The new name of the tenant database when renaming a tenant database. This parameter isn’t case-sensitive. Constraints:   Can't be the string null or any other reserved word.   Can't be longer than 8 characters.
         public let newTenantDBName: String?
+        /// Specifies whether to rotate the secret managed by Amazon Web Services Secrets Manager for the  master user password. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The secret value contains the updated password. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide.  Constraints:   You must apply the change immediately when rotating the master user password.
+        public let rotateMasterUserPassword: Bool?
         /// The user-supplied name of the tenant database that you want to modify. This parameter isn’t case-sensitive. Constraints:   Must match the identifier of an existing tenant database.
         public let tenantDBName: String?
 
         @inlinable
-        public init(dbInstanceIdentifier: String? = nil, masterUserPassword: String? = nil, newTenantDBName: String? = nil, tenantDBName: String? = nil) {
+        public init(dbInstanceIdentifier: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserPassword: String? = nil, masterUserSecretKmsKeyId: String? = nil, newTenantDBName: String? = nil, rotateMasterUserPassword: Bool? = nil, tenantDBName: String? = nil) {
             self.dbInstanceIdentifier = dbInstanceIdentifier
+            self.manageMasterUserPassword = manageMasterUserPassword
             self.masterUserPassword = masterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.newTenantDBName = newTenantDBName
+            self.rotateMasterUserPassword = rotateMasterUserPassword
             self.tenantDBName = tenantDBName
         }
 
         private enum CodingKeys: String, CodingKey {
             case dbInstanceIdentifier = "DBInstanceIdentifier"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
             case masterUserPassword = "MasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case newTenantDBName = "NewTenantDBName"
+            case rotateMasterUserPassword = "RotateMasterUserPassword"
             case tenantDBName = "TenantDBName"
         }
     }
@@ -12422,7 +12442,7 @@ extension RDS {
 
         /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
-        /// Specifies whether to automatically apply minor version upgrades to the DB instance  during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter.
+        /// Specifies whether to automatically apply minor version upgrades to the DB instance  during the maintenance window. If you restore an RDS Custom DB instance, you must disable this parameter. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
         public let availabilityZone: String?
@@ -12480,6 +12500,10 @@ extension RDS {
         public let iops: Int?
         /// License model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
         public let licenseModel: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide. Constraints:   Applies to RDS for Oracle only.
+        public let manageMasterUserPassword: Bool?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// Specifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
         /// The network type of the DB instance. Valid Values:    IPV4     DUAL    The network type is determined by the DBSubnetGroup specified for the DB instance.  A DBSubnetGroup can support only the IPv4 protocol or the IPv4 and the IPv6  protocols (DUAL). For more information, see  Working with a DB instance in a VPC in the  Amazon RDS User Guide.
@@ -12510,7 +12534,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbClusterSnapshotIdentifier: String? = nil, dbInstanceClass: String? = nil, dbInstanceIdentifier: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSnapshotIdentifier: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserSecretKmsKeyId: String? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -12540,6 +12564,8 @@ extension RDS {
             self.engineLifecycleSupport = engineLifecycleSupport
             self.iops = iops
             self.licenseModel = licenseModel
+            self.manageMasterUserPassword = manageMasterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.multiAZ = multiAZ
             self.networkType = networkType
             self.optionGroupName = optionGroupName
@@ -12585,6 +12611,8 @@ extension RDS {
             case engineLifecycleSupport = "EngineLifecycleSupport"
             case iops = "Iops"
             case licenseModel = "LicenseModel"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case multiAZ = "MultiAZ"
             case networkType = "NetworkType"
             case optionGroupName = "OptionGroupName"
@@ -12622,7 +12650,7 @@ extension RDS {
 
         /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
-        /// Specifies whether to automatically apply minor engine upgrades   to the DB instance during the maintenance window. By default, minor engine upgrades  are not applied automatically.
+        /// Specifies whether to automatically apply minor engine upgrades   to the DB instance during the maintenance window. By default, minor engine upgrades  are not applied automatically. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone that the DB instance is created in.  For information about Amazon Web Services Regions and Availability Zones, see Regions and Availability Zones in the Amazon RDS User Guide.  Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d  Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment.  The specified Availability Zone must be in the same Amazon Web Services Region as the current endpoint.
         public let availabilityZone: String?
@@ -12862,7 +12890,7 @@ extension RDS {
 
         /// The amount of storage (in gibibytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance. This setting isn't valid for RDS for SQL Server.  Be sure to allocate enough storage for your new DB instance so that the restore operation can succeed. You can also allocate additional storage for future growth.
         public let allocatedStorage: Int?
-        /// Specifies whether minor version upgrades are applied automatically to the  DB instance during the maintenance window. This setting doesn't apply to RDS Custom.
+        /// Specifies whether minor version upgrades are applied automatically to the  DB instance during the maintenance window. This setting doesn't apply to RDS Custom. For more information about automatic minor version upgrades, see Automatically upgrading the minor engine version.
         public let autoMinorVersionUpgrade: Bool?
         /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraints:   You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.   Example: us-east-1a
         public let availabilityZone: String?
@@ -12914,6 +12942,10 @@ extension RDS {
         public let iops: Int?
         /// The license model information for the restored DB instance.  License models for RDS for Db2 require additional configuration. The Bring Your Own License (BYOL) model requires a custom parameter group and an Amazon Web Services License Manager self-managed license. The Db2 license through Amazon Web Services Marketplace model requires an Amazon Web Services Marketplace subscription. For more information, see Amazon RDS for Db2 licensing options in the Amazon RDS User Guide.  This setting doesn't apply to Amazon Aurora or RDS Custom DB instances. Valid Values:   RDS for Db2 - bring-your-own-license | marketplace-license    RDS for MariaDB - general-public-license    RDS for Microsoft SQL Server - license-included    RDS for MySQL - general-public-license    RDS for Oracle - bring-your-own-license | license-included    RDS for PostgreSQL - postgresql-license    Default: Same as the source.
         public let licenseModel: String?
+        /// Specifies whether to manage the master user password with Amazon Web Services Secrets Manager in the restored DB instance. For more information, see Password management with Amazon Web Services Secrets Manager  in the Amazon RDS User Guide. Constraints:   Applies to RDS for Oracle only.
+        public let manageMasterUserPassword: Bool?
+        /// The Amazon Web Services KMS key identifier to encrypt a secret that is automatically generated and  managed in Amazon Web Services Secrets Manager. This setting is valid only if the master user password is managed by RDS in Amazon Web Services Secrets  Manager for the DB instance. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If you don't specify MasterUserSecretKmsKeyId, then the aws/secretsmanager  KMS key is used to encrypt the secret. If the secret is in a different Amazon Web Services account, then you can't  use the aws/secretsmanager KMS key to encrypt the secret, and you must use a customer  managed KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
+        public let masterUserSecretKmsKeyId: String?
         /// The upper limit in gibibytes (GiB) to which Amazon RDS can automatically scale the storage of the DB instance. For more information about this setting, including limitations that apply to it, see   Managing capacity automatically with Amazon RDS storage autoscaling  in the Amazon RDS User Guide. This setting doesn't apply to RDS Custom.
         public let maxAllocatedStorage: Int?
         /// Secifies whether the DB instance is a Multi-AZ deployment. This setting doesn't apply to RDS Custom. Constraints:   You can't specify the AvailabilityZone parameter if the DB instance is a  Multi-AZ deployment.
@@ -12958,7 +12990,7 @@ extension RDS {
         public var vpcSecurityGroupIds: [String]?
 
         @inlinable
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupTarget: String? = nil, caCertificateIdentifier: String? = nil, copyTagsToSnapshot: Bool? = nil, customIamInstanceProfile: String? = nil, dbInstanceClass: String? = nil, dbName: String? = nil, dbParameterGroupName: String? = nil, dbSubnetGroupName: String? = nil, dedicatedLogVolume: Bool? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainAuthSecretArn: String? = nil, domainDnsIps: [String]? = nil, domainFqdn: String? = nil, domainIAMRoleName: String? = nil, domainOu: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableCustomerOwnedIp: Bool? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, engineLifecycleSupport: String? = nil, iops: Int? = nil, licenseModel: String? = nil, manageMasterUserPassword: Bool? = nil, masterUserSecretKmsKeyId: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, networkType: String? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: Date? = nil, sourceDBInstanceAutomatedBackupsArn: String? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageThroughput: Int? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -12985,6 +13017,8 @@ extension RDS {
             self.engineLifecycleSupport = engineLifecycleSupport
             self.iops = iops
             self.licenseModel = licenseModel
+            self.manageMasterUserPassword = manageMasterUserPassword
+            self.masterUserSecretKmsKeyId = masterUserSecretKmsKeyId
             self.maxAllocatedStorage = maxAllocatedStorage
             self.multiAZ = multiAZ
             self.networkType = networkType
@@ -13034,6 +13068,8 @@ extension RDS {
             case engineLifecycleSupport = "EngineLifecycleSupport"
             case iops = "Iops"
             case licenseModel = "LicenseModel"
+            case manageMasterUserPassword = "ManageMasterUserPassword"
+            case masterUserSecretKmsKeyId = "MasterUserSecretKmsKeyId"
             case maxAllocatedStorage = "MaxAllocatedStorage"
             case multiAZ = "MultiAZ"
             case networkType = "NetworkType"
@@ -13865,6 +13901,7 @@ extension RDS {
         public let deletionProtection: Bool?
         /// The master username of the tenant database.
         public let masterUsername: String?
+        public let masterUserSecret: MasterUserSecret?
         /// The NCHAR character set name of the tenant database.
         public let ncharCharacterSetName: String?
         /// Information about pending changes for a tenant database.
@@ -13883,12 +13920,13 @@ extension RDS {
         public let tenantDBName: String?
 
         @inlinable
-        public init(characterSetName: String? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, deletionProtection: Bool? = nil, masterUsername: String? = nil, ncharCharacterSetName: String? = nil, pendingModifiedValues: TenantDatabasePendingModifiedValues? = nil, status: String? = nil, tagList: [Tag]? = nil, tenantDatabaseARN: String? = nil, tenantDatabaseCreateTime: Date? = nil, tenantDatabaseResourceId: String? = nil, tenantDBName: String? = nil) {
+        public init(characterSetName: String? = nil, dbInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, deletionProtection: Bool? = nil, masterUsername: String? = nil, masterUserSecret: MasterUserSecret? = nil, ncharCharacterSetName: String? = nil, pendingModifiedValues: TenantDatabasePendingModifiedValues? = nil, status: String? = nil, tagList: [Tag]? = nil, tenantDatabaseARN: String? = nil, tenantDatabaseCreateTime: Date? = nil, tenantDatabaseResourceId: String? = nil, tenantDBName: String? = nil) {
             self.characterSetName = characterSetName
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbiResourceId = dbiResourceId
             self.deletionProtection = deletionProtection
             self.masterUsername = masterUsername
+            self.masterUserSecret = masterUserSecret
             self.ncharCharacterSetName = ncharCharacterSetName
             self.pendingModifiedValues = pendingModifiedValues
             self.status = status
@@ -13905,6 +13943,7 @@ extension RDS {
             case dbiResourceId = "DbiResourceId"
             case deletionProtection = "DeletionProtection"
             case masterUsername = "MasterUsername"
+            case masterUserSecret = "MasterUserSecret"
             case ncharCharacterSetName = "NcharCharacterSetName"
             case pendingModifiedValues = "PendingModifiedValues"
             case status = "Status"
@@ -14031,7 +14070,7 @@ extension RDS {
     public struct UserAuthConfig: AWSEncodableShape {
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public let authScheme: AuthScheme?
-        /// The type of authentication the proxy uses for connections from clients.
+        /// The type of authentication the proxy uses for connections from clients. The following values are defaults for the corresponding engines:   RDS for MySQL: MYSQL_CACHING_SHA2_PASSWORD    RDS for SQL Server: SQL_SERVER_AUTHENTICATION    RDS for PostgreSQL: POSTGRES_SCRAM_SHA2_256
         public let clientPasswordAuthType: ClientPasswordAuthType?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
         public let description: String?

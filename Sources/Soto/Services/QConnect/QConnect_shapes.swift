@@ -40,6 +40,8 @@ extension QConnect {
     public enum AIPromptAPIFormat: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case anthropicClaudeMessages = "ANTHROPIC_CLAUDE_MESSAGES"
         case anthropicClaudeTextCompletions = "ANTHROPIC_CLAUDE_TEXT_COMPLETIONS"
+        case messages = "MESSAGES"
+        case textCompletions = "TEXT_COMPLETIONS"
         public var description: String { return self.rawValue }
     }
 
@@ -329,8 +331,12 @@ extension QConnect {
     }
 
     public enum QueryResultType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blockedGenerativeAnswerChunk = "BLOCKED_GENERATIVE_ANSWER_CHUNK"
+        case blockedIntentAnswerChunk = "BLOCKED_INTENT_ANSWER_CHUNK"
         case generativeAnswer = "GENERATIVE_ANSWER"
+        case generativeAnswerChunk = "GENERATIVE_ANSWER_CHUNK"
         case intentAnswer = "INTENT_ANSWER"
+        case intentAnswerChunk = "INTENT_ANSWER_CHUNK"
         case knowledgeContent = "KNOWLEDGE_CONTENT"
         public var description: String { return self.rawValue }
     }
@@ -373,9 +379,13 @@ extension QConnect {
     }
 
     public enum RecommendationType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case blockedGenerativeAnswerChunk = "BLOCKED_GENERATIVE_ANSWER_CHUNK"
+        case blockedIntentAnswerChunk = "BLOCKED_INTENT_ANSWER_CHUNK"
         case detectedIntent = "DETECTED_INTENT"
         case generativeAnswer = "GENERATIVE_ANSWER"
+        case generativeAnswerChunk = "GENERATIVE_ANSWER_CHUNK"
         case generativeResponse = "GENERATIVE_RESPONSE"
+        case intentAnswerChunk = "INTENT_ANSWER_CHUNK"
         case knowledgeContent = "KNOWLEDGE_CONTENT"
         public var description: String { return self.rawValue }
     }
@@ -508,6 +518,8 @@ extension QConnect {
     public enum DataDetails: AWSDecodableShape, Sendable {
         /// Details about the content data.
         case contentData(ContentDataDetails)
+        /// Details about the generative chunk data.
+        case generativeChunkData(GenerativeChunkDataDetails)
         ///  Details about the generative data.
         case generativeData(GenerativeDataDetails)
         /// Details about the intent data.
@@ -528,6 +540,9 @@ extension QConnect {
             case .contentData:
                 let value = try container.decode(ContentDataDetails.self, forKey: .contentData)
                 self = .contentData(value)
+            case .generativeChunkData:
+                let value = try container.decode(GenerativeChunkDataDetails.self, forKey: .generativeChunkData)
+                self = .generativeChunkData(value)
             case .generativeData:
                 let value = try container.decode(GenerativeDataDetails.self, forKey: .generativeData)
                 self = .generativeData(value)
@@ -542,6 +557,7 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case contentData = "contentData"
+            case generativeChunkData = "generativeChunkData"
             case generativeData = "generativeData"
             case intentDetectedData = "intentDetectedData"
             case sourceContentData = "sourceContentData"
@@ -1258,7 +1274,7 @@ extension QConnect {
         public let assistantId: String
         /// The description of the AI Prompt.
         public let description: String?
-        /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0.
+        /// The identifier of the model used for this AI Prompt. The following model Ids are supported:    anthropic.claude-3-haiku--v1:0     apac.amazon.nova-lite-v1:0     apac.amazon.nova-micro-v1:0     apac.amazon.nova-pro-v1:0     apac.anthropic.claude-3-5-sonnet--v2:0     apac.anthropic.claude-3-haiku-20240307-v1:0     eu.amazon.nova-lite-v1:0     eu.amazon.nova-micro-v1:0     eu.amazon.nova-pro-v1:0     eu.anthropic.claude-3-7-sonnet-20250219-v1:0     eu.anthropic.claude-3-haiku-20240307-v1:0     us.amazon.nova-lite-v1:0     us.amazon.nova-micro-v1:0     us.amazon.nova-pro-v1:0     us.anthropic.claude-3-5-haiku-20241022-v1:0     us.anthropic.claude-3-7-sonnet-20250219-v1:0     us.anthropic.claude-3-haiku-20240307-v1:0
         public let modelId: String
         /// The time the AI Prompt was last modified.
         public let modifiedTime: Date?
@@ -2542,7 +2558,7 @@ extension QConnect {
     }
 
     public struct CreateAIPromptRequest: AWSEncodableShape {
-        /// The API Format of the AI Prompt.
+        /// The API Format of the AI Prompt. Recommended values: MESSAGES | TEXT_COMPLETIONS   The values ANTHROPIC_CLAUDE_MESSAGES | ANTHROPIC_CLAUDE_TEXT_COMPLETIONS will be deprecated.
         public let apiFormat: AIPromptAPIFormat
         /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let assistantId: String
@@ -2550,7 +2566,7 @@ extension QConnect {
         public let clientToken: String?
         /// The description of the AI Prompt.
         public let description: String?
-        /// The identifier of the model used for this AI Prompt. Model Ids supported are: anthropic.claude-3-haiku-20240307-v1:0
+        /// The identifier of the model used for this AI Prompt.
         public let modelId: String
         /// The name of the AI Prompt.
         public let name: String
@@ -4707,6 +4723,28 @@ extension QConnect {
         }
     }
 
+    public struct GenerativeChunkDataDetails: AWSDecodableShape {
+        /// A chunk of the LLM response.
+        public let completion: String?
+        /// The token for the next set of chunks. Use the value returned in the previous response in the next request to retrieve the next set of chunks.
+        public let nextChunkToken: String?
+        /// The references used to generate the LLM response.
+        public let references: [DataSummary]?
+
+        @inlinable
+        public init(completion: String? = nil, nextChunkToken: String? = nil, references: [DataSummary]? = nil) {
+            self.completion = completion
+            self.nextChunkToken = nextChunkToken
+            self.references = references
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completion = "completion"
+            case nextChunkToken = "nextChunkToken"
+            case references = "references"
+        }
+    }
+
     public struct GenerativeContentFeedbackData: AWSEncodableShape & AWSDecodableShape {
         /// The relevance of the feedback.
         public let relevance: Relevance
@@ -5332,15 +5370,18 @@ extension QConnect {
         public let assistantId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
+        /// The token for the next set of chunks. Use the value returned in the previous response in the next request to retrieve the next set of chunks.
+        public let nextChunkToken: String?
         /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let sessionId: String
         /// The duration (in seconds) for which the call waits for a recommendation to be made available before returning. If a recommendation is available, the call returns sooner than WaitTimeSeconds. If no messages are available and the wait time expires, the call returns successfully with an empty list.
         public let waitTimeSeconds: Int?
 
         @inlinable
-        public init(assistantId: String, maxResults: Int? = nil, sessionId: String, waitTimeSeconds: Int? = nil) {
+        public init(assistantId: String, maxResults: Int? = nil, nextChunkToken: String? = nil, sessionId: String, waitTimeSeconds: Int? = nil) {
             self.assistantId = assistantId
             self.maxResults = maxResults
+            self.nextChunkToken = nextChunkToken
             self.sessionId = sessionId
             self.waitTimeSeconds = waitTimeSeconds
         }
@@ -5350,6 +5391,7 @@ extension QConnect {
             _ = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.assistantId, key: "assistantId")
             request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.nextChunkToken, key: "nextChunkToken")
             request.encodePath(self.sessionId, key: "sessionId")
             request.encodeQuery(self.waitTimeSeconds, key: "waitTimeSeconds")
         }
@@ -5358,6 +5400,8 @@ extension QConnect {
             try self.validate(self.assistantId, name: "assistantId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextChunkToken, name: "nextChunkToken", parent: name, max: 2048)
+            try self.validate(self.nextChunkToken, name: "nextChunkToken", parent: name, min: 1)
             try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}){0,2}$")
             try self.validate(self.waitTimeSeconds, name: "waitTimeSeconds", parent: name, max: 20)
             try self.validate(self.waitTimeSeconds, name: "waitTimeSeconds", parent: name, min: 0)
@@ -6933,6 +6977,20 @@ extension QConnect {
             case answerGenerationAIPromptId = "answerGenerationAIPromptId"
             case associationConfigurations = "associationConfigurations"
             case locale = "locale"
+        }
+    }
+
+    public struct MessageConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Generates a filler response when tool selection is QUESTION.
+        public let generateFillerMessage: Bool?
+
+        @inlinable
+        public init(generateFillerMessage: Bool? = nil) {
+            self.generateFillerMessage = generateFillerMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generateFillerMessage = "generateFillerMessage"
         }
     }
 
@@ -8837,6 +8895,8 @@ extension QConnect {
         public let assistantId: String
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the AWS SDK populates this field.For more information about idempotency, see Making retries safe with idempotent APIs.
         public let clientToken: String?
+        /// The configuration of the SendMessage request.
+        public let configuration: MessageConfiguration?
         /// The conversation context before the Amazon Q in Connect session.
         public let conversationContext: ConversationContext?
         /// The message data to submit to the Amazon Q in Connect session.
@@ -8847,9 +8907,10 @@ extension QConnect {
         public let type: MessageType
 
         @inlinable
-        public init(assistantId: String, clientToken: String? = SendMessageRequest.idempotencyToken(), conversationContext: ConversationContext? = nil, message: MessageInput, sessionId: String, type: MessageType) {
+        public init(assistantId: String, clientToken: String? = SendMessageRequest.idempotencyToken(), configuration: MessageConfiguration? = nil, conversationContext: ConversationContext? = nil, message: MessageInput, sessionId: String, type: MessageType) {
             self.assistantId = assistantId
             self.clientToken = clientToken
+            self.configuration = configuration
             self.conversationContext = conversationContext
             self.message = message
             self.sessionId = sessionId
@@ -8861,6 +8922,7 @@ extension QConnect {
             var container = encoder.container(keyedBy: CodingKeys.self)
             request.encodePath(self.assistantId, key: "assistantId")
             try container.encodeIfPresent(self.clientToken, forKey: .clientToken)
+            try container.encodeIfPresent(self.configuration, forKey: .configuration)
             try container.encodeIfPresent(self.conversationContext, forKey: .conversationContext)
             try container.encode(self.message, forKey: .message)
             request.encodePath(self.sessionId, key: "sessionId")
@@ -8877,6 +8939,7 @@ extension QConnect {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case configuration = "configuration"
             case conversationContext = "conversationContext"
             case message = "message"
             case type = "type"
@@ -8884,18 +8947,22 @@ extension QConnect {
     }
 
     public struct SendMessageResponse: AWSDecodableShape {
+        /// The configuration of the SendMessage request.
+        public let configuration: MessageConfiguration?
         /// The token for the next message, used by GetNextMessage.
         public let nextMessageToken: String
         /// The identifier of the submitted message.
         public let requestMessageId: String
 
         @inlinable
-        public init(nextMessageToken: String, requestMessageId: String) {
+        public init(configuration: MessageConfiguration? = nil, nextMessageToken: String, requestMessageId: String) {
+            self.configuration = configuration
             self.nextMessageToken = nextMessageToken
             self.requestMessageId = requestMessageId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case configuration = "configuration"
             case nextMessageToken = "nextMessageToken"
             case requestMessageId = "requestMessageId"
         }
@@ -8929,6 +8996,8 @@ extension QConnect {
         public let integrationConfiguration: SessionIntegrationConfiguration?
         /// The name of the session.
         public let name: String
+        /// The origin of the Session to be listed. SYSTEM for a default Session created by Amazon Q in Connect or CUSTOMER for a Session created by calling CreateSession API.
+        public let origin: Origin?
         /// The Amazon Resource Name (ARN) of the session.
         public let sessionArn: String
         /// The identifier of the session.
@@ -8939,11 +9008,12 @@ extension QConnect {
         public let tags: [String: String]?
 
         @inlinable
-        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, description: String? = nil, integrationConfiguration: SessionIntegrationConfiguration? = nil, name: String, sessionArn: String, sessionId: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
+        public init(aiAgentConfiguration: [AIAgentType: AIAgentConfigurationData]? = nil, description: String? = nil, integrationConfiguration: SessionIntegrationConfiguration? = nil, name: String, origin: Origin? = nil, sessionArn: String, sessionId: String, tagFilter: TagFilter? = nil, tags: [String: String]? = nil) {
             self.aiAgentConfiguration = aiAgentConfiguration
             self.description = description
             self.integrationConfiguration = integrationConfiguration
             self.name = name
+            self.origin = origin
             self.sessionArn = sessionArn
             self.sessionId = sessionId
             self.tagFilter = tagFilter
@@ -8955,6 +9025,7 @@ extension QConnect {
             case description = "description"
             case integrationConfiguration = "integrationConfiguration"
             case name = "name"
+            case origin = "origin"
             case sessionArn = "sessionArn"
             case sessionId = "sessionId"
             case tagFilter = "tagFilter"
@@ -9307,7 +9378,7 @@ extension QConnect {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.text, name: "text", parent: name, max: 200000)
+            try self.validate(self.text, name: "text", parent: name, max: 1000000)
             try self.validate(self.text, name: "text", parent: name, min: 1)
         }
 

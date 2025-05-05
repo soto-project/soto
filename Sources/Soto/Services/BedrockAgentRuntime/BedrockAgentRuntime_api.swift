@@ -114,7 +114,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.createInvocation(input, logger: logger)
     }
 
-    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks.  For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the  InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
+    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks. For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
     @Sendable
     @inlinable
     public func createSession(_ input: CreateSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> CreateSessionResponse {
@@ -127,11 +127,11 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks.  For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the  InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
+    /// Creates a session to temporarily store conversations for generative AI (GenAI) applications built with open-source frameworks such as LangGraph and LlamaIndex. Sessions enable you to save the state of conversations at checkpoints, with the added security and infrastructure of Amazon Web Services. For more information, see Store and retrieve conversation history and context with Amazon Bedrock sessions. By default, Amazon Bedrock uses Amazon Web Services-managed keys for session encryption, including session metadata, or you can use your own KMS key. For more information, see Amazon Bedrock session encryption.   You use a session to store state and conversation history for generative AI applications built with open-source frameworks. For Amazon Bedrock Agents, the service automatically manages conversation context and associates them with the agent-specific sessionId you specify in the InvokeAgent API operation.   Related APIs:    ListSessions     GetSession     EndSession     DeleteSession
     ///
     /// Parameters:
     ///   - encryptionKeyArn: The Amazon Resource Name (ARN) of the KMS key to use to encrypt the session data. The user or role creating the session must have permission to use the key. For more information, see Amazon Bedrock session encryption.
-    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example, the user's ID, their language preference,  and the type of device they are using.
+    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example, the user's ID, their language preference, and the type of device they are using.
     ///   - tags: Specify the key-value pairs for the tags that you want to attach to the session.
     ///   - logger: Logger use during operation
     @inlinable
@@ -187,7 +187,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.deleteAgentMemory(input, logger: logger)
     }
 
-    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the  EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
     @Sendable
     @inlinable
     public func deleteSession(_ input: DeleteSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> DeleteSessionResponse {
@@ -200,7 +200,7 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the  EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    /// Deletes a session that you ended. You can't delete a session with an ACTIVE status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
     ///
     /// Parameters:
     ///   - sessionIdentifier: The unique identifier for the session to be deleted. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
@@ -216,7 +216,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.deleteSession(input, logger: logger)
     }
 
-    /// Ends the session.  After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    /// Ends the session. After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
     @Sendable
     @inlinable
     public func endSession(_ input: EndSessionRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> EndSessionResponse {
@@ -229,7 +229,7 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Ends the session.  After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
+    /// Ends the session. After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
     ///
     /// Parameters:
     ///   - sessionIdentifier: The unique identifier for the session to end. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
@@ -295,10 +295,10 @@ public struct BedrockAgentRuntime: AWSService {
     /// Parameters:
     ///   - agentAliasId: The unique identifier of an alias of an agent.
     ///   - agentId: The unique identifier of the agent to which the alias belongs.
-    ///   - maxItems: The maximum number of items to return in the response. If the total number of results is greater  than this value, use the token returned in the response in the nextToken field when making another  request to return the next batch of results.
+    ///   - maxItems: The maximum number of items to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     ///   - memoryId: The unique identifier of the memory.
     ///   - memoryType: The type of memory.
-    ///   - nextToken: If the total number of results is greater than the maxItems value provided in the request, enter the token returned  in the nextToken field in the response in this field to return the next batch of results.
+    ///   - nextToken: If the total number of results is greater than the maxItems value provided in the request, enter the token returned in the nextToken field in the response in this field to return the next batch of results.
     ///   - logger: Logger use during operation
     @inlinable
     public func getAgentMemory(
@@ -488,7 +488,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.invokeFlow(input, logger: logger)
     }
 
-    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     @Sendable
     @inlinable
     public func invokeInlineAgent(_ input: InvokeInlineAgentRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> InvokeInlineAgentResponse {
@@ -501,24 +501,27 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object.  For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
+    ///  Invokes an inline Amazon Bedrock agent using the configurations you provide with the request.    Specify the following fields for security purposes.   (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.   (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.     To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see Advanced prompts.   The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
     ///
     /// Parameters:
     ///   - actionGroups:  A list of action groups with each action group defining the action the inline agent needs to carry out.
     ///   - agentCollaboration:  Defines how the inline collaborator agent handles information across multiple collaborator agents to coordinate a final response. The inline collaborator agent can also be the supervisor.
+    ///   - agentName: The name for the agent.
     ///   - bedrockModelConfigurations: Model settings for the request.
     ///   - collaboratorConfigurations:  Settings for an inline agent collaborator called with InvokeInlineAgent.
     ///   - collaborators:  List of collaborator inline agents.
     ///   - customerEncryptionKeyArn:  The Amazon Resource Name (ARN) of the Amazon Web Services KMS key to use to encrypt your inline agent.
+    ///   - customOrchestration: Contains details of the custom orchestration configured for the agent.
     ///   - enableTrace:  Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see Using trace.
     ///   - endSession:  Specifies whether to end the session with the inline agent or not.
     ///   - foundationModel:  The model identifier (ID) of the model to use for orchestration by the inline agent. For example, meta.llama3-1-70b-instruct-v1:0.
     ///   - guardrailConfiguration:  The guardrails to assign to the inline agent.
     ///   - idleSessionTTLInSeconds:  The number of seconds for which the inline agent should maintain session information. After this time expires, the subsequent InvokeInlineAgent request begins a new session.  A user interaction remains active for the amount of time specified. If no conversation occurs during this time, the session expires and the data provided before the timeout is deleted.
-    ///   - inlineSessionState:  Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an  action group to return control, results from invocation of the action group. For more information, see Control session context.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
+    ///   - inlineSessionState:  Parameters that specify the various attributes of a sessions. You can include attributes for the session or prompt or, if you configured an action group to return control, results from invocation of the action group. For more information, see Control session context.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
     ///   - inputText:  The prompt text to send to the agent.   If you include returnControlInvocationResults in the sessionState field, the inputText field will be ignored.
     ///   - instruction:  The instructions that tell the inline agent what it should do and how it should interact with users.
     ///   - knowledgeBases:  Contains information of the knowledge bases to associate with.
+    ///   - orchestrationType: Specifies the type of orchestration strategy for the agent. This is set to DEFAULT orchestration type, by default.
     ///   - promptOverrideConfiguration:  Configurations for advanced prompts used to override the default prompts to enhance the accuracy of the inline agent.
     ///   - sessionId:  The unique identifier of the session. Use the same value across requests to continue the same conversation.
     ///   - streamingConfigurations:  Specifies the configurations for streaming.   To use agent streaming, you need permissions to perform the bedrock:InvokeModelWithResponseStream action.
@@ -527,10 +530,12 @@ public struct BedrockAgentRuntime: AWSService {
     public func invokeInlineAgent(
         actionGroups: [AgentActionGroup]? = nil,
         agentCollaboration: AgentCollaboration? = nil,
+        agentName: String? = nil,
         bedrockModelConfigurations: InlineBedrockModelConfigurations? = nil,
         collaboratorConfigurations: [CollaboratorConfiguration]? = nil,
         collaborators: [Collaborator]? = nil,
         customerEncryptionKeyArn: String? = nil,
+        customOrchestration: CustomOrchestration? = nil,
         enableTrace: Bool? = nil,
         endSession: Bool? = nil,
         foundationModel: String,
@@ -540,6 +545,7 @@ public struct BedrockAgentRuntime: AWSService {
         inputText: String? = nil,
         instruction: String,
         knowledgeBases: [KnowledgeBase]? = nil,
+        orchestrationType: OrchestrationType? = nil,
         promptOverrideConfiguration: PromptOverrideConfiguration? = nil,
         sessionId: String,
         streamingConfigurations: StreamingConfigurations? = nil,
@@ -548,10 +554,12 @@ public struct BedrockAgentRuntime: AWSService {
         let input = InvokeInlineAgentRequest(
             actionGroups: actionGroups, 
             agentCollaboration: agentCollaboration, 
+            agentName: agentName, 
             bedrockModelConfigurations: bedrockModelConfigurations, 
             collaboratorConfigurations: collaboratorConfigurations, 
             collaborators: collaborators, 
             customerEncryptionKeyArn: customerEncryptionKeyArn, 
+            customOrchestration: customOrchestration, 
             enableTrace: enableTrace, 
             endSession: endSession, 
             foundationModel: foundationModel, 
@@ -561,6 +569,7 @@ public struct BedrockAgentRuntime: AWSService {
             inputText: inputText, 
             instruction: instruction, 
             knowledgeBases: knowledgeBases, 
+            orchestrationType: orchestrationType, 
             promptOverrideConfiguration: promptOverrideConfiguration, 
             sessionId: sessionId, 
             streamingConfigurations: streamingConfigurations
@@ -930,7 +939,7 @@ public struct BedrockAgentRuntime: AWSService {
         return try await self.retrieveAndGenerateStream(input, logger: logger)
     }
 
-    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     @Sendable
     @inlinable
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> TagResourceResponse {
@@ -943,7 +952,7 @@ public struct BedrockAgentRuntime: AWSService {
             logger: logger
         )
     }
-    /// Associate tags with a resource. For more information, see  Tagging resources in the Amazon Bedrock User Guide.
+    /// Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
     ///
     /// Parameters:
     ///   - resourceArn: The Amazon Resource Name (ARN) of the resource to tag.
@@ -1011,7 +1020,7 @@ public struct BedrockAgentRuntime: AWSService {
     ///
     /// Parameters:
     ///   - sessionIdentifier: The unique identifier of the session to modify. You can specify either the session's sessionId or its Amazon Resource Name (ARN).
-    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language preference,  and the type of device they are using.
+    ///   - sessionMetadata: A map of key-value pairs containing attributes to be persisted across the session. For example the user's ID, their language preference, and the type of device they are using.
     ///   - logger: Logger use during operation
     @inlinable
     public func updateSession(
@@ -1063,7 +1072,7 @@ extension BedrockAgentRuntime {
     /// - Parameters:
     ///   - agentAliasId: The unique identifier of an alias of an agent.
     ///   - agentId: The unique identifier of the agent to which the alias belongs.
-    ///   - maxItems: The maximum number of items to return in the response. If the total number of results is greater  than this value, use the token returned in the response in the nextToken field when making another  request to return the next batch of results.
+    ///   - maxItems: The maximum number of items to return in the response. If the total number of results is greater than this value, use the token returned in the response in the nextToken field when making another request to return the next batch of results.
     ///   - memoryId: The unique identifier of the memory.
     ///   - memoryType: The type of memory.
     ///   - logger: Logger used for logging

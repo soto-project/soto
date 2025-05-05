@@ -486,6 +486,7 @@ extension ResourceGroups {
         public let groupArn: String?
         /// The name of the application group.
         public let groupName: String?
+        public let resourceQuery: ResourceQuery?
         /// The Amazon resource name (ARN) of the role assumed by Resource Groups to tag and untag resources on your behalf.  For more information about this role, review Tag-sync required permissions.
         public let roleArn: String?
         /// The status of the tag-sync task.  Valid values include:    ACTIVE - The tag-sync task is actively managing resources in  the application by adding or removing the awsApplication tag from resources  when they are tagged or untagged with the specified tag key-value pair.      ERROR - The tag-sync task is not actively managing resources  in the application. Review the ErrorMessage for more information about  resolving the error.
@@ -498,11 +499,12 @@ extension ResourceGroups {
         public let taskArn: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, errorMessage: String? = nil, groupArn: String? = nil, groupName: String? = nil, roleArn: String? = nil, status: TagSyncTaskStatus? = nil, tagKey: String? = nil, tagValue: String? = nil, taskArn: String? = nil) {
+        public init(createdAt: Date? = nil, errorMessage: String? = nil, groupArn: String? = nil, groupName: String? = nil, resourceQuery: ResourceQuery? = nil, roleArn: String? = nil, status: TagSyncTaskStatus? = nil, tagKey: String? = nil, tagValue: String? = nil, taskArn: String? = nil) {
             self.createdAt = createdAt
             self.errorMessage = errorMessage
             self.groupArn = groupArn
             self.groupName = groupName
+            self.resourceQuery = resourceQuery
             self.roleArn = roleArn
             self.status = status
             self.tagKey = tagKey
@@ -515,6 +517,7 @@ extension ResourceGroups {
             case errorMessage = "ErrorMessage"
             case groupArn = "GroupArn"
             case groupName = "GroupName"
+            case resourceQuery = "ResourceQuery"
             case roleArn = "RoleArn"
             case status = "Status"
             case tagKey = "TagKey"
@@ -1058,7 +1061,7 @@ extension ResourceGroups {
     }
 
     public struct ListGroupsInput: AWSEncodableShape {
-        /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS::ResourceGroups::ApplicationGroup     AWS::AppRegistry::Application     AWS::AppRegistry::ApplicationResourceGroups     AWS::CloudFormation::Stack     AWS::EC2::CapacityReservationPool     AWS::EC2::HostManagement     AWS::NetworkFirewall::RuleGroup
+        /// Filters, formatted as GroupFilter objects, that you want to apply to a ListGroups operation.    resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.    configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:    AWS::ResourceGroups::ApplicationGroup     AWS::AppRegistry::Application     AWS::AppRegistry::ApplicationResourceGroup     AWS::CloudFormation::Stack     AWS::EC2::CapacityReservationPool     AWS::EC2::HostManagement     AWS::NetworkFirewall::RuleGroup
         public let filters: [GroupFilter]?
         /// The total number of results that you want included on each page of the
         /// response. If you do not include this parameter, it defaults to a value that is specific to the
@@ -1430,16 +1433,19 @@ extension ResourceGroups {
     public struct StartTagSyncTaskInput: AWSEncodableShape {
         /// The Amazon resource name (ARN) or name of the application group for which you want to create a tag-sync task.
         public let group: String
+        /// The query you can use to create the tag-sync task. With this method, all resources matching the query  are added to the specified application group. A ResourceQuery specifies both a query Type and a Query string as JSON string objects. For more information on defining a resource query for a  tag-sync task, see the tag-based query type in  Types of resource group queries in Resource Groups User Guide.  When using the ResourceQuery parameter, you cannot use the TagKey and TagValue parameters.  When you combine all of the elements together into a single string, any double quotes that are embedded inside another double quote pair must be escaped by preceding the embedded double quote with a backslash character (\). For example, a complete ResourceQuery parameter must be formatted like the following CLI parameter example:  --resource-query '{"Type":"TAG_FILTERS_1_0","Query":"{\"ResourceTypeFilters\":[\"AWS::AllSupported\"],\"TagFilters\":[{\"Key\":\"Stage\",\"Values\":[\"Test\"]}]}"}'  In the preceding example, all of the double quote characters in the value part of the Query element must be escaped because the value itself is surrounded by double quotes. For more information, see Quoting strings in the Command Line Interface User Guide. For the complete list of resource types that you can use in the array value for ResourceTypeFilters, see Resources you can use with Resource Groups and Tag Editor in the Resource Groups User Guide. For example:  "ResourceTypeFilters":["AWS::S3::Bucket", "AWS::EC2::Instance"]
+        public let resourceQuery: ResourceQuery?
         /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
         public let roleArn: String
-        /// The tag key. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.
-        public let tagKey: String
-        /// The tag value. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.
-        public let tagValue: String
+        /// The tag key. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.  When using the TagKey parameter, you must also specify the TagValue parameter. If you specify a tag key-value pair,  you can't use the ResourceQuery parameter.
+        public let tagKey: String?
+        /// The tag value. Resources tagged with this tag key-value pair will be added to  the application. If a resource with this tag is later untagged, the tag-sync task removes the resource from the application.  When using the TagValue parameter, you must also specify the TagKey parameter. If you specify a tag key-value pair,  you can't use the ResourceQuery parameter.
+        public let tagValue: String?
 
         @inlinable
-        public init(group: String, roleArn: String, tagKey: String, tagValue: String) {
+        public init(group: String, resourceQuery: ResourceQuery? = nil, roleArn: String, tagKey: String? = nil, tagValue: String? = nil) {
             self.group = group
+            self.resourceQuery = resourceQuery
             self.roleArn = roleArn
             self.tagKey = tagKey
             self.tagValue = tagValue
@@ -1449,6 +1455,7 @@ extension ResourceGroups {
             try self.validate(self.group, name: "group", parent: name, max: 1600)
             try self.validate(self.group, name: "group", parent: name, min: 1)
             try self.validate(self.group, name: "group", parent: name, pattern: "^[a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26}|arn:aws(-[a-z]+)*:resource-groups:[a-z]{2}(-[a-z]+)+-\\d{1}:[0-9]{12}:group/([a-zA-Z0-9_\\.-]{1,300}|[a-zA-Z0-9_\\.-]{1,150}/[a-z0-9]{26})$")
+            try self.resourceQuery?.validate(name: "\(name).resourceQuery")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -1461,6 +1468,7 @@ extension ResourceGroups {
 
         private enum CodingKeys: String, CodingKey {
             case group = "Group"
+            case resourceQuery = "ResourceQuery"
             case roleArn = "RoleArn"
             case tagKey = "TagKey"
             case tagValue = "TagValue"
@@ -1472,6 +1480,7 @@ extension ResourceGroups {
         public let groupArn: String?
         /// The name of the application group to onboard and sync resources.
         public let groupName: String?
+        public let resourceQuery: ResourceQuery?
         /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
         public let roleArn: String?
         /// The tag key of the tag-sync task.
@@ -1482,9 +1491,10 @@ extension ResourceGroups {
         public let taskArn: String?
 
         @inlinable
-        public init(groupArn: String? = nil, groupName: String? = nil, roleArn: String? = nil, tagKey: String? = nil, tagValue: String? = nil, taskArn: String? = nil) {
+        public init(groupArn: String? = nil, groupName: String? = nil, resourceQuery: ResourceQuery? = nil, roleArn: String? = nil, tagKey: String? = nil, tagValue: String? = nil, taskArn: String? = nil) {
             self.groupArn = groupArn
             self.groupName = groupName
+            self.resourceQuery = resourceQuery
             self.roleArn = roleArn
             self.tagKey = tagKey
             self.tagValue = tagValue
@@ -1494,6 +1504,7 @@ extension ResourceGroups {
         private enum CodingKeys: String, CodingKey {
             case groupArn = "GroupArn"
             case groupName = "GroupName"
+            case resourceQuery = "ResourceQuery"
             case roleArn = "RoleArn"
             case tagKey = "TagKey"
             case tagValue = "TagValue"
@@ -1565,6 +1576,7 @@ extension ResourceGroups {
         public let groupArn: String?
         /// The name of the application group.
         public let groupName: String?
+        public let resourceQuery: ResourceQuery?
         /// The Amazon resource name (ARN) of the role assumed by the service to tag and untag resources on your behalf.
         public let roleArn: String?
         /// The status of the tag-sync task.  Valid values include:    ACTIVE - The tag-sync task is actively managing resources in  the application by adding or removing the awsApplication tag from resources  when they are tagged or untagged with the specified tag key-value pair.      ERROR - The tag-sync task is not actively managing resources  in the application. Review the ErrorMessage for more information about  resolving the error.
@@ -1577,11 +1589,12 @@ extension ResourceGroups {
         public let taskArn: String?
 
         @inlinable
-        public init(createdAt: Date? = nil, errorMessage: String? = nil, groupArn: String? = nil, groupName: String? = nil, roleArn: String? = nil, status: TagSyncTaskStatus? = nil, tagKey: String? = nil, tagValue: String? = nil, taskArn: String? = nil) {
+        public init(createdAt: Date? = nil, errorMessage: String? = nil, groupArn: String? = nil, groupName: String? = nil, resourceQuery: ResourceQuery? = nil, roleArn: String? = nil, status: TagSyncTaskStatus? = nil, tagKey: String? = nil, tagValue: String? = nil, taskArn: String? = nil) {
             self.createdAt = createdAt
             self.errorMessage = errorMessage
             self.groupArn = groupArn
             self.groupName = groupName
+            self.resourceQuery = resourceQuery
             self.roleArn = roleArn
             self.status = status
             self.tagKey = tagKey
@@ -1594,6 +1607,7 @@ extension ResourceGroups {
             case errorMessage = "ErrorMessage"
             case groupArn = "GroupArn"
             case groupName = "GroupName"
+            case resourceQuery = "ResourceQuery"
             case roleArn = "RoleArn"
             case status = "Status"
             case tagKey = "TagKey"

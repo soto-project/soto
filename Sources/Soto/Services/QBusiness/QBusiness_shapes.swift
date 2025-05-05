@@ -211,6 +211,7 @@ extension QBusiness {
     }
 
     public enum IdentityType: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case anonymous = "ANONYMOUS"
         case awsIamIdc = "AWS_IAM_IDC"
         case awsIamIdpOidc = "AWS_IAM_IDP_OIDC"
         case awsIamIdpSaml = "AWS_IAM_IDP_SAML"
@@ -1584,6 +1585,42 @@ extension QBusiness {
         }
     }
 
+    public struct AssociatedGroup: AWSDecodableShape {
+        /// The name of the group associated with the user. This is used to identify the group in access control decisions.
+        public let name: String?
+        /// The type of the associated group. This indicates the scope of the group's applicability.
+        public let type: MembershipType?
+
+        @inlinable
+        public init(name: String? = nil, type: MembershipType? = nil) {
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct AssociatedUser: AWSDecodableShape {
+        /// The unique identifier of the associated user. This is used to identify the user in access control decisions.
+        public let id: String?
+        /// The type of the associated user. This indicates the scope of the user's association.
+        public let type: MembershipType?
+
+        @inlinable
+        public init(id: String? = nil, type: MembershipType? = nil) {
+            self.id = id
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case type = "type"
+        }
+    }
+
     public struct Attachment: AWSDecodableShape {
         /// The identifier of the Amazon Q Business attachment.
         public let attachmentId: String?
@@ -2299,7 +2336,7 @@ extension QBusiness {
         public let attributeFilter: AttributeFilter?
         /// An authentication verification event response by a third party authentication server to Amazon Q Business.
         public let authChallengeResponse: AuthChallengeResponse?
-        /// The chatMode parameter determines the chat modes available to  Amazon Q Business users:    RETRIEVAL_MODE - If you choose this mode, Amazon Q generates responses solely from the data sources connected and indexed by the application. If an answer is not found in the data sources or there are no data sources available, Amazon Q will respond with a "No Answer Found" message, unless LLM knowledge has been enabled. In that case, Amazon Q will generate a response from the LLM knowledge    CREATOR_MODE - By selecting this mode, you can choose to generate  responses only from the LLM knowledge. You can also attach files and have Amazon Q  generate a response based on the data in those files.  If the attached files do not contain an answer for the query, Amazon Q  will automatically fall back to generating a response from the LLM knowledge.    PLUGIN_MODE - By selecting this mode, users can choose to use plugins in chat to get their responses.    If none of the modes are selected, Amazon Q will only respond using the information from the attached files.  For more information, see Admin controls and guardrails, Plugins, and Response sources.
+        /// The chatMode parameter determines the chat modes available to Amazon Q Business users:    RETRIEVAL_MODE - If you choose this mode, Amazon Q generates responses solely from the data sources connected and indexed by the application. If an answer is not found in the data sources or there are no data sources available, Amazon Q will respond with a "No Answer Found" message, unless LLM knowledge has been enabled. In that case, Amazon Q will generate a response from the LLM knowledge    CREATOR_MODE - By selecting this mode, you can choose to generate responses only from the LLM knowledge. You can also attach files and have Amazon Q generate a response based on the data in those files. If the attached files do not contain an answer for the query, Amazon Q will automatically fall back to generating a response from the LLM knowledge.    PLUGIN_MODE - By selecting this mode, users can choose to use plugins in chat to get their responses.    If none of the modes are selected, Amazon Q will only respond using the information from the attached files.  For more information, see Admin controls and guardrails, Plugins, and Response sources.
         public let chatMode: ChatMode?
         /// The chat mode configuration for an Amazon Q Business application.
         public let chatModeConfiguration: ChatModeConfiguration?
@@ -2436,6 +2473,83 @@ extension QBusiness {
         }
     }
 
+    public struct CheckDocumentAccessRequest: AWSEncodableShape {
+        /// The unique identifier of the application. This is required to identify the specific Amazon Q Business application context for the document access check.
+        public let applicationId: String
+        /// The unique identifier of the data source. Identifies the specific data source from which the document originates. Should not be used when a document is uploaded directly with BatchPutDocument, as no dataSourceId is available or necessary.
+        public let dataSourceId: String?
+        /// The unique identifier of the document. Specifies which document's access permissions are being checked.
+        public let documentId: String
+        /// The unique identifier of the index. Used to locate the correct index within the application where the document is stored.
+        public let indexId: String
+        /// The unique identifier of the user. Used to check the access permissions for this specific user against the document's ACL.
+        public let userId: String
+
+        @inlinable
+        public init(applicationId: String, dataSourceId: String? = nil, documentId: String, indexId: String, userId: String) {
+            self.applicationId = applicationId
+            self.dataSourceId = dataSourceId
+            self.documentId = documentId
+            self.indexId = indexId
+            self.userId = userId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            request.encodeQuery(self.dataSourceId, key: "dataSourceId")
+            request.encodePath(self.documentId, key: "documentId")
+            request.encodePath(self.indexId, key: "indexId")
+            request.encodePath(self.userId, key: "userId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, max: 36)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, min: 36)
+            try self.validate(self.dataSourceId, name: "dataSourceId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.documentId, name: "documentId", parent: name, max: 1825)
+            try self.validate(self.documentId, name: "documentId", parent: name, min: 1)
+            try self.validate(self.documentId, name: "documentId", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.userId, name: "userId", parent: name, max: 2048)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CheckDocumentAccessResponse: AWSDecodableShape {
+        /// The Access Control List (ACL) associated with the document. Includes allowlist and denylist conditions that determine user access.
+        public let documentAcl: DocumentAcl?
+        /// A boolean value indicating whether the specified user has access to the document, either direct access or transitive access via groups and aliases attached to the document.
+        public let hasAccess: Bool?
+        /// An array of aliases associated with the user. This includes both global and local aliases, each with a name and type.
+        public let userAliases: [AssociatedUser]?
+        /// An array of groups the user is part of for the specified data source. Each group has a name and type.
+        public let userGroups: [AssociatedGroup]?
+
+        @inlinable
+        public init(documentAcl: DocumentAcl? = nil, hasAccess: Bool? = nil, userAliases: [AssociatedUser]? = nil, userGroups: [AssociatedGroup]? = nil) {
+            self.documentAcl = documentAcl
+            self.hasAccess = hasAccess
+            self.userAliases = userAliases
+            self.userGroups = userGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentAcl = "documentAcl"
+            case hasAccess = "hasAccess"
+            case userAliases = "userAliases"
+            case userGroups = "userGroups"
+        }
+    }
+
     public struct ConfigurationEvent: AWSEncodableShape {
         public let attributeFilter: AttributeFilter?
         /// The chat modes available to an Amazon Q Business end user.    RETRIEVAL_MODE - The default chat mode for an Amazon Q Business application. When this mode is enabled, Amazon Q Business generates responses only from data sources connected to an Amazon Q Business application.    CREATOR_MODE - By selecting this mode, users can choose to generate responses only from the LLM knowledge, without consulting connected data sources, for a chat request.    PLUGIN_MODE - By selecting this mode, users can choose to use plugins in chat.   For more information, see Admin controls and guardrails, Plugins, and Conversation settings.
@@ -2567,6 +2681,59 @@ extension QBusiness {
         private enum CodingKeys: String, CodingKey {
             case attachmentId = "attachmentId"
             case conversationId = "conversationId"
+        }
+    }
+
+    public struct CreateAnonymousWebExperienceUrlRequest: AWSEncodableShape {
+        /// The identifier of the Amazon Q Business application environment attached to the web experience.
+        public let applicationId: String
+        /// The duration of the session associated with the unique URL for the web experience.
+        public let sessionDurationInMinutes: Int?
+        /// The identifier of the web experience.
+        public let webExperienceId: String
+
+        @inlinable
+        public init(applicationId: String, sessionDurationInMinutes: Int? = nil, webExperienceId: String) {
+            self.applicationId = applicationId
+            self.sessionDurationInMinutes = sessionDurationInMinutes
+            self.webExperienceId = webExperienceId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.applicationId, key: "applicationId")
+            try container.encodeIfPresent(self.sessionDurationInMinutes, forKey: .sessionDurationInMinutes)
+            request.encodePath(self.webExperienceId, key: "webExperienceId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationId, name: "applicationId", parent: name, max: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, min: 36)
+            try self.validate(self.applicationId, name: "applicationId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]{35}$")
+            try self.validate(self.sessionDurationInMinutes, name: "sessionDurationInMinutes", parent: name, max: 60)
+            try self.validate(self.sessionDurationInMinutes, name: "sessionDurationInMinutes", parent: name, min: 15)
+            try self.validate(self.webExperienceId, name: "webExperienceId", parent: name, max: 36)
+            try self.validate(self.webExperienceId, name: "webExperienceId", parent: name, min: 36)
+            try self.validate(self.webExperienceId, name: "webExperienceId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionDurationInMinutes = "sessionDurationInMinutes"
+        }
+    }
+
+    public struct CreateAnonymousWebExperienceUrlResponse: AWSDecodableShape {
+        /// The unique URL for accessing the web experience.  This URL can only be used once and must be used within 5 minutes after it's generated.
+        public let anonymousUrl: String?
+
+        @inlinable
+        public init(anonymousUrl: String? = nil) {
+            self.anonymousUrl = anonymousUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anonymousUrl = "anonymousUrl"
         }
     }
 
@@ -3283,7 +3450,7 @@ extension QBusiness {
         public let customizationConfiguration: CustomizationConfiguration?
         /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
-        /// Sets the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).   You must only submit a base URL and  not a full path. For example, https://docs.aws.amazon.com.
+        /// Sets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified).   You must only submit a base URL and not a full path. For example, https://docs.aws.amazon.com.
         public let origins: [String]?
         /// The Amazon Resource Name (ARN) of the service role attached to your web experience.  You must provide this value if you're using IAM Identity Center to manage end user access to your application. If you're using legacy identity management to manage user access, you don't need to provide this value.
         public let roleArn: String?
@@ -4221,6 +4388,100 @@ extension QBusiness {
             case id = "id"
             case mediaExtractionConfiguration = "mediaExtractionConfiguration"
             case title = "title"
+        }
+    }
+
+    public struct DocumentAcl: AWSDecodableShape {
+        /// The allowlist conditions for the document. Users or groups matching these conditions are granted access to the document.
+        public let allowlist: DocumentAclMembership?
+        /// The denylist conditions for the document. Users or groups matching these conditions are denied access to the document, overriding allowlist permissions.
+        public let denyList: DocumentAclMembership?
+
+        @inlinable
+        public init(allowlist: DocumentAclMembership? = nil, denyList: DocumentAclMembership? = nil) {
+            self.allowlist = allowlist
+            self.denyList = denyList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowlist = "allowlist"
+            case denyList = "denyList"
+        }
+    }
+
+    public struct DocumentAclCondition: AWSDecodableShape {
+        /// An array of group identifiers that this condition applies to. Groups listed here are subject to the access rule defined by this condition.
+        public let groups: [DocumentAclGroup]?
+        /// The logical relation between members in the condition, determining how multiple user or group conditions are combined.
+        public let memberRelation: MemberRelation?
+        /// An array of user identifiers that this condition applies to. Users listed here are subject to the access rule defined by this condition.
+        public let users: [DocumentAclUser]?
+
+        @inlinable
+        public init(groups: [DocumentAclGroup]? = nil, memberRelation: MemberRelation? = nil, users: [DocumentAclUser]? = nil) {
+            self.groups = groups
+            self.memberRelation = memberRelation
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "groups"
+            case memberRelation = "memberRelation"
+            case users = "users"
+        }
+    }
+
+    public struct DocumentAclGroup: AWSDecodableShape {
+        /// The name of the group in the document's ACL. This is used to identify the group when applying access rules.
+        public let name: String?
+        /// The type of the group. This indicates the scope of the group's applicability in access control.
+        public let type: MembershipType?
+
+        @inlinable
+        public init(name: String? = nil, type: MembershipType? = nil) {
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case type = "type"
+        }
+    }
+
+    public struct DocumentAclMembership: AWSDecodableShape {
+        /// An array of conditions that define the membership rules. Each condition specifies criteria for users or groups to be included in this membership.
+        public let conditions: [DocumentAclCondition]?
+        /// The logical relation between members in the membership rule, determining how multiple conditions are combined.
+        public let memberRelation: MemberRelation?
+
+        @inlinable
+        public init(conditions: [DocumentAclCondition]? = nil, memberRelation: MemberRelation? = nil) {
+            self.conditions = conditions
+            self.memberRelation = memberRelation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditions = "conditions"
+            case memberRelation = "memberRelation"
+        }
+    }
+
+    public struct DocumentAclUser: AWSDecodableShape {
+        /// The unique identifier of the user in the document's ACL. This is used to identify the user when applying access rules.
+        public let id: String?
+        /// The type of the user. This indicates the scope of the user's applicability in access control.
+        public let type: MembershipType?
+
+        @inlinable
+        public init(id: String? = nil, type: MembershipType? = nil) {
+            self.id = id
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "id"
+            case type = "type"
         }
     }
 
@@ -5401,7 +5662,7 @@ extension QBusiness {
         public let error: ErrorDetail?
         /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
-        /// Gets the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).
+        /// Gets the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified).
         public let origins: [String]?
         ///  The Amazon Resource Name (ARN) of the service role attached to your web experience.
         public let roleArn: String?
@@ -5573,7 +5834,7 @@ extension QBusiness {
     public struct HookConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Q Business should invoke a function that inserts the current date-time.
         public let invocationCondition: DocumentAttributeCondition?
-        /// The Amazon Resource Name (ARN) of a role with permission to run a Lambda function during ingestion. For more information, see IAM roles for Custom Document Enrichment (CDE).
+        /// The Amazon Resource Name (ARN) of the Lambda function sduring ingestion. For more information, see Using Lambda functions for Amazon Q Business document enrichment.
         public let lambdaArn: String?
         /// The Amazon Resource Name (ARN) of a role with permission to run PreExtractionHookConfiguration and PostExtractionHookConfiguration for altering document metadata and content during the document ingestion process.
         public let roleArn: String?
@@ -6825,7 +7086,7 @@ extension QBusiness {
     public struct MediaExtractionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Configuration settings for extracting and processing audio content from media files.
         public let audioExtractionConfiguration: AudioExtractionConfiguration?
-        /// The configuration for extracting semantic meaning from images in documents.  For more information, see Extracting semantic meaning from images and visuals.
+        /// The configuration for extracting semantic meaning from images in documents. For more information, see Extracting semantic meaning from images and visuals.
         public let imageExtractionConfiguration: ImageExtractionConfiguration?
         /// Configuration settings for extracting and processing video content from media files.
         public let videoExtractionConfiguration: VideoExtractionConfiguration?
@@ -7345,7 +7606,7 @@ extension QBusiness {
         public let groupName: String
         /// The identifier of the index in which you want to map users to their groups.
         public let indexId: String
-        /// The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains  your list of users that belong to a group.
+        /// The Amazon Resource Name (ARN) of an IAM role that has access to the S3 file that contains your list of users that belong to a group.
         public let roleArn: String?
         /// The type of the group.
         public let type: MembershipType
@@ -7419,7 +7680,7 @@ extension QBusiness {
     }
 
     public struct QuickSightConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon QuickSight namespace that is used as the identity provider. For more information about QuickSight namespaces, see  Namespace operations.
+        /// The Amazon QuickSight namespace that is used as the identity provider. For more information about QuickSight namespaces, see Namespace operations.
         public let clientNamespace: String
 
         @inlinable
@@ -8874,7 +9135,7 @@ extension QBusiness {
         public let customizationConfiguration: CustomizationConfiguration?
         /// Information about the identity provider (IdP) used to authenticate end users of an Amazon Q Business web experience.
         public let identityProviderConfiguration: IdentityProviderConfiguration?
-        /// Updates the website domain origins that  are allowed to embed the Amazon Q Business web experience.  The domain origin refers to the  base URL for accessing a website including the protocol  (http/https), the domain name, and the port number (if specified).    Any values except null submitted as part of this  update will replace all previous values.   You must only submit a base URL and  not a full path. For example, https://docs.aws.amazon.com.
+        /// Updates the website domain origins that are allowed to embed the Amazon Q Business web experience. The domain origin refers to the base URL for accessing a website including the protocol (http/https), the domain name, and the port number (if specified).    Any values except null submitted as part of this update will replace all previous values.   You must only submit a base URL and not a full path. For example, https://docs.aws.amazon.com.
         public let origins: [String]?
         /// The Amazon Resource Name (ARN) of the role with permission to access the Amazon Q Business web experience and required resources.
         public let roleArn: String?

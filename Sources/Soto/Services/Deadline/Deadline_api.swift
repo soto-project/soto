@@ -1095,6 +1095,7 @@ public struct Deadline: AWSService {
     ///   - farmId: The farm ID of the farm to connect to the worker.
     ///   - fleetId: The fleet ID to connect to the worker.
     ///   - hostProperties: The IP address and host name of the worker.
+    ///   - tags: Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     ///   - logger: Logger use during operation
     @inlinable
     public func createWorker(
@@ -1102,13 +1103,15 @@ public struct Deadline: AWSService {
         farmId: String,
         fleetId: String,
         hostProperties: HostPropertiesRequest? = nil,
+        tags: [String: String]? = nil,
         logger: Logger = AWSClient.loggingDisabled        
     ) async throws -> CreateWorkerResponse {
         let input = CreateWorkerRequest(
             clientToken: clientToken, 
             farmId: farmId, 
             fleetId: fleetId, 
-            hostProperties: hostProperties
+            hostProperties: hostProperties, 
+            tags: tags
         )
         return try await self.createWorker(input, logger: logger)
     }

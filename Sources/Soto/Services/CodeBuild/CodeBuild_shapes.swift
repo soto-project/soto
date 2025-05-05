@@ -123,6 +123,7 @@ extension CodeBuild {
         case buildLambda2Gb = "BUILD_LAMBDA_2GB"
         case buildLambda4Gb = "BUILD_LAMBDA_4GB"
         case buildLambda8Gb = "BUILD_LAMBDA_8GB"
+        case customInstanceType = "CUSTOM_INSTANCE_TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -1503,6 +1504,8 @@ extension CodeBuild {
     public struct ComputeConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The amount of disk space of the instance type included in your fleet.
         public let disk: Int64?
+        /// The EC2 instance type to be launched in your fleet.
+        public let instanceType: String?
         /// The machine type of the instance type included in your fleet.
         public let machineType: MachineType?
         /// The amount of memory of the instance type included in your fleet.
@@ -1511,15 +1514,21 @@ extension CodeBuild {
         public let vCpu: Int64?
 
         @inlinable
-        public init(disk: Int64? = nil, machineType: MachineType? = nil, memory: Int64? = nil, vCpu: Int64? = nil) {
+        public init(disk: Int64? = nil, instanceType: String? = nil, machineType: MachineType? = nil, memory: Int64? = nil, vCpu: Int64? = nil) {
             self.disk = disk
+            self.instanceType = instanceType
             self.machineType = machineType
             self.memory = memory
             self.vCpu = vCpu
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case disk = "disk"
+            case instanceType = "instanceType"
             case machineType = "machineType"
             case memory = "memory"
             case vCpu = "vCpu"
@@ -1568,14 +1577,13 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.baseCapacity, name: "baseCapacity", parent: name, min: 1)
+            try self.computeConfiguration?.validate(name: "\(name).computeConfiguration")
             try self.validate(self.fleetServiceRole, name: "fleetServiceRole", parent: name, min: 1)
             try self.validate(self.imageId, name: "imageId", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 2)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{1,127}$")
             try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
-            try self.scalingConfiguration?.validate(name: "\(name).scalingConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -3683,6 +3691,7 @@ extension CodeBuild {
         }
 
         public func validate(name: String) throws {
+            try self.computeConfiguration?.validate(name: "\(name).computeConfiguration")
             try self.environmentVariables?.forEach {
                 try $0.validate(name: "\(name).environmentVariables[]")
             }
@@ -4442,10 +4451,6 @@ extension CodeBuild {
             self.targetTrackingScalingConfigs = targetTrackingScalingConfigs
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.maxCapacity, name: "maxCapacity", parent: name, min: 1)
-        }
-
         private enum CodingKeys: String, CodingKey {
             case maxCapacity = "maxCapacity"
             case scalingType = "scalingType"
@@ -4484,7 +4489,7 @@ extension CodeBuild {
         public let domain: String?
         /// The name of either the group, enterprise, or organization that will send webhook events to CodeBuild, depending on the type of webhook.
         public let name: String
-        /// The type of scope for a GitHub or GitLab webhook.
+        /// The type of scope for a GitHub or GitLab webhook. The scope default is GITHUB_ORGANIZATION.
         public let scope: WebhookScopeType
 
         @inlinable
@@ -5272,11 +5277,10 @@ extension CodeBuild {
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, min: 1)
-            try self.validate(self.baseCapacity, name: "baseCapacity", parent: name, min: 1)
+            try self.computeConfiguration?.validate(name: "\(name).computeConfiguration")
             try self.validate(self.fleetServiceRole, name: "fleetServiceRole", parent: name, min: 1)
             try self.validate(self.imageId, name: "imageId", parent: name, min: 1)
             try self.proxyConfiguration?.validate(name: "\(name).proxyConfiguration")
-            try self.scalingConfiguration?.validate(name: "\(name).scalingConfiguration")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }

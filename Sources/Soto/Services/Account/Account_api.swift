@@ -123,7 +123,7 @@ public struct Account: AWSService {
         return try await self.acceptPrimaryEmailUpdate(input, logger: logger)
     }
 
-    /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
+    /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enabling trusted access for Amazon Web Services Account Management.
     @Sendable
     @inlinable
     public func deleteAlternateContact(_ input: DeleteAlternateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -136,10 +136,10 @@ public struct Account: AWSService {
             logger: logger
         )
     }
-    /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
+    /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enabling trusted access for Amazon Web Services Account Management.
     ///
     /// Parameters:
-    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that  you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the  identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and  the specified account ID must be a member account in the same organization. The organization must have all features  enabled, and the organization must have trusted access enabled for the  Account Management service, and optionally a delegated admin account  assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId  parameter.  To call this operation on an account that is not a member of an organization, then  don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     ///   - alternateContactType: Specifies which of the alternate contacts to delete.
     ///   - logger: Logger use during operation
     @inlinable
@@ -219,7 +219,36 @@ public struct Account: AWSService {
         return try await self.enableRegion(input, logger: logger)
     }
 
-    /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
+    /// Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission.
+    @Sendable
+    @inlinable
+    public func getAccountInformation(_ input: GetAccountInformationRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAccountInformationResponse {
+        try await self.client.execute(
+            operation: "GetAccountInformation", 
+            path: "/getAccountInformation", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the account:GetAccountInformation IAM permission.
+    ///
+    /// Parameters:
+    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func getAccountInformation(
+        accountId: String? = nil,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws -> GetAccountInformationResponse {
+        let input = GetAccountInformationRequest(
+            accountId: accountId
+        )
+        return try await self.getAccountInformation(input, logger: logger)
+    }
+
+    /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enabling trusted access for Amazon Web Services Account Management.
     @Sendable
     @inlinable
     public func getAlternateContact(_ input: GetAlternateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws -> GetAlternateContactResponse {
@@ -232,10 +261,10 @@ public struct Account: AWSService {
             logger: logger
         )
     }
-    /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
+    /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enabling trusted access for Amazon Web Services Account Management.
     ///
     /// Parameters:
-    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that  you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the  identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and  the specified account ID must be a member account in the same organization. The organization must have all features  enabled, and the organization must have trusted access enabled for the  Account Management service, and optionally a delegated admin account  assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId  parameter.  To call this operation on an account that is not a member of an organization, then  don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     ///   - alternateContactType: Specifies which alternate contact you want to retrieve.
     ///   - logger: Logger use during operation
     @inlinable
@@ -379,7 +408,39 @@ public struct Account: AWSService {
         return try await self.listRegions(input, logger: logger)
     }
 
-    /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
+    /// Updates the account name of the specified account. To use this API, IAM principals must have the account:PutAccountName IAM permission.
+    @Sendable
+    @inlinable
+    public func putAccountName(_ input: PutAccountNameRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
+        try await self.client.execute(
+            operation: "PutAccountName", 
+            path: "/putAccountName", 
+            httpMethod: .POST, 
+            serviceConfig: self.config, 
+            input: input, 
+            logger: logger
+        )
+    }
+    /// Updates the account name of the specified account. To use this API, IAM principals must have the account:PutAccountName IAM permission.
+    ///
+    /// Parameters:
+    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    ///   - accountName: The name of the account.
+    ///   - logger: Logger use during operation
+    @inlinable
+    public func putAccountName(
+        accountId: String? = nil,
+        accountName: String,
+        logger: Logger = AWSClient.loggingDisabled        
+    ) async throws {
+        let input = PutAccountNameRequest(
+            accountId: accountId, 
+            accountName: accountName
+        )
+        return try await self.putAccountName(input, logger: logger)
+    }
+
+    /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enabling trusted access for Amazon Web Services Account Management.
     @Sendable
     @inlinable
     public func putAlternateContact(_ input: PutAlternateContactRequest, logger: Logger = AWSClient.loggingDisabled) async throws {
@@ -392,10 +453,10 @@ public struct Account: AWSService {
             logger: logger
         )
     }
-    /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an  Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations.  For more information, see Enabling trusted access for  Amazon Web Services Account Management.
+    /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see Access or updating the alternate contacts.  Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enabling trusted access for Amazon Web Services Account Management.
     ///
     /// Parameters:
-    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that  you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the  identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and  the specified account ID must be a member account in the same organization. The organization must have all features  enabled, and the organization must have trusted access enabled for the  Account Management service, and optionally a delegated admin account  assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId  parameter.  To call this operation on an account that is not a member of an organization, then  don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
+    ///   - accountId: Specifies the 12 digit account ID number of the Amazon Web Services account that you want to access or modify with this operation. If you do not specify this parameter, it defaults to the Amazon Web Services account of the identity used to call the operation. To use this parameter, the caller must be an identity in the organization's management account or a delegated administrator account, and the specified account ID must be a member account in the same organization. The organization must have all features enabled, and the organization must have trusted access enabled for the Account Management service, and optionally a delegated admin account assigned.  The management account can't specify its own AccountId; it must call the operation in standalone context by not including the AccountId parameter.  To call this operation on an account that is not a member of an organization, then don't specify this parameter, and call the operation using an identity belonging to the account whose contacts you wish to retrieve or modify.
     ///   - alternateContactType: Specifies which alternate contact you want to create or update.
     ///   - emailAddress: Specifies an email address for the alternate contact.
     ///   - name: Specifies a name for the alternate contact.

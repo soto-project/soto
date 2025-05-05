@@ -31,6 +31,12 @@ extension VerifiedPermissions {
         public var description: String { return self.rawValue }
     }
 
+    public enum CedarVersion: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
+        case cedar2 = "CEDAR_2"
+        case cedar4 = "CEDAR_4"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Decision: String, CustomStringConvertible, Codable, Sendable, CodingKeyRepresentable {
         case allow = "ALLOW"
         case deny = "DENY"
@@ -741,7 +747,7 @@ extension VerifiedPermissions {
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -805,7 +811,7 @@ extension VerifiedPermissions {
     }
 
     public struct BatchIsAuthorizedInput: AWSEncodableShape {
-        /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+        /// (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
         public let entities: EntitiesDefinition?
         /// Specifies the ID of the policy store. Policies in this policy store will be used to make the authorization decisions for the input.
         public let policyStoreId: String
@@ -823,7 +829,7 @@ extension VerifiedPermissions {
             try self.entities?.validate(name: "\(name).entities")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.requests.forEach {
                 try $0.validate(name: "\(name).requests[]")
             }
@@ -913,7 +919,7 @@ extension VerifiedPermissions {
     public struct BatchIsAuthorizedWithTokenInput: AWSEncodableShape {
         /// Specifies an access token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an access token. Verified Permissions returns an error if the token_use claim in the submitted token isn't access.
         public let accessToken: String?
-        /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The BatchIsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
+        /// (Optional) Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The BatchIsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
         public let entities: EntitiesDefinition?
         /// Specifies an identity (ID) token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
         public let identityToken: String?
@@ -941,7 +947,7 @@ extension VerifiedPermissions {
             try self.validate(self.identityToken, name: "identityToken", parent: name, pattern: "^[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.requests.forEach {
                 try $0.validate(name: "\(name).requests[]")
             }
@@ -988,7 +994,7 @@ extension VerifiedPermissions {
     public struct BatchIsAuthorizedWithTokenOutput: AWSDecodableShape {
         /// The identifier of the principal in the ID or access token.
         public let principal: EntityIdentifier?
-        /// A series of Allow or Deny decisions for each request, and the policies that produced them.  These results are returned in the order they were requested.
+        /// A series of Allow or Deny decisions for each request, and the policies that produced them. These results are returned in the order they were requested.
         public let results: [BatchIsAuthorizedWithTokenOutputItem]
 
         @inlinable
@@ -1182,7 +1188,7 @@ extension VerifiedPermissions {
     }
 
     public struct CreateIdentitySourceInput: AWSEncodableShape {
-        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
         public let clientToken: String?
         /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source.
         public let configuration: Configuration
@@ -1206,7 +1212,7 @@ extension VerifiedPermissions {
             try self.configuration.validate(name: "\(name).configuration")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.principalEntityType, name: "principalEntityType", parent: name, max: 200)
             try self.validate(self.principalEntityType, name: "principalEntityType", parent: name, min: 1)
             try self.validate(self.principalEntityType, name: "principalEntityType", parent: name, pattern: "^.*$")
@@ -1249,7 +1255,7 @@ extension VerifiedPermissions {
     }
 
     public struct CreatePolicyInput: AWSEncodableShape {
-        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
         public let clientToken: String?
         /// A structure that specifies the policy type and content to use for the new policy. You must include either a static or a templateLinked element. The policy content must be written in the Cedar policy language.
         public let definition: PolicyDefinition
@@ -1270,7 +1276,7 @@ extension VerifiedPermissions {
             try self.definition.validate(name: "\(name).definition")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1281,15 +1287,12 @@ extension VerifiedPermissions {
     }
 
     public struct CreatePolicyOutput: AWSDecodableShape {
-        /// The action that a policy permits or forbids. For example,
-        /// {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto",
-        /// "entityType": "PhotoFlash::Action"}]}.
+        /// The action that a policy permits or forbids. For example, {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}]}.
         public let actions: [ActionIdentifier]?
         /// The date and time the policy was originally created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
-        /// The effect of the decision that a policy returns to an authorization
-        /// request. For example, "effect": "Permit".
+        /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
         public let effect: PolicyEffect?
         /// The date and time the policy was last updated.
         @CustomCoding<ISO8601DateCoder>
@@ -1332,20 +1335,23 @@ extension VerifiedPermissions {
     }
 
     public struct CreatePolicyStoreInput: AWSEncodableShape {
-        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
         public let clientToken: String?
         /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
         public let deletionProtection: DeletionProtection?
-        /// Descriptive text that you can provide to help with identification  of the current policy store.
+        /// Descriptive text that you can provide to help with identification of the current policy store.
         public let description: String?
+        /// The list of key-value pairs to associate with the policy store.
+        public let tags: [String: String]?
         /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode.  We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the UpdatePolicyStore. Then, when you have a schema defined, use UpdatePolicyStore again to turn validation back on.
         public let validationSettings: ValidationSettings
 
         @inlinable
-        public init(clientToken: String? = CreatePolicyStoreInput.idempotencyToken(), deletionProtection: DeletionProtection? = nil, description: String? = nil, validationSettings: ValidationSettings) {
+        public init(clientToken: String? = CreatePolicyStoreInput.idempotencyToken(), deletionProtection: DeletionProtection? = nil, description: String? = nil, tags: [String: String]? = nil, validationSettings: ValidationSettings) {
             self.clientToken = clientToken
             self.deletionProtection = deletionProtection
             self.description = description
+            self.tags = tags
             self.validationSettings = validationSettings
         }
 
@@ -1354,12 +1360,19 @@ extension VerifiedPermissions {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.description, name: "description", parent: name, max: 150)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case deletionProtection = "deletionProtection"
             case description = "description"
+            case tags = "tags"
             case validationSettings = "validationSettings"
         }
     }
@@ -1393,7 +1406,7 @@ extension VerifiedPermissions {
     }
 
     public struct CreatePolicyTemplateInput: AWSEncodableShape {
-        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other  parameters. We recommend that you use a UUID type of  value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with  different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of  the value of ClientToken.
+        /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
         public let clientToken: String?
         /// Specifies a description for the policy template.
         public let description: String?
@@ -1417,7 +1430,7 @@ extension VerifiedPermissions {
             try self.validate(self.description, name: "description", parent: name, max: 150)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.statement, name: "statement", parent: name, max: 10000)
             try self.validate(self.statement, name: "statement", parent: name, min: 1)
         }
@@ -1476,7 +1489,7 @@ extension VerifiedPermissions {
             try self.validate(self.identitySourceId, name: "identitySourceId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1507,7 +1520,7 @@ extension VerifiedPermissions {
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1532,7 +1545,7 @@ extension VerifiedPermissions {
         public func validate(name: String) throws {
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1559,10 +1572,10 @@ extension VerifiedPermissions {
         public func validate(name: String) throws {
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, max: 200)
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, min: 1)
-            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1680,7 +1693,7 @@ extension VerifiedPermissions {
             try self.validate(self.identitySourceId, name: "identitySourceId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1759,7 +1772,7 @@ extension VerifiedPermissions {
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1769,17 +1782,14 @@ extension VerifiedPermissions {
     }
 
     public struct GetPolicyOutput: AWSDecodableShape {
-        /// The action that a policy permits or forbids. For example,
-        /// {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto",
-        /// "entityType": "PhotoFlash::Action"}]}.
+        /// The action that a policy permits or forbids. For example, {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}]}.
         public let actions: [ActionIdentifier]?
         /// The date and time that the policy was originally created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
         /// The definition of the requested policy.
         public let definition: PolicyDefinitionDetail
-        /// The effect of the decision that a policy returns to an authorization
-        /// request. For example, "effect": "Permit".
+        /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
         public let effect: PolicyEffect?
         /// The date and time that the policy was last updated.
         @CustomCoding<ISO8601DateCoder>
@@ -1826,59 +1836,71 @@ extension VerifiedPermissions {
     public struct GetPolicyStoreInput: AWSEncodableShape {
         /// Specifies the ID of the policy store that you want information about.
         public let policyStoreId: String
+        /// Specifies whether to return the tags that are attached to the policy store. If this parameter is included in the API call, the tags are returned, otherwise they are not returned.  If this parameter is included in the API call but there are no tags attached to the policy store, the tags response parameter is omitted from the response.
+        public let tags: Bool?
 
         @inlinable
-        public init(policyStoreId: String) {
+        public init(policyStoreId: String, tags: Bool? = nil) {
             self.policyStoreId = policyStoreId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case policyStoreId = "policyStoreId"
+            case tags = "tags"
         }
     }
 
     public struct GetPolicyStoreOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the policy store.
         public let arn: String
+        /// The version of the Cedar language used with policies, policy templates, and schemas in this policy store. For more information, see Amazon Verified Permissions upgrade to Cedar v4 FAQ.
+        public let cedarVersion: CedarVersion?
         /// The date and time that the policy store was originally created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
         /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. The default state is DISABLED.
         public let deletionProtection: DeletionProtection?
-        /// Descriptive text that you can provide to help with identification  of the current policy store.
+        /// Descriptive text that you can provide to help with identification of the current policy store.
         public let description: String?
         /// The date and time that the policy store was last updated.
         @CustomCoding<ISO8601DateCoder>
         public var lastUpdatedDate: Date
         /// The ID of the policy store;
         public let policyStoreId: String
+        /// The list of tags associated with the policy store.
+        public let tags: [String: String]?
         /// The current validation settings for the policy store.
         public let validationSettings: ValidationSettings
 
         @inlinable
-        public init(arn: String, createdDate: Date, deletionProtection: DeletionProtection? = nil, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, validationSettings: ValidationSettings) {
+        public init(arn: String, cedarVersion: CedarVersion? = nil, createdDate: Date, deletionProtection: DeletionProtection? = nil, description: String? = nil, lastUpdatedDate: Date, policyStoreId: String, tags: [String: String]? = nil, validationSettings: ValidationSettings) {
             self.arn = arn
+            self.cedarVersion = cedarVersion
             self.createdDate = createdDate
             self.deletionProtection = deletionProtection
             self.description = description
             self.lastUpdatedDate = lastUpdatedDate
             self.policyStoreId = policyStoreId
+            self.tags = tags
             self.validationSettings = validationSettings
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
+            case cedarVersion = "cedarVersion"
             case createdDate = "createdDate"
             case deletionProtection = "deletionProtection"
             case description = "description"
             case lastUpdatedDate = "lastUpdatedDate"
             case policyStoreId = "policyStoreId"
+            case tags = "tags"
             case validationSettings = "validationSettings"
         }
     }
@@ -1898,10 +1920,10 @@ extension VerifiedPermissions {
         public func validate(name: String) throws {
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, max: 200)
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, min: 1)
-            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1958,7 +1980,7 @@ extension VerifiedPermissions {
         public func validate(name: String) throws {
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2145,7 +2167,7 @@ extension VerifiedPermissions {
         public let action: ActionIdentifier?
         /// Specifies additional context that can be used to make more granular authorization decisions.
         public let context: ContextDefinition?
-        /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+        /// (Optional) Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
         public let entities: EntitiesDefinition?
         /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
         public let policyStoreId: String
@@ -2170,7 +2192,7 @@ extension VerifiedPermissions {
             try self.entities?.validate(name: "\(name).entities")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.principal?.validate(name: "\(name).principal")
             try self.resource?.validate(name: "\(name).resource")
         }
@@ -2214,7 +2236,7 @@ extension VerifiedPermissions {
         public let action: ActionIdentifier?
         /// Specifies additional context that can be used to make more granular authorization decisions.
         public let context: ContextDefinition?
-        /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies.   You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The IsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
+        /// (Optional) Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. These additional entities and their attributes can be referenced and checked by conditional elements in the policies in the specified policy store.  You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.   The IsAuthorizedWithToken operation takes principal attributes from  only  the identityToken or accessToken passed to the operation.   For action entities, you can include only their Identifier and EntityType.
         public let entities: EntitiesDefinition?
         /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
         public let identityToken: String?
@@ -2246,7 +2268,7 @@ extension VerifiedPermissions {
             try self.validate(self.identityToken, name: "identityToken", parent: name, pattern: "^[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+.[A-Za-z0-9-_=]+$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.resource?.validate(name: "\(name).resource")
         }
 
@@ -2290,9 +2312,9 @@ extension VerifiedPermissions {
     public struct ListIdentitySourcesInput: AWSEncodableShape {
         /// Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
         public let filters: [IdentitySourceFilter]?
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 50 identity sources per response.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
         /// Specifies the ID of the policy store that contains the identity sources that you want to list.
         public let policyStoreId: String
@@ -2316,7 +2338,7 @@ extension VerifiedPermissions {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-_=+/\\.]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2330,7 +2352,7 @@ extension VerifiedPermissions {
     public struct ListIdentitySourcesOutput: AWSDecodableShape {
         /// The list of identity sources stored in the specified policy store.
         public let identitySources: [IdentitySourceItem]
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2348,9 +2370,9 @@ extension VerifiedPermissions {
     public struct ListPoliciesInput: AWSEncodableShape {
         /// Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the policies that reference a specified principal.
         public let filter: PolicyFilter?
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
         /// Specifies the ID of the policy store you want to list policies from.
         public let policyStoreId: String
@@ -2371,7 +2393,7 @@ extension VerifiedPermissions {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-_=+/\\.]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2383,7 +2405,7 @@ extension VerifiedPermissions {
     }
 
     public struct ListPoliciesOutput: AWSDecodableShape {
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
         /// Lists all policies that are available in the specified policy store.
         public let policies: [PolicyItem]
@@ -2401,9 +2423,9 @@ extension VerifiedPermissions {
     }
 
     public struct ListPolicyStoresInput: AWSEncodableShape {
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy stores per response. You can specify a maximum of 50 policy stores per response.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy stores per response. You can specify a maximum of 50 policy stores per response.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -2426,7 +2448,7 @@ extension VerifiedPermissions {
     }
 
     public struct ListPolicyStoresOutput: AWSDecodableShape {
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
         /// The list of policy stores in the account.
         public let policyStores: [PolicyStoreItem]
@@ -2444,9 +2466,9 @@ extension VerifiedPermissions {
     }
 
     public struct ListPolicyTemplatesInput: AWSEncodableShape {
-        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the  NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check  NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
+        /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
         public let maxResults: Int?
-        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
         /// Specifies the ID of the policy store that contains the policy templates you want to list.
         public let policyStoreId: String
@@ -2465,7 +2487,7 @@ extension VerifiedPermissions {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9-_=+/\\.]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2476,7 +2498,7 @@ extension VerifiedPermissions {
     }
 
     public struct ListPolicyTemplatesOutput: AWSDecodableShape {
-        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
         /// The list of the policy templates in the specified policy store.
         public let policyTemplates: [PolicyTemplateItem]
@@ -2490,6 +2512,39 @@ extension VerifiedPermissions {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "nextToken"
             case policyTemplates = "policyTemplates"
+        }
+    }
+
+    public struct ListTagsForResourceInput: AWSEncodableShape {
+        /// The ARN of the resource for which you want to view tags.
+        public let resourceArn: String
+
+        @inlinable
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceOutput: AWSDecodableShape {
+        /// The list of tags associated with the resource.
+        public let tags: [String: String]?
+
+        @inlinable
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
         }
     }
 
@@ -2791,7 +2846,7 @@ extension VerifiedPermissions {
         public func validate(name: String) throws {
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, max: 200)
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, min: 1)
-            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.principal?.validate(name: "\(name).principal")
             try self.resource?.validate(name: "\(name).resource")
         }
@@ -2805,17 +2860,14 @@ extension VerifiedPermissions {
     }
 
     public struct PolicyItem: AWSDecodableShape {
-        /// The action that a policy permits or forbids. For example,
-        /// {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto",
-        /// "entityType": "PhotoFlash::Action"}]}.
+        /// The action that a policy permits or forbids. For example, {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}]}.
         public let actions: [ActionIdentifier]?
         /// The date and time the policy was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
         /// The policy definition of an item in the list of policies returned.
         public let definition: PolicyDefinitionItem
-        /// The effect of the decision that a policy returns to an authorization
-        /// request. For example, "effect": "Permit".
+        /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
         public let effect: PolicyEffect?
         /// The date and time the policy was most recently updated.
         @CustomCoding<ISO8601DateCoder>
@@ -2865,7 +2917,7 @@ extension VerifiedPermissions {
         /// The date and time the policy was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
-        /// Descriptive text that you can provide to help with identification  of the current policy store.
+        /// Descriptive text that you can provide to help with identification of the current policy store.
         public let description: String?
         /// The date and time the policy store was most recently updated.
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -2939,7 +2991,7 @@ extension VerifiedPermissions {
             try self.definition.validate(name: "\(name).definition")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3100,6 +3152,39 @@ extension VerifiedPermissions {
         }
     }
 
+    public struct TagResourceInput: AWSEncodableShape {
+        /// The ARN of the resource that you're adding tags to.
+        public let resourceArn: String
+        /// The list of key-value pairs to associate with the resource.
+        public let tags: [String: String]
+
+        @inlinable
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceOutput: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TemplateLinkedPolicyDefinition: AWSEncodableShape {
         /// The unique identifier of the policy template used to create this policy.
         public let policyTemplateId: String
@@ -3118,7 +3203,7 @@ extension VerifiedPermissions {
         public func validate(name: String) throws {
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, max: 200)
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, min: 1)
-            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.principal?.validate(name: "\(name).principal")
             try self.resource?.validate(name: "\(name).resource")
         }
@@ -3172,6 +3257,76 @@ extension VerifiedPermissions {
             case principal = "principal"
             case resource = "resource"
         }
+    }
+
+    public struct ThrottlingException: AWSErrorShape {
+        public let message: String
+        /// The quota code recognized by the Amazon Web Services Service Quotas service.
+        public let quotaCode: String?
+        /// The code for the Amazon Web Services service that owns the quota.
+        public let serviceCode: String?
+
+        @inlinable
+        public init(message: String, quotaCode: String? = nil, serviceCode: String? = nil) {
+            self.message = message
+            self.quotaCode = quotaCode
+            self.serviceCode = serviceCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case quotaCode = "quotaCode"
+            case serviceCode = "serviceCode"
+        }
+    }
+
+    public struct TooManyTagsException: AWSErrorShape {
+        public let message: String?
+        public let resourceName: String?
+
+        @inlinable
+        public init(message: String? = nil, resourceName: String? = nil) {
+            self.message = message
+            self.resourceName = resourceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "message"
+            case resourceName = "resourceName"
+        }
+    }
+
+    public struct UntagResourceInput: AWSEncodableShape {
+        /// The ARN of the resource from which you are removing tags.
+        public let resourceArn: String
+        /// The list of tag keys to remove from the resource.
+        public let tagKeys: [String]
+
+        @inlinable
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceOutput: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateCognitoGroupConfiguration: AWSEncodableShape {
@@ -3253,7 +3408,7 @@ extension VerifiedPermissions {
             try self.validate(self.identitySourceId, name: "identitySourceId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.principalEntityType, name: "principalEntityType", parent: name, max: 200)
             try self.validate(self.principalEntityType, name: "principalEntityType", parent: name, min: 1)
             try self.validate(self.principalEntityType, name: "principalEntityType", parent: name, pattern: "^.*$")
@@ -3435,7 +3590,7 @@ extension VerifiedPermissions {
             try self.validate(self.policyId, name: "policyId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3446,15 +3601,12 @@ extension VerifiedPermissions {
     }
 
     public struct UpdatePolicyOutput: AWSDecodableShape {
-        /// The action that a policy permits or forbids. For example,
-        /// {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto",
-        /// "entityType": "PhotoFlash::Action"}]}.
+        /// The action that a policy permits or forbids. For example, {"actions": [{"actionId": "ViewPhoto", "actionType": "PhotoFlash::Action"}, {"entityID": "SharePhoto", "entityType": "PhotoFlash::Action"}]}.
         public let actions: [ActionIdentifier]?
         /// The date and time that the policy was originally created.
         @CustomCoding<ISO8601DateCoder>
         public var createdDate: Date
-        /// The effect of the decision that a policy returns to an authorization
-        /// request. For example, "effect": "Permit".
+        /// The effect of the decision that a policy returns to an authorization request. For example, "effect": "Permit".
         public let effect: PolicyEffect?
         /// The date and time that the policy was most recently updated.
         @CustomCoding<ISO8601DateCoder>
@@ -3499,7 +3651,7 @@ extension VerifiedPermissions {
     public struct UpdatePolicyStoreInput: AWSEncodableShape {
         /// Specifies whether the policy store can be deleted. If enabled, the policy store can't be deleted. When you call UpdatePolicyStore, this parameter is unchanged unless explicitly included in the call.
         public let deletionProtection: DeletionProtection?
-        /// Descriptive text that you can provide to help with identification  of the current policy store.
+        /// Descriptive text that you can provide to help with identification of the current policy store.
         public let description: String?
         /// Specifies the ID of the policy store that you want to update
         public let policyStoreId: String
@@ -3518,7 +3670,7 @@ extension VerifiedPermissions {
             try self.validate(self.description, name: "description", parent: name, max: 150)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3579,10 +3731,10 @@ extension VerifiedPermissions {
             try self.validate(self.description, name: "description", parent: name, max: 150)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, max: 200)
             try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, min: 1)
-            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyStoreId, name: "policyStoreId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, max: 200)
             try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, min: 1)
-            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-]*$")
+            try self.validate(self.policyTemplateId, name: "policyTemplateId", parent: name, pattern: "^[a-zA-Z0-9-/_]*$")
             try self.validate(self.statement, name: "statement", parent: name, max: 10000)
             try self.validate(self.statement, name: "statement", parent: name, min: 1)
         }
@@ -3710,6 +3862,7 @@ public struct VerifiedPermissionsErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
+        case tooManyTagsException = "TooManyTagsException"
         case validationException = "ValidationException"
     }
 
@@ -3745,6 +3898,8 @@ public struct VerifiedPermissionsErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request failed because it exceeded a throttling quota.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// No more tags be added because the limit (50) has been reached. To add new tags, use UntagResource to remove existing tags.
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The request failed because one or more input parameters don't satisfy their constraint requirements. The output is provided as a list of fields and a reason for each field that isn't valid. The possible reasons include the following:    UnrecognizedEntityType  The policy includes an entity type that isn't found in the schema.    UnrecognizedActionId  The policy includes an action id that isn't found in the schema.    InvalidActionApplication  The policy includes an action that, according to the schema, doesn't support the specified principal and resource.    UnexpectedType  The policy included an operand that isn't a valid type for the specified operation.    IncompatibleTypes  The types of elements included in a set, or the types of expressions used in an if...then...else clause aren't compatible in this context.    MissingAttribute  The policy attempts to access a record or entity attribute that isn't specified in the schema. Test for the existence of the attribute first before attempting to access its value. For more information, see the has (presence of attribute test) operator in the Cedar Policy Language Guide.    UnsafeOptionalAttributeAccess  The policy attempts to access a record or entity attribute that is optional and isn't guaranteed to be present. Test for the existence of the attribute first before attempting to access its value. For more information, see the has (presence of attribute test) operator in the Cedar Policy Language Guide.    ImpossiblePolicy  Cedar has determined that a policy condition always evaluates to false. If the policy is always false, it can never apply to any query, and so it can never affect an authorization decision.    WrongNumberArguments  The policy references an extension type with the wrong number of arguments.    FunctionArgumentValidationError  Cedar couldn't parse the argument passed to an extension type. For example, a string that is to be parsed as an IPv4 address can contain only digits and the period character.
     public static var validationException: Self { .init(.validationException) }
 }
@@ -3753,7 +3908,9 @@ extension VerifiedPermissionsErrorType: AWSServiceErrorType {
     public static let errorCodeMap: [String: AWSErrorShape.Type] = [
         "ConflictException": VerifiedPermissions.ConflictException.self,
         "ResourceNotFoundException": VerifiedPermissions.ResourceNotFoundException.self,
-        "ServiceQuotaExceededException": VerifiedPermissions.ServiceQuotaExceededException.self
+        "ServiceQuotaExceededException": VerifiedPermissions.ServiceQuotaExceededException.self,
+        "ThrottlingException": VerifiedPermissions.ThrottlingException.self,
+        "TooManyTagsException": VerifiedPermissions.TooManyTagsException.self
     ]
 }
 

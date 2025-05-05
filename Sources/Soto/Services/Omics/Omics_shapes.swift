@@ -675,7 +675,7 @@ extension Omics {
         /// When the job was updated.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
-        /// The name of the annotation store version.
+        ///  The name of the annotation store version.
         public let versionName: String
 
         @inlinable
@@ -767,29 +767,29 @@ extension Omics {
     }
 
     public struct AnnotationStoreVersionItem: AWSDecodableShape {
-        /// The time stamp for when an annotation store version was created.
+        ///  The time stamp for when an annotation store version was created.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
-        /// The description of an annotation store version.
+        ///  The description of an annotation store version.
         public let description: String
-        /// The annotation store version ID.
+        ///  The annotation store version ID.
         public let id: String
-        /// A name given to an annotation store version to distinguish it from others.
+        ///  A name given to an annotation store version to distinguish it from others.
         public let name: String
-        /// The status of an annotation store version.
+        ///  The status of an annotation store version.
         public let status: VersionStatus
-        /// The status of an annotation store version.
+        ///  The status of an annotation store version.
         public let statusMessage: String
-        /// The store ID for an annotation store version.
+        ///  The store ID for an annotation store version.
         public let storeId: String
-        /// The time stamp for when an annotation store version was updated.
+        ///  The time stamp for when an annotation store version was updated.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
-        /// The Arn for an annotation store version.
+        ///  The Arn for an annotation store version.
         public let versionArn: String
-        /// The name of an annotation store version.
+        ///  The name of an annotation store version.
         public let versionName: String
-        /// The size of an annotation store version in Bytes.
+        ///  The size of an annotation store version in Bytes.
         public let versionSizeBytes: Int64
 
         @inlinable
@@ -1037,7 +1037,7 @@ extension Omics {
         public let storeOptions: StoreOptions?
         /// Tags for the store.
         public let tags: [String: String]?
-        /// The name given to an annotation store version to distinguish it from other versions.
+        ///  The name given to an annotation store version to distinguish it from other versions.
         public let versionName: String?
 
         @inlinable
@@ -1097,7 +1097,7 @@ extension Omics {
         public let storeFormat: StoreFormat?
         /// The store's file parsing options.
         public let storeOptions: StoreOptions?
-        /// The name given to an annotation store version to distinguish it from other versions.
+        ///  The name given to an annotation store version to distinguish it from other versions.
         public let versionName: String
 
         @inlinable
@@ -1125,15 +1125,15 @@ extension Omics {
     }
 
     public struct CreateAnnotationStoreVersionRequest: AWSEncodableShape {
-        /// The description of an annotation store version.
+        ///  The description of an annotation store version.
         public let description: String?
-        /// The name of an annotation store version from which versions are being created.
+        ///  The name of an annotation store version from which versions are being created.
         public let name: String
-        /// Any tags added to annotation store version.
+        ///  Any tags added to annotation store version.
         public let tags: [String: String]?
-        /// The name given to an annotation store version to distinguish it from other versions.
+        ///  The name given to an annotation store version to distinguish it from other versions.
         public let versionName: String
-        /// The options for an annotation store version.
+        ///  The options for an annotation store version.
         public let versionOptions: VersionOptions?
 
         @inlinable
@@ -1180,20 +1180,20 @@ extension Omics {
     }
 
     public struct CreateAnnotationStoreVersionResponse: AWSDecodableShape {
-        /// The time stamp for the creation of an annotation store version.
+        ///  The time stamp for the creation of an annotation store version.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
-        /// A generated ID for the annotation store
+        ///  A generated ID for the annotation store
         public let id: String
-        /// The name given to an annotation store version to distinguish it from other versions.
+        ///  The name given to an annotation store version to distinguish it from other versions.
         public let name: String
-        /// The status of a annotation store version.
+        ///  The status of a annotation store version.
         public let status: VersionStatus
-        /// The ID for the annotation store from which new versions are being created.
+        ///  The ID for the annotation store from which new versions are being created.
         public let storeId: String
-        /// The name given to an annotation store version to distinguish it from other versions.
+        ///  The name given to an annotation store version to distinguish it from other versions.
         public let versionName: String
-        /// The options for an annotation store version.
+        ///  The options for an annotation store version.
         public let versionOptions: VersionOptions?
 
         @inlinable
@@ -1450,9 +1450,9 @@ extension Omics {
     }
 
     public struct CreateRunCacheRequest: AWSEncodableShape {
-        /// Default cache behavior for runs that use this cache. Supported values are:  CACHE_ON_FAILURE: Caches task outputs from completed tasks for runs that fail. This setting is  useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-completed tasks if the task definition, inputs, and container in ECR are identical to the prior run.  CACHE_ALWAYS: Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAILURE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see Run cache behavior in the AWS HealthOmics User Guide.
+        /// Default cache behavior for runs that use this cache. Supported values are:  CACHE_ON_FAILURE: Caches task outputs from completed tasks for runs that fail. This setting is useful if you're debugging a workflow that fails after several tasks completed successfully. The subsequent run uses the cache outputs for previously-completed tasks if the task definition, inputs, and container in ECR are identical to the prior run.  CACHE_ALWAYS: Caches task outputs from completed tasks for all runs. This setting is useful in development mode, but do not use it in a production setting. If you don't specify a value, the default behavior is CACHE_ON_FAILURE. When you start a run that uses this cache, you can override the default cache behavior. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide.
         public let cacheBehavior: CacheBehavior?
-        /// The AWS account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket.
+        /// The Amazon Web Services account ID of the expected owner of the S3 bucket for the run cache. If not provided, your account ID is set as the owner of the bucket.
         public let cacheBucketOwnerId: String?
         /// Specify the S3 location for storing the cached task outputs. This data must be immediately accessible (not in an archived state).
         public let cacheS3Location: String
@@ -1460,7 +1460,7 @@ extension Omics {
         public let description: String?
         /// Enter a user-friendly name for the run cache.
         public let name: String?
-        /// A unique request token, to ensure idempotency. If you don't specify a token,  HealthOmics automatically generates a universally unique identifier (UUID) for the request.
+        /// A unique request token, to ensure idempotency. If you don't specify a token, Amazon Web Services HealthOmics automatically generates a universally unique identifier (UUID) for the request.
         public let requestId: String
         /// Specify one or more tags to associate with this run cache.
         public let tags: [String: String]?
@@ -1648,7 +1648,7 @@ extension Omics {
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
-            try self.validate(self.fallbackLocation, name: "fallbackLocation", parent: name, pattern: "^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?$")
+            try self.validate(self.fallbackLocation, name: "fallbackLocation", parent: name, pattern: "^$|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?$")
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
@@ -1868,7 +1868,7 @@ extension Omics {
         public let definitionZip: AWSBase64Data?
         /// A description for the workflow.
         public let description: String?
-        /// An engine for the workflow.
+        /// The workflow engine for the workflow.
         public let engine: WorkflowEngine?
         /// The path of the main definition file for the workflow.
         public let main: String?
@@ -1878,13 +1878,15 @@ extension Omics {
         public let parameterTemplate: [String: WorkflowParameter]?
         /// To ensure that requests don't run multiple times, specify a unique ID for each request.
         public let requestId: String
-        /// The default storage capacity for the workflow runs, in gibibytes.
+        /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
         public let storageCapacity: Int?
+        ///  The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+        public let storageType: StorageType?
         /// Tags for the workflow.
         public let tags: [String: String]?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, definitionUri: String? = nil, definitionZip: AWSBase64Data? = nil, description: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, requestId: String = CreateWorkflowRequest.idempotencyToken(), storageCapacity: Int? = nil, tags: [String: String]? = nil) {
+        public init(accelerators: Accelerators? = nil, definitionUri: String? = nil, definitionZip: AWSBase64Data? = nil, description: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, requestId: String = CreateWorkflowRequest.idempotencyToken(), storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil) {
             self.accelerators = accelerators
             self.definitionUri = definitionUri
             self.definitionZip = definitionZip
@@ -1895,6 +1897,7 @@ extension Omics {
             self.parameterTemplate = parameterTemplate
             self.requestId = requestId
             self.storageCapacity = storageCapacity
+            self.storageType = storageType
             self.tags = tags
         }
 
@@ -1940,6 +1943,7 @@ extension Omics {
             case parameterTemplate = "parameterTemplate"
             case requestId = "requestId"
             case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
             case tags = "tags"
         }
     }
@@ -1953,13 +1957,16 @@ extension Omics {
         public let status: WorkflowStatus?
         /// The workflow's tags.
         public let tags: [String: String]?
+        /// The universally unique identifier (UUID) value for this workflow.
+        public let uuid: String?
 
         @inlinable
-        public init(arn: String? = nil, id: String? = nil, status: WorkflowStatus? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, id: String? = nil, status: WorkflowStatus? = nil, tags: [String: String]? = nil, uuid: String? = nil) {
             self.arn = arn
             self.id = id
             self.status = status
             self.tags = tags
+            self.uuid = uuid
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1967,6 +1974,160 @@ extension Omics {
             case id = "id"
             case status = "status"
             case tags = "tags"
+            case uuid = "uuid"
+        }
+    }
+
+    public struct CreateWorkflowVersionRequest: AWSEncodableShape {
+        /// The computational accelerator for this workflow version.
+        public let accelerators: Accelerators?
+        /// The URI specifies the location of the workflow definition for this workflow version.
+        public let definitionUri: String?
+        /// A zip archive containing the workflow definition for this workflow version.
+        public let definitionZip: AWSBase64Data?
+        /// A description for this workflow version.
+        public let description: String?
+        /// The workflow engine for this workflow version.
+        public let engine: WorkflowEngine?
+        /// The path of the main definition file for this workflow version.
+        public let main: String?
+        /// The parameter template defines the input parameters for runs that use this workflow version.
+        public let parameterTemplate: [String: WorkflowParameter]?
+        /// To ensure that requests don't run multiple times, specify a unique ID for each request.
+        public let requestId: String
+        /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+        public let storageCapacity: Int?
+        /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+        public let storageType: StorageType?
+        /// Optional tags to associate with this workflow version.
+        public let tags: [String: String]?
+        /// A name for the workflow version. Provide a version name that is unique for this workflow. You cannot change the name after HealthOmics creates the version.  The version name must start with a letter or number and it can include upper-case and lower-case letters, numbers, hyphens, periods and underscores. The maximum length is 64 characters. You can use a simple naming scheme, such as version1, version2, version3. You can also match your workflow versions with your own internal versioning conventions, such as 2.7.0, 2.7.1, 2.7.2.
+        public let versionName: String
+        /// Amazon Web Services Id of the owner of the S3 bucket that contains the workflow definition. You need to specify this parameter if your account is not the bucket owner.
+        public let workflowBucketOwnerId: String?
+        /// The ID of the workflow where you are creating the new version.
+        public let workflowId: String
+
+        @inlinable
+        public init(accelerators: Accelerators? = nil, definitionUri: String? = nil, definitionZip: AWSBase64Data? = nil, description: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, requestId: String = CreateWorkflowVersionRequest.idempotencyToken(), storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, versionName: String, workflowBucketOwnerId: String? = nil, workflowId: String) {
+            self.accelerators = accelerators
+            self.definitionUri = definitionUri
+            self.definitionZip = definitionZip
+            self.description = description
+            self.engine = engine
+            self.main = main
+            self.parameterTemplate = parameterTemplate
+            self.requestId = requestId
+            self.storageCapacity = storageCapacity
+            self.storageType = storageType
+            self.tags = tags
+            self.versionName = versionName
+            self.workflowBucketOwnerId = workflowBucketOwnerId
+            self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.accelerators, forKey: .accelerators)
+            try container.encodeIfPresent(self.definitionUri, forKey: .definitionUri)
+            try container.encodeIfPresent(self.definitionZip, forKey: .definitionZip)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.engine, forKey: .engine)
+            try container.encodeIfPresent(self.main, forKey: .main)
+            try container.encodeIfPresent(self.parameterTemplate, forKey: .parameterTemplate)
+            try container.encode(self.requestId, forKey: .requestId)
+            try container.encodeIfPresent(self.storageCapacity, forKey: .storageCapacity)
+            try container.encodeIfPresent(self.storageType, forKey: .storageType)
+            try container.encodeIfPresent(self.tags, forKey: .tags)
+            try container.encode(self.versionName, forKey: .versionName)
+            try container.encodeIfPresent(self.workflowBucketOwnerId, forKey: .workflowBucketOwnerId)
+            request.encodePath(self.workflowId, key: "workflowId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.definitionUri, name: "definitionUri", parent: name, max: 256)
+            try self.validate(self.definitionUri, name: "definitionUri", parent: name, min: 1)
+            try self.validate(self.definitionUri, name: "definitionUri", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.main, name: "main", parent: name, max: 128)
+            try self.validate(self.main, name: "main", parent: name, min: 1)
+            try self.validate(self.main, name: "main", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.parameterTemplate?.forEach {
+                try validate($0.key, name: "parameterTemplate.key", parent: name, max: 128)
+                try validate($0.key, name: "parameterTemplate.key", parent: name, min: 1)
+                try validate($0.key, name: "parameterTemplate.key", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+                try $0.value.validate(name: "\(name).parameterTemplate[\"\($0.key)\"]")
+            }
+            try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, max: 1000)
+            try self.validate(self.parameterTemplate, name: "parameterTemplate", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, max: 128)
+            try self.validate(self.requestId, name: "requestId", parent: name, min: 1)
+            try self.validate(self.requestId, name: "requestId", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
+            try self.validate(self.workflowBucketOwnerId, name: "workflowBucketOwnerId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.workflowId, name: "workflowId", parent: name, max: 18)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accelerators = "accelerators"
+            case definitionUri = "definitionUri"
+            case definitionZip = "definitionZip"
+            case description = "description"
+            case engine = "engine"
+            case main = "main"
+            case parameterTemplate = "parameterTemplate"
+            case requestId = "requestId"
+            case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
+            case tags = "tags"
+            case versionName = "versionName"
+            case workflowBucketOwnerId = "workflowBucketOwnerId"
+        }
+    }
+
+    public struct CreateWorkflowVersionResponse: AWSDecodableShape {
+        /// ARN of the workflow version.
+        public let arn: String?
+        /// The workflow version status.
+        public let status: WorkflowStatus?
+        /// The workflow version's tags.
+        public let tags: [String: String]?
+        /// The universally unique identifier (UUID) value for this workflow version.
+        public let uuid: String?
+        /// The workflow version name.
+        public let versionName: String?
+        /// The workflow's ID.
+        public let workflowId: String?
+
+        @inlinable
+        public init(arn: String? = nil, status: WorkflowStatus? = nil, tags: [String: String]? = nil, uuid: String? = nil, versionName: String? = nil, workflowId: String? = nil) {
+            self.arn = arn
+            self.status = status
+            self.tags = tags
+            self.uuid = uuid
+            self.versionName = versionName
+            self.workflowId = workflowId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case status = "status"
+            case tags = "tags"
+            case uuid = "uuid"
+            case versionName = "versionName"
+            case workflowId = "workflowId"
         }
     }
 
@@ -2007,11 +2168,11 @@ extension Omics {
     }
 
     public struct DeleteAnnotationStoreVersionsRequest: AWSEncodableShape {
-        /// Forces the deletion of an annotation store version when imports are in-progress..
+        ///  Forces the deletion of an annotation store version when imports are in-progress..
         public let force: Bool?
-        /// The name of the annotation store from which versions are being deleted.
+        ///  The name of the annotation store from which versions are being deleted.
         public let name: String
-        /// The versions of an annotation store to be deleted.
+        ///  The versions of an annotation store to be deleted.
         public let versions: [String]
 
         @inlinable
@@ -2045,7 +2206,7 @@ extension Omics {
     }
 
     public struct DeleteAnnotationStoreVersionsResponse: AWSDecodableShape {
-        /// Any errors that occur when attempting to delete an annotation store version.
+        ///  Any errors that occur when attempting to delete an annotation store version.
         public let errors: [VersionDeleteError]?
 
         @inlinable
@@ -2341,6 +2502,37 @@ extension Omics {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteWorkflowVersionRequest: AWSEncodableShape {
+        /// The workflow version name.
+        public let versionName: String
+        /// The workflow's ID.
+        public let workflowId: String
+
+        @inlinable
+        public init(versionName: String, workflowId: String) {
+            self.versionName = versionName
+            self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodePath(self.versionName, key: "versionName")
+            request.encodePath(self.workflowId, key: "workflowId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
+            try self.validate(self.workflowId, name: "workflowId", parent: name, max: 18)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct ETag: AWSDecodableShape {
         /// The algorithm used to calculate the read set’s ETag(s).
         public let algorithm: ETagAlgorithm?
@@ -2567,7 +2759,7 @@ extension Omics {
         /// When the job was updated.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
-        /// The name of the annotation store version.
+        ///  The name of the annotation store version.
         public let versionName: String
 
         @inlinable
@@ -2632,7 +2824,7 @@ extension Omics {
         public let id: String
         /// The store's name.
         public let name: String
-        /// An integer indicating how many versions of an annotation store exist.
+        ///  An integer indicating how many versions of an annotation store exist.
         public let numVersions: Int
         /// The store's genome reference.
         public let reference: ReferenceItem
@@ -2695,9 +2887,9 @@ extension Omics {
     }
 
     public struct GetAnnotationStoreVersionRequest: AWSEncodableShape {
-        /// The name given to an annotation store version to distinguish it from others.
+        ///  The name given to an annotation store version to distinguish it from others.
         public let name: String
-        /// The name given to an annotation store version to distinguish it from others.
+        ///  The name given to an annotation store version to distinguish it from others.
         public let versionName: String
 
         @inlinable
@@ -2717,33 +2909,33 @@ extension Omics {
     }
 
     public struct GetAnnotationStoreVersionResponse: AWSDecodableShape {
-        /// The time stamp for when an annotation store version was created.
+        ///  The time stamp for when an annotation store version was created.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
-        /// The description for an annotation store version.
+        ///  The description for an annotation store version.
         public let description: String
-        /// The annotation store version ID.
+        ///  The annotation store version ID.
         public let id: String
-        /// The name of the annotation store.
+        ///  The name of the annotation store.
         public let name: String
-        /// The status of an annotation store version.
+        ///  The status of an annotation store version.
         public let status: VersionStatus
-        /// The status of an annotation store version.
+        ///  The status of an annotation store version.
         public let statusMessage: String
-        /// The store ID for annotation store version.
+        ///  The store ID for annotation store version.
         public let storeId: String
-        /// Any tags associated with an annotation store version.
+        ///  Any tags associated with an annotation store version.
         public let tags: [String: String]
-        /// The time stamp for when an annotation store version was updated.
+        ///  The time stamp for when an annotation store version was updated.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
-        /// The Arn for the annotation store.
+        ///  The Arn for the annotation store.
         public let versionArn: String
-        /// The name given to an annotation store version to distinguish it from others.
+        ///  The name given to an annotation store version to distinguish it from others.
         public let versionName: String
-        /// The options for an annotation store version.
+        ///  The options for an annotation store version.
         public let versionOptions: VersionOptions?
-        /// The size of the annotation store version in Bytes.
+        ///  The size of the annotation store version in Bytes.
         public let versionSizeBytes: Int64
 
         @inlinable
@@ -3636,7 +3828,7 @@ extension Omics {
         public let definition: String?
         /// The run's digest.
         public let digest: String?
-        /// The workflow engine version.
+        /// The actual Nextflow engine version that Amazon Web Services HealthOmics used for the run. The other workflow definition languages don't provide a value for this field.
         public let engineVersion: String?
         /// The reason a run has failed.
         public let failureReason: String?
@@ -3678,7 +3870,7 @@ extension Omics {
         /// The run's stop time.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var stopTime: Date?
-        /// The run's storage capacity in gibibytes. For dynamic storage,  after the run has completed, this value is the maximum amount of storage used during the run.
+        /// The run's storage capacity in gibibytes. For dynamic storage, after the run has completed, this value is the maximum amount of storage used during the run.
         public let storageCapacity: Int?
         /// The run's storage type.
         public let storageType: StorageType?
@@ -3692,9 +3884,13 @@ extension Omics {
         public let workflowOwnerId: String?
         /// The run's workflow type.
         public let workflowType: WorkflowType?
+        /// The universally unique identifier (UUID) value for the workflow.
+        public let workflowUuid: String?
+        /// The workflow version name.
+        public let workflowVersionName: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, creationTime: Date? = nil, definition: String? = nil, digest: String? = nil, engineVersion: String? = nil, failureReason: String? = nil, id: String? = nil, logLevel: RunLogLevel? = nil, logLocation: RunLogLocation? = nil, name: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, resourceDigests: [String: String]? = nil, retentionMode: RunRetentionMode? = nil, roleArn: String? = nil, runGroupId: String? = nil, runId: String? = nil, runOutputUri: String? = nil, startedBy: String? = nil, startTime: Date? = nil, status: RunStatus? = nil, statusMessage: String? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, uuid: String? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowUuid: String? = nil, workflowVersionName: String? = nil) {
             self.accelerators = accelerators
             self.arn = arn
             self.cacheBehavior = cacheBehavior
@@ -3729,6 +3925,8 @@ extension Omics {
             self.workflowId = workflowId
             self.workflowOwnerId = workflowOwnerId
             self.workflowType = workflowType
+            self.workflowUuid = workflowUuid
+            self.workflowVersionName = workflowVersionName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3766,6 +3964,8 @@ extension Omics {
             case workflowId = "workflowId"
             case workflowOwnerId = "workflowOwnerId"
             case workflowType = "workflowType"
+            case workflowUuid = "workflowUuid"
+            case workflowVersionName = "workflowVersionName"
         }
     }
 
@@ -3801,7 +4001,7 @@ extension Omics {
     }
 
     public struct GetRunTaskResponse: AWSDecodableShape {
-        /// Set to true if AWS HealthOmics found a matching entry in the run cache for this task.
+        /// Set to true if Amazon Web Services HealthOmics found a matching entry in the run cache for this task.
         public let cacheHit: Bool?
         /// The S3 URI of the cache location.
         public let cacheS3Uri: String?
@@ -3902,7 +4102,7 @@ extension Omics {
         public let s3AccessPointArn: String?
         /// The current resource policy that controls S3 access on the store.
         public let s3AccessPolicy: String
-        /// The AWS-generated Sequence Store or Reference Store ID.
+        /// The Amazon Web Services-generated Sequence Store or Reference Store ID.
         public let storeId: String?
         /// The type of store associated with the access point.
         public let storeType: StoreType?
@@ -4260,7 +4460,7 @@ extension Omics {
         public let id: String?
         /// The path of the main definition file for the workflow.
         public let main: String?
-        /// Gets metadata for workflow.
+        /// Gets metadata for the workflow.
         public let metadata: [String: String]?
         /// The workflow's name.
         public let name: String?
@@ -4270,15 +4470,19 @@ extension Omics {
         public let status: WorkflowStatus?
         /// The workflow's status message.
         public let statusMessage: String?
-        /// The workflow's default run storage capacity in gibibytes.
+        /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
         public let storageCapacity: Int?
+        /// The default storage type for runs using this workflow.
+        public let storageType: StorageType?
         /// The workflow's tags.
         public let tags: [String: String]?
         /// The workflow's type.
         public let type: WorkflowType?
+        /// The universally unique identifier (UUID) value for this workflow.
+        public let uuid: String?
 
         @inlinable
-        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, id: String? = nil, main: String? = nil, metadata: [String: String]? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil) {
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, id: String? = nil, main: String? = nil, metadata: [String: String]? = nil, name: String? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil) {
             self.accelerators = accelerators
             self.arn = arn
             self.creationTime = creationTime
@@ -4294,8 +4498,10 @@ extension Omics {
             self.status = status
             self.statusMessage = statusMessage
             self.storageCapacity = storageCapacity
+            self.storageType = storageType
             self.tags = tags
             self.type = type
+            self.uuid = uuid
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4314,8 +4520,146 @@ extension Omics {
             case status = "status"
             case statusMessage = "statusMessage"
             case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
             case tags = "tags"
             case type = "type"
+            case uuid = "uuid"
+        }
+    }
+
+    public struct GetWorkflowVersionRequest: AWSEncodableShape {
+        /// The export format for the workflow.
+        public let export: [WorkflowExport]?
+        /// The workflow's type.
+        public let type: WorkflowType?
+        /// The workflow version name.
+        public let versionName: String
+        /// The workflow's ID.
+        public let workflowId: String
+        /// Amazon Web Services Id of the owner of the workflow.
+        public let workflowOwnerId: String?
+
+        @inlinable
+        public init(export: [WorkflowExport]? = nil, type: WorkflowType? = nil, versionName: String, workflowId: String, workflowOwnerId: String? = nil) {
+            self.export = export
+            self.type = type
+            self.versionName = versionName
+            self.workflowId = workflowId
+            self.workflowOwnerId = workflowOwnerId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.export, key: "export")
+            request.encodeQuery(self.type, key: "type")
+            request.encodePath(self.versionName, key: "versionName")
+            request.encodePath(self.workflowId, key: "workflowId")
+            request.encodeQuery(self.workflowOwnerId, key: "workflowOwnerId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.export, name: "export", parent: name, max: 32)
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
+            try self.validate(self.workflowId, name: "workflowId", parent: name, max: 18)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.workflowOwnerId, name: "workflowOwnerId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetWorkflowVersionResponse: AWSDecodableShape {
+        /// The accelerator for this workflow version.
+        public let accelerators: Accelerators?
+        /// ARN of the workflow version.
+        public let arn: String?
+        /// When the workflow version was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// Definition of the workflow version.
+        public let definition: String?
+        /// Description of the workflow version.
+        public let description: String?
+        /// The workflow version's digest.
+        public let digest: String?
+        /// The workflow engine for this workflow version.
+        public let engine: WorkflowEngine?
+        /// The path of the main definition file for the workflow.
+        public let main: String?
+        /// The metadata for the workflow version.
+        public let metadata: [String: String]?
+        /// The parameter template for the workflow version.
+        public let parameterTemplate: [String: WorkflowParameter]?
+        /// The workflow version status
+        public let status: WorkflowStatus?
+        /// The workflow version status message
+        public let statusMessage: String?
+        /// The default run storage capacity for static storage.
+        public let storageCapacity: Int?
+        /// The default storage type for the run.
+        public let storageType: StorageType?
+        /// The workflow version tags
+        public let tags: [String: String]?
+        /// The workflow version type
+        public let type: WorkflowType?
+        /// The universally unique identifier (UUID) value for this workflow version
+        public let uuid: String?
+        /// The workflow version name.
+        public let versionName: String?
+        /// Amazon Web Services Id of the owner of the bucket.
+        public let workflowBucketOwnerId: String?
+        /// The workflow's ID.
+        public let workflowId: String?
+
+        @inlinable
+        public init(accelerators: Accelerators? = nil, arn: String? = nil, creationTime: Date? = nil, definition: String? = nil, description: String? = nil, digest: String? = nil, engine: WorkflowEngine? = nil, main: String? = nil, metadata: [String: String]? = nil, parameterTemplate: [String: WorkflowParameter]? = nil, status: WorkflowStatus? = nil, statusMessage: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, type: WorkflowType? = nil, uuid: String? = nil, versionName: String? = nil, workflowBucketOwnerId: String? = nil, workflowId: String? = nil) {
+            self.accelerators = accelerators
+            self.arn = arn
+            self.creationTime = creationTime
+            self.definition = definition
+            self.description = description
+            self.digest = digest
+            self.engine = engine
+            self.main = main
+            self.metadata = metadata
+            self.parameterTemplate = parameterTemplate
+            self.status = status
+            self.statusMessage = statusMessage
+            self.storageCapacity = storageCapacity
+            self.storageType = storageType
+            self.tags = tags
+            self.type = type
+            self.uuid = uuid
+            self.versionName = versionName
+            self.workflowBucketOwnerId = workflowBucketOwnerId
+            self.workflowId = workflowId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accelerators = "accelerators"
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case definition = "definition"
+            case description = "description"
+            case digest = "digest"
+            case engine = "engine"
+            case main = "main"
+            case metadata = "metadata"
+            case parameterTemplate = "parameterTemplate"
+            case status = "status"
+            case statusMessage = "statusMessage"
+            case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
+            case tags = "tags"
+            case type = "type"
+            case uuid = "uuid"
+            case versionName = "versionName"
+            case workflowBucketOwnerId = "workflowBucketOwnerId"
+            case workflowId = "workflowId"
         }
     }
 
@@ -4618,13 +4962,13 @@ extension Omics {
     }
 
     public struct ListAnnotationStoreVersionsRequest: AWSEncodableShape {
-        /// A filter to apply to the list of annotation store versions.
+        ///  A filter to apply to the list of annotation store versions.
         public let filter: ListAnnotationStoreVersionsFilter?
-        /// The maximum number of annotation store versions to return in one page of results.
+        ///  The maximum number of annotation store versions to return in one page of results.
         public let maxResults: Int?
-        /// The name of an annotation store.
+        ///  The name of an annotation store.
         public let name: String
-        /// Specifies the pagination token from a previous request to retrieve the next page of results.
+        ///  Specifies the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -4650,9 +4994,9 @@ extension Omics {
     }
 
     public struct ListAnnotationStoreVersionsResponse: AWSDecodableShape {
-        /// Lists all versions of an annotation store.
+        ///  Lists all versions of an annotation store.
         public let annotationStoreVersions: [AnnotationStoreVersionItem]?
-        /// Specifies the pagination token from a previous request to retrieve the next page of results.
+        ///  Specifies the pagination token from a previous request to retrieve the next page of results.
         public let nextToken: String?
 
         @inlinable
@@ -4742,7 +5086,7 @@ extension Omics {
     public struct ListMultipartReadSetUploadsRequest: AWSEncodableShape {
         /// The maximum number of multipart uploads returned in a page.
         public let maxResults: Int?
-        /// Next token returned in the response of a previous ListMultipartReadSetUploads call.  Used to get the next page of results.
+        /// Next token returned in the response of a previous ListMultipartReadSetUploads call. Used to get the next page of results.
         public let nextToken: String?
         /// The Sequence Store ID used for the multipart uploads.
         public let sequenceStoreId: String
@@ -4775,7 +5119,7 @@ extension Omics {
     }
 
     public struct ListMultipartReadSetUploadsResponse: AWSDecodableShape {
-        /// Next token returned in the response of a previous ListMultipartReadSetUploads call.  Used to get the next page of results.
+        /// Next token returned in the response of a previous ListMultipartReadSetUploads call. Used to get the next page of results.
         public let nextToken: String?
         /// An array of multipart uploads.
         public let uploads: [MultipartReadSetUploadListItem]?
@@ -5303,7 +5647,7 @@ extension Omics {
     public struct ListRunCachesResponse: AWSDecodableShape {
         /// Details about each run cache in the response.
         public let items: [RunCacheListItem]?
-        /// Pagination token to retrieve additional run caches. If the response does not have a  nextTokenvalue, you have reached to the end of the list.
+        /// Pagination token to retrieve additional run caches. If the response does not have a nextTokenvalue, you have reached to the end of the list.
         public let nextToken: String?
 
         @inlinable
@@ -5583,7 +5927,7 @@ extension Omics {
     }
 
     public struct ListSharesResponse: AWSDecodableShape {
-        /// Next token returned in the response of a previous ListSharesResponse call. Used to get the next page of results.
+        ///  Next token returned in the response of a previous ListSharesResponse call. Used to get the next page of results.
         public let nextToken: String?
         /// The shares available and their metadata details.
         public let shares: [ShareDetails]
@@ -5786,6 +6130,68 @@ extension Omics {
         }
     }
 
+    public struct ListWorkflowVersionsRequest: AWSEncodableShape {
+        /// The maximum number of workflows to return in one page of results.
+        public let maxResults: Int?
+        /// Specify the pagination token from a previous request to retrieve the next page of results.
+        public let startingToken: String?
+        /// The workflow type.
+        public let type: WorkflowType?
+        /// The workflow's ID.
+        public let workflowId: String
+        /// Amazon Web Services Id of the owner of the workflow.
+        public let workflowOwnerId: String?
+
+        @inlinable
+        public init(maxResults: Int? = nil, startingToken: String? = nil, type: WorkflowType? = nil, workflowId: String, workflowOwnerId: String? = nil) {
+            self.maxResults = maxResults
+            self.startingToken = startingToken
+            self.type = type
+            self.workflowId = workflowId
+            self.workflowOwnerId = workflowOwnerId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            _ = encoder.container(keyedBy: CodingKeys.self)
+            request.encodeQuery(self.maxResults, key: "maxResults")
+            request.encodeQuery(self.startingToken, key: "startingToken")
+            request.encodeQuery(self.type, key: "type")
+            request.encodePath(self.workflowId, key: "workflowId")
+            request.encodeQuery(self.workflowOwnerId, key: "workflowOwnerId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.startingToken, name: "startingToken", parent: name, max: 256)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, min: 1)
+            try self.validate(self.startingToken, name: "startingToken", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.workflowId, name: "workflowId", parent: name, max: 18)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.workflowOwnerId, name: "workflowOwnerId", parent: name, pattern: "^[0-9]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListWorkflowVersionsResponse: AWSDecodableShape {
+        /// A list of workflow version items.
+        public let items: [WorkflowVersionListItem]?
+        /// A pagination token that's included if more results are available.
+        public let nextToken: String?
+
+        @inlinable
+        public init(items: [WorkflowVersionListItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "items"
+            case nextToken = "nextToken"
+        }
+    }
+
     public struct ListWorkflowsRequest: AWSEncodableShape {
         /// The maximum number of workflows to return in one page of results.
         public let maxResults: Int?
@@ -5932,7 +6338,7 @@ extension Omics {
     public struct PutS3AccessPolicyResponse: AWSDecodableShape {
         /// The S3 access point ARN that now has the access policy.
         public let s3AccessPointArn: String?
-        /// The AWS-generated Sequence Store or Reference Store ID.
+        /// The Amazon Web Services-generated Sequence Store or Reference Store ID.
         public let storeId: String?
         /// The type of store associated with the access point.
         public let storeType: StoreType?
@@ -6517,15 +6923,17 @@ extension Omics {
         /// When the run stopped.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var stopTime: Date?
-        /// The run's storage capacity in gibibytes. For dynamic storage,  after the run has completed, this value is the maximum amount of storage used during the run.
+        /// The run's storage capacity in gibibytes. For dynamic storage, after the run has completed, this value is the maximum amount of storage used during the run.
         public let storageCapacity: Int?
         /// The run's storage type.
         public let storageType: StorageType?
         /// The run's workflow ID.
         public let workflowId: String?
+        /// The name of the workflow version.
+        public let workflowVersionName: String?
 
         @inlinable
-        public init(arn: String? = nil, creationTime: Date? = nil, id: String? = nil, name: String? = nil, priority: Int? = nil, startTime: Date? = nil, status: RunStatus? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, workflowId: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, id: String? = nil, name: String? = nil, priority: Int? = nil, startTime: Date? = nil, status: RunStatus? = nil, stopTime: Date? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, workflowId: String? = nil, workflowVersionName: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.id = id
@@ -6537,6 +6945,7 @@ extension Omics {
             self.storageCapacity = storageCapacity
             self.storageType = storageType
             self.workflowId = workflowId
+            self.workflowVersionName = workflowVersionName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6551,6 +6960,7 @@ extension Omics {
             case storageCapacity = "storageCapacity"
             case storageType = "storageType"
             case workflowId = "workflowId"
+            case workflowVersionName = "workflowVersionName"
         }
     }
 
@@ -6838,7 +7248,7 @@ extension Omics {
         public let roleArn: String
         /// The job's left normalization setting.
         public let runLeftNormalization: Bool?
-        /// The name of the annotation store version.
+        ///  The name of the annotation store version.
         public let versionName: String?
 
         @inlinable
@@ -7339,9 +7749,9 @@ extension Omics {
     }
 
     public struct StartRunRequest: AWSEncodableShape {
-        /// The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the AWS HealthOmics User Guide.
+        /// The cache behavior for the run. You specify this value if you want to override the default behavior for the cache. You had set the default value when you created the cache. For more information, see Run cache behavior in the Amazon Web Services HealthOmics User Guide.
         public let cacheBehavior: CacheBehavior?
-        /// Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached  for this run.
+        /// Identifier of the cache associated with this run. If you don't specify a cache ID, no task outputs are cached for this run.
         public let cacheId: String?
         /// A log level for the run.
         public let logLevel: RunLogLevel?
@@ -7355,7 +7765,7 @@ extension Omics {
         public let priority: Int?
         /// To ensure that requests don't run multiple times, specify a unique ID for each request.
         public let requestId: String
-        /// The retention mode for the run. The default value is RETAIN.  HealthOmics stores a fixed number of runs that are available to the console and API.  In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, HealthOmics automatically  removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode  in the AWS HealthOmics User Guide.
+        /// The retention mode for the run. The default value is RETAIN.  Amazon Web Services HealthOmics stores a fixed number of runs that are available to the console and API. In the default mode (RETAIN), you need to remove runs manually when the number of run exceeds the maximum. If you set the retention mode to REMOVE, Amazon Web Services HealthOmics automatically removes runs (that have mode set to REMOVE) when the number of run exceeds the maximum. All run logs are available in CloudWatch logs, if you need information about a run that is no longer available to the API. For more information about retention mode, see Specifying run retention mode in the Amazon Web Services HealthOmics User Guide.
         public let retentionMode: RunRetentionMode?
         /// A service role for the run.
         public let roleArn: String
@@ -7363,9 +7773,9 @@ extension Omics {
         public let runGroupId: String?
         /// The ID of a run to duplicate.
         public let runId: String?
-        /// A storage capacity for the run in gibibytes. This field is not required if the storage type is dynamic (the system ignores any value that you enter).
+        /// The static storage capacity (in gibibytes) for this run. This field is not required if the storage type is dynamic (the system ignores any value that you enter).
         public let storageCapacity: Int?
-        /// The run's storage type. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. If you set the storage type to DYNAMIC, HealthOmics dynamically scales the storage up  or down, based on file system utilization.
+        /// The storage type for the run. By default, the run uses STATIC storage type, which allocates a fixed amount of storage. If you set the storage type to DYNAMIC, Amazon Web Services HealthOmics dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
         public let storageType: StorageType?
         /// Tags for the run.
         public let tags: [String: String]?
@@ -7375,9 +7785,11 @@ extension Omics {
         public let workflowOwnerId: String?
         /// The run's workflow type.
         public let workflowType: WorkflowType?
+        /// The name of the workflow version.
+        public let workflowVersionName: String?
 
         @inlinable
-        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil) {
+        public init(cacheBehavior: CacheBehavior? = nil, cacheId: String? = nil, logLevel: RunLogLevel? = nil, name: String? = nil, outputUri: String? = nil, parameters: AWSDocument? = nil, priority: Int? = nil, requestId: String = StartRunRequest.idempotencyToken(), retentionMode: RunRetentionMode? = nil, roleArn: String, runGroupId: String? = nil, runId: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, tags: [String: String]? = nil, workflowId: String? = nil, workflowOwnerId: String? = nil, workflowType: WorkflowType? = nil, workflowVersionName: String? = nil) {
             self.cacheBehavior = cacheBehavior
             self.cacheId = cacheId
             self.logLevel = logLevel
@@ -7396,6 +7808,7 @@ extension Omics {
             self.workflowId = workflowId
             self.workflowOwnerId = workflowOwnerId
             self.workflowType = workflowType
+            self.workflowVersionName = workflowVersionName
         }
 
         public func validate(name: String) throws {
@@ -7429,6 +7842,9 @@ extension Omics {
             try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
             try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.workflowOwnerId, name: "workflowOwnerId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.workflowVersionName, name: "workflowVersionName", parent: name, max: 64)
+            try self.validate(self.workflowVersionName, name: "workflowVersionName", parent: name, min: 1)
+            try self.validate(self.workflowVersionName, name: "workflowVersionName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7450,6 +7866,7 @@ extension Omics {
             case workflowId = "workflowId"
             case workflowOwnerId = "workflowOwnerId"
             case workflowType = "workflowType"
+            case workflowVersionName = "workflowVersionName"
         }
     }
 
@@ -7584,7 +8001,7 @@ extension Omics {
     }
 
     public struct TaskListItem: AWSDecodableShape {
-        /// Set to true if AWS HealthOmics found a matching entry in the run cache for this task.
+        /// Set to true if Amazon Web Services HealthOmics found a matching entry in the run cache for this task.
         public let cacheHit: Bool?
         /// The S3 URI of the cache location.
         public let cacheS3Uri: String?
@@ -7692,11 +8109,11 @@ extension Omics {
     }
 
     public struct TsvVersionOptions: AWSEncodableShape & AWSDecodableShape {
-        /// The store version's annotation type.
+        ///  The store version's annotation type.
         public let annotationType: AnnotationType?
-        /// The annotation store version's header key to column name mapping.
+        ///  The annotation store version's header key to column name mapping.
         public let formatToHeader: [FormatToHeaderKey: String]?
-        /// The TSV schema for an annotation store version.
+        ///  The TSV schema for an annotation store version.
         public let schema: [[String: SchemaValueType]]?
 
         @inlinable
@@ -7834,11 +8251,11 @@ extension Omics {
     }
 
     public struct UpdateAnnotationStoreVersionRequest: AWSEncodableShape {
-        /// The description of an annotation store.
+        ///  The description of an annotation store.
         public let description: String?
-        /// The name of an annotation store.
+        ///  The name of an annotation store.
         public let name: String
-        /// The name of an annotation store version.
+        ///  The name of an annotation store version.
         public let versionName: String
 
         @inlinable
@@ -7866,23 +8283,23 @@ extension Omics {
     }
 
     public struct UpdateAnnotationStoreVersionResponse: AWSDecodableShape {
-        /// The time stamp for when an annotation store version was created.
+        ///  The time stamp for when an annotation store version was created.
         @CustomCoding<ISO8601DateCoder>
         public var creationTime: Date
-        /// The description of an annotation store version.
+        ///  The description of an annotation store version.
         public let description: String
-        /// The annotation store version ID.
+        ///  The annotation store version ID.
         public let id: String
-        /// The name of an annotation store.
+        ///  The name of an annotation store.
         public let name: String
-        /// The status of an annotation store version.
+        ///  The status of an annotation store version.
         public let status: VersionStatus
-        /// The annotation store ID.
+        ///  The annotation store ID.
         public let storeId: String
-        /// The time stamp for when an annotation store version was updated.
+        ///  The time stamp for when an annotation store version was updated.
         @CustomCoding<ISO8601DateCoder>
         public var updateTime: Date
-        /// The name of an annotation store version.
+        ///  The name of an annotation store version.
         public let versionName: String
 
         @inlinable
@@ -8054,7 +8471,7 @@ extension Omics {
             try self.validate(self.description, name: "description", parent: name, max: 255)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
-            try self.validate(self.fallbackLocation, name: "fallbackLocation", parent: name, pattern: "^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?$")
+            try self.validate(self.fallbackLocation, name: "fallbackLocation", parent: name, pattern: "^$|^s3://([a-z0-9][a-z0-9-.]{1,61}[a-z0-9])/?((.{1,1024})/)?$")
             try self.validate(self.id, name: "id", parent: name, max: 36)
             try self.validate(self.id, name: "id", parent: name, min: 10)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9]+$")
@@ -8214,12 +8631,18 @@ extension Omics {
         public let id: String
         /// A name for the workflow.
         public let name: String?
+        /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+        public let storageCapacity: Int?
+        /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+        public let storageType: StorageType?
 
         @inlinable
-        public init(description: String? = nil, id: String, name: String? = nil) {
+        public init(description: String? = nil, id: String, name: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil) {
             self.description = description
             self.id = id
             self.name = name
+            self.storageCapacity = storageCapacity
+            self.storageType = storageType
         }
 
         public func encode(to encoder: Encoder) throws {
@@ -8228,6 +8651,8 @@ extension Omics {
             try container.encodeIfPresent(self.description, forKey: .description)
             request.encodePath(self.id, key: "id")
             try container.encodeIfPresent(self.name, forKey: .name)
+            try container.encodeIfPresent(self.storageCapacity, forKey: .storageCapacity)
+            try container.encodeIfPresent(self.storageType, forKey: .storageType)
         }
 
         public func validate(name: String) throws {
@@ -8245,6 +8670,58 @@ extension Omics {
         private enum CodingKeys: String, CodingKey {
             case description = "description"
             case name = "name"
+            case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
+        }
+    }
+
+    public struct UpdateWorkflowVersionRequest: AWSEncodableShape {
+        /// Description of the workflow version.
+        public let description: String?
+        /// The default static storage capacity (in gibibytes) for runs that use this workflow or workflow version.
+        public let storageCapacity: Int?
+        /// The default storage type for runs that use this workflow. STATIC storage allocates a fixed amount of storage. DYNAMIC storage dynamically scales the storage up or down, based on file system utilization. For more information about static and dynamic storage, see Running workflows in the Amazon Web Services HealthOmics User Guide.
+        public let storageType: StorageType?
+        /// The name of the workflow version.
+        public let versionName: String
+        /// The workflow's ID.
+        public let workflowId: String
+
+        @inlinable
+        public init(description: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, versionName: String, workflowId: String) {
+            self.description = description
+            self.storageCapacity = storageCapacity
+            self.storageType = storageType
+            self.versionName = versionName
+            self.workflowId = workflowId
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            let request = encoder.userInfo[.awsRequest]! as! RequestEncodingContainer
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.description, forKey: .description)
+            try container.encodeIfPresent(self.storageCapacity, forKey: .storageCapacity)
+            try container.encodeIfPresent(self.storageType, forKey: .storageType)
+            request.encodePath(self.versionName, key: "versionName")
+            request.encodePath(self.workflowId, key: "workflowId")
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\p{L}||\\p{M}||\\p{Z}||\\p{S}||\\p{N}||\\p{P}]+$")
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 64)
+            try self.validate(self.versionName, name: "versionName", parent: name, min: 1)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-\\._]*$")
+            try self.validate(self.workflowId, name: "workflowId", parent: name, max: 18)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "description"
+            case storageCapacity = "storageCapacity"
+            case storageType = "storageType"
         }
     }
 
@@ -8470,9 +8947,9 @@ extension Omics {
     }
 
     public struct VersionDeleteError: AWSDecodableShape {
-        /// The message explaining the error in annotation store deletion.
+        ///  The message explaining the error in annotation store deletion.
         public let message: String
-        /// The name given to an annotation store version.
+        ///  The name given to an annotation store version.
         public let versionName: String
 
         @inlinable
@@ -8553,6 +9030,53 @@ extension Omics {
         }
     }
 
+    public struct WorkflowVersionListItem: AWSDecodableShape {
+        /// ARN of the workflow version.
+        public let arn: String?
+        /// The creation time of the workflow version.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The description of the workflow version.
+        public let description: String?
+        /// The digist of the workflow version.
+        public let digest: String?
+        /// Metadata for the workflow version.
+        public let metadata: [String: String]?
+        /// The status of the workflow version.
+        public let status: WorkflowStatus?
+        /// The type of the workflow version.
+        public let type: WorkflowType?
+        /// The name of the workflow version.
+        public let versionName: String?
+        /// The workflow's ID.
+        public let workflowId: String?
+
+        @inlinable
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, digest: String? = nil, metadata: [String: String]? = nil, status: WorkflowStatus? = nil, type: WorkflowType? = nil, versionName: String? = nil, workflowId: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.digest = digest
+            self.metadata = metadata
+            self.status = status
+            self.type = type
+            self.versionName = versionName
+            self.workflowId = workflowId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case creationTime = "creationTime"
+            case description = "description"
+            case digest = "digest"
+            case metadata = "metadata"
+            case status = "status"
+            case type = "type"
+            case versionName = "versionName"
+            case workflowId = "workflowId"
+        }
+    }
+
     public struct ReferenceItem: AWSEncodableShape & AWSDecodableShape {
         /// The reference's ARN.
         public let referenceArn: String?
@@ -8592,7 +9116,7 @@ extension Omics {
     }
 
     public struct VersionOptions: AWSEncodableShape & AWSDecodableShape {
-        /// File settings for a version of a TSV store.
+        ///  File settings for a version of a TSV store.
         public let tsvVersionOptions: TsvVersionOptions?
 
         @inlinable
